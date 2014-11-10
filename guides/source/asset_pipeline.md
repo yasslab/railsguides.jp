@@ -29,7 +29,7 @@ Railsアプリケーションを新規作成する際にアセットパイプラ
 rails new appname --skip-sprockets
 ```
 
-Rails 4では`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。これらはアセット圧縮に使用するSprocketsです。
+Rails 4では`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
 
 ```ruby
 gem 'sass-rails'
