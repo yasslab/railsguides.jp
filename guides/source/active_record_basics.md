@@ -198,7 +198,7 @@ Active Recordモデルへのクエリについては[Active Recordクエリイ�
 
 ### Update
 
-Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースの保存できるようになります。
+Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースに保存できるようになります。
 
 ```ruby
 user = User.find_by(name: 'David')
