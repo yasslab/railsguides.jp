@@ -691,7 +691,7 @@ HAVING sum(price) > 100
 `unscope`を使用して特定の条件を取り除くことができます。例：
 
 ```ruby
-Post.where('id > 10').limit(20).order('id asc').except(:order)
+Post.where('id > 10').limit(20).order('id asc').unscope(:order)
 ```
 
 上で実行されるSQLは以下のようなものになります。
