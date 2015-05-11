@@ -3,7 +3,6 @@
 require 'redcarpet'
 require 'nokogiri'
 require 'rails_guides/markdown/renderer'
-require 'digest/sha1'
 
 module RailsGuides
   class Markdown
@@ -56,7 +55,12 @@ module RailsGuides
       end
 
       def dom_id_text(text)
-        text.downcase.strip.gsub(/\s+/, '-')
+        escaped_chars = Regexp.escape('\\/`*_{}[]()#+-.!:,;|&<>^~=\'"')
+
+        text.downcase.gsub(/\?/, '-questionmark')
+                     .gsub(/!/, '-bang')
+                     .gsub(/[#{escaped_chars}]+/, ' ').strip
+                     .gsub(/\s+/, '-')
       end
 
       def engine
@@ -97,10 +101,10 @@ module RailsGuides
       def generate_structure
         @headings_for_index = []
         if @body.present?
-          @body = Nokogiri::HTML(@body).tap do |doc|
+          @body = Nokogiri::HTML.fragment(@body).tap do |doc|
             hierarchy = []
 
-            doc.at('body').children.each do |node|
+            doc.children.each do |node|
               if node.name =~ /^h[3-6]$/
                 case node.name
                 when 'h3'
@@ -135,7 +139,7 @@ module RailsGuides
             end
           end
 
-          @index = Nokogiri::HTML(engine.render(raw_index)).tap do |doc|
+          @index = Nokogiri::HTML.fragment(engine.render(raw_index)).tap do |doc|
             doc.at('ol')[:class] = 'chapters'
           end.to_html
 
@@ -149,7 +153,7 @@ module RailsGuides
       end
 
       def generate_title
-        if heading = Nokogiri::HTML(@header).at(:h2)
+        if heading = Nokogiri::HTML.fragment(@header).at(:h2)
           @title = "#{heading.text} — Rails ガイド".html_safe
         else
           @title = "Ruby on Rails ガイド：体系的に Rails を学ぼう"
