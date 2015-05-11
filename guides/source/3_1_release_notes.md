@@ -8,7 +8,10 @@ Highlights in Rails 3.1:
 * Assets Pipeline
 * jQuery as the default JavaScript library
 
-This release notes cover the major changes, but don't include every little bug fix and change. If you want to see everything, check out the [list of commits](https://github.com/rails/rails/commits/master) in the main Rails repository on GitHub.
+These release notes cover only the major changes. To learn about various bug
+fixes and changes, please refer to the change logs or check out the [list of
+commits](https://github.com/rails/rails/commits/3-1-stable) in the main Rails
+repository on GitHub.
 
 --------------------------------------------------------------------------------
 
@@ -169,11 +172,11 @@ Rails Architectural Changes
 
 The major change in Rails 3.1 is the Assets Pipeline. It makes CSS and JavaScript first-class code citizens and enables proper organization, including use in plugins and engines.
 
-The assets pipeline is powered by [Sprockets](https://github.com/sstephenson/sprockets) and is covered in the [Asset Pipeline](asset_pipeline.html) guide.
+The assets pipeline is powered by [Sprockets](https://github.com/rails/sprockets) and is covered in the [Asset Pipeline](asset_pipeline.html) guide.
 
 ### HTTP Streaming
 
-HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of nginx and unicorn is ready to take advantage of it.
+HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of NGINX and Unicorn is ready to take advantage of it.
 
 ### Default JS library is now jQuery
 

@@ -1,57 +1,78 @@
-﻿
-Ruby on Rails のメンテナンスポリシー
+Maintenance Policy for Ruby on Rails
 ====================================
 
-Railsフレームワークのサポートは、新機能 (New feature)、バグ修正 (bug fixes)、セキュリティ問題 (security issues)、重大なセキュリティ問題 (severe security issue) の4つのグループに分割されています。これらは以下のように扱われています。バージョン表記はすべて`X.Y.Z`の形式に従います。
+Support of the Rails framework is divided into four groups: New features, bug
+fixes, security issues, and severe security issues. They are handled as
+follows, all versions in `X.Y.Z` format.
 
 --------------------------------------------------------------------------------
 
-Railsのバージョン命名は[semver](http://semver.org/)のSemantic Versioningをシフトしたものに従っています。
+Rails follows a shifted version of [semver](http://semver.org/):
 
-**パッチ`Z`**
+**Patch `Z`**
 
-このパッチではバグ修正のみを行います。API変更や機能追加はこのパッチでは行いません。ただしセキュリティ修正については、必要であればこれらの変更を行なうこともあります。
+Only bug fixes, no API changes, no new features.
+Except as necessary for security fixes.
 
-**マイナー`Y`**
+**Minor `Y`**
 
-新機能を追加します。ここにAPIの変更を含めることもできます (Semverでいうメジャーバージョンに相当)。重大な変更を行う場合は、必ず事前にマイナーリリースまたはメジャーリリースで非推奨通知を行います。
+New features, may contain API changes (Serve as major versions of Semver).
+Breaking changes are paired with deprecation notices in the previous minor
+or major release.
 
-**メジャー`X`**
+**Major `X`**
 
+New features, will likely contain API changes. The difference between Rails'
+minor and major releases is the magnitude of breaking changes, and usually
+reserved for special occasions.
 
-新機能を追加します。多くの場合API変更も含まれます。Railsにおけるマイナーリリースとメジャーリリースの違いは変更の重大性の度合いであり、通常は特別な場合に備えて予約されます。
-
-新機能
+New Features
 ------------
 
-新機能はmasterブランチにのみ追加されます。ポイントリリース (=メジャーでないリリース) で新機能を追加することはありません。
+New features are only added to the master branch and will not be made available
+in point releases.
 
-バグ修正
+Bug Fixes
 ---------
 
-バグ修正は最新リリースのシリーズでのみ利用できます。バグ修正が十分に行われ、新しいgemをリリースする価値があると認められた場合は、そこからブランチを作成します。
+Only the latest release series will receive bug fixes. When enough bugs are
+fixed and its deemed worthy to release a new gem, this is the branch it happens
+from.
 
-特別な場合として、Core Teamメンバーの誰かがサポート対象となるシリーズを増やすことに賛成した場合は、それらはサポート対象のシリーズに追加されます。
+In special situations, where someone from the Core Team agrees to support more series,
+they are included in the list of supported series.
 
-**現在対象となっているシリーズ:** `4.2.Z`、`4.1.Z` (サポート担当: Rafael França)。
+**Currently included series:** `4.2.Z`, `4.1.Z` (Supported by Rafael França).
 
-セキュリティ問題
+Security Issues
 ---------------
 
-現在のリリースシリーズ (訳注: 複数のリリースに対する総称)、および次のリリースシリーズには、セキュリティ問題発生時にパッチと新バージョンが適用されます。
+The current release series and the next most recent one will receive patches
+and new versions in case of a security issue.
 
-これらのリリースは、直前にリリースされたバージョンにセキュリティパッチを適用してリリースされます。続いて、それらのパッチはx-y-stable (安定版) ブランチの最後に適用されます。たとえば、仮に1.2.3というセキュリティリリースがあるとすると、このリリースは1.2.2を元にビルドされ、1-2-stableの最後に追加されます。つまり、最新のRailsを使用していればセキュリティリリースのアップグレードが容易に行えるということです。
+These releases are created by taking the last released version, applying the
+security patches, and releasing. Those patches are then applied to the end of
+the x-y-stable branch. For example, a theoretical 1.2.3 security release would
+be built from 1.2.2, and then added to the end of 1-2-stable. This means that
+security releases are easy to upgrade to if you're running the latest version
+of Rails.
 
-**現在対象となっているシリーズ:** `4.2.Z`、`4.1.Z`。
+**Currently included series:** `4.2.Z`, `4.1.Z`.
 
-重大なセキュリティ問題
+Severe Security Issues
 ----------------------
 
-重大なセキュリティ問題については、上と同様に新バージョンを提供し、かつ最新のメジャーリリースシリーズに対してセキュリティパッチと新バージョンを提供します。セキュリティ問題がどれほど重大であるかの判断はコアチームによって行われます。
+For severe security issues we will provide new versions as above, and also the
+last major release series will receive patches and new versions. The
+classification of the security issue is judged by the core team.
 
-**現在対象となっているシリーズ:** `4.2.Z`、`4.1.Z`、`3.2.Z`。
+**Currently included series:** `4.2.Z`, `4.1.Z`, `3.2.Z`.
 
-サポート対象外となるリリースシリーズ
+Unsupported Release Series
 --------------------------
 
-あるリリースシリーズがサポート対象外になった場合、バグ修正とセキュリティ問題の対応は各自の責任となります。場合によっては修正のバックポートの提供とgitへの公開が行われることもありますが、以後新バージョンがリリースされることはありません。アプリケーションで使用しているバージョンを維持しきれない場合は、サポート対象となっているバージョンにアップグレードしてください。
+When a release series is no longer supported, it's your own responsibility to
+deal with bugs and security issues. We may provide backports of the fixes and
+publish them to git, however there will be no new versions released. If you are
+not comfortable maintaining your own versions, you should upgrade to a
+supported version.

@@ -1,13 +1,19 @@
-﻿<h2>Ruby on Railsガイド (v4.1)</h2><!--(<%= @edge ? @version[0, 7] : @version %>)-->
-<% if @edge %> 
-本ガイドはEdge Guidesであり、現時点のmasterブランチをベースとしています。
-安定版のガイドが必要な場合は、http://guides.rubyonrails.orgを参照ください。
+<h2>Ruby on Rails Guides (<%= @edge ? @version[0, 7] : @version %>)</h2>
+
+<% if @edge %>
+<p>
+  These are <b>Edge Guides</b>, based on the current <a href="https://github.com/rails/rails/tree/<%= @version %>">master</a> branch.
+</p>
+<p>
+  If you are looking for the ones for the stable version, please check
+  <a href="http://guides.rubyonrails.org">http://guides.rubyonrails.org</a> instead.
+</p>
 <% else %>
-本ガイドは、<a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a>に基づいた、Ruby on Rails 4.1 用の日本語リファンレンスマニュアルです。本ガイドは，Railsでの生産性向上に役立ち、各部品がどのように連携しているかを理解する上でも役に立ちます。
+<p>
+  These are the new guides for Rails 4.2 based on <a href="https://github.com/rails/rails/tree/<%= @version %>"><%= @version %></a>.
+  These guides are designed to make you immediately productive with Rails, and to help you understand how all of the pieces fit together.
+</p>
 <% end %>
-<!--
-  <p>Rails 2.3.x用のガイドについてはhttp://guides.rubyonrails.org/v2.3.11/を参照してください。</p>
-  <p>Rails 4.0.x用のガイドについてはhttp://guides.rubyonrails.org/v4.0.4/を参照してください。</p>
--->
-<br />
-Rails 3.0用のガイドについては<a href="http://wiki.usagee.co.jp/ruby/rails/RailsGuides%E3%82%92%E3%82%86%E3%81%A3%E3%81%8F%E3%82%8A%E5%92%8C%E8%A8%B3%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F%E3%82%88">RailsGuidesをゆっくり和訳してみたよ </a> (提供: <a href="http://usagee.co.jp/">株式会社ウサギィ</a>) を参照してください。
+<p>
+  The guides for earlier releases: <a href="http://guides.rubyonrails.org/v4.1.8/">Rails 4.1.8</a>, <a href="http://guides.rubyonrails.org/v4.0.12/">Rails 4.0.12</a>, <a href="http://guides.rubyonrails.org/v3.2.21/">Rails 3.2.21</a> and <a href="http://guides.rubyonrails.org/v2.3.11/">Rails 2.3.11</a>.
+</p>

@@ -1,37 +1,40 @@
-﻿
-API ドキュメント作成ガイドライン
+API Documentation Guidelines
 ============================
 
-本ガイドでは、Rails APIドキュメント作成のガイドラインについて解説します(訳注: APIドキュメントが英語で書かれることを前提とします。また、サンプルのコメントは基本的に英語のままにしています)。
+This guide documents the Ruby on Rails API documentation guidelines.
 
-このガイドの内容:
+After reading this guide, you will know:
 
-* APIドキュメントを効果的に書く方法
-* ドキュメント作成用のスタイルガイド (Rubyコード開発用のスタイルガイドとは別)
+* How to write effective prose for documentation purposes.
+* Style guidelines for documenting different kinds of Ruby code.
 
 --------------------------------------------------------------------------------
 
 RDoc
 ----
 
-[Rails API ドキュメント](http://api.rubyonrails.org)は[RDoc](http://docs.seattlerb.org/rdoc/)を使用して生成されます。
+The [Rails API documentation](http://api.rubyonrails.org) is generated with
+[RDoc](http://docs.seattlerb.org/rdoc/).
 
 ```bash
   bundle exec rake rdoc
 ```
 
-生成されたHTMLファイルは./doc/rdocディレクトリに置かれます。
+Resulting HTML files can be found in the ./doc/rdoc directory.
 
-RDocの記法に関しては、[markup](http://docs.seattlerb.org/rdoc/RDoc/Markup.html)を参照してください(訳注: 別ページですが[日本語のRDocライブラリ解説](http://docs.ruby-lang.org/ja/2.1.0/library/rdoc.html)があります)。[追加のディレクティブ](http://docs.seattlerb.org/rdoc/RDoc/Parser/Ruby.html)にも目を通しておいてください。
+Please consult the RDoc documentation for help with the
+[markup](http://docs.seattlerb.org/rdoc/RDoc/Markup.html),
+and also take into account these [additional
+directives](http://docs.seattlerb.org/rdoc/RDoc/Parser/Ruby.html).
 
-語調
+Wording
 -------
 
-簡潔かつ宣言的に書くこと。簡潔さはそれだけで長所になります。
+Write simple, declarative sentences. Brevity is a plus: get to the point.
 
-現在形で書くこと。"Returned a hash that..." や "Will return a hash that..." ではなく"Returns a hash that..."のように書く。
+Write in present tense: "Returns a hash that...", rather than "Returned a hash that..." or "Will return a hash that...".
 
-コメントの英語は大文字で始めること。句読点や記号の用法は常識に従うこと。
+Start comments in upper case. Follow regular punctuation rules:
 
 ```ruby
 # Declares an attribute reader backed by an internally-named
@@ -41,49 +44,51 @@ def attr_internal_reader(*attrs)
 end
 ```
 
-読者に現時点の最新の方法が伝わるように書くこと、それも明示的かつ暗黙に。先進的な分野で推奨されている慣用表現を使用すること。推奨される方法が強調されるようセクションの順序に注意し、必要であれば順序を入れ替えること。作成するドキュメント自身がRailsのベストプラクティスのよいモデルとなるように、そしてRailsの最新かつ模範的な使用法になるように書くこと。
+Communicate to the reader the current way of doing things, both explicitly and implicitly. Use the idioms recommended in edge. Reorder sections to emphasize favored approaches if needed, etc. The documentation should be a model for best practices and canonical, modern Rails usage.
 
-ドキュメントは簡潔であり、かつ全体を理解できるものであること。例外的なケースについても調査し、ドキュメントに盛り込むこと。あるモジュールが無名であったらどうなるか。あるコレクションの内容が空であったらどうなるか。引数がnilであったらどうなるか。
+Documentation has to be concise but comprehensive. Explore and document edge cases. What happens if a module is anonymous? What if a collection is empty? What if an argument is nil?
 
-Railsのコンポーネント名は語の間にスペースを1つ置く表記を正式なものとする (例: "Active Support")。なお、`ActiveRecord`はRubyモジュール名だが、Active RecordはORMを指す。Railsドキュメント内でコンポーネントを指す場合には常に正式名称を使用すること。ブログ投稿やプレゼンテーションなどでもこの点に留意し、異なる名称で読者などを驚かせないようにすること。
+The proper names of Rails components have a space in between the words, like "Active Support". `ActiveRecord` is a Ruby module, whereas Active Record is an ORM. All Rails documentation should consistently refer to Rails components by their proper name, and if in your next blog post or presentation you remember this tidbit and take it into account that'd be phenomenal.
 
-正しいスペルを使用すること (Arel、Test::Unit、RSpec、HTML、 MySQL、JavaScript、ERBなど)。大文字小文字にも注意すること。疑わしい場合には公式ドキュメントなど、信頼できる情報源を参照すること。
+Spell names correctly: Arel, Test::Unit, RSpec, HTML, MySQL, JavaScript, ERB. When in doubt, please have a look at some authoritative source like their official documentation.
 
-"SQL" という語の前には冠詞 "an" を付けること (例: "an SQL statement")。同様に、"an SQLite database"のようにすること。
+Use the article "an" for "SQL", as in "an SQL statement". Also "an SQLite database".
 
-"you"や"your"を使用する表現を避けること。以下の例文ではyouが3度も使用されている。
+Prefer wordings that avoid "you"s and "your"s. For example, instead of
 
 ```markdown
 If you need to use `return` statements in your callbacks, it is recommended that you explicitly define them as methods.
 ```
 
-以下のスタイルで書くこと。
+use this style:
 
 ```markdown
 If `return` is needed it is recommended to explicitly define a method.
 ```
 
-同様に、説明上何らかの人物を仮定して、その人物を代名詞で呼ぶ場合 ("a user with a session cookie" など)、heやsheのような性別のある代名詞を避け、they/their/themのような性別に影響されない代名詞を使用すること。以下のように言い換える。
+That said, when using pronouns in reference to a hypothetical person, such as "a
+user with a session cookie", gender neutral pronouns (they/their/them) should be
+used. Instead of:
 
-* heまたはshe -> theyに置き換える
-* himまたはher -> themに置き換える
-* hisまたはher -> theirに置き換える
-* hisまたはhers -> theirsに置き換える
-* himselfまたはherself -> themselvesに置き換える
+* he or she... use they.
+* him or her... use them.
+* his or her... use their.
+* his or hers... use theirs.
+* himself or herself... use themselves.
 
-英語
+English
 -------
 
-アメリカ英語を使用すること ( *color* 、 *center* 、 *modularize* など)。詳細は[アメリカ英語とイギリス英語のスペルの違い](http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences) (英語) を参照してください。
+Please use American English (*color*, *center*, *modularize*, etc). See [a list of American and British English spelling differences here](http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences).
 
-サンプルコード
+Example Code
 ------------
 
-意味のあるサンプルコードを選ぶこと。概要と基本を端的に示し、かつ興味深い点や落とし穴も示されているのが理想です。
+Choose meaningful examples that depict and cover the basics as well as interesting points or gotchas.
 
-サンプルコードのインデントにはスペース2文字を使用すること。マークアップ用には左マージンに合わせてスペース2文字を使用します。サンプルコードの例は[Railsコーディングルールに従う](contributing_to_ruby_on_rails.html#rails%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AB%E5%BE%93%E3%81%86)を参照してください。
+Use two spaces to indent chunks of code--that is, for markup purposes, two spaces with respect to the left margin. The examples themselves should use [Rails coding conventions](contributing_to_ruby_on_rails.html#follow-the-coding-conventions).
 
-短いドキュメントでは、スニペットを紹介する際に"Examples"と明示的にラベルを付ける必要はない。単にパラグラフに従うようにします。
+Short docs do not need an explicit "Examples" label to introduce snippets; they just follow paragraphs:
 
 ```ruby
 # Converts a collection of elements into a formatted string by
@@ -92,7 +97,7 @@ If `return` is needed it is recommended to explicitly define a method.
 #   Blog.all.to_formatted_s # => "First PostSecond PostThird Post"
 ```
 
-逆に大きな章で構成されているドキュメントであれば、"Examples"セクションを設けてもよい。
+On the other hand, big chunks of structured documentation may have a separate "Examples" section:
 
 ```ruby
 # ==== Examples
@@ -103,7 +108,7 @@ If `return` is needed it is recommended to explicitly define a method.
 #   Person.exists?(['name LIKE ?', "%#{query}%"])
 ```
 
-式の実行結果は式に続けて書き、冒頭に "# => " を追加して縦を揃えること。
+The results of expressions follow them and are introduced by "# => ", vertically aligned:
 
 ```ruby
 # For checking if a fixnum is even or odd.
@@ -114,7 +119,7 @@ If `return` is needed it is recommended to explicitly define a method.
 #   2.odd?  # => false
 ```
 
-1つの行が長くなりすぎる場合はコメントを次の行に置いてもよい
+If a line is too long, the comment may be placed on the next line:
 
 ```ruby
 #   label(:article, :title)
@@ -127,42 +132,49 @@ If `return` is needed it is recommended to explicitly define a method.
 #   # => <label for="article_title" class="title_label">A short title</label>
 ```
 
-実行結果を示すために`puts`や`p`などの印字用メソッドを使用することはなるべく避ける。
+Avoid using any printing methods like `puts` or `p` for that purpose.
 
-逆に、(実行結果を示さない) 通常のコメントでは矢印を使用しないこと。
+On the other hand, regular comments do not use an arrow:
 
 ```ruby
 #   polymorphic_url(record)  # same as comment_url(record)
 ```
 
-論理値
+Booleans
 --------
 
-述語やフラグでの論理値の表記は、正確な値表現よりも、論理値の意味を優先すること。
+In predicates and flags prefer documenting boolean semantics over exact values.
 
-"true"および"false"をRubyの定義どおりに使用する場合は、通常のフォントで表記すること。シングルトンの`true`および`false`は等幅フォントで表記すること(訳注: シングルトンの`true`および`false`とは、`TrueClass`および`FalseClass`の唯一のインスタンスのことです)。"truthy"のような用語は避けてください。Rubyでは言語レベルでtrueとfalseが定義されているので、これらの用語は技術的に厳密な意味が与えられており、言い方を変える必要はありません。
+When "true" or "false" are used as defined in Ruby use regular font. The
+singletons `true` and `false` need fixed-width font. Please avoid terms like
+"truthy", Ruby defines what is true and false in the language, and thus those
+words have a technical meaning and need no substitutes.
 
-経験から申し上げると、どうしても必要な場合を除いて、ドキュメントでシングルトンを使用すべきではありません。シングルトンを避けることで、`!!`や三項演算子のような人工的な表現を避けることができ、リファクタリングもしやすくなります。さらに、実装で呼び出されるメソッドが返す値の表現が少しでも違うとコードが正常に動作しないという事態も避けられます。
+As a rule of thumb, do not document singletons unless absolutely necessary. That
+prevents artificial constructs like `!!` or ternaries, allows refactors, and the
+code does not need to rely on the exact values returned by methods being called
+in the implementation.
 
-以下の例で説明します。
+For example:
 
 ```markdown
-`config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default (訳: `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルト値はtrueです。)
+`config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default
 ```
 
-上の例では、フラグのデフォルト値の実際の表現がどれであるか (訳注: シングルトンのtrueなのか、trueと評価されるオブジェクトなのか) を知る必要はありません。従って、論理値の意味だけをドキュメントに書くべきです。
+the user does not need to know which is the actual default value of the flag,
+and so we only document its boolean semantics.
 
-以下は述語の例です。
+An example with a predicate:
 
 ```ruby
-# Returns true if the collection is empty. (訳:コレクションが空ならtrueを返す)
+# Returns true if the collection is empty.
 #
-# If the collection has been loaded (コレクションが読み込まれると)
-# it is equivalent to <tt>collection.size.zero?</tt>. if the (<tt>collection.size.zero?</tt>と同値)
-# collection has not been loaded, it is equivalent to (コレクションが読み込まれなかった場合は)
-# <tt>collection.exists?</tt>. If the collection has not already been (<tt>collection.exists?</tt>と同値。コレクションが読み込まれておらず、)
-# loaded and you are going to fetch the records anyway it is better to (どうしてもレコードを取り出したい場合は)
-# check <tt>collection.length.zero?</tt>. (<tt>collection.length.zero?</tt>をチェックすること)
+# If the collection has been loaded
+# it is equivalent to <tt>collection.size.zero?</tt>. If the
+# collection has not been loaded, it is equivalent to
+# <tt>collection.exists?</tt>. If the collection has not already been
+# loaded and you are going to fetch the records anyway it is better to
+# check <tt>collection.length.zero?</tt>.
 def empty?
   if loaded?
     size.zero?
@@ -172,12 +184,13 @@ def empty?
 end
 ```
 
-このAPIは特定の値にコミットしないように注意が払われており、メソッドには述語と意味が示されています。これで十分です。
+The API is careful not to commit to any particular value, the method has
+predicate semantics, that's enough.
 
-ファイル名
+File Names
 ----------
 
-経験則からも、ファイル名はRailsアプリケーションのルート・ディレクトリからの相対パスで記述すること。
+As a rule of thumb, use filenames relative to the application root:
 
 ```
 config/routes.rb            # YES
@@ -185,19 +198,19 @@ routes.rb                   # NO
 RAILS_ROOT/config/routes.rb # NO
 ```
 
-フォント
+Fonts
 -----
 
-### 等幅フォント
+### Fixed-width Font
 
-以下の場合は等幅フォントを使用すること。
+Use fixed-width fonts for:
 
-* 定数、特にクラス名およびモジュール名
-* メソッド名
-* 次のようなリテラル: `nil`、`false`、`true`、`self`
-* シンボル
-* メソッドのパラメータ
-* ファイル名
+* Constants, in particular class and module names.
+* Method names.
+* Literals like `nil`, `false`, `true`, `self`.
+* Symbols.
+* Method parameters.
+* File names.
 
 ```ruby
 class Array
@@ -209,18 +222,21 @@ class Array
 end
 ```
 
-WARNING: 等幅フォントを`+...+`というマークアップで表記できるのは、通常のメソッド名、シンボル、パス (通常のスラッシュを使用しているもの) のようなシンプルなものに限られます。これらよりも複雑なものを表記するときには必ず`<tt>...</tt>`でマークアップしてください。特に名前空間を使用しているクラス名やモジュール名では必須です (`<tt>ActiveRecord::Base</tt>`など)。
+WARNING: Using `+...+` for fixed-width font only works with simple content like
+ordinary method names, symbols, paths (with forward slashes), etc. Please use
+`<tt>...</tt>` for everything else, notably class or module names with a
+namespace as in `<tt>ActiveRecord::Base</tt>`.
 
-以下のコマンドで、RDocの出力を手軽に確認できます。
+You can quickly test the RDoc output with the following command:
 
 ```
 $ echo "+:to_param+" | rdoc --pipe
 #=> <p><code>:to_param</code></p>
 ```
 
-### Regularフォント
+### Regular Font
 
-Rubyのキーワードでない、英語としての"true"と"false"にはregularフォント (ItalicやBoldでないフォント) を使用すること。
+When "true" and "false" are English words rather than Ruby keywords use a regular font:
 
 ```ruby
 # Runs all the validations within the specified context.
@@ -238,21 +254,21 @@ def valid?(context = nil)
 end
 ```
 
-説明のリスト
+Description Lists
 -----------------
 
-項目 (オプションやパラメータのリストなど) とその説明はハイフンでつなぐこと。コロンはシンボルで使用されるので、ハイフンの方が読みやすくなります。
+In lists of options, parameters, etc. use a hyphen between the item and its description (reads better than a colon because normally options are symbols):
 
 ```ruby
 # * <tt>:allow_nil</tt> - Skip validation if attribute is +nil+.
 ```
 
-説明文は通常の英語として大文字で始め、ピリオドで終わること。
+The description starts in upper case and ends with a full stop-it's standard English.
 
-動的に生成されるメソッド
+Dynamically Generated Methods
 -----------------------------
 
-`(module|class)_eval(文字列)`メソッドで作成されるメソッドには、生成されたコードのインスタンスのそばにコメントが置かれます。このように作成されたコメントには、スペース2文字分のインデントが与えられます。
+Methods created with `(module|class)_eval(STRING)` have a comment by their side with an instance of the generated code. That comment is 2 spaces away from the template:
 
 ```ruby
 for severity in Severity.constants
@@ -268,13 +284,13 @@ for severity in Severity.constants
 end
 ```
 
-生成された行が多過ぎる (200行を超える) 場合、コメントを呼び出しの上に置いてください。
+If the resulting lines are too wide, say 200 columns or more, put the comment above the call:
 
 ```ruby
 # def self.find_by_login_and_activated(*args)
 #   options = args.extract_options!
 #   ...
-  # end
+# end
 self.class_eval %{
   def self.#{method_id}(*args)
     options = args.extract_options!
@@ -283,55 +299,63 @@ self.class_eval %{
 }
 ```
 
-メソッドの可視性
+Method Visibility
 -----------------
 
-Railsのドキュメントを作成するにあたり、ユーザー向けのパブリックなAPIと内部APIの違いを理解しておくことが重要です。
+When writing documentation for Rails, it's important to understand the difference between public user-facing API vs internal API.
 
-多くのライブラリと同様、Railsでも内部APIの定義にprivateキーワードが使用されます。しかし、パブリックなAPIのルールは若干異なります。Railsでは、すべてのpublicなメソッドがユーザーに公開されて使用されるということを前提にしていません。代りに、そのメソッドが内部APIであることを示すために`:nodoc:`ディレクティブを使用します。
+Rails, like most libraries, uses the private keyword from Ruby for defining internal API. However, public API follows a slightly different convention. Instead of assuming all public methods are designed for user consumption, Rails uses the `:nodoc:` directive to annotate these kinds of methods as internal API.
 
-つまり、Railsでは可視性が`public`のメソッドであっても、ユーザーに公開されているとは限らないのです。
+This means that there are methods in Rails with `public` visibility that aren't meant for user consumption.
 
-`ActiveRecord::Core::ClassMethods#arel_table`を例に説明します。
+An example of this is `ActiveRecord::Core::ClassMethods#arel_table`:
 
 ```ruby
 module ActiveRecord::Core::ClassMethods
   def arel_table #:nodoc:
-    # 何か書く
+    # do some magic..
   end
 end
 ```
 
-このメソッドは一見して`ActiveRecord::Core`のパブリックなクラスメソッドであり、実際それ自体は間違いではありません。しかしRailsチームはこの種のメソッドに依存して欲しくないと考えています。そのために`:nodoc:`を指定して、ドキュメントに含まれないようにしています。実際の理由は、Railsチームはこの種の内部メソッドの動作を必要に応じてリリースごとに変更できるようにしたいからです。これらのメソッドは名前や戻り値が変更されたり、クラス自体が消滅したりすることもありえます。従ってこれらは外部に対して何も保証されておらず、Railsアプリケーションやプラグインがこの種のAPIに依存すべきではありません。これらのAPIに依存してしまうと、Railsを次のリリースにアップグレードしたときにアプリケーションやGemが壊れる危険性があります。
+If you thought, "this method looks like a public class method for `ActiveRecord::Core`", you were right. But actually the Rails team doesn't want users to rely on this method. So they mark it as `:nodoc:` and it's removed from public documentation. The reasoning behind this is to allow the team to change these methods according to their internal needs across releases as they see fit. The name of this method could change, or the return value, or this entire class may disappear; there's no guarantee and so you shouldn't depend on this API in your plugins or applications. Otherwise, you risk your app or gem breaking when you upgrade to a newer release of Rails.
 
-Rails貢献者がドキュメントを作成する場合、そのAPIを外部開発者に公開してよいかどうかに常に注意を払う必要があります。Railsチームは、パブリックなAPIに対して重大な変更を行なう際は、必ず非推奨サイクルを経てから行なうことにしています。内部メソッドや内部クラスの可視性がprivateになっていない場合は、`:nodoc:`オプションを指定することを推奨します (なお可視性がprivateの場合はデフォルトで内部扱いになります)。APIが安定したら可視性を変更できますが、後方互換性を保ちながらパブリックなAPIを変更することは簡単ではありません。
+As a contributor, it's important to think about whether this API is meant for end-user consumption. The Rails team is committed to not making any breaking changes to public API across releases without going through a full deprecation cycle. It's recommended that you `:nodoc:` any of your internal methods/classes unless they're already private (meaning visibility), in which case it's internal by default. Once the API stabilizes the visibility can change, but changing public API is much harder due to backwards compatibility.
 
-クラスやモジュールに対して`:nodoc:`を指定した場合、その中のすべてのメソッドは内部APIであり、直接アクセスすることは許されないことが示されます。
+A class or module is marked with `:nodoc:` to indicate that all methods are internal API and should never be used directly.
 
-既存の`:nodoc:`指定はむやみに変更しないでください。この指定を外す際は、必ずコアチームの誰かかコードの著者に相談してからにしてください。`:nodoc`が外されてしまうエラーは、docrailsプロジェクトよりもほとんどの場合pull requestで発生します。
+If you come across an existing `:nodoc:` you should tread lightly. Consider asking someone from the core team or author of the code before removing it. This should almost always happen through a pull request instead of the docrails project.
 
-`:nodoc:`の追加は、絶対に無断で行わないでください。ドキュメントからそのメソッドやクラスの記述が失われてしまいます。たとえば、あるメソッドの可視性をprivateからpublicに切り替えた際に、内部のパブリックメソッドに`:nodoc:`が指定されていなかったという事例がありえます。そのようなケースを見つけたら、必要に応じてpull requestで議論してください。直接docrailsを変更することはくれぐれも行わないでください。
+A `:nodoc:` should never be added simply because a method or class is missing documentation. There may be an instance where an internal public method wasn't given a `:nodoc:` by mistake, for example when switching a method from private to public visibility. When this happens it should be discussed over a PR on a case-by-case basis and never committed directly to docrails.
 
-まとめ: Railsチームは可視性がpublicで内部でのみ使用するメソッドやクラスには`:nodoc:`を指定します。APIの可視性の変更は慎重に行なわれるべきであり、pull requestでの議論を経てから行なうこと。
+To summarize, the Rails team uses `:nodoc:` to mark publicly visible methods and classes for internal use; changes to the visibility of API should be considered carefully and discussed over a pull request first.
 
-Railsスタック
+Regarding the Rails Stack
 -------------------------
 
-Rails APIの一部をドキュメント化する際には、それがRailsスタックのひとつとなることを意識しておくことが重要です。
+When documenting parts of Rails API, it's important to remember all of the
+pieces that go into the Rails stack.
 
-つまり、ドキュメント化しようとしているメソッドやクラスのスコープやコンテキストに応じて振る舞いが変化することがあるということです。
+This means that behavior may change depending on the scope or context of the
+method or class you're trying to document.
 
-スタック全体を考慮に入れれば、振る舞いの変化するはあちこちに見つかります。`ActionView::Helpers::AssetTagHelper#image_tag`などが典型です。
+In various places there is different behavior when you take the entire stack
+into account, one such example is
+`ActionView::Helpers::AssetTagHelper#image_tag`:
 
 ```ruby
 # image_tag("icon.png")
 #   # => <img alt="Icon" src="/assets/icon.png" />
 ```
 
-`#image_tag`はデフォルトでは常に`/images/icon.png`を返しますが、アセットパイプラインなどを含むRailsのフルスタックで見ると、上のような結果が返されるところもあります。
+Although the default behavior for `#image_tag` is to always return
+`/images/icon.png`, we take into account the full Rails stack (including the
+Asset Pipeline) we may see the result seen above.
 
-デフォルトのRailsフルスタックを使用している場合、実際に経験する振る舞いに対してしか関心が持てないものです。
+We're only concerned with the behavior experienced when using the full default
+Rails stack.
 
-このような場合、特定のメソッドの振る舞いだけではなく、 _フレームワーク_ の振る舞いもドキュメント化するようにしたいと思います。
+In this case, we want to document the behavior of the _framework_, and not just
+this specific method.
 
-Railsチームが特定のAPIをどのように扱っているかを知りたい場合は、お気軽にチケットを発行して[issue tracker](https://github.com/rails/rails/issues)にパッチを送ってください。
+If you have a question on how the Rails team handles certain API, don't hesitate to open a ticket or send a patch to the [issue tracker](https://github.com/rails/rails/issues).

@@ -1,26 +1,36 @@
-﻿
-Active Record マイグレーション
+Active Record Migrations
 ========================
 
-マイグレーション (migration) はActive Recordの機能の1つであり、データベーススキーマを長期にわたって安定して発展・増築し続けることができるようにするための仕組みです。マイグレーション機能のおかげで、Rubyで作成されたマイグレーション用のDSL (ドメイン固有言語) を使用して、テーブルの変更を簡単に記述できます。スキーマを変更するためにSQLを直に書いて実行する必要がありません。
+Migrations are a feature of Active Record that allows you to evolve your
+database schema over time. Rather than write schema modifications in pure SQL,
+migrations allow you to use an easy Ruby DSL to describe changes to your
+tables.
 
-このガイドの内容:
+After reading this guide, you will know:
 
-* マイグレーション作成で使用できるジェネレータ
-* Active Recordが提供するデータベース操作用メソッド群の解説
-* マイグレーション実行とスキーマ更新用のRakeタスクの解説
-* マイグレーションとスキーマファイル`schema.rb`の関係
+* The generators you can use to create them.
+* The methods Active Record provides to manipulate your database.
+* The Rake tasks that manipulate migrations and your schema.
+* How migrations relate to `schema.rb`.
 
 --------------------------------------------------------------------------------
 
-マイグレーションの概要
+Migration Overview
 ------------------
 
-マイグレーションは、[データベーススキーマの継続的な変更](http://en.wikipedia.org/wiki/Schema_migration) (英語) を、統一的かつ簡単に行なうための便利な手法です。マイグレーションではRubyのDSLを使用しているので、生のSQLを作成する必要がなく、スキーマとスキーマへの変更をデータベースの種類に依存せずに済みます。
+Migrations are a convenient way to
+[alter your database schema over time](http://en.wikipedia.org/wiki/Schema_migration)
+in a consistent and easy way. They use a Ruby DSL so that you don't have to
+write SQL by hand, allowing your schema and changes to be database independent.
 
-1つ1つのマイグレーションは、データベースの新しい'version'とみなすことができます。スキーマは最初空の状態から始まり、マイグレーションによる変更が加わるたびにテーブル、カラム、エントリが追加または削除されます。Active Recordは時系列に沿ってスキーマを更新する方法を知っているので、履歴のどの時点からでも最新バージョンのスキーマに更新することができます。Active Recordは`db/schema.rb`ファイルを更新し、データベースの最新の構造と一致するようにします。
+You can think of each migration as being a new 'version' of the database. A
+schema starts off with nothing in it, and each migration modifies it to add or
+remove tables, columns, or entries. Active Record knows how to update your
+schema along this timeline, bringing it from whatever point it is in the
+history to the latest version. Active Record will also update your
+`db/schema.rb` file to match the up-to-date structure of your database.
 
-マイグレーションの例を以下に示します。
+Here's an example of a migration:
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -29,21 +39,35 @@ class CreateProducts < ActiveRecord::Migration
       t.string :name
       t.text :description
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-上のマイグレーションを実行すると`products`という名前のテーブルが追加されます。この中には`name`というstringカラムと、`description`というtextカラムが含まれています。主キーは`id`という名前で暗黙に追加されます。`id`はActive Recordモデルにおけるデフォルトの主キーです。`timestamps`マクロは、`created_at`と`updated_at`という2つのカラムを追加します。これらの特殊なカラムが存在する場合、Active Recordによって自動的に管理されます。
+This migration adds a table called `products` with a string column called
+`name` and a text column called `description`. A primary key column called `id`
+will also be added implicitly, as it's the default primary key for all Active
+Record models. The `timestamps` macro adds two columns, `created_at` and
+`updated_at`. These special columns are automatically managed by Active Record
+if they exist.
 
-マイグレーションは、時間を先に進めるときに実行したい動作を定義していることにご注目ください。マイグレーションの実行前にはテーブルは1つもありません。マイグレーションを実行すると、テーブルが作成されます。Active Recordは、このマイグレーションの進行を逆転させる方法も知っています。マイグレーションをロールバックすると、テーブルは削除されます。
+Note that we define the change that we want to happen moving forward in time.
+Before this migration is run, there will be no table. After, the table will
+exist. Active Record knows how to reverse this migration as well: if we roll
+this migration back, it will remove the table.
 
-スキーマ変更のステートメントが使用できるトランザクションをサポートするデータベースでは、マイグレーションはトランザクションの内側にラップされて実行されます。これらがデータベースでサポートされていない場合は、マイグレーション中に一部が失敗した場合にロールバックされません。その場合は、変更を手動でロールバックする必要があります。
+On databases that support transactions with statements that change the schema,
+migrations are wrapped in a transaction. If the database does not support this
+then when a migration fails the parts of it that succeeded will not be rolled
+back. You will have to rollback the changes that were made by hand.
 
-NOTE: ある種のクエリは、トランザクション内で実行できないことがあります。アダプタがDDLトランザクションをサポートしている場合は、`disable_ddl_transaction!`を使用して単一のマイグレーションでこれらを無効にすることができます。
+NOTE: There are certain queries that can't run inside a transaction. If your
+adapter supports DDL transactions you can use `disable_ddl_transaction!` to
+disable them for a single migration.
 
-Active Recordで対応できないマイグレーションを行いたい場合は、`reversible`を使用します。
+If you wish for a migration to do something that Active Record doesn't know how
+to reverse, you can use `reversible`:
 
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
@@ -58,7 +82,7 @@ class ChangeProductsPrice < ActiveRecord::Migration
 end
 ```
 
-`change`の代りに`up`と`down`を使用することもできます。
+Alternatively, you can use `up` and `down` instead of `change`:
 
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
@@ -76,20 +100,31 @@ class ChangeProductsPrice < ActiveRecord::Migration
 end
 ```
 
-マイグレーションを作成する
+Creating a Migration
 --------------------
 
-### 単独のマイグレーションを作成する
+### Creating a Standalone Migration
 
-マイグレーションは`db/migrate`ディレクトリに保存されます。1つのファイルが1つのマイグレーションクラスに対応します。マイグレーションファイル名は`YYYYMMDDHHMMSS_create_products.rb`のような形式になります。ファイル名の日時はマイグレーションを識別するUTCタイムスタンプであり、アンダースコアにつづいてマイグレーション名が記述されます。マイグレーション クラスの名前 (CamelCaseで表されるバージョン) は、ファイル名の後半と一致する必要があります。たとえば、`20080906120000_create_products.rb`では`CreateProducts`というクラスが定義され、`20080906120001_add_details_to_products.rb`では`AddDetailsToProducts`というクラスが定義される必要があります。Railsではマイグレーションの実行順序をファイル名のタイムスタンプで決定します。従って、マイグレーションを他のアプリケーションからコピーしたり、自分でマイグレーションを生成する場合は、実行順に注意する必要があります。
+Migrations are stored as files in the `db/migrate` directory, one for each
+migration class. The name of the file is of the form
+`YYYYMMDDHHMMSS_create_products.rb`, that is to say a UTC timestamp
+identifying the migration followed by an underscore followed by the name
+of the migration. The name of the migration class (CamelCased version)
+should match the latter part of the file name. For example
+`20080906120000_create_products.rb` should define class `CreateProducts` and
+`20080906120001_add_details_to_products.rb` should define
+`AddDetailsToProducts`. Rails uses this timestamp to determine which migration
+should be run and in what order, so if you're copying a migration from another
+application or generate a file yourself, be aware of its position in the order.
 
-タイムスタンプを算出する作業は楽しいものではありませんので、Active Recordにはこれらを扱うためのジェネレータが用意されています。
+Of course, calculating timestamps is no fun, so Active Record provides a
+generator to handle making it for you:
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts
 ```
 
-これによって生成されるマイグレーションは中身が空ですが、適切な名前が付けられています。
+This will create an empty but appropriately named migration:
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -98,13 +133,15 @@ class AddPartNumberToProducts < ActiveRecord::Migration
 end
 ```
 
-マイグレーション名が"AddXXXToYYY"や"RemoveXXXFromYYY"の形式になっており、その後にカラム名と種類が続いていれば、マイグレーション内に適切な`add_column`文と`remove_column`文が作成されます。
+If the migration name is of the form "AddXXXToYYY" or "RemoveXXXFromYYY" and is
+followed by a list of column names and types then a migration containing the
+appropriate `add_column` and `remove_column` statements will be created.
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts part_number:string
 ```
 
-上を実行すると以下が生成されます。
+will generate
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -114,13 +151,13 @@ class AddPartNumberToProducts < ActiveRecord::Migration
 end
 ```
 
-新しいカラムにインデックスを追加したい場合は以下のようにします。
+If you'd like to add an index on the new column, you can do that as well:
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts part_number:string:index
 ```
 
-上を実行すると以下が生成されます。
+will generate
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -132,13 +169,13 @@ end
 ```
 
 
-同様に、カラムを削除するマイグレーションをコマンドラインで生成するには以下のようにします。
+Similarly, you can generate a migration to remove a column from the command line:
 
 ```bash
 $ bin/rails generate migration RemovePartNumberFromProducts part_number:string
 ```
 
-上を実行すると以下が生成されます。
+generates
 
 ```ruby
 class RemovePartNumberFromProducts < ActiveRecord::Migration
@@ -148,13 +185,13 @@ class RemovePartNumberFromProducts < ActiveRecord::Migration
 end
 ```
 
-自動で生成できるカラムは1つだけではありません。たとえば次のようになります。
+You are not limited to one magically generated column. For example:
 
 ```bash
 $ bin/rails generate migration AddDetailsToProducts part_number:string price:decimal
 ```
 
-上を実行すると以下が生成されます。
+generates
 
 ```ruby
 class AddDetailsToProducts < ActiveRecord::Migration
@@ -165,13 +202,15 @@ class AddDetailsToProducts < ActiveRecord::Migration
 end
 ```
 
-マイグレーション名が"CreateXXX"のような形式であり、その後にカラム名と種類が続く場合、XXXという名前のテーブルが作成され、指定の種類のカラム名がその中に生成されます。たとえば次のようになります。
+If the migration name is of the form "CreateXXX" and is
+followed by a list of column names and types then a migration creating the table
+XXX with the columns listed will be generated. For example:
 
 ```bash
 $ bin/rails generate migration CreateProducts name:string part_number:string
 ```
 
-上を実行すると以下が生成されます。
+generates
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -184,15 +223,18 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-これまでと同様、ここまでに生成した内容は単なる出発点でしかありません。`db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb`ファイルを編集して、項目の追加や削除を行なうことができます。
+As always, what has been generated for you is just a starting point. You can add
+or remove from it as you see fit by editing the
+`db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb` file.
 
-同様に、カラムの種類として`references` (`belongs_to` も可) を指定することができます。たとえば次のようになります。
+Also, the generator accepts column type as `references`(also available as
+`belongs_to`). For instance:
 
 ```bash
 $ bin/rails generate migration AddUserRefToProducts user:references
 ```
 
-上を実行すると以下が生成されます。
+generates
 
 ```ruby
 class AddUserRefToProducts < ActiveRecord::Migration
@@ -202,15 +244,15 @@ class AddUserRefToProducts < ActiveRecord::Migration
 end
 ```
 
-このマイグレーションを実行すると、`user_id`が作成され、適切なインデックスが追加されます。
+This migration will create a `user_id` column and appropriate index.
 
-名前の一部に`JoinTable`が含まれているとテーブル結合を生成するジェネレータもあります。
+There is also a generator which will produce join tables if `JoinTable` is part of the name:
 
 ```bash
 $ bin/rails g migration CreateJoinTableCustomerProduct customer product
 ```
 
-上によって以下のマイグレーションが生成されます。
+will produce the following migration:
 
 ```ruby
 class CreateJoinTableCustomerProduct < ActiveRecord::Migration
@@ -223,15 +265,18 @@ class CreateJoinTableCustomerProduct < ActiveRecord::Migration
 end
 ```
 
-### モデルを生成する
+### Model Generators
 
-モデルのジェネレータとscaffoldジェネレータは、新しいモデルを追加するマイグレーションを生成します。このマイグレーションには、関連するテーブルを作成する命令が既に含まれています。必要なカラムを指定すると、それらのカラムを追加する命令も同時に生成されます。たとえば、以下を実行するとします。
+The model and scaffold generators will create migrations appropriate for adding
+a new model. This migration will already contain instructions for creating the
+relevant table. If you tell Rails what columns you want, then statements for
+adding these columns will also be created. For example, running:
 
 ```bash
 $ bin/rails generate model Product name:string description:text
 ```
 
-このとき、以下のようなマイグレーションが作成されます。
+will create a migration that looks like this
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -240,25 +285,26 @@ class CreateProducts < ActiveRecord::Migration
       t.string :name
       t.text :description
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-カラム名と種類のペアはいくつでも追加できます。
+You can append as many column name/type pairs as you want.
 
-### 修飾子を渡す
+### Passing Modifiers
 
-コマンドラインである種の[型修飾子](#カラム修飾子) を直接渡すこともできます。これらは波かっこで囲まれ、後ろにフィールドの種類が追加されます。
+Some commonly used [type modifiers](#column-modifiers) can be passed directly on
+the command line. They are enclosed by curly braces and follow the field type:
 
-たとえば以下を実行したとします。
+For instance, running:
 
 ```bash
 $ bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
 ```
 
-これによって以下のようなマイグレーションが生成されます。
+will produce a migration that looks like this
 
 ```ruby
 class AddDetailsToProducts < ActiveRecord::Migration
@@ -269,16 +315,19 @@ class AddDetailsToProducts < ActiveRecord::Migration
 end
 ```
 
-TIP: 詳細についてはジェネレータのヘルプを参照してください。
+TIP: Have a look at the generators help output for further details.
 
-マイグレーションを自作する
+Writing a Migration
 -------------------
 
-ジェネレータでマイグレーションを作成できるようになったら、今度は自分で作成してみましょう。
+Once you have created your migration using one of the generators it's time to
+get to work!
 
-### テーブルを作成する
+### Creating a Table
 
-`create_table`メソッドは最も基本的なメソッドであり、ほとんどの場合モデルやscaffoldの生成時に使用されます。典型的な利用法を以下に示します。
+The `create_table` method is one of the most fundamental, but most of the time,
+will be generated for you from using a model or scaffold generator. A typical
+use would be
 
 ```ruby
 create_table :products do |t|
@@ -286,9 +335,14 @@ create_table :products do |t|
 end
 ```
 
-上によって`products`テーブルが生成され、`name`という名前のカラムがその中に作成されます (`id`というカラムも暗黙で生成されますが、これについては後述します)。
+which creates a `products` table with a column called `name` (and as discussed
+below, an implicit `id` column).
 
-デフォルトでは、`create_table`によって`id`という名前の主キーが作成されます。`:primary_key`オプションを指定することで、主キー名を変更することもできます (その場合は必ず対応するモデル名を変更してください)。 主キーを使用したくない場合は`id: false`オプションを指定することもできます。特定のデータベースで使用するオプションが必要な場合は、`:options`オプションに続けてSQLフラグメントを記述します。たとえば次のようになります。
+By default, `create_table` will create a primary key called `id`. You can change
+the name of the primary key with the `:primary_key` option (don't forget to
+update the corresponding model) or, if you don't want a primary key at all, you
+can pass the option `id: false`. If you need to pass database specific options
+you can place an SQL fragment in the `:options` option. For example:
 
 ```ruby
 create_table :products, options: "ENGINE=BLACKHOLE" do |t|
@@ -296,33 +350,41 @@ create_table :products, options: "ENGINE=BLACKHOLE" do |t|
 end
 ```
 
-上のマイグレーションでは、テーブルを生成するSQLステートメントに`ENGINE=BLACKHOLE`を指定しています (MySQLを使用する場合、デフォルトは`ENGINE=InnoDB`です)。
+will append `ENGINE=BLACKHOLE` to the SQL statement used to create the table
+(when using MySQL, the default is `ENGINE=InnoDB`).
 
-### テーブル結合を作成する
+### Creating a Join Table
 
-マイグレーションの`create_join_table`メソッドはhas_and_belongs_to_many (HABTM) テーブル結合を作成します。典型的な利用法を以下に示します。
+Migration method `create_join_table` creates a HABTM join table. A typical use
+would be:
 
 ```ruby
 create_join_table :products, :categories
 ```
 
-上によって`categories_products`テーブルが作成され、その中に`category_id`カラムと`product_id`カラムが生成されます。これらのカラムには`:null`オプションがあり、デフォルト値は`false`です。`:column_options`オプションを指定することでこれらを上書きできます。
+which creates a `categories_products` table with two columns called
+`category_id` and `product_id`. These columns have the option `:null` set to
+`false` by default. This can be overridden by specifying the `:column_options`
+option.
 
 ```ruby
 create_join_table :products, :categories, column_options: {null: true}
 ```
 
-上によって`product_id`と`category_id`が作成され、`:null`が`true`に設定されます。
+will create the `product_id` and `category_id` with the `:null` option as
+`true`.
 
-テーブル名をカスタマイズしたい場合は`:table_name`オプションを渡すこともできます。たとえば次のようになります。
+You can pass the option `:table_name` when you want to customize the table
+name. For example:
 
 ```ruby
 create_join_table :products, :categories, table_name: :categorization
 ```
 
-上のようにすることで`categorization`テーブルが作成されます。
+will create a `categorization` table.
 
-`create_join_table`はブロックを引数に取ることもできます。これはインデックスを追加したり (インデックスはデフォルトでは作成されません)、カラムを追加するのに使用されます。
+`create_join_table` also accepts a block, which you can use to add indices
+(which are not created by default) or additional columns:
 
 ```ruby
 create_join_table :products, :categories do |t|
@@ -331,9 +393,11 @@ create_join_table :products, :categories do |t|
 end
 ```
 
-### テーブルを変更する
+### Changing Tables
 
-既存のテーブルを変更する`change_table`は、`create_table`とよく似ています。基本的には`create_table`と同じ要領で使用しますが、ブロックに対してyieldされるオブジェクトではいくつかのテクニックが使用できます。たとえば次のようになります。
+A close cousin of `create_table` is `change_table`, used for changing existing
+tables. It is used in a similar fashion to `create_table` but the object
+yielded to the block knows more tricks. For example:
 
 ```ruby
 change_table :products do |t|
@@ -344,86 +408,115 @@ change_table :products do |t|
 end
 ```
 
-上のマイグレーションでは`description`と`name`カラムが削除され、stringカラムである`part_number`が作成されてインデックスがそこに追加されます。そして最後に`upccode`カラムをリネームしています。
+removes the `description` and `name` columns, creates a `part_number` string
+column and adds an index on it. Finally it renames the `upccode` column.
 
-### カラムを変更する
+### Changing Columns
 
-マイグレーションでは、`remove_column`や`add_column`に加えて`change_column`メソッドも利用できます。
+Like the `remove_column` and `add_column` Rails provides the `change_column`
+migration method.
 
 ```ruby
 change_column :products, :part_number, :text
 ```
 
-productsテーブル上の`part_number`カラムの種類を`:text`フィールドに変更しています。
+This changes the column `part_number` on products table to be a `:text` field.
 
-`change_column`の他に`change_column_null`メソッドと`change_column_default`メソッドもあり、それぞれnot null制約を変更したりデフォルト値を指定したりするのに使用します。
+Besides `change_column`, the `change_column_null` and `change_column_default`
+methods are used specifically to change the null and default values of a
+column.
 
 ```ruby
 change_column_null :products, :name, false
 change_column_default :products, :approved, false
 ```
 
-上のマイグレーションはproductsテーブルの`:name`フィールドに`NOT NULL`制約を設定し、`:approved`フィールドのデフォルト値をfalseに設定します。
+This sets `:name` field on products to a `NOT NULL` column and the default
+value of the `:approved` field to false.
 
-TIP: `change_column` (および`change_column_default`) と異なる点は、`change_column_null`が可逆的であることです。
+TIP: Unlike `change_column` (and `change_column_default`), `change_column_null`
+is reversible.
 
-### カラム修飾子
+### Column Modifiers
 
-カラムの作成または変更時に、カラムの修飾子を適用できます。
+Column modifiers can be applied when creating or changing a column:
 
-* `limit`        `string/text/binary/integer`フィールドの最大サイズを設定します。
-* `precision`    `decimal`フィールドの精度 (precision) を定義します。この精度は、その数字の総桁数で表されます。
-* `scale`        `decimal`フィールドの精度 (スケール: scale) を指定します。この精度は小数点以下の桁数で表されます。
-* `polymorphic`  `belongs_to`関連付けで使用する`type`カラムを追加します。
-* `null`         カラムで`NULL`値を許可または禁止します。
-* `default`      カラムでのデフォルト値の設定を許可します。dateなどの動的な値を使用している場合は、デフォルト値は最初 (マイグレーションが実行された日付など) にしか計算されないことに注意してください。
-* `index`        カラムにインデックスを追加します。
+* `limit`        Sets the maximum size of the `string/text/binary/integer` fields.
+* `precision`    Defines the precision for the `decimal` fields, representing the
+total number of digits in the number.
+* `scale`        Defines the scale for the `decimal` fields, representing the
+number of digits after the decimal point.
+* `polymorphic`  Adds a `type` column for `belongs_to` associations.
+* `null`         Allows or disallows `NULL` values in the column.
+* `default`      Allows to set a default value on the column. Note that if you
+are using a dynamic value (such as a date), the default will only be calculated
+the first time (i.e. on the date the migration is applied).
+* `index`        Adds an index for the column.
+* `required`     Adds `required: true` for `belongs_to` associations and
+`null: false` to the column in the migration.
 
-アダプタによってはこの他にも使用できるオプションがあるものもあります。詳細については各アダプタ固有のAPIドキュメントを参照してください。
+Some adapters may support additional options; see the adapter specific API docs
+for further information.
 
-### 外部キー
+### Foreign Keys
 
-[参照整合性の保証](#active-recordと参照整合性) に対して外部キー制約を追加することもできます。これは必須ではありません。
+While it's not required you might want to add foreign key constraints to
+[guarantee referential integrity](#active-record-and-referential-integrity).
 
 ```ruby
 add_foreign_key :articles, :authors
 ```
 
-上によって新たな外部キーが`articles`テーブルの`author_id`カラムに追加されます。このキーは`authors`テーブルの`id`カラムを参照します。欲しいカラム名をテーブル名から類推できない場合は、`:column`オプションと`:primary_key`オプションを使用できます。
+This adds a new foreign key to the `author_id` column of the `articles`
+table. The key references the `id` column of the `authors` table. If the
+column names can not be derived from the table names, you can use the
+`:column` and `:primary_key` options.
 
-Railsでは、すべての外部キーは`fk_rails_`という名前で始まり、その後ろに10文字のランダムな文字列が続きます。
-必要であれば、`:name`オプションを指定することで別の名前を使用できます。
+Rails will generate a name for every foreign key starting with
+`fk_rails_` followed by 10 random characters.
+There is a `:name` option to specify a different name if needed.
 
-NOTE: Active Recordでは単一カラムの外部キーのみがサポートされています。複合外部キーを使用する場合は`execute`と`structure.sql`が必要です。
+NOTE: Active Record only supports single column foreign keys. `execute` and
+`structure.sql` are required to use composite foreign keys.
 
-外部キーの削除も以下のように簡単に行えます。
+Removing a foreign key is easy as well:
 
 ```ruby
-# 削除するカラム名の決定をActive Recordに任せる場合
+# let Active Record figure out the column name
 remove_foreign_key :accounts, :branches
 
-# カラムを指定して外部キーを削除する場合
+# remove foreign key for a specific column
 remove_foreign_key :accounts, column: :owner_id
 
-# 名前を指定して外部キーを削除する場合
+# remove foreign key by name
 remove_foreign_key :accounts, name: :special_fk_name
 ```
 
-### ヘルパーの機能だけでは足りない場合
+### When Helpers aren't Enough
 
-Active Recordが提供するヘルパーの機能だけでは不十分な場合、`execute`メソッドを使用して任意のSQLを実行できます。
+If the helpers provided by Active Record aren't enough you can use the `execute`
+method to execute arbitrary SQL:
 
 ```ruby
 Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
 ```
 
-個別のメソッドの詳細については、APIドキュメントを確認してください。
-特に、[`ActiveRecord::ConnectionAdapters::SchemaStatements`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html)
-(`change`、`up`、`down`メソッドで利用可能なメソッドを提供)、[`ActiveRecord::ConnectionAdapters::TableDefinition`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html) (`create_table`で生成されるオブジェクトで使用可能なメソッドを提供)、および[`ActiveRecord::ConnectionAdapters::Table`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html) (`change_table`で生成されるオブジェクトで使用可能なメソッドを提供) を参照ください。
+For more details and examples of individual methods, check the API documentation.
+In particular the documentation for
+[`ActiveRecord::ConnectionAdapters::SchemaStatements`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html)
+(which provides the methods available in the `change`, `up` and `down` methods),
+[`ActiveRecord::ConnectionAdapters::TableDefinition`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html)
+(which provides the methods available on the object yielded by `create_table`)
+and
+[`ActiveRecord::ConnectionAdapters::Table`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html)
+(which provides the methods available on the object yielded by `change_table`).
 
-### `change`メソッドを使用する
+### Using the `change` Method
 
-`change`メソッドは、マイグレーションを自作する場合に最もよく使用されます。このメソッドを使用すれば、Active Recordがマイグレーションを逆方向に実行 (ロールバック) する方法を自動的に理解してくれるため、多くの場面で使用できます。現時点では、`change`でサポートされているマイグレーション定義は以下のものだけです。
+The `change` method is the primary way of writing migrations. It works for the
+majority of cases, where Active Record knows how to reverse the migration
+automatically. Currently, the `change` method supports only these migration
+definitions:
 
 * `add_column`
 * `add_index`
@@ -440,13 +533,17 @@ Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
 * `remove_reference`
 * `rename_table`
 
-`change_table`の逆転は、`change`、`change_default`、`remove`が呼び出されない限り可能です。
+`change_table` is also reversible, as long as the block does not call `change`,
+`change_default` or `remove`.
 
-これ以外のメソッドを使用する必要が生じた場合は、`change`メソッドではなく`reversible`メソッドを利用するか、`up`と`down`メソッドを明示的に書くようにしてください。
+If you're going to need to use any other methods, you should use `reversible`
+or write the `up` and `down` methods instead of using the `change` method.
 
-### `reversible`を使用する
+### Using `reversible`
 
-マイグレーションが複雑になると、Active Recordがマイグレーションを逆転できないことがあります。`reversible`メソッドを使用することで、マイグレーションを通常どおり実行する場合と逆転する場合の動作を指定できます。たとえば次のようになります。
+Complex migrations may require processing that Active Record doesn't know how
+to reverse. You can use `reversible` to specify what to do when running a
+migration what else to do when reverting it. For example:
 
 ```ruby
 class ExampleMigration < ActiveRecord::Migration
@@ -457,7 +554,7 @@ class ExampleMigration < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        # CHECK制約を追加
+        # add a CHECK constraint
         execute <<-SQL
           ALTER TABLE distributors
             ADD CONSTRAINT zipchk
@@ -478,14 +575,28 @@ class ExampleMigration < ActiveRecord::Migration
 end
 ```
 
-`reversible`メソッドを使用することで、各命令を正しい順序で実行できます。前述のマイグレーション例を逆転させた場合、`down`ブロックは必ず`home_page_url`カラムが削除された直後、そして`distributors`テーブルがdropされる直前に実行されます。
+Using `reversible` will ensure that the instructions are executed in the
+right order too. If the previous example migration is reverted,
+the `down` block will be run after the `home_page_url` column is removed and
+right before the table `distributors` is dropped.
 
-自作したマイグレーションがたまたま逆転不可能にするしかない内容の場合、データの一部が失われる可能性があります。そのような場合は、`down`ブロック内で`ActiveRecord::IrreversibleMigration`をレイズできます。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。
+Sometimes your migration will do something which is just plain irreversible; for
+example, it might destroy some data. In such cases, you can raise
+`ActiveRecord::IrreversibleMigration` in your `down` block. If someone tries
+to revert your migration, an error message will be displayed saying that it
+can't be done.
 
-### `up`/`down`メソッドを使用する
+### Using the `up`/`down` Methods
 
-`change`の代りに、従来の`up`メソッドと`down`メソッドを使用することもできます。
-`up`メソッドにはスキーマに対する変換方法を記述し、`down`メソッドには`up`メソッドによって行われた変換を逆転する方法を記述する必要があります。つまり、`up`の後に`down`を実行した場合、スキーマが変更されないようにする必要があります。たとえば、`up`メソッドでテーブルを作成したら、`down`メソッドではそのテーブルを削除する必要があります。`down`メソッド内で行なう変換の順序は、`up`メソッド内で行なうのと逆の順序にするのが賢明と言えます。先の`reversible`セクションの例は以下と同等になります。
+You can also use the old style of migration using `up` and `down` methods
+instead of the `change` method.
+The `up` method should describe the transformation you'd like to make to your
+schema, and the `down` method of your migration should revert the
+transformations done by the `up` method. In other words, the database schema
+should be unchanged if you do an `up` followed by a `down`. For example, if you
+create a table in the `up` method, you should drop it in the `down` method. It
+is wise to reverse the transformations in precisely the reverse order they were
+made in the `up` method. The example in the `reversible` section is equivalent to:
 
 ```ruby
 class ExampleMigration < ActiveRecord::Migration
@@ -494,7 +605,7 @@ class ExampleMigration < ActiveRecord::Migration
       t.string :zipcode
     end
 
-        # CHECK制約を追加
+    # add a CHECK constraint
     execute <<-SQL
       ALTER TABLE distributors
         ADD CONSTRAINT zipchk
@@ -519,11 +630,14 @@ class ExampleMigration < ActiveRecord::Migration
 end
 ```
 
-マイグレーションが逆転不可能な場合、`down`メソッド内に`ActiveRecord::IrreversibleMigration`を記述しておく必要があります。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。
+If your migration is irreversible, you should raise
+`ActiveRecord::IrreversibleMigration` from your `down` method. If someone tries
+to revert your migration, an error message will be displayed saying that it
+can't be done.
 
-### 以前のマイグレーションを逆転する
+### Reverting Previous Migrations
 
-`revert`メソッドを使用することで、Active Recordのマイグレーションロールバック (逆転) 機能を使用できます。
+You can use Active Record's ability to rollback migrations using the `revert` method:
 
 ```ruby
 require_relative '2012121212_example_migration'
@@ -539,9 +653,11 @@ class FixupExampleMigration < ActiveRecord::Migration
 end
 ```
 
-`revert`はブロックを受け取ることもできます。ブロックには逆転のための命令群が含まれます。
-これは、以前のマイグレーションの一部のみを逆転したい場合に便利です。
-たとえば、`ExampleMigration`がコミット済みになっており、後になって郵便番号を検証するには`CHECK`制約よりもActive Record検証を使う方がよいことに気付いたとしましょう。
+The `revert` method also accepts a block of instructions to reverse.
+This could be useful to revert selected parts of previous migrations.
+For example, let's imagine that `ExampleMigration` is committed and it
+is later decided it would be best to use Active Record validations,
+in place of the `CHECK` constraint, to verify the zipcode.
 
 ```ruby
 class DontUseConstraintForZipcodeValidationMigration < ActiveRecord::Migration
@@ -550,7 +666,7 @@ class DontUseConstraintForZipcodeValidationMigration < ActiveRecord::Migration
       # copy-pasted code from ExampleMigration
       reversible do |dir|
         dir.up do
-          # CHECK制約を追加
+          # add a CHECK constraint
           execute <<-SQL
             ALTER TABLE distributors
               ADD CONSTRAINT zipchk
@@ -565,89 +681,126 @@ class DontUseConstraintForZipcodeValidationMigration < ActiveRecord::Migration
         end
       end
 
-      # 以後のマイグレーションはOK
+      # The rest of the migration was ok
     end
   end
 end
 ```
 
-`revert`を使用せずに同様のマイグレーションを自作することもできますが、その分余計な手間がかかります (`create_table`と`reversible`の順序を逆にし、`create_table`を`drop_table`に置き換え、最後に`up`と`down`を入れ替える)。
-`revert`はこれらを一手に引き受けてくれます。
+The same migration could also have been written without using `revert`
+but this would have involved a few more steps: reversing the order
+of `create_table` and `reversible`, replacing `create_table`
+by `drop_table`, and finally replacing `up` by `down` and vice-versa.
+This is all taken care of by `revert`.
 
-マイグレーションを実行する
+Running Migrations
 ------------------
 
-Railsにはマイグレーションを実行するためのRakeタスクがいくつか用意されています。
+Rails provides a set of Rake tasks to run certain sets of migrations.
 
-最も手っ取り早くマイグレーションを実行するRakeタスクは、ほとんどの場合`rake db:migrate`でしょう。このRakeタスクは、基本的にこれまで実行されたことのない`change`または`up`メソッドを実行します。未実行のマイグレーションがない場合は何もせずに終了します。マイグレーションの実行順序は、マイグレーションの日付に基づきます。
+The very first migration related Rake task you will use will probably be
+`rake db:migrate`. In its most basic form it just runs the `change` or `up`
+method for all the migrations that have not yet been run. If there are
+no such migrations, it exits. It will run these migrations in order based
+on the date of the migration.
 
-`db:migrate`タスクを実行すると、`db:schema:dump`タスクも同時に呼び出される点にご注意ください。このタスクは`db/schema.rb`スキーマファイルを更新し、スキーマがデータベースの構造に一致するようにします。
+Note that running the `db:migrate` task also invokes the `db:schema:dump` task, which
+will update your `db/schema.rb` file to match the structure of your database.
 
-マイグレーションの特定のバージョンを指定すると、Active Recordは指定されたマイグレーションに達するまでマイグレーション (change/up/down) を実行します。マイグレーションのバージョンは、マイグレーションファイル名の冒頭に付いている数字で表されます。たとえば、20080906120000というバージョンまでマイグレーションしたい場合は、以下を実行します。
+If you specify a target version, Active Record will run the required migrations
+(change, up, down) until it has reached the specified version. The version
+is the numerical prefix on the migration's filename. For example, to migrate
+to version 20080906120000 run:
 
 ```bash
 $ bin/rake db:migrate VERSION=20080906120000
 ```
 
-20080906120000というバージョンが現在のバージョンより大きい場合 (新しい方に進む通常のマイグレーションなど)、20080906120000に到達するまで (このマイグレーション自身も実行対象に含まれます) のすべてのマイグレーションの`change` (または`up`) メソッドを実行し、それより先のマイグレーションは行いません。過去に遡るマイグレーションの場合、20080906120000に到達するまでのすべてのマイグレーションの`down`メソッドを実行しますが、上と異なり、20080906120000自身は含まれない点にご注意ください。
+If version 20080906120000 is greater than the current version (i.e., it is
+migrating upwards), this will run the `change` (or `up`) method
+on all migrations up to and
+including 20080906120000, and will not execute any later migrations. If
+migrating downwards, this will run the `down` method on all the migrations
+down to, but not including, 20080906120000.
 
-### ロールバック
+### Rolling Back
 
-直前に行ったマイグレーションをロールバックする作業はよく発生します。たとえば、マイグレーションに誤りがあって訂正したい場合などです。この場合、バージョン番号を調べて明示的にロールバックを実行しなくても、次を実行するだけで済みます。
+A common task is to rollback the last migration. For example, if you made a
+mistake in it and wish to correct it. Rather than tracking down the version
+number associated with the previous migration you can run:
 
 ```bash
 $ bin/rake db:rollback
 ```
 
-これにより、直前のマイグレーションがロールバックされます。`change`メソッドを逆転実行するか`down`メソッドを実行します。マイグレーションを複数ロールバックしたい場合は、`STEP`パラメータを指定できます。
+This will rollback the latest migration, either by reverting the `change`
+method or by running the `down` method. If you need to undo
+several migrations you can provide a `STEP` parameter:
 
 ```bash
 $ bin/rake db:rollback STEP=3
 ```
 
-これにより、最後に行った3つのマイグレーションがロールバックされます。
+will revert the last 3 migrations.
 
-`db:migrate:redo`タスクは、ロールバックと再マイグレーションを一度に実行できるショートカットです。複数バージョンに対してこれを行いたい場合は、`db:rollback`タスクの場合と同様に`STEP`パラメータを指定することもできます。
+The `db:migrate:redo` task is a shortcut for doing a rollback and then migrating
+back up again. As with the `db:rollback` task, you can use the `STEP` parameter
+if you need to go more than one version back, for example:
 
 ```bash
 $ bin/rake db:migrate:redo STEP=3
 ```
 
-ただし、`db:migrate`で実行できないタスクをこれらのタスクで実行することはできません。これらは単に、バージョンを明示的に指定しなくて済むように`db:migrate`タスクを使いやすくしたものに過ぎません。
+Neither of these Rake tasks do anything you could not do with `db:migrate`. They
+are simply more convenient, since you do not need to explicitly specify the
+version to migrate to.
 
-### データベースを設定する
+### Setup the Database
 
-`rake db:setup`タスクは、データベースの作成、スキーマの読み込み、シードデータを使用したデータベースの初期化を実行します。
+The `rake db:setup` task will create the database, load the schema and initialize
+it with the seed data.
 
-### データベースをリセットする
+### Resetting the Database
 
-`rake db:reset`タスクは、データベースをdropして再度設定します。このタスクは、`rake db:drop db:setup`と同等です。
+The `rake db:reset` task will drop the database and set it up again. This is
+functionally equivalent to `rake db:drop db:setup`.
 
-NOTE: このタスクは、すべてのマイグレーションを実行することと等価ではありません。このタスクでは現在の`schema.rb`の内容をそのまま使い回しているためです。マイグレーションをロールバックできなくなった場合には、`rake db:reset`を実行しても復旧できないことがあります。スキーマダンプの詳細については、[スキーマダンプの意義](#スキーマダンプの意義) セクションを参照してください。
+NOTE: This is not the same as running all the migrations. It will only use the
+contents of the current `schema.rb` file. If a migration can't be rolled back,
+`rake db:reset` may not help you. To find out more about dumping the schema see
+[Schema Dumping and You](#schema-dumping-and-you) section.
 
-### 特定のマイグレーションのみを実行する
+### Running Specific Migrations
 
-特定のマイグレーションをupまたはdown方向に実行する必要がある場合は、`db:migrate:up`または`db:migrate:down`タスクを使用します。以下に示したように、適切なバージョン番号を指定するだけで、該当するマイグレーションに含まれる`change`、`up`、`down`メソッドのいずれかが呼び出されます。
+If you need to run a specific migration up or down, the `db:migrate:up` and
+`db:migrate:down` tasks will do that. Just specify the appropriate version and
+the corresponding migration will have its `change`, `up` or `down` method
+invoked, for example:
 
 ```bash
 $ bin/rake db:migrate:up VERSION=20080906120000
 ```
 
-上を実行すると、バージョン番号が20080906120000のマイグレーションに含まれる`change`メソッド (または`up`メソッド) が実行されます。このタスクは、最初にそのマイグレーションが実行済みであるかどうかをチェックし、Active Recordによって実行済みであると認定された場合は何も行いません。
+will run the 20080906120000 migration by running the `change` method (or the
+`up` method). This task will
+first check whether the migration is already performed and will do nothing if
+Active Record believes that it has already been run.
 
-### 異なる環境でマイグレーションを実行する
+### Running Migrations in Different Environments
 
-デフォルトでは、`rake db:migrate`は`development`環境で実行されます。
-他の環境に対してマイグレーションを行いたい場合は、コマンド実行時に`RAILS_ENV`環境変数を指定します。たとえば、`test`環境でマイグレーションを実行する場合は以下のようにします。
+By default running `rake db:migrate` will run in the `development` environment.
+To run migrations against another environment you can specify it using the
+`RAILS_ENV` environment variable while running the command. For example to run
+migrations against the `test` environment you could run:
 
 ```bash
 $ bin/rake db:migrate RAILS_ENV=test
 ```
 
-### マイグレーション実行結果の出力を変更する
+### Changing the Output of Running Migrations
 
-デフォルトでは、マイグレーション実行後に正確な実行内容とそれぞれの所要時間が出力されます。
-たとえば、テーブル作成とインデックス追加を行なうと次のような出力が得られます。
+By default migrations tell you exactly what they're doing and how long it took.
+A migration creating a table and adding an index might produce output like this
 
 ```bash
 ==  CreateProducts: migrating =================================================
@@ -656,24 +809,24 @@ $ bin/rake db:migrate RAILS_ENV=test
 ==  CreateProducts: migrated (0.0028s) ========================================
 ```
 
-マイグレーションには、これらの出力方法を制御するためのメソッドが提供されています。
+Several methods are provided in migrations that allow you to control all this:
 
-| メソッド               | 目的
+| Method               | Purpose
 | -------------------- | -------
-| suppress_messages    | 引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。
-| say                  | 引数としてメッセージを1つ受け取り、それをそのまま出力する。2番目の引数として、出力をインデントするかどうかを指定するbooleanを与えられる。
-| say_with_time        | 受け取ったブロックを実行するのにかかった時間を示すテキストを出力する。ブロックが整数を1つ返す場合、影響を受けた行数であるとみなす。
+| suppress_messages    | Takes a block as an argument and suppresses any output generated by the block.
+| say                  | Takes a message argument and outputs it as is. A second boolean argument can be passed to specify whether to indent or not.
+| say_with_time        | Outputs text along with how long it took to run its block. If the block returns an integer it assumes it is the number of rows affected.
 
-以下のマイグレーションを例に説明します。
+For example, this migration:
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
   def change
     suppress_messages do
-    create_table :products do |t|
-      t.string :name
-      t.text :description
-      t.timestamps
+      create_table :products do |t|
+        t.string :name
+        t.text :description
+        t.timestamps null: false
       end
     end
 
@@ -690,7 +843,7 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-上によって以下の出力が得られます。
+generates the following output
 
 ```bash
 ==  CreateProducts: migrating =================================================
@@ -702,35 +855,66 @@ end
 ==  CreateProducts: migrated (10.0054s) =======================================
 ```
 
-Active Recordから何も出力したくない場合は、`rake db:migrate VERBOSE=false`を実行することで出力を完全に抑制できます。
+If you want Active Record to not output anything, then running `rake db:migrate
+VERBOSE=false` will suppress all output.
 
-既存のマイグレーションを変更する
+Changing Existing Migrations
 ----------------------------
 
-マイグレーションを自作していると、ときにはミスしてしまうこともあります。いったんマイグレーションを実行してしまった後では、既存のマイグレーションを単に編集してもう一度マイグレーションをやり直しても意味がありません。Railsはマイグレーションが既に実行済みであると認識しているので、`rake db:migrate`を実行しても何も変更されません。このような場合には、マイグレーションをいったんロールバック (`rake db:rollback`など) してからマイグレーションを修正し、それから修正の完了したバージョンのマイグレーションを実行するために`rake db:migrate`を実行する必要があります。
+Occasionally you will make a mistake when writing a migration. If you have
+already run the migration then you cannot just edit the migration and run the
+migration again: Rails thinks it has already run the migration and so will do
+nothing when you run `rake db:migrate`. You must rollback the migration (for
+example with `rake db:rollback`), edit your migration and then run
+`rake db:migrate` to run the corrected version.
 
-そもそも、既存のマイグレーションを直接変更するのは一般的によい方法とは言えません。既存のマイグレーションを変更すると、自分どころか共同作業者にまで余分な作業を強いることになります。さらに、既存のマイグレーションが本番環境で実行中の場合、ひどい頭痛の種になるでしょう。既存のマイグレーションを直接修正するのではなく、そのためのマイグレーションを新たに作成してそれを実行するのが正しい方法です。これまでコミットされてない (より一般的に言えば、これまでdevelopment環境以外に展開されたことのない) マイグレーションを新たに生成し、それを編集するのが害の少ない方法であると言えます。
+In general, editing existing migrations is not a good idea. You will be
+creating extra work for yourself and your co-workers and cause major headaches
+if the existing version of the migration has already been run on production
+machines. Instead, you should write a new migration that performs the changes
+you require. Editing a freshly generated migration that has not yet been
+committed to source control (or, more generally, which has not been propagated
+beyond your development machine) is relatively harmless.
 
-`revert`メソッドは、以前のマイグレーション全体またはその一部を取り消すためのマイグレーションを新たに書くときにも便利です (前述の[以前のマイグレーションを逆転する](#以前のマイグレーションを逆転する)を参照)。
+The `revert` method can be helpful when writing a new migration to undo
+previous migrations in whole or in part
+(see [Reverting Previous Migrations](#reverting-previous-migrations) above).
 
-スキーマダンプの意義
+Schema Dumping and You
 ----------------------
 
-### スキーマファイルの意味について
+### What are Schema Files for?
 
-Railsのマイグレーションはあまりに強力であるため、データベースのスキーマを作成するための信頼できる情報源とするには適切ではありません。スキーマ情報は、`db/schema.rb`か、Active Recordがデータベースを検査することによって生成されるSQLファイルのどちらかを元にすることになります。これらのファイルは単にデータベースの現在の状態を表すものであり、開発者が編集するものではありません。
+Migrations, mighty as they may be, are not the authoritative source for your
+database schema. That role falls to either `db/schema.rb` or an SQL file which
+Active Record generates by examining the database. They are not designed to be
+edited, they just represent the current state of the database.
 
-アプリケーションの新しいインスタンスをデプロイするときに、膨大なマイグレーション履歴をすべて再実行する必要はありません。むしろ、そのようなことをすると逆にエラーが発生しやすくなるでしょう。単に現在のスキーマの記述をデータベースに読み込む方がはるかに簡潔かつ高速です。
+There is no need (and it is error prone) to deploy a new instance of an app by
+replaying the entire migration history. It is much simpler and faster to just
+load into the database a description of the current schema.
 
-例として、Railsでtest環境のデータベースを作成するときの方法を説明します。現在のdevelopmentデータベースからいったん`db/schema.rb`または`db/structure.sql`にダンプされ、続いてtest環境のデータベースに読み込まれます。
+For example, this is how the test database is created: the current development
+database is dumped (either to `db/schema.rb` or `db/structure.sql`) and then
+loaded into the test database.
 
-スキーマファイルは、Active Recordのオブジェクトにどのような属性があるのかを概観するのにも便利です。スキーマ情報はモデルのコードの中にはありません。スキーマ情報は多くのマイグレーションに分かれて存在しており、そのままでは非常に探しにくいものですが、この情報はスキーマファイルにコンパクトに収まっています。なお、[annotate_models](https://github.com/ctran/annotate_models) gemを使用すると、モデルファイルの冒頭にスキーマ情報の要約コメントが自動的に追加・更新されるようになるので便利です。
+Schema files are also useful if you want a quick look at what attributes an
+Active Record object has. This information is not in the model's code and is
+frequently spread across several migrations, but the information is nicely
+summed up in the schema file. The
+[annotate_models](https://github.com/ctran/annotate_models) gem automatically
+adds and updates comments at the top of each model summarizing the schema if
+you desire that functionality.
 
-### スキーマダンプの種類
+### Types of Schema Dumps
 
-スキーマのダンプ方法は2種類あります。ダンプ方法は`config/application.rb`の`config.active_record.schema_format`で設定します。`:sql`または`:ruby`を指定できます。
+There are two ways to dump the schema. This is set in `config/application.rb`
+by the `config.active_record.schema_format` setting, which may be either `:sql`
+or `:ruby`.
 
-`:ruby`を指定すると、スキーマは`db/schema.rb`に保存されます。このファイルを開いてみると、1つの巨大なマイグレーションのように見えるはずです。
+If `:ruby` is selected then the schema is stored in `db/schema.rb`. If you look
+at this file you'll find that it looks an awful lot like one very big
+migration:
 
 ```ruby
 ActiveRecord::Schema.define(version: 20080906171750) do
@@ -750,33 +934,61 @@ ActiveRecord::Schema.define(version: 20080906171750) do
 end
 ```
 
-このスキーマ情報は、見てのとおりその内容を単刀直入に表しています。このファイルは、データベースを詳細に検査し、`create_table`や`add_index`などでその構造を表現することによって作成されています。このスキーマ情報はデータベースの種類に依存しないため、Active Recordがサポートしているデータベースであればどんなものにでも読み込むことができます。この特性は、複数の種類のデータベースを実行できるアプリケーションを展開する必要がある場合に特に有用です。
+In many ways this is exactly what it is. This file is created by inspecting the
+database and expressing its structure using `create_table`, `add_index`, and so
+on. Because this is database-independent, it could be loaded into any database
+that Active Record supports. This could be very useful if you were to
+distribute an application that is able to run against multiple databases.
 
-このような有用な特性を得られる代りに、1つの代償があります。当然ながら、`db/schema.rb`にはデータベース固有の項目 (トリガーやストアドプロシージャなど) を含めることはできません。マイグレーションにはカスタムSQLを含めることはできますが、スキーマをダンプするときにデータベースからこの構文を再構成することはできないのです。データベース固有の機能を使用するのであれば、スキーマのフォーマットを`:sql`にする必要があります。
+There is however a trade-off: `db/schema.rb` cannot express database specific
+items such as triggers, or stored procedures. While in a migration you can
+execute custom SQL statements, the schema dumper cannot reconstitute those
+statements from the database. If you are using features like this, then you
+should set the schema format to `:sql`.
 
-この場合、Active Recordのスキーマダンプを使用する代りに、データベース固有のツールを使用してデータベースの構造を`db/structure.sql`にダンプします (`db:structure:dump` Rakeタスクを使用)。たとえばPostgreSQLの場合は`pg_dump`ユーティリティが使用されます。MySQLの場合は、多くのテーブルにおいて`SHOW CREATE TABLE`の出力結果がファイルに含まれます。
+Instead of using Active Record's schema dumper, the database's structure will
+be dumped using a tool specific to the database (via the `db:structure:dump`
+Rake task) into `db/structure.sql`. For example, for PostgreSQL, the `pg_dump`
+utility is used. For MySQL, this file will contain the output of
+`SHOW CREATE TABLE` for the various tables.
 
-これらのスキーマの読み込みは、そこに含まれるSQL文を実行するだけの非常にシンプルなものです。定義上、これによってデータベース構造の完全なコピーが作成されます。その代わり、`:sql`スキーマフォーマットを使用した場合は、そのスキーマを作成したRDBMS以外では読み込めないという制限が生じます。
+Loading these schemas is simply a question of executing the SQL statements they
+contain. By definition, this will create a perfect copy of the database's
+structure. Using the `:sql` schema format will, however, prevent loading the
+schema into a RDBMS other than the one used to create it.
 
-### スキーマダンプとソースコード管理
+### Schema Dumps and Source Control
 
-上述の通り、スキーマダンプはデータベーススキーマの情報源として信頼するに足るものです。従って、スキーマファイルをGitなどのソースコード管理の対象に加えることを強く推奨します。
+Because schema dumps are the authoritative source for your database schema, it
+is strongly recommended that you check them into source control.
 
-`db/schema.rb`にはデータベースの現在のバージョン番号が含まれています。これにより、ソースコード管理の異なるブランチでスキーマが変更されていた場合に、両者をマージすると競合が発生していることが警告されるというメリットもあります。スキーマの競合が発生した場合は手動で解決し、数字の大きい方のバージョン番号を保持する必要があります。
+`db/schema.rb` contains the current version number of the database. This
+ensures conflicts are going to happen in the case of a merge where both
+branches touched the schema. When that happens, solve conflicts manually,
+keeping the highest version number of the two.
 
-Active Recordと参照整合性
+Active Record and Referential Integrity
 ---------------------------------------
 
-Active Recordは、知的に動作すべきはモデルであり、データベースではないというコンセプトに基づいています。そして実際、トリガーや制約などの高度なデータベース機能はそれほど使用されていません。
+The Active Record way claims that intelligence belongs in your models, not in
+the database. As such, features such as triggers or constraints,
+which push some of that intelligence back into the database, are not heavily
+used.
 
-`validates :foreign_key, uniqueness: true`のようなデータベース検証機能は、データ整合性の強制をモデルが行っている1つの例です。モデルに関連付けの`:dependent`オプションを指定すると、親オブジェクトが削除されたときに子オブジェクトも自動的に削除されます。アプリケーションレベルで実行される他のものと同様、モデルのこうした機能だけでは参照整合性を維持できないため、データベースの[外部キー制約](#外部キー)を使用して参照整合性を増大させる開発者もいます。
+Validations such as `validates :foreign_key, uniqueness: true` are one way in
+which models can enforce data integrity. The `:dependent` option on
+associations allows models to automatically destroy child objects when the
+parent is destroyed. Like anything which operates at the application level,
+these cannot guarantee referential integrity and so some people augment them
+with [foreign key constraints](#foreign-keys) in the database.
 
-Active Recordだけではこうした外部機能を扱うツールをすべて提供することはできませんが、`execute`メソッドを使用して任意のSQLを実行することができます。
+Although Active Record does not provide all the tools for working directly with
+such features, the `execute` method can be used to execute arbitrary SQL.
 
-マイグレーションとシードデータ
+Migrations and Seed Data
 ------------------------
 
-データベースにデータを追加するのにマイグレーションが使用されることがあります。
+Some people use migrations to add data to the database:
 
 ```ruby
 class AddInitialProducts < ActiveRecord::Migration
@@ -792,7 +1004,9 @@ class AddInitialProducts < ActiveRecord::Migration
 end
 ```
 
-しかしRailsには初期データをデータベースに与えるためのシード機能があります。これは、`db/seeds.rb`ファイルに若干のRubyコードを追加して`rake db:seed`を実行するだけですぐに利用できます。
+However, Rails has a 'seeds' feature that should be used for seeding a database
+with initial data. It's a really simple feature: just fill up `db/seeds.rb`
+with some Ruby code, and run `rake db:seed`:
 
 ```ruby
 5.times do |i|
@@ -800,4 +1014,5 @@ end
 end
 ```
 
-この方法なら、マイグレーションを使用するよりもずっとクリーンに空のアプリケーションのデータベースを設定できます。
+This is generally a much cleaner way to set up the database of a blank
+application.

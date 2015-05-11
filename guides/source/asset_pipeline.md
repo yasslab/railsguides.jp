@@ -1,35 +1,40 @@
-﻿
-アセットパイプライン
+The Asset Pipeline
 ==================
 
-本ガイドでは、アセットパイプライン (asset pipeline) について解説します。
+This guide covers the asset pipeline.
 
-このガイドの内容:
+After reading this guide, you will know:
 
-* アセットパイプラインの概要と機能
-* アプリケーションのアセットを正しく編成する方法
-* アセットパイプラインのメリット
-* アセットパイプラインにプリプロセッサを追加する
-* アセットをgemパッケージにする
+* What the asset pipeline is and what it does.
+* How to properly organize your application assets.
+* The benefits of the asset pipeline.
+* How to add a pre-processor to the pipeline.
+* How to package assets with a gem.
 
 --------------------------------------------------------------------------------
 
-アセットパイプラインについて
+What is the Asset Pipeline?
 ---------------------------
 
-アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSASS、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。
+The asset pipeline provides a framework to concatenate and minify or compress
+JavaScript and CSS assets. It also adds the ability to write these assets in
+other languages and pre-processors such as CoffeeScript, Sass and ERB.
 
-技術的には、アセットパイプラインは既にRails 4のコア機能ではありません。フレームワークから分離され、[sprockets-rails](https://github.com/rails/sprockets-rails)というgemに書き出されています。
+The asset pipeline is technically no longer a core feature of Rails 4, it has
+been extracted out of the framework into the
+[sprockets-rails](https://github.com/rails/sprockets-rails) gem.
 
-Railsではデフォルトでアセットパイプラインが有効になっています。
+The asset pipeline is enabled by default.
 
-Railsアプリケーションを新規作成する際にアセットパイプラインをオフにしたい場合は、以下のように`--skip-sprockets`オプションを渡します。
+You can disable the asset pipeline while creating a new application by
+passing the `--skip-sprockets` option.
 
 ```bash
 rails new appname --skip-sprockets
 ```
 
-Rails 4では`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
+Rails 4 automatically adds the `sass-rails`, `coffee-rails` and `uglifier`
+gems to your Gemfile, which are used by Sprockets for asset compression:
 
 ```ruby
 gem 'sass-rails'
@@ -37,128 +42,213 @@ gem 'uglifier'
 gem 'coffee-rails'
 ```
 
-`--skip-sprockets`オプションを使用すると、Rails 4で`sass-rails`と`uglifier`がGemfileに追加されなくなります。アセットパイプラインを後から有効にしたい場合は、これらのgemもGemfileに追加する必要があります。同様に、アプリケーション新規作成時に`--skip-sprockets`オプションを指定すると`config/application.rb`ファイルの記述内容がデフォルトから若干異なります。具体的にはsprocket railtieで必要となる記述がコメントアウトされます。アセットパイプラインを手動で有効にする場合は、これらのコメントアウトも解除する必要があります。
+Using the `--skip-sprockets` option will prevent Rails 4 from adding
+`sass-rails` and `uglifier` to Gemfile, so if you later want to enable
+the asset pipeline you will have to add those gems to your Gemfile. Also,
+creating an application with the `--skip-sprockets` option will generate
+a slightly different `config/application.rb` file, with a require statement
+for the sprockets railtie that is commented-out. You will have to remove
+the comment operator on that line to later enable the asset pipeline:
 
 ```ruby
 # require "sprockets/railtie"
 ```
 
-アセット圧縮方式を指定するには、`production.rb`の該当する設定オプションを設定します。`config.assets.css_compressor`はCSSの圧縮方式、`config.assets.js_compressor`はJavaScriptの圧縮方式をそれぞれ指定します。
+To set asset compression methods, set the appropriate configuration options
+in `production.rb` - `config.assets.css_compressor` for your CSS and
+`config.assets.js_compressor` for your JavaScript:
 
 ```ruby
 config.assets.css_compressor = :yui
 config.assets.js_compressor = :uglifier
 ```
 
-NOTE: `sass-rails` gemがGemfileに含まれていれば自動的にCSS圧縮に使用されます。この場合`config.assets.css_compressor`オプションは設定されません。
+NOTE: The `sass-rails` gem is automatically used for CSS compression if included
+in Gemfile and no `config.assets.css_compressor` option is set.
 
 
-### 主要な機能
+### Main Features
 
-アセットパイプラインの第一の機能はアセットを連結することです。これにより、ブラウザがWebページをレンダリングするためのリクエスト数を減らすことができます。Webブラウザが同時に処理できるリクエスト数には限りがあるため、同時リクエスト数を減らすことができればその分読み込みが高速になります。
+The first feature of the pipeline is to concatenate assets, which can reduce the
+number of requests that a browser makes to render a web page. Web browsers are
+limited in the number of requests that they can make in parallel, so fewer
+requests can mean faster loading for your application.
 
-SprocketsはすべてのJavaScriptファイルを1つのマスター`.js`ファイルに連結し、すべてのCSSファイルを1つのマスター`.css`ファイルに連結します。本ガイドで後述するように、アセットファイルをグループ化する方法は自由にカスタマイズできます。production環境では、アセットファイル名にMD5フィンガープリントを挿入し、アセットファイルがWebブラウザでキャッシュされるようにしています。このフィンガープリントを変更することでブラウザでキャッシュされていた既存のアセットを無効にすることができます。フィンガープリントの変更は、アセットファイルの内容が変更された時に自動的に行われます。
+Sprockets concatenates all JavaScript files into one master `.js` file and all
+CSS files into one master `.css` file. As you'll learn later in this guide, you
+can customize this strategy to group files any way you like. In production,
+Rails inserts an MD5 fingerprint into each filename so that the file is cached
+by the web browser. You can invalidate the cache by altering this fingerprint,
+which happens automatically whenever you change the file contents.
 
-アセットパイプラインのもうひとつの機能はアセットの最小化 (一種の圧縮) です。CSSファイルの最小化は、ホワイトスペースとコメントを削除することによって行われます。JavaScriptの最小化プロセスはもう少し複雑です。最小化方法はビルトインのオプションから選んだり、独自に指定したりすることができます。
+The second feature of the asset pipeline is asset minification or compression.
+For CSS files, this is done by removing whitespace and comments. For JavaScript,
+more complex processes can be applied. You can choose from a set of built in
+options or specify your own.
 
-アセットパイプラインの第3の機能は、より高級な言語を使用したコーディングのサポートです。これらの言語で記述されたコードはプリコンパイルされ、実際のアセットになります。デフォルトでサポートされている言語は、CSSに代わるSASS、JavaScriptに代わるCoffeeScript、CSS/JavaScriptに代わるERBです。
+The third feature of the asset pipeline is it allows coding assets via a
+higher-level language, with precompilation down to the actual assets. Supported
+languages include Sass for CSS, CoffeeScript for JavaScript, and ERB for both by
+default.
 
-### フィンガープリントと注意点
+### What is Fingerprinting and Why Should I Care?
 
-アセットファイル名で使用されるフィンガープリントは、アセットファイルの内容に応じて変わります。アセットファイルの内容が少しでも変わると、アセットファイル名も必ずそれに応じて変わります (訳注: MD5の性質により、異なるファイルからたまたま同じフィンガープリントが生成されることはほぼありません)。変更されていないファイルやめったに変更されないファイルがある場合、フィンガープリントも変化しないので、ファイルの内容が完全に同一であることが容易に確認できます。これはサーバーやデプロイ日が異なっていても有効です。
+Fingerprinting is a technique that makes the name of a file dependent on the
+contents of the file. When the file contents change, the filename is also
+changed. For content that is static or infrequently changed, this provides an
+easy way to tell whether two versions of a file are identical, even across
+different servers or deployment dates.
 
-アセットファイル名は内容が変わると必ず変化するので、CDN、ISP、ネットワーク機器、Webブラウザなどあらゆる場面で有効なキャッシュをHTTPヘッダに設定することができます。ファイルの内容が更新されると、フィンガープリントも更新されます。これにより、リモートクライアントは (訳注: 既存のキャッシュを使用せずに) コンテンツの新しいコピーをサーバーにリクエストします。この手法を一般に _キャッシュ破棄 (cache busting)_ と呼びます。
+When a filename is unique and based on its content, HTTP headers can be set to
+encourage caches everywhere (whether at CDNs, at ISPs, in networking equipment,
+or in web browsers) to keep their own copy of the content. When the content is
+updated, the fingerprint will change. This will cause the remote clients to
+request a new copy of the content. This is generally known as _cache busting_.
 
-Sprocketsがフィンガープリントを使用する際には、ファイルの内容をハッシュ化したものをファイル名 (通常は末尾) に追加します。たとえば、`global.css`というCSSファイル名は以下のようになります。
+The technique sprockets uses for fingerprinting is to insert a hash of the
+content into the name, usually at the end. For example a CSS file `global.css`
 
 ```
 global-908e25f4bf641868d8683022a5b62f54.css
 ```
 
-これはRailsのアセットパイプラインの戦略として採用されています。
+This is the strategy adopted by the Rails asset pipeline.
 
-以前のRailsでは、ビルトインのヘルパーにリンクされているすべてのアセットに日付ベースのクエリ文字列を追加するという戦略が使用されていました。当時のソースで生成されたコードは以下のようになります。
+Rails' old strategy was to append a date-based query string to every asset linked
+with a built-in helper. In the source the generated code looked like this:
 
 ```
 /stylesheets/global.css?1309495796
 ```
 
-このクエリ文字列ベースの戦略には多くの問題点があります。
+The query string strategy has several disadvantages:
 
-1. **クエリパラメータ以外にファイル名に違いのないコンテンツは確実にキャッシュされないことがある**
+1. **Not all caches will reliably cache content where the filename only differs by
+query parameters**
 
-    [Steve Soudersのブログ記事](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)によると、「キャッシュされる可能性のあるリソースにクエリ文字列でアクセスするのは避けること」が推奨されています。Steveは、5%から20%ものリクエストがキャッシュされていないことに気付きました。クエリ文字列は、キャッシュ無効化が発生する一部のCDNでは役に立ちません。
+    [Steve Souders recommends](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/),
+ "...avoiding a querystring for cacheable resources". He found that in this
+case 5-20% of requests will not be cached. Query strings in particular do not
+work at all with some CDNs for cache invalidation.
 
-2. **マルチサーバー環境でファイル名が異なってしまうことがある**
+2. **The file name can change between nodes in multi-server environments.**
 
-    Rails 2.xのデフォルトのクエリ文字列はファイルの更新日付に基いていました。このアセットをサーバークラスタにデプロイすると、サーバー間でファイルのタイムスタンプが同じになる保証がないため、リクエストを受けるサーバーが変わるたびに値が異なってしまいます。
+    The default query string in Rails 2.x is based on the modification time of
+the files. When assets are deployed to a cluster, there is no guarantee that the
+timestamps will be the same, resulting in different values being used depending
+on which server handles the request.
 
-3. **キャッシュの無効化が過剰に発生する**
+3. **Too much cache invalidation**
 
-    コードリリース時のデプロイが行われると、アセットに変更があるかどうかにかかわらず _すべての_ ファイルのmtime (最後に更新された時刻) が変更されてしまいます。このため、アセットに変更がなくてもWebブラウザを含むあらゆるリモートクライアントで強制的にアセットが再取得されてしまいます。
+    When static assets are deployed with each new release of code, the mtime
+(time of last modification) of _all_ these files changes, forcing all remote
+clients to fetch them again, even when the content of those assets has not changed.
 
-フィンガープリントが導入されたことによって上述のクエリ文字列による問題点が解決され、アセットの内容が同じであればファイル名も常に同じになるようになりました。
+Fingerprinting fixes these problems by avoiding query strings, and by ensuring
+that filenames are consistent based on their content.
 
-フィンガープリントはproduction環境ではデフォルトでオンになっており、それ以外の環境ではオフになります。設定ファイルで`config.assets.digest`オプションを使用してフィンガープリントのオン/オフを制御できます。
+Fingerprinting is enabled by default for production and disabled for all other
+environments. You can enable or disable it in your configuration through the
+`config.assets.digest` option.
 
-詳細については以下を参照してください。
+More reading:
 
-* [キャッシュの最適化](http://code.google.com/speed/page-speed/docs/caching.html)
-* [ファイル名の変更にクエリ文字列を使用してはいけない理由](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
+* [Optimize caching](http://code.google.com/speed/page-speed/docs/caching.html)
+* [Revving Filenames: don't use querystring](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 
 
-アセットパイプラインの使用方法
+How to Use the Asset Pipeline
 -----------------------------
 
-以前のRailsでは、すべてのアセットは`public`ディレクトリの下の`images`、`javascripts`、`stylesheets`などのサブフォルダに置かれました。アセットパイプライン導入後は、`app/assets`ディレクトリがアセットの置き場所として推奨されています。このディレクトリに置かれたファイルはSprocketsミドルウェアによってサポートされます。
+In previous versions of Rails, all assets were located in subdirectories of
+`public` such as `images`, `javascripts` and `stylesheets`. With the asset
+pipeline, the preferred location for these assets is now the `app/assets`
+directory. Files in this directory are served by the Sprockets middleware.
 
-アセットは引き続き`public`ディレクトリ以下に置くことも可能です。`config.serve_static_assets`がtrueに設定されていると、`public`ディレクトリ以下に置かれているあらゆるアセットはアプリケーションまたはWebサーバーによって静的なファイルとして取り扱われます。プリプロセスが必要なファイルは`app/assets`ディレクトリの下に置く必要があります。
+Assets can still be placed in the `public` hierarchy. Any assets under `public`
+will be served as static files by the application or web server when
+`config.serve_static_files` is set to true. You should use `app/assets` for
+files that must undergo some pre-processing before they are served.
 
-Railsは、productionモードではデフォルトで`public/assets`ファイルをプリコンパイルします。このプリコンパイルされたファイルがWebサーバーによって静的なアセットとして扱われます。`app/assets`に置かれたファイルがそのままの形でproduction環境で使用されることは決してありません。
+In production, Rails precompiles these files to `public/assets` by default. The
+precompiled copies are then served as static assets by the web server. The files
+in `app/assets` are never served directly in production.
 
-### コントローラ固有のアセット
+### Controller Specific Assets
 
-Railsでscaffoldやコントローラを生成すると、JavaScriptファイル (`coffee-rails` gemが`Gemfile`で有効になっている場合はCoffeeScript) とCSS (`sass-rails` gemが`Gemfile`で有効になっている場合はSCSS) もそのコントローラ用に生成されます。scaffold生成時には、さらにscaffolds.css (`sass-rails` gemが`Gemfile`で有効になっている場合はscaffolds.css.scss) も生成されます。
+When you generate a scaffold or a controller, Rails also generates a JavaScript
+file (or CoffeeScript file if the `coffee-rails` gem is in the `Gemfile`) and a
+Cascading Style Sheet file (or SCSS file if `sass-rails` is in the `Gemfile`)
+for that controller. Additionally, when generating a scaffold, Rails generates
+the file scaffolds.css (or scaffolds.css.scss if `sass-rails` is in the
+`Gemfile`.)
 
-たとえば`ProjectsController`を生成すると、`app/assets/javascripts/projects.js.coffee`ファイルと`app/assets/stylesheets/projects.css.scss`ファイルが新しく作成されます。`require_tree`ディレクティブを使用すると、これらのファイルを即座にアプリケーションから利用できます。require_treeの詳細については[マニフェストファイルとディレクティブ](#マニフェストファイルとディレクティブ)を参照してください。
+For example, if you generate a `ProjectsController`, Rails will also add a new
+file at `app/assets/javascripts/projects.js.coffee` and another at
+`app/assets/stylesheets/projects.css.scss`. By default these files will be ready
+to use by your application immediately using the `require_tree` directive. See
+[Manifest Files and Directives](#manifest-files-and-directives) for more details
+on require_tree.
 
-関連するコントローラで以下のコードを使用することで、コントローラ固有のスタイルシートやJavaScriptファイルをそのコントローラだけで使用できます。
+You can also opt to include controller specific stylesheets and JavaScript files
+only in their respective controllers using the following:
 
-`<%= javascript_include_tag params[:controller] %>` または `<%= stylesheet_link_tag params[:controller] %>`
+`<%= javascript_include_tag params[:controller] %>` or `<%= stylesheet_link_tag
+params[:controller] %>`
 
-上のコードを使用する際は、`require_tree`ディレクティブを使用していないことを必ず確認してください。`require_tree`と併用すると、アセットが2回以上インクルードされてしまいます。
+When doing this, ensure you are not using the `require_tree` directive, as that
+will result in your assets being included more than once.
 
-WARNING: アセットのプリコンパイルを使用する場合、ページが読み込まれるたびにコントローラのアセットがプリコンパイルされるようにしておく必要があります。デフォルトでは、.coffeeファイルと.scssファイルは自動ではプリコンパイルされません。プリコンパイルの動作の詳細については、[アセットをプリコンパイルする](#アセットをプリコンパイルする)を参照してください。
+WARNING: When using asset precompilation, you will need to ensure that your
+controller assets will be precompiled when loading them on a per page basis. By
+default .coffee and .scss files will not be precompiled on their own. See
+[Precompiling Assets](#precompiling-assets) for more information on how
+precompiling works.
 
-NOTE: CoffeeScriptを使用するには、ExecJSがランタイムでサポートされている必要があります。Mac OS XまたはWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。サポートされているすべてのJavaScriptランタイムに関するドキュメントは、[ExecJS](https://github.com/sstephenson/execjs#readme) で参照できます。
+NOTE: You must have an ExecJS supported runtime in order to use CoffeeScript.
+If you are using Mac OS X or Windows, you have a JavaScript runtime installed in
+your operating system. Check [ExecJS](https://github.com/rails/execjs#readme) documentation to know all supported JavaScript runtimes.
 
-`config/application.rb`設定に以下を追加することで、コントローラ固有のアセットファイル生成を止めることもできます。
+You can also disable generation of controller specific asset files by adding the
+following to your `config/application.rb` configuration:
 
 ```ruby
-config.generators do |g|
-  g.assets false
-end 
+  config.generators do |g|
+    g.assets false
+  end
 ```
 
-### アセットの編成
+### Asset Organization
 
-パイプラインのアセットは、アプリケーション内の`app/assets`、`lib/assets`、`vendor/assets`の3つのディレクトリのいずれかに置くことができます。
+Pipeline assets can be placed inside an application in one of three locations:
+`app/assets`, `lib/assets` or `vendor/assets`.
 
-* `app/assets`は、カスタム画像ファイル、JavaScript、スタイルシートなど、アプリケーション自身が保有するアセットの置き場所です。
+* `app/assets` is for assets that are owned by the application, such as custom
+images, JavaScript files or stylesheets.
 
-* `lib/assets`は、1つのアプリケーションの範疇に収まらないライブラリのコードや、複数のアプリケーションで共有されるライブラリのコードを置く場所です。
+* `lib/assets` is for your own libraries' code that doesn't really fit into the
+scope of the application or those libraries which are shared across applications.
 
-* `vendor/assets`は、JavaScriptプラグインやCSSフレームワークなど、外部の団体などによって所有されているアセットの置き場所です。
+* `vendor/assets` is for assets that are owned by outside entities, such as
+code for JavaScript plugins and CSS frameworks. Keep in mind that third party
+code with references to other files also processed by the asset Pipeline (images,
+stylesheets, etc.), will need to be rewritten to use helpers like `asset_path`.
 
-WARNING: Rails 3からのアップグレードを行なう際には、`lib/assets`と`vendor/assets`の下に置かれているアセットがRails 4ではアプリケーションのマニフェストによってインクルードされて利用可能になること、しかしプリコンパイルアレイの一部には含まれなくなることを考慮に入れてください。ガイダンスについては[アセットをプリコンパイルする](#アセットをプリコンパイルする)を参照してください。
+WARNING: If you are upgrading from Rails 3, please take into account that assets
+under `lib/assets` or `vendor/assets` are available for inclusion via the
+application manifests but no longer part of the precompile array. See
+[Precompiling Assets](#precompiling-assets) for guidance.
 
-#### パスの検索
+#### Search Paths
 
-ファイルがマニフェストやヘルパーから参照される場合、Sprocketsはデフォルトのアセットの置き場所である3つのディレクトリからファイルを探します。
+When a file is referenced from a manifest or a helper, Sprockets searches the
+three default asset locations for it.
 
-3つのディレクトリとは、`app/assets`の下にある`images`、`javascripts`、`stylesheets`ディレクトリです。ただしこれらのサブディレクトリは特殊なものではなく、実際には`assets/*`以下のすべてのパスが検索対象になります。
+The default locations are: the `images`, `javascripts` and `stylesheets`
+directories under the `app/assets` folder, but these subdirectories
+are not special - any path under `assets/*` will be searched.
 
-以下のファイルを例に説明します。
+For example, these files:
 
 ```
 app/assets/javascripts/home.js
@@ -167,7 +257,7 @@ vendor/assets/javascripts/slider.js
 vendor/assets/somepackage/phonebox.js
 ```
 
-上のファイルはマニフェスト内で以下のように参照されます。
+would be referenced in a manifest like this:
 
 ```js
 //= require home
@@ -176,134 +266,183 @@ vendor/assets/somepackage/phonebox.js
 //= require phonebox
 ```
 
-サブディレクトリ内のアセットにもアクセスできます。
+Assets inside subdirectories can also be accessed.
 
 ```
 app/assets/javascripts/sub/something.js
 ```
 
-上のファイルは以下のように参照されます。
+is referenced as:
 
 ```js
 //= require sub/something
 ```
 
-検索パスを調べるには、Railsコンソールで`Rails.application.config.assets.paths`を調べます。
+You can view the search path by inspecting
+`Rails.application.config.assets.paths` in the Rails console.
 
-`config/application.rb`に記述することで、標準の`assets/*`に加えて追加の (fully qualified) パスをパイプラインに追加することができます。以下の例で説明します。
+Besides the standard `assets/*` paths, additional (fully qualified) paths can be
+added to the pipeline in `config/application.rb`. For example:
 
 ```ruby
 config.assets.paths << Rails.root.join("lib", "videoplayer", "flash")
 ```
 
-パスの探索は、検索パスでの出現順で行われます。デフォルトでは`app/assets`の検索が優先されるので、対応するパスが`lib`や`vendor`にある場合はマスクされます。
+Paths are traversed in the order they occur in the search path. By default,
+this means the files in `app/assets` take precedence, and will mask
+corresponding paths in `lib` and `vendor`.
 
-ここでご注意いただきたいのは、参照したいファイルがマニフェストの外にある場合はそれらをプリコンパイルアレイに追加しなければならないこと、さらにこれらはproduction環境では利用できないという点です。
+It is important to note that files you want to reference outside a manifest must
+be added to the precompile array or they will not be available in the production
+environment.
 
-#### indexファイルを使用する
+#### Using Index Files
 
-Sprocketsでは、`index`という名前のファイル (および関連する拡張子) を特殊な目的に使用します。
+Sprockets uses files named `index` (with the relevant extensions) for a special
+purpose.
 
-たとえば、たくさんのモジュールがあるjQueryライブラリを使用していて、それらが`lib/assets/javascripts/library_name`に保存されているとします。この`lib/assets/javascripts/library_name/index.js`ファイルはそのライブラリ内のすべてのファイルで利用できるマニフェストとして機能します。このファイルには必要なファイルをすべて順に記述するか、あるいは単に`require_tree`と記述します。
+For example, if you have a jQuery library with many modules, which is stored in
+`lib/assets/javascripts/library_name`, the file `lib/assets/javascripts/library_name/index.js` serves as
+the manifest for all files in this library. This file could include a list of
+all the required files in order, or a simple `require_tree` directive.
 
-一般に、このライブラリはアプリケーションマニフェストに以下のように記述することでアクセスできます。
+The library as a whole can be accessed in the application manifest like so:
 
 ```js
 //= require library_name
 ```
 
-このように記述することで、他でインクルードする前に関連するコードをグループ化できるようになり、記述が簡潔になり保守がしやすくなります。
+This simplifies maintenance and keeps things clean by allowing related code to
+be grouped before inclusion elsewhere.
 
-### アセットにリンクするコードを書く
+### Coding Links to Assets
 
-Sprocketsはアセットにアクセスするためのメソッドを特に追加しません。従来同様`javascript_include_tag`と`stylesheet_link_tag`を使用します。
+Sprockets does not add any new methods to access your assets - you still use the
+familiar `javascript_include_tag` and `stylesheet_link_tag`:
 
 ```erb
 <%= stylesheet_link_tag "application", media: "all" %>
 <%= javascript_include_tag "application" %>
 ```
 
-Rails 4から同梱されるようになったturbolinks gemを使用している場合、'data-turbolinks-track'オプションが利用できます。これはアセットが更新されてページに読み込まれたかどうかをturbolinksがチェックします。
+If using the turbolinks gem, which is included by default in Rails 4, then
+include the 'data-turbolinks-track' option which causes turbolinks to check if
+an asset has been updated and if so loads it into the page:
 
 ```erb
 <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 ```
 
-通常のビューでは以下のような方法で`public/assets/images`ディレクトリの画像にアクセスできます。
+In regular views you can access images in the `public/assets/images` directory
+like this:
 
 ```erb
 <%= image_tag "rails.png" %>
 ```
 
-パイプラインが有効でかつ現在の環境で無効になっていない場合、このファイルはSprocketsによって扱われます。ファイルが`public/assets/rails.png`に置かれている場合、Webサーバーによって扱われます。
+Provided that the pipeline is enabled within your application (and not disabled
+in the current environment context), this file is served by Sprockets. If a file
+exists at `public/assets/rails.png` it is served by the web server.
 
-`public/assets/rails-af27b6a414e6da00003503148be9b409.png`など、ファイル名にMD5ハッシュを含むファイルへのリクエストについても同様に扱われます。ハッシュの生成法については、本ガイドの[production環境の場合](#production環境の場合)で後述します。
+Alternatively, a request for a file with an MD5 hash such as
+`public/assets/rails-af27b6a414e6da00003503148be9b409.png` is treated the same
+way. How these hashes are generated is covered in the [In
+Production](#in-production) section later on in this guide.
 
-Sprocketsは`config.assets.paths`で指定したパスも探索します。このパスには、標準的なアプリケーションパスと、Railsエンジンによって追加されるすべてのパスが含まれます。
+Sprockets will also look through the paths specified in `config.assets.paths`,
+which includes the standard application paths and any paths added by Rails
+engines.
 
-必要であれば画像ファイルをサブディレクトリに置いて整理することもできます。この画像にアクセスするには、ディレクトリ名を含めて以下のようにタグで指定します。
+Images can also be organized into subdirectories if required, and then can be
+accessed by specifying the directory's name in the tag:
 
 ```erb
 <%= image_tag "icons/rails.png" %>
 ```
 
-WARNING: アセットのプリコンパイルを行っている場合 ([production環境の場合](#production環境の場合)参照)、存在しないアセットへのリンクを含むページを呼び出すと例外が発生します。空文字へのリンクも同様に例外が発生します。ユーザーから提供されたデータに対して`image_tag`などのヘルパーを使用する場合はご注意ください。
+WARNING: If you're precompiling your assets (see [In Production](#in-production)
+below), linking to an asset that does not exist will raise an exception in the
+calling page. This includes linking to a blank string. As such, be careful using
+`image_tag` and the other helpers with user-supplied data.
 
-#### CSSとERB 
+#### CSS and ERB
 
-アセットパイプラインは自動的にERBを評価します。たとえば、cssアセットファイルに`erb`という拡張子を追加すると (`application.css.erb`など)、CSSルール内で`asset_path`などのヘルパーが使用できるようになります。
+The asset pipeline automatically evaluates ERB. This means if you add an
+`erb` extension to a CSS asset (for example, `application.css.erb`), then
+helpers like `asset_path` are available in your CSS rules:
 
 ```css
 .class { background-image: url(<%= asset_path 'image.png' %>) }
 ```
 
-これは、指定されたアセットへのパスを記述します。上の例では、アセット読み込みパスのいずれかにある画像ファイル (`app/assets/images/image.png`など) が指定されたと解釈されます。この画像が既にフィンガープリント付きで`public/assets`にあれば、このパスによる参照は有効になります。
+This writes the path to the particular asset being referenced. In this example,
+it would make sense to have an image in one of the asset load paths, such as
+`app/assets/images/image.png`, which would be referenced here. If this image is
+already available in `public/assets` as a fingerprinted file, then that path is
+referenced.
 
-[データURIスキーム](http://ja.wikipedia.org/wiki/Data_URI_scheme) (CSSファイルにデータを直接埋め込む手法) を使用したい場合は、`asset_data_uri`を使用できます。
+If you want to use a [data URI](http://en.wikipedia.org/wiki/Data_URI_scheme) -
+a method of embedding the image data directly into the CSS file - you can use
+the `asset_data_uri` helper.
 
 ```css
 #logo { background: url(<%= asset_data_uri 'logo.png' %>) }
 ```
 
-上のコードは、CSSソースに正しくフォーマットされたdata URIを挿入します。
+This inserts a correctly-formatted data URI into the CSS source.
 
-この場合、`-%>`でタグを閉じることはできませんのでご注意ください。
+Note that the closing tag cannot be of the style `-%>`.
 
-#### CSSとSass
+#### CSS and Sass
 
-アセットパイプラインを使用する場合、最終的にアセットへのパスを変換する必要があります。このために、`sass-rails` gemは名前が`-url`や`-path`で終わる (Sass内ではハイフンですが、Rubyではアンダースコアで表します) 各種ヘルパーを提供しています。ヘルパーがサポートするアセットクラスは、画像、フォント、ビデオ、音声、JavaScript、stylesheetです。
+When using the asset pipeline, paths to assets must be re-written and
+`sass-rails` provides `-url` and `-path` helpers (hyphenated in Sass,
+underscored in Ruby) for the following asset classes: image, font, video, audio,
+JavaScript and stylesheet.
 
-* `image-url("rails.png")`は`url(/assets/rails.png)`に変換される
-* `image-path("rails.png")`は`"/assets/rails.png"`に変換される
+* `image-url("rails.png")` becomes `url(/assets/rails.png)`
+* `image-path("rails.png")` becomes `"/assets/rails.png"`.
 
-以下のような、より一般的な記法を使用することもできます。
+The more generic form can also be used:
 
-* `asset-url("rails.png")`は`url(/assets/rails.png)`に変換される
-* `asset-path("rails.png")`は`"/assets/rails.png"`に変換される
+* `asset-url("rails.png")` becomes `url(/assets/rails.png)`
+* `asset-path("rails.png")` becomes `"/assets/rails.png"`
 
-#### JavaScript/CoffeeScriptとERB
+#### JavaScript/CoffeeScript and ERB
 
-JavaScriptアセットに`erb`拡張子を追加すると (`application.js.erb`など)、以下のようにJavaScriptコード内で`asset_path`ヘルパーを使用できます。
+If you add an `erb` extension to a JavaScript asset, making it something such as
+`application.js.erb`, you can then use the `asset_path` helper in your
+JavaScript code:
 
 ```js
 $('#logo').attr({ src: "<%= asset_path('logo.png') %>" });
 ```
 
-これは、指定されたアセットへのパスを記述します。
+This writes the path to the particular asset being referenced.
 
-CoffeeScriptファイルでも、`application.js.coffee.erb`のように`erb`拡張子を追加することで同様に`asset_path`ヘルパーを使用できます 。
+Similarly, you can use the `asset_path` helper in CoffeeScript files with `erb`
+extension (e.g., `application.js.coffee.erb`):
 
 ```js
 $('#logo').attr src: "<%= asset_path('logo.png') %>"
 ```
 
-### マニフェストファイルとディレクティブ
+### Manifest Files and Directives
 
-Sprocketsでは、どのアセットをインクルードしてサポートするかを指定するのにマニフェストファイルを使用します。マニフェストファイルには _ディレクティブ (directive: 命令、指示)_ を含めます。ディレクティブを使用して必要なファイルを指定し、それに基いて最終的に単一のCSSやJavaScriptファイルがビルドされます。Sprocketsはディレクティブで指定されたファイルを読み込み、必要に応じて処理を行い、連結して単一のファイルを生成し、圧縮します (`Rails.application.config.assets.compress`がtrueの場合)。ファイルを連結してひとつにすることにより、ブラウザからサーバーへのリクエスト数を減らすことができ、ページの読み込み時間が大きく短縮されます。圧縮することによってもファイルサイズが小さくなり、ブラウザへの読み込み時間が短縮されます。
+Sprockets uses manifest files to determine which assets to include and serve.
+These manifest files contain _directives_ - instructions that tell Sprockets
+which files to require in order to build a single CSS or JavaScript file. With
+these directives, Sprockets loads the files specified, processes them if
+necessary, concatenates them into one single file and then compresses them (if
+`Rails.application.config.assets.compress` is true). By serving one file rather
+than many, the load time of pages can be greatly reduced because the browser
+makes fewer requests. Compression also reduces file size, enabling the
+browser to download them faster.
 
 
-新規作成したRails 4アプリケーションにはデフォルトで`app/assets/javascripts/application.js`ファイルに以下のような記述が含まれています。
+For example, a new Rails 4 application includes a default
+`app/assets/javascripts/application.js` file containing the following lines:
 
 ```js
 // ...
@@ -312,13 +451,29 @@ Sprocketsでは、どのアセットをインクルードしてサポートす�
 //= require_tree .
 ```
 
-JavaScriptのSprocketsディレクティブは`//=`で始まります。上の例では`require`と`require_tree`というディレクティブが使用されています。`require`は、必要なファイルをSprocketsに指定するのに使用します。ここでは`jquery.js`と`jquery_ujs.js`を必要なファイルとして指定しています。これらのファイルはSprocketsの検索パスのどこかから読み込み可能になっています。このディレクティブでは拡張子を明示的に指定する必要はありません。ディレクティブが`.js`ファイルに書かれていれば、Sprocketsによって自動的に`.js`ファイルが必要ファイルとして指定されます。
+In JavaScript files, Sprockets directives begin with `//=`. In the above case,
+the file is using the `require` and the `require_tree` directives. The `require`
+directive is used to tell Sprockets the files you wish to require. Here, you are
+requiring the files `jquery.js` and `jquery_ujs.js` that are available somewhere
+in the search path for Sprockets. You need not supply the extensions explicitly.
+Sprockets assumes you are requiring a `.js` file when done from within a `.js`
+file.
 
-`require_tree`ディレクティブは、指定されたディレクトリ以下の _すべての_ JavaScriptファイルを再帰的にインクルードし、出力に含めます。このパスは、マニフェストファイルからの相対パスとして指定する必要があります。`require_directory`ディレクティブを使用すると、指定されたディレクトリの直下にあるすべてのJavaScriptファイルのみをインクルードします。この場合サブディレクトリを再帰的に探索しません。
+The `require_tree` directive tells Sprockets to recursively include _all_
+JavaScript files in the specified directory into the output. These paths must be
+specified relative to the manifest file. You can also use the
+`require_directory` directive which includes all JavaScript files only in the
+directory specified, without recursion.
 
-ディレクティブは記載した順に実行されますが、`require_tree`でインクルードされるファイルの読み込み順序は指定できません。従って、特定の読み込み順に依存しないようにする必要があります。もしどうしても特定のJavaScriptファイルを他のJavaScriptファイルよりも結合順を先にしたい場合、そのファイルへのrequireディレクティブをマニフェストの最初に置きます。`require`および類似のディレクティブは、出力時に同じファイルを2回以上インクルードしないようになっています。
+Directives are processed top to bottom, but the order in which files are
+included by `require_tree` is unspecified. You should not rely on any particular
+order among those. If you need to ensure some particular JavaScript ends up
+above some other in the concatenated file, require the prerequisite file first
+in the manifest. Note that the family of `require` directives prevents files
+from being included twice in the output.
 
-Railsは以下の行を含むデフォルトの`app/assets/stylesheets/application.css`ファイルも作成します。
+Rails also creates a default `app/assets/stylesheets/application.css` file
+which contains these lines:
 
 ```css
 /* ...
@@ -327,19 +482,32 @@ Railsは以下の行を含むデフォルトの`app/assets/stylesheets/applicati
 */
 ```
 
-Rails 4は`app/assets/javascripts/application.js`と`app/assets/stylesheets/application.css`ファイルを両方作成します。これはRailsアプリケーション新規作成時に--skip-sprocketsを指定するかどうかにかかわらず行われます。これにより、必要に応じて後からアセットパイプラインを追加することもできます。
+Rails 4 creates both `app/assets/javascripts/application.js` and
+`app/assets/stylesheets/application.css` regardless of whether the
+--skip-sprockets option is used when creating a new rails application. This is
+so you can easily add asset pipelining later if you like.
 
-JavaScriptで使用できるディレクティブはスタイルシートでも使用できます (なおJavaScriptと異なりスタイルシートは明示的にインクルードされるという違いがあります)。CSSマニフェストにおける`require_tree`ディレクティブの動作はJavaScriptの場合と同様に現在のディレクトリにあるすべてのスタイルシートをrequireします。
+The directives that work in JavaScript files also work in stylesheets
+(though obviously including stylesheets rather than JavaScript files). The
+`require_tree` directive in a CSS manifest works the same way as the JavaScript
+one, requiring all stylesheets from the current directory.
 
-上の例では`require_self`が使用されています。このディレクティブは、`require_self`呼び出しが行われたその場所にCSSファイルがあれば読み込みます。
+In this example, `require_self` is used. This puts the CSS contained within the
+file (if any) at the precise location of the `require_self` call.
 
-NOTE: Sassファイルを複数使用しているのであれば、Sprocketsディレクティブで読み込まずに[Sass `@import`ルール](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#import)を使用する必要があります。このような場合にSprocketsディレクティブを使用してしまうと、Sassファイルが自分自身のスコープに置かれるため、その中で定義されている変数やミックスインが他のSassから利用できなくなってしまいます。
+NOTE. If you want to use multiple Sass files, you should generally use the [Sass `@import` rule](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#import)
+instead of these Sprockets directives. When using Sprockets directives, Sass files exist within
+their own scope, making variables or mixins only available within the document they were defined in.
 
-`@import "*"`や`@import "**/*"`などのようにワイルドカードマッチでツリー全体を指定することもできます。これは`require_tree`と同等です。詳細および重要な警告については[sass-railsドキュメント](https://github.com/rails/sass-rails#features)を参照してください。
+You can do file globbing as well using `@import "*"`, and `@import "**/*"` to add the whole tree which is equivalent to how `require_tree` works. Check the [sass-rails documentation](https://github.com/rails/sass-rails#features) for more info and important caveats.
 
-マニフェストファイルは必要に応じていくつでも使用できます。たとえば、アプリケーションのadminセクションで使用するJSファイルとCSSファイルを`admin.css`と`admin.js`マニフェストにそれぞれ記載することができます。
+You can have as many manifest files as you need. For example, the `admin.css`
+and `admin.js` manifest could contain the JS and CSS files that are used for the
+admin section of an application.
 
-読み込み順についても前述のとおり反映されます。特に、個別に指定したファイルは、そのとおりの順序でコンパイルされます。たとえば、以下では3つのCSSファイルを結合しています。
+The same remarks about ordering made above apply. In particular, you can specify
+individual files and they are compiled in the order specified. For example, you
+might concatenate three CSS files together this way:
 
 ```js
 /* ...
@@ -349,23 +517,43 @@ NOTE: Sassファイルを複数使用しているのであれば、Sprocketsデ�
 */
 ```
 
-### プリプロセス
+### Preprocessing
 
-適用されるプリプロセスの種類は、アセットファイルの拡張子によって決まります。コントローラやscaffoldをデフォルトのgemセットで生成した場合、通常JavaScriptファイルやCSSファイルが置かれる場所にCoffeeScriptファイルとSCSSファイルがそれぞれ生成されます。先の例では、コントローラ名が"projects"で、`app/assets/javascripts/projects.js.coffee`ファイルと`app/assets/stylesheets/projects.css.scss`ファイルが生成されます。
+The file extensions used on an asset determine what preprocessing is applied.
+When a controller or a scaffold is generated with the default Rails gemset, a
+CoffeeScript file and a SCSS file are generated in place of a regular JavaScript
+and CSS file. The example used before was a controller called "projects", which
+generated an `app/assets/javascripts/projects.js.coffee` and an
+`app/assets/stylesheets/projects.css.scss` file.
 
-developmentモードの場合、あるいはアセットパイプラインが無効になっている場合は、これらのアセットへのリクエストは`coffee-script` gemと`sass` gemが提供するプロセッサによって処理され、それぞれJavaScriptとCSSとしてブラウザへのレスポンスが送信されます。アセットパイプラインが有効になっている場合は、これらのアセットファイルはプリプロセスの対象となり、処理後のファイルが`public/assets`ディレクトリに置かれてRailsアプリケーションまたはWebサーバーによって利用されます。
+In development mode, or if the asset pipeline is disabled, when these files are
+requested they are processed by the processors provided by the `coffee-script`
+and `sass` gems and then sent back to the browser as JavaScript and CSS
+respectively. When asset pipelining is enabled, these files are preprocessed and
+placed in the `public/assets` directory for serving by either the Rails app or
+web server.
 
-アセットファイル名に別の拡張子を追加することにより、プリプロセス時に別のレイヤを追加でリクエストすることができます。アセットファイル名の拡張子は、「右から左」の順に処理されます。従って、アセットファイル名の拡張子は、これに従って処理を行うべき順序で与える必要があります。たとえば、`app/assets/stylesheets/projects.css.scss.erb`というスタイルシートでは、最初にERBとして処理され、続いてSCSS、最後にCSSとして処理されます。同様にして、 `app/assets/javascripts/projects.js.coffee.erb` というJavaScriptファイルの場合では、ERB → CoffeeScript → JavaScript の順に処理されます。
+Additional layers of preprocessing can be requested by adding other extensions,
+where each extension is processed in a right-to-left manner. These should be
+used in the order the processing should be applied. For example, a stylesheet
+called `app/assets/stylesheets/projects.css.scss.erb` is first processed as ERB,
+then SCSS, and finally served as CSS. The same applies to a JavaScript file -
+`app/assets/javascripts/projects.js.coffee.erb` is processed as ERB, then
+CoffeeScript, and served as JavaScript.
 
-このプリプロセス順序は非常に重要ですので、心に留めておいてください。たとえば、仮に`app/assets/javascripts/projects.js.erb.coffee`というファイルを呼び出すと、最初にCoffeeScriptインタプリタによって処理されます。しかしこれは次のERBで処理できないので問題が発生することがあります。
+Keep in mind the order of these preprocessors is important. For example, if
+you called your JavaScript file `app/assets/javascripts/projects.js.erb.coffee`
+then it would be processed with the CoffeeScript interpreter first, which
+wouldn't understand ERB and therefore you would run into problems.
 
 
-development環境の場合
+In Development
 --------------
 
-developmentモードの場合、アセットは個別のファイルとして、マニフェストファイルの記載順に読み込まれます。
+In development mode, assets are served as separate files in the order they are
+specified in the manifest file.
 
-`app/assets/javascripts/application.js`というマニフェストの内容が以下のようになっているとします。
+This manifest `app/assets/javascripts/application.js`:
 
 ```js
 //= require core
@@ -373,7 +561,7 @@ developmentモードの場合、アセットは個別のファイルとして、
 //= require tickets
 ```
 
-上によって以下のHTMLが生成されます。
+would generate this HTML:
 
 ```html
 <script src="/assets/core.js?body=1"></script>
@@ -381,149 +569,171 @@ developmentモードの場合、アセットは個別のファイルとして、
 <script src="/assets/tickets.js?body=1"></script>
 ```
 
-`body`パラメータはSprocketsで必要となります。
+The `body` param is required by Sprockets.
 
-### ランタイムエラーをチェックする
+### Runtime Error Checking
 
-アセットパイプラインはdevelopmentモードでランタイム時のエラーをデフォルトでチェックします。この動作を無効にするには、以下の設定を使用します。
+By default the asset pipeline will check for potential errors in development mode during
+runtime. To disable this behavior you can set:
 
 ```ruby
 config.assets.raise_runtime_errors = false
 ```
 
-このオプションがtrueになっていると、アプリケーションのアセットが`config.assets.precompile`に記載されているとおりにすべて読み込まれているかどうかをチェックします。`config.assets.digest`もtrueになっている場合、アセットへのリクエストにダイジェストを含むことが必須となります。
+When this option is true, the asset pipeline will check if all the assets loaded
+in your application are included in the `config.assets.precompile` list.
+If `config.assets.digest` is also true, the asset pipeline will require that
+all requests for assets include digests.
 
-### ダイジェストをオフにする
+### Turning Digests Off
 
-`config/environments/development.rb`を更新して以下のようにすることで、ダイジェストをオフにできます。
+You can turn off digests by updating `config/environments/development.rb` to
+include:
 
 ```ruby
 config.assets.digest = false
 ```
 
-このオプションがtrueになっていると、ダイジェストが生成されてアセットへのURLに含まれるようになります。
+When this option is true, digests will be generated for asset URLs.
 
-### デバッグをオフにする
+### Turning Debugging Off
 
-デバッグモードをオフにするには、`config/environments/development.rb`に以下を追記します。
+You can turn off debug mode by updating `config/environments/development.rb` to
+include:
 
 ```ruby
 config.assets.debug = false
 ```
 
-デバッグモードをオフにすると、Sprocketsはすべてのファイルを結合して、必要なプリプロセッサを実行します。デバッグモードをオフにすると、上のマニフェストファイルによって以下が生成されるようになります。
+When debug mode is off, Sprockets concatenates and runs the necessary
+preprocessors on all files. With debug mode turned off the manifest above would
+generate instead:
 
 ```html
-<script src="/assets/application.js"></script> 
+<script src="/assets/application.js"></script>
 ```
 
-アセットは、サーバー起動後に最初にリクエストを受け取った時点でコンパイルとキャッシュが行われます。Sprocketsは、`must-revalidate`というCache-Control HTTPヘッダを設定することで、以後のリクエストのオーバーヘッドを減らします。この場合、ブラウザはレスポンス304 (Not Modified) を受け取ります。
+Assets are compiled and cached on the first request after the server is started.
+Sprockets sets a `must-revalidate` Cache-Control HTTP header to reduce request
+overhead on subsequent requests - on these the browser gets a 304 (Not Modified)
+response.
 
-リクエストとリクエストの合間に、マニフェストに記載されているファイルのいずれかで変更が生じた場合、Railsサーバーは新しくコンパイルされたファイルをレスポンスで返します。
+If any of the files in the manifest have changed between requests, the server
+responds with a new compiled file.
 
-Railsのヘルパーメソッドを使用してデバッグモードをオンにすることもできます。
+Debug mode can also be enabled in Rails helper methods:
 
 ```erb
 <%= stylesheet_link_tag "application", debug: true %>
 <%= javascript_include_tag "application", debug: true %>
 ```
 
-デバッグモードが既にオンの場合、`:debug`オプションは冗長です。
+The `:debug` option is redundant if debug mode is already on.
 
-developmentモードで健全性チェックの一環として圧縮をオンにしたり、デバッグの必要性に応じてオンデマンドで無効にしたりすることもできます。
+You can also enable compression in development mode as a sanity check, and
+disable it on-demand as required for debugging.
 
-production環境の場合
+In Production
 -------------
 
-Sprocketsは、production環境では前述のフィンガープリントによるスキームを使用します。デフォルトでは、Railsのアセットはプリコンパイル済みかつ静的なアセットとしてWebサーバーから提供されることが前提になっています。
+In the production environment Sprockets uses the fingerprinting scheme outlined
+above. By default Rails assumes assets have been precompiled and will be
+served as static assets by your web server.
 
-MD5はコンパイルされるファイルの内容を元にプリコンパイル中に生成され、ファイル名に挿入されてディスクに保存されます。マニフェスト名はRailsヘルパーによってこれらのフィンガープリント名と置き換えられて使用されます。
+During the precompilation phase an MD5 is generated from the contents of the
+compiled files, and inserted into the filenames as they are written to disc.
+These fingerprinted names are used by the Rails helpers in place of the manifest
+name.
 
-以下の例で説明します。
+For example this:
 
 ```erb
 <%= javascript_include_tag "application" %>
 <%= stylesheet_link_tag "application" %>
 ```
 
-上のコードによって以下のような感じで生成されます。
+generates something like this:
 
 ```html
 <script src="/assets/application-908e25f4bf641868d8683022a5b62f54.js"></script>
-<link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" media="screen" rel="stylesheet" />
+<link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" media="screen"
+rel="stylesheet" />
 ```
 
-NOTE: アセットパイプラインの:cacheオプションと:concatオプションは廃止されました。これらのオプションは`javascript_include_tag`と`stylesheet_link_tag`から削除してください。
+Note: with the Asset Pipeline the :cache and :concat options aren't used
+anymore, delete these options from the `javascript_include_tag` and
+`stylesheet_link_tag`.
 
-フィンガープリントの振る舞いについては`config.assets.digest`初期化オプションで制御できます。productionモードではデフォルトで`true`、それ以外では`false`です。
+The fingerprinting behavior is controlled by the `config.assets.digest`
+initialization option (which defaults to `true` for production and `false` for
+everything else).
 
-NOTE: デフォルトの`config.assets.digest`オプションは、通常は変更しないでください。ファイル名にダイジェストが含まれないと、遠い将来にヘッダが設定されたときに (ブラウザなどの) リモートクライアントがファイルの内容変更を検出して再度取得することができなくなってしまいます。
+NOTE: Under normal circumstances the default `config.assets.digest` option
+should not be changed. If there are no digests in the filenames, and far-future
+headers are set, remote clients will never know to refetch the files when their
+content changes.
 
-### アセットをプリコンパイルする
+### Precompiling Assets
 
-Railsには、パイプラインにあるアセットマニフェストなどのファイルを手動でコンパイルするためのrakeタスクが1つバンドルされています。
+Rails comes bundled with a rake task to compile the asset manifests and other
+files in the pipeline.
 
-コンパイルされたアセットは、`config.assets.prefix`で指定された場所に保存されます。この保存場所は、デフォルトでは`/assets`ディレクトリです。
+Compiled assets are written to the location specified in `config.assets.prefix`.
+By default, this is the `/assets` directory.
 
-デプロイ時にこのrakeタスクをサーバー上で呼び出すと、コンパイル済みアセットサーバー上で直接作成できます。ローカル環境でコンパイルする方法については次のセクションを参照してください。
+You can call this task on the server during deployment to create compiled
+versions of your assets directly on the server. See the next section for
+information on compiling locally.
 
-以下がそのrakeタスクです。
+The rake task is:
 
 ```bash
 $ RAILS_ENV=production bin/rake assets:precompile
 ```
 
-Capistrano (v2.15.1以降) にはデプロイ中にこのrakeタスクを扱うレシピが含まれています。
-`Capfile`に以下を追加します。
+Capistrano (v2.15.1 and above) includes a recipe to handle this in deployment.
+Add the following line to `Capfile`:
 
 ```ruby
 load 'deploy/assets'
 ```
 
-これにより、`config.assets.prefix`で指定されたフォルダが`shared/assets`にリンクされます。
-既にこの共有フォルダを使用しているのであれば、独自のデプロイ用タスクを作成する必要があります。
+This links the folder specified in `config.assets.prefix` to `shared/assets`.
+If you already use this shared folder you'll need to write your own deployment
+task.
 
-このフォルダは、複数のデプロイによって共有されている点が重要です。これは、サーバー以外の離れた場所でキャッシュされているページが古いコンパイル済みアセットを参照している場合でも、キャッシュ済みページの寿命が来て削除されるまではその古いページへの参照が有効になるようにするためです。
+It is important that this folder is shared between deployments so that remotely
+cached pages referencing the old compiled assets still work for the life of
+the cached page.
 
-ファイルをコンパイルする際のデフォルトのマッチャによって、`app/assets`フォルダ以下の`application.js`、`application.css`、およびすべての非JS/CSSファイル (これにより画像ファイルもすべて自動的にインクルードされます) がインクルードされます。`app/assets`フォルダにあるgemも含まれます。
+The default matcher for compiling files includes `application.js`,
+`application.css` and all non-JS/CSS files (this will include all image assets
+automatically) from `app/assets` folders including your gems:
 
 ```ruby
 [ Proc.new { |filename, path| path =~ /app\/assets/ && !%w(.js .css).include?(File.extname(filename)) },
 /application.(css|js)$/ ]
 ```
 
-NOTE: このマッチャ (および後述するprecompile配列の他のメンバ) が適用されるのは、コンパイル前やコンパイル中のファイル名ではなく、コンパイル後の最終的なファイル名である点にご注意ください。これは、コンパイルされてJavaScriptやCSSになるような中間ファイルはマッチャの対象からすべて除外されるということです (純粋なJavaScript/CSSと同様)。たとえば、`.coffee`と`.scss`ファイルはコンパイル後にそれぞれJavaScriptとCSSになるので、これらは自動的にはインクルードされません。
+NOTE: The matcher (and other members of the precompile array; see below) is
+applied to final compiled file names. This means anything that compiles to
+JS/CSS is excluded, as well as raw JS/CSS files; for example, `.coffee` and
+`.scss` files are **not** automatically included as they compile to JS/CSS.
 
-他のマニフェストや、個別のスタイルシート/JavaScriptファイルをインクルードしたい場合は、`config/initializers/assets.rb`の`precompile`という配列を使用します。
+If you have other manifests or individual stylesheets and JavaScript files to
+include, you can add them to the `precompile` array in `config/initializers/assets.rb`:
 
 ```ruby
 Rails.application.config.assets.precompile += ['admin.js', 'admin.css', 'swfObject.js']
 ```
 
-あるいは、以下のようにすべてのアセットをプリコンパイルすることもできます。
+NOTE. Always specify an expected compiled filename that ends with .js or .css,
+even if you want to add Sass or CoffeeScript files to the precompile array.
 
-```ruby
-# config/initializers/assets.rb
-Rails.application.config.assets.precompile << Proc.new do |path|
-  if path =~ /\.(css|js)\z/
-    full_path = Rails.application.assets.resolve(path).to_path
-    app_assets_path = Rails.root.join('app', 'assets').to_path
-    if full_path.starts_with? app_assets_path
-      logger.info "including asset: " + full_path
-      true
-    else
-      logger.info "excluding asset: " + full_path
-      false
-    end
-  else
-    false
-  end
-end
-```
-
-NOTE: precompile配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず.jsや.cssで終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。
-
-このrakeタスクは、`manifest-md5hash.json`ファイルも生成します。これはすべてのアセットとそれらのフィンガープリントのリストです。Railsヘルパーはこれを使用して、マッピングリクエストがSprocketsへ戻されることを回避します。典型的なマニフェストファイルの内容は以下のような感じになっています。
+The rake task also generates a `manifest-md5hash.json` that contains a list with
+all your assets and their respective fingerprints. This is used by the Rails
+helper methods to avoid handing the mapping requests back to Sprockets. A
+typical manifest file looks like:
 
 ```ruby
 {"files":{"application-723d1be6cc741a3aabb1cec24276d681.js":{"logical_path":"application.js","mtime":"2013-07-26T22:55:03-07:00","size":302506,
@@ -538,30 +748,36 @@ NOTE: precompile配列にSassやCoffeeScriptファイルなどを追加する場
 "my_image-231a680f23887d9dd70710ea5efd3c62.png"}}
 ```
 
-マニフェストのデフォルトの置き場所は、`config.assets.prefix`で指定された場所のルートディレクトリ (デフォルトでは'/assets') です。
+The default location for the manifest is the root of the location specified in
+`config.assets.prefix` ('/assets' by default).
 
-NOTE: productionモードで見つからないプリコンパイル済みファイルがあると、見つからないファイル名をエラーメッセージに含んだ`Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError`が発生します。
+NOTE: If there are missing precompiled files in production you will get an
+`Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError`
+exception indicating the name of the missing file(s).
 
-#### 遠い将来に期限切れになるヘッダー
+#### Far-future Expires Header
 
-プリコンパイル済みのアセットはファイルシステム上に置かれ、Webサーバーから直接クライアントに提供されます。これらプリコンパイル済みアセットには、いわゆる遠い将来に期限切れになるヘッダ (far-future headers) はデフォルトでは含まれていません。したがって、フィンガープリントのメリットを得るためには、サーバーの設定を更新してこのヘッダを含める必要があります。
+Precompiled assets exist on the file system and are served directly by your web
+server. They do not have far-future headers by default, so to get the benefit of
+fingerprinting you'll have to update your server configuration to add those
+headers.
 
-Apacheの設定: 
+For Apache:
 
 ```apache
-# Expires* ディレクティブを使用する場合はApacheの
-# `mod_expires`モジュールを有効にする必要あり
+# The Expires* directives requires the Apache module
+# `mod_expires` to be enabled.
 <Location /assets/>
-  # Last-Modifiedフィールドが存在する場合はETagの使用が妨げられる
+  # Use of ETag is discouraged when Last-Modified is present
   Header unset ETag
   FileETag None
-  # RFCによるとキャッシュは最長1年まで
+  # RFC says only cache for 1 year
   ExpiresActive On
   ExpiresDefault "access plus 1 year"
 </Location>
 ```
 
-NGINXの場合:
+For NGINX:
 
 ```nginx
 location ~ ^/assets/ {
@@ -573,74 +789,68 @@ location ~ ^/assets/ {
 }
 ```
 
-#### GZip圧縮
+### Local Precompilation
 
-ファイルをプリコンパイルする際に、Sprocketsによって[gzipされた](http://ja.wikipedia.org/wiki/Gzip) (.gz) アセットも作成されます。Webサーバーによる圧縮はほどほどの圧縮率で行われるのが普通ですが、プリコンパイルが1度発生するとSprocketsによって最大圧縮率で圧縮され、Webサーバーからのデータ転送量が最小化されます。逆に、圧縮されてないファイルを自前で圧縮する代りに、事前に圧縮しておいたコンテンツを直接ディスクに配置しておくようWebサーバーを設定することもできます。
+There are several reasons why you might want to precompile your assets locally.
+Among them are:
 
-NGINXでは`gzip_static`を使用することでこれを自動的に行なうことができます。
+* You may not have write access to your production file system.
+* You may be deploying to more than one server, and want to avoid
+duplication of work.
+* You may be doing frequent deploys that do not include asset changes.
 
-```nginx
-location ~ ^/(assets)/  {
-  root /path/to/public;
-  gzip_static on; # gzip済みのバージョンを提供する
-  expires max;
-  add_header Cache-Control public;
-}
-```
+Local compilation allows you to commit the compiled files into source control,
+and deploy as normal.
 
-このディレクティブは、この機能を提供するコアモジュールがWebサーバーと一緒にコンパイルされている場合に使用可能になります。Ubuntu/Debianパッケージはもちろん、`nginx-light`にもこのモジュールがコンパイル済みで用意されています。それ以外の場合には、自分でコンパイルを行う必要があるでしょう。
+There are three caveats:
 
-```bash
-./configure --with-http_gzip_static_module
-```
+* You must not run the Capistrano deployment task that precompiles assets.
+* You must ensure any necessary compressors or minifiers are
+available on your development system.
+* You must change the following application configuration setting:
 
-NGINXをPhusion Passengerと共にコンパイルする場合は、コンパイル中にプロンプトが表示された時にそのためのオプションを渡す必要があります。
-
-Apacheで堅牢な設定を行なうことは可能ですが、何かとトリッキーであるため、ネットを検索して情報を十分集めてください。(Apache用のよい設定例を確立したら本ガイドに反映いただけると大変助かります)
-
-### ローカルでプリコンパイルを行なう
-
-アセットをローカルでプリコンパイルする理由はいくつか考えられます。たとえば以下のようなものがあります。
-
-* production環境のファイルシステムへの書き込み権限がない。
-* デプロイ先が複数あり、同じ作業を繰り返したくない。
-* アセットの変更を伴わないデプロイが頻繁に発生する。
-
-ローカルでのコンパイルを行なうことで、コンパイル済みのアセットファイルをGitなどによるソース管理対象に含め、他のファイルと一緒にデプロイできるようになります。
-
-ただし、以下の3つの注意点があります。
-
-* Capistranoのデプロイメントタスクでアセットのプリコンパイルを行わないこと。
-* development環境で圧縮機能や最小化機能がすべて利用できるようにしておくこと。
-* 以下のアプリケーション設定を変更しておくこと。
-
-`config/environments/development.rb`に以下の行があります。
+In `config/environments/development.rb`, place the following line:
 
 ```ruby
 config.assets.prefix = "/dev-assets"
 ```
 
-`prefix`を変更すると、Sprocketsはdevelopmentモードで別のURLを使用してアセットを提供し、すべてのリクエストがSprocketsに渡されるようになります。production環境のプレフィックスは`/assets`のままです。この変更を行わなかった場合、アプリケーションはdevelopment環境でもproduction環境と同じ`/assets`からプリコンパイルしたアセットを提供します。この場合、アセットを再コンパイルしないとローカルでの変更が反映されません。
+The `prefix` change makes Sprockets use a different URL for serving assets in
+development mode, and pass all requests to Sprockets. The prefix is still set to
+`/assets` in the production environment. Without this change, the application
+would serve the precompiled assets from `/assets` in development, and you would
+not see any local changes until you compile assets again.
 
-実用上は、この変更によってローカルでのプリコンパイルが行えるようになり、必要に応じてそれらのファイルをワーキングツリーに追加してソース管理にコミットできるようになります。developmentモードは期待どおり動作します。
+In practice, this will allow you to precompile locally, have those files in your
+working tree, and commit those files to source control when needed.  Development
+mode will work as expected.
 
-### 動的コンパイル
+### Live Compilation
 
-状況によっては動的コンパイル (live compilation) を使用したいこともあるでしょう。このモードでは、パイプラインのアセットへのリクエストは直接Sprocketsによって扱われます。
+In some circumstances you may wish to use live compilation. In this mode all
+requests for assets in the pipeline are handled by Sprockets directly.
 
-このオプションを有効にするには以下を設定します。
+To enable this option set:
 
 ```ruby
 config.assets.compile = true
 ```
 
-最初のリクエストを受けると、アセットは上述のdevelopment環境のところで説明したとおりにコンパイルおよびキャッシュされます。ヘルパーで使用されるマニフェスト名にはMD5ハッシュが含まれます。
+On the first request the assets are compiled and cached as outlined in
+development above, and the manifest names used in the helpers are altered to
+include the MD5 hash.
 
-また、Sprocketsは`Cache-Control` HTTPヘッダーを`max-age=31536000`に変更します。このヘッダーは、サーバーとクライアントブラウザの間にあるすべてのキャッシュ (プロキシなど) に対して、サーバーが提供するこのコンテンツは1年間キャッシュしてよいと通知します。これにより、そのサーバーのアセットに対するリクエスト数を減らすことができ、アセットをローカルブラウザのキャッシュやその他の中間キャッシュで代替するよい機会が与えられます。
+Sprockets also sets the `Cache-Control` HTTP header to `max-age=31536000`. This
+signals all caches between your server and the client browser that this content
+(the file served) can be cached for 1 year. The effect of this is to reduce the
+number of requests for this asset from your server; the asset has a good chance
+of being in the local browser cache or some intermediate cache.
 
-このモードはデフォルトよりもメモリを余分に消費し、パフォーマンスも落ちるためお勧めできません。
+This mode uses more memory, performs more poorly than the default and is not
+recommended.
 
-本番アプリケーションのデプロイ先のシステムに既存のJavaScriptランタイムがない場合は、以下をGemfileに記述します。
+If you are deploying a production application to a system without any
+pre-existing JavaScript runtimes, you may want to add one to your Gemfile:
 
 ```ruby
 group :production do
@@ -648,25 +858,59 @@ group :production do
 end
 ```
 
-### CDN
+### CDNs
 
-CDN ([コンテンツデリバリーネットワーク](http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF))は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。それにより、ブラウザからアセットをリクエストすると、ネットワーク上で最も近くにあるキャッシュのコピーが使用されます。production環境のRailsサーバーから (中間キャッシュを使用せずに) 直接アセットを提供しているのであれば、アプリケーションとブラウザの間でCDNを使用するのがベストプラクティスです。
+CDN stands for [Content Delivery
+Network](http://en.wikipedia.org/wiki/Content_delivery_network), they are
+primarily designed to cache assets all over the world so that when a browser
+requests the asset, a cached copy will be geographically close to that browser.
+If you are serving assets directly from your Rails server in production, the
+best practice is to use a CDN in front of your application.
 
-CDNの典型的な利用法は、productionサーバーを "origin" サーバーとして設定することです。つまり、ブラウザがCDN上のアセットをリクエストしてキャッシュが見つからない場合、オンデマンドでサーバーからアセットファイルを取得してキャッシュするということです。たとえば、Railsアプリケーションを`example.com`というドメインで運用しており、`mycdnsubdomain.fictional-cdn.com`というCDNが設定済みであるとします。`mycdnsubdomain.fictional-cdn.com/assets/smile.png`がリクエストされると、CDNはいったん元のサーバーの`example.com/assets/smile.png`にアクセスしてこのリクエストをキャッシュします。CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーがヒットします。CDNがアセットを直接提供する場合、ブラウザからのリクエストが直接Railsサーバーに達することはありません。CDNが提供するアセットはネットワーク上でブラウザに近い位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをより高速で提供することに集中できます。
+A common pattern for using a CDN is to set your production application as the
+"origin" server. This means when a browser requests an asset from the CDN and
+there is a cache miss, it will grab the file from your server on the fly and
+then cache it. For example if you are running a Rails application on
+`example.com` and have a CDN configured at `mycdnsubdomain.fictional-cdn.com`,
+then when a request is made to `mycdnsubdomain.fictional-
+cdn.com/assets/smile.png`, the CDN will query your server once at
+`example.com/assets/smile.png` and cache the request. The next request to the
+CDN that comes in to the same URL will hit the cached copy. When the CDN can
+serve an asset directly the request never touches your Rails server. Since the
+assets from a CDN are geographically closer to the browser, the request is
+faster, and since your server doesn't need to spend time serving assets, it can
+focus on serving application code as fast as possible.
 
-#### CDNで静的なアセットを提供する
+#### Set up a CDN to Serve Static Assets
 
-CDNを設定するには、Railsアプリケーションがインターネット上でproductionモードで運用されており、`example.com`などのように誰でもアクセスできるURLがある必要があります。続いて、クラウドホスティングプロバイダーが提供するCDNサービスと契約を結ぶ必要もあります。その際、CDNの"origin"設定をRailsアプリケーションのWebサイト`example.com`にする必要もあります。originサーバーの設定方法のドキュメントについてはプロバイダーにお問い合わせください。
+To set up your CDN you have to have your application running in production on
+the internet at a publically available URL, for example `example.com`. Next
+you'll need to sign up for a CDN service from a cloud hosting provider. When you
+do this you need to configure the "origin" of the CDN to point back at your
+website `example.com`, check your provider for documentation on configuring the
+origin server.
 
-サービスに使用するCDNから、アプリケーションで使用するためのカスタムサブドメイン (例: `mycdnsubdomain.fictional-cdn.com`) を交付してもらう必要もあります (メモ: fictional-cdn.comは説明用であり、少なくとも執筆時点では本当のCDNプロバイダーではありません)。以上でCDNサーバーの設定が終わりましたので、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、`config/production.rb`の`config.action_controller.asset_host`を以下のように設定します。
+The CDN you provisioned should give you a custom subdomain for your application
+such as `mycdnsubdomain.fictional-cdn.com` (note fictional-cdn.com is not a
+valid CDN provider at the time of this writing). Now that you have configured
+your CDN server, you need to tell browsers to use your CDN to grab assets
+instead of your Rails server directly. You can do this by configuring Rails to
+set your CDN as the asset host instead of using a relative path. To set your
+asset host in Rails, you need to set `config.action_controller.asset_host` in
+`config/production.rb`:
 
 ```ruby
 config.action_controller.asset_host = 'mycdnsubdomain.fictional-cdn.com'
 ```
 
-NOTE: ここに記述するのは "ホスト名" (サブドメインとルートドメインを合わせたもの) のみです。`http://`や`https://`などのプロトコルスキームを記述する必要はありません。アセットへのリンクで使用されるプロトコルスキームは、Webページヘのリクエスト発生時に、そのページへのデフォルトのアクセス方法に合わせて適切に生成されます。
+NOTE: You only need to provide the "host", this is the subdomain and root
+domain, you do not need to specify a protocol or "scheme" such as `http://` or
+`https://`. When a web page is requested, the protocol in the link to your asset
+that is generated will match how the webpage is accessed by default.
 
-この値は[環境変数](http://ja.wikipedia.org/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)で設定することもできます。これを使用すると、ステージングサーバー (訳注: 検証用に本番サーバーを複製したサーバー) の実行が楽になります。
+You can also set this value through an [environment
+variable](http://en.wikipedia.org/wiki/Environment_variable) to make running a
+staging copy of your site easier:
 
 ```
 config.action_controller.asset_host = ENV['CDN_HOST']
@@ -674,42 +918,63 @@ config.action_controller.asset_host = ENV['CDN_HOST']
 
 
 
-NOTE: 上の設定が有効になるためには、サーバーの`CDN_HOST`環境変数に値 (この場合であれば`mycdnsubdomain .fictional-cdn.com`) を設定しておく必要があります。
+Note: You would need to set `CDN_HOST` on your server to `mycdnsubdomain
+.fictional-cdn.com` for this to work.
 
-サーバーとCDNの設定完了後、以下のアセットを持つWebページにアクセスしたとします。
+Once you have configured your server and your CDN when you serve a webpage that
+has an asset:
 
 ```erb
 <%= asset_path('smile.png') %>
 ```
 
-上の例では、`/assets/smile.png`のようなパスは返されません (読みやすくするためダイジェスト文字は省略してあります)。実際に生成されるCDNへのフルパスは以下のようになります。
+Instead of returning a path such as `/assets/smile.png` (digests are left out
+for readability). The URL generated will have the full path to your CDN.
 
 ```
 http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
 ```
 
-`smile.png`のコピーがCDNにあれば、CDNが代りにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら知りません。ファイルのコピーがCDNにない場合、CDNは "origin" (この場合`example.com/assets/smile.png`) を探して今後のために保存しておきます。
+If the CDN has a copy of `smile.png` it will serve it to the browser and your
+server doesn't even know it was requested. If the CDN does not have a copy it
+will try to find it a the "origin" `example.com/assets/smile.png` and then store
+it for future use.
 
-CDNで扱うアセットを一部だけに限っておきたい場合、アセットヘルパーのカスタム`:host`オプションを使用して`config.action_controller.asset_host`の値セットを上書きすることもできます。
+If you want to serve only some assets from your CDN, you can use custom `:host`
+option your asset helper, which overwrites value set in
+`config.action_controller.asset_host`.
 
 ```erb
 <%= asset_path 'image.png', host: 'mycdnsubdomain.fictional-cdn.com' %>
 ```
 
-#### CDNのキャッシュの動作をカスタマイズする
+#### Customize CDN Caching Behavior
 
-CDNはコンテンツをキャッシュすることで動作します。CDNに保存されているコンテンツが古くなったり壊れていたりすると、メリットよりも害の方が大きくなります。本セクションでは、多くのCDNにおける一般的なキャッシュの動作について解説します。プロバイダによってはこの記述のとおりでないことがありますのでご注意ください。
+A CDN works by caching content. If the CDN has stale or bad content, then it is
+hurting rather than helping your application. The purpose of this section is to
+describe general caching behavior of most CDNs, your specific provider may
+behave slightly differently.
 
-##### CDNリクエストキャッシュ
+##### CDN Request Caching
 
-これまでCDNがアセットをキャッシュするのに向いていると説明しましたが、実際にキャッシュされているのはアセット単体ではなくリクエスト全体です。リクエストにはアセット本体の他に各種ヘッダーも含まれています。ヘッダーの中でもっとも重要なのは`Cache-Control`です。これはCDN (およびWebブラウザ) にキャッシュの取り扱い方法を通知するためのものです。たとえば、誰かが実際には存在しないアセット`/assets/i-dont-exist.png`にリクエストを行い、Railsが404エラーを返したとします。このときに`Cache-Control`ヘッダーが有効になっていると、CDNはこの404エラーページをキャッシュしようとします。
+While a CDN is described as being good for caching assets, in reality caches the
+entire request. This includes the body of the asset as well as any headers. The
+most important one being `Cache-Control` which tells the CDN (and web browsers)
+how to cache contents. This means that if someone requests an asset that does
+not exist `/assets/i-dont-exist.png` and your Rails application returns a 404,
+then your CDN will likely cache the 404 page if a valid `Cache-Control` header
+is present.
 
-##### CDNヘッダをデバッグする
+##### CDN Header Debugging
 
-このヘッダが正しくキャッシュされているかどうかを確認するひとつの方法として、[curl]( http://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com)を使用するという方法があります。curlを使用して、サーバーとCDNにそれぞれリクエストを送信し、ヘッダーが同じであるかどうかを以下のように確認できます。
+One way to check the headers are cached properly in your CDN is by using [curl](
+http://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com). You
+can request the headers from both your server and your CDN to verify they are
+the same:
 
 ```
-$ curl -I http://www.example/assets/application-d0e099e021c95eb0de3615fd1d8c4d83.css
+$ curl -I http://www.example/assets/application-
+d0e099e021c95eb0de3615fd1d8c4d83.css
 HTTP/1.1 200 OK
 Server: Cowboy
 Date: Sun, 24 Aug 2014 20:27:50 GMT
@@ -721,12 +986,13 @@ Content-Length: 126560
 Via: 1.1 vegur
 ```
 
-今度はCDNのコピーです。
+Versus the CDN copy.
 
 ```
-$ curl -I http://mycdnsubdomain.fictional-cdn.com/application-d0e099e021c95eb0de3615fd1d8c4d83.css
-HTTP/1.1 200 OK Server: Cowboy
-Last-Modified: Thu, 08 May 2014 01:24:14 GMT Content-Type: text/css
+$ curl -I http://mycdnsubdomain.fictional-cdn.com/application-
+d0e099e021c95eb0de3615fd1d8c4d83.css
+HTTP/1.1 200 OK Server: Cowboy Last-
+Modified: Thu, 08 May 2014 01:24:14 GMT Content-Type: text/css
 Cache-Control:
 public, max-age=2592000
 Via: 1.1 vegur
@@ -742,73 +1008,113 @@ X-Cache: HIT
 X-Cache-Hits:
 68
 X-Timer: S1408912125.211638212,VS0,VE0
-``
+```
 
-CDNが提供する`X-Cache`などの機能やCDNが追加するヘッダなどの付加的情報については、CDNのドキュメントを確認してください。
+Check your CDN documentation for any additional information they may provide
+such as `X-Cache` or for any additional headers they may add.
 
-##### CDNとCache-Controlヘッダ
+##### CDNs and the Cache-Control Header
 
-[Cache-Controlヘッダ](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9)は、リクエストがキャッシュされる方法を定めたW3Cの仕様です。CDNを使用していない場合、ブラウザはこのヘッダ情報を使用してコンテンツをキャッシュします。このヘッダのおかげで、アセットで変更が発生していない場合にブラウザがCSSやJavaScriptをリクエストのたびに再度ダウンロードせずに済み、非常に有用です。アセットのCache-Controlヘッダは一般に "public" にしておくものであり、RailsサーバーはCDNやブラウザに対してこのヘッダを通じてそのことを通知します。アセットが "public" であるということは、そのリクエストをどんなキャッシュにも保存してよいということを意味します。同様に`max-age` もこのヘッダでCDNやブラウザに通知されます。`max-age`は、キャッシュがオブジェクトを保存する期間を指定します。この期間を過ぎるとキャッシュは廃棄されます。`max-age`の値は秒単位で指定します。最大値は`31536000`であり、これは一年に相当します。Railsでは以下の設定でこの期間を指定できます。
+The [cache control
+header](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) is a W3C
+specification that describes how a request can be cached. When no CDN is used, a
+browser will use this information to cache contents. This is very helpful for
+assets that are not modified so that a browser does not need to re-download a
+website's CSS or javascript on every request. Generally we want our Rails server
+to tell our CDN (and browser) that the asset is "public", that means any cache
+can store the request. Also we commonly want to set `max-age` which is how long
+the cache will store the object before invalidating the cache. The `max-age`
+value is set to seconds with a maximum possible value of `31536000` which is one
+year. You can do this in your rails application by setting
 
 ```
 config.static_cache_control = "public, max-age=31536000"
 ```
 
-production環境のアセットは上の設定によってアプリケーションから提供されるようになり、キャッシュは1年間保存されます。多くのCDNはリクエストのキャッシュも保存しているので、この`Cache-Control`ヘッダーはアセットをリクエストするすべてのブラウザ (将来登場するブラウザも含める) に渡されます。ブラウザはこのヘッダを受け取ると、次回再度リクエストが必要になったときに備えてそのアセットを当分の間キャッシュに保存してよいことを知ります。
+Now when your application serves an asset in production, the CDN will store the
+asset for up to a year. Since most CDNs also cache headers of the request, this
+`Cache-Control` will be passed along to all future browsers seeking this asset,
+the browser then knows that it can store this asset for a very long time before
+needing to re-request it.
 
-##### CDNにおけるURLベースのキャッシュ廃棄について
+##### CDNs and URL based Cache Invalidation
 
-多くのCDNでは、アセットのキャッシュを完全なURLに基いて行います。たとえば以下のアセットへのリクエストがあるとします。
+Most CDNs will cache contents of an asset based on the complete URL. This means
+that a request to
 
 ```
 http://mycdnsubdomain.fictional-cdn.com/assets/smile-123.png
 ```
 
-上のリクエストのキャッシュは、下のアセットへのリクエストのキャッシュとは完全に異なるものとして扱われます。
+Will be a completely different cache from
 
 ```
 http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
 ```
 
-`Cache-Control`の`max-age`を遠い将来に設定する場合は、アセットに変更が生じた時にこれらのキャッシュが確実に廃棄されるようにしてください。たとえば、ニコニコマーク画像の色を黄色から青に変更したら、サイトを訪れた人には変更後の青いニコニコマークが見えるようにしたいはずです。RailsをCDNを併用している場合、Railsのアセットパイプライン`config.assets.digest`はデフォルトでtrueに設定されるので、アセットの内容に少しでも変更が生じれば必ずファイル名も変更されます。このとき、キャッシュ内の項目を手動で削除する必要がまったくない点にご注目ください。アセット名が内容に応じて常に一意になるので、ユーザーは常に最新のアセットを利用できます。
+If you want to set far future `max-age` in your `Cache-Control` (and you do),
+then make sure when you change your assets that your cache is invalidated. For
+example when changing the smiley face in an image from yellow to blue, you want
+all visitors of your site to get the new blue face. When using a CDN with the
+Rails asset pipeline `config.assets.digest` is set to true by default so that
+each asset will have a different file name when it is changed. This way you
+don't have to ever manually invalidate any items in your cache. By using a
+different unique asset name instead, your users get the latest asset.
 
-パイプラインをカスタマイズする
+Customizing the Pipeline
 ------------------------
 
-### CSSを圧縮する
+### CSS Compression
 
-YUIはCSS圧縮方法のひとつです。[YUI CSS compressor](http://yui.github.io/yuicompressor/css.html)は最小化機能を提供します (訳注: この項では、圧縮 (compress) という語は最小化 (minify) や難読化 (uglify) と同じ意味で使用されており、圧縮後のファイルはzipのようなバイナリになりません)。
+One of the options for compressing CSS is YUI. The [YUI CSS
+compressor](http://yui.github.io/yuicompressor/css.html) provides
+minification.
 
-YUI圧縮は以下の記述で有効にできます。これには`yui-compressor` gemが必要です。
+The following line enables YUI compression, and requires the `yui-compressor`
+gem.
 
 ```ruby
 config.assets.css_compressor = :yui
 ```
-sass-rails gemを使用している場合は、以下のように代替のCSS圧縮方法として指定できます。
+The other option for compressing CSS if you have the sass-rails gem installed is
 
 ```ruby
 config.assets.css_compressor = :sass
 ```
 
-### JavaScriptを圧縮する
+### JavaScript Compression
 
-JavaScriptを圧縮する際には`:closure`、`:uglifier`、`:yui`のいずれかのオプションを指定できます。それぞれ、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemが必要です。
+Possible options for JavaScript compression are `:closure`, `:uglifier` and
+`:yui`. These require the use of the `closure-compiler`, `uglifier` or
+`yui-compressor` gems, respectively.
 
-RailsのGemfileにはデフォルトで[uglifier](https://github.com/lautis/uglifier)が含まれています。このgemは、NodeJSで記述された[UglifyJS](https://github.com/mishoo/UglifyJS)をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
+The default Gemfile includes [uglifier](https://github.com/lautis/uglifier).
+This gem wraps [UglifyJS](https://github.com/mishoo/UglifyJS) (written for
+NodeJS) in Ruby. It compresses your code by removing white space and comments,
+shortening local variable names, and performing other micro-optimizations such
+as changing `if` and `else` statements to ternary operators where possible.
 
-以下の設定により、JavaScriptの圧縮に`uglifier`が使用されます。
+The following line invokes `uglifier` for JavaScript compression.
 
 ```ruby
 config.assets.js_compressor = :uglifier
 ```
 
-NOTE: `uglifier`を利用するには[ExecJS](https://github.com/sstephenson/execjs#readme)をサポートするJavaScriptランタイムが必要です。Mac OS XやWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。
+NOTE: You will need an [ExecJS](https://github.com/rails/execjs#readme)
+supported runtime in order to use `uglifier`. If you are using Mac OS X or
+Windows you have a JavaScript runtime installed in your operating system.
 
-NOTE: CSSやJavaScriptの圧縮を有効にする`config.assets.compress`初期化オプションはRails 4で廃止されました。現在はこのオプションを設定しても何も変わりません。CSSおよびJavaScriptアセットの圧縮を制御するには、`config.assets.css_compressor`および`config.assets.js_compressor`を使用します。
+NOTE: The `config.assets.compress` initialization option is no longer used in
+Rails 4 to enable either CSS or JavaScript compression. Setting it will have no
+effect on the application. Instead, setting `config.assets.css_compressor` and
+`config.assets.js_compressor` will control compression of CSS and JavaScript
+assets.
 
-### 独自の圧縮機能を使用する
+### Using Your Own Compressor
 
-CSSやJavaScriptの圧縮設定にはあらゆるオブジェクトを設定できます。設定に与えるオブジェクトには`compress`メソッドが実装されている必要があります。このメソッドは文字列のみを引数として受け取り、圧縮結果を文字列で返す必要があります。
+The compressor config settings for CSS and JavaScript also take any object.
+This object must have a `compress` method that takes a string as the sole
+argument and it must return a string.
 
 ```ruby
 class Transformer
@@ -818,59 +1124,72 @@ class Transformer
 end
 ```
 
-上のコードを有効にするには、`application.rb`の設定オプションに新しいオブジェクトを渡します。
+To enable this, pass a new object to the config option in `application.rb`:
 
 ```ruby
 config.assets.css_compressor = Transformer.new
 ```
 
 
-### _アセット_ のパスを変更する
+### Changing the _assets_ Path
 
-デフォルトでは、Sprocketsが使用するパブリックなパスは`/assets`になります。
+The public path that Sprockets uses by default is `/assets`.
 
-このパスは以下のように変更可能です。
-
-```ruby
-config.assets.prefix = "/他のパス"
-```
-
-このオプションは次のような場合に便利です。アセットパイプラインを使用しない既存のプロジェクトがあり、そのプロジェクトの既存のパスを指定したり、別途新しいリソース用のパスを指定したりする場合なのです。
-
-### X-Sendfileヘッダー
-
-X-SendfileヘッダーはWebサーバーに対するディレクティブであり、アプリケーションからのレスポンスをブラウザに送信せずに破棄し、代りに別のファイルをディスクから読みだしてブラウザに送信します。このオプションはデフォルトでは無効です。サーバーがこのヘッダーをサポートしていればオンにできます。このオプションをオンにすると、それらのファイル送信はWebサーバーに一任され、それによって高速化されます。この機能の使用法については[send_file](http://api.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file)を参照してください。
-
-ApacheとNGINXではこのオプションがサポートされており、以下のように`config/environments/production.rb`で有効にすることができます。
+This can be changed to something else:
 
 ```ruby
-# config.action_dispatch.x_sendfile_header = "X-Sendfile" # Apache用
-# config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # NGINX用
+config.assets.prefix = "/some_other_path"
 ```
 
-WARNING: 既存のRailsアプリケーションをアップグレードする際にこの機能を使用することを検討している場合は、このオプションの貼り付け先に十分ご注意ください。このオプションを貼り付けてよいのは`production.rb`と、production環境として振る舞わせたい他の環境ファイルのみです。`application.rb`ではありません。
+This is a handy option if you are updating an older project that didn't use the
+asset pipeline and already uses this path or you wish to use this path for
+a new resource.
 
-TIP: 詳細については、production環境用Webサーバーのドキュメントを参照してください。
+### X-Sendfile Headers
+
+The X-Sendfile header is a directive to the web server to ignore the response
+from the application, and instead serve a specified file from disk. This option
+is off by default, but can be enabled if your server supports it. When enabled,
+this passes responsibility for serving the file to the web server, which is
+faster. Have a look at [send_file](http://api.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file)
+on how to use this feature.
+
+Apache and NGINX support this option, which can be enabled in
+`config/environments/production.rb`:
+
+```ruby
+# config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
+# config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+```
+
+WARNING: If you are upgrading an existing application and intend to use this
+option, take care to paste this configuration option only into `production.rb`
+and any other environments you define with production behavior (not
+`application.rb`).
+
+TIP: For further details have a look at the docs of your production web server:
 - [Apache](https://tn123.org/mod_xsendfile/)
 - [NGINX](http://wiki.nginx.org/XSendfile)
 
-アセットのキャッシュストア
+Assets Cache Store
 ------------------
 
-Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットをキャッシュを使用します。キャッシュストアの設定は`config.assets.cache_store`で変更できます。
+The default Rails cache store will be used by Sprockets to cache assets in
+development and production. This can be changed by setting
+`config.assets.cache_store`:
 
 ```ruby
 config.assets.cache_store = :memory_store
 ```
 
-アセットキャッシュストアで利用できるオプションは、アプリケーションのキャッシュストアと同じです。
-
+The options accepted by the assets cache store are the same as the application's
+cache store.
 
 ```ruby
 config.assets.cache_store = :memory_store, { size: 32.megabytes }
 ```
 
-アセットキャッシュストアを無効にするには以下のようにします。
+To disable the assets cache store:
 
 ```ruby
 config.assets.configure do |env|
@@ -878,26 +1197,38 @@ config.assets.configure do |env|
 end
 ```
 
-アセットをGemに追加する
+Adding Assets to Your Gems
 --------------------------
 
-アセットはgemの形式で外部ソースから持ち込むこともできます。
+Assets can also come from external sources in the form of gems.
 
-そのよい例は`jquery-rails` gemです。これは標準のJavaScriptライブラリをgemとしてRailsに提供します。このgemには`Rails::Engine`から継承したエンジンクラスが1つ含まれています。このgemを導入することにより、Railsはこのgem用のディレクトリにアセットを配置可能であることを認識し、`app/assets`、`lib/assets`、`vendor/assets`ディレクトリがSprocketsの検索パスに追加されます。
+A good example of this is the `jquery-rails` gem which comes with Rails as the
+standard JavaScript library gem. This gem contains an engine class which
+inherits from `Rails::Engine`. By doing this, Rails is informed that the
+directory for this gem may contain assets and the `app/assets`, `lib/assets` and
+`vendor/assets` directories of this engine are added to the search path of
+Sprockets.
 
-ライブラリやGemをプリプロセッサ化する
+Making Your Library or Gem a Pre-Processor
 ------------------------------------------
 
-Sprocketsは異なるテンプレートエンジンへの一般的なインターフェイスとして[Tilt](https://github.com/rtomayko/tilt)を使用するため、gemにTiltテンプレートプロトコルのみを実装するだけで済みます。通常、Tiltを`Tilt::Template`のようにサブクラス化して`prepare`メソッドと`evaluate`メソッドを再実装します。`prepare`メソッドはテンプレートを初期化し、`evaluate`メソッドは処理の終わったソースを返します。処理前のソースは`data`に保存されます。詳細については[`Tilt::Template`](https://github.com/rtomayko/tilt/blob/master/lib/tilt/template.rb)のソースを参照してください。
+As Sprockets uses [Tilt](https://github.com/rtomayko/tilt) as a generic
+interface to different templating engines, your gem should just implement the
+Tilt template protocol. Normally, you would subclass `Tilt::Template` and
+reimplement the `prepare` method, which initializes your template, and the
+`evaluate` method, which returns the processed source. The original source is
+stored in `data`. Have a look at
+[`Tilt::Template`](https://github.com/rtomayko/tilt/blob/master/lib/tilt/template.rb)
+sources to learn more.
 
 ```ruby
 module BangBang
   class Template < ::Tilt::Template
     def prepare
-      # ここですべての初期化を行なう
+      # Do any initialization here
     end
 
-    # 元のテンプレートに"!"を追加する
+    # Adds a "!" to original template.
     def evaluate(scope, locals, &block)
       "#{data}!"
     end
@@ -905,56 +1236,66 @@ module BangBang
 end
 ```
 
-これで`Template`クラスができましたので、続いてテンプレートファイルの拡張子との関連付けを行います。
+Now that you have a `Template` class, it's time to associate it with an
+extension for template files:
 
 ```ruby
 Sprockets.register_engine '.bang', BangBang::Template
 ```
 
-古いバージョンのRailsからアップグレードする
+Upgrading from Old Versions of Rails
 ------------------------------------
 
-Rails 3.0やRails 2.xからのアップグレードの際には、いくつかの作業を行う必要があります。最初に、`public/`ディレクトリ以下のファイルを新しい場所に移動します。ファイルの種類ごとの正しい置き場所については、[アセットの編成](#アセットの編成)を参照してください。
+There are a few issues when upgrading from Rails 3.0 or Rails 2.x. The first is
+moving the files from `public/` to the new locations. See [Asset
+Organization](#asset-organization) above for guidance on the correct locations
+for different file types.
 
-続いて、JavaScriptファイルの重複を解消します。jQueryはRails 3.1以降におけるデフォルトのJavaScriptライブラリなので、`jquery.js`を`app/assets`に置かなくても自動的に読み込まれます。
+Next will be avoiding duplicate JavaScript files. Since jQuery is the default
+JavaScript library from Rails 3.1 onwards, you don't need to copy `jquery.js`
+into `app/assets` and it will be included automatically.
 
-3番目に、多くの環境設定ファイルを正しいデフォルトオプションに更新します。
+The third is updating the various environment files with the correct default
+options.
 
-`application.rb`の場合。
+In `application.rb`:
 
 ```ruby
-# アセットのバージョンを指定する。アセットをすべて期限切れにしたい場合はこの値を変更する。
+# Version of your assets, change this if you want to expire all your assets
 config.assets.version = '1.0'
 
-# config.assets.prefix = "/assets"は、アセットの置き場所となるパスを変更する際に使用する。
+# Change the path that assets are served from config.assets.prefix = "/assets"
 ```
 
-`development.rb`の場合。
+In `development.rb`:
 
 ```ruby
-# アセットで読み込んだ行を展開する。
+# Expands the lines which load the assets
 config.assets.debug = true
 ```
 
-`production.rb`の場合。
+And in `production.rb`:
 
 ```ruby
-# 圧縮機能を使用するには config.assets.js_compressor  = を使用する
+# Choose the compressors to use (if any) config.assets.js_compressor  =
 # :uglifier config.assets.css_compressor = :yui
 
-# プリコンパイル済みのアセットが見当たらない場合にアセットパイプラインにフォールバックしない
+# Don't fallback to assets pipeline if a precompiled asset is missed
 config.assets.compile = false
 
-# アセットURLのダイジェストを生成する。(今後非推奨になる計画あり)
+# Generate digests for assets URLs. This is planned for deprecation.
 config.assets.digest = true
 
-# 追加のアセットをプリコンパイルする (application.js、application.css、およびすべての
-# 非JS/CSSファイルが追加済み) config.assets.precompile += %w( search.js )
+# Precompile additional assets (application.js, application.css, and all
+# non-JS/CSS are already added) config.assets.precompile += %w( search.js )
 ```
 
-Rails 4はSprocketsのデフォルト設定値をtest環境用の`test.rb`に設定しなくなりました。従って、`test.rb`にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、`config.assets.compile = true`、`config.assets.compress = false`、`config.assets.debug = false`、`config.assets.digest = false`です。
+Rails 4 no longer sets default config values for Sprockets in `test.rb`, so
+`test.rb` now requires Sprockets configuration. The old defaults in the test
+environment are: `config.assets.compile = true`, `config.assets.compress = false`,
+`config.assets.debug = false` and `config.assets.digest = false`.
 
-以下を`Gemfile`に追加する必要があります。
+The following should also be added to `Gemfile`:
 
 ```ruby
 gem 'sass-rails',   "~> 3.2.3"

@@ -1,21 +1,20 @@
-﻿
-Active Record の関連付け (アソシエーション)
+Active Record Associations
 ==========================
 
-このガイドでは、Active Recordの関連付け機能(アソシエーション)について解説します。
+This guide covers the association features of Active Record.
 
-このガイドの内容:
+After reading this guide, you will know:
 
-* Active Recordのモデル同士の関連付けを宣言する方法
-* Active Recordのモデルを関連付けるさまざまな方法
-* 関連付けを作成すると自動的に追加されるメソッドの使用方法
+* How to declare associations between Active Record models.
+* How to understand the various types of Active Record associations.
+* How to use the methods added to your models by creating associations.
 
 --------------------------------------------------------------------------------
 
-関連付けを使用する理由
+Why Associations?
 -----------------
 
-モデルとモデルの間には関連付けを行なう必要がありますが、その理由を御存じでしょうか。関連付けを行なうのは、それによってコード内で一般的に行われる操作をはるかに簡単にできるからです。簡単なRailsアプリケーションを例にとって説明しましょう。このアプリケーションには顧客用のモデル(Customer)と注文用のモデル(Order)があります。一人の顧客は、多くの注文を行なうことができます。関連付けを設定していない状態では、モデルの宣言は以下のようになります。
+Why do we need associations between models? Because they make common operations simpler and easier in your code. For example, consider a simple Rails application that includes a model for customers and a model for orders. Each customer can have many orders. Without associations, the model declarations would look like this:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -25,13 +24,13 @@ class Order < ActiveRecord::Base
 end
 ```
 
-ここで、既存の顧客のために新しい注文を1つ追加したくなったとします。この場合、以下のようなコードを実行する必要があるでしょう。
+Now, suppose we wanted to add a new order for an existing customer. We'd need to do something like this:
 
 ```ruby
 @order = Order.create(order_date: Time.now, customer_id: @customer.id)
 ```
 
-今度は顧客を削除する場合を考えてみましょう。顧客を削除するなら、以下のように、顧客の注文も残らず削除されるようにしておかなければなりません。
+Or consider deleting a customer, and ensuring that all of its orders get deleted as well:
 
 ```ruby
 @orders = Order.where(customer_id: @customer.id)
@@ -41,7 +40,7 @@ end
 @customer.destroy
 ```
 
-Active Recordの関連付け機能を使用すると、2つのモデルの間につながりがあることを明示的にRailsに対して宣言することができ、それによってモデルの操作を一貫させることができます。顧客と注文を設定するコードを次のように書き直します。
+With Active Record associations, we can streamline these - and other - operations by declaratively telling Rails that there is a connection between the two models. Here's the revised code for setting up customers and orders:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -53,24 +52,24 @@ class Order < ActiveRecord::Base
 end
 ```
 
-上のように関連付けを追加したことで、特定の顧客用に新しい注文を1つ作成する作業が以下のように一行でできるようになりました。
+With this change, creating a new order for a particular customer is easier:
 
 ```ruby
 @order = @customer.orders.create(order_date: Time.now)
 ```
 
-顧客と、顧客の注文をまとめて削除する作業はさらに簡単です。
+Deleting a customer and all of its orders is *much* easier:
 
 ```ruby
 @customer.destroy
 ```
 
-その他の関連付け方法については、次の節をお読みください。それに続いて、関連付けに関するさまざまなヒントや活用方法、Railsの関連付けメソッドとオプションの完全な参照物もご紹介します。
+To learn more about the different types of associations, read the next section of this guide. That's followed by some tips and tricks for working with associations, and then by a complete reference to the methods and options for associations in Rails.
 
-関連付けの種類
+The Types of Associations
 -------------------------
 
-Railsでは、「関連付け(アソシエーション: association)」とは2つのActive Recordモデル同士のつながりを指します。関連付けは、一種のマクロ的な呼び出しとして実装されており、これによってモデル間の関連付けを宣言的に追加することができます。たとえば、あるモデルが他のモデルに従属している(`belongs_to`)と宣言すると、2つのモデルのそれぞれのインスタンス間で「主キー - 外部キー」情報を保持しておくようにRailsに指示が伝わります。Railsでサポートされている関連付けは以下の6種類です。
+In Rails, an _association_ is a connection between two Active Record models. Associations are implemented using macro-style calls, so that you can declaratively add features to your models. For example, by declaring that one model `belongs_to` another, you instruct Rails to maintain Primary Key-Foreign Key information between instances of the two models, and you also get a number of utility methods added to your model. Rails supports six types of associations:
 
 * `belongs_to`
 * `has_one`
@@ -79,11 +78,11 @@ Railsでは、「関連付け(アソシエーション: association)」とは2�
 * `has_one :through`
 * `has_and_belongs_to_many`
 
-本ガイドではこの後、それぞれの関連付けの宣言方法と使用方法について詳しく解説します。その前に、それぞれの関連付けが適切となる状況について簡単にご紹介しましょう。
+In the remainder of this guide, you'll learn how to declare and use the various forms of associations. But first, a quick introduction to the situations where each association type is appropriate.
 
-### `belongs_to`関連付け
+### The `belongs_to` Association
 
-あるモデルで`belongs_to`関連付けを行なうと、他方のモデルとの間に「1対1」のつながりが設定されます。このとき、宣言を行ったモデルのすべてのインスタンスは、他方のモデルのインスタンスに「従属(belongs to)」します。たとえば、Railsアプリケーションに顧客(customer)と注文(order)情報が含まれており、1つの注文につき正確に1人の顧客だけを割り当てたいのであれば、Orderモデルで以下のように宣言します。
+A `belongs_to` association sets up a one-to-one connection with another model, such that each instance of the declaring model "belongs to" one instance of the other model. For example, if your application includes customers and orders, and each order can be assigned to exactly one customer, you'd declare the order model this way:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -91,32 +90,32 @@ class Order < ActiveRecord::Base
 end
 ```
 
-![belongs_to 関連付けの図](images/belongs_to.png)
+![belongs_to Association Diagram](images/belongs_to.png)
 
-NOTE: `belongs_to`関連付けで指定するモデル名は必ず「単数形」にしなければなりません。上の場合、`Order`モデルにおける関連付けの`customer`を複数形の`customers`にしてしまうと、"uninitialized constant Order::Customers" エラーが発生します。Railsは、関連付けの名前から自動的にモデルのクラス名を推測します。関連付け名が`customer`ならクラス名を`Customer`と推測します。従って、関連付け名が誤って複数形になってしまっていると、そこから推測されるクラス名も誤って複数形になってしまいます。
+NOTE: `belongs_to` associations _must_ use the singular term. If you used the pluralized form in the above example for the `customer` association in the `Order` model, you would be told that there was an "uninitialized constant Order::Customers". This is because Rails automatically infers the class name from the association name. If the association name is wrongly pluralized, then the inferred class will be wrongly pluralized too.
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateOrders < ActiveRecord::Migration
   def change
-    create_table :customers do |t| 
+    create_table :customers do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :orders do |t|
-      t.belongs_to :customer
+      t.belongs_to :customer, index: true
       t.datetime :order_date
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-### `has_one`関連付け
+### The `has_one` Association
 
-`has_one`関連付けも、他方のモデルとの間に1対1の関連付けを設定します。しかし、その意味と結果は`belongs_to`とは若干異なります。`has_one`関連付けの場合は、その宣言が行われているモデルのインスタンスが、他方のモデルのインスタンスを「まるごと含んでいる」または「所有している」ことを示します。たとえば、供給者(supplier)1人につきアカウント(account)を1つだけ持つという関係があるのであれば、以下のように宣言を行います。
+A `has_one` association also sets up a one-to-one connection with another model, but with somewhat different semantics (and consequences). This association indicates that each instance of a model contains or possesses one instance of another model. For example, if each supplier in your application has only one account, you'd declare the supplier model like this:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -124,30 +123,30 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-![has_one関連付けの図](images/has_one.png)
+![has_one Association Diagram](images/has_one.png)
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateSuppliers < ActiveRecord::Migration
   def change
     create_table :suppliers do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :accounts do |t|
-      t.belongs_to :supplier
+      t.belongs_to :supplier, index: true
       t.string :account_number
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-### `has_many`関連付け
+### The `has_many` Association
 
-`has_many`関連付けは、他のモデルとの間に「1対多」のつながりがあることを示します。`has_many`関連付けが使用されている場合、「反対側」のモデルでは`belongs_to`が使用されることが多くあります。`has_many`関連付けが使用されている場合、そのモデルのインスタンスは、反対側のモデルの「0個以上の」インスタンスを所有します。たとえば、顧客(customer)と注文(order)を含むRailsアプリケーションでは、顧客のモデルを以下のように宣言することができます。
+A `has_many` association indicates a one-to-many connection with another model. You'll often find this association on the "other side" of a `belongs_to` association. This association indicates that each instance of the model has zero or more instances of another model. For example, in an application containing customers and orders, the customer model could be declared like this:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -155,32 +154,32 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-NOTE: `has_many`関連付けを宣言する場合、相手のモデル名は「複数形」にする必要があります。
+NOTE: The name of the other model is pluralized when declaring a `has_many` association.
 
-![has_many関連付けの図](images/has_many.png)
+![has_many Association Diagram](images/has_many.png)
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateCustomers < ActiveRecord::Migration
   def change
-    create_table :customers do |t| 
+    create_table :customers do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :orders do |t|
-      t.belongs_to :customer
+      t.belongs_to :customer, index:true
       t.datetime :order_date
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-### `has_many :through`関連付け
+### The `has_many :through` Association
 
-`has_many :through`関連付けは、他方のモデルと「多対多」のつながりを設定する場合によく使われます。この関連付けは、2つのモデルの間に「第3のモデル」(結合モデル)が介在する点が特徴です。それによって、相手モデルの「0個以上」のインスタンスとマッチします。たとえば、患者(patient)が医師(physician)との診察予約(appointment)を取る医療業務を考えてみます。この場合、関連付けは次のような感じになるでしょう。
+A `has_many :through` association is often used to set up a many-to-many connection with another model. This association indicates that the declaring model can be matched with zero or more instances of another model by proceeding _through_ a third model. For example, consider a medical practice where patients make appointments to see physicians. The relevant association declarations could look like this:
 
 ```ruby
 class Physician < ActiveRecord::Base
@@ -193,50 +192,50 @@ class Appointment < ActiveRecord::Base
   belongs_to :patient
 end
 
-class Patient < ActiveRecord::Base 
+class Patient < ActiveRecord::Base
   has_many :appointments
   has_many :physicians, through: :appointments
 end
 ```
 
-![has_many :through関連付けの図](images/has_many_through.png)
+![has_many :through Association Diagram](images/has_many_through.png)
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateAppointments < ActiveRecord::Migration
   def change
     create_table :physicians do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :patients do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :appointments do |t|
-      t.belongs_to :physician
-      t.belongs_to :patient
+      t.belongs_to :physician, index: true
+      t.belongs_to :patient, index: true
       t.datetime :appointment_date
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-結合モデル(join model)のコレクションは、API経由で管理できます。たとえば、以下のような割り当てを実行したとします。
+The collection of join models can be managed via the API. For example, if you assign
 
 ```ruby
 physician.patients = patients
 ```
 
-このとき、新たに関連付けられたオブジェクトについて、新しい結合モデルが作成されます。結合時に不足している部分があれば、その行は結合モデルから削除され、結合モデルに含まれなくなります。
+new join models are created for newly associated objects, and if some are gone their rows are deleted.
 
-WARNING: モデル結合時の不足分自動削除は即座に行われます。さらに、その際にdestroyコールバックはトリガーされませんので注意が必要です。
+WARNING: Automatic deletion of join models is direct, no destroy callbacks are triggered.
 
-`has_many :through`関連付けは、ネストした`has_many`関連付けを介して「ショートカット」を設定する場合にも便利です。たとえば、1つのドキュメントに多くの節(section)があり、1つの節の下に多くの段落(paragraph)がある状態で、節をスキップしてドキュメントの下のすべての段落の単純なコレクションが欲しいとします。その場合、以下の方法で設定できます。
+The `has_many :through` association is also useful for setting up "shortcuts" through nested `has_many` associations. For example, if a document has many sections, and a section has many paragraphs, you may sometimes want to get a simple collection of all paragraphs in the document. You could set that up this way:
 
 ```ruby
 class Document < ActiveRecord::Base
@@ -254,16 +253,18 @@ class Paragraph < ActiveRecord::Base
 end
 ```
 
-`through: :sections`と指定することにより、Railsは以下の文を理解できるようになります。
+With `through: :sections` specified, Rails will now understand:
 
 ```ruby
 @document.paragraphs
 ```
 
-### `has_one :through`関連付け
+### The `has_one :through` Association
 
-`has_one :through`関連付けは、他のモデルとの間に1対1のつながりを設定します。この関連付けは、2つのモデルの間に「第3のモデル」(結合モデル)が介在する点が特徴です。それによって、相手モデルの1つのインスタンスとマッチします。
-たとえば、1人の提供者(supplier)が1つのアカウントに関連付けられ、さらに1つのアカウントが1つのアカウント履歴に関連付けられる場合、supplierモデルは以下のような感じになります。
+A `has_one :through` association sets up a one-to-one connection with another model. This association indicates
+that the declaring model can be matched with one instance of another model by proceeding _through_ a third model.
+For example, if each supplier has one account, and each account is associated with one account history, then the
+supplier model could look like this:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -281,36 +282,36 @@ class AccountHistory < ActiveRecord::Base
 end
 ```
 
-![has_one :through関連付けの図](images/has_one_through.png)
+![has_one :through Association Diagram](images/has_one_through.png)
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateAccountHistories < ActiveRecord::Migration
   def change
     create_table :suppliers do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :accounts do |t|
-      t.belongs_to :supplier
+      t.belongs_to :supplier, index: true
       t.string :account_number
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :account_histories do |t|
-      t.belongs_to :account
+      t.belongs_to :account, index: true
       t.integer :credit_rating
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
 ```
 
-### `has_and_belongs_to_many`関連付け
+### The `has_and_belongs_to_many` Association
 
-`has_and_belongs_to_many`関連付けは、他方のモデルと「多対多」のつながりを作成しますが、`through:`を指定した場合と異なり、第3のモデル(結合モデル)が介在しません(訳注: 後述するように結合用のテーブルは必要です)。たとえば、アプリケーションに完成品(assembly)と部品(part)があり、1つの完成品に多数の部品が対応し、逆に1つの部品にも多くの完成品が対応するのであれば、モデルの宣言は以下のようになります。
+A `has_and_belongs_to_many` association creates a direct many-to-many connection with another model, with no intervening model. For example, if your application includes assemblies and parts, with each assembly having many parts and each part appearing in many assemblies, you could declare the models this way:
 
 ```ruby
 class Assembly < ActiveRecord::Base
@@ -322,36 +323,36 @@ class Part < ActiveRecord::Base
 end
 ```
 
-![has_and_belongs_to_many関連付けの図](images/habtm.png)
+![has_and_belongs_to_many Association Diagram](images/habtm.png)
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateAssembliesAndParts < ActiveRecord::Migration
   def change
     create_table :assemblies do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :parts do |t|
       t.string :part_number
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :assemblies_parts, id: false do |t|
-      t.belongs_to :assembly
-      t.belongs_to :part
+      t.belongs_to :assembly, index: true
+      t.belongs_to :part, index: true
     end
   end
 end
 ```
 
-### `belongs_to`と`has_one`のどちらを選ぶか
+### Choosing Between `belongs_to` and `has_one`
 
-2つのモデルの間に1対1の関係を作りたいのであれば、いずれか一方のモデルに`belongs_to`を追加し、もう一方のモデルに`has_one`を追加する必要があります。どちらの関連付けをどちらのモデルに置けばよいのでしょうか。
+If you want to set up a one-to-one relationship between two models, you'll need to add `belongs_to` to one, and `has_one` to the other. How do you know which is which?
 
-区別の決め手となるのは外部キー(foreign key)をどちらに置くかです(外部キーは、`belongs_to`を追加した方のモデルのテーブルに追加されます)。もちろんこれだけでは決められません。データの実際の意味についてもう少し考えてみる必要があります。`has_one`というリレーションは、主語となるものが目的語となるものを「所有している」ということを表しています。そして、所有されている側(目的語)の方が、所有している側(主語)を指し示しているということも表しています。たとえば、「供給者がアカウントを持っている」とみなす方が、「アカウントが供給者を持っている」と考えるよりも自然です。つまり、この場合の正しい関係は以下のようになります。
+The distinction is in where you place the foreign key (it goes on the table for the class declaring the `belongs_to` association), but you should give some thought to the actual meaning of the data as well. The `has_one` relationship says that one of something is yours - that is, that something points back to you. For example, it makes more sense to say that a supplier owns an account than that an account owns a supplier. This suggests that the correct relationships are like this:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -363,30 +364,32 @@ class Account < ActiveRecord::Base
 end
 ```
 
-上の関連付けに対応するマイグレーションは以下のような感じになります。
+The corresponding migration might look like this:
 
 ```ruby
 class CreateSuppliers < ActiveRecord::Migration
   def change
     create_table :suppliers do |t|
-      t.string :name
-      t.timestamps
+      t.string  :name
+      t.timestamps null: false
     end
 
     create_table :accounts do |t|
       t.integer :supplier_id
       t.string  :account_number
-      t.timestamps
+      t.timestamps null: false
     end
+
+    add_index :accounts, :supplier_id
   end
 end
 ```
 
-NOTE: マイグレーションで`t.integer :supplier_id`のように「小文字のモデル名_id」と書くと、外部キーを明示的に指定できます。新しいバージョンのRailsでは、同じことを`t.references :supplier`という方法で記述できます。こちらの方が実装の詳細が抽象化され、隠蔽されます。
+NOTE: Using `t.integer :supplier_id` makes the foreign key naming obvious and explicit. In current versions of Rails, you can abstract away this implementation detail by using `t.references :supplier` instead.
 
-### `has_many :through`と`has_and_belongs_to_many`のどちらを選ぶか
+### Choosing Between `has_many :through` and `has_and_belongs_to_many`
 
-Railsでは、モデル間の多対多リレーションシップを宣言するのに2とおりの方法が使用できます。簡単なのは`has_and_belongs_to_many`を使用する方法です。この方法では関連付けを直接指定できます。
+Rails offers two different ways to declare a many-to-many relationship between models. The simpler way is to use `has_and_belongs_to_many`, which allows you to make the association directly:
 
 ```ruby
 class Assembly < ActiveRecord::Base
@@ -398,7 +401,7 @@ class Part < ActiveRecord::Base
 end
 ```
 
-多対多のリレーションシップを宣言するもう1つの方法は`has_many :through`です。こちらの場合は、結合モデルを使用した間接的な関連付けが使用されます。
+The second way to declare a many-to-many relationship is to use `has_many :through`. This makes the association indirectly, through a join model:
 
 ```ruby
 class Assembly < ActiveRecord::Base
@@ -417,13 +420,13 @@ class Part < ActiveRecord::Base
 end
 ```
 
-どちらを使用するかについてですが、経験上、リレーションシップのモデルそれ自体を独立したエンティティとして扱いたい(両モデルの関係そのものについて処理を行いたい)のであれば、中間に結合モデルを使用する`has_many :through`リレーションシップを選ぶのが最もシンプルです。リレーションシップのモデルで何か特別なことをする必要がまったくないのであれば、結合モデルの不要な`has_and_belongs_to_many`リレーションシップを使用するのがシンプルです(ただし、こちらの場合は結合モデルが不要な代わりに、専用の結合テーブルを別途データベースに作成しておく必要がありますので、お忘れなきよう)。
+The simplest rule of thumb is that you should set up a `has_many :through` relationship if you need to work with the relationship model as an independent entity. If you don't need to do anything with the relationship model, it may be simpler to set up a `has_and_belongs_to_many` relationship (though you'll need to remember to create the joining table in the database).
 
-結合モデルで検証(validation)、コールバック、追加の属性が必要なのであれば、`has_many :through`を使用しましょう。
+You should use `has_many :through` if you need validations, callbacks, or extra attributes on the join model.
 
-### ポリモーフィック関連付け
+### Polymorphic Associations
 
-_ポリモーフィック関連付け_は、関連付けのやや高度な応用です。ポリモーフィック関連付けを使用すると、ある1つのモデルが他の複数のモデルに属していることを、1つの関連付けだけで表現することができます。たとえば、写真(picture)モデルがあり、このモデルを従業員(employee)モデルと製品(product)モデルの両方に従属させたいとします。この場合は以下のように宣言します。
+A slightly more advanced twist on associations is the _polymorphic association_. With polymorphic associations, a model can belong to more than one other model, on a single association. For example, you might have a picture model that belongs to either an employee model or a product model. Here's how this could be declared:
 
 ```ruby
 class Picture < ActiveRecord::Base
@@ -439,11 +442,11 @@ class Product < ActiveRecord::Base
 end
 ```
 
-ポリモーフィックな`belongs_to`は、他のあらゆるモデルから使用できる、(デザインパターンで言うところの)インターフェイスを設定する宣言とみなすこともできます。`@employee.pictures`とすると、写真のコレクションを`Employee`モデルのインスタンスから取得できます。
+You can think of a polymorphic `belongs_to` declaration as setting up an interface that any other model can use. From an instance of the `Employee` model, you can retrieve a collection of pictures: `@employee.pictures`.
 
-同様に、`@product.pictures`とすれば写真のコレクションを`Product`モデルのインスタンスから取得できます。
+Similarly, you can retrieve `@product.pictures`.
 
-`Picture`モデルのインスタンスがあれば、`@picture.imageable`とすることで親を取得できます。これができるようにするためには、ポリモーフィックなインターフェイスを使用するモデルで、外部キーのカラムと型のカラムを両方とも宣言しておく必要があります。
+If you have an instance of the `Picture` model, you can get to its parent via `@picture.imageable`. To make this work, you need to declare both a foreign key column and a type column in the model that declares the polymorphic interface:
 
 ```ruby
 class CreatePictures < ActiveRecord::Migration
@@ -452,31 +455,33 @@ class CreatePictures < ActiveRecord::Migration
       t.string  :name
       t.integer :imageable_id
       t.string  :imageable_type
-      t.timestamps
+      t.timestamps null: false
     end
+
+    add_index :pictures, :imageable_id
   end
 end
 ```
 
-`t.references`という書式を使用するとさらにシンプルにできます。
+This migration can be simplified by using the `t.references` form:
 
 ```ruby
 class CreatePictures < ActiveRecord::Migration
   def change
     create_table :pictures do |t|
-      t.string  :name
-      t.references :imageable, polymorphic: true
-      t.timestamps
+      t.string :name
+      t.references :imageable, polymorphic: true, index: true
+      t.timestamps null: false
     end
   end
 end
 ```
 
-![ポリモーフィック関連付けの図](images/polymorphic.png)
+![Polymorphic Association Diagram](images/polymorphic.png)
 
-### 自己結合
+### Self Joins
 
-データモデルを設計していると、時に自分自身に関連付けられる必要のあるモデルに出会うことがあります。たとえば、1つのデータベースモデルに全従業員を格納しておきたいが、マネージャーと部下(subordinate)の関係も追えるようにしておきたい場合が考えられます。この状況は、自己結合関連付けを使用してモデル化することができます。
+In designing a data model, you will sometimes find a model that should have a relation to itself. For example, you may want to store all employees in a single database model, but be able to trace relationships such as between manager and subordinates. This situation can be modeled with self-joining associations:
 
 ```ruby
 class Employee < ActiveRecord::Base
@@ -487,62 +492,62 @@ class Employee < ActiveRecord::Base
 end
 ```
 
-上のように宣言しておくと、`@employee.subordinates`と`@employee.manager`が使用できるようになります。
+With this setup, you can retrieve `@employee.subordinates` and `@employee.manager`.
 
-マイグレーションおよびスキーマでは、モデル自身にreferencesカラムを追加します。
+In your migrations/schema, you will add a references column to the model itself.
 
 ```ruby
 class CreateEmployees < ActiveRecord::Migration
   def change
     create_table :employees do |t|
-      t.references :manager
-      t.timestamps
+      t.references :manager, index: true
+      t.timestamps null: false
     end
   end
 end
 ```
 
-ヒントと注意事項
+Tips, Tricks, and Warnings
 --------------------------
 
-RailsアプリケーションでActive Recordの関連付けを効率的に使用するためには、以下について知っておく必要があります。
+Here are a few things you should know to make efficient use of Active Record associations in your Rails applications:
 
-* キャッシュ制御
-* 名前衝突の回避
-* スキーマの更新
-* 関連付けのスコープ制御
-* 双方向関連付け
+* Controlling caching
+* Avoiding name collisions
+* Updating the schema
+* Controlling association scope
+* Bi-directional associations
 
-### キャッシュ制御
+### Controlling Caching
 
-関連付けのメソッドは、すべてキャッシュを中心に構築されています。最後に実行したクエリの結果はキャッシュに保持され、次回以降の操作で使用できます。このキャッシュはメソッド間でも共有されることに注意してください。例:
-
-```ruby
-customer.orders                 # データベースからordersを取得する
-customer.orders.size            # ordersのキャッシュコピーが使用される
-customer.orders.empty?          # ordersのキャッシュコピーが使用される
-```
-
-データがアプリケーションの他の部分によって更新されている可能性に対応するために、キャッシュを再読み込みするにはどうしたらよいでしょうか。その場合は関連付けのメソッド呼び出しで`true`を指定するだけで、キャッシュが破棄されてデータが再読み込みされます。
+All of the association methods are built around caching, which keeps the result of the most recent query available for further operations. The cache is even shared across methods. For example:
 
 ```ruby
-customer.orders                 # データベースからordersを取得する
-customer.orders.size            # ordersのキャッシュコピーが使用される
-customer.orders(true).empty?    # ordersのキャッシュコピーが破棄される
-                                # その後データベースから再度読み込まれる
+customer.orders                 # retrieves orders from the database
+customer.orders.size            # uses the cached copy of orders
+customer.orders.empty?          # uses the cached copy of orders
 ```
 
-### 名前衝突の回避
+But what if you want to reload the cache, because data might have been changed by some other part of the application? Just pass `true` to the association call:
 
-関連付けにはどんな名前でも使用できるとは限りません。関連付けを作成すると、モデルにその名前のメソッドが追加されます。従って、`ActiveRecord::Base`のインスタンスで既に使用されているような名前を関連付けに使用するのは禁物です。そのような名前を関連付けに使用すると、基底メソッドが上書きされて不具合が生じる可能性があります。`attributes`や`connection`は関連付けに使ってはならない名前の例です。
+```ruby
+customer.orders                 # retrieves orders from the database
+customer.orders.size            # uses the cached copy of orders
+customer.orders(true).empty?    # discards the cached copy of orders
+                                # and goes back to the database
+```
 
-### スキーマの更新
+### Avoiding Name Collisions
 
-関連付けはきわめて便利ですが、残念ながら全自動の魔法ではありません。関連付けを使用するからには、関連付けの設定に合わせてデータベースのスキーマを常に更新しておく責任が生じます。作成した関連付けにもよりますが、具体的には次の2つの作業が必要になります。1. `belongs_to`関連付けを使用する場合は、外部キーを作成する必要があります。2. `has_and_belongs_to_many`関連付けを使用する場合は、適切な結合テーブルを作成する必要があります。
+You are not free to use just any name for your associations. Because creating an association adds a method with that name to the model, it is a bad idea to give an association a name that is already used for an instance method of `ActiveRecord::Base`. The association method would override the base method and break things. For instance, `attributes` or `connection` are bad names for associations.
 
-#### `belongs_to`関連付けに対応する外部キーを作成する
+### Updating the Schema
 
-`belongs_to`関連付けを宣言したら、対応する外部キーを作成する必要があります。以下のモデルを例にとります。
+Associations are extremely useful, but they are not magic. You are responsible for maintaining your database schema to match your associations. In practice, this means two things, depending on what sort of associations you are creating. For `belongs_to` associations you need to create foreign keys, and for `has_and_belongs_to_many` associations you need to create the appropriate join table.
+
+#### Creating Foreign Keys for `belongs_to` Associations
+
+When you declare a `belongs_to` association, you need to create foreign keys as appropriate. For example, consider this model:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -550,7 +555,7 @@ class Order < ActiveRecord::Base
 end
 ```
 
-上の宣言は、以下のようにordersテーブル上の外部キー宣言によって裏付けられている必要があります。
+This declaration needs to be backed up by the proper foreign key declaration on the orders table:
 
 ```ruby
 class CreateOrders < ActiveRecord::Migration
@@ -560,19 +565,21 @@ class CreateOrders < ActiveRecord::Migration
       t.string   :order_number
       t.integer  :customer_id
     end
+
+    add_index :orders, :customer_id
   end
 end
 ```
 
-モデルを先に作り、しばらく経過してから関連を追加で設定する場合は、`add_column`マイグレーションを作成して、必要な外部キーをモデルのテーブルに追加するのを忘れないようにしてください。
+If you create an association some time after you build the underlying model, you need to remember to create an `add_column` migration to provide the necessary foreign key.
 
-#### `has_and_belongs_to_many`関連付けに対応する結合テーブルを作成する
+#### Creating Join Tables for `has_and_belongs_to_many` Associations
 
-`has_and_belongs_to_many`関連付けを作成した場合は、それに対応する結合(join)テーブルを明示的に作成する必要があります。`:join_table`オプションを使用して明示的に結合テーブルの名前が指定されていない場合、Active Recordは2つのクラス名を辞書の並び順に連結して、適当に結合テーブル名をこしらえます。たとえばCustomerモデルOrderモデルを連結する場合、cはoより辞書で先に出現するので "customers_orders" というデフォルトの結合テーブル名が使用されます。
+If you create a `has_and_belongs_to_many` association, you need to explicitly create the joining table. Unless the name of the join table is explicitly specified by using the `:join_table` option, Active Record creates the name by using the lexical order of the class names. So a join between customer and order models will give the default join table name of "customers_orders" because "c" outranks "o" in lexical ordering.
 
-WARNING: モデル名の並び順は`String`クラスの`<`演算子を使用して計算されます。これは、2つの文字列の長さが異なり、短い方が長い方の途中まで完全に一致しているような場合、長い方の文字列は短い方よりも辞書上の並び順が前として扱われるということです。たとえば、"paper\_boxes" テーブルと "papers" テーブルがある場合、これらを結合すれば "papers\_paper\_boxes" となると推測されます。 "paper\_boxes" の方が長いので、常識的には並び順が後ろになると予測できるからです。しかし実際の結合テーブル名は "paper\_boxes\_papers" になってしまいます。これはアンダースコア '\_' の方が 's' よりも並びが前になっているためです。
+WARNING: The precedence between model names is calculated using the `<` operator for `String`. This means that if the strings are of different lengths, and the strings are equal when compared up to the shortest length, then the longer string is considered of higher lexical precedence than the shorter one. For example, one would expect the tables "paper_boxes" and "papers" to generate a join table name of "papers_paper_boxes" because of the length of the name "paper_boxes", but it in fact generates a join table name of "paper_boxes_papers" (because the underscore '_' is lexicographically _less_ than 's' in common encodings).
 
-生成された名前がどのようなものであれ、適切なマイグレーションを実行して結合テーブルを生成する必要があります。以下の関連付けを例にとって考えてみましょう。
+Whatever the name, you must manually generate the join table with an appropriate migration. For example, consider these associations:
 
 ```ruby
 class Assembly < ActiveRecord::Base
@@ -584,7 +591,7 @@ class Part < ActiveRecord::Base
 end
 ```
 
-この関連付けに対応する `assemblies_parts` テーブルをマイグレーションで作成し、裏付けておく必要があります。このテーブルには主キーを設定しないでください。
+These need to be backed up by a migration to create the `assemblies_parts` table. This table should be created without a primary key:
 
 ```ruby
 class CreateAssembliesPartsJoinTable < ActiveRecord::Migration
@@ -593,15 +600,18 @@ class CreateAssembliesPartsJoinTable < ActiveRecord::Migration
       t.integer :assembly_id
       t.integer :part_id
     end
+
+    add_index :assemblies_parts, :assembly_id
+    add_index :assemblies_parts, :part_id
   end
 end
 ```
 
-このテーブルはモデルを表さないので、`create_table`に`id: false`を渡します。こうしておかないとこの関連付けは正常に動作しません。モデルのIDが破損する、IDの競合で例外が発生するなど、`has_and_belongs_to_many`関連付けの動作が怪しい場合は、この設定を忘れていないかどうか再度確認してみてください。
+We pass `id: false` to `create_table` because that table does not represent a model. That's required for the association to work properly. If you observe any strange behavior in a `has_and_belongs_to_many` association like mangled models IDs, or exceptions about conflicting IDs, chances are you forgot that bit.
 
-### 関連付けのスコープ制御
+### Controlling Association Scope
 
-デフォルトでは、関連付けによって探索されるオブジェクトは、現在のモジュールのスコープ内のものだけです。Active Recordモデルをモジュール内で宣言している場合、この点に注意する必要があります。例：
+By default, associations look for objects only within the current module's scope. This can be important when you declare Active Record models within a module. For example:
 
 ```ruby
 module MyApplication
@@ -617,7 +627,7 @@ module MyApplication
 end
 ```
 
-上のコードは正常に動作します。これは、`Supplier`クラスと`Account`クラスが同じスコープ内で定義されているためです。しかし下のコードは動作しません。`Supplier`クラスと`Account`クラスが異なるスコープ内で定義されているためです。
+This will work fine, because both the `Supplier` and the `Account` class are defined within the same scope. But the following will _not_ work, because `Supplier` and `Account` are defined in different scopes:
 
 ```ruby
 module MyApplication
@@ -635,7 +645,7 @@ module MyApplication
 end
 ```
 
-あるモデルと異なる名前空間にあるモデルを関連付けるには、関連付けの宣言で完全なクラス名を指定する必要があります
+To associate a model with a model in a different namespace, you must specify the complete class name in your association declaration:
 
 ```ruby
 module MyApplication
@@ -655,9 +665,9 @@ module MyApplication
 end
 ```
 
-### 双方向関連付け
+### Bi-directional Associations
 
-関連付けは、通常双方向で設定します。2つのモデル両方に関連を定義する必要があります。
+It's normal for associations to work in two directions, requiring declaration on two different models:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -669,7 +679,7 @@ class Order < ActiveRecord::Base
 end
 ```
 
-Active Recordは、これらの双方向関連付け同士につながりがあることをデフォルトでは認識しません。これにより、以下のようにオブジェクトの2つのコピー同士で内容が一致しなくなることがあります。
+By default, Active Record doesn't know about the connection between these associations. This can lead to two copies of an object getting out of sync:
 
 ```ruby
 c = Customer.first
@@ -679,7 +689,7 @@ c.first_name = 'Manny'
 c.first_name == o.customer.first_name # => false
 ```
 
-これが起こるのは、cとo.customerは同じデータがメモリ上で異なる表現となっており、一方が更新されても他方が自動的には更新されないためです。Active Recordの`:inverse_of`オプションを使用すればこれらの関係を通知することができます。
+This happens because c and o.customer are two different in-memory representations of the same data, and neither one is automatically refreshed from changes to the other. Active Record provides the `:inverse_of` option so that you can inform it of these relations:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -691,7 +701,7 @@ class Order < ActiveRecord::Base
 end
 ```
 
-上のように変更することで、Active Recordはcustomerオブジェクトのコピーを1つだけ読み込むようになり、不整合を防ぐと同時にアプリケーションの効率も高まります。
+With these changes, Active Record will only load one copy of the customer object, preventing inconsistencies and making your application more efficient:
 
 ```ruby
 c = Customer.first
@@ -701,33 +711,36 @@ c.first_name = 'Manny'
 c.first_name == o.customer.first_name # => true
 ```
 
-ただし、`inverse_of`のサポートにはいくつかの制限があります。
+There are a few limitations to `inverse_of` support:
 
-* `:through`関連付けと併用することはできません。
-* `:polymorphic`関連付けと併用することはできません。
-* `:as`関連付けと併用することはできません。
-* `belongs_to`関連付けの場合、`has_many`の逆関連付けは無視されます。
+* They do not work with `:through` associations.
+* They do not work with `:polymorphic` associations.
+* They do not work with `:as` associations.
+* For `belongs_to` associations, `has_many` inverse associations are ignored.
 
-関連付けでは、常に逆関連付けを自動的に検出しようとします。その際、関連付け名に基いて`:inverse_of`オプションがヒューリスティックに設定されます。
-標準的な名前であれば、ほとんどの関連付けで逆関連付けがサポートされます。ただし、以下のオプションを設定した関連付けでは、逆関連付けは自動的には設定されません。
+Every association will attempt to automatically find the inverse association
+and set the `:inverse_of` option heuristically (based on the association name).
+Most associations with standard names will be supported. However, associations
+that contain the following options will not have their inverses set
+automatically:
 
 * :conditions
 * :through
 * :polymorphic
 * :foreign_key
 
-関連付けの詳細情報
+Detailed Association Reference
 ------------------------------
 
-この節では、各関連付けの詳細を解説します。関連付けの宣言によって追加されるメソッドやオプションについても説明します。
+The following sections give the details of each type of association, including the methods that they add and the options that you can use when declaring an association.
 
-### `belongs_to`関連付けの詳細
+### `belongs_to` Association Reference
 
-`belongs_to`関連付けは、別のモデルとの間に1対1の関連付けを作成します。データベースの用語で説明すると、この関連付けが行われているクラスには外部キーがあるということです。外部キーが自分のクラスではなく相手のクラスにあるのであれば、`belongs_to`ではなく`has_one`を使用する必要があります。
+The `belongs_to` association creates a one-to-one match with another model. In database terms, this association says that this class contains the foreign key. If the other class contains the foreign key, then you should use `has_one` instead.
 
-#### `belongs_to`で追加されるメソッド
+#### Methods Added by `belongs_to`
 
-`belongs_to`関連付けを宣言したクラスでは、以下の5つのメソッドを自動的に利用できるようになります。
+When you declare a `belongs_to` association, the declaring class automatically gains five methods related to the association:
 
 * `association(force_reload = false)`
 * `association=(associate)`
@@ -735,7 +748,7 @@ c.first_name == o.customer.first_name # => true
 * `create_association(attributes = {})`
 * `create_association!(attributes = {})`
 
-これらのメソッドのうち、`association`の部分はプレースホルダであり、`belongs_to`の最初の引数である関連付け名をシンボルにしたものに置き換えられます。以下の例ではcustomerが宣言されています。
+In all of these methods, `association` is replaced with the symbol passed as the first argument to `belongs_to`. For example, given the declaration:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -743,7 +756,7 @@ class Order < ActiveRecord::Base
 end
 ```
 
-これにより、Orderモデルのインスタンスで以下のメソッドが使えるようになります。
+Each instance of the `Order` model will have these methods:
 
 ```ruby
 customer
@@ -753,21 +766,21 @@ create_customer
 create_customer!
 ```
 
-NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付けを初期化するには、`build_`で始まるメソッドを使用する必要があります。この場合`has_many`関連付けや`has_and_belongs_to_many`関連付けで使用される`association.build`メソッドは使用しないでください。作成するには、`create_`で始まるメソッドを使用してください。
+NOTE: When initializing a new `has_one` or `belongs_to` association you must use the `build_` prefix to build the association, rather than the `association.build` method that would be used for `has_many` or `has_and_belongs_to_many` associations. To create one, use the `create_` prefix.
 
 ##### `association(force_reload = false)`
 
-`association`メソッドは関連付けられたオブジェクトを返します。関連付けられたオブジェクトがない場合は`nil`を返します。
+The `association` method returns the associated object, if any. If no associated object is found, it returns `nil`.
 
 ```ruby
 @customer = @order.customer
 ```
 
-関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。キャッシュを読み出さずにデータベースから直接読み込ませたい場合は、`force_reload`の引数に`true`を設定します。
+If the associated object has already been retrieved from the database for this object, the cached version will be returned. To override this behavior (and force a database read), pass `true` as the `force_reload` argument.
 
 ##### `association=(associate)`
 
-`association=`メソッドは、引数のオブジェクトをそのオブジェクトに関連付けます。その背後では、関連付けられたオブジェクトから主キーを取り出し、そのオブジェクトの外部キーにその同じ値を設定しています。
+The `association=` method assigns an associated object to this object. Behind the scenes, this means extracting the primary key from the associate object and setting this object's foreign key to the same value.
 
 ```ruby
 @order.customer = @customer
@@ -775,7 +788,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `build_association(attributes = {})`
 
-`build_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、外部キーを経由するリンクが設定されます。関連付けられたオブジェクトは、値が返された時点ではまだ保存されて_いない_ことにご注意ください。
+The `build_association` method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through this object's foreign key will be set, but the associated object will _not_ yet be saved.
 
 ```ruby
 @customer = @order.build_customer(customer_number: 123,
@@ -784,7 +797,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `create_association(attributes = {})`
 
-`create_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。このオブジェクトは、渡された属性を使用してインスタンス化され、そのオブジェクトの外部キーを介してリンクが設定されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
+The `create_association` method returns a new object of the associated type. This object will be instantiated from the passed attributes, the link through this object's foreign key will be set, and, once it passes all of the validations specified on the associated model, the associated object _will_ be saved.
 
 ```ruby
 @customer = @order.create_customer(customer_number: 123,
@@ -793,12 +806,12 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `create_association!(attributes = {})`
 
-上の`create_association`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
+Does the same as `create_association` above, but raises `ActiveRecord::RecordInvalid` if the record is invalid.
 
 
-#### `belongs_to`のオプション
+#### Options for `belongs_to`
 
-Railsのデフォルトの`belongs_to`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときに渡すオプションとスコープブロックで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
+While Rails uses intelligent defaults that will work well in most situations, there may be times when you want to customize the behavior of the `belongs_to` association reference. Such customizations can easily be accomplished by passing options and scope blocks when you create the association. For example, this association uses two such options:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -807,7 +820,7 @@ class Order < ActiveRecord::Base
 end
 ```
 
-`belongs_to`関連付けでは以下のオプションがサポートされています。
+The `belongs_to` association supports these options:
 
 * `:autosave`
 * `:class_name`
@@ -821,11 +834,11 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+If you set the `:autosave` option to `true`, Rails will save any loaded members and destroy members that are marked for destruction whenever you save the parent object.
 
 ##### `:class_name`
 
-関連名から関連相手のオブジェクト名を生成できない事情がある場合、`:class_name`オプションを使用してモデル名を直接指定できます。たとえば、注文(order)が顧客(customer)に従属しているが、実際の顧客モデル名が`Patron`である場合には以下のように指定します。
+If the name of the other model cannot be derived from the association name, you can use the `:class_name` option to supply the model name. For example, if an order belongs to a customer, but the actual name of the model containing customers is `Patron`, you'd set things up this way:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -835,7 +848,7 @@ end
 
 ##### `:counter_cache`
 
-`:counter_cache`オプションは、従属しているオブジェクトの数の検索効率を向上させます。以下のモデルで説明します。
+The `:counter_cache` option can be used to make finding the number of belonging objects more efficient. Consider these models:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -846,7 +859,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-上の宣言のままでは、`@customer.orders.size`の値を知るためにデータベースに対して`COUNT(*)`クエリを実行する必要があります。この呼び出しを避けるために、「従属している方のモデル(`belongs_to`を宣言している方のモデル)」にカウンタキャッシュを追加することができます。
+With these declarations, asking for the value of `@customer.orders.size` requires making a call to the database to perform a `COUNT(*)` query. To avoid this call, you can add a counter cache to the _belonging_ model:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -857,9 +870,9 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-上のように宣言すると、キャッシュ値が最新の状態に保たれ、次に`size`メソッドが呼び出されたときにその値が返されます。
+With this declaration, Rails will keep the cache value up to date, and then return that value in response to the `size` method.
 
-ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言で指定しますが、実際に数を数えたいカラムは、相手のモデル(関連付けられているモデル)の方に追加する必要があります。上の場合には、`Customer`モデルの方に`orders_count`カラムを追加する必要があります。必要であれば、デフォルトのカラム名を以下のようにオーバーライドできます。
+Although the `:counter_cache` option is specified on the model that includes the `belongs_to` declaration, the actual column must be added to the _associated_ model. In the case above, you would need to add a column named `orders_count` to the `Customer` model. You can override the default column name if you need to:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -870,19 +883,21 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-カウンタキャッシュ用のカラムは、`attr_readonly`によって読み出し専用属性となるモデルのリストに追加されます。
+Counter cache columns are added to the containing model's list of read-only attributes through `attr_readonly`.
 
 ##### `:dependent`
-`:dependent`オプションの動作は以下のように対象によって異なります。
+If you set the `:dependent` option to:
 
-* `:destroy` -- そのオブジェクトがdestroyされると、関連付けられたオブジェクトに対して`destroy`が呼び出されます。
-* `:delete` -- オブジェクトがdestroyされると、関連付けられたオブジェクトはすべて直接削除されます。このときオブジェクトの`destroy`メソッドは呼び出されません。
+* `:destroy`, when the object is destroyed, `destroy` will be called on its
+associated objects.
+* `:delete`, when the object is destroyed, all its associated objects will be
+deleted directly from the database without calling their `destroy` method.
 
-WARNING: `他のクラスの`has_many` 関連付けとつながりのある `belongs_to` 関連付けに対してこのオプションを使用してはいけません。孤立したレコードがデータベースに残ってしまう可能性があります。
+WARNING: You should not specify this option on a `belongs_to` association that is connected with a `has_many` association on the other class. Doing so can lead to orphaned records in your database.
 
 ##### `:foreign_key`
 
-Railsの慣例では、相手のモデルを指す外部キーを保持している結合テーブル上のカラム名については、そのモデル名にサフィックス `_id` を追加した関連付け名が使用されることを前提とします。`:foreign_key`オプションを使用すると外部キーの名前を直接指定することができます。
+By convention, Rails assumes that the column used to hold the foreign key on this model is the name of the association with the suffix `_id` added. The `:foreign_key` option lets you set the name of the foreign key directly:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -891,11 +906,11 @@ class Order < ActiveRecord::Base
 end
 ```
 
-TIP: Railsは外部キーのカラムを自動的に作ることはありません。外部キーを使用する場合には、マイグレーションで明示的に定義する必要があります。
+TIP: In any case, Rails will not create foreign key columns for you. You need to explicitly define them as part of your migrations.
 
 ##### `:inverse_of`
 
-`:inverse_of`オプションは、その関連付けの逆関連付けとなる`has_many`関連付けまたは`has_one`関連付けの名前を指定します。`:polymorphic`オプションと組み合わせた場合は無効です。
+The `:inverse_of` option specifies the name of the `has_many` or `has_one` association that is the inverse of this association. Does not work in combination with the `:polymorphic` options.
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -909,11 +924,11 @@ end
 
 ##### `:polymorphic`
 
-`:polymorphic`オプションに`true`を指定すると、ポリモーフィック関連付けを指定できます。ポリモーフィック関連付けの詳細については<a href="#ポリモーフィック関連付け">このガイドの説明</a>を参照してください。
+Passing `true` to the `:polymorphic` option indicates that this is a polymorphic association. Polymorphic associations were discussed in detail <a href="#polymorphic-associations">earlier in this guide</a>.
 
 ##### `:touch`
 
-`:touch`オプションを`:true`に設定すると、関連付けられているオブジェクトが保存またはdestroyされるたびに、そのオブジェクトの`updated_at`または`updated_on`タイムスタンプが現在時刻に設定されます。
+If you set the `:touch` option to `:true`, then the `updated_at` or `updated_on` timestamp on the associated object will be set to the current time whenever this object is saved or destroyed:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -925,7 +940,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-上の例の場合、Orderクラスは、関連付けられているCustomerのタイムスタンプを保存時またはdestroy時に更新します。更新時に特定のタイムスタンプ属性を指定することもできます。
+In this case, saving or destroying an order will update the timestamp on the associated customer. You can also specify a particular timestamp attribute to update:
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -935,20 +950,20 @@ end
 
 ##### `:validate`
 
-`:validate`オプションを`true`に設定すると、関連付けられたオブジェクトが保存時に必ず検証(validation)されます。デフォルトは`false`であり、この場合関連付けられたオブジェクトは保存時に検証されません。
+If you set the `:validate` option to `true`, then associated objects will be validated whenever you save this object. By default, this is `false`: associated objects will not be validated when this object is saved.
 
-#### `belongs_to`のスコープ
+#### Scopes for `belongs_to`
 
-場合によっては`belongs_to`で使用されるクエリをカスタマイズしたくなることがあります。スコープブロックを使用してこのようなカスタマイズを行うことができます。例：
+There may be times when you wish to customize the query used by `belongs_to`. Such customizations can be achieved via a scope block. For example:
 
 ```ruby
 class Order < ActiveRecord::Base
   belongs_to :customer, -> { where active: true },
-                        dependent: :destroy 
+                        dependent: :destroy
 end
 ```
 
-スコープブロック内では標準の[クエリメソッド](active_record_querying.html)をすべて使用できます。ここでは以下について説明します。
+You can use any of the standard [querying methods](active_record_querying.html) inside the scope block. The following ones are discussed below:
 
 * `where`
 * `includes`
@@ -957,7 +972,7 @@ end
 
 ##### `where`
 
-`where`は、関連付けられるオブジェクトが満たすべき条件を指定します。
+The `where` method lets you specify the conditions that the associated object must meet.
 
 ```ruby
 class Order < ActiveRecord::Base
@@ -967,7 +982,7 @@ end
 
 ##### `includes`
 
-`includes`メソッドを使用すると、その関連付けが使用されるときにeager-load (訳注:preloadとは異なる)しておきたい第2関連付けを指定することができます。以下のモデルを例にとって考えてみましょう。
+You can use the `includes` method to specify second-order associations that should be eager-loaded when this association is used. For example, consider these models:
 
 ```ruby
 class LineItem < ActiveRecord::Base
@@ -984,7 +999,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-LineItemから顧客名(Customer)を`@line_item.order.customer`のように直接取り出す機会が頻繁にあるのであれば、LineItemとOrderの関連付けを行なう時にCustomerをあらかじめincludeしておくことで無駄なクエリを減らし、効率を高めることができます。
+If you frequently retrieve customers directly from line items (`@line_item.order.customer`), then you can make your code somewhat more efficient by including customers in the association from line items to orders:
 
 ```ruby
 class LineItem < ActiveRecord::Base
@@ -1001,21 +1016,21 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-NOTE: 直接の関連付けでは`includes`を使用する必要はありません。`Order belongs_to :customer`のような直接の関連付けでは必要に応じて自動的にeager-loadされます。
+NOTE: There's no need to use `includes` for immediate associations - that is, if you have `Order belongs_to :customer`, then the customer is eager-loaded automatically when it's needed.
 
 ##### `readonly`
 
-`readonly`を指定すると、関連付けられたオブジェクトから取り出した内容は読み出し専用になります。
+If you use `readonly`, then the associated object will be read-only when retrieved via the association.
 
 ##### `select`
 
-`select`メソッドを使用すると、関連付けられたオブジェクトのデータ取り出しに使用されるSQLの`SELECT`句を上書きします。Railsはデフォルトではすべてのカラムを取り出します。
+The `select` method lets you override the SQL `SELECT` clause that is used to retrieve data about the associated object. By default, Rails retrieves all columns.
 
-TIP: `select`を`belongs_to`関連付けで使用する場合、正しい結果を得るために`:foreign_key`オプションを必ず設定してください。
+TIP: If you use the `select` method on a `belongs_to` association, you should also set the `:foreign_key` option to guarantee the correct results.
 
-#### 関連付けられたオブジェクトが存在するかどうかを確認する
+#### Do Any Associated Objects Exist?
 
-`association.nil?`メソッドを使用して、関連付けられたオブジェクトが存在するかどうかを確認できます。
+You can see if any associated objects exist by using the `association.nil?` method:
 
 ```ruby
 if @order.customer.nil?
@@ -1023,17 +1038,17 @@ if @order.customer.nil?
 end
 ```
 
-#### オブジェクトが保存されるタイミング
+#### When are Objects Saved?
 
-オブジェクトを`belongs_to`関連付けに割り当てても、そのオブジェクトが自動的に保存されるわけでは_ありません_。関連付けられたオブジェクトが保存されることもありません。
+Assigning an object to a `belongs_to` association does _not_ automatically save the object. It does not save the associated object either.
 
-### `has_one`関連付けの詳細
+### `has_one` Association Reference
 
-`has_one`関連付けは他のモデルと1対1対応します。データベースの観点では、この関連付けでは相手のクラスが外部キーを持ちます。相手ではなく自分のクラスが外部キーを持っているのであれば、`belongs_to`を使うべきです。
+The `has_one` association creates a one-to-one match with another model. In database terms, this association says that the other class contains the foreign key. If this class contains the foreign key, then you should use `belongs_to` instead.
 
-#### `has_one`で追加されるメソッド
+#### Methods Added by `has_one`
 
-`has_one`関連付けを宣言したクラスでは、以下の5つのメソッドを自動的に利用できるようになります。
+When you declare a `has_one` association, the declaring class automatically gains five methods related to the association:
 
 * `association(force_reload = false)`
 * `association=(associate)`
@@ -1041,7 +1056,7 @@ end
 * `create_association(attributes = {})`
 * `create_association!(attributes = {})`
 
-これらのメソッドのうち、`association`の部分はプレースホルダであり、`has_one`の最初の引数である関連付け名をシンボルにしたものに置き換えられます。たとえば以下の宣言を見てみましょう。
+In all of these methods, `association` is replaced with the symbol passed as the first argument to `has_one`. For example, given the declaration:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1049,7 +1064,7 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-これにより、`Supplier`モデルのインスタンスで以下のメソッドが使えるようになります。
+Each instance of the `Supplier` model will have these methods:
 
 ```ruby
 account
@@ -1059,21 +1074,21 @@ create_account
 create_account!
 ```
 
-NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付けを初期化するには、`build_`で始まるメソッドを使用する必要があります。この場合`has_many`関連付けや`has_and_belongs_to_many`関連付けで使用される`association.build`メソッドは使用しないでください。作成するには、`create_`で始まるメソッドを使用してください。
+NOTE: When initializing a new `has_one` or `belongs_to` association you must use the `build_` prefix to build the association, rather than the `association.build` method that would be used for `has_many` or `has_and_belongs_to_many` associations. To create one, use the `create_` prefix.
 
 ##### `association(force_reload = false)`
 
-`association`メソッドは関連付けられたオブジェクトを返します。関連付けられたオブジェクトがない場合は`nil`を返します。
+The `association` method returns the associated object, if any. If no associated object is found, it returns `nil`.
 
 ```ruby
 @account = @supplier.account
 ```
 
-関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。キャッシュを読み出さずにデータベースから直接読み込ませたい場合は、`force_reload`の引数に`true`を設定します。
+If the associated object has already been retrieved from the database for this object, the cached version will be returned. To override this behavior (and force a database read), pass `true` as the `force_reload` argument.
 
 ##### `association=(associate)`
 
-`association=`メソッドは、引数のオブジェクトをそのオブジェクトに関連付けます。その背後では、そのオブジェクトから主キーを取り出し、関連付けるオブジェクトの外部キーの値をその主キーと同じ値にします。
+The `association=` method assigns an associated object to this object. Behind the scenes, this means extracting the primary key from this object and setting the associate object's foreign key to the same value.
 
 ```ruby
 @supplier.account = @account
@@ -1081,7 +1096,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `build_association(attributes = {})`
 
-`build_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。このオブジェクトは、渡された属性でインスタンス化され、そのオブジェクトの外部キーを介してリンクが設定されます。ただし、関連付けられたオブジェクトはまだ保存されません。
+The `build_association` method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through its foreign key will be set, but the associated object will _not_ yet be saved.
 
 ```ruby
 @account = @supplier.build_account(terms: "Net 30")
@@ -1089,7 +1104,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `create_association(attributes = {})`
 
-`create_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。このオブジェクトは、渡された属性を使用してインスタンス化され、そのオブジェクトの外部キーを介してリンクが設定されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
+The `create_association` method returns a new object of the associated type. This object will be instantiated from the passed attributes, the link through its foreign key will be set, and, once it passes all of the validations specified on the associated model, the associated object _will_ be saved.
 
 ```ruby
 @account = @supplier.create_account(terms: "Net 30")
@@ -1097,11 +1112,11 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 
 ##### `create_association!(attributes = {})`
 
-上の`create_association`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
+Does the same as `create_association` above, but raises `ActiveRecord::RecordInvalid` if the record is invalid.
 
-#### `has_one`のオプション
+#### Options for `has_one`
 
-Railsのデフォルトの`has_one`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときにオプションを渡すことで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
+While Rails uses intelligent defaults that will work well in most situations, there may be times when you want to customize the behavior of the `has_one` association reference. Such customizations can easily be accomplished by passing options when you create the association. For example, this association uses two such options:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1109,7 +1124,7 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-`has_one`関連付けでは以下のオプションがサポートされます。
+The `has_one` association supports these options:
 
 * `:as`
 * `:autosave`
@@ -1125,15 +1140,15 @@ end
 
 ##### `:as`
 
-`:as`オプションに`true`を設定すると、ポリモーフィック関連付けを指定できます。ポリモーフィック関連付けの詳細については<a href="#ポリモーフィック関連付け">このガイドの説明</a>を参照してください。
+Setting the `:as` option indicates that this is a polymorphic association. Polymorphic associations were discussed in detail [earlier in this guide](#polymorphic-associations).
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+If you set the `:autosave` option to `true`, Rails will save any loaded members and destroy members that are marked for destruction whenever you save the parent object.
 
 ##### `:class_name`
 
-関連名から関連相手のオブジェクト名を生成できない事情がある場合、`:class_name`オプションを使用してモデル名を直接指定できます。たとえば、Supplierにアカウントが1つあり、アカウントを含むモデルの実際の名前が`Account`ではなく`Billing`になっている場合、以下のようにモデル名を指定できます。
+If the name of the other model cannot be derived from the association name, you can use the `:class_name` option to supply the model name. For example, if a supplier has an account, but the actual name of the model containing accounts is `Billing`, you'd set things up this way:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1143,19 +1158,23 @@ end
 
 ##### `:dependent`
 
-オーナーオブジェクトがdestroyされた時に、それに関連付けられたオブジェクトをどうするかを制御します。
+Controls what happens to the associated object when its owner is destroyed:
 
-* `:destroy`を指定すると、関連付けられたオブジェクトも同時にdestroyされます。
-* `:delete`を指定すると、関連付けられたオブジェクトはデータベースから直接削除されます。このときコールバックは実行されません。
-* `:nullify`を指定すると、外部キーが`NULL`に設定されます。このときコールバックは実行されません。
-* `:restrict_with_exception`を指定すると、関連付けられたレコードがある場合に例外が発生します。
-* `:restrict_with_error`を指定すると、関連付けられたオブジェクトがある場合にエラーがオーナーに追加されます。
+* `:destroy` causes the associated object to also be destroyed
+* `:delete` causes the associated object to be deleted directly from the database (so callbacks will not execute)
+* `:nullify` causes the foreign key to be set to `NULL`. Callbacks are not executed.
+* `:restrict_with_exception` causes an exception to be raised if there is an associated record
+* `:restrict_with_error` causes an error to be added to the owner if there is an associated object
 
-`NOT NULL`データベース制約のある関連付けでは、`:nullify`オプションを与えないようにする必要があります。そのような関連付けをdestroyする`dependent`を設定しなかった場合、関連付けられたオブジェクトを変更できなくなってしまいます。これは、最初に関連付けられたオブジェクトの外部キーが`NULL`値になってしまい、この値は許されていないためです。
+It's necessary not to set or leave `:nullify` option for those associations
+that have `NOT NULL` database constraints. If you don't set `dependent` to
+destroy such associations you won't be able to change the associated object
+because initial associated object foreign key will be set to unallowed `NULL`
+value.
 
 ##### `:foreign_key`
 
-Railsの慣例では、相手のモデル上の外部キーを保持しているカラム名については、そのモデル名にサフィックス `_id` を追加した関連付け名が使用されることを前提とします。`:foreign_key`オプションを使用すると外部キーの名前を直接指定することができます。
+By convention, Rails assumes that the column used to hold the foreign key on the other model is the name of this model with the suffix `_id` added. The `:foreign_key` option lets you set the name of the foreign key directly:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1163,11 +1182,11 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-TIP: Railsは外部キーのカラムを自動的に作ることはありません。外部キーを使用する場合には、マイグレーションで明示的に定義する必要があります。
+TIP: In any case, Rails will not create foreign key columns for you. You need to explicitly define them as part of your migrations.
 
 ##### `:inverse_of`
 
-`:inverse_of`オプションは、その関連付けの逆関連付けとなる`belongs_to`関連付けの名前を指定します。`:through`または`:as`オプションと組み合わせた場合は無効です。
+The `:inverse_of` option specifies the name of the `belongs_to` association that is the inverse of this association. Does not work in combination with the `:through` or `:as` options.
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1181,27 +1200,27 @@ end
 
 ##### `:primary_key`
 
-Railsの慣例では、モデルの主キーは`id`カラムに保存されていることを前提とします。`:primary_key`オプションで主キーを明示的に指定することでこれを上書きすることができます。
+By convention, Rails assumes that the column used to hold the primary key of this model is `id`. You can override this and explicitly specify the primary key with the `:primary_key` option.
 
 ##### `:source`
 
-`:source`オプションは、`has_one :through`関連付けにおける「ソースの」関連付け名、つまり関連付け元の名前を指定します。
+The `:source` option specifies the source association name for a `has_one :through` association.
 
 ##### `:source_type`
 
-`:source_type`オプションは、ポリモーフィック関連付けを介して行われる`has_one :through`関連付けにおける「ソースの」関連付けタイプ、つまり関連付け元のタイプを指定します。
+The `:source_type` option specifies the source association type for a `has_one :through` association that proceeds through a polymorphic association.
 
 ##### `:through`
 
-`:through`オプションは、<a href="#has_one-:through関連付け">このガイドで既に説明した</a>`has_one :through`関連付けのクエリを実行する際に経由する結合モデルを指定します。
+The `:through` option specifies a join model through which to perform the query. `has_one :through` associations were discussed in detail [earlier in this guide](#the-has-one-through-association).
 
 ##### `:validate`
 
-`:validate`オプションを`true`に設定すると、関連付けられたオブジェクトが保存時に必ず検証(validation)されます。デフォルトは`false`であり、この場合関連付けられたオブジェクトは保存時に検証されません。
+If you set the `:validate` option to `true`, then associated objects will be validated whenever you save this object. By default, this is `false`: associated objects will not be validated when this object is saved.
 
-#### `has_one`のスコープについて
+#### Scopes for `has_one`
 
-場合によっては`has_one`で使用されるクエリをカスタマイズしたくなることがあります。スコープブロックを使用してこのようなカスタマイズを行うことができます。例：
+There may be times when you wish to customize the query used by `has_one`. Such customizations can be achieved via a scope block. For example:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1209,7 +1228,7 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-スコープブロック内では標準の[クエリメソッド](active_record_querying.html)をすべて使用できます。ここでは以下について説明します。
+You can use any of the standard [querying methods](active_record_querying.html) inside the scope block. The following ones are discussed below:
 
 * `where`
 * `includes`
@@ -1218,7 +1237,7 @@ end
 
 ##### `where`
 
-`where`は、関連付けられるオブジェクトが満たすべき条件を指定します。
+The `where` method lets you specify the conditions that the associated object must meet.
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1228,7 +1247,7 @@ end
 
 ##### `includes`
 
-`includes`メソッドを使用すると、その関連付けが使用されるときにeager-load (訳注:preloadとは異なる)しておきたい第2関連付けを指定することができます。以下のモデルを例にとって考えてみましょう。
+You can use the `includes` method to specify second-order associations that should be eager-loaded when this association is used. For example, consider these models:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1245,7 +1264,7 @@ class Representative < ActiveRecord::Base
 end
 ```
 
-上の例で、Supplierから代表(Representative)を`@supplier.account.representative`のように直接取り出す機会が頻繁にあるのであれば、SupplierからAccountへの関連付けにRepresentativeをあらかじめincludeしておくことで無駄なクエリを減らし、効率を高めることができます。 
+If you frequently retrieve representatives directly from suppliers (`@supplier.account.representative`), then you can make your code somewhat more efficient by including representatives in the association from suppliers to accounts:
 
 ```ruby
 class Supplier < ActiveRecord::Base
@@ -1264,15 +1283,15 @@ end
 
 ##### `readonly`
 
-`readonly`を指定すると、関連付けられたオブジェクトを取り出すときに読み出し専用になります。
+If you use the `readonly` method, then the associated object will be read-only when retrieved via the association.
 
 ##### `select`
 
-`select`メソッドを使用すると、関連付けられたオブジェクトのデータ取り出しに使用されるSQLの`SELECT`句を上書きします。Railsはデフォルトではすべてのカラムを取り出します。
+The `select` method lets you override the SQL `SELECT` clause that is used to retrieve data about the associated object. By default, Rails retrieves all columns.
 
-#### 関連付けられたオブジェクトが存在するかどうかを確認する
+#### Do Any Associated Objects Exist?
 
-`association.nil?`メソッドを使用して、関連付けられたオブジェクトが存在するかどうかを確認できます。
+You can see if any associated objects exist by using the `association.nil?` method:
 
 ```ruby
 if @supplier.account.nil?
@@ -1280,42 +1299,42 @@ if @supplier.account.nil?
 end
 ```
 
-#### オブジェクトが保存されるタイミング
+#### When are Objects Saved?
 
-`has_one`関連付けにオブジェクトをアサインすると、外部キーを更新するためにそのオブジェクトは自動的に保存されます。さらに、置き換えられるオブジェクトは、これは外部キーが変更されたことによってすべて自動的に保存されます。
+When you assign an object to a `has_one` association, that object is automatically saved (in order to update its foreign key). In addition, any object being replaced is also automatically saved, because its foreign key will change too.
 
-関連付けられているオブジェクト同士のいずれか一方が検証(validation)のために保存に失敗すると、アサインの状態からは`false`が返され、アサインはキャンセルされます。
+If either of these saves fails due to validation errors, then the assignment statement returns `false` and the assignment itself is cancelled.
 
-親オブジェクト(`has_one`関連付けを宣言している側のオブジェクト)が保存されない場合(つまり`new_record?`が`true`を返す場合)、子オブジェクトは追加時に保存されません。親オブジェクトが保存された場合は、子オブジェクトは保存されます。
+If the parent object (the one declaring the `has_one` association) is unsaved (that is, `new_record?` returns `true`) then the child objects are not saved. They will automatically when the parent object is saved.
 
-`has_one`関連付けにオブジェクトをアサインし、しかもそのオブジェクトを保存したくない場合、`association.build`メソッドを使用してください。
+If you want to assign an object to a `has_one` association without saving the object, use the `association.build` method.
 
-### `has_many`関連付けの詳細
+### `has_many` Association Reference
 
-`has_many`関連付けは、他のモデルとの間に「1対多」のつながりを作成します。データベースの観点では、この関連付けにおいては相手のクラスが外部キーを持ちます。この外部キーは相手のクラスのインスタンスを参照します。
+The `has_many` association creates a one-to-many relationship with another model. In database terms, this association says that the other class will have a foreign key that refers to instances of this class.
 
-#### `has_many`で追加されるメソッド
+#### Methods Added by `has_many`
 
-`has_many`関連付けを宣言したクラスでは、以下の16のメソッドを自動的に利用できるようになります。
+When you declare a `has_many` association, the declaring class automatically gains 16 methods related to the association:
 
 * `collection(force_reload = false)`
 * `collection<<(object, ...)`
 * `collection.delete(object, ...)`
 * `collection.destroy(object, ...)`
-* `collection=objects` 
+* `collection=(objects)`
 * `collection_singular_ids`
-* `collection_singular_ids=ids`
+* `collection_singular_ids=(ids)`
 * `collection.clear`
 * `collection.empty?`
 * `collection.size`
 * `collection.find(...)`
 * `collection.where(...)`
-* `collection.exists?(...) `
+* `collection.exists?(...)`
 * `collection.build(attributes = {}, ...)`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
 
-上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
+In all of these methods, `collection` is replaced with the symbol passed as the first argument to `has_many`, and `collection_singular` is replaced with the singularized version of that symbol. For example, given the declaration:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1323,16 +1342,16 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-これにより、`Customer`モデルのインスタンスで以下のメソッドが使えるようになります。
+Each instance of the `Customer` model will have these methods:
 
 ```ruby
 orders(force_reload = false)
 orders<<(object, ...)
 orders.delete(object, ...)
 orders.destroy(object, ...)
-orders=objects
+orders=(objects)
 order_ids
-order_ids=ids
+order_ids=(ids)
 orders.clear
 orders.empty?
 orders.size
@@ -1341,12 +1360,12 @@ orders.where(...)
 orders.exists?(...)
 orders.build(attributes = {}, ...)
 orders.create(attributes = {})
-orders.create!(attributes = {})`
+orders.create!(attributes = {})
 ```
 
 ##### `collection(force_reload = false)`
 
-`collection`メソッドは、関連付けられたすべてのオブジェクトの配列を返します。関連付けられたオブジェクトがない場合は、空の配列を1つ返します。
+The `collection` method returns an array of all of the associated objects. If there are no associated objects, it returns an empty array.
 
 ```ruby
 @orders = @customer.orders
@@ -1354,7 +1373,7 @@ orders.create!(attributes = {})`
 
 ##### `collection<<(object, ...)`
 
-`collection<<`メソッドは、1つ以上のオブジェクトをコレクションに追加します。このとき、追加されるオブジェクトの外部キーは、呼び出し側モデルの主キーに設定されます。
+The `collection<<` method adds one or more objects to the collection by setting their foreign keys to the primary key of the calling model.
 
 ```ruby
 @customer.orders << @order1
@@ -1362,57 +1381,57 @@ orders.create!(attributes = {})`
 
 ##### `collection.delete(object, ...)`
 
-`collection.delete`メソッドは、外部キーを`NULL`に設定することで、コレクションから1つまたは複数のオブジェクトを削除します。
+The `collection.delete` method removes one or more objects from the collection by setting their foreign keys to `NULL`.
 
 ```ruby
 @customer.orders.delete(@order1)
 ```
 
-WARNING: 削除のされ方はこれだけではありません。オブジェクト同士が`dependent: :destroy`で関連付けられている場合はdestroyされますが、オブジェクト同士が`dependent: :delete_all`で関連付けられている場合はdeleteされますのでご注意ください。
+WARNING: Additionally, objects will be destroyed if they're associated with `dependent: :destroy`, and deleted if they're associated with `dependent: :delete_all`.
 
 ##### `collection.destroy(object, ...)`
 
-`collection.destroy`は、コレクションに関連付けられているオブジェクトに対して`destroy`を実行することで、コレクションから1つまたは複数のオブジェクトを削除します。
+The `collection.destroy` method removes one or more objects from the collection by running `destroy` on each object.
 
 ```ruby
 @customer.orders.destroy(@order1)
 ```
 
-WARNING: この場合オブジェクトは_無条件で_データベースから削除されます。このとき、`:dependent`オプションがどのように設定されていても無視して削除が行われます。
+WARNING: Objects will _always_ be removed from the database, ignoring the `:dependent` option.
 
-##### `collection=objects`
+##### `collection=(objects)`
 
-`collection=`メソッドは、指定したオブジェクトでそのコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。
+The `collection=` method makes the collection contain only the supplied objects, by adding and deleting as appropriate.
 
 ##### `collection_singular_ids`
 
-`collection_singular_ids`メソッドは、そのコレクションに含まれるオブジェクトのidを配列にしたものを返します。
+The `collection_singular_ids` method returns an array of the ids of the objects in the collection.
 
 ```ruby
 @order_ids = @customer.order_ids
 ```
 
-##### `collection_singular_ids=ids`
+##### `collection_singular_ids=(ids)`
 
-`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。
+The `collection_singular_ids=` method makes the collection contain only the objects identified by the supplied primary key values, by adding and deleting as appropriate.
 
 ##### `collection.clear`
 
-`collection.clear`メソッドは、コレクションからすべてのオブジェクトを削除します。`dependent: :destroy`で関連付けられたオブジェクトがある場合は、それらのオブジェクトはdestroyされます。`dependent: :delete_all`で関連付けられたオブジェクトがある場合は、データベースから直接deleteされます。それ以外の場合は単に外部キーが`NULL`に設定されます。
+The `collection.clear` method removes every object from the collection. This destroys the associated objects if they are associated with `dependent: :destroy`, deletes them directly from the database if `dependent: :delete_all`, and otherwise sets their foreign keys to `NULL`.
 
 ##### `collection.empty?`
 
-`collection.empty?`メソッドは、関連付けられたオブジェクトがコレクションの中に1つもない場合に`true`を返します。
+The `collection.empty?` method returns `true` if the collection does not contain any associated objects.
 
 ```erb
 <% if @customer.orders.empty? %>
-  注文はありません。
+  No Orders Found
 <% end %>
 ```
 
 ##### `collection.size`
 
-`collection.size`メソッドは、コレクションに含まれるオブジェクトの数を返します。
+The `collection.size` method returns the number of objects in the collection.
 
 ```ruby
 @order_count = @customer.orders.size
@@ -1420,7 +1439,7 @@ WARNING: この場合オブジェクトは_無条件で_データベースから
 
 ##### `collection.find(...)`
 
-`collection.find`メソッドは、コレクションに含まれるオブジェクトを検索します。このメソッドで使用される文法は、`ActiveRecord::Base.find`で使用されているものと同じです。
+The `collection.find` method finds objects within the collection. It uses the same syntax and options as `ActiveRecord::Base.find`.
 
 ```ruby
 @open_orders = @customer.orders.find(1)
@@ -1428,20 +1447,20 @@ WARNING: この場合オブジェクトは_無条件で_データベースから
 
 ##### `collection.where(...)`
 
-`collection.where`メソッドは、コレクションに含まれているメソッドを指定された条件に基いて検索します。このメソッドではオブジェクトは遅延読み込み(lazy load)される点にご注意ください。つまり、オブジェクトに実際にアクセスが行われる時にだけデータベースへのクエリが発生します。
+The `collection.where` method finds objects within the collection based on the conditions supplied but the objects are loaded lazily meaning that the database is queried only when the object(s) are accessed.
 
 ```ruby
-@open_orders = @customer.orders.where(open: true) # この時点ではクエリは行われない
-@open_order = @open_orders.first # ここで初めてデータベースへのクエリが行われる
+@open_orders = @customer.orders.where(open: true) # No query yet
+@open_order = @open_orders.first # Now the database will be queried
 ```
 
 ##### `collection.exists?(...)`
 
-`collection.exists?`メソッドは、指定された条件に合うオブジェクトがコレクションの中に存在するかどうかをチェックします。このメソッドで使用される文法は、`ActiveRecord::Base.exists?`で使用されているものと同じです。`.
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as `ActiveRecord::Base.exists?`.
 
 ##### `collection.build(attributes = {}, ...)`
 
-`collection.build`メソッドは、関連付けが行われたオブジェクトを1つまたは複数返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、外部キーを経由するリンクが作成されます。関連付けられたオブジェクトは、値が返された時点ではまだ保存されて_いない_ことにご注意ください。
+The `collection.build` method returns one or more new objects of the associated type. These objects will be instantiated from the passed attributes, and the link through their foreign key will be created, but the associated objects will _not_ yet be saved.
 
 ```ruby
 @order = @customer.orders.build(order_date: Time.now,
@@ -1450,7 +1469,7 @@ WARNING: この場合オブジェクトは_無条件で_データベースから
 
 ##### `collection.create(attributes = {})`
 
-`collection.create`メソッドは、関連付けが行われたオブジェクトを1つ返します。このオブジェクトは、渡された属性を使用してインスタンス化され、そのオブジェクトの外部キーを介してリンクが作成されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
+The `collection.create` method returns a new object of the associated type. This object will be instantiated from the passed attributes, the link through its foreign key will be created, and, once it passes all of the validations specified on the associated model, the associated object _will_ be saved.
 
 ```ruby
 @order = @customer.orders.create(order_date: Time.now,
@@ -1459,11 +1478,11 @@ WARNING: この場合オブジェクトは_無条件で_データベースから
 
 ##### `collection.create!(attributes = {})`
 
-上の`collection.create`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
+Does the same as `collection.create` above, but raises `ActiveRecord::RecordInvalid` if the record is invalid.
 
-#### `has_many`のオプション
+#### Options for `has_many`
 
-Railsのデフォルトの`has_many`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときにオプションを渡すことで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
+While Rails uses intelligent defaults that will work well in most situations, there may be times when you want to customize the behavior of the `has_many` association reference. Such customizations can easily be accomplished by passing options when you create the association. For example, this association uses two such options:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1471,7 +1490,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-`has_many`関連付けでは以下のオプションがサポートされます。
+The `has_many` association supports these options:
 
 * `:as`
 * `:autosave`
@@ -1487,15 +1506,15 @@ end
 
 ##### `:as`
 
-`:as`オプションを設定すると、ポリモーフィック関連付けであることが指定されます。(<a href="#ポリモーフィック関連付け">このガイドの説明</a>を参照)
+Setting the `:as` option indicates that this is a polymorphic association, as discussed [earlier in this guide](#polymorphic-associations).
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+If you set the `:autosave` option to `true`, Rails will save any loaded members and destroy members that are marked for destruction whenever you save the parent object.
 
 ##### `:class_name`
 
-関連名から関連相手のオブジェクト名を生成できない事情がある場合、`:class_name`オプションを使用してモデル名を直接指定できます。たとえば、1人の顧客(customer)が複数の注文(order)を持っているが、実際の注文モデル名が`Transaction`である場合には以下のように指定します。
+If the name of the other model cannot be derived from the association name, you can use the `:class_name` option to supply the model name. For example, if a customer has many orders, but the actual name of the model containing orders is `Transaction`, you'd set things up this way:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1505,19 +1524,17 @@ end
 
 ##### `:dependent`
 
-オーナーオブジェクトがdestroyされたときに、オーナーに関連付けられたオブジェクトをどうするかを制御します。
+Controls what happens to the associated objects when their owner is destroyed:
 
-* `:destroy`を指定すると、関連付けられたオブジェクトもすべて同時にdestroyされます。
-* `:delete`を指定すると、関連付けられたオブジェクトはすべてデータベースから直接削除されます。このときコールバックは実行されません。
-* `:nullify`を指定すると、外部キーはすべて`NULL`に設定されます。このときコールバックは実行されません。
-* `:restrict_with_exception`を指定すると、関連付けられたレコードが1つでもある場合に例外が発生します。
-* `:restrict_with_error`を指定すると、関連付けられたオブジェクトが1つでもある場合にエラーがオーナーに追加されます。
-
-NOTE: その関連付けで`:through`オプションが指定されている場合、このオプションは無効です。
+* `:destroy` causes all the associated objects to also be destroyed
+* `:delete_all` causes all the associated objects to be deleted directly from the database (so callbacks will not execute)
+* `:nullify` causes the foreign keys to be set to `NULL`. Callbacks are not executed.
+* `:restrict_with_exception` causes an exception to be raised if there are any associated records
+* `:restrict_with_error` causes an error to be added to the owner if there are any associated objects
 
 ##### `:foreign_key`
 
-Railsの慣例では、外部キーを保持するためのカラム名については、モデル名にサフィックス `_id` を追加した名前が使用されることを前提とします。`:foreign_key`オプションを使用すると外部キーの名前を直接指定することができます。
+By convention, Rails assumes that the column used to hold the foreign key on the other model is the name of this model with the suffix `_id` added. The `:foreign_key` option lets you set the name of the foreign key directly:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1525,11 +1542,11 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-TIP: Railsは外部キーのカラムを自動的に作ることはありません。外部キーを使用する場合には、マイグレーションで明示的に定義する必要があります。
+TIP: In any case, Rails will not create foreign key columns for you. You need to explicitly define them as part of your migrations.
 
 ##### `:inverse_of`
 
-`:inverse_of`オプションは、その関連付けの逆関連付けとなる`belongs_to`関連付けの名前を指定します。`:through`または`:as`オプションと組み合わせた場合は無効です。
+The `:inverse_of` option specifies the name of the `belongs_to` association that is the inverse of this association. Does not work in combination with the `:through` or `:as` options.
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1543,9 +1560,11 @@ end
 
 ##### `:primary_key`
 
-Railsの慣例では、関連付けの主キーは`id`カラムに保存されていることを前提とします。`:primary_key`オプションで主キーを明示的に指定することでこれを上書きすることができます。
+By convention, Rails assumes that the column used to hold the primary key of the association is `id`. You can override this and explicitly specify the primary key with the `:primary_key` option.
 
-`users`テーブルに主キーとして`id`カラムがあり、その他に`guid`カラムもあるとします。さらに、`todos`テーブルでは`users`テーブルの`id`カラムの値ではなく`guid`カラムの値を保持したいとします。これは以下のようにすることで実現できます。
+Let's say that `users` table has `id` as the primary_key but it also has
+`guid` column. And the requirement is that `todos` table should hold
+`guid` column value and not `id` value. This can be achieved like this
 
 ```ruby
 class User < ActiveRecord::Base
@@ -1553,28 +1572,29 @@ class User < ActiveRecord::Base
 end
 ```
 
-ここで`@user.todos.create`を実行すると、`@todo`レコードの`user_id`カラムの値には`@user`の`guid`値が設定されます。
+Now if we execute `@user.todos.create` then `@todo` record will have
+`user_id` value as the `guid` value of `@user`.
 
 
 ##### `:source`
 
-`:source`オプションは、`has_many :through`関連付けにおける「ソースの」関連付け名、つまり関連付け元の名前を指定します。このオプションは、関連付け名から関連付け元の名前が自動的に推論できない場合以外には使用する必要はありません。
+The `:source` option specifies the source association name for a `has_many :through` association. You only need to use this option if the name of the source association cannot be automatically inferred from the association name.
 
 ##### `:source_type`
 
-`:source_type`オプションは、ポリモーフィック関連付けを介して行われる`has_many :through`関連付けにおける「ソースの」関連付けタイプ、つまり関連付け元のタイプを指定します。
+The `:source_type` option specifies the source association type for a `has_many :through` association that proceeds through a polymorphic association.
 
 ##### `:through`
 
-`:through`オプションは、クエリ実行時に経由する結合(join)モデルを指定します。`has_many :through`関連付けは、多対多の関連付けを実装する方法を提供します(詳細については<a href="#has_many-:through関連付け">このガイドの説明</a>を参照)。
+The `:through` option specifies a join model through which to perform the query. `has_many :through` associations provide a way to implement many-to-many relationships, as discussed [earlier in this guide](#the-has-many-through-association).
 
 ##### `:validate`
 
-`:validate`オプションを`false`に設定すると、関連付けられたオブジェクトは保存時に検証(validation)されません。デフォルトは`true`であり、この場合関連付けられたオブジェクトは保存時に検証されます。
+If you set the `:validate` option to `false`, then associated objects will not be validated whenever you save this object. By default, this is `true`: associated objects will be validated when this object is saved.
 
-#### `has_many`のスコープについて
+#### Scopes for `has_many`
 
-場合によっては`has_many`で使用されるクエリをカスタマイズしたくなることがあります。スコープブロックを使用してこのようなカスタマイズを行うことができます。例：
+There may be times when you wish to customize the query used by `has_many`. Such customizations can be achieved via a scope block. For example:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1582,7 +1602,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-スコープブロック内では標準の[クエリメソッド](active_record_querying.html)をすべて使用できます。ここでは以下について説明します。
+You can use any of the standard [querying methods](active_record_querying.html) inside the scope block. The following ones are discussed below:
 
 * `where`
 * `extending`
@@ -1597,7 +1617,7 @@ end
 
 ##### `where`
 
-`where`は、関連付けられるオブジェクトが満たすべき条件を指定します。
+The `where` method lets you specify the conditions that the associated object must meet.
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1606,7 +1626,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-条件はハッシュを使用して指定することもできます。
+You can also set conditions via a hash:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1615,15 +1635,15 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-`where`オプションでハッシュを使用した場合、この関連付けで作成されたレコードは自動的にこのハッシュを使用したスコープに含まれるようになります。この例の場合、`@customer.confirmed_orders.create`または`@customer.confirmed_orders.build`を実行すると、comfirmedカラムの値が`true`の注文(order)が常に作成されます。
+If you use a hash-style `where` option, then record creation via this association will be automatically scoped using the hash. In this case, using `@customer.confirmed_orders.create` or `@customer.confirmed_orders.build` will create orders where the confirmed column has the value `true`.
 
 ##### `extending`
 
-`extending`メソッドは、関連付けプロキシを拡張する名前付きモジュールを指定します。関連付けの拡張については<a href="#関連付けの拡張">後述します</a>。
+The `extending` method specifies a named module to extend the association proxy. Association extensions are discussed in detail [later in this guide](#association-extensions).
 
 ##### `group`
 
-`group`メソッドは、結果をグループ化する際の属性名を1つ指定します。内部的にはSQLの`GROUP BY`句が使用されます。
+The `group` method supplies an attribute name to group the result set by, using a `GROUP BY` clause in the finder SQL.
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1634,7 +1654,7 @@ end
 
 ##### `includes`
 
-`includes`メソッドを使用すると、その関連付けが使用されるときにeager-load (訳注:preloadとは異なる)しておきたい第2関連付けを指定することができます。以下のモデルを例にとって考えてみましょう。
+You can use the `includes` method to specify second-order associations that should be eager-loaded when this association is used. For example, consider these models:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1651,7 +1671,7 @@ class LineItem < ActiveRecord::Base
 end
 ```
 
-顧客名(Customer)からLineItemを`@customer.orders.line_items`のように直接取り出す機会が頻繁にあるのであれば、LineItemとOrderの関連付けを行なう時にCustomerをあらかじめincludeしておくことで無駄なクエリを減らし、効率を高めることができます。
+If you frequently retrieve line items directly from customers (`@customer.orders.line_items`), then you can make your code somewhat more efficient by including line items in the association from customers to orders:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1670,7 +1690,7 @@ end
 
 ##### `limit`
 
-`limit`メソッドは、関連付けを使用して取得できるオブジェクトの総数を制限するのに使用します。
+The `limit` method lets you restrict the total number of objects that will be fetched through an association.
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1682,11 +1702,11 @@ end
 
 ##### `offset`
 
-`offset`メソッドは、関連付けを使用してオブジェクトを取得する際の開始オフセットを指定します。たとえば、`-> { offset(11) }`と指定すると、最初の11レコードはスキップされ、12レコード目から返されるようになります。
+The `offset` method lets you specify the starting offset for fetching objects via an association. For example, `-> { offset(11) }` will skip the first 11 records.
 
 ##### `order`
 
-`order`メソッドは、関連付けられたオブジェクトに与えられる順序を指定します。内部的にはSQLの`ORDER BY`句が使用されます。
+The `order` method dictates the order in which associated objects will be received (in the syntax used by an SQL `ORDER BY` clause).
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -1696,100 +1716,112 @@ end
 
 ##### `readonly`
 
-`readonly`を指定すると、関連付けられたオブジェクトを取り出すときに読み出し専用になります。
+If you use the `readonly` method, then the associated objects will be read-only when retrieved via the association.
 
 ##### `select`
 
-`select`メソッドを使用すると、関連付けられたオブジェクトのデータ取り出しに使用されるSQLの`SELECT`句を上書きします。Railsはデフォルトではすべてのカラムを取り出します。
+The `select` method lets you override the SQL `SELECT` clause that is used to retrieve data about the associated objects. By default, Rails retrieves all columns.
 
-WARNING: 独自の`select`メソッドを使用する場合には、関連付けられているモデルの主キーカラムと外部キーカラムを必ず含めておいてください。これを行わなかった場合、Railsでエラーが発生します。
+WARNING: If you specify your own `select`, be sure to include the primary key and foreign key columns of the associated model. If you do not, Rails will throw an error.
 
 ##### `distinct`
 
-`distinct`メソッドは、コレクション内で重複が発生しないようにします。このメソッドは`:through`オプションと併用するときに特に便利です。
+Use the `distinct` method to keep the collection free of duplicates. This is
+mostly useful together with the `:through` option.
 
 ```ruby
 class Person < ActiveRecord::Base
   has_many :readings
-  has_many :posts, through: :readings
+  has_many :articles, through: :readings
 end
 
 person = Person.create(name: 'John')
-post   = Post.create(name: 'a1')
-person.posts << post
-person.posts << post
-person.posts.inspect # => [#<Post id: 5, name: "a1">, #<Post id: 5, name: "a1">]
-Reading.all.inspect  # => [#<Reading id: 12, person_id: 5, post_id: 5>, #<Reading id: 13, person_id: 5, post_id: 5>]
+article   = Article.create(name: 'a1')
+person.articles << article
+person.articles << article
+person.articles.inspect # => [#<Article id: 5, name: "a1">, #<Article id: 5, name: "a1">]
+Reading.all.inspect  # => [#<Reading id: 12, person_id: 5, article_id: 5>, #<Reading id: 13, person_id: 5, article_id: 5>]
 ```
 
-上の例の場合、readingが2つあって重複しており、`person.posts`を実行すると、どちらも同じポストを指しているにもかかわらず、両方とも取り出されてしまいます。
+In the above case there are two readings and `person.articles` brings out both of
+them even though these records are pointing to the same article.
 
-今度は`distinct`を設定してみましょう。
+Now let's set `distinct`:
 
 ```ruby
 class Person
   has_many :readings
-  has_many :posts, -> { distinct }, through: :readings
+  has_many :articles, -> { distinct }, through: :readings
 end
 
 person = Person.create(name: 'Honda')
-post   = Post.create(name: 'a1')
-person.posts << post
-person.posts << post
-person.posts.inspect # => [#<Post id: 7, name: "a1">]
-Reading.all.inspect  # => [#<Reading id: 16, person_id: 7, post_id: 7>, #<Reading id: 17, person_id: 7, post_id: 7>]
+article   = Article.create(name: 'a1')
+person.articles << article
+person.articles << article
+person.articles.inspect # => [#<Article id: 7, name: "a1">]
+Reading.all.inspect  # => [#<Reading id: 16, person_id: 7, article_id: 7>, #<Reading id: 17, person_id: 7, article_id: 7>]
 ```
 
-上の例でもreadingは2つあって重複しています。しかし今度は`person.posts`の実行結果にはポストは1つだけ含まれるようになりました。これはこのコレクションが一意のレコードだけを読み込むようになったためです。
+In the above case there are still two readings. However `person.articles` shows
+only one article because the collection loads only unique records.
 
-挿入時にも同様に、現在残っているすべてのレコードが一意であるようにする(関連付けを検査したときに重複レコードが決して発生しないようにする)には、テーブル自体に一意のインデックスを追加する必要があります。たとえば、`person_posts`というテーブルがあり、すべてのポストが一意であるようにしたいのであれば、マイグレーションに以下を追加します。
+If you want to make sure that, upon insertion, all of the records in the
+persisted association are distinct (so that you can be sure that when you
+inspect the association that you will never find duplicate records), you should
+add a unique index on the table itself. For example, if you have a table named
+`person_articles` and you want to make sure all the articles are unique, you could
+add the following in a migration:
 
 ```ruby
-add_index :person_posts, :post, unique: true
+add_index :person_articles, :article, unique: true
 ```
 
-なお、`include?`などを使用して一意性をチェックすると競合が発生しやすいので注意が必要です。関連付けで強制的に一意になるようにするために`include?`を使用しないでください。たとえば上のpostを例にとると、以下のコードでは競合が発生しやすくなります。これは、複数のユーザーが同時にこのコードを実行する可能性があるためです。
+Note that checking for uniqueness using something like `include?` is subject
+to race conditions. Do not attempt to use `include?` to enforce distinctness
+in an association. For instance, using the article example from above, the
+following code would be racy because multiple users could be attempting this
+at the same time:
 
 ```ruby
-person.posts << post unless person.posts.include?(post)
+person.articles << article unless person.articles.include?(article)
 ```
 
-#### オブジェクトが保存されるタイミング
+#### When are Objects Saved?
 
-`has_many`関連付けにオブジェクトをアサインすると、外部キーを更新するためにそのオブジェクトは自動的に保存されます。1つの文で複数のオブジェクトをアサインすると、それらはすべて保存されます。
+When you assign an object to a `has_many` association, that object is automatically saved (in order to update its foreign key). If you assign multiple objects in one statement, then they are all saved.
 
-関連付けられているオブジェクト同士の1つでも検証(validation)のために保存に失敗すると、アサインの状態からは`false`が返され、アサインはキャンセルされます。
+If any of these saves fails due to validation errors, then the assignment statement returns `false` and the assignment itself is cancelled.
 
-親オブジェクト(`has_many`関連付けを宣言している側のオブジェクト)が保存されない場合(つまり`new_record?`が`true`を返す場合)、子オブジェクトは追加時に保存されません。親オブジェクトが保存されると、関連付けられていたオブジェクトのうち保存されていなかったメンバはすべて保存されます。
+If the parent object (the one declaring the `has_many` association) is unsaved (that is, `new_record?` returns `true`) then the child objects are not saved when they are added. All unsaved members of the association will automatically be saved when the parent is saved.
 
-`has_many`関連付けにオブジェクトをアサインし、しかもそのオブジェクトを保存したくない場合、`collection.build`メソッドを使用してください。
+If you want to assign an object to a `has_many` association without saving the object, use the `collection.build` method.
 
-### `has_and_belongs_to_many`関連付けの詳細
+### `has_and_belongs_to_many` Association Reference
 
-`has_and_belongs_to_many`関連付けは、他のモデルとの間に「多対多」のつながりを作成します。データベースの観点では、2つのクラスは中間で結合テーブルを介して関連付けられます。この結合テーブルには、両方のクラスを指す外部キーがそれぞれ含まれます。
+The `has_and_belongs_to_many` association creates a many-to-many relationship with another model. In database terms, this associates two classes via an intermediate join table that includes foreign keys referring to each of the classes.
 
-#### `has_and_belongs_to_many`で追加されるメソッド
+#### Methods Added by `has_and_belongs_to_many`
 
-`has_and_belongs_to_many`関連付けを宣言したクラスでは、以下の16のメソッドを自動的に利用できるようになります。
+When you declare a `has_and_belongs_to_many` association, the declaring class automatically gains 16 methods related to the association:
 
 * `collection(force_reload = false)`
 * `collection<<(object, ...)`
 * `collection.delete(object, ...)`
 * `collection.destroy(object, ...)`
-* `collection=objects` 
+* `collection=(objects)`
 * `collection_singular_ids`
-* `collection_singular_ids=ids`
+* `collection_singular_ids=(ids)`
 * `collection.clear`
 * `collection.empty?`
 * `collection.size`
 * `collection.find(...)`
 * `collection.where(...)`
-* `collection.exists?(...) `
+* `collection.exists?(...)`
 * `collection.build(attributes = {})`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
 
-上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_and_belongs_to_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
+In all of these methods, `collection` is replaced with the symbol passed as the first argument to `has_and_belongs_to_many`, and `collection_singular` is replaced with the singularized version of that symbol. For example, given the declaration:
 
 ```ruby
 class Part < ActiveRecord::Base
@@ -1797,16 +1829,16 @@ class Part < ActiveRecord::Base
 end
 ```
 
-これにより、`Part`モデルのインスタンスで以下のメソッドが使えるようになります。
+Each instance of the `Part` model will have these methods:
 
 ```ruby
 assemblies(force_reload = false)
 assemblies<<(object, ...)
 assemblies.delete(object, ...)
 assemblies.destroy(object, ...)
-assemblies=objects
+assemblies=(objects)
 assembly_ids
-assembly_ids=ids
+assembly_ids=(ids)
 assemblies.clear
 assemblies.empty?
 assemblies.size
@@ -1815,19 +1847,19 @@ assemblies.where(...)
 assemblies.exists?(...)
 assemblies.build(attributes = {}, ...)
 assemblies.create(attributes = {})
-assemblies.create!(attributes = {})`
+assemblies.create!(attributes = {})
 ```
 
-##### 追加のカラムメソッド
+##### Additional Column Methods
 
-`has_and_belongs_to_many`関連付けで使用している中間の結合テーブルが、2つの外部キー以外に何かカラムを含んでいる場合、これらのカラムは関連付けを介して取り出されるレコードに属性として追加されます。属性が追加されたレコードは常に読み出し専用になります。このようにして読み出された属性に対する変更は保存できないためです。
+If the join table for a `has_and_belongs_to_many` association has additional columns beyond the two foreign keys, these columns will be added as attributes to records retrieved via that association. Records returned with additional attributes will always be read-only, because Rails cannot save changes to those attributes.
 
-WARNING: `has_and_belongs_to_many`関連付けで使用する結合テーブルにこのような余分なカラムを追加することはお勧めできません。2つのモデルを多対多で結合する結合テーブルでこのような複雑な振る舞いが必要になるのであれば、`has_and_belongs_to_many`ではなく`has_many :through`を使用してください。
+WARNING: The use of extra attributes on the join table in a `has_and_belongs_to_many` association is deprecated. If you require this sort of complex behavior on the table that joins two models in a many-to-many relationship, you should use a `has_many :through` association instead of `has_and_belongs_to_many`.
 
 
 ##### `collection(force_reload = false)`
 
-`collection`メソッドは、関連付けられたすべてのオブジェクトの配列を返します。関連付けられたオブジェクトがない場合は、空の配列を1つ返します。
+The `collection` method returns an array of all of the associated objects. If there are no associated objects, it returns an empty array.
 
 ```ruby
 @assemblies = @part.assemblies
@@ -1835,65 +1867,65 @@ WARNING: `has_and_belongs_to_many`関連付けで使用する結合テーブル�
 
 ##### `collection<<(object, ...)`
 
-`collection<<`メソッドは、結合テーブル上でレコードを作成し、それによって1つまたは複数のオブジェクトをコレクションに追加します。
+The `collection<<` method adds one or more objects to the collection by creating records in the join table.
 
 ```ruby
 @part.assemblies << @assembly1
 ```
 
-NOTE: このメソッドは`collection.concat`および`collection.push`のエイリアスです。
+NOTE: This method is aliased as `collection.concat` and `collection.push`.
 
 ##### `collection.delete(object, ...)`
 
-`collection.delete`メソッドは、結合テーブル上のレコードを削除し、それによって1つまたは複数のオブジェクトをコレクションから削除します。このメソッドを実行してもオブジェクトはdestroyされません。
+The `collection.delete` method removes one or more objects from the collection by deleting records in the join table. This does not destroy the objects.
 
 ```ruby
 @part.assemblies.delete(@assembly1)
 ```
 
-WARNING: このメソッドを呼び出しても、結合レコードでコールバックはトリガされません。
+WARNING: This does not trigger callbacks on the join records.
 
 ##### `collection.destroy(object, ...)`
 
-`collection.destroy`は、結合テーブル上のレコードに対して`destroy`を実行する(このときコールバックも実行します)ことで、コレクションから1つまたは複数のオブジェクトを削除します。このメソッドを実行してもオブジェクトはdestroyされません。
+The `collection.destroy` method removes one or more objects from the collection by running `destroy` on each record in the join table, including running callbacks. This does not destroy the objects.
 
 ```ruby
 @part.assemblies.destroy(@assembly1)
 ```
 
-##### `collection=objects`
+##### `collection=(objects)`
 
-`collection=`メソッドは、指定したオブジェクトでそのコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。
+The `collection=` method makes the collection contain only the supplied objects, by adding and deleting as appropriate.
 
 ##### `collection_singular_ids`
 
-`collection_singular_ids`メソッドは、そのコレクションに含まれるオブジェクトのidを配列にしたものを返します。
+The `collection_singular_ids` method returns an array of the ids of the objects in the collection.
 
 ```ruby
 @assembly_ids = @part.assembly_ids
 ```
 
-##### `collection_singular_ids=ids`
+##### `collection_singular_ids=(ids)`
 
-`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。
+The `collection_singular_ids=` method makes the collection contain only the objects identified by the supplied primary key values, by adding and deleting as appropriate.
 
 ##### `collection.clear`
 
-`collection.clear`メソッドは、結合テーブル上のレコードを削除し、それによってすべてのオブジェクトをコレクションから削除します。このメソッドを実行しても、関連付けられたオブジェクトはdestroyされません。
+The `collection.clear` method removes every object from the collection by deleting the rows from the joining table. This does not destroy the associated objects.
 
 ##### `collection.empty?`
 
-`collection.empty?`メソッドは、関連付けられたオブジェクトがコレクションに含まれていない場合に`true`を返します。
+The `collection.empty?` method returns `true` if the collection does not contain any associated objects.
 
 ```ruby
 <% if @part.assemblies.empty? %>
-  ※この部分はどのアセンブリでも使用されません。
+  This part is not used in any assemblies
 <% end %>
 ```
 
 ##### `collection.size`
 
-`collection.size`メソッドは、コレクションに含まれるオブジェクトの数を返します。
+The `collection.size` method returns the number of objects in the collection.
 
 ```ruby
 @assembly_count = @part.assemblies.size
@@ -1901,7 +1933,7 @@ WARNING: このメソッドを呼び出しても、結合レコードでコー�
 
 ##### `collection.find(...)`
 
-`collection.find`メソッドは、コレクションに含まれるオブジェクトを検索します。このメソッドで使用される文法は、`ActiveRecord::Base.find`で使用されているものと同じです。このメソッドでは、オブジェクトがコレクション内で従う必要のある追加条件も加味されます。
+The `collection.find` method finds objects within the collection. It uses the same syntax and options as `ActiveRecord::Base.find`. It also adds the additional condition that the object must be in the collection.
 
 ```ruby
 @assembly = @part.assemblies.find(1)
@@ -1909,7 +1941,7 @@ WARNING: このメソッドを呼び出しても、結合レコードでコー�
 
 ##### `collection.where(...)`
 
-`collection.where`メソッドは、コレクションに含まれているメソッドを指定された条件に基いて検索します。このメソッドではオブジェクトは遅延読み込み(lazy load)される点にご注意ください。つまり、オブジェクトに実際にアクセスが行われる時にだけデータベースへのクエリが発生します。このメソッドでは、オブジェクトがコレクション内で従う必要のある追加条件も加味されます。
+The `collection.where` method finds objects within the collection based on the conditions supplied but the objects are loaded lazily meaning that the database is queried only when the object(s) are accessed. It also adds the additional condition that the object must be in the collection.
 
 ```ruby
 @new_assemblies = @part.assemblies.where("created_at > ?", 2.days.ago)
@@ -1917,11 +1949,11 @@ WARNING: このメソッドを呼び出しても、結合レコードでコー�
 
 ##### `collection.exists?(...)`
 
-`collection.exists?`メソッドは、指定された条件に合うオブジェクトがコレクションの中に存在するかどうかをチェックします。このメソッドで使用される文法は、`ActiveRecord::Base.exists?`で使用されているものと同じです。`.
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as `ActiveRecord::Base.exists?`.
 
 ##### `collection.build(attributes = {})`
 
-`collection.build`メソッドは、関連付けが行われたオブジェクトを1つ返します。このオブジェクトは、渡された属性でインスタンス化され、その結合テーブルを介してリンクが作成されます。ただし、関連付けられたオブジェクトはこの時点では保存s慣れて_いない_ことにご注意ください。
+The `collection.build` method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through the join table will be created, but the associated object will _not_ yet be saved.
 
 ```ruby
 @assembly = @part.assemblies.build({assembly_name: "Transmission housing"})
@@ -1929,7 +1961,7 @@ WARNING: このメソッドを呼び出しても、結合レコードでコー�
 
 ##### `collection.create(attributes = {})`
 
-`collection.create`メソッドは、関連付けが行われたオブジェクトを1つ返します。このオブジェクトは、渡された属性を使用してインスタンス化され、結合テーブルを介してリンクが作成されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
+The `collection.create` method returns a new object of the associated type. This object will be instantiated from the passed attributes, the link through the join table will be created, and, once it passes all of the validations specified on the associated model, the associated object _will_ be saved.
 
 ```ruby
 @assembly = @part.assemblies.create({assembly_name: "Transmission housing"})
@@ -1937,20 +1969,20 @@ WARNING: このメソッドを呼び出しても、結合レコードでコー�
 
 ##### `collection.create!(attributes = {})`
 
-上の`collection.create`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
+Does the same as `collection.create`, but raises `ActiveRecord::RecordInvalid` if the record is invalid.
 
-#### `has_and_belongs_to_many`のオプション
+#### Options for `has_and_belongs_to_many`
 
-Railsのデフォルトの`has_and_belongs_to_many`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときにオプションを渡すことで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
+While Rails uses intelligent defaults that will work well in most situations, there may be times when you want to customize the behavior of the `has_and_belongs_to_many` association reference. Such customizations can easily be accomplished by passing options when you create the association. For example, this association uses two such options:
 
 ```ruby
 class Parts < ActiveRecord::Base
-  has_and_belongs_to_many :assemblies, autosave: true,
-                                       readonly: true
+  has_and_belongs_to_many :assemblies, -> { readonly },
+                                       autosave: true
 end
 ```
 
-`has_and_belongs_to_many`関連付けでは以下のオプションがサポートされます。
+The `has_and_belongs_to_many` association supports these options:
 
 * `:association_foreign_key`
 * `:autosave`
@@ -1958,13 +1990,12 @@ end
 * `:foreign_key`
 * `:join_table`
 * `:validate`
-* `:readonly`
 
 ##### `:association_foreign_key`
 
-Railsの慣例では、相手のモデルを指す外部キーを保持している結合テーブル上のカラム名については、そのモデル名にサフィックス `_id` を追加した名前が使用されることを前提とします。`:association_foreign_key`オプションを使用すると外部キーの名前を直接指定することができます。
+By convention, Rails assumes that the column in the join table used to hold the foreign key pointing to the other model is the name of that model with the suffix `_id` added. The `:association_foreign_key` option lets you set the name of the foreign key directly:
 
-TIP: `:foreign_key`オプションおよび`:association_foreign_key`オプションは、多対多の自己結合を行いたいときに便利です。例：
+TIP: The `:foreign_key` and `:association_foreign_key` options are useful when setting up a many-to-many self-join. For example:
 
 ```ruby
 class User < ActiveRecord::Base
@@ -1977,11 +2008,11 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+If you set the `:autosave` option to `true`, Rails will save any loaded members and destroy members that are marked for destruction whenever you save the parent object.
 
 ##### `:class_name`
 
-関連名から関連相手のオブジェクト名を生成できない事情がある場合、`:class_name`オプションを使用してモデル名を直接指定できます。たとえば、1つの部品(Part)が複数の組み立て(Assembly)で使用され、組み立てを含む実際のモデル名が`Gadget`である場合、次のように設定します。
+If the name of the other model cannot be derived from the association name, you can use the `:class_name` option to supply the model name. For example, if a part has many assemblies, but the actual name of the model containing assemblies is `Gadget`, you'd set things up this way:
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -1991,7 +2022,7 @@ end
 
 ##### `:foreign_key`
 
-Railsの慣例では、そのモデルを指す外部キーを保持している結合テーブル上のカラム名については、そのモデル名にサフィックス `_id` を追加した名前が使用されることを前提とします。`:foreign_key`オプションを使用すると外部キーの名前を直接指定することができます。
+By convention, Rails assumes that the column in the join table used to hold the foreign key pointing to this model is the name of this model with the suffix `_id` added. The `:foreign_key` option lets you set the name of the foreign key directly:
 
 ```ruby
 class User < ActiveRecord::Base
@@ -2004,15 +2035,15 @@ end
 
 ##### `:join_table`
 
-辞書順に基いて生成された結合テーブルのデフォルト名が気に入らない場合、`:join_table`オプションを使用してデフォルトのテーブル名を上書きできます。
+If the default name of the join table, based on lexical ordering, is not what you want, you can use the `:join_table` option to override the default.
 
 ##### `:validate`
 
-`:validate`オプションを`false`に設定すると、関連付けられたオブジェクトは保存時に検証(validation)されません。デフォルトは`true`であり、この場合関連付けられたオブジェクトは保存時に検証されます。
+If you set the `:validate` option to `false`, then associated objects will not be validated whenever you save this object. By default, this is `true`: associated objects will be validated when this object is saved.
 
-#### `has_and_belongs_to_many`のスコープについて
+#### Scopes for `has_and_belongs_to_many`
 
-場合によっては`has_and_belongs_to_many`で使用されるクエリをカスタマイズしたくなることがあります。スコープブロックを使用してこのようなカスタマイズを行うことができます。例：
+There may be times when you wish to customize the query used by `has_and_belongs_to_many`. Such customizations can be achieved via a scope block. For example:
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2020,7 +2051,7 @@ class Parts < ActiveRecord::Base
 end
 ```
 
-スコープブロック内では標準の[クエリメソッド](active_record_querying.html)をすべて使用できます。ここでは以下について説明します。
+You can use any of the standard [querying methods](active_record_querying.html) inside the scope block. The following ones are discussed below:
 
 * `where`
 * `extending`
@@ -2035,7 +2066,7 @@ end
 
 ##### `where`
 
-`where`は、関連付けられるオブジェクトが満たすべき条件を指定します。
+The `where` method lets you specify the conditions that the associated object must meet.
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2044,7 +2075,7 @@ class Parts < ActiveRecord::Base
 end
 ```
 
-条件はハッシュを使用して指定することもできます。
+You can also set conditions via a hash:
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2053,15 +2084,15 @@ class Parts < ActiveRecord::Base
 end
 ```
 
-`where`オプションでハッシュを使用した場合、この関連付けで作成されたレコードは自動的にこのハッシュを使用したスコープに含まれるようになります。この例の場合、`@parts.assemblies.create`または`@parts.assemblies.build`を実行すると、`factory`カラムの値が`Seattle`の注文(order)が常に作成されます。
+If you use a hash-style `where`, then record creation via this association will be automatically scoped using the hash. In this case, using `@parts.assemblies.create` or `@parts.assemblies.build` will create orders where the `factory` column has the value "Seattle".
 
 ##### `extending`
 
-`extending`メソッドは、関連付けプロキシを拡張する名前付きモジュールを指定します。関連付けの拡張については<a href="#関連付けの拡張">後述します</a>。
+The `extending` method specifies a named module to extend the association proxy. Association extensions are discussed in detail [later in this guide](#association-extensions).
 
 ##### `group`
 
-`group`メソッドは、結果をグループ化する際の属性名を1つ指定します。内部的にはSQLの`GROUP BY`句が使用されます。
+The `group` method supplies an attribute name to group the result set by, using a `GROUP BY` clause in the finder SQL.
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2071,11 +2102,11 @@ end
 
 ##### `includes`
 
-`includes`メソッドを使用すると、その関連付けが使用されるときにeager-load (訳注:preloadとは異なる)しておきたい第2関連付けを指定することができます。
+You can use the `includes` method to specify second-order associations that should be eager-loaded when this association is used.
 
 ##### `limit`
 
-`limit`メソッドは、関連付けを使用して取得できるオブジェクトの総数を制限するのに使用します。
+The `limit` method lets you restrict the total number of objects that will be fetched through an association.
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2086,11 +2117,11 @@ end
 
 ##### `offset`
 
-`offset`メソッドは、関連付けを使用してオブジェクトを取得する際の開始オフセットを指定します。たとえばoffset(11)と指定すると、最初の11レコードはスキップされ、12レコード目から返されるようになります。
+The `offset` method lets you specify the starting offset for fetching objects via an association. For example, if you set `offset(11)`, it will skip the first 11 records.
 
 ##### `order`
 
-`order`メソッドは、関連付けられたオブジェクトに与えられる順序を指定します。内部的にはSQLの`ORDER BY`句が使用されます。
+The `order` method dictates the order in which associated objects will be received (in the syntax used by an SQL `ORDER BY` clause).
 
 ```ruby
 class Parts < ActiveRecord::Base
@@ -2101,38 +2132,38 @@ end
 
 ##### `readonly`
 
-`readonly`を指定すると、関連付けられたオブジェクトを取り出すときに読み出し専用になります。
+If you use the `readonly` method, then the associated objects will be read-only when retrieved via the association.
 
 ##### `select`
 
-`select`メソッドを使用すると、関連付けられたオブジェクトのデータ取り出しに使用されるSQLの`SELECT`句を上書きします。Railsはデフォルトではすべてのカラムを取り出します。
+The `select` method lets you override the SQL `SELECT` clause that is used to retrieve data about the associated objects. By default, Rails retrieves all columns.
 
 ##### `uniq`
 
-`uniq`メソッドは、コレクション内の重複を削除します。
+Use the `uniq` method to remove duplicates from the collection.
 
-#### オブジェクトが保存されるタイミング
+#### When are Objects Saved?
 
-`has_and_belongs_to_many`関連付けにオブジェクトをアサインすると、結合テーブルを更新するためにそのオブジェクトは自動的に保存されます。1つの文で複数のオブジェクトをアサインすると、それらはすべて保存されます。
+When you assign an object to a `has_and_belongs_to_many` association, that object is automatically saved (in order to update the join table). If you assign multiple objects in one statement, then they are all saved.
 
-関連付けられているオブジェクト同士の1つでも検証(validation)のために保存に失敗すると、アサインの状態からは`false`が返され、アサインはキャンセルされます。
+If any of these saves fails due to validation errors, then the assignment statement returns `false` and the assignment itself is cancelled.
 
-親オブジェクト(`has_and_belongs_to_many`関連付けを宣言している側のオブジェクト)が保存されない場合(つまり`new_record?`が`true`を返す場合)、子オブジェクトは追加時に保存されません。親オブジェクトが保存されると、関連付けられていたオブジェクトのうち保存されていなかったメンバはすべて保存されます。
+If the parent object (the one declaring the `has_and_belongs_to_many` association) is unsaved (that is, `new_record?` returns `true`) then the child objects are not saved when they are added. All unsaved members of the association will automatically be saved when the parent is saved.
 
-`has_and_belongs_to_many`関連付けにオブジェクトをアサインし、しかもそのオブジェクトを保存したくない場合、`collection.build`メソッドを使用してください。
+If you want to assign an object to a `has_and_belongs_to_many` association without saving the object, use the `collection.build` method.
 
-### 関連付けのコールバック
+### Association Callbacks
 
-通常のコールバックは、Active Recordオブジェクトのライフサイクルの中でフックされます。これにより、オブジェクトのさまざまな場所でコールバックを実行できます。たとえば、`:before_save`コールバックを使用して、オブジェクトが保存される直前に何かを実行することができます。
+Normal callbacks hook into the life cycle of Active Record objects, allowing you to work with those objects at various points. For example, you can use a `:before_save` callback to cause something to happen just before an object is saved.
 
-関連付けのコールバックも、上のような通常のコールバックとだいたい同じですが、(Active Recordオブジェクトではなく)コレクションのライフサイクルによってイベントがトリガされる点が異なります。以下の4つの関連付けコールバックを使用できます。
+Association callbacks are similar to normal callbacks, but they are triggered by events in the life cycle of a collection. There are four available association callbacks:
 
 * `before_add`
 * `after_add`
 * `before_remove`
 * `after_remove`
 
-これらのオプションを関連付けの宣言に追加することで、関連付けコールバックを定義できます。例：
+You define association callbacks by adding options to the association declaration. For example:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -2144,9 +2175,9 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-Railsは、追加されるオブジェクトや削除されるオブジェクトをコールバックに(引数として)渡します。
+Rails passes the object being added or removed to the callback.
 
-1つのイベントで複数のコールバックを使用したい場合には、配列を使用して渡します。
+You can stack callbacks on a single event by passing them as an array:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -2163,11 +2194,11 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-`before_add`コールバックが例外を発生した場合、オブジェクトはコレクションに追加されません。同様に、`before_remove`で例外が発生した場合も、オブジェクトはコレクションに追加されません。
+If a `before_add` callback throws an exception, the object does not get added to the collection. Similarly, if a `before_remove` callback throws an exception, the object does not get removed from the collection.
 
-### 関連付けの拡張
+### Association Extensions
 
-Railsは自動的に関連付けのプロキシオブジェクトをビルドしますが、開発者はこれをカスタマイズすることができます。無名モジュール(anonymous module)を使用してこれらのオブジェクトを拡張(検索、作成などのメソッドを追加)することができます。例：
+You're not limited to the functionality that Rails automatically builds into association proxy objects. You can also extend these objects through anonymous modules, adding new finders, creators, or other methods. For example:
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -2179,7 +2210,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-拡張を多くの関連付けで共有したい場合は、名前付きの拡張モジュールを使用することもできます。例：
+If you have an extension that should be shared by many associations, you can use a named extension module. For example:
 
 ```ruby
 module FindRecentExtension
@@ -2197,8 +2228,8 @@ class Supplier < ActiveRecord::Base
 end
 ```
 
-関連付けプロキシの内部を参照するには、`proxy_association`アクセサにある以下の3つの属性を使用します。
+Extensions can refer to the internals of the association proxy using these three attributes of the `proxy_association` accessor:
 
-* `proxy_association.owner`は、関連付けを所有するオブジェクトを返します。
-* `proxy_association.reflection`は、関連付けを記述するリフレクションオブジェクトを返します。
-* `proxy_association.target`は、`belongs_to`または`has_one`関連付けのオブジェクトを返すか、`has_many`または`has_and_belongs_to_many`関連付けオブジェクトのコレクションを返します。
+* `proxy_association.owner` returns the object that the association is a part of.
+* `proxy_association.reflection` returns the reflection object that describes the association.
+* `proxy_association.target` returns the associated object for `belongs_to` or `has_one`, or the collection of associated objects for `has_many` or `has_and_belongs_to_many`.

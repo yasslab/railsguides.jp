@@ -17,7 +17,7 @@ After reading this guide, you will know:
 Introduction to instrumentation
 -------------------------------
 
-The instrumentation API provided by Active Support allows developers to provide hooks which other developers may hook into. There are several of these within the Rails framework, as described below in <TODO: link to section detailing each hook point>. With this API, developers can choose to be notified when certain events occur inside their application or another piece of Ruby code.
+The instrumentation API provided by Active Support allows developers to provide hooks which other developers may hook into. There are several of these within the Rails framework, as described below in (TODO: link to section detailing each hook point). With this API, developers can choose to be notified when certain events occur inside their application or another piece of Ruby code.
 
 For example, there is a hook provided within Active Record that is called every time Active Record uses an SQL query on a database. This hook could be **subscribed** to, and used to track the number of queries during a certain action. There's another hook around the processing of an action of a controller. This could be used, for instance, to track how long a specific action has taken.
 
@@ -135,7 +135,9 @@ Action Controller
 | `:format`       | html/js/json/xml etc                                      |
 | `:method`       | HTTP request verb                                         |
 | `:path`         | Request path                                              |
+| `:status`       | HTTP status code                                          |
 | `:view_runtime` | Amount spent in view in ms                                |
+| `:db_runtime`   | Amount spent executing database queries in ms             |
 
 ```ruby
 {
@@ -223,11 +225,11 @@ Active Record
 
 ### sql.active_record
 
-| Key          | Value                 |
-| ------------ | --------------------- |
-| `:sql`       | SQL statement         |
-| `:name`      | Name of the operation |
-| `:object_id` | `self.object_id`      |
+| Key              | Value                 |
+| ---------------- | --------------------- |
+| `:sql`           | SQL statement         |
+| `:name`          | Name of the operation |
+| `:connection_id` | `self.object_id`      |
 
 INFO. The adapters will add their own data as well.
 
@@ -364,7 +366,7 @@ INFO. Options passed to fetch will be merged with the payload.
 | ------ | --------------------- |
 | `:key` | Key used in the store |
 
-INFO. Cache stores my add their own keys
+INFO. Cache stores may add their own keys
 
 ```ruby
 {
@@ -418,7 +420,8 @@ Rails
 Subscribing to an event
 -----------------------
 
-Subscribing to an event is easy. Use `ActiveSupport::Notifications.subscribe` with a block to listen to any notification.
+Subscribing to an event is easy. Use `ActiveSupport::Notifications.subscribe` with a block to
+listen to any notification.
 
 The block receives the following arguments:
 
@@ -435,7 +438,8 @@ ActiveSupport::Notifications.subscribe "process_action.action_controller" do |na
 end
 ```
 
-Defining all those block arguments each time can be tedious. You can easily create an `ActiveSupport::Notifications::Event` from block arguments like this:
+Defining all those block arguments each time can be tedious. You can easily create an `ActiveSupport::Notifications::Event`
+from block arguments like this:
 
 ```ruby
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
@@ -455,9 +459,11 @@ Most times you only care about the data itself. Here is a shortcut to just get t
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
   data = args.extract_options!
   data # { extra: :information }
+end
 ```
 
-You may also subscribe to events matching a regular expression. This enables you to subscribe to multiple events at once. Here's you could subscribe to everything from `ActionController`.
+You may also subscribe to events matching a regular expression. This enables you to subscribe to
+multiple events at once. Here's you could subscribe to everything from `ActionController`.
 
 ```ruby
 ActiveSupport::Notifications.subscribe /action_controller/ do |*args|
@@ -468,8 +474,10 @@ end
 Creating custom events
 ----------------------
 
-Adding your own events is easy as well. `ActiveSupport::Notifications` will take care of all the heavy lifting for you. Simply call `instrument` with a `name`, `payload` and a block.
-The notification will be sent after the block returns. `ActiveSupport` will generate the start and end times as well as the unique ID. All data passed into the `instrument` call will make it into the payload.
+Adding your own events is easy as well. `ActiveSupport::Notifications` will take care of
+all the heavy lifting for you. Simply call `instrument` with a `name`, `payload` and a block.
+The notification will be sent after the block returns. `ActiveSupport` will generate the start and end times
+as well as the unique ID. All data passed into the `instrument` call will make it into the payload.
 
 Here's an example:
 

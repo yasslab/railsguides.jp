@@ -1,0 +1,206 @@
+﻿
+-
+  name: はじめに
+  documents:
+    -
+      name: Rails をはじめよう
+      url: getting_started.html
+      description: Railsのインストール方法と最初のRailsアプリケーションの作成に必要なすべてを解説します。
+-
+  name: モデル
+  documents:
+    -
+      name: Active Record の基礎
+      url: active_record_basics.html
+      description: Active Recordの基礎となるモデル、データベースへの永続的な保存、Active Recordパターンとライブラリについて解説します。
+    -
+      name: Active Record マイグレーション
+      url: active_record_migrations.html
+      description: Active Recordのマイグレーション (migration) を使用して、データベースを構造化された方法で整然と変更する方法について解説します。
+    -
+      name: Active Record バリデーション
+      url: active_record_validations.html
+      description: Active Recordのバリデーション機能について解説します。
+    -
+      name: Active Record コールバック
+      url: active_record_callbacks.html
+      description: Active Recordのコールバックについて解説します。
+    -
+      name: Active Record の関連付け
+      url: association_basics.html
+      description: Active Recordが提供するすべての関連付け機能について解説します。
+    -
+      name: Active Record クエリインターフェイス
+      url: active_record_querying.html
+      description: Active Recordが提供するすべてのデータベースクエリインターフェイスについて解説します。
+    -
+      name: Active Model の基礎
+      url: active_model_basics.html
+      description: Active Recordを使わずにモデルクラスを扱う方法について解説します。
+      work_in_progress: false
+-
+  name: ビュー
+  documents:
+    -
+      name: Action View の概要
+      url: action_view_overview.html
+      description: Action Viewの概要を紹介し、共通のビューヘルパーについてもある程度解説します。
+      work_in_progress: true
+    -
+      name: レイアウトとレンダリング
+      url: layouts_and_rendering.html
+      description: Action ControllerとAction Viewが提供する基本的なレイアウト機能について解説します。画面出力 (レンダリング) とリダイレクト、content_forブロックとパーシャル (部分テンプレート) の使用方法についても解説します。
+    -
+      name: Action View フォームヘルパー
+      url: form_helpers.html
+      description: ビルトインのフォームヘルパーについて解説します。
+-
+  name: コントローラ
+  documents:
+    -
+      name: Action Controller の概要
+      url: action_controller_overview.html
+      description: コントローラの動作と、アプリケーションのリクエストサイクルでコントローラがどのように使われるかについて解説します。セッション、フィルタ、cookie、データストリーミング、リクエストによって発生する例外、その他多くの話題を取り扱っています。
+    -
+      name: Rails ルーティング
+      url: routing.html
+      description: Railsのルーティング機能について解説しますRailsアプリケーションで行われているルーティングのしくみについて理解したい場合は、ここからお読みください。
+-
+  name: 高度なトピック
+  documents:
+    -
+      name: Active Support コア拡張機能
+      url: active_support_core_extensions.html
+      description: Active Supportで定義されているRubyのコア拡張機能に関するドキュメントです。
+    -
+      name: Rails 国際化 (i18n) API
+      url: i18n.html
+      description: Railsアプリケーションを国際化する方法について解説します。これによりアプリケーションを異なる言語に翻訳することができ、さらに単数形/複数形ルールを変更したり、その国に適した日付フォーマットを設定したりできます。
+    -
+      name: Action Mailer の基礎
+      url: action_mailer_basics.html
+      description: Action Mailerを使用してメールを送受信する方法について解説します。
+    -
+      name: Active Job の基礎
+      url: active_job_basics.html
+      description: バックグラウンドで動作するジョブの作成・キュー送信・実行方法に必要なすべてを解説します。
+    -
+      name: Rails テスティングガイド
+      url: testing.html
+      work_in_progress: true
+      description: Railsで単体テストと機能テストを実行するための総合的な解説を行います。「テスティングとは何か」からテスティングAPIまですべてのトピックを扱います。
+    -
+      name: Rails セキュリティガイド
+      url: security.html
+      description: Webアプリケーション全般におけるセキュリティ問題と、Railsでこれらの問題を回避する方法について解説します。
+    -
+      name: Rails アプリケーションのデバッグ
+      url: debugging_rails_applications.html
+      description: Railsアプリケーションのデバッグ方法について解説します。さまざまなデバッグ方法や、作成したコードの舞台裏でどのような動作が行われているかについても解説します。
+    -
+      name: Rails アプリケーションを設定する
+      url: configuring.html
+      description: Railsアプリケーションの基本的な設定方法について解説します。
+    -
+      name: コマンドラインツールと Rake タスク
+      url: command_line.html
+      description: Railsが提供する各種コマンドラインツールとRakeタスクについて解説します。
+    -
+      name: アセットパイプライン
+      url: asset_pipeline.html
+      description: アセットパイプラインに関するドキュメントです。
+    -
+      name: Rails で JavaScript を使用する
+      url: working_with_javascript_in_rails.html
+      description: RailsビルトインのAjax/JavaScriptについて解説します。
+    -
+      name: Rails エンジン入門
+      url: engines.html
+      description: マウント可能なエンジンの作成方法について解説します。
+      work_in_progress: true
+    -
+      name: Rails の初期化プロセス
+      work_in_progress: true
+      url: initialization.html
+      description: Rails 4内部の初期化プロセスについて解説します。
+    -
+      name: 定数の自動読み込みと再読み込み
+      url: constant_autoloading_and_reloading.html
+      description: 自動読み込みやリロードの仕組みについて解説します。
+-
+  name: Rails を拡張する
+  documents:
+    -
+      name: Rails プラグイン作成入門
+      work_in_progress: true
+      url: plugins.html
+      description: プラグインを作成してRailsの機能を拡張する方法について解説します。
+    -
+      name: Rails と Rack
+      url: rails_on_rack.html
+      description: RailsとRackがどのように統合されているか、および他のRackコンポーネントとのインターフェイスについて解説します。
+    -
+      name: Rails ジェネレータとテンプレート入門
+      url: generators.html
+      description: 新しいジェネレータを拡張に追加したり、ビルトインのRailsジェネレータの要素に別の要素を提供したりする方法 (scaffoldジェネレータに別のテストスタブを提供するなど) について解説します。
+-
+  name: Ruby on Rails に貢献する
+  documents:
+    -
+      name: Contributing to Ruby on Rails [未着手]
+      url: contributing_to_ruby_on_rails.html
+      description: Railsは「どこかで誰かがうまくやってくれているフレームワーク」ではありません。現在も継続しているRailsフレームワーク開発に貢献するさまざまな方法について解説します。
+    -
+      name: APIドキュメント作成ガイドライン
+      url: api_documentation_guidelines.html
+      description: Ruby on Rails APIドキュメントのガイドラインについて解説します。
+    -
+      name: Rails ガイドのガイドライン
+      url: ruby_on_rails_guides_guidelines.html
+      description: Ruby on Railsガイド作成方法のガイドラインです。
+-
+  name: メンテナンスポリシー
+  documents:
+    -
+      name: メンテナンスポリシー
+      url: maintenance_policy.html
+      description: 現在サポートされているRuby on Railsのバージョンと、次期バージョンのリリース見込み時期について記載されています。
+-
+  name: リリースノート
+  documents:
+    -
+      name: Rails アップグレードガイド
+      url: upgrading_ruby_on_rails.html
+      description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
+    -
+      name: Ruby on Rails 4.2 リリースノート
+      url: 4_2_release_notes.html
+      description: Rails 4.2のリリースノートです。
+    -
+      name: Ruby on Rails 4.1 リリースノート
+      url: 4_1_release_notes.html
+      description: Rails 4.1のリリースノートです。
+    -
+      name: Ruby on Rails 4.0 リリースノート
+      url: 4_0_release_notes.html
+      description: Rails 4.0のリリースノートです。
+    -
+      name: Ruby on Rails 3.2 Release Notes [未着手]
+      url: 3_2_release_notes.html
+      description: Rails 3.2のリリースノートです。
+    -
+      name: Ruby on Rails 3.1 Release Notes [未着手]
+      url: 3_1_release_notes.html
+      description: Rails 3.1のリリースノートです。
+    -
+      name: Ruby on Rails 3.0 Release Notes [未着手]
+      url: 3_0_release_notes.html
+      description: Rails 3.0のリリースノートです。
+    -
+      name: Ruby on Rails 2.3 Release Notes [未着手]
+      url: 2_3_release_notes.html
+      description: Rails 2.3のリリースノートです。
+    -
+      name: Ruby on Rails 2.2 Release Notes [未着手]
+      url: 2_2_release_notes.html
+      description: Rails 2.2のリリースノートです。

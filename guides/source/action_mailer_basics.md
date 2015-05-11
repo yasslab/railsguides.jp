@@ -1,31 +1,36 @@
-﻿
-Action Mailer の基礎
+Action Mailer Basics
 ====================
 
-本章では、アプリケーションでメールの送受信を行えるようにするために必要なすべての事項と、Action Mailerのさまざまな内部情報を提供します。また、メイラーのテスト方法についても説明します。
+This guide provides you with all you need to get started in sending and
+receiving emails from and to your application, and many internals of Action
+Mailer. It also covers how to test your mailers.
 
-このガイドの内容:
+After reading this guide, you will know:
 
-* Railsアプリケーションでメールを送受信する方法
-* Action Mailerクラスとメイラービューの生成および編集方法
-* 環境に合わせてAction Mailerを設定する方法
-* Action Mailerクラスのテスト方法
+* How to send and receive email within a Rails application.
+* How to generate and edit an Action Mailer class and mailer view.
+* How to configure Action Mailer for your environment.
+* How to test your Action Mailer classes.
 
 --------------------------------------------------------------------------------
 
-はじめに
+Introduction
 ------------
 
-Action Mailerを使用することで、アプリケーションのメイラークラスやビューでメールを送信することができます。メイラーの動作はコントローラときわめて似通っています。メイラーは`ActionMailer::Base`を継承し、`app/mailers`に配置され、`app/views`にあるビューと結び付けられます。
+Action Mailer allows you to send emails from your application using mailer classes
+and views. Mailers work very similarly to controllers. They inherit from
+`ActionMailer::Base` and live in `app/mailers`, and they have associated views
+that appear in `app/views`.
 
-メールを送信する
+Sending Emails
 --------------
 
-このセクションでは、メイラーとビューの作成方法を手順を追って説明します。
+This section will provide a step-by-step guide to creating a mailer and its
+views.
 
-### メイラー生成の全手順
+### Walkthrough to Generating a Mailer
 
-#### メイラーを作成する
+#### Create the Mailer
 
 ```bash
 $ bin/rails generate mailer UserMailer
@@ -52,27 +57,34 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上に示したとおり、Railsの他のジェネレータ同様の方法でメイラーを生成できます。メイラーは概念上コントローラと似通っており、メイラーを生成すると (コントローラと同様に) ビューのディレクトリとテストも同時に生成されます。
+As you can see, you can generate mailers just like you use other generators with
+Rails. Mailers are conceptually similar to controllers, and so we get a mailer,
+a directory for views, and a test.
 
-ジェネレータを使用したくない場合は、app/mailersディレクトリ以下にファイルを作成し、`ActionMailer::Base`を継承してください。
+If you didn't want to use a generator, you could create your own file inside of
+app/mailers, just make sure that it inherits from `ActionMailer::Base`:
 
 ```ruby
 class MyMailer < ActionMailer::Base
 end
 ```
 
-#### メイラーを編集する
+#### Edit the Mailer
 
-メイラーはRailsのコントローラと非常に似通っています。メイラーには「アクション」と呼ばれるメソッドがあり、メールのコンテンツを構成するのにビューを使用します。コントローラでHTMLなどのメールコンテンツを生成して顧客に送信したい場合、その箇所でメイラーを使用して、送信したいメッセージを作成します。
+Mailers are very similar to Rails controllers. They also have methods called
+"actions" and use views to structure the content. Where a controller generates
+content like HTML to send back to the client, a Mailer creates a message to be
+delivered via email.
 
-`app/mailers/user_mailer.rb`には空のメイラーがあります。
+`app/mailers/user_mailer.rb` contains an empty mailer:
 
 ```ruby
 class UserMailer < ApplicationMailer
 end
 ```
 
-`welcome_email`という名前のメソッドを追加し、ユーザーが登録したメールアドレスにメールを送信できるようにしてみましょう。
+Let's add a method called `welcome_email`, that will send an email to the user's
+registered email address:
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -86,16 +98,23 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上のメソッドで使用されている項目について簡単に説明します。利用可能なすべてのオプションについては、「Action Mailerの全メソッド」セクションでユーザー設定可能な属性を参照してください。
+Here is a quick explanation of the items presented in the preceding method. For
+a full list of all available options, please have a look further down at the
+Complete List of Action Mailer user-settable attributes section.
 
-* `default Hash` - メイラーから送信するあらゆるメールで使用されるデフォルト値のハッシュです。上の例の場合、`:from`ヘッダーにこのクラスのすべてのメッセージで使用する値を1つ設定しています。この値はメールごとに上書きすることもできます。
-* `mail` - 実際のメール・メッセージです。ここでは`:to`ヘッダーと`:subject`ヘッダーを渡しています。
+* `default Hash` - This is a hash of default values for any email you send from
+this mailer. In this case we are setting the `:from` header to a value for all
+messages in this class. This can be overridden on a per-email basis.
+* `mail` - The actual email message, we are passing the `:to` and `:subject`
+headers in.
 
-コントローラの場合と同様、メイラーのメソッド内で定義されたすべてのインスタンス変数はそのままビューで使用できます。
+Just like controllers, any instance variables we define in the method become
+available for use in the views.
 
-#### メイラービューを作成する
+#### Create a Mailer View
 
-`app/views/user_mailer/`ディレクトリで`welcome_email.html.erb`というファイルを1つ作成してください。このファイルを、HTMLでフォーマットされたメールテンプレートにします。
+Create a file called `welcome_email.html.erb` in `app/views/user_mailer/`. This
+will be the template used for the email, formatted in HTML:
 
 ```html+erb
 <!DOCTYPE html>
@@ -104,50 +123,61 @@ end
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= @user.name %>様、example.comへようこそ。</h1>
-      <p>
-      example.comへのサインアップが成功しました。
+    <h1>Welcome to example.com, <%= @user.name %></h1>
+    <p>
+      You have successfully signed up to example.com,
       your username is: <%= @user.login %>.<br>
     </p>
     <p>
-      このサイトにログインするには、<%= @url %>をクリックしてください。
+      To login to the site, just follow this link: <%= @url %>.
     </p>
-    <p>ご入会ありがとうございます。どうぞお楽しみくださいませ。</p>
+    <p>Thanks for joining and have a great day!</p>
   </body>
 </html>
 ```
 
-続いて、同じ内容のテキストメールも作成しましょう。顧客によってはHTMLフォーマットのメールを受け取りたくない人もいるので、テキストメールも作成しておくのが最善です。これを行なうには、`app/views/user_mailer/`ディレクトリで`welcome_email.text.erb`というファイルを以下の内容で作成してください。
+Let's also make a text part for this email. Not all clients prefer HTML emails,
+and so sending both is best practice. To do this, create a file called
+`welcome_email.text.erb` in `app/views/user_mailer/`:
 
 ```erb
-<%= @user.name %>様、example.comへようこそ。
+Welcome to example.com, <%= @user.name %>
 ===============================================
 
-example.comへのサインアップが成功しました。ユーザー名は「<%= @user.login %>」です。
+You have successfully signed up to example.com,
+your username is: <%= @user.login %>.
 
-このサイトにログインするには、<%= @url %>をクリックしてください。
+To login to the site, just follow this link: <%= @url %>.
 
-本サイトにユーザー登録いただきありがとうございます。
+Thanks for joining and have a great day!
 ```
 
-現在のAction Mailerでは、`mail`メソッドを呼び出すと2種類のテンプレート (テキストおよびHTML) があるかどうかを探し、`multipart/alternative`形式のメールを自動生成します。
+When you call the `mail` method now, Action Mailer will detect the two templates
+(text and HTML) and automatically generate a `multipart/alternative` email.
 
-#### メイラーを呼び出す
+#### Calling the Mailer
 
-Railsのメイラーは、ビューのレンダリングと本質的に同じことを行っています。ビューのレンダリングではHTTPプロトコルとして送信されますが、メイラーではメールのプロトコルを経由して送信する点のみが異なります。従って、ユーザー作成に成功したときにメールを送信するようコントローラからメイラーに指示するだけで機能するようになります。
+Mailers are really just another way to render a view. Instead of rendering a
+view and sending out the HTTP protocol, they are just sending it out through the
+email protocols instead. Due to this, it makes sense to just have your
+controller tell the Mailer to send an email when a user is successfully created.
 
-メイラー呼び出しは非常に簡単です。
+Setting this up is painfully simple.
 
-例として、最初にscaffoldで`User`を作成してみましょう。
+First, let's create a simple `User` scaffold:
 
 ```bash
 $ bin/rails generate scaffold user name email login
 $ bin/rake db:migrate
 ```
 
-説明用のユーザーモデルを作成したので、続いて`app/controllers/users_controller.rb`を編集し、新規ユーザーの保存成功直後に`UserMailer`の`UserMailer.welcome_email`を使用してそのユーザーにメールが送信されるようにしましょう。
+Now that we have a user model to play with, we will just edit the
+`app/controllers/users_controller.rb` make it instruct the `UserMailer` to deliver
+an email to the newly created user by editing the create action and inserting a
+call to `UserMailer.welcome_email` right after the user is successfully saved.
 
-Action MailerはActive Jobとうまく統合されているので、Webのリクエスト/レスポンスサイクルの外で非同期にメールを送信できます。このおかげで、ユーザーは送信完了を待つ必要がありません。
+Action Mailer is nicely integrated with Active Job so you can send emails outside
+of the request-response cycle, so the user doesn't have to wait on it:
 
 ```ruby
 class UsersController < ApplicationController
@@ -158,10 +188,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        # 保存後にUserMailerを使用してwelcomeメールを送信
+        # Tell the UserMailer to send a welcome email after save
         UserMailer.welcome_email(@user).deliver_later
 
-        format.html { redirect_to(@user, notice: 'ユーザーが正常に作成されました。') }
+        format.html { redirect_to(@user, notice: 'User was successfully created.') }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -172,9 +202,13 @@ class UsersController < ApplicationController
 end
 ```
 
-NOTE: Active Jobはデフォルトでジョブを':inline'で実行します。したがって、この時点で`deliver_later`を使用してメールを送信できます。また、メールを後でバックグラウンドジョブから送信したい場合は、SidekiqやResqueなどのバックエンドクエリシステムを使用するようActive Jobを設定するだけで済みます。
+NOTE: Active Job's default behavior is to execute jobs ':inline'. So, you can use
+`deliver_later` now to send emails, and when you later decide to start sending
+them from a background job, you'll only need to set up Active Job to use a queueing
+backend (Sidekiq, Resque, etc).
 
-メールをcronjobなどから今すぐ送信したい場合は、`deliver_now`を呼び出すだけで済みます。
+If you want to send emails right away (from a cronjob for example) just call
+`deliver_now`:
 
 ```ruby
 class SendWeeklySummary
@@ -186,37 +220,58 @@ class SendWeeklySummary
 end
 ```
 
-この`welcome_email`メソッドは`ActionMailer::MessageDelivery`オブジェクトを1つ返します。このオブジェクトは、そのメール自身が送信対象であることを`deliver_now`や`deliver_later`に伝えます。`ActionMailer::MessageDelivery`オブジェクトは、`Mail::Message`をラップしています。内部の`Mail::Message`オブジェクトの表示や変更などを行いたい場合は、`ActionMailer::MessageDelivery`オブジェクトの`message`メソッドにアクセスします。
+The method `welcome_email` returns a `ActionMailer::MessageDelivery` object which
+can then just be told `deliver_now` or `deliver_later` to send itself out. The
+`ActionMailer::MessageDelivery` object is just a wrapper around a `Mail::Message`. If
+you want to inspect, alter or do anything else with the `Mail::Message` object you can
+access it with the `message` method on the `ActionMailer::MessageDelivery` object.
 
-### ヘッダーの値を自動エンコードする
+### Auto encoding header values
 
-Action Mailerは、メールのヘッダーや本文のマルチバイト文字を自動的にエンコードします。
+Action Mailer handles the auto encoding of multibyte characters inside of
+headers and bodies.
 
-別の文字セットを定義したい場合や、事前に手動で別のエンコードを行っておきたい場合などの複雑な事例については、[Mail](https://github.com/mikel/mail)ライブラリを参照してください。
+For more complex examples such as defining alternate character sets or
+self-encoding text first, please refer to the
+[Mail](https://github.com/mikel/mail) library.
 
-### Action Mailerの全メソッド
+### Complete List of Action Mailer Methods
 
-以下の3つのメソッドを使用すれば、ほとんどのメール送信をカバーできます。
+There are just three methods that you need to send pretty much any email
+message:
 
-* `headers` - メールに追加したいヘッダーを指定します。メールヘッダーのフィールド名と値のペアをハッシュにまとめて渡すこともできますし、`headers[:field_name] = 'value'`のように呼び出すこともできます。
-* `attachments` - メールにファイルを添付します。`attachments['file-name.jpg'] = File.read('file-name.jpg')`のように記述します。
-* `mail` - 実際のメール自身を送信します。このメソッドにはヘッダーのハッシュをパラメータとして渡すことができます。メソッドを呼び出すと、定義しておいたメールテンプレートに応じて、プレーンテキストメールまたはマルチパートメールを送信します。
+* `headers` - Specifies any header on the email you want. You can pass a hash of
+  header field names and value pairs, or you can call `headers[:field_name] =
+  'value'`.
+* `attachments` - Allows you to add attachments to your email. For example,
+  `attachments['file-name.jpg'] = File.read('file-name.jpg')`.
+* `mail` - Sends the actual email itself. You can pass in headers as a hash to
+  the mail method as a parameter, mail will then create an email, either plain
+  text, or multipart, depending on what email templates you have defined.
 
-#### ファイルを添付する
+#### Adding Attachments
 
-Action Mailerではファイルを簡単に添付できます。
+Action Mailer makes it very easy to add attachments.
 
-* ファイル名とコンテンツを渡すと、Action Mailerと[Mail gem](https://github.com/mikel/mail)が自動的にmime_typeを推測し、エンコードを設定してファイルを添付します。
+* Pass the file name and content and Action Mailer and the
+  [Mail gem](https://github.com/mikel/mail) will automatically guess the
+  mime_type, set the encoding and create the attachment.
 
     ```ruby
     attachments['filename.jpg'] = File.read('/path/to/filename.jpg')
     ```
 
-  `mail`メソッドをトリガーすると、マルチパート形式のメールが1つ送信されます。送信されるメールは、トップレベルが`multipart/mixed`で最初のパートが`multipart/alternative`という正しい形式でネストしている、プレーンテキストメールまたはHTMLメールです。
+  When the `mail` method will be triggered, it will send a multipart email with
+  an attachment, properly nested with the top level being `multipart/mixed` and
+  the first part being a `multipart/alternative` containing the plain text and
+  HTML email messages.
 
-NOTE: メールに添付されるファイルは自動的にBase64でエンコードされます。他のエンコードを使用したい場合、事前に好みのエンコードを適用したコンテンツを`Hash`でエンコードしてから`attachments`に渡します。
+NOTE: Mail will automatically Base64 encode an attachment. If you want something
+different, encode your content and pass in the encoded content and encoding in a
+`Hash` to the `attachments` method.
 
-* ヘッダーとコンテンツを指定してファイル名を渡すと、それらの設定がAction MailerとMailによって使用されます。
+* Pass the file name and specify headers and content and Action Mailer and Mail
+  will use the settings you pass in.
 
     ```ruby
     encoded_content = SpecialEncode(File.read('/path/to/filename.jpg'))
@@ -227,13 +282,14 @@ NOTE: メールに添付されるファイルは自動的にBase64でエンコ�
     }
     ```
 
-NOTE: エンコーディングの種類を指定すると、Mailはコンテンツが既にエンコード済みであると判断し、Base64によるエンコードを行いません。
+NOTE: If you specify an encoding, Mail will assume that your content is already
+encoded and not try to Base64 encode it.
 
-#### ファイルをインラインで添付する
+#### Making Inline Attachments
 
-Action Mailer 3.0はファイルをインライン添付できます。この機能は3.0より前に行われた多数のハックを基に、理想に近づけるべくシンプルな実装にしたものです。
+Action Mailer 3.0 makes inline attachments, which involved a lot of hacking in pre 3.0 versions, much simpler and trivial as they should be.
 
-* インライン添付を使用することをMailに指示するには、Mailer内のattachmentsメソッドに対して`#inline`を呼び出すだけで済みます。
+* First, to tell Mail to turn an attachment into an inline attachment, you just call `#inline` on the attachments method within your Mailer:
 
     ```ruby
     def welcome
@@ -241,7 +297,9 @@ Action Mailer 3.0はファイルをインライン添付できます。この機
     end
     ```
 
-* 続いて、ビューで`attachments`をハッシュとして参照し、表示したい添付ファイルを指定することができます。これを行なうには、`attachments`に対して`url`を呼び出し、その結果を`image_tag`メソッドに渡します。
+* Then in your view, you can just reference `attachments` as a hash and specify
+  which attachment you want to show, calling `url` on it and then passing the
+  result into the `image_tag` method:
 
     ```html+erb
     <p>Hello there, this is our image</p>
@@ -249,17 +307,21 @@ Action Mailer 3.0はファイルをインライン添付できます。この機
     <%= image_tag attachments['image.jpg'].url %>
     ```
 
-* これは`image_tag`に対する標準的な呼び出しであるため、画像ファイルを扱う時と同様、添付URLの後にもオプションのハッシュを1つ置くことができます。
+* As this is a standard call to `image_tag` you can pass in an options hash
+  after the attachment URL as you could for any other image:
 
     ```html+erb
-    <p>こんにちは、以下の写真です。</p>
+    <p>Hello there, this is our image</p>
 
     <%= image_tag attachments['image.jpg'].url, alt: 'My Photo', class: 'photos' %>
     ```
 
-#### メールを複数の相手に送信する
+#### Sending Email To Multiple Recipients
 
-1つのメールを複数の相手に送信することももちろん可能です (サインアップが新規に行われたことを全管理者に通知するなど)。これを行なうには、メールのリストを`:to`キーに設定します。メールのリストの形式は、メールアドレスの配列でも、メールアドレスをカンマで区切った文字列でも構いません。
+It is possible to send email to one or more recipients in one email (e.g.,
+informing all admins of a new signup) by setting the list of emails to the `:to`
+key. The list of emails can be an array of email addresses or a single string
+with the addresses separated by commas.
 
 ```ruby
 class AdminMailer < ActionMailer::Base
@@ -273,11 +335,14 @@ class AdminMailer < ActionMailer::Base
 end
 ```
 
-CC (カーボンコピー) やBCC (ブラインドカーボンコピー) アドレスを指定する場合にも同じ形式を使用できます。それぞれ`:cc`キーと`:bcc`キーを使用します。
+The same format can be used to set carbon copy (Cc:) and blind carbon copy
+(Bcc:) recipients, by using the `:cc` and `:bcc` keys respectively.
 
-#### メールアドレスを名前で表示する
+#### Sending Email With Name
 
-受信者のメールアドレスをメールにそのまま表示するのではなく、受信者の名前で表示したいことがあります。これを行なうには、メールアドレスを`"フルネーム <メールアドレス>"`の形式で指定します。
+Sometimes you wish to show the name of the person instead of just their email
+address when they receive the email. The trick to doing that is to format the
+email address in the format `"Full Name <email>"`.
 
 ```ruby
 def welcome_email(user)
@@ -287,11 +352,15 @@ def welcome_email(user)
 end
 ```
 
-### メイラーのビュー
+### Mailer Views
 
-メイラーのビューは`app/views/name_of_mailer_class`ディレクトリに置かれます。個別のメイラービューは、その名前がメイラーメソッドと同じになるので、クラスから認識できます。先の例の場合、`welcome_email`メソッドで使用するメイラービューは、HTML版であれば`app/views/user_mailer/welcome_email.html.erb`が使用され、プレーンテキストであれば`welcome_email.text.erb`が使用されます。
+Mailer views are located in the `app/views/name_of_mailer_class` directory. The
+specific mailer view is known to the class because its name is the same as the
+mailer method. In our example from above, our mailer view for the
+`welcome_email` method will be in `app/views/user_mailer/welcome_email.html.erb`
+for the HTML version and `welcome_email.text.erb` for the plain text version.
 
-アクションで使用するデフォルトのメイラービューを変更するには、たとえば以下のようにします。
+To change the default mailer view for your action you do something like:
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -308,9 +377,12 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上のコードは、`another`という名前のテンプレートを`app/views/notifications`ディレクトリ以下から探索します。`template_path`にはパスの配列を指定することもできます。この場合探索は配列順に沿って行われます。
+In this case it will look for templates at `app/views/notifications` with name
+`another`.  You can also specify an array of paths for `template_path`, and they
+will be searched in order.
 
-より柔軟性の高い方法を使用したい場合は、ブロックを1つ渡して特定のテンプレートをレンダリングしたり、テンプレートを使用せずにインラインまたはテキストでレンダリングすることもできます。
+If you want more flexibility you can also pass a block and render specific
+templates or even render inline or text without using a template file:
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -328,23 +400,31 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上のコードは、HTMLの部分を'another_template.html.erb'テンプレートを使用してレンダリングし、テキスト部分を`:text`でレンダリングしています。レンダリングのコマンドはAction Controllerで使用されているものと同じなので、`:text`、`:inline`などのオプションもすべて同様に使用できます。
+This will render the template 'another_template.html.erb' for the HTML part and
+use the rendered text for the text part. The render command is the same one used
+inside of Action Controller, so you can use all the same options, such as
+`:text`, `:inline` etc.
 
-### Action Mailerのレイアウト
+### Action Mailer Layouts
 
-メイラーもコントローラのビューと同様の方法でレイアウトを設定できます。メイラーで使用するレイアウト名はメイラーと同じ名前である必要があります。たとえば、`user_mailer.html.erb`や`user_mailer.text.erb`というレイアウトは自動的にメイラーでレイアウトとして認識されます。
+Just like controller views, you can also have mailer layouts. The layout name
+needs to be the same as your mailer, such as `user_mailer.html.erb` and
+`user_mailer.text.erb` to be automatically recognized by your mailer as a
+layout.
 
-別のレイアウトファイルを明示的に指定したい場合は、メイラーで`layout`を呼び出します。
+In order to use a different file, call `layout` in your mailer:
 
 ```ruby
 class UserMailer < ApplicationMailer
-  layout 'awesome' # awesome.(html|text).erbをレイアウトとして使用する
+  layout 'awesome' # use awesome.(html|text).erb as the layout
 end
 ```
 
-コントローラのビューと同様に、`yield`を使用してレイアウト内のビューをレンダリングできます。
+Just like with controller views, use `yield` to render the view inside the
+layout.
 
-formatブロック内でrenderメソッド呼び出しに`layout: 'layout_name'`オプションを渡すことで、フォーマットごとに異なるレイアウトを指定することもできます。
+You can also pass in a `layout: 'layout_name'` option to the render call inside
+the format block to specify different layouts for different formats:
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -357,37 +437,52 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上のコードは、HTMLの部分については`my_layout.html.erb`レイアウトファイルを明示的に使用してレンダリングし、テキストの部分については通常の`user_mailer.text.erb`があればそれを使用してレンダリングします。
+Will render the HTML part using the `my_layout.html.erb` file and the text part
+with the usual `user_mailer.text.erb` file if it exists.
 
-### Action MailerのビューでURLを生成する
+### Generating URLs in Action Mailer Views
 
-メイラーがコントローラと異なる点のひとつは、メイラーのインスタンスはサーバーに届くHTTPリクエストのコンテキストと無関係であることです。アプリケーションのホスト情報をメイラー内で使用したい場合は`:host`パラメータを明示的に指定します。
+Unlike controllers, the mailer instance doesn't have any context about the
+incoming request so you'll need to provide the `:host` parameter yourself.
 
-`:host`に指定する値はそのアプリケーション内で共通であるのが普通なので、`config/application.rb`に以下の記述を追加してグローバルに利用できるようにします。
+As the `:host` usually is consistent across the application you can configure it
+globally in `config/application.rb`:
 
 ```ruby
 config.action_mailer.default_url_options = { host: 'example.com' }
 ```
 
-`*_path`ヘルパーは、動作の性質上メール内では一切使用できない点にご注意ください。メールでURLが必要な場合は`*_url`ヘルパーを使用してください。以下に例を示します。
+Because of this behavior you cannot use any of the `*_path` helpers inside of
+an email. Instead you will need to use the associated `*_url` helper. For example
+instead of using
 
 ```
-<%= link_to 'ようこそ', welcome_path %>
+<%= link_to 'welcome', welcome_path %>
 ```
 
-上のコードの代りに、以下のコードを使用する必要があります。
+You will need to use:
 
 ```
-<%= link_to 'ようこそ', welcome_url %>
+<%= link_to 'welcome', welcome_url %>
 ```
 
-こうすることでフルパスのURLが引用され、メールのURLが正常に機能するようになります。
+By using the full URL, your links will now work in your emails.
 
-#### `url_for`を使用してURLを生成する
+#### generating URLs with `url_for`
 
-テンプレートで`url_for`を使用して生成されるURLはデフォルトでフルパスになります。
+You need to pass the `only_path: false` option when using `url_for`. This will
+ensure that absolute URLs are generated because the `url_for` view helper will,
+by default, generate relative URLs when a `:host` option isn't explicitly
+provided.
 
-`:host`オプションをグローバルに設定していない場合は、`url_for`に`:host`オプションを明示的に渡す必要があることにご注意ください。
+```erb
+<%= url_for(controller: 'welcome',
+            action: 'greeting',
+            only_path: false) %>
+```
+
+If you did not configure the `:host` option globally make sure to pass it to
+`url_for`.
 
 
 ```erb
@@ -396,25 +491,41 @@ config.action_mailer.default_url_options = { host: 'example.com' }
             action: 'greeting') %>
 ```
 
-#### 名前付きルーティングを使用してURLを生成する
+NOTE: When you explicitly pass the `:host` Rails will always generate absolute
+URLs, so there is no need to pass `only_path: false`.
 
-メールクライアントはWebサーバーのコンテキストから切り離されているので、メールに記載するパスではWebのアドレスのベースURLは補完されません。従って、名前付きルーティングヘルパーについても "*_path" ではなく "*_url" を使用する必要があります。
+#### generating URLs with named routes
 
-`:host`オプションをグローバルに設定していない場合は、"*_url" ヘルパーに`:host`オプションを明示的に渡す必要があることにご注意ください。
+Email clients have no web context and so paths have no base URL to form complete
+web addresses. Thus, you should always use the "_url" variant of named route
+helpers.
+
+If you did not configure the `:host` option globally make sure to pass it to the
+url helper.
 
 ```erb
 <%= user_url(@user, host: 'example.com') %>
 ```
 
-### マルチパートメールを送信する
+NOTE: non-`GET` links require [jQuery UJS](https://github.com/rails/jquery-ujs)
+and won't work in mailer templates. They will result in normal `GET` requests.
 
-あるアクションに複数の異なるテンプレートがあると、Action Mailerによって自動的にマルチパート形式のメールが送信されます。UserMailerを例にとって説明します。`app/views/user_mailer`ディレクトリに`welcome_email.text.erb`と`welcome_email.html.erb`というテンプレートがあると、Action MailerはそれぞれのテンプレートからHTMLメールとテキストメールを生成し、マルチパート形式のメールとしてひとつにまとめて自動的に送信します。
+### Sending Multipart Emails
 
-マルチパートメールに挿入されるパートの順序は`ActionMailer::Base.default`メソッドの`:parts_order`によって決まります。
+Action Mailer will automatically send multipart emails if you have different
+templates for the same action. So, for our UserMailer example, if you have
+`welcome_email.text.erb` and `welcome_email.html.erb` in
+`app/views/user_mailer`, Action Mailer will automatically send a multipart email
+with the HTML and text versions setup as different parts.
 
-### メール送信時に配信オプションを動的に変更する
+The order of the parts getting inserted is determined by the `:parts_order`
+inside of the `ActionMailer::Base.default` method.
 
-SMTP認証情報などのデフォルトの配信オプションをメール配信時に上書きしたい場合、メイラーのアクションで`delivery_method_options`を使用して変更することができます。
+### Sending Emails with Dynamic Delivery Options
+
+If you wish to override the default delivery options (e.g. SMTP credentials)
+while delivering emails, you can do this using `delivery_method_options` in the
+mailer action.
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -425,15 +536,18 @@ class UserMailer < ApplicationMailer
                          password: company.smtp_password,
                          address: company.smtp_host }
     mail(to: @user.email,
-         subject: "添付の利用規約を参照してください", 
+         subject: "Please see the Terms and Conditions attached",
          delivery_method_options: delivery_options)
   end
 end
 ```
 
-### テンプレートをレンダリングせずにメール送信する
+### Sending Emails without Template Rendering
 
-メール送信時にテンプレートのレンダリングをスキップしてメール本文を単なる文字列にしたくなることがあります。このような場合には`:body`オプションを使用できます。このオプションを使用する場合は、必ず`:content_type`オプションも指定してください。指定しなかった場合はデフォルトの`text/plain`が適用されます。
+There may be cases in which you want to skip the template rendering step and
+supply the email body as a string. You can achieve this using the `:body`
+option. In such cases don't forget to add the `:content_type` option. Rails
+will default to `text/plain` otherwise.
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -441,21 +555,29 @@ class UserMailer < ApplicationMailer
     mail(to: user.email,
          body: email_body,
          content_type: "text/html",
-         subject: "レンダリングしました")
+         subject: "Already rendered!")
   end
 end
 ```
 
-メールを受信する
+Receiving Emails
 ----------------
 
-Action Mailerを使用するメールの受信と解析は、メール送信に比べてやや複雑です。Railsアプリケーションでメールを受信できるようにするためには、その前にメール受信待ちするRailsアプリケーションに何らかの形でメールが転送されるようにしてく必要があります。Railsアプリケーションでメールを受信できるようにするためには、以下の作業が必要になります。
+Receiving and parsing emails with Action Mailer can be a rather complex
+endeavor. Before your email reaches your Rails app, you would have had to
+configure your system to somehow forward emails to your app, which needs to be
+listening for that. So, to receive emails in your Rails app you'll need to:
 
-* メイラーに`receive`メソッドを実装する
+* Implement a `receive` method in your mailer.
 
-* `/(アプリのパス)/bin/rails runner 'UserMailer.receive(STDIN.read)'`でメールを受信するアプリケーションに、メールサーバーからメールを転送する。
+* Configure your email server to forward emails from the address(es) you would
+  like your app to receive to `/path/to/app/bin/rails runner
+  'UserMailer.receive(STDIN.read)'`.
 
-いずれかのメイラーに`receive`メソッドを定義すると、受信した生のメールはAction Mailerによって解析され、emailオブジェクトに変換されてデコードされた後、メイラーが新たにインスタンス化され、そのメイラーの`receive`インスタンスメソッドに渡されます。以下に例を示します。
+Once a method called `receive` is defined in any mailer, Action Mailer will
+parse the raw incoming email into an email object, decode it, instantiate a new
+mailer, and pass the email object to the mailer `receive` instance
+method. Here's an example:
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -478,16 +600,20 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-Action Mailerのコールバック
+Action Mailer Callbacks
 ---------------------------
 
-Action Mailerでは`before_action`、`after_action`および`around_action`というコールバックを指定できます。
+Action Mailer allows for you to specify a `before_action`, `after_action` and
+`around_action`.
 
-* コントローラと同様、メイラークラスのメソッドにもフィルタ付きのブロックまたはシンボルを1つ指定することができます。
+* Filters can be specified with a block or a symbol to a method in the mailer
+  class similar to controllers.
 
-* `before_action`コールバックを使用してmailオブジェクトにデフォルト値やdelivery_method_optionsを与えたり、デフォルトのヘッダと添付を挿入することもできます。
+* You could use a `before_action` to populate the mail object with defaults,
+  delivery_method_options or insert default headers and attachments.
 
-* `after_action`コールバックも`before_action`と同様の設定を行いますが、メイラーのアクション内のインスタンス変数を使用します。
+* You could use an `after_action` to do similar setup as a `before_action` but
+  using instance variables set in your mailer action.
 
 ```ruby
 class UserMailer < ApplicationMailer
@@ -509,8 +635,8 @@ class UserMailer < ApplicationMailer
   private
 
     def set_delivery_options
-      # ここではメールのインスタンスや
-      # @businessや@userインスタンス変数にアクセスできる
+      # You have access to the mail instance,
+      # @business and @user instance variables here
       if @business && @business.has_smtp_settings?
         mail.delivery_method.settings.merge!(@business.smtp_settings)
       end
@@ -530,38 +656,43 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-* メールのbodyにnil以外の値が設定されている場合、Mailer Filtersは処理を中止します。
+* Mailer Filters abort further processing if body is set to a non-nil value.
 
-Action Mailerヘルパーを使用する
+Using Action Mailer Helpers
 ---------------------------
 
-Action Mailerは`AbstractController`を継承しているので、Action Controllerと同様に一般的なヘルパーメソッドを使用できます。
+Action Mailer now just inherits from `AbstractController`, so you have access to
+the same generic helpers as you do in Action Controller.
 
-Action Mailerを設定する
+Action Mailer Configuration
 ---------------------------
 
-以下の設定オプションは、environment.rbやproduction.rbなどの環境設定ファイルのいずれかで使用するのが最適です。
+The following configuration options are best made in one of the environment
+files (environment.rb, production.rb, etc...)
 
-| 設定 | 説明 |
+| Configuration | Description |
 |---------------|-------------|
-|`logger`|可能であればメール送受信に関する情報を生成します。`nil`を指定するとログ出力を行わなくなります。Ruby自身の`Logger`ロガーおよび`Log4r`ロガーのどちらとも互換性があります。|
-|`smtp_settings`|`:smtp`の配信メソッドの詳細設定を行います。<ul><li>`:address` - リモートのメールサーバーの使用を許可する。デフォルトは`"localhost"`であり、必要に応じて変更する。</li><li>`:port` - メールサーバーが万一ポート25番で動作していない場合はここで変更する。</li><li>`:domain` - HELOドメインを指定する必要がある場合はここで行なう。</li><li>`:user_name` - メールサーバーで認証が必要な場合はここでユーザー名を指定する。</li><li>`:password` - メールサーバーで認証が必要な場合はここでパスワードを指定する。</li><li>`:authentication` - メールサーバーで認証が必要な場合はここで認証の種類を指定する。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定する。</li><li>`:enable_starttls_auto` - 自力では解決できない証明書問題が発生している場合は`false`を指定する。</li></ul>|
-|`sendmail_settings`|`:sendmail`の配信オプションを上書きします。<ul><li>`:location` - sendmailの実行可能ファイルの場所を指定する。デフォルトは`/usr/sbin/sendmail`。</li><li>`:arguments` - sendmailに渡すコマンドライン引数を指定する。デフォルトは`-i -t`。</li></ul>|
-|`raise_delivery_errors`|メール配信に失敗した場合にエラーを発生するかどうかを指定します。このオプションは、外部のメールサーバーが即時配信を行っている場合にのみ機能します。|
-|`delivery_method`|配信方法を指定します。以下の配信方法を指定可能です。<ul><li>`:smtp` (default) -- `config.action_mailer.smtp_settings`で設定可能。</li><li>`:sendmail` -- `config.action_mailer.sendmail_settings`で設定可能。</li><li>`:file`: -- メールをファイルとして保存する。`config.action_mailer.file_settings`で設定可能。</li><li>`:test`: -- メールを配列`ActionMailer::Base.deliveries`に保存する。</li></ul>詳細については[APIドキュメント](http://api.rubyonrails.org/classes/ActionMailer/Base.html)を参照。|
-|`perform_deliveries`|Mailのメッセージに`deliver`メソッドを実行したときに実際にメール配信を行なうかどうかを指定します。デフォルトでは配信が行われます。機能テストなどで配信を一時的にオフにしたい場合に便利です。|
-|`deliveries`|`delivery_method :test`を使用してAction Mailerから送信されたメールの配列を保持します。単体テストおよび機能テストで最も便利です。|
-|`default_options`|`mail`メソッドオプション (`:from`、`:reply_to`など)のデフォルト値を設定します。|
+|`logger`|Generates information on the mailing run if available. Can be set to `nil` for no logging. Compatible with both Ruby's own `Logger` and `Log4r` loggers.|
+|`smtp_settings`|Allows detailed configuration for `:smtp` delivery method:<ul><li>`:address` - Allows you to use a remote mail server. Just change it from its default `"localhost"` setting.</li><li>`:port` - On the off chance that your mail server doesn't run on port 25, you can change it.</li><li>`:domain` - If you need to specify a HELO domain, you can do it here.</li><li>`:user_name` - If your mail server requires authentication, set the username in this setting.</li><li>`:password` - If your mail server requires authentication, set the password in this setting.</li><li>`:authentication` - If your mail server requires authentication, you need to specify the authentication type here. This is a symbol and one of `:plain`, `:login`, `:cram_md5`.</li><li>`:enable_starttls_auto` - Set this to `false` if there is a problem with your server certificate that you cannot resolve.</li></ul>|
+|`sendmail_settings`|Allows you to override options for the `:sendmail` delivery method.<ul><li>`:location` - The location of the sendmail executable. Defaults to `/usr/sbin/sendmail`.</li><li>`:arguments` - The command line arguments to be passed to sendmail. Defaults to `-i -t`.</li></ul>|
+|`raise_delivery_errors`|Whether or not errors should be raised if the email fails to be delivered. This only works if the external email server is configured for immediate delivery.|
+|`delivery_method`|Defines a delivery method. Possible values are:<ul><li>`:smtp` (default), can be configured by using `config.action_mailer.smtp_settings`.</li><li>`:sendmail`, can be configured by using `config.action_mailer.sendmail_settings`.</li><li>`:file`: save emails to files; can be configured by using `config.action_mailer.file_settings`.</li><li>`:test`: save emails to `ActionMailer::Base.deliveries` array.</li></ul>See [API docs](http://api.rubyonrails.org/classes/ActionMailer/Base.html) for more info.|
+|`perform_deliveries`|Determines whether deliveries are actually carried out when the `deliver` method is invoked on the Mail message. By default they are, but this can be turned off to help functional testing.|
+|`deliveries`|Keeps an array of all the emails sent out through the Action Mailer with delivery_method :test. Most useful for unit and functional testing.|
+|`default_options`|Allows you to set default values for the `mail` method options (`:from`, `:reply_to`, etc.).|
 
-設定オプションの完全な説明については「Railsアプリケーションを設定する」ガイドの[Action Mailerを設定する](configuring.html#action-mailerを設定する)を参照してください。
+For a complete writeup of possible configurations see the
+[Configuring Action Mailer](configuring.html#configuring-action-mailer) in
+our Configuring Rails Applications guide.
 
-### Action Mailerの設定例
+### Example Action Mailer Configuration
 
-適切な`config/environments/$RAILS_ENV.rb`ファイルに追加する設定の例を以下に示します。
+An example would be adding the following to your appropriate
+`config/environments/$RAILS_ENV.rb` file:
 
 ```ruby
 config.action_mailer.delivery_method = :sendmail
-デフォルトは以下のとおりです。
+# Defaults to:
 # config.action_mailer.sendmail_settings = {
 #   location: '/usr/sbin/sendmail',
 #   arguments: '-i -t'
@@ -571,9 +702,10 @@ config.action_mailer.raise_delivery_errors = true
 config.action_mailer.default_options = {from: 'no-reply@example.com'}
 ```
 
-### Gmail用のAction Mailer設定
+### Action Mailer Configuration for Gmail
 
-Action Mailerに[Mail gem](https://github.com/mikel/mail)が導入されたので、`config/environments/$RAILS_ENV.rb`ファイルの設定は以下のように非常に簡単になりました。
+As Action Mailer now uses the [Mail gem](https://github.com/mikel/mail), this
+becomes as simple as adding to your `config/environments/$RAILS_ENV.rb` file:
 
 ```ruby
 config.action_mailer.delivery_method = :smtp
@@ -581,21 +713,25 @@ config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'example.com',
-  user_name:            '<ユーザー名>',
-  password:             '<パスワード>',
+  user_name:            '<username>',
+  password:             '<password>',
   authentication:       'plain',
   enable_starttls_auto: true  }
 ```
 
-メイラーのテスト
+Mailer Testing
 --------------
 
-メイラーのテスト方法の詳細についてはテスティングガイドの[メイラーをテストする](testing.html#メイラーをテストする)を参照してください。
+You can find detailed instructions on how to test your mailers in the
+[testing guide](testing.html#testing-your-mailers).
 
-メールを配信直前に加工する
+Intercepting Emails
 -------------------
 
-メールを配信する前に何らかの編集を加えたいことがあります。幸い、Action Mailerにはすべてのメールの配信前に処理を加えるためのフックが提供されています。これを使用して、メールが配信エージェントに最終的に渡される直前にメールの内容を変更するためのインターセプタを登録することができます。
+There are situations where you need to edit an email before it's
+delivered. Fortunately Action Mailer provides hooks to intercept every
+email. You can register an interceptor to make modifications to mail messages
+right before they are handed to the delivery agents.
 
 ```ruby
 class SandboxEmailInterceptor
@@ -605,10 +741,17 @@ class SandboxEmailInterceptor
 end
 ```
 
-インターセプタが動作するようにするには、Action Mailerフレームワークに登録する必要があります。これは、以下のようにイニシャライザファイル`config/initializers/sandbox_email_interceptor.rb`で行います。
+Before the interceptor can do its job you need to register it with the Action
+Mailer framework. You can do this in an initializer file
+`config/initializers/sandbox_email_interceptor.rb`
 
 ```ruby
-ActionMailer::Base.register_interceptor(SandboxEmailInterceptor) if Rails.env.staging?
+if Rails.env.staging?
+  ActionMailer::Base.register_interceptor(SandboxEmailInterceptor)
+end
 ```
 
-NOTE: 上の例では"staging"というカスタマイズした環境を使用しています。これは本番 (production環境) に準じた状態でテストを行うための環境です。Railsのカスタム環境については[Rails環境を作成する](configuring.html#rails環境を作成する)を参照してください。
+NOTE: The example above uses a custom environment called "staging" for a
+production like server but for testing purposes. You can read
+[Creating Rails environments](configuring.html#creating-rails-environments)
+for more information about custom Rails environments.

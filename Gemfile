@@ -25,3 +25,5 @@ group :test do
   gem 'turnip'
   gem 'pry-byebug'
 end
+
+gem 'kindlerb', '0.1.1'

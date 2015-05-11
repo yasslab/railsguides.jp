@@ -15,13 +15,13 @@ Dir.glob("./archive/ja/**") do |filename|
   new_name = filename.gsub(".txt", "").gsub(/\.(erb|yaml)\.md/, "#{$1}")
   puts "Rename: #{filename}\t->\t#{new_name}"
   FileUtils.mv(filename, new_name) unless filename == new_name
-  FileUtils.cp(new_name, "./source/")
+  FileUtils.cp(new_name, "./source/ja/")
 end
 
 # Replace special characters with white spaces in *.md files
 # to correct some of forcedly squeezed white spaces by GTT,
 # which causes layout break when generating HTML files.
-Dir.glob("./source/**.md") do |filename|
+Dir.glob("./source/ja/**.md") do |filename|
   text    = File.read(filename)
   revised = text.gsub("　", "    ").gsub(/\[W(\d)\]/) {' ' * $1.to_i}
   revised.gsub!(/\[BR\]/, "\n")  # GTT replaces '\n' with ' '

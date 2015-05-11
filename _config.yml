@@ -6,8 +6,8 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://railsguides.jp" # the base hostname & protocol for your site
 twitter_username: yasulab
-github_username:  yasulab     
-source:      ./guides/output
+github_username:  yasulab
+source:      ./guides/output/ja
 destination: ./_site
 
 # Build settings
