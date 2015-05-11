@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
-<head>
+  <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="viewport"    content="width=device-width, initial-scale=1"/>
-<meta name="description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
-<meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
-<meta name="author"      content="Ruby on Rails Community" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
 
-<meta property="fb:admins"      content="715330868" />
-<meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
-<meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
-<meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
-<meta property="og:url"         content="http://railsguides.jp/" />
-<meta property="og:type"        content="article" />
-<meta property="og:description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
 
-<meta name="twitter:card"  content="summary" />
-<meta name="twitter:site"  content="@RailsGuidesJP" />
-<meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
-<meta name="twitter:description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
-<meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
-<meta name="twitter:url"   content="http://railsguides.jp/" />
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Rails ガイドは、Ruby on Rails Guides に基づいた Rails 4.2 対応のリファレンスガイドです。Rails 開発で生産性を向上する方法や、各部品がどのように連携しているかなどを体系的に理解する上で役に立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-<title>Ruby on Rails のメンテナンスポリシー — Rails ガイド</title>
-<link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
-<link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>Ruby on Rails のメンテナンスポリシー — Rails ガイド</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-<link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
-<link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
 
-<link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
 
-<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-</head>
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
 <body class="guide">
   <div id="fb-root"></div>
   <script>(function(d, s, id) {
