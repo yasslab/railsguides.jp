@@ -317,7 +317,7 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 
 * `config.action_controller.allow_forgery_protection`は、CSRF保護をオンにするかどうかを指定します。testモードではデフォルトで`false`に設定され、それ以外では`true`に設定されます。
 
-* `config.action_controller.relative_url_root`は、[サブディレクトリへのデプロイ](configuring.html#サブディレクトリにデプロイする-(相対urlルートの使用))を行うことをRailsに伝えるために使用できます。デフォルトは`ENV['RAILS_RELATIVE_URL_ROOT']`です。
+* `config.action_controller.relative_url_root`は、[サブディレクトリへのデプロイ](configuring.html#サブディレクトリにデプロイする-相対urlルートの使用)を行うことをRailsに伝えるために使用できます。デフォルトは`ENV['RAILS_RELATIVE_URL_ROOT']`です。
 
 * `config.action_controller.permit_all_parameters`は、マスアサインメントされるすべてのパラメータをデフォルトで許可することを設定します。デフォルト値は`false`です。
 
@@ -735,7 +735,7 @@ Rails環境の設定
 
 * `ENV["RAILS_ENV"]`は、Railsが実行される環境 (production、development、testなど) を定義します。
 
-* `ENV["RAILS_RELATIVE_URL_ROOT"]`は、[アプリケーションをサブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする-(相対urlルートの使用))ときにルーティングシステムがURLを認識するために使用されます。
+* `ENV["RAILS_RELATIVE_URL_ROOT"]`は、[アプリケーションをサブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする-相対urlルートの使用)ときにルーティングシステムがURLを認識するために使用されます。
 
 * `ENV["RAILS_CACHE_ID"]`と`ENV["RAILS_APP_VERSION"]`は、Railsのキャッシュを扱うコードで拡張キャッシュを生成するために使用されます。これにより、This allows you to have multiple separate caches from the same application.
 

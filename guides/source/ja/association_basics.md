@@ -1193,7 +1193,7 @@ Railsの慣例では、モデルの主キーは`id`カラムに保存されて�
 
 ##### `:through`
 
-`:through`オプションは、<a href="#has_one-:through関連付け">このガイドで既に説明した</a>`has_one :through`関連付けのクエリを実行する際に経由する結合モデルを指定します。
+`:through`オプションは、<a href="#has-one-through関連付け">このガイドで既に説明した</a>`has_one :through`関連付けのクエリを実行する際に経由する結合モデルを指定します。
 
 ##### `:validate`
 
@@ -1566,7 +1566,7 @@ end
 
 ##### `:through`
 
-`:through`オプションは、クエリ実行時に経由する結合(join)モデルを指定します。`has_many :through`関連付けは、多対多の関連付けを実装する方法を提供します(詳細については<a href="#has_many-:through関連付け">このガイドの説明</a>を参照)。
+`:through`オプションは、クエリ実行時に経由する結合(join)モデルを指定します。`has_many :through`関連付けは、多対多の関連付けを実装する方法を提供します(詳細については<a href="#has-many-through関連付け">このガイドの説明</a>を参照)。
 
 ##### `:validate`
 

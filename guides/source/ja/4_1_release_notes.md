@@ -16,7 +16,7 @@ Rails 4.1の注目ポイント
 Rails 4.1へのアップグレード
 ----------------------
 
-既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのがよい考えです。アプリケーションがRails 4.0までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 4.1にアップデートしてください。アップグレードの注意点などについては[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-4.0からrails-4.1へのアップグレード) を参照してください。
+既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのがよい考えです。アプリケーションがRails 4.0までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 4.1にアップデートしてください。アップグレードの注意点などについては[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-4-0からrails-4-1へのアップグレード) を参照してください。
 
 
 主要な変更
@@ -70,7 +70,7 @@ development:
 
 上の設定にした場合、development環境で`Rails.application.secrets.some_api_key`を実行すると`SOMEKEY`が返されます。
 
-既存のアプリケーションにこの機能を統合する方法については[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#config/secrets.yml)を参照してください。
+既存のアプリケーションにこの機能を統合する方法については[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#config-secrets-yml)を参照してください。
 
 ### Action Pack Variant
 
