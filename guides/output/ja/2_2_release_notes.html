@@ -220,19 +220,17 @@
       <h2>Ruby on Rails 2.2 Release Notes</h2><p>Rails 2.2 delivers a number of new and improved features. This list covers the major upgrades, but doesn&#39;t include every little bug fix and change. If you want to see everything, check out the <a href="http://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub.</p><p>Along with Rails, 2.2 marks the launch of the <a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a>, the first results of the ongoing <a href="http://hackfest.rubyonrails.org/guide">Rails Guides hackfest</a>. This site will deliver high-quality documentation of the major features of Rails.</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#infrastructure">Infrastructure</a>
 
 <ul>
 <li><a href="#internationalization">Internationalization</a></li>
-<li><a href="#compatibility-with-ruby-1.9-and-jruby">Compatibility with Ruby 1.9 and JRuby</a></li>
+<li><a href="#compatibility-with-ruby-1-9-and-jruby">Compatibility with Ruby 1.9 and JRuby</a></li>
 </ul>
 </li>
 <li><a href="#documentation">Documentation</a></li>
-<li><a href="#better-integration-with-http-:-out-of-the-box-etag-support">Better integration with HTTP : Out of the box ETag support</a></li>
+<li><a href="#better-integration-with-http-out-of-the-box-etag-support">Better integration with HTTP : Out of the box ETag support</a></li>
 <li><a href="#thread-safety">Thread Safety</a></li>
 <li>
 <a href="#active-record">Active Record</a>
@@ -242,7 +240,7 @@
 <li><a href="#connection-pooling">Connection Pooling</a></li>
 <li><a href="#hashes-for-join-table-conditions">Hashes for Join Table Conditions</a></li>
 <li><a href="#new-dynamic-finders">New Dynamic Finders</a></li>
-<li><a href="#associations-respect-private/protected-scope">Associations Respect Private/Protected Scope</a></li>
+<li><a href="#associations-respect-private-protected-scope">Associations Respect Private/Protected Scope</a></li>
 <li><a href="#other-active-record-changes">Other Active Record Changes</a></li>
 </ul>
 </li>
@@ -263,7 +261,7 @@
 
 <ul>
 <li><a href="#memoization">Memoization</a></li>
-<li><a href="#each_with_object">each_with_object</a></li>
+<li><a href="#each-with-object">each_with_object</a></li>
 <li><a href="#delegates-with-prefixes">Delegates With Prefixes</a></li>
 <li><a href="#other-active-support-changes">Other Active Support Changes</a></li>
 </ul>
@@ -272,14 +270,13 @@
 <a href="#railties">Railties</a>
 
 <ul>
-<li><a href="#config.gems">config.gems</a></li>
+<li><a href="#config-gems">config.gems</a></li>
 <li><a href="#other-railties-changes">Other Railties Changes</a></li>
 </ul>
 </li>
 <li><a href="#deprecated">Deprecated</a></li>
 <li><a href="#credits">Credits</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -288,12 +285,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="infrastructure"><a href="#infrastructure">1 Infrastructure</a></h3>
-<p>Rails 2.2 is a significant release for the infrastructure that keeps Rails humming along and connected to the rest of the world.</p>
-<h4 id="internationalization"><a href="#internationalization">1.1 Internationalization</a></h4>
-<p>Rails 2.2 supplies an easy system for internationalization (or i18n, for those of you tired of typing).</p>
+        <h3 id="infrastructure"><a href="#infrastructure">1 Infrastructure</a></h3><p>Rails 2.2 is a significant release for the infrastructure that keeps Rails humming along and connected to the rest of the world.</p><h4 id="internationalization"><a href="#internationalization">1.1 Internationalization</a></h4><p>Rails 2.2 supplies an easy system for internationalization (or i18n, for those of you tired of typing).</p>
 <ul>
 <li>Lead Contributors: Rails i18 Team</li>
 <li>More information :
@@ -305,10 +297,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="compatibility-with-ruby-1.9-and-jruby"><a href="#compatibility-with-ruby-1.9-and-jruby">1.2 Compatibility with Ruby 1.9 and JRuby</a></h4>
-<p>Along with thread safety, a lot of work has been done to make Rails work well with JRuby and the upcoming Ruby 1.9. With Ruby 1.9 being a moving target, running edge Rails on edge Ruby is still a hit-or-miss proposition, but Rails is ready to make the transition to Ruby 1.9 when the latter is released.</p>
-<h3 id="documentation"><a href="#documentation">2 Documentation</a></h3>
-<p>The internal documentation of Rails, in the form of code comments, has been improved in numerous places. In addition, the <a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a> project is the definitive source for information on major Rails components. In its first official release, the Guides page includes:</p>
+<h4 id="compatibility-with-ruby-1-9-and-jruby"><a href="#compatibility-with-ruby-1-9-and-jruby">1.2 Compatibility with Ruby 1.9 and JRuby</a></h4><p>Along with thread safety, a lot of work has been done to make Rails work well with JRuby and the upcoming Ruby 1.9. With Ruby 1.9 being a moving target, running edge Rails on edge Ruby is still a hit-or-miss proposition, but Rails is ready to make the transition to Ruby 1.9 when the latter is released.</p><h3 id="documentation"><a href="#documentation">2 Documentation</a></h3><p>The internal documentation of Rails, in the form of code comments, has been improved in numerous places. In addition, the <a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a> project is the definitive source for information on major Rails components. In its first official release, the Guides page includes:</p>
 <ul>
 <li><a href="getting_started.html">Getting Started with Rails</a></li>
 <li><a href="migrations.html">Rails Database Migrations</a></li>
@@ -325,9 +314,7 @@
 <li><a href="performance_testing.html">Performance Testing Rails Applications</a></li>
 <li><a href="plugins.html">The Basics of Creating Rails Plugins</a></li>
 </ul>
-<p>All told, the Guides provide tens of thousands of words of guidance for beginning and intermediate Rails developers.</p>
-<p>If you want to generate these guides locally, inside your application:</p>
-<div class="code_container">
+<p>All told, the Guides provide tens of thousands of words of guidance for beginning and intermediate Rails developers.</p><p>If you want to generate these guides locally, inside your application:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 rake doc:guides
 
@@ -347,9 +334,7 @@ rake doc:guides
 </ul>
 </li>
 </ul>
-<h3 id="better-integration-with-http-:-out-of-the-box-etag-support"><a href="#better-integration-with-http-:-out-of-the-box-etag-support">3 Better integration with HTTP : Out of the box ETag support</a></h3>
-<p>Supporting the etag and last modified timestamp in HTTP headers means that Rails can now send back an empty response if it gets a request for a resource that hasn't been modified lately. This allows you to check whether a response needs to be sent at all.</p>
-<div class="code_container">
+<h3 id="better-integration-with-http-out-of-the-box-etag-support"><a href="#better-integration-with-http-out-of-the-box-etag-support">3 Better integration with HTTP : Out of the box ETag support</a></h3><p>Supporting the etag and last modified timestamp in HTTP headers means that Rails can now send back an empty response if it gets a request for a resource that hasn't been modified lately. This allows you to check whether a response needs to be sent at all.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ArticlesController &lt; ApplicationController
   def show_with_respond_to_block
@@ -383,10 +368,7 @@ end
 
 </pre>
 </div>
-<h3 id="thread-safety"><a href="#thread-safety">4 Thread Safety</a></h3>
-<p>The work done to make Rails thread-safe is rolling out in Rails 2.2. Depending on your web server infrastructure, this means you can handle more requests with fewer copies of Rails in memory, leading to better server performance and higher utilization of multiple cores.</p>
-<p>To enable multithreaded dispatching in production mode of your application, add the following line in your <code>config/environments/production.rb</code>:</p>
-<div class="code_container">
+<h3 id="thread-safety"><a href="#thread-safety">4 Thread Safety</a></h3><p>The work done to make Rails thread-safe is rolling out in Rails 2.2. Depending on your web server infrastructure, this means you can handle more requests with fewer copies of Rails in memory, leading to better server performance and higher utilization of multiple cores.</p><p>To enable multithreaded dispatching in production mode of your application, add the following line in your <code>config/environments/production.rb</code>:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.threadsafe!
 
@@ -403,10 +385,7 @@ config.threadsafe!
 </ul>
 </li>
 </ul>
-<h3 id="active-record"><a href="#active-record">5 Active Record</a></h3>
-<p>There are two big additions to talk about here: transactional migrations and pooled database transactions. There's also a new (and cleaner) syntax for join table conditions, as well as a number of smaller improvements.</p>
-<h4 id="transactional-migrations"><a href="#transactional-migrations">5.1 Transactional Migrations</a></h4>
-<p>Historically, multiple-step Rails migrations have been a source of trouble. If something went wrong during a migration, everything before the error changed the database and everything after the error wasn't applied. Also, the migration version was stored as having been executed, which means that it couldn't be simply rerun by <code>rake db:migrate:redo</code> after you fix the problem. Transactional migrations change this by wrapping migration steps in a DDL transaction, so that if any of them fail, the entire migration is undone. In Rails 2.2, transactional migrations are supported on PostgreSQL out of the box. The code is extensible to other database types in the future - and IBM has already extended it to support the DB2 adapter.</p>
+<h3 id="active-record"><a href="#active-record">5 Active Record</a></h3><p>There are two big additions to talk about here: transactional migrations and pooled database transactions. There's also a new (and cleaner) syntax for join table conditions, as well as a number of smaller improvements.</p><h4 id="transactional-migrations"><a href="#transactional-migrations">5.1 Transactional Migrations</a></h4><p>Historically, multiple-step Rails migrations have been a source of trouble. If something went wrong during a migration, everything before the error changed the database and everything after the error wasn't applied. Also, the migration version was stored as having been executed, which means that it couldn't be simply rerun by <code>rake db:migrate:redo</code> after you fix the problem. Transactional migrations change this by wrapping migration steps in a DDL transaction, so that if any of them fail, the entire migration is undone. In Rails 2.2, transactional migrations are supported on PostgreSQL out of the box. The code is extensible to other database types in the future - and IBM has already extended it to support the DB2 adapter.</p>
 <ul>
 <li>Lead Contributor: <a href="http://adam.heroku.com/">Adam Wiggins</a>
 </li>
@@ -418,9 +397,7 @@ config.threadsafe!
 </ul>
 </li>
 </ul>
-<h4 id="connection-pooling"><a href="#connection-pooling">5.2 Connection Pooling</a></h4>
-<p>Connection pooling lets Rails distribute database requests across a pool of database connections that will grow to a maximum size (by default 5, but you can add a <code>pool</code> key to your <code>database.yml</code> to adjust this). This helps remove bottlenecks in applications that support many concurrent users. There's also a <code>wait_timeout</code> that defaults to 5 seconds before giving up. <code>ActiveRecord::Base.connection_pool</code> gives you direct access to the pool if you need it.</p>
-<div class="code_container">
+<h4 id="connection-pooling"><a href="#connection-pooling">5.2 Connection Pooling</a></h4><p>Connection pooling lets Rails distribute database requests across a pool of database connections that will grow to a maximum size (by default 5, but you can add a <code>pool</code> key to your <code>database.yml</code> to adjust this). This helps remove bottlenecks in applications that support many concurrent users. There's also a <code>wait_timeout</code> that defaults to 5 seconds before giving up. <code>ActiveRecord::Base.connection_pool</code> gives you direct access to the pool if you need it.</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 development:
   adapter: mysql
@@ -442,9 +419,7 @@ development:
 </ul>
 </li>
 </ul>
-<h4 id="hashes-for-join-table-conditions"><a href="#hashes-for-join-table-conditions">5.3 Hashes for Join Table Conditions</a></h4>
-<p>You can now specify conditions on join tables using a hash. This is a big help if you need to query across complex joins.</p>
-<div class="code_container">
+<h4 id="hashes-for-join-table-conditions"><a href="#hashes-for-join-table-conditions">5.3 Hashes for Join Table Conditions</a></h4><p>You can now specify conditions on join tables using a hash. This is a big help if you need to query across complex joins.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Photo &lt; ActiveRecord::Base
   belongs_to :product
@@ -468,11 +443,7 @@ Product.all(:joins =&gt; :photos, :conditions =&gt; { :photos =&gt; { :copyright
 </ul>
 </li>
 </ul>
-<h4 id="new-dynamic-finders"><a href="#new-dynamic-finders">5.4 New Dynamic Finders</a></h4>
-<p>Two new sets of methods have been added to Active Record's dynamic finders family.</p>
-<h5 id="find_last_by_attribute"><a href="#find_last_by_attribute">5.4.1 <code>find_last_by_attribute</code></a></h5>
-<p>The <code>find_last_by_attribute</code> method is equivalent to <code>Model.last(:conditions =&gt; {:attribute =&gt; value})</code></p>
-<div class="code_container">
+<h4 id="new-dynamic-finders"><a href="#new-dynamic-finders">5.4 New Dynamic Finders</a></h4><p>Two new sets of methods have been added to Active Record's dynamic finders family.</p><h5 id="find-last-by-attribute"><a href="#find-last-by-attribute">5.4.1 <code>find_last_by_attribute</code></a></h5><p>The <code>find_last_by_attribute</code> method is equivalent to <code>Model.last(:conditions =&gt; {:attribute =&gt; value})</code></p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Get the last user who signed up from London
 User.find_last_by_city('London')
@@ -484,9 +455,7 @@ User.find_last_by_city('London')
 <li>Lead Contributor: <a href="http://www.workingwithrails.com/person/9147-emilio-tagua">Emilio Tagua</a>
 </li>
 </ul>
-<h5 id="find_by_attribute!"><a href="#find_by_attribute!">5.4.2 <code>find_by_attribute!</code></a></h5>
-<p>The new bang! version of <code>find_by_attribute!</code> is equivalent to <code>Model.first(:conditions =&gt; {:attribute =&gt; value}) || raise ActiveRecord::RecordNotFound</code> Instead of returning <code>nil</code> if it can't find a matching record, this method will raise an exception if it cannot find a match.</p>
-<div class="code_container">
+<h5 id="find-by-attribute-bang"><a href="#find-by-attribute-bang">5.4.2 <code>find_by_attribute!</code></a></h5><p>The new bang! version of <code>find_by_attribute!</code> is equivalent to <code>Model.first(:conditions =&gt; {:attribute =&gt; value}) || raise ActiveRecord::RecordNotFound</code> Instead of returning <code>nil</code> if it can't find a matching record, this method will raise an exception if it cannot find a match.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Raise ActiveRecord::RecordNotFound exception if 'Moby' hasn't signed up yet!
 User.find_by_name!('Moby')
@@ -498,8 +467,7 @@ User.find_by_name!('Moby')
 <li>Lead Contributor: <a href="http://blog.hasmanythrough.com">Josh Susser</a>
 </li>
 </ul>
-<h4 id="associations-respect-private/protected-scope"><a href="#associations-respect-private/protected-scope">5.5 Associations Respect Private/Protected Scope</a></h4>
-<p>Active Record association proxies now respect the scope of methods on the proxied object. Previously (given User has_one :account) <code>@user.account.private_method</code> would call the private method on the associated Account object. That fails in Rails 2.2; if you need this functionality, you should use <code>@user.account.send(:private_method)</code> (or make the method public instead of private or protected). Please note that if you're overriding <code>method_missing</code>, you should also override <code>respond_to</code> to match the behavior in order for associations to function normally.</p>
+<h4 id="associations-respect-private-protected-scope"><a href="#associations-respect-private-protected-scope">5.5 Associations Respect Private/Protected Scope</a></h4><p>Active Record association proxies now respect the scope of methods on the proxied object. Previously (given User has_one :account) <code>@user.account.private_method</code> would call the private method on the associated Account object. That fails in Rails 2.2; if you need this functionality, you should use <code>@user.account.send(:private_method)</code> (or make the method public instead of private or protected). Please note that if you're overriding <code>method_missing</code>, you should also override <code>respond_to</code> to match the behavior in order for associations to function normally.</p>
 <ul>
 <li>Lead Contributor: Adam Milligan</li>
 <li>More information:
@@ -518,11 +486,7 @@ User.find_by_name!('Moby')
 <li>
 <code>ActiveRecord::Base.human_name</code> for an internationalization-aware humane translation of model names</li>
 </ul>
-<h3 id="action-controller"><a href="#action-controller">6 Action Controller</a></h3>
-<p>On the controller side, there are several changes that will help tidy up your routes. There are also some internal changes in the routing engine to lower memory usage on complex applications.</p>
-<h4 id="shallow-route-nesting"><a href="#shallow-route-nesting">6.1 Shallow Route Nesting</a></h4>
-<p>Shallow route nesting provides a solution to the well-known difficulty of using deeply-nested resources. With shallow nesting, you need only supply enough information to uniquely identify the resource that you want to work with.</p>
-<div class="code_container">
+<h3 id="action-controller"><a href="#action-controller">6 Action Controller</a></h3><p>On the controller side, there are several changes that will help tidy up your routes. There are also some internal changes in the routing engine to lower memory usage on complex applications.</p><h4 id="shallow-route-nesting"><a href="#shallow-route-nesting">6.1 Shallow Route Nesting</a></h4><p>Shallow route nesting provides a solution to the well-known difficulty of using deeply-nested resources. With shallow nesting, you need only supply enough information to uniquely identify the resource that you want to work with.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 map.resources :publishers, :shallow =&gt; true do |publisher|
   publisher.resources :magazines do |magazine|
@@ -532,8 +496,7 @@ end
 
 </pre>
 </div>
-<p>This will enable recognition of (among others) these routes:</p>
-<div class="code_container">
+<p>This will enable recognition of (among others) these routes:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 /publishers/1           ==&gt; publisher_path(1)
 /publishers/1/magazines ==&gt; publisher_magazines_path(1)
@@ -555,9 +518,7 @@ end
 </ul>
 </li>
 </ul>
-<h4 id="method-arrays-for-member-or-collection-routes"><a href="#method-arrays-for-member-or-collection-routes">6.2 Method Arrays for Member or Collection Routes</a></h4>
-<p>You can now supply an array of methods for new member or collection routes. This removes the annoyance of having to define a route as accepting any verb as soon as you need it to handle more than one. With Rails 2.2, this is a legitimate route declaration:</p>
-<div class="code_container">
+<h4 id="method-arrays-for-member-or-collection-routes"><a href="#method-arrays-for-member-or-collection-routes">6.2 Method Arrays for Member or Collection Routes</a></h4><p>You can now supply an array of methods for new member or collection routes. This removes the annoyance of having to define a route as accepting any verb as soon as you need it to handle more than one. With Rails 2.2, this is a legitimate route declaration:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 map.resources :photos, :collection =&gt; { :search =&gt; [:get, :post] }
 
@@ -568,9 +529,7 @@ map.resources :photos, :collection =&gt; { :search =&gt; [:get, :post] }
 <li>Lead Contributor: <a href="http://brennandunn.com/">Brennan Dunn</a>
 </li>
 </ul>
-<h4 id="resources-with-specific-actions"><a href="#resources-with-specific-actions">6.3 Resources With Specific Actions</a></h4>
-<p>By default, when you use <code>map.resources</code> to create a route, Rails generates routes for seven default actions (index, show, create, new, edit, update, and destroy). But each of these routes takes up memory in your application, and causes Rails to generate additional routing logic. Now you can use the <code>:only</code> and <code>:except</code> options to fine-tune the routes that Rails will generate for resources. You can supply a single action, an array of actions, or the special <code>:all</code> or <code>:none</code> options. These options are inherited by nested resources.</p>
-<div class="code_container">
+<h4 id="resources-with-specific-actions"><a href="#resources-with-specific-actions">6.3 Resources With Specific Actions</a></h4><p>By default, when you use <code>map.resources</code> to create a route, Rails generates routes for seven default actions (index, show, create, new, edit, update, and destroy). But each of these routes takes up memory in your application, and causes Rails to generate additional routing logic. Now you can use the <code>:only</code> and <code>:except</code> options to fine-tune the routes that Rails will generate for resources. You can supply a single action, an array of actions, or the special <code>:all</code> or <code>:none</code> options. These options are inherited by nested resources.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 map.resources :photos, :only =&gt; [:index, :show]
 map.resources :products, :except =&gt; :destroy
@@ -604,8 +563,7 @@ map.resources :products, :except =&gt; :destroy
 <code>RJS#page.reload</code> to reload the browser's current location via JavaScript</li>
 <li>The <code>atom_feed</code> helper now takes an <code>:instruct</code> option to let you insert XML processing instructions.</li>
 </ul>
-<h3 id="action-mailer"><a href="#action-mailer">8 Action Mailer</a></h3>
-<p>Action Mailer now supports mailer layouts. You can make your HTML emails as pretty as your in-browser views by supplying an appropriately-named layout - for example, the <code>CustomerMailer</code> class expects to use <code>layouts/customer_mailer.html.erb</code>.</p>
+<h3 id="action-mailer"><a href="#action-mailer">8 Action Mailer</a></h3><p>Action Mailer now supports mailer layouts. You can make your HTML emails as pretty as your in-browser views by supplying an appropriately-named layout - for example, the <code>CustomerMailer</code> class expects to use <code>layouts/customer_mailer.html.erb</code>.</p>
 <ul>
 <li>More information:
 
@@ -614,12 +572,7 @@ map.resources :products, :except =&gt; :destroy
 </ul>
 </li>
 </ul>
-<p>Action Mailer now offers built-in support for GMail's SMTP servers, by turning on STARTTLS automatically. This requires Ruby 1.8.7 to be installed.</p>
-<h3 id="active-support"><a href="#active-support">9 Active Support</a></h3>
-<p>Active Support now offers built-in memoization for Rails applications, the <code>each_with_object</code> method, prefix support on delegates, and various other new utility methods.</p>
-<h4 id="memoization"><a href="#memoization">9.1 Memoization</a></h4>
-<p>Memoization is a pattern of initializing a method once and then stashing its value away for repeat use. You've probably used this pattern in your own applications:</p>
-<div class="code_container">
+<p>Action Mailer now offers built-in support for GMail's SMTP servers, by turning on STARTTLS automatically. This requires Ruby 1.8.7 to be installed.</p><h3 id="active-support"><a href="#active-support">9 Active Support</a></h3><p>Active Support now offers built-in memoization for Rails applications, the <code>each_with_object</code> method, prefix support on delegates, and various other new utility methods.</p><h4 id="memoization"><a href="#memoization">9.1 Memoization</a></h4><p>Memoization is a pattern of initializing a method once and then stashing its value away for repeat use. You've probably used this pattern in your own applications:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def full_name
   @full_name ||= "#{first_name} #{last_name}"
@@ -627,8 +580,7 @@ end
 
 </pre>
 </div>
-<p>Memoization lets you handle this task in a declarative fashion:</p>
-<div class="code_container">
+<p>Memoization lets you handle this task in a declarative fashion:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 extend ActiveSupport::Memoizable
 
@@ -651,18 +603,13 @@ memoize :full_name
 </ul>
 </li>
 </ul>
-<h4 id="each_with_object"><a href="#each_with_object">9.2 each_with_object</a></h4>
-<p>The <code>each_with_object</code> method provides an alternative to <code>inject</code>, using a method backported from Ruby 1.9. It iterates over a collection, passing the current element and the memo into the block.</p>
-<div class="code_container">
+<h4 id="each-with-object"><a href="#each-with-object">9.2 each_with_object</a></h4><p>The <code>each_with_object</code> method provides an alternative to <code>inject</code>, using a method backported from Ruby 1.9. It iterates over a collection, passing the current element and the memo into the block.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 %w(foo bar).each_with_object({}) { |str, hsh| hsh[str] = str.upcase } # =&gt; {'foo' =&gt; 'FOO', 'bar' =&gt; 'BAR'}
 
 </pre>
 </div>
-<p>Lead Contributor: <a href="http://therealadam.com/">Adam Keys</a></p>
-<h4 id="delegates-with-prefixes"><a href="#delegates-with-prefixes">9.3 Delegates With Prefixes</a></h4>
-<p>If you delegate behavior from one class to another, you can now specify a prefix that will be used to identify the delegated methods. For example:</p>
-<div class="code_container">
+<p>Lead Contributor: <a href="http://therealadam.com/">Adam Keys</a></p><h4 id="delegates-with-prefixes"><a href="#delegates-with-prefixes">9.3 Delegates With Prefixes</a></h4><p>If you delegate behavior from one class to another, you can now specify a prefix that will be used to identify the delegated methods. For example:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Vendor &lt; ActiveRecord::Base
   has_one :account
@@ -671,8 +618,7 @@ end
 
 </pre>
 </div>
-<p>This will produce delegated methods <code>vendor#account_email</code> and <code>vendor#account_password</code>. You can also specify a custom prefix:</p>
-<div class="code_container">
+<p>This will produce delegated methods <code>vendor#account_email</code> and <code>vendor#account_password</code>. You can also specify a custom prefix:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Vendor &lt; ActiveRecord::Base
   has_one :account
@@ -681,9 +627,7 @@ end
 
 </pre>
 </div>
-<p>This will produce delegated methods <code>vendor#owner_email</code> and <code>vendor#owner_password</code>.</p>
-<p>Lead Contributor: <a href="http://workingwithrails.com/person/5830-daniel-schierbeck">Daniel Schierbeck</a></p>
-<h4 id="other-active-support-changes"><a href="#other-active-support-changes">9.4 Other Active Support Changes</a></h4>
+<p>This will produce delegated methods <code>vendor#owner_email</code> and <code>vendor#owner_password</code>.</p><p>Lead Contributor: <a href="http://workingwithrails.com/person/5830-daniel-schierbeck">Daniel Schierbeck</a></p><h4 id="other-active-support-changes"><a href="#other-active-support-changes">9.4 Other Active Support Changes</a></h4>
 <ul>
 <li>Extensive updates to <code>ActiveSupport::Multibyte</code>, including Ruby 1.9 compatibility fixes.</li>
 <li>The addition of <code>ActiveSupport::Rescuable</code> allows any class to mix in the <code>rescue_from</code> syntax.</li>
@@ -704,10 +648,7 @@ end
 <code>ActiveSupport::StringInquirer</code> gives you a pretty way to test for equality in strings: <code>ActiveSupport::StringInquirer.new("abc").abc? =&gt; true</code>
 </li>
 </ul>
-<h3 id="railties"><a href="#railties">10 Railties</a></h3>
-<p>In Railties (the core code of Rails itself) the biggest changes are in the <code>config.gems</code> mechanism.</p>
-<h4 id="config.gems"><a href="#config.gems">10.1 config.gems</a></h4>
-<p>To avoid deployment issues and make Rails applications more self-contained, it's possible to place copies of all of the gems that your Rails application requires in <code>/vendor/gems</code>. This capability first appeared in Rails 2.1, but it's much more flexible and robust in Rails 2.2, handling complicated dependencies between gems. Gem management in Rails includes these commands:</p>
+<h3 id="railties"><a href="#railties">10 Railties</a></h3><p>In Railties (the core code of Rails itself) the biggest changes are in the <code>config.gems</code> mechanism.</p><h4 id="config-gems"><a href="#config-gems">10.1 config.gems</a></h4><p>To avoid deployment issues and make Rails applications more self-contained, it's possible to place copies of all of the gems that your Rails application requires in <code>/vendor/gems</code>. This capability first appeared in Rails 2.1, but it's much more flexible and robust in Rails 2.2, handling complicated dependencies between gems. Gem management in Rails includes these commands:</p>
 <ul>
 <li>
 <code>config.gem _gem_name_</code> in your <code>config/environment.rb</code> file</li>
@@ -753,8 +694,7 @@ end
 </li>
 <li>To eliminate deprecation warnings and properly handle gem dependencies, Rails now requires rubygems 1.3.1 or higher.</li>
 </ul>
-<h3 id="deprecated"><a href="#deprecated">11 Deprecated</a></h3>
-<p>A few pieces of older code are deprecated in this release:</p>
+<h3 id="deprecated"><a href="#deprecated">11 Deprecated</a></h3><p>A few pieces of older code are deprecated in this release:</p>
 <ul>
 <li>
 <code>Rails::SecretKeyGenerator</code> has been replaced by <code>ActiveSupport::SecureRandom</code>
@@ -782,10 +722,7 @@ end
 <li><p>Durations of fractional months or fractional years are deprecated. Use Ruby's core <code>Date</code> and <code>Time</code> class arithmetic instead.</p></li>
 <li><p><code>Request#relative_url_root</code> is deprecated. Use <code>ActionController::Base.relative_url_root</code> instead.</p></li>
 </ul>
-<h3 id="credits"><a href="#credits">12 Credits</a></h3>
-<p>Release notes compiled by <a href="http://afreshcup.com">Mike Gunderloy</a></p>
-</body></html>
-
+<h3 id="credits"><a href="#credits">12 Credits</a></h3><p>Release notes compiled by <a href="http://afreshcup.com">Mike Gunderloy</a></p>
         
         <h3>フィードバックについて</h3>
         <p>

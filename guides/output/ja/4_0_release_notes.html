@@ -227,12 +227,10 @@
 <p>本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある<a href="https://github.com/rails/rails/commits/4-0-stable">コミットリスト</a>のchangelogを参照してください。</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
-<li><a href="#rails-4.0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Rails 4.0へのアップグレード</a></li>
+            <ol class="chapters">
+<li><a href="#rails-4-0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Rails 4.0へのアップグレード</a></li>
 <li>
-<a href="#rails-4.0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">Rails 4.0アプリケーションを作成する</a>
+<a href="#rails-4-0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">Rails 4.0アプリケーションを作成する</a>
 
 <ul>
 <li><a href="#gem%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B">gemに移行する</a></li>
@@ -301,7 +299,6 @@
 </li>
 <li><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">クレジット表記</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -310,12 +307,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="rails-4.0へのアップグレード"><a href="#rails-4.0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">1 Rails 4.0へのアップグレード</a></h3>
-<p>既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 3.2までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 4.0にアップデートしてください。アップグレードの注意点などについては<a href="upgrading_ruby_on_rails.html#rails-3.2%E3%81%8B%E3%82%89rails-4.0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Ruby on Railsアップグレードガイド</a> を参照してください。</p>
-<h3 id="rails-4.0アプリケーションを作成する"><a href="#rails-4.0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 Rails 4.0アプリケーションを作成する</a></h3>
-<div class="code_container">
+        <h3 id="rails-4-0へのアップグレード"><a href="#rails-4-0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">1 Rails 4.0へのアップグレード</a></h3><p>既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 3.2までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 4.0にアップデートしてください。アップグレードの注意点などについては<a href="upgrading_ruby_on_rails.html#rails-3.2%E3%81%8B%E3%82%89rails-4.0%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Ruby on Railsアップグレードガイド</a> を参照してください。</p><h3 id="rails-4-0アプリケーションを作成する"><a href="#rails-4-0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 Rails 4.0アプリケーションを作成する</a></h3><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # 'rails'というRubyGemがインストールされている必要があります。
 $ rails new myapp
@@ -323,27 +315,19 @@ $ cd myapp
 
 </pre>
 </div>
-<h4 id="gemに移行する"><a href="#gem%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B">2.1 gemに移行する</a></h4>
-<p>Rails 4.0からは、アプリケーションのルートディレクトリに置かれる<code>Gemfile</code>を使用して、アプリケーションの起動に必要なgemを指定するようになりました。この<code>Gemfile</code>は<a href="https://github.com/carlhuda/bundler">Bundler</a>というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。</p>
-<p>詳細情報: <a href="http://gembundler.com">Bundlerホームページ</a></p>
-<h4 id="最新のgemを使用する"><a href="#%E6%9C%80%E6%96%B0%E3%81%AEgem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2 最新のgemを使用する</a></h4>
-<p><code>Bundler</code>と<code>Gemfile</code>のおかげで、専用の<code>bundle</code>コマンド一発でRailsアプリケーションのgemを簡単に安定させることができます。Gitリポジトリから直接bundleしたい場合は<code>--edge</code>フラグを追加します。</p>
-<div class="code_container">
+<h4 id="gemに移行する"><a href="#gem%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B">2.1 gemに移行する</a></h4><p>Rails 4.0からは、アプリケーションのルートディレクトリに置かれる<code>Gemfile</code>を使用して、アプリケーションの起動に必要なgemを指定するようになりました。この<code>Gemfile</code>は<a href="https://github.com/carlhuda/bundler">Bundler</a>というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。</p><p>詳細情報: <a href="http://gembundler.com">Bundlerホームページ</a></p><h4 id="最新のgemを使用する"><a href="#%E6%9C%80%E6%96%B0%E3%81%AEgem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2 最新のgemを使用する</a></h4><p><code>Bundler</code>と<code>Gemfile</code>のおかげで、専用の<code>bundle</code>コマンド一発でRailsアプリケーションのgemを簡単に安定させることができます。Gitリポジトリから直接bundleしたい場合は<code>--edge</code>フラグを追加します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp --edge
 
 </pre>
 </div>
-<p>Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使用してアプリケーションを生成したい場合は、<code>--dev</code>フラグを追加します。</p>
-<div class="code_container">
+<p>Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使用してアプリケーションを生成したい場合は、<code>--dev</code>フラグを追加します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 
 </pre>
 </div>
-<h3 id="主要な変更"><a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E5%A4%89%E6%9B%B4">3 主要な変更</a></h3>
-<p><a href="http://railsguides.jp/images/rails4_features.png"><img src="images/rails4_features.png" alt="Rails 4.0"></a></p>
-<h4 id="アップグレード"><a href="#%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">3.1 アップグレード</a></h4>
+<h3 id="主要な変更"><a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E5%A4%89%E6%9B%B4">3 主要な変更</a></h3><p><a href="http://railsguides.jp/images/rails4_features.png"><img src="images/rails4_features.png" alt="Rails 4.0"></a></p><h4 id="アップグレード"><a href="#%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">3.1 アップグレード</a></h4>
 <ul>
 <li>
 <strong>Ruby 1.9.3</strong> (<a href="https://github.com/rails/rails/commit/a0380e808d3dbd2462df17f5d3b7fcd8bd812496">コミット</a>) - Ruby 2.0を推奨、1.9.3以降は必須。</li>
@@ -412,8 +396,7 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 <li>
 <strong>新しいセキュリティヘッダー</strong> (<a href="https://github.com/rails/rails/commit/6794e92b204572d75a07bd6413bdae6ae22d5a82">コメント</a>) - Railsから送信されるあらゆるHTTPリクエストに次のヘッダーが含まれるようになりました: <code>X-Frame-Options</code> (クリックジャック防止のため、フレーム内へのページ埋め込みを禁止するようブラウザに指示する)、<code>X-XSS-Protection</code> (スクリプト注入を停止するようブラウザに指示する)、<code>X-Content-Type-Options</code> (jpegファイルをexeとして開かないようブラウザに指示する)。</li>
 </ul>
-<h3 id="外部gem化された機能"><a href="#%E5%A4%96%E9%83%A8gem%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E6%A9%9F%E8%83%BD">4 外部gem化された機能</a></h3>
-<p>Rails 4.0では多くの機能が切り出されてgemに移行しました。切り出されたgemを<code>Gemfile</code>ファイルに追加するだけでこれまでと同様に利用できます。</p>
+<h3 id="外部gem化された機能"><a href="#%E5%A4%96%E9%83%A8gem%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E6%A9%9F%E8%83%BD">4 外部gem化された機能</a></h3><p>Rails 4.0では多くの機能が切り出されてgemに移行しました。切り出されたgemを<code>Gemfile</code>ファイルに追加するだけでこれまでと同様に利用できます。</p>
 <ul>
 <li>ハッシュベースおよび動的findメソッド群 (<a href="https://github.com/rails/activerecord-deprecated_finders">GitHub</a>)</li>
 <li>Active Recordモデルでのマスアサインメント保護 (<a href="https://github.com/rails/protected_attributes">GitHub</a>、<a href="https://github.com/rails/rails/pull/7251">Pull Request</a>)</li>
@@ -430,9 +413,7 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 <li><p>ガイドはGitHub風マークダウンで書き直されました。</p></li>
 <li><p>ガイドのデザインがレスポンシブになりました。</p></li>
 </ul>
-<h3 id="railties"><a href="#railties">6 Railties</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/railties/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="railties-主な変更点"><a href="#railties-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">6.1 主な変更点</a></h4>
+<h3 id="railties"><a href="#railties">6 Railties</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/railties/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="railties-主な変更点"><a href="#railties-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">6.1 主な変更点</a></h4>
 <ul>
 <li><p>テスト用ディレクトリが追加されました: <code>test/models</code>、<code>test/helpers</code>、<code>test/controllers</code>、<code>test/mailers</code>これらに対応するrakeタスクも追加されました。(<a href="https://github.com/rails/rails/pull/7878">Pull Request</a>)</p></li>
 <li><p>アプリケーション内の実行ファイルは<code>bin/</code>ディレクトリに置かれるようになりました。<code>rake rails:update:bin</code>を実行すると<code>bin/bundle</code>、<code>bin/rails</code>、<code>bin/rake</code>を取得します。</p></li>
@@ -444,21 +425,12 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 <li><p><code>config.threadsafe!</code>は非推奨になりました。今後は<code>config.eager_load</code>をご利用ください。後者は一括読み込み (eager load) の対象をさらに細かい粒度で制御できます。</p></li>
 <li><p><code>Rails::Plugin</code>は廃止されました。今後は<code>vendor/plugins</code>にプラグインを追加する代わりに、gemやbundlerでパスやgit依存関係を指定してご利用ください。</p></li>
 </ul>
-<h3 id="action-mailer"><a href="#action-mailer">7 Action Mailer</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/actionmailer/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="action-mailer-主な変更点"><a href="#action-mailer-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">7.1 主な変更点</a></h4>
-<h4 id="action-mailer-非推奨"><a href="#action-mailer-%E9%9D%9E%E6%8E%A8%E5%A5%A8">7.2 非推奨</a></h4>
-<h3 id="active-model"><a href="#active-model">8 Active Model</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activemodel/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="active-model-主な変更点"><a href="#active-model-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">8.1 主な変更点</a></h4>
+<h3 id="action-mailer"><a href="#action-mailer">7 Action Mailer</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/actionmailer/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="action-mailer-主な変更点"><a href="#action-mailer-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">7.1 主な変更点</a></h4><h4 id="action-mailer-非推奨"><a href="#action-mailer-%E9%9D%9E%E6%8E%A8%E5%A5%A8">7.2 非推奨</a></h4><h3 id="active-model"><a href="#active-model">8 Active Model</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activemodel/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="active-model-主な変更点"><a href="#active-model-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">8.1 主な変更点</a></h4>
 <ul>
 <li><p><code>ActiveModel::ForbiddenAttributesProtection</code>を追加しました。許可されていない属性が渡された場合にマスアサインメントから属性を保護するためのシンプルなモジュールです。</p></li>
 <li><p><code>ActiveModel::Model</code>を追加しました。RubyオブジェクトをAction Packですぐに使えるようにするためのミックスインです。</p></li>
 </ul>
-<h4 id="active-model-非推奨"><a href="#active-model-%E9%9D%9E%E6%8E%A8%E5%A5%A8">8.2 非推奨</a></h4>
-<h3 id="active-support"><a href="#active-support">9 Active Support</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activesupport/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="active-support-主な変更点"><a href="#active-support-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">9.1 主な変更点</a></h4>
+<h4 id="active-model-非推奨"><a href="#active-model-%E9%9D%9E%E6%8E%A8%E5%A5%A8">8.2 非推奨</a></h4><h3 id="active-support"><a href="#active-support">9 Active Support</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activesupport/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="active-support-主な変更点"><a href="#active-support-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">9.1 主な変更点</a></h4>
 <ul>
 <li><p>非推奨の<code>memcache-client</code> gemを<code>ActiveSupport::Cache::MemCacheStore</code>の<code>dalli</code>に置き換えました。</p></li>
 <li><p><code>ActiveSupport::Cache::Entry</code>が最適化され、メモリ使用量と処理のオーバーヘッドが軽減されました。</p></li>
@@ -487,16 +459,11 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 <li><p><code>BufferedLogger</code>は非推奨になりました。今後は<code>ActiveSupport::Logger</code>またはRuby標準ライブラリのロガーをご利用ください。</p></li>
 <li><p><code>assert_present</code>および<code>assert_blank</code>は非推奨になりました。今後は<code>assert object.blank?</code>や<code>assert object.present?</code>をご利用ください。</p></li>
 </ul>
-<h3 id="action-pack"><a href="#action-pack">10 Action Pack</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/actionpack/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="action-pack-主な変更点"><a href="#action-pack-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">10.1 主な変更点</a></h4>
+<h3 id="action-pack"><a href="#action-pack">10 Action Pack</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/actionpack/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="action-pack-主な変更点"><a href="#action-pack-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">10.1 主な変更点</a></h4>
 <ul>
 <li>developmentモードでの例外ページのスタイルシートが変更されました。また、例外ページにはその例外が実際に発生したコードの行や断片も常に表示されるようになりました。</li>
 </ul>
-<h4 id="action-pack-非推奨"><a href="#action-pack-%E9%9D%9E%E6%8E%A8%E5%A5%A8">10.2 非推奨</a></h4>
-<h3 id="active-record"><a href="#active-record">11 Active Record</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activerecord/CHANGELOG.md">Changelog</a> を参照してください。</p>
-<h4 id="active-record-主な変更点"><a href="#active-record-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">11.1 主な変更点</a></h4>
+<h4 id="action-pack-非推奨"><a href="#action-pack-%E9%9D%9E%E6%8E%A8%E5%A5%A8">10.2 非推奨</a></h4><h3 id="active-record"><a href="#active-record">11 Active Record</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-0-stable/activerecord/CHANGELOG.md">Changelog</a> を参照してください。</p><h4 id="active-record-主な変更点"><a href="#active-record-%E4%B8%BB%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9">11.1 主な変更点</a></h4>
 <ul>
 <li>
 <p>マイグレーションで<code>change</code>を書く方法が改良され、以前のように<code>up</code>や<code>down</code>メソッドを使用する必要がなくなりました。</p>
@@ -554,10 +521,7 @@ store :settings, accessors: [ :color, :homepage ], coder: JSON
 </ul>
 </li>
 </ul>
-<h3 id="クレジット表記"><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">12 クレジット表記</a></h3>
-<p>Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、<a href="http://contributors.rubyonrails.org/">Railsコントリビューターの完全なリスト</a>を参照してください。これらの方々全員に敬意を表明いたします。</p>
-</body></html>
-
+<h3 id="クレジット表記"><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">12 クレジット表記</a></h3><p>Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、<a href="http://contributors.rubyonrails.org/">Railsコントリビューターの完全なリスト</a>を参照してください。これらの方々全員に敬意を表明いたします。</p>
         
         <h3>フィードバックについて</h3>
         <p>

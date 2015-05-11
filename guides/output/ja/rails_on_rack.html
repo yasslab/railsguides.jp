@@ -226,9 +226,7 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li><a href="#rack%E5%85%A5%E9%96%80">Rack入門</a></li>
 <li>
 <a href="#rails%E3%81%A8rack">RailsとRack</a>
@@ -257,7 +255,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -266,22 +263,11 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<div class="warning"><p>このガイドはRackのミドルウェア、urlマップ、<code>Rack::Builder</code>といったRackのプロトコルや概念に関する実用的な知識があることを前提にしています。</p></div>
-<h3 id="rack入門"><a href="#rack%E5%85%A5%E9%96%80">1 Rack入門</a></h3>
-<p>Rackは、Rubyのウェブアプリケーションに対して、最小限でモジュール化されていて、応用の効くインターフェイスを提供します。RackはHTTPリクエストとレスポンスを可能なかぎり簡単な方法でラッピングすることで、ウェブサーバー、ウェブフレームワーク、その間に位置するソフトウェア (ミドルウェアと呼ばれています) のAPIを一つのメソッド呼び出しの形にまとめます。</p>
+        <div class="warning"><p>このガイドはRackのミドルウェア、urlマップ、<code>Rack::Builder</code>といったRackのプロトコルや概念に関する実用的な知識があることを前提にしています。</p></div><h3 id="rack入門"><a href="#rack%E5%85%A5%E9%96%80">1 Rack入門</a></h3><p>Rackは、Rubyのウェブアプリケーションに対して、最小限でモジュール化されていて、応用の効くインターフェイスを提供します。RackはHTTPリクエストとレスポンスを可能なかぎり簡単な方法でラッピングすることで、ウェブサーバー、ウェブフレームワーク、その間に位置するソフトウェア (ミドルウェアと呼ばれています) のAPIを一つのメソッド呼び出しの形にまとめます。</p>
 <ul>
 <li><a href="http://rack.github.io/">Rack API ドキュメンテーション</a></li>
 </ul>
-<p>Rackに関する解説はこのガイドの範疇を超えてしまいます。Rackに関する基本的な知識が足らない場合、下記の<a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">リソース</a> を参照してください。</p>
-<h3 id="railsとrack"><a href="#rails%E3%81%A8rack">2 RailsとRack</a></h3>
-<h4 id="rackアプリケーションとしてのrailsアプリケーション"><a href="#rack%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AErails%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">2.1 RackアプリケーションとしてのRailsアプリケーション</a></h4>
-<p><code>Rails.application</code>はRailsアプリケーションをRackアプリケーションとして実装したものです。Rackに準拠したWebサーバーで、Railsアプリケーションを提供するには、<code>Rails.application</code>オブジェクトを使用する必要があります。</p>
-<h4 id="rails-serverコマンド"><a href="#rails-server%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">2.2 <code>rails server</code>コマンド</a></h4>
-<p><code>rails server</code>コマンドは<code>Rack::Server</code>のオブジェクトを作成し、ウェブサーバーを起動します。</p>
-<p><code>rails server</code>コマンドは以下のようにして、<code>Rack::Server</code>のオブジェクトを作成します。</p>
-<div class="code_container">
+<p>Rackに関する解説はこのガイドの範疇を超えてしまいます。Rackに関する基本的な知識が足らない場合、下記の<a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">リソース</a> を参照してください。</p><h3 id="railsとrack"><a href="#rails%E3%81%A8rack">2 RailsとRack</a></h3><h4 id="rackアプリケーションとしてのrailsアプリケーション"><a href="#rack%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AErails%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">2.1 RackアプリケーションとしてのRailsアプリケーション</a></h4><p><code>Rails.application</code>はRailsアプリケーションをRackアプリケーションとして実装したものです。Rackに準拠したWebサーバーで、Railsアプリケーションを提供するには、<code>Rails.application</code>オブジェクトを使用する必要があります。</p><h4 id="rails-serverコマンド"><a href="#rails-server%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">2.2 <code>rails server</code>コマンド</a></h4><p><code>rails server</code>コマンドは<code>Rack::Server</code>のオブジェクトを作成し、ウェブサーバーを起動します。</p><p><code>rails server</code>コマンドは以下のようにして、<code>Rack::Server</code>のオブジェクトを作成します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Rails::Server.new.tap do |server|
   require APP_PATH
@@ -291,8 +277,7 @@ end
 
 </pre>
 </div>
-<p><code>Rails::Server</code>クラスは<code>Rack::Server</code>クラスを継承しており、以下のようにして<code>Rack::Server#start</code>を呼び出します。</p>
-<div class="code_container">
+<p><code>Rails::Server</code>クラスは<code>Rack::Server</code>クラスを継承しており、以下のようにして<code>Rack::Server#start</code>を呼び出します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Server &lt; ::Rack::Server
   def start
@@ -303,8 +288,7 @@ end
 
 </pre>
 </div>
-<p>また次のようにして、ミドルウェアを読み込みます。</p>
-<div class="code_container">
+<p>また次のようにして、ミドルウェアを読み込みます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def middleware
   middlewares = []
@@ -334,9 +318,7 @@ end
 </tr>
 </tbody>
 </table>
-<h4 id="rackupコマンド"><a href="#rackup%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">2.3 <code>rackup</code>コマンド</a></h4>
-<p>Railsの<code>rails server</code>コマンドの代わりに<code>rackup</code>コマンドを使用するときは、下記の内容を<code>config.ru</code>に記述して、Railsアプリケーションのルートディレクトリに保存します。</p>
-<div class="code_container">
+<h4 id="rackupコマンド"><a href="#rackup%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">2.3 <code>rackup</code>コマンド</a></h4><p>Railsの<code>rails server</code>コマンドの代わりに<code>rackup</code>コマンドを使用するときは、下記の内容を<code>config.ru</code>に記述して、Railsアプリケーションのルートディレクトリに保存します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Rails.root/config.ru
 require ::File.expand_path('../config/environment', __FILE__)
@@ -347,33 +329,25 @@ run Rails.application
 
 </pre>
 </div>
-<p>サーバーを起動します。</p>
-<div class="code_container">
+<p>サーバーを起動します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rackup config.ru
 
 </pre>
 </div>
-<p><code>rackup</code>のオプションについて詳しく知りたいときは下記のようにします。</p>
-<div class="code_container">
+<p><code>rackup</code>のオプションについて詳しく知りたいときは下記のようにします。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rackup --help
 
 </pre>
 </div>
-<h3 id="action-dispatcherのミドルウェアスタック"><a href="#action-dispatcher%E3%81%AE%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">3 Action Dispatcherのミドルウェアスタック</a></h3>
-<p>Action Dispatcher内部のコンポーネントの多くは、Rackのミドルウェアとして実装されています。Rails内外の様々なミドルウェアを結合して、完全なRailsのRackアプリケーションを作るために、<code>Rails::Application</code>は<code>ActionDispatch::MiddlewareStack</code>を使用しています。</p>
-<div class="note"><p><code>ActionDispatch::MiddlewareStack</code>は<code>Rack::Builder</code>のRails版ですが、Railsアプリケーションの要求を満たすために、より柔軟性があり、多機能なクラスになっています。</p></div>
-<h4 id="ミドルウェアスタックを調べる"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%8B">3.1 ミドルウェアスタックを調べる</a></h4>
-<p>Railsにはミドルウェアスタックを調べるための便利なRakeタスクがあります。</p>
-<div class="code_container">
+<h3 id="action-dispatcherのミドルウェアスタック"><a href="#action-dispatcher%E3%81%AE%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">3 Action Dispatcherのミドルウェアスタック</a></h3><p>Action Dispatcher内部のコンポーネントの多くは、Rackのミドルウェアとして実装されています。Rails内外の様々なミドルウェアを結合して、完全なRailsのRackアプリケーションを作るために、<code>Rails::Application</code>は<code>ActionDispatch::MiddlewareStack</code>を使用しています。</p><div class="note"><p><code>ActionDispatch::MiddlewareStack</code>は<code>Rack::Builder</code>のRails版ですが、Railsアプリケーションの要求を満たすために、より柔軟性があり、多機能なクラスになっています。</p></div><h4 id="ミドルウェアスタックを調べる"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%8B">3.1 ミドルウェアスタックを調べる</a></h4><p>Railsにはミドルウェアスタックを調べるための便利なRakeタスクがあります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake middleware
 
 </pre>
 </div>
-<p>作成したばかりのRailsアプリケーションでは、以下のように出力されるはずです。</p>
-<div class="code_container">
+<p>作成したばかりのRailsアプリケーションでは、以下のように出力されるはずです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 use Rack::Sendfile
 use ActionDispatch::Static
@@ -402,11 +376,7 @@ run Rails.application.routes
 
 </pre>
 </div>
-<p>デフォルトのミドルウェア(とその他のうちいくつか)については <a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%81%AE%E5%86%85%E5%AE%B9">Internal Middlewares</a> を参照してください。</p>
-<h4 id="ミドルウェアスタックを設定する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">3.2 ミドルウェアスタックを設定する</a></h4>
-<p>ミドルウェアスタックにミドルウェアを追加したり、削除したり、変更したりするには<code>application.rb</code>もしくは環境ごとの<code>environments/&lt;environment&gt;.rb</code>ファイル内で<code>config.middleware</code>をいじります。</p>
-<h5 id="ミドルウェアを追加する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">3.2.1 ミドルウェアを追加する</a></h5>
-<p>次のメソッドを使用すると、ミドルウェアスタックに新しいミドルウェアを追加することができます。</p>
+<p>デフォルトのミドルウェア(とその他のうちいくつか)については <a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%81%AE%E5%86%85%E5%AE%B9">Internal Middlewares</a> を参照してください。</p><h4 id="ミドルウェアスタックを設定する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">3.2 ミドルウェアスタックを設定する</a></h4><p>ミドルウェアスタックにミドルウェアを追加したり、削除したり、変更したりするには<code>application.rb</code>もしくは環境ごとの<code>environments/&lt;environment&gt;.rb</code>ファイル内で<code>config.middleware</code>をいじります。</p><h5 id="ミドルウェアを追加する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">3.2.1 ミドルウェアを追加する</a></h5><p>次のメソッドを使用すると、ミドルウェアスタックに新しいミドルウェアを追加することができます。</p>
 <ul>
 <li><p><code>config.middleware.use(new_middleware, args)</code> - ミドルウェアスタックの一番下に新しいミドルウェアを追加します。</p></li>
 <li><p><code>config.middleware.insert_before(existing_middleware, new_middleware, args)</code> - (第一引数で)指定されたミドルウェアの前に新しいミドルウェアを追加します。</p></li>
@@ -425,9 +395,7 @@ config.middleware.insert_after ActiveRecord::QueryCache, Lifo::Cache, page_cache
 
 </pre>
 </div>
-<h5 id="ミドルウェアを交換する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E4%BA%A4%E6%8F%9B%E3%81%99%E3%82%8B">3.2.2 ミドルウェアを交換する</a></h5>
-<p><code>config.middleware.swap</code>を使用することで、ミドルウェアスタック内のミドルウェアを交換できます。</p>
-<div class="code_container">
+<h5 id="ミドルウェアを交換する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E4%BA%A4%E6%8F%9B%E3%81%99%E3%82%8B">3.2.2 ミドルウェアを交換する</a></h5><p><code>config.middleware.swap</code>を使用することで、ミドルウェアスタック内のミドルウェアを交換できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # config/application.rb
 
@@ -436,17 +404,14 @@ config.middleware.swap ActionDispatch::ShowExceptions, Lifo::ShowExceptions
 
 </pre>
 </div>
-<h5 id="ミドルウェアを削除する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">3.2.3 ミドルウェアを削除する</a></h5>
-<p>アプリケーションの設定に、下記のコードを追加してください。</p>
-<div class="code_container">
+<h5 id="ミドルウェアを削除する"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">3.2.3 ミドルウェアを削除する</a></h5><p>アプリケーションの設定に、下記のコードを追加してください。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # config/application.rb
 config.middleware.delete "Rack::Lock"
 
 </pre>
 </div>
-<p>ミドルウェアスタックを調べると、<code>Rack::Lock</code>が消えていることが分かります。</p>
-<div class="code_container">
+<p>ミドルウェアスタックを調べると、<code>Rack::Lock</code>が消えていることが分かります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake middleware
 (in /Users/lifo/Rails/blog)
@@ -458,8 +423,7 @@ run Rails.application.routes
 
 </pre>
 </div>
-<p>セッション関連のミドルウェアを削除したいときは次のように書きます。</p>
-<div class="code_container">
+<p>セッション関連のミドルウェアを削除したいときは次のように書きます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # config/application.rb
 config.middleware.delete "ActionDispatch::Cookies"
@@ -468,17 +432,14 @@ config.middleware.delete "ActionDispatch::Flash"
 
 </pre>
 </div>
-<p>ブラウザ関連のミドルウェアを削除するには次のように書きます。</p>
-<div class="code_container">
+<p>ブラウザ関連のミドルウェアを削除するには次のように書きます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # config/application.rb
 config.middleware.delete "Rack::MethodOverride"
 
 </pre>
 </div>
-<h4 id="ミドルウェアスタックの内容"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%81%AE%E5%86%85%E5%AE%B9">3.3 ミドルウェアスタックの内容</a></h4>
-<p>Action Controllerの機能の多くはミドルウェアとして実装されています。以下のリストでそれぞれの役割を説明します。</p>
-<p><strong><code>Rack::Sendfile</code></strong></p>
+<h4 id="ミドルウェアスタックの内容"><a href="#%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF%E3%81%AE%E5%86%85%E5%AE%B9">3.3 ミドルウェアスタックの内容</a></h4><p>Action Controllerの機能の多くはミドルウェアとして実装されています。以下のリストでそれぞれの役割を説明します。</p><p><strong><code>Rack::Sendfile</code></strong></p>
 <ul>
 <li>X-Sendfile headerを設定します。<code>config.action_dispatch.x_sendfile_header</code>オプション経由で設定を変更できます。</li>
 </ul>
@@ -572,9 +533,7 @@ config.middleware.delete "Rack::MethodOverride"
 <ul>
 <li>bodyが文字列のみのレスポンスに対して、ETagヘッダを追加します。 ETagはキャッシュの有効性を検証するのに使用されます。</li>
 </ul>
-<div class="info"><p>これらのミドルウェアはいずれも、Rackのミドルウェアスタックに利用できます。</p></div>
-<h3 id="参考資料"><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">4 参考資料</a></h3>
-<h4 id="rackについて詳しく学ぶ"><a href="#rack%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E8%A9%B3%E3%81%97%E3%81%8F%E5%AD%A6%E3%81%B6">4.1 Rackについて詳しく学ぶ</a></h4>
+<div class="info"><p>これらのミドルウェアはいずれも、Rackのミドルウェアスタックに利用できます。</p></div><h3 id="参考資料"><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">4 参考資料</a></h3><h4 id="rackについて詳しく学ぶ"><a href="#rack%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E8%A9%B3%E3%81%97%E3%81%8F%E5%AD%A6%E3%81%B6">4.1 Rackについて詳しく学ぶ</a></h4>
 <ul>
 <li><a href="http://rack.github.io">Rack公式サイト</a></li>
 <li><a href="http://chneukirchen.org/blog/archive/2007/02/introducing-rack.html">Rack入門</a></li>
@@ -585,7 +544,6 @@ config.middleware.delete "Rack::MethodOverride"
 <ul>
 <li><a href="http://railscasts.com/episodes/151-rack-middleware">Railscast on Rack Middlewares</a></li>
 </ul>
-</body></html>
 
         
         <h3>フィードバックについて</h3>

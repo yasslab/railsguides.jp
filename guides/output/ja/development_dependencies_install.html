@@ -226,9 +226,7 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li><a href="#the-easy-way">The Easy Way</a></li>
 <li>
 <a href="#the-hard-way">The Hard Way</a>
@@ -241,7 +239,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -250,14 +247,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="the-easy-way"><a href="#the-easy-way">1 The Easy Way</a></h3>
-<p>The easiest and recommended way to get a development environment ready to hack is to use the <a href="https://github.com/rails/rails-dev-box">Rails development box</a>.</p>
-<h3 id="the-hard-way"><a href="#the-hard-way">2 The Hard Way</a></h3>
-<p>In case you can't use the Rails development box, see section above, these are the steps to manually build a development box for Ruby on Rails core development.</p>
-<h4 id="install-git"><a href="#install-git">2.1 Install Git</a></h4>
-<p>Ruby on Rails uses Git for source code control. The <a href="http://git-scm.com/">Git homepage</a> has installation instructions. There are a variety of resources on the net that will help you get familiar with Git:</p>
+        <h3 id="the-easy-way"><a href="#the-easy-way">1 The Easy Way</a></h3><p>The easiest and recommended way to get a development environment ready to hack is to use the <a href="https://github.com/rails/rails-dev-box">Rails development box</a>.</p><h3 id="the-hard-way"><a href="#the-hard-way">2 The Hard Way</a></h3><p>In case you can't use the Rails development box, see section above, these are the steps to manually build a development box for Ruby on Rails core development.</p><h4 id="install-git"><a href="#install-git">2.1 Install Git</a></h4><p>Ruby on Rails uses Git for source code control. The <a href="http://git-scm.com/">Git homepage</a> has installation instructions. There are a variety of resources on the net that will help you get familiar with Git:</p>
 <ul>
 <li>
 <a href="http://try.github.io/">Try Git course</a> is an interactive course that will teach you the basics.</li>
@@ -270,169 +260,134 @@
 <li>
 <a href="http://git-scm.com/book">Pro Git</a> is an entire book about Git with a Creative Commons license.</li>
 </ul>
-<h4 id="clone-the-ruby-on-rails-repository"><a href="#clone-the-ruby-on-rails-repository">2.2 Clone the Ruby on Rails Repository</a></h4>
-<p>Navigate to the folder where you want the Ruby on Rails source code (it will create its own <code>rails</code> subdirectory) and run:</p>
-<div class="code_container">
+<h4 id="clone-the-ruby-on-rails-repository"><a href="#clone-the-ruby-on-rails-repository">2.2 Clone the Ruby on Rails Repository</a></h4><p>Navigate to the folder where you want the Ruby on Rails source code (it will create its own <code>rails</code> subdirectory) and run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ git clone git://github.com/rails/rails.git
 $ cd rails
 
 </pre>
 </div>
-<h4 id="set-up-and-run-the-tests"><a href="#set-up-and-run-the-tests">2.3 Set up and Run the Tests</a></h4>
-<p>The test suite must pass with any submitted code. No matter whether you are writing a new patch, or evaluating someone else's, you need to be able to run the tests.</p>
-<p>Install first libxml2 and libxslt together with their development files for Nokogiri. In Ubuntu that's</p>
-<div class="code_container">
+<h4 id="set-up-and-run-the-tests"><a href="#set-up-and-run-the-tests">2.3 Set up and Run the Tests</a></h4><p>The test suite must pass with any submitted code. No matter whether you are writing a new patch, or evaluating someone else's, you need to be able to run the tests.</p><p>Install first libxml2 and libxslt together with their development files for Nokogiri. In Ubuntu that's</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo apt-get install libxml2 libxml2-dev libxslt1-dev
 
 </pre>
 </div>
-<p>If you are on Fedora or CentOS, you can run</p>
-<div class="code_container">
+<p>If you are on Fedora or CentOS, you can run</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo yum install libxml2 libxml2-devel libxslt libxslt-devel
 
 </pre>
 </div>
-<p>If you are running Arch Linux, you're done with:</p>
-<div class="code_container">
+<p>If you are running Arch Linux, you're done with:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo pacman -S libxml2 libxslt
 
 </pre>
 </div>
-<p>On FreeBSD, you just have to run:</p>
-<div class="code_container">
+<p>On FreeBSD, you just have to run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # pkg_add -r libxml2 libxslt
 
 </pre>
 </div>
-<p>Alternatively, you can install the <code>textproc/libxml2</code> and <code>textproc/libxslt</code> ports.</p>
-<p>If you have any problems with these libraries, you can install them manually by compiling the source code. Just follow the instructions at the <a href="http://nokogiri.org/tutorials/installing_nokogiri.html#red_hat__centos">Red Hat/CentOS section of the Nokogiri tutorials</a> .</p>
-<p>Also, SQLite3 and its development files for the <code>sqlite3-ruby</code> gem - in Ubuntu you're done with just</p>
-<div class="code_container">
+<p>Alternatively, you can install the <code>textproc/libxml2</code> and <code>textproc/libxslt</code> ports.</p><p>If you have any problems with these libraries, you can install them manually by compiling the source code. Just follow the instructions at the <a href="http://nokogiri.org/tutorials/installing_nokogiri.html#red_hat__centos">Red Hat/CentOS section of the Nokogiri tutorials</a> .</p><p>Also, SQLite3 and its development files for the <code>sqlite3-ruby</code> gem - in Ubuntu you're done with just</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo apt-get install sqlite3 libsqlite3-dev
 
 </pre>
 </div>
-<p>And if you are on Fedora or CentOS, you're done with</p>
-<div class="code_container">
+<p>And if you are on Fedora or CentOS, you're done with</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo yum install sqlite3 sqlite3-devel
 
 </pre>
 </div>
-<p>If you are on Arch Linux, you will need to run:</p>
-<div class="code_container">
+<p>If you are on Arch Linux, you will need to run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo pacman -S sqlite
 
 </pre>
 </div>
-<p>For FreeBSD users, you're done with:</p>
-<div class="code_container">
+<p>For FreeBSD users, you're done with:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # pkg_add -r sqlite3
 
 </pre>
 </div>
-<p>Or compile the <code>databases/sqlite3</code> port.</p>
-<p>Get a recent version of <a href="http://gembundler.com/">Bundler</a></p>
-<div class="code_container">
+<p>Or compile the <code>databases/sqlite3</code> port.</p><p>Get a recent version of <a href="http://gembundler.com/">Bundler</a></p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ gem install bundler
 $ gem update bundler
 
 </pre>
 </div>
-<p>and run:</p>
-<div class="code_container">
+<p>and run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bundle install --without db
 
 </pre>
 </div>
-<p>This command will install all dependencies except the MySQL and PostgreSQL Ruby drivers. We will come back to these soon.</p>
-<div class="note"><p>If you would like to run the tests that use memcached, you need to ensure that you have it installed and running.</p></div>
-<p>You can use <a href="http://brew.sh/">Homebrew</a> to install memcached on OSX:</p>
-<div class="code_container">
+<p>This command will install all dependencies except the MySQL and PostgreSQL Ruby drivers. We will come back to these soon.</p><div class="note"><p>If you would like to run the tests that use memcached, you need to ensure that you have it installed and running.</p></div><p>You can use <a href="http://brew.sh/">Homebrew</a> to install memcached on OSX:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ brew install memcached
 
 </pre>
 </div>
-<p>On Ubuntu you can install it with apt-get:</p>
-<div class="code_container">
+<p>On Ubuntu you can install it with apt-get:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo apt-get install memcached
 
 </pre>
 </div>
-<p>Or use yum on Fedora or CentOS:</p>
-<div class="code_container">
+<p>Or use yum on Fedora or CentOS:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo yum install memcached
 
 </pre>
 </div>
-<p>With the dependencies now installed, you can run the test suite with:</p>
-<div class="code_container">
+<p>With the dependencies now installed, you can run the test suite with:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bundle exec rake test
 
 </pre>
 </div>
-<p>You can also run tests for a specific component, like Action Pack, by going into its directory and executing the same command:</p>
-<div class="code_container">
+<p>You can also run tests for a specific component, like Action Pack, by going into its directory and executing the same command:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd actionpack
 $ bundle exec rake test
 
 </pre>
 </div>
-<p>If you want to run the tests located in a specific directory use the <code>TEST_DIR</code> environment variable. For example, this will run the tests in the <code>railties/test/generators</code> directory only:</p>
-<div class="code_container">
+<p>If you want to run the tests located in a specific directory use the <code>TEST_DIR</code> environment variable. For example, this will run the tests in the <code>railties/test/generators</code> directory only:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd railties
 $ TEST_DIR=generators bundle exec rake test
 
 </pre>
 </div>
-<p>You can run the tests for a particular file by using:</p>
-<div class="code_container">
+<p>You can run the tests for a particular file by using:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd actionpack
 $ bundle exec ruby -Itest test/template/form_helper_test.rb
 
 </pre>
 </div>
-<p>Or, you can run a single test in a particular file:</p>
-<div class="code_container">
+<p>Or, you can run a single test in a particular file:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd actionpack
 $ bundle exec ruby -Itest path/to/test.rb -n test_name
 
 </pre>
 </div>
-<h4 id="active-record-setup"><a href="#active-record-setup">2.4 Active Record Setup</a></h4>
-<p>The test suite of Active Record attempts to run four times: once for SQLite3, once for each of the two MySQL gems (<code>mysql</code> and <code>mysql2</code>), and once for PostgreSQL. We are going to see now how to set up the environment for them.</p>
-<div class="warning"><p>If you're working with Active Record code, you <em>must</em> ensure that the tests pass for at least MySQL, PostgreSQL, and SQLite3. Subtle differences between the various adapters have been behind the rejection of many patches that looked OK when tested only against MySQL.</p></div>
-<h5 id="database-configuration"><a href="#database-configuration">2.4.1 Database Configuration</a></h5>
-<p>The Active Record test suite requires a custom config file: <code>activerecord/test/config.yml</code>. An example is provided in <code>activerecord/test/config.example.yml</code> which can be copied and used as needed for your environment.</p>
-<h5 id="mysql-and-postgresql"><a href="#mysql-and-postgresql">2.4.2 MySQL and PostgreSQL</a></h5>
-<p>To be able to run the suite for MySQL and PostgreSQL we need their gems. Install first the servers, their client libraries, and their development files. In Ubuntu just run</p>
-<div class="code_container">
+<h4 id="active-record-setup"><a href="#active-record-setup">2.4 Active Record Setup</a></h4><p>The test suite of Active Record attempts to run four times: once for SQLite3, once for each of the two MySQL gems (<code>mysql</code> and <code>mysql2</code>), and once for PostgreSQL. We are going to see now how to set up the environment for them.</p><div class="warning"><p>If you're working with Active Record code, you <em>must</em> ensure that the tests pass for at least MySQL, PostgreSQL, and SQLite3. Subtle differences between the various adapters have been behind the rejection of many patches that looked OK when tested only against MySQL.</p></div><h5 id="database-configuration"><a href="#database-configuration">2.4.1 Database Configuration</a></h5><p>The Active Record test suite requires a custom config file: <code>activerecord/test/config.yml</code>. An example is provided in <code>activerecord/test/config.example.yml</code> which can be copied and used as needed for your environment.</p><h5 id="mysql-and-postgresql"><a href="#mysql-and-postgresql">2.4.2 MySQL and PostgreSQL</a></h5><p>To be able to run the suite for MySQL and PostgreSQL we need their gems. Install first the servers, their client libraries, and their development files. In Ubuntu just run</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo apt-get install mysql-server libmysqlclient15-dev
 $ sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 
 </pre>
 </div>
-<p>On Fedora or CentOS, just run:</p>
-<div class="code_container">
+<p>On Fedora or CentOS, just run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo yum install mysql-server mysql-devel
 $ sudo yum install postgresql-server postgresql-devel
@@ -440,44 +395,36 @@ $ sudo yum install postgresql-server postgresql-devel
 </pre>
 </div>
 <p>If you are running Arch Linux, MySQL isn't supported anymore so you will need to
-use MariaDB instead (see <a href="https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/">this announcement</a>):</p>
-<div class="code_container">
+use MariaDB instead (see <a href="https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/">this announcement</a>):</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo pacman -S mariadb libmariadbclient mariadb-clients
 $ sudo pacman -S postgresql postgresql-libs
 
 </pre>
 </div>
-<p>FreeBSD users will have to run the following:</p>
-<div class="code_container">
+<p>FreeBSD users will have to run the following:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # pkg_add -r mysql56-client mysql56-server
 # pkg_add -r postgresql92-client postgresql92-server
 
 </pre>
 </div>
-<p>You can use <a href="http://brew.sh/">Homebrew</a> to install MySQL and PostgreSQL on OSX:</p>
-<div class="code_container">
+<p>You can use <a href="http://brew.sh/">Homebrew</a> to install MySQL and PostgreSQL on OSX:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ brew install mysql
 $ brew install postgresql
 
 </pre>
 </div>
-<p>Follow instructions given by <a href="http://brew.sh/">Homebrew</a> to start these.</p>
-<p>Or install them through ports (they are located under the <code>databases</code> folder).
-If you run into troubles during the installation of MySQL, please see <a href="http://dev.mysql.com/doc/refman/5.1/en/freebsd-installation.html">the MySQL documentation</a>.</p>
-<p>After that, run:</p>
-<div class="code_container">
+<p>Follow instructions given by <a href="http://brew.sh/">Homebrew</a> to start these.</p><p>Or install them through ports (they are located under the <code>databases</code> folder).
+If you run into troubles during the installation of MySQL, please see <a href="http://dev.mysql.com/doc/refman/5.1/en/freebsd-installation.html">the MySQL documentation</a>.</p><p>After that, run:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rm .bundle/config
 $ bundle install
 
 </pre>
 </div>
-<p>First, we need to delete <code>.bundle/config</code> because Bundler remembers in that file that we didn't want to install the "db" group (alternatively you can edit the file).</p>
-<p>In order to be able to run the test suite against MySQL you need to create a user named <code>rails</code> with privileges on the test databases:</p>
-<div class="code_container">
+<p>First, we need to delete <code>.bundle/config</code> because Bundler remembers in that file that we didn't want to install the "db" group (alternatively you can edit the file).</p><p>In order to be able to run the test suite against MySQL you need to create a user named <code>rails</code> with privileges on the test databases:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ mysql -uroot -p
 
@@ -491,8 +438,7 @@ mysql&gt; GRANT ALL PRIVILEGES ON inexistent_activerecord_unittest.*
 
 </pre>
 </div>
-<p>and create the test databases:</p>
-<div class="code_container">
+<p>and create the test databases:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd activerecord
 $ bundle exec rake mysql:build_databases
@@ -500,8 +446,7 @@ $ bundle exec rake mysql:build_databases
 </pre>
 </div>
 <p>PostgreSQL's authentication works differently. A simple way to set up the development environment for example is to run with your development account
-This is not needed when installed via <a href="http://brew.sh">Homebrew</a>.</p>
-<div class="code_container">
+This is not needed when installed via <a href="http://brew.sh">Homebrew</a>.</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ sudo -u postgres createuser --superuser $USER
 
@@ -510,36 +455,28 @@ $ sudo -u postgres createuser --superuser $USER
 <p>And for OS X (when installed via <a href="http://brew.sh">Homebrew</a>)
 <code>bash
 $ createuser --superuser $USER
-</code></p>
-<p>and then create the test databases with</p>
-<div class="code_container">
+</code></p><p>and then create the test databases with</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd activerecord
 $ bundle exec rake postgresql:build_databases
 
 </pre>
 </div>
-<p>It is possible to build databases for both PostgreSQL and MySQL with</p>
-<div class="code_container">
+<p>It is possible to build databases for both PostgreSQL and MySQL with</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd activerecord
 $ bundle exec rake db:create
 
 </pre>
 </div>
-<p>You can cleanup the databases using</p>
-<div class="code_container">
+<p>You can cleanup the databases using</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd activerecord
 $ bundle exec rake db:drop
 
 </pre>
 </div>
-<div class="note"><p>Using the rake task to create the test databases ensures they have the correct character set and collation.</p></div>
-<div class="note"><p>You'll see the following warning (or localized warning) during activating HStore extension in PostgreSQL 9.1.x or earlier: "WARNING: =&gt; is deprecated as an operator".</p></div>
-<p>If you're using another database, check the file <code>activerecord/test/config.yml</code> or <code>activerecord/test/config.example.yml</code> for default connection information. You can edit <code>activerecord/test/config.yml</code> to provide different credentials on your machine if you must, but obviously you should not push any such changes back to Rails.</p>
-</body></html>
-
+<div class="note"><p>Using the rake task to create the test databases ensures they have the correct character set and collation.</p></div><div class="note"><p>You'll see the following warning (or localized warning) during activating HStore extension in PostgreSQL 9.1.x or earlier: "WARNING: =&gt; is deprecated as an operator".</p></div><p>If you're using another database, check the file <code>activerecord/test/config.yml</code> or <code>activerecord/test/config.example.yml</code> for default connection information. You can edit <code>activerecord/test/config.yml</code> to provide different credentials on your machine if you must, but obviously you should not push any such changes back to Rails.</p>
         
         <h3>フィードバックについて</h3>
         <p>

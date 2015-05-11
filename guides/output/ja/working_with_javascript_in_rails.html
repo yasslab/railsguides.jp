@@ -228,19 +228,17 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AEajax">はじめてのAjax</a></li>
 <li><a href="#%E3%80%8C%E6%8E%A7%E3%81%88%E3%82%81%E3%81%AAjavascript%E3%80%8D">「控えめなJavaScript」</a></li>
 <li>
 <a href="#%E7%B5%84%E3%81%BF%E8%BE%BC%E3%81%BF%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">組み込みヘルパー</a>
 
 <ul>
-<li><a href="#form_for">form_for</a></li>
-<li><a href="#form_tag">form_tag</a></li>
-<li><a href="#link_to">link_to</a></li>
-<li><a href="#button_to">button_to</a></li>
+<li><a href="#form-for">form_for</a></li>
+<li><a href="#form-tag">form_tag</a></li>
+<li><a href="#link-to">link_to</a></li>
+<li><a href="#button-to">button_to</a></li>
 </ul>
 </li>
 <li>
@@ -260,7 +258,6 @@
 </li>
 <li><a href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90">その他の情報源</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -269,41 +266,26 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="はじめてのajax"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AEajax">1 はじめてのAjax</a></h3>
-<p>Ajaxを理解するには、Webブラウザの基本的な動作について理解しておく必要があります。</p>
-<p>ブラウザのアドレスバーに<code>http://localhost:3000</code>と入力して'Go'を押すと、ブラウザ (つまりクライアント) はサーバーに対してリクエストを1つ送信します。ブラウザは、サーバーから受け取ったレスポンスを解析し、続いて必要なすべてのアセット (JavaScriptファイル、スタイルシート、画像) をサーバーから取得します。続いてブラウザはページを組み立てます。ブラウザに表示されているリンクをクリックすると、同じプロセスが実行されます。ブラウザはページを取得し、続いてアセットを取得し、それらをすべてまとめてから結果を表示します。これが、いわゆる「リクエスト-レスポンス」のサイクルです。</p>
-<p>JavaScriptも、上と同様にサーバーにリクエストを送信し、レスポンスを解析することができます。JavaScriptはページ上の情報を更新することもできます。JavaScriptの開発者は、ブラウザとJavaScriptという2つの力を1つに結集させることで、現在のWebページの一部だけを更新することができます。必要なWebページをサーバーからすべて取得する必要はありません。この強力な技法が、Ajaxと呼ばれているものです。</p>
-<p>Railsには、JavaScriptをさらに使いやすくしたCoffeeScriptがデフォルトで組み込まれています。以後、本ガイドではすべての例をCoffeeScriptで記述します。もちろん、これらのレッスンはすべて通常のJavaScriptにも適用できます。</p>
-<p>例として、jQueryライブラリを使用してAjaxリクエストを送信するCoffeeScriptコードを以下に示します。</p>
-<div class="code_container">
+        <h3 id="はじめてのajax"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AEajax">1 はじめてのAjax</a></h3><p>Ajaxを理解するには、Webブラウザの基本的な動作について理解しておく必要があります。</p><p>ブラウザのアドレスバーに<code>http://localhost:3000</code>と入力して'Go'を押すと、ブラウザ (つまりクライアント) はサーバーに対してリクエストを1つ送信します。ブラウザは、サーバーから受け取ったレスポンスを解析し、続いて必要なすべてのアセット (JavaScriptファイル、スタイルシート、画像) をサーバーから取得します。続いてブラウザはページを組み立てます。ブラウザに表示されているリンクをクリックすると、同じプロセスが実行されます。ブラウザはページを取得し、続いてアセットを取得し、それらをすべてまとめてから結果を表示します。これが、いわゆる「リクエスト-レスポンス」のサイクルです。</p><p>JavaScriptも、上と同様にサーバーにリクエストを送信し、レスポンスを解析することができます。JavaScriptはページ上の情報を更新することもできます。JavaScriptの開発者は、ブラウザとJavaScriptという2つの力を1つに結集させることで、現在のWebページの一部だけを更新することができます。必要なWebページをサーバーからすべて取得する必要はありません。この強力な技法が、Ajaxと呼ばれているものです。</p><p>Railsには、JavaScriptをさらに使いやすくしたCoffeeScriptがデフォルトで組み込まれています。以後、本ガイドではすべての例をCoffeeScriptで記述します。もちろん、これらのレッスンはすべて通常のJavaScriptにも適用できます。</p><p>例として、jQueryライブラリを使用してAjaxリクエストを送信するCoffeeScriptコードを以下に示します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $.ajax(url: "/test").done (html) -&gt;
   $("#results").append html
 
 </pre>
 </div>
-<p>上のコードは "/test" からデータを取得し、結果をWebページ上の<code>results</code>というidを持つ<code>div</code>タグに押し込みます。</p>
-<p>Railsには、この種の技法をWebページ作成で使用するためのサポートが多数ビルトインされています。従って、こうしたコードをすべて自分で作成する必要はほとんどありません。この後、このような手法でRails Webサイトを作成する方法をご紹介します。これらの手法は、いずれもシンプルな基本テクニックのうえに成り立っています。</p>
-<h3 id="「控えめなjavascript」"><a href="#%E3%80%8C%E6%8E%A7%E3%81%88%E3%82%81%E3%81%AAjavascript%E3%80%8D">2 「控えめなJavaScript」</a></h3>
-<p>Railsでは、JavaScriptをDOMに追加する際の手法を「控えめな (unobtrusive) JavaScript」と呼んでいます。これは一般にフロントエンド開発者コミュニティでベストプラクティスであると見なされていますが、ここではもう少し違う角度から説明したいと思います。</p>
-<p>最もシンプルなJavaScriptを例にとって考えてみましょう。以下のような書き方は'インラインJavaScript'と呼ばれています。</p>
-<div class="code_container">
+<p>上のコードは "/test" からデータを取得し、結果をWebページ上の<code>results</code>というidを持つ<code>div</code>タグに押し込みます。</p><p>Railsには、この種の技法をWebページ作成で使用するためのサポートが多数ビルトインされています。従って、こうしたコードをすべて自分で作成する必要はほとんどありません。この後、このような手法でRails Webサイトを作成する方法をご紹介します。これらの手法は、いずれもシンプルな基本テクニックのうえに成り立っています。</p><h3 id="「控えめなjavascript」"><a href="#%E3%80%8C%E6%8E%A7%E3%81%88%E3%82%81%E3%81%AAjavascript%E3%80%8D">2 「控えめなJavaScript」</a></h3><p>Railsでは、JavaScriptをDOMに追加する際の手法を「控えめな (unobtrusive) JavaScript」と呼んでいます。これは一般にフロントエンド開発者コミュニティでベストプラクティスであると見なされていますが、ここではもう少し違う角度から説明したいと思います。</p><p>最もシンプルなJavaScriptを例にとって考えてみましょう。以下のような書き方は'インラインJavaScript'と呼ばれています。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="#" onclick="this.style.backgroundColor='#990000'"&gt;Paint it red&lt;/a&gt;
 
 </pre>
 </div>
-<p>このリンクをクリックすると、背景が赤くなります。しかし早くもここで問題が生じ始めます。クリックした時にJavaScriptでもっといろんなことをさせるとどうなるでしょうか。</p>
-<div class="code_container">
+<p>このリンクをクリックすると、背景が赤くなります。しかし早くもここで問題が生じ始めます。クリックした時にJavaScriptでもっといろんなことをさせるとどうなるでしょうか。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="#" onclick="this.style.backgroundColor='#009900';this.style.color='#FFFFFF';"&gt;Paint it green&lt;/a&gt;
 
 </pre>
 </div>
-<p>だいぶ乱雑になってきました。ではここで関数定義をclickハンドラの外に追い出し、CoffeeScriptで書き換えてみましょう。</p>
-<div class="code_container">
+<p>だいぶ乱雑になってきました。ではここで関数定義をclickハンドラの外に追い出し、CoffeeScriptで書き換えてみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 paintIt = (element, backgroundColor, textColor) -&gt;
   element.style.backgroundColor = backgroundColor
@@ -312,15 +294,13 @@ paintIt = (element, backgroundColor, textColor) -&gt;
 
 </pre>
 </div>
-<p>ページの内容は以下のとおりです。</p>
-<div class="code_container">
+<p>ページの内容は以下のとおりです。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="#" onclick="paintIt(this, '#990000')"&gt;Paint it red&lt;/a&gt;
 
 </pre>
 </div>
-<p>これでコードがだいぶ良くなりました。しかし、同じ効果を複数のリンクに与えるとどうなるでしょうか。</p>
-<div class="code_container">
+<p>これでコードがだいぶ良くなりました。しかし、同じ効果を複数のリンクに与えるとどうなるでしょうか。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="#" onclick="paintIt(this, '#990000')"&gt;Paint it red&lt;/a&gt;
 &lt;a href="#" onclick="paintIt(this, '#009900', '#FFFFFF')"&gt;Paint it green&lt;/a&gt;
@@ -328,8 +308,7 @@ paintIt = (element, backgroundColor, textColor) -&gt;
 
 </pre>
 </div>
-<p>これではDRYとは言えません。今度はイベントを活用して改良してみましょう。最初に<code>data-*</code>属性をリンクに追加しておきます。続いて、この属性を持つすべてのリンクで発生するクリックイベントにハンドラをバインドします。</p>
-<div class="code_container">
+<p>これではDRYとは言えません。今度はイベントを活用して改良してみましょう。最初に<code>data-*</code>属性をリンクに追加しておきます。続いて、この属性を持つすべてのリンクで発生するクリックイベントにハンドラをバインドします。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 paintIt = (element, backgroundColor, textColor) -&gt;
   element.style.backgroundColor = backgroundColor
@@ -354,15 +333,7 @@ $ -&gt;
 
 </pre>
 </div>
-<p>私たちはこの手法を「控えめなJavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離することができたので、今後の変更が容易になりました。今後は、この<code>data-*</code>属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした最小化と連結を使用することで、あらゆるJavaScriptを実行できます。JavaScriptコードはRailsのあらゆるWebページでまるごとバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。</p>
-<p>Railsチームは、本ガイドでご紹介した方法でCoffeeScriptとJavaScriptを使用することを強く推奨いたします。多くのJavaScriptライブラリもこの方法で利用できることが期待できます。</p>
-<h3 id="組み込みヘルパー"><a href="#%E7%B5%84%E3%81%BF%E8%BE%BC%E3%81%BF%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">3 組み込みヘルパー</a></h3>
-<p>HTML生成を行い易くするために、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。</p>
-<p>RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptによる要素とRubyによる要素の2つの要素で構成されています。</p>
-<p>JavaScriptによる要素は<a href="https://github.com/rails/jquery-ujs/blob/master/src/rails.js">rails.js</a>であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。これによりrails.jsに含まれるCoffeeScriptがDOMの属性をリッスンするようになり、それらの属性に適切なハンドラが与えられます。</p>
-<h4 id="form_for"><a href="#form_for">3.1 form_for</a></h4>
-<p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for"><code>form_for</code></a> はフォーム作成を支援するヘルパーです。<code>form_for</code>は、JavaScriptを利用するための<code>:remote</code>オプションを引数に取ることができます。この動作は次のようになります。</p>
-<div class="code_container">
+<p>私たちはこの手法を「控えめなJavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離することができたので、今後の変更が容易になりました。今後は、この<code>data-*</code>属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした最小化と連結を使用することで、あらゆるJavaScriptを実行できます。JavaScriptコードはRailsのあらゆるWebページでまるごとバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。</p><p>Railsチームは、本ガイドでご紹介した方法でCoffeeScriptとJavaScriptを使用することを強く推奨いたします。多くのJavaScriptライブラリもこの方法で利用できることが期待できます。</p><h3 id="組み込みヘルパー"><a href="#%E7%B5%84%E3%81%BF%E8%BE%BC%E3%81%BF%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">3 組み込みヘルパー</a></h3><p>HTML生成を行い易くするために、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。</p><p>RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptによる要素とRubyによる要素の2つの要素で構成されています。</p><p>JavaScriptによる要素は<a href="https://github.com/rails/jquery-ujs/blob/master/src/rails.js">rails.js</a>であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。これによりrails.jsに含まれるCoffeeScriptがDOMの属性をリッスンするようになり、それらの属性に適切なハンドラが与えられます。</p><h4 id="form-for"><a href="#form-for">3.1 form_for</a></h4><p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for"><code>form_for</code></a> はフォーム作成を支援するヘルパーです。<code>form_for</code>は、JavaScriptを利用するための<code>:remote</code>オプションを引数に取ることができます。この動作は次のようになります。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for(@article, remote: true) do |f| %&gt;
   ...
@@ -370,8 +341,7 @@ $ -&gt;
 
 </pre>
 </div>
-<p>上のコードから以下のHTMLが生成されます。</p>
-<div class="code_container">
+<p>上のコードから以下のHTMLが生成されます。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form accept-charset="UTF-8" action="/articles" class="new_article" data-remote="true" id="new_article" method="post"&gt;
   ...
@@ -379,9 +349,7 @@ $ -&gt;
 
 </pre>
 </div>
-<p>formタグに<code>data-remote="true"</code>という属性が追加されていることにご注目ください。これにより、フォームの送信がブラウザによる通常の送信メカニズムではなくAjaxによって送信されるようになります。</p>
-<p>記入済みの<code>&lt;form&gt;</code>を得られただけでは何か物足りません。フォーム送信が成功した場合に何らかの表示を行いたいものです。これを行なうには、<code>ajax:success</code>イベントをバインドします。送信に失敗した場合は<code>ajax:error</code>を使用します。実際に見てみましょう。</p>
-<div class="code_container">
+<p>formタグに<code>data-remote="true"</code>という属性が追加されていることにご注目ください。これにより、フォームの送信がブラウザによる通常の送信メカニズムではなくAjaxによって送信されるようになります。</p><p>記入済みの<code>&lt;form&gt;</code>を得られただけでは何か物足りません。フォーム送信が成功した場合に何らかの表示を行いたいものです。これを行なうには、<code>ajax:success</code>イベントをバインドします。送信に失敗した場合は<code>ajax:error</code>を使用します。実際に見てみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $(document).ready -&gt;
   $("#new_article").on("ajax:success", (e, data, status, xhr) -&gt;
@@ -391,10 +359,7 @@ $(document).ready -&gt;
 
 </pre>
 </div>
-<p>明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。詳細については、<a href="https://github.com/rails/jquery-ujs/wiki/ajax">jquery-ujs wiki</a>に掲載されているイベントを参照してください。</p>
-<h4 id="form_tag"><a href="#form_tag">3.2 form_tag</a></h4>
-<p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag"><code>form_tag</code></a> は<code>form_for</code>とよく似ています。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p>
-<div class="code_container">
+<p>明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。詳細については、<a href="https://github.com/rails/jquery-ujs/wiki/ajax">jquery-ujs wiki</a>に掲載されているイベントを参照してください。</p><h4 id="form-tag"><a href="#form-tag">3.2 form_tag</a></h4><p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag"><code>form_tag</code></a> は<code>form_for</code>とよく似ています。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_tag('/articles', remote: true) do %&gt;
   ...
@@ -402,8 +367,7 @@ $(document).ready -&gt;
 
 </pre>
 </div>
-<p>上のコードから以下のHTMLが生成されます。</p>
-<div class="code_container">
+<p>上のコードから以下のHTMLが生成されます。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form accept-charset="UTF-8" action="/articles" data-remote="true" method="post"&gt;
   ...
@@ -411,31 +375,25 @@ $(document).ready -&gt;
 
 </pre>
 </div>
-<p>その他の点は<code>form_for</code>と同じです。詳細についてはドキュメントを参照してください。</p>
-<h4 id="link_to"><a href="#link_to">3.3 link_to</a></h4>
-<p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to"><code>link_to</code></a> はリンクの生成を支援するヘルパーです。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p>
-<div class="code_container">
+<p>その他の点は<code>form_for</code>と同じです。詳細についてはドキュメントを参照してください。</p><h4 id="link-to"><a href="#link-to">3.3 link_to</a></h4><p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to"><code>link_to</code></a> はリンクの生成を支援するヘルパーです。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= link_to "an article", @article, remote: true %&gt;
 
 </pre>
 </div>
-<p>上のコードによって以下が生成されます。</p>
-<div class="code_container">
+<p>上のコードによって以下が生成されます。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="/articles/1" data-remote="true"&gt;an article&lt;/a&gt;
 
 </pre>
 </div>
-<p><code>form_for</code>の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。</p>
-<div class="code_container">
+<p><code>form_for</code>の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= link_to "Delete article", @article, remote: true, method: :delete %&gt;
 
 </pre>
 </div>
-<p>上に加え、以下の様なCoffeeScriptを作成します。</p>
-<div class="code_container">
+<p>上に加え、以下の様なCoffeeScriptを作成します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ -&gt;
   $("a[data-remote]").on "ajax:success", (e, data, status, xhr) -&gt;
@@ -443,16 +401,13 @@ $ -&gt;
 
 </pre>
 </div>
-<h4 id="button_to"><a href="#button_to">3.4 button_to</a></h4>
-<p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to"><code>button_to</code></a>はボタン作成を支援するヘルパーです。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p>
-<div class="code_container">
+<h4 id="button-to"><a href="#button-to">3.4 button_to</a></h4><p><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to"><code>button_to</code></a>はボタン作成を支援するヘルパーです。このメソッドには<code>:remote</code>オプションがあり、以下のように使用できます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= button_to "An article", @article, remote: true %&gt;
 
 </pre>
 </div>
-<p>上のコードによって以下が生成されます。</p>
-<div class="code_container">
+<p>上のコードによって以下が生成されます。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form action="/articles/1" class="button_to" data-remote="true" method="post"&gt;
   &lt;div&gt;&lt;input type="submit" value="An article"&gt;&lt;/div&gt;
@@ -460,12 +415,7 @@ $ -&gt;
 
 </pre>
 </div>
-<p>作成されるのは通常の<code>&lt;form&gt;</code>なので、<code>form_for</code>に関する情報はすべて<code>button_to</code>にも適用できます。</p>
-<h3 id="サーバー側で考慮すべき点"><a href="#%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E5%81%B4%E3%81%A7%E8%80%83%E6%85%AE%E3%81%99%E3%81%B9%E3%81%8D%E7%82%B9">4 サーバー側で考慮すべき点</a></h3>
-<p>Ajaxはクライアント側だけでなく、ある程度サーバー側でのサポートも必要です。Ajaxリクエストに対してレスポンスを返す際の形式は、HTMLよりもJSONを使用することが好まれるようです。それでは、必要となるものについて解説します。</p>
-<h4 id="シンプルな例"><a href="#%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E4%BE%8B">4.1 シンプルな例</a></h4>
-<p>表示したいユーザーリストがあり、そのページに新規ユーザーを作成するフォームも置きたいとします。このコントローラのindexアクションは以下のようになります。</p>
-<div class="code_container">
+<p>作成されるのは通常の<code>&lt;form&gt;</code>なので、<code>form_for</code>に関する情報はすべて<code>button_to</code>にも適用できます。</p><h3 id="サーバー側で考慮すべき点"><a href="#%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E5%81%B4%E3%81%A7%E8%80%83%E6%85%AE%E3%81%99%E3%81%B9%E3%81%8D%E7%82%B9">4 サーバー側で考慮すべき点</a></h3><p>Ajaxはクライアント側だけでなく、ある程度サーバー側でのサポートも必要です。Ajaxリクエストに対してレスポンスを返す際の形式は、HTMLよりもJSONを使用することが好まれるようです。それでは、必要となるものについて解説します。</p><h4 id="シンプルな例"><a href="#%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E4%BE%8B">4.1 シンプルな例</a></h4><p>表示したいユーザーリストがあり、そのページに新規ユーザーを作成するフォームも置きたいとします。このコントローラのindexアクションは以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class UsersController &lt; ApplicationController
   def index
@@ -476,8 +426,7 @@ class UsersController &lt; ApplicationController
 
 </pre>
 </div>
-<p>indexビュー (<code>app/views/users/index.html.erb</code>) の内容は以下のようになります。</p>
-<div class="code_container">
+<p>indexビュー (<code>app/views/users/index.html.erb</code>) の内容は以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;b&gt;Users&lt;/b&gt;
 
@@ -495,16 +444,13 @@ class UsersController &lt; ApplicationController
 
 </pre>
 </div>
-<p><code>app/views/users/_user.html.erb</code>パーシャルの内容は以下のようになります。</p>
-<div class="code_container">
+<p><code>app/views/users/_user.html.erb</code>パーシャルの内容は以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;li&gt;&lt;%= user.name %&gt;&lt;/li&gt;
 
 </pre>
 </div>
-<p>indexページの上部にはユーザーの一覧が表示されます。下部にはユーザー作成用のフォームが表示されます。</p>
-<p>下部のフォームは<code>UsersController</code>の<code>create</code>アクションを呼び出します。フォームのremoteオプションがオンになっているので、リクエストはAjaxリクエストとして<code>UsersController</code>に渡され、JavaScriptを探します。コントローラ内でリクエストに応答する<code>create</code>アクションは以下のようになります。</p>
-<div class="code_container">
+<p>indexページの上部にはユーザーの一覧が表示されます。下部にはユーザー作成用のフォームが表示されます。</p><p>下部のフォームは<code>UsersController</code>の<code>create</code>アクションを呼び出します。フォームのremoteオプションがオンになっているので、リクエストはAjaxリクエストとして<code>UsersController</code>に渡され、JavaScriptを探します。コントローラ内でリクエストに応答する<code>create</code>アクションは以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/controllers/users_controller.rb
   # ......
@@ -525,45 +471,33 @@ class UsersController &lt; ApplicationController
 
 </pre>
 </div>
-<p>format.jsが<code>respond_to</code>ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する<code>app/views/users/create.js.erb</code>ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。</p>
-<div class="code_container">
+<p>format.jsが<code>respond_to</code>ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する<code>app/views/users/create.js.erb</code>ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 $("&lt;%= escape_javascript(render @user) %&gt;").appendTo("#users");
 
 </pre>
 </div>
-<h3 id="turbolinks"><a href="#turbolinks">5 Turbolinks</a></h3>
-<p>Rails 4には<a href="https://github.com/rails/turbolinks">Turbolinks gem</a>が同梱されています。このgemでは、ページのレンダリングを多くのページで高速化するのにAjaxを使用しています。</p>
-<h4 id="turbolinksの動作原理"><a href="#turbolinks%E3%81%AE%E5%8B%95%E4%BD%9C%E5%8E%9F%E7%90%86">5.1 Turbolinksの動作原理</a></h4>
-<p>Turbolinksは、ページにあるすべての<code>&lt;a&gt;</code>にクリックハンドラを1つずつ追加します。ブラウザで<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState().C2.A0method">PushState</a>がサポートされている場合、Turbolinksはそのページ用のAjaxリクエストを生成し、サーバーからのレスポンスを解析し、そのページの<code>&lt;body&gt;</code>全体をレスポンスの<code>&lt;body&gt;</code>で置き換えます。続いて、TurbolinksはPushStateを使用してURLを正しいものに書き換え、リフレッシュのセマンティクスを維持しながらプリティURLを与えます。</p>
-<p>Turbolinksを有効にするには、TurbolinksをGemfileに追加し、CoffeeScriptのマニフェスト (通常は<code>app/assets/javascripts/application.js</code>) に<code>//= require turbolinks</code>を追加します。</p>
-<p>Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに<code>data-no-turbolink</code>属性を追加します。</p>
-<div class="code_container">
+<h3 id="turbolinks"><a href="#turbolinks">5 Turbolinks</a></h3><p>Rails 4には<a href="https://github.com/rails/turbolinks">Turbolinks gem</a>が同梱されています。このgemでは、ページのレンダリングを多くのページで高速化するのにAjaxを使用しています。</p><h4 id="turbolinksの動作原理"><a href="#turbolinks%E3%81%AE%E5%8B%95%E4%BD%9C%E5%8E%9F%E7%90%86">5.1 Turbolinksの動作原理</a></h4><p>Turbolinksは、ページにあるすべての<code>&lt;a&gt;</code>にクリックハンドラを1つずつ追加します。ブラウザで<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState().C2.A0method">PushState</a>がサポートされている場合、Turbolinksはそのページ用のAjaxリクエストを生成し、サーバーからのレスポンスを解析し、そのページの<code>&lt;body&gt;</code>全体をレスポンスの<code>&lt;body&gt;</code>で置き換えます。続いて、TurbolinksはPushStateを使用してURLを正しいものに書き換え、リフレッシュのセマンティクスを維持しながらプリティURLを与えます。</p><p>Turbolinksを有効にするには、TurbolinksをGemfileに追加し、CoffeeScriptのマニフェスト (通常は<code>app/assets/javascripts/application.js</code>) に<code>//= require turbolinks</code>を追加します。</p><p>Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに<code>data-no-turbolink</code>属性を追加します。</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;a href="..." data-no-turbolink&gt;No turbolinks here&lt;/a&gt;.
 
 </pre>
 </div>
-<h4 id="ページ変更イベント"><a href="#%E3%83%9A%E3%83%BC%E3%82%B8%E5%A4%89%E6%9B%B4%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88">5.2 ページ変更イベント</a></h4>
-<p>CoffeeScriptコードを開発中、ページ読み込みに関連する処理を追加したくなることがよくあります。jQueryを使用するのであれば、たとえば以下のようなコードを書くことがあるでしょう。</p>
-<div class="code_container">
+<h4 id="ページ変更イベント"><a href="#%E3%83%9A%E3%83%BC%E3%82%B8%E5%A4%89%E6%9B%B4%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88">5.2 ページ変更イベント</a></h4><p>CoffeeScriptコードを開発中、ページ読み込みに関連する処理を追加したくなることがよくあります。jQueryを使用するのであれば、たとえば以下のようなコードを書くことがあるでしょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $(document).ready -&gt;
   alert "page has loaded!"
 
 </pre>
 </div>
-<p>しかし、通常のページ読み込みプロセスはTurbolinksによって上書きされてしまうため、ページ読み込みに依存するイベントはトリガされません。このようなコードがある場合は、以下のように書き換えなければなりません。</p>
-<div class="code_container">
+<p>しかし、通常のページ読み込みプロセスはTurbolinksによって上書きされてしまうため、ページ読み込みに依存するイベントはトリガされません。このようなコードがある場合は、以下のように書き換えなければなりません。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $(document).on "page:change", -&gt;
   alert "page has loaded!"
 
 </pre>
 </div>
-<p>この他にバインド可能なイベントなどの詳細については、<a href="https://github.com/rails/turbolinks/blob/master/README.md">Turbolinks README</a>を参照してください。</p>
-<h3 id="その他の情報源"><a href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90">6 その他の情報源</a></h3>
-<p>詳細の学習に役立つリンクをいくつか紹介します。</p>
+<p>この他にバインド可能なイベントなどの詳細については、<a href="https://github.com/rails/turbolinks/blob/master/README.md">Turbolinks README</a>を参照してください。</p><h3 id="その他の情報源"><a href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E6%83%85%E5%A0%B1%E6%BA%90">6 その他の情報源</a></h3><p>詳細の学習に役立つリンクをいくつか紹介します。</p>
 <ul>
 <li><a href="https://github.com/rails/jquery-ujs/wiki">jquery-ujs wiki</a></li>
 <li><a href="https://github.com/rails/jquery-ujs/wiki/External-articles">jquery-ujsに関する外部記事のリスト</a></li>
@@ -572,7 +506,6 @@ $(document).on "page:change", -&gt;
 <li>
 <a href="http://railscasts.com/episodes/390-turbolinks?language=ja&amp;view=asciicast">Railscasts: Turbolinks</a> (日本語)</li>
 </ul>
-</body></html>
 
         
         <h3>フィードバックについて</h3>

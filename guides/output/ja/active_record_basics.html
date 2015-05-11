@@ -228,20 +228,18 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#active-record%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">Active Recordについて</a>
 
 <ul>
 <li><a href="#active-record%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Active Recordパターン</a></li>
-<li><a href="#o/r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">O/Rマッピング</a></li>
+<li><a href="#o-r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">O/Rマッピング</a></li>
 <li><a href="#orm%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AEactive-record">ORMフレームワークとしてのActive Record</a></li>
 </ul>
 </li>
 <li>
-<a href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc(convention-over-configuration)">Active RecordにおけるCoC(Convention over Configuration)</a>
+<a href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc-convention-over-configuration">Active RecordにおけるCoC(Convention over Configuration)</a>
 
 <ul>
 <li><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB">命名ルール</a></li>
@@ -251,7 +249,7 @@
 <li><a href="#active-record%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">Active Recordのモデルを作成する</a></li>
 <li><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB%E3%82%92%E4%B8%8A%E6%9B%B8%E3%81%8D%E3%81%99%E3%82%8B">命名ルールを上書きする</a></li>
 <li>
-<a href="#crud:-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">CRUD: データの読み書き</a>
+<a href="#crud-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">CRUD: データの読み書き</a>
 
 <ul>
 <li><a href="#create">Create</a></li>
@@ -260,11 +258,10 @@
 <li><a href="#delete">Delete</a></li>
 </ul>
 </li>
-<li><a href="#%E6%A4%9C%E8%A8%BC(validation)">検証(validation)</a></li>
+<li><a href="#%E6%A4%9C%E8%A8%BC-validation">検証(validation)</a></li>
 <li><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">コールバック</a></li>
 <li><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">マイグレーション</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -273,16 +270,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="active-recordについて"><a href="#active-record%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1 Active Recordについて</a></h3>
-<p>Active Recordとは、<a href="http://ja.wikipedia.org/wiki/Model_View_Controller">MVC</a>で言うところのM、つまりモデルに相当するものであり、ビジネスデータとビジネスロジックを表すシステムの階層です。Active Recordは、データベースに恒久的に保存される必要のあるビジネスオブジェクトの作成と利用を円滑に行なえるようにします。Active Recordは、ORM (オブジェクトリレーショナルマッピング) システムに記述されている「Active Recordパターン」を実装したものであり、同じ名前が付けられています。</p>
-<h4 id="active-recordパターン"><a href="#active-record%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">1.1 Active Recordパターン</a></h4>
-<p><a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Active RecordはMartin Fowlerによって</a> <em>Patterns of Enterprise Application Architecture</em> という書籍で記述されました。Active Recordにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordでは、データアクセスのロジックを確実なものにすることは、そのオブジェクトの利用者にデータベースへの読み書き方法を教育することの一部である、という意見を採用しています。</p>
-<h4 id="o/rマッピング"><a href="#o/r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">1.2 O/Rマッピング</a></h4>
-<p>オブジェクトリレーショナルマッピング (O/RマッピングやORMと略されることもあります)とは、アプリケーションが持つリッチなオブジェクトをリレーショナルデータベース(RDBMS)のテーブルに接続するものです。ORMを使用することで、SQL文を直接書く代りにわずかなアクセスコードを書くだけで、アプリケーションにおけるオブジェクトの属性やリレーションシップをデータベースに保存したりデータベースから読み出したりすることができるようになります。</p>
-<h4 id="ormフレームワークとしてのactive-record"><a href="#orm%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AEactive-record">1.3 ORMフレームワークとしてのActive Record</a></h4>
-<p>Active Recordにはさまざまな機能が搭載されており、その中でも以下のものが特に重要です。</p>
+        <h3 id="active-recordについて"><a href="#active-record%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1 Active Recordについて</a></h3><p>Active Recordとは、<a href="http://ja.wikipedia.org/wiki/Model_View_Controller">MVC</a>で言うところのM、つまりモデルに相当するものであり、ビジネスデータとビジネスロジックを表すシステムの階層です。Active Recordは、データベースに恒久的に保存される必要のあるビジネスオブジェクトの作成と利用を円滑に行なえるようにします。Active Recordは、ORM (オブジェクトリレーショナルマッピング) システムに記述されている「Active Recordパターン」を実装したものであり、同じ名前が付けられています。</p><h4 id="active-recordパターン"><a href="#active-record%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">1.1 Active Recordパターン</a></h4><p><a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Active RecordはMartin Fowlerによって</a> <em>Patterns of Enterprise Application Architecture</em> という書籍で記述されました。Active Recordにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordでは、データアクセスのロジックを確実なものにすることは、そのオブジェクトの利用者にデータベースへの読み書き方法を教育することの一部である、という意見を採用しています。</p><h4 id="o-rマッピング"><a href="#o-r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">1.2 O/Rマッピング</a></h4><p>オブジェクトリレーショナルマッピング (O/RマッピングやORMと略されることもあります)とは、アプリケーションが持つリッチなオブジェクトをリレーショナルデータベース(RDBMS)のテーブルに接続するものです。ORMを使用することで、SQL文を直接書く代りにわずかなアクセスコードを書くだけで、アプリケーションにおけるオブジェクトの属性やリレーションシップをデータベースに保存したりデータベースから読み出したりすることができるようになります。</p><h4 id="ormフレームワークとしてのactive-record"><a href="#orm%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AEactive-record">1.3 ORMフレームワークとしてのActive Record</a></h4><p>Active Recordにはさまざまな機能が搭載されており、その中でも以下のものが特に重要です。</p>
 <ul>
 <li>モデルおよびモデル内のデータを表現する</li>
 <li>モデル間の関連付け(アソシエーション)を表現する</li>
@@ -290,10 +278,7 @@
 <li>データがデータベースに永続的に保存される前に検証(validation)を行なう</li>
 <li>オブジェクト指向の表記方法でデータベースを操作する</li>
 </ul>
-<h3 id="active-recordにおけるcoc(convention-over-configuration)"><a href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc(convention-over-configuration)">2 Active RecordにおけるCoC(Convention over Configuration)</a></h3>
-<p>他のプログラミング言語やフレームワークを使用してアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsに適合するルールに従っていれば、Active Recordモデルを作成するときに、設定のために書かなければならないコードは最小限で済みます。場合によっては設定のためのコードが完全に不要であることすらあります。これは、アプリケーションの設定がほとんどの場合で同じならば、それをデフォルトにすべきであるという考えに基づいています。つまり、明示的な設定が必要となるのは標準のルールだけでは不足がある場合のみということです。</p>
-<h4 id="命名ルール"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB">2.1 命名ルール</a></h4>
-<p>Active Recordには、モデルとデータベースのテーブルとのマッピング作成時に従うべきルールがいくつかあります。Railsでは、データベースのテーブル名を見つけるときに、モデルのクラス名を複数形にしたものを使用します。つまり、<code>Book</code>というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の<strong>books</strong>になります。Railsの複数形化メカニズムは非常に強力で、不規則な語であっても複数形にしたり単数形にしたりできます(person &lt;-&gt; peopleなど)。モデルのクラス名が2語以上の複合語である場合、Rubyの慣習であるキャメルケース(CamelCaseのように語頭を大文字にしてスペースなしでつなぐ)に従ってください。一方、テーブル名は(camel_caseなどのように)小文字かつアンダースコアで区切られなければなりません。以下の例を参照ください。</p>
+<h3 id="active-recordにおけるcoc-convention-over-configuration"><a href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc-convention-over-configuration">2 Active RecordにおけるCoC(Convention over Configuration)</a></h3><p>他のプログラミング言語やフレームワークを使用してアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsに適合するルールに従っていれば、Active Recordモデルを作成するときに、設定のために書かなければならないコードは最小限で済みます。場合によっては設定のためのコードが完全に不要であることすらあります。これは、アプリケーションの設定がほとんどの場合で同じならば、それをデフォルトにすべきであるという考えに基づいています。つまり、明示的な設定が必要となるのは標準のルールだけでは不足がある場合のみということです。</p><h4 id="命名ルール"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB">2.1 命名ルール</a></h4><p>Active Recordには、モデルとデータベースのテーブルとのマッピング作成時に従うべきルールがいくつかあります。Railsでは、データベースのテーブル名を見つけるときに、モデルのクラス名を複数形にしたものを使用します。つまり、<code>Book</code>というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の<strong>books</strong>になります。Railsの複数形化メカニズムは非常に強力で、不規則な語であっても複数形にしたり単数形にしたりできます(person &lt;-&gt; peopleなど)。モデルのクラス名が2語以上の複合語である場合、Rubyの慣習であるキャメルケース(CamelCaseのように語頭を大文字にしてスペースなしでつなぐ)に従ってください。一方、テーブル名は(camel_caseなどのように)小文字かつアンダースコアで区切られなければなりません。以下の例を参照ください。</p>
 <ul>
 <li>データベースのテーブル - 複数形であり、語はアンダースコアで区切られる (例: <code>book_clubs</code>)</li>
 <li>モデルのクラス - 単数形であり、語頭を大文字にする (例: <code>BookClub</code>)</li>
@@ -329,8 +314,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="スキーマのルール"><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB">2.2 スキーマのルール</a></h4>
-<p>Active Recordでは、データベースのテーブルで使用されるカラムの名前についても、利用目的に応じてルールがあります。</p>
+<h4 id="スキーマのルール"><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB">2.2 スキーマのルール</a></h4><p>Active Recordでは、データベースのテーブルで使用されるカラムの名前についても、利用目的に応じてルールがあります。</p>
 <ul>
 <li><p><strong>外部キー</strong> - このカラムは <code>テーブル名の単数形_id</code> にする必要があります (例 <code>item_id</code>、<code>order_id</code>)これらのカラムは、Active Recordがモデル間の関連付けを作成するときに参照されます。</p></li>
 <li><p><strong>主キー</strong> - デフォルトでは <code>id</code> という名前を持つintegerのカラムをテーブルの主キーとして使用します。このカラムは、<a href="migrations.html">Active Recordマイグレーション</a>を使用してテーブルを作成するときに自動的に作成されます。</p></li>
@@ -350,18 +334,14 @@
 <li>
 <code>テーブル名_count</code> - 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使用されます。たとえば、<code>Post</code>クラスに<code>comments_count</code>というカラムがあり、そこに<code>Comment</code>のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。</li>
 </ul>
-<div class="note"><p>これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、<code>type</code>という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。</p></div>
-<h3 id="active-recordのモデルを作成する"><a href="#active-record%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Active Recordのモデルを作成する</a></h3>
-<p>Active Recordモデルの作成は非常に簡単です。以下のように<code>ActiveRecord::Base</code>クラスのサブクラスを作成するだけで完了します。</p>
-<div class="code_container">
+<div class="note"><p>これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、<code>type</code>という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。</p></div><h3 id="active-recordのモデルを作成する"><a href="#active-record%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Active Recordのモデルを作成する</a></h3><p>Active Recordモデルの作成は非常に簡単です。以下のように<code>ActiveRecord::Base</code>クラスのサブクラスを作成するだけで完了します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
 end
 
 </pre>
 </div>
-<p>上のコードは、<code>Product</code>モデルを作成し、データベースの<code>products</code>テーブルにマッピングされます。さらに、テーブルに含まれている各行のカラムを、作成したモデルのインスタンスの属性にマッピングします。以下のSQL文で<code>products</code>テーブルを作成したとします。</p>
-<div class="code_container">
+<p>上のコードは、<code>Product</code>モデルを作成し、データベースの<code>products</code>テーブルにマッピングされます。さらに、テーブルに含まれている各行のカラムを、作成したモデルのインスタンスの属性にマッピングします。以下のSQL文で<code>products</code>テーブルを作成したとします。</p><div class="code_container">
 <pre class="brush: sql; gutter: false; toolbar: false">
 CREATE TABLE products (
    id int(11) NOT NULL auto_increment,
@@ -371,8 +351,7 @@ CREATE TABLE products (
 
 </pre>
 </div>
-<p>上のテーブルスキーマに従って、以下のようなコードをいきなり書くことができます。</p>
-<div class="code_container">
+<p>上のテーブルスキーマに従って、以下のようなコードをいきなり書くことができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 p = Product.new
 p.name = "Some Book"
@@ -380,10 +359,7 @@ puts p.name # "Some Book"
 
 </pre>
 </div>
-<h3 id="命名ルールを上書きする"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB%E3%82%92%E4%B8%8A%E6%9B%B8%E3%81%8D%E3%81%99%E3%82%8B">4 命名ルールを上書きする</a></h3>
-<p>Railsアプリケーションで別の命名ルールを使用しなければならない、レガシデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。</p>
-<p><code>ActiveRecord::Base.table_name=</code>メソッドを使用して、使用すべきテーブル名を明示的に指定できます。</p>
-<div class="code_container">
+<h3 id="命名ルールを上書きする"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB%E3%82%92%E4%B8%8A%E6%9B%B8%E3%81%8D%E3%81%99%E3%82%8B">4 命名ルールを上書きする</a></h3><p>Railsアプリケーションで別の命名ルールを使用しなければならない、レガシデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。</p><p><code>ActiveRecord::Base.table_name=</code>メソッドを使用して、使用すべきテーブル名を明示的に指定できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
   self.table_name = "PRODUCT"
@@ -391,8 +367,7 @@ end
 
 </pre>
 </div>
-<p>この指定を行った場合、テストの定義で<code>set_fixture_class</code>メソッドを使用し、フィクスチャ (クラス名.yml) に対応するクラス名を別途定義する必要があります。</p>
-<div class="code_container">
+<p>この指定を行った場合、テストの定義で<code>set_fixture_class</code>メソッドを使用し、フィクスチャ (クラス名.yml) に対応するクラス名を別途定義する必要があります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class FunnyJoke &lt; ActiveSupport::TestCase
   set_fixture_class funny_jokes: Joke
@@ -402,8 +377,7 @@ end
 
 </pre>
 </div>
-<p><code>ActiveRecord::Base.primary_key=</code>メソッドを使用して、テーブルの主キーとして使用されるカラム名もオーバーライドできます。</p>
-<div class="code_container">
+<p><code>ActiveRecord::Base.primary_key=</code>メソッドを使用して、テーブルの主キーとして使用されるカラム名もオーバーライドできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
   self.primary_key = "product_id"
@@ -411,19 +385,13 @@ end
 
 </pre>
 </div>
-<h3 id="crud:-データの読み書き"><a href="#crud:-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">5 CRUD: データの読み書き</a></h3>
-<p>CRUDとは、4つのデータベース操作を表す <strong>C</strong> reate、 <strong>R</strong> ead、 <strong>U</strong> pdate、 <strong>D</strong> eleteの頭字語です。Active Recordはこれらのメソッドを自動的に作成し、これによってアプリケーションはテーブルに保存されているデータを操作することができます。</p>
-<h4 id="create"><a href="#create">5.1 Create</a></h4>
-<p>Active Recordのオブジェクトはハッシュやブロックから作成することができます。また、作成後に属性を手動で追加できます。<code>new</code>メソッドを実行すると単に新しいオブジェクトが返されますが、<code>create</code>を実行すると新しいオブジェクトが返され、さらにデータベースに保存されます。</p>
-<p>たとえば、<code>User</code>というモデルに<code>name</code>と<code>occupation</code>という属性があるとすると、<code>create</code>メソッドを実行すると新しいレコードが1つ作成され、データベースに保存されます。</p>
-<div class="code_container">
+<h3 id="crud-データの読み書き"><a href="#crud-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">5 CRUD: データの読み書き</a></h3><p>CRUDとは、4つのデータベース操作を表す <strong>C</strong> reate、 <strong>R</strong> ead、 <strong>U</strong> pdate、 <strong>D</strong> eleteの頭字語です。Active Recordはこれらのメソッドを自動的に作成し、これによってアプリケーションはテーブルに保存されているデータを操作することができます。</p><h4 id="create"><a href="#create">5.1 Create</a></h4><p>Active Recordのオブジェクトはハッシュやブロックから作成することができます。また、作成後に属性を手動で追加できます。<code>new</code>メソッドを実行すると単に新しいオブジェクトが返されますが、<code>create</code>を実行すると新しいオブジェクトが返され、さらにデータベースに保存されます。</p><p>たとえば、<code>User</code>というモデルに<code>name</code>と<code>occupation</code>という属性があるとすると、<code>create</code>メソッドを実行すると新しいレコードが1つ作成され、データベースに保存されます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.create(name: "David", occupation: "Code Artist")
 
 </pre>
 </div>
-<p><code>new</code>メソッドを使用した場合は、オブジェクトは保存されずにインスタンス化されます。</p>
-<div class="code_container">
+<p><code>new</code>メソッドを使用した場合は、オブジェクトは保存されずにインスタンス化されます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.new
 user.name = "David"
@@ -431,9 +399,7 @@ user.occupation = "Code Artist"
 
 </pre>
 </div>
-<p>この場合、<code>user.save</code>を実行して初めてデータベースにレコードがコミットされます。</p>
-<p>最後に、<code>create</code>や<code>new</code>にブロックが渡されると、新しいオブジェクトは初期化のためにブロックに渡されます。</p>
-<div class="code_container">
+<p>この場合、<code>user.save</code>を実行して初めてデータベースにレコードがコミットされます。</p><p>最後に、<code>create</code>や<code>new</code>にブロックが渡されると、新しいオブジェクトは初期化のためにブロックに渡されます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.new do |u|
   u.name = "David"
@@ -442,9 +408,7 @@ end
 
 </pre>
 </div>
-<h4 id="read"><a href="#read">5.2 Read</a></h4>
-<p>Active Recordは、データベース内のデータにアクセスするためのリッチなAPIを提供します。以下は、Active Recordによって提供されるさまざまなデータアクセスメソッドのほんの一例です。</p>
-<div class="code_container">
+<h4 id="read"><a href="#read">5.2 Read</a></h4><p>Active Recordは、データベース内のデータにアクセスするためのリッチなAPIを提供します。以下は、Active Recordによって提供されるさまざまなデータアクセスメソッドのほんの一例です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # すべてのユーザーのコレクションを返す
 users = User.all
@@ -472,10 +436,7 @@ users = User.where(name: 'David', occupation: 'Code Artist').order('created_at D
 
 </pre>
 </div>
-<p>Active Recordモデルへのクエリについては<a href="active_record_querying.html">Active Recordクエリインターフェイス</a>ガイドで詳細を説明します。</p>
-<h4 id="update"><a href="#update">5.3 Update</a></h4>
-<p>Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースに保存できるようになります。</p>
-<div class="code_container">
+<p>Active Recordモデルへのクエリについては<a href="active_record_querying.html">Active Recordクエリインターフェイス</a>ガイドで詳細を説明します。</p><h4 id="update"><a href="#update">5.3 Update</a></h4><p>Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースに保存できるようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.find_by(name: 'David')
 user.name = 'Dave'
@@ -483,35 +444,28 @@ user.save
 
 </pre>
 </div>
-<p>上のコードをもっと短くするのであれば、属性名と、設定したい値をマッピングするハッシュを使用して次のように書きます。</p>
-<div class="code_container">
+<p>上のコードをもっと短くするのであれば、属性名と、設定したい値をマッピングするハッシュを使用して次のように書きます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.find_by(name: 'David')
 user.update(name: 'Dave')
 
 </pre>
 </div>
-<p>これは多くの属性を一度に更新したい場合に特に便利です。さらに、複数のレコードを一度に更新したいのであれば、<code>update_all</code>というクラスメソッドが便利です。</p>
-<div class="code_container">
+<p>これは多くの属性を一度に更新したい場合に特に便利です。さらに、複数のレコードを一度に更新したいのであれば、<code>update_all</code>というクラスメソッドが便利です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 User.update_all "max_login_attempts = 3, must_change_password = 'true'"
 
 </pre>
 </div>
-<h4 id="delete"><a href="#delete">5.4 Delete</a></h4>
-<p>他のメソッドと同様、Active Recordオブジェクトをひとたび取得すれば、そのオブジェクトをdestroyすることでデータベースから削除できます。</p>
-<div class="code_container">
+<h4 id="delete"><a href="#delete">5.4 Delete</a></h4><p>他のメソッドと同様、Active Recordオブジェクトをひとたび取得すれば、そのオブジェクトをdestroyすることでデータベースから削除できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.find_by(name: 'David')
 user.destroy
 
 </pre>
 </div>
-<h3 id="検証(validation)"><a href="#%E6%A4%9C%E8%A8%BC(validation)">6 検証(validation)</a></h3>
-<p>Active Recordを使用して、モデルがデータベースに書き込まれる前にモデルの状態を検証することができます。モデルをチェックするためのさまざまなメソッドが用意されています。属性が空でないこと、一意であること、既にデータベースにないこと、特定のフォーマットに従っていることなど、多岐にわたった検証が行えます。</p>
-<p>検証は、データベースを永続化するうえで極めて重要です。そのため、<code>create</code>、<code>save</code>、<code>update</code>メソッドは、検証に失敗した場合に<code>false</code>を返します。このとき実際のデータベース操作は行われません。上の3つのメソッドにはそれぞれ破壊的なバージョン (<code>create!</code>、<code>save!</code>、<code>update!</code>)があり、こちらは検証に失敗した場合にさらに厳しい対応、つまり<code>ActiveRecord::RecordInvalid</code>例外を発生します。
-以下の例で簡単に説明します。</p>
-<div class="code_container">
+<h3 id="検証-validation"><a href="#%E6%A4%9C%E8%A8%BC-validation">6 検証(validation)</a></h3><p>Active Recordを使用して、モデルがデータベースに書き込まれる前にモデルの状態を検証することができます。モデルをチェックするためのさまざまなメソッドが用意されています。属性が空でないこと、一意であること、既にデータベースにないこと、特定のフォーマットに従っていることなど、多岐にわたった検証が行えます。</p><p>検証は、データベースを永続化するうえで極めて重要です。そのため、<code>create</code>、<code>save</code>、<code>update</code>メソッドは、検証に失敗した場合に<code>false</code>を返します。このとき実際のデータベース操作は行われません。上の3つのメソッドにはそれぞれ破壊的なバージョン (<code>create!</code>、<code>save!</code>、<code>update!</code>)があり、こちらは検証に失敗した場合にさらに厳しい対応、つまり<code>ActiveRecord::RecordInvalid</code>例外を発生します。
+以下の例で簡単に説明します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class User &lt; ActiveRecord::Base
   validates :name, presence: true
@@ -522,12 +476,7 @@ User.create! # =&gt; ActiveRecord::RecordInvalid: Validation failed: Name can't 
 
 </pre>
 </div>
-<p>検証の詳細については<a href="active_record_validations.html">Active Record検証ガイド</a>を参照してください。</p>
-<h3 id="コールバック"><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">7 コールバック</a></h3>
-<p>Active Recordコールバックを使用することで、モデルのライフサイクルにおける特定のイベント実行時にコードをアタッチして実行することができます。これにより、モデルで特定のイベントが発生したときにコードが透過的に実行されるようになります。レコードの作成、更新、削除などさまざまなイベントに対してコールバックを設定できます。コールバックの詳細については<a href="active_record_callbacks.html">Active Recordコールバックガイド</a>を参照してください。</p>
-<h3 id="マイグレーション"><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">8 マイグレーション</a></h3>
-<p>Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。<code>rake</code>を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。</p>
-<div class="code_container">
+<p>検証の詳細については<a href="active_record_validations.html">Active Record検証ガイド</a>を参照してください。</p><h3 id="コールバック"><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">7 コールバック</a></h3><p>Active Recordコールバックを使用することで、モデルのライフサイクルにおける特定のイベント実行時にコードをアタッチして実行することができます。これにより、モデルで特定のイベントが発生したときにコードが透過的に実行されるようになります。レコードの作成、更新、削除などさまざまなイベントに対してコールバックを設定できます。コールバックの詳細については<a href="active_record_callbacks.html">Active Recordコールバックガイド</a>を参照してください。</p><h3 id="マイグレーション"><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">8 マイグレーション</a></h3><p>Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。<code>rake</code>を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class CreatePublications &lt; ActiveRecord::Migration
   def change
@@ -547,10 +496,7 @@ end
 
 </pre>
 </div>
-<p>Railsはどのマイグレーションファイルがデータベースにコミットされたかを把握しており、その情報を使用してロールバック機能を提供しています。テーブルを実際に作成するには<code>rake db:migrate</code>を実行します。ロールバックするには<code>rake db:rollback</code>を実行します。</p>
-<p>上のマイグレーションコードはデータベースに依存していないことにご注目ください。MySQL、PostgreSQL、Oracleなど多くのデータベースに対して実行できます。マイグレーションの詳細については<a href="migrations.html">Active Recordマイグレーションガイド</a>を参照してください。</p>
-</body></html>
-
+<p>Railsはどのマイグレーションファイルがデータベースにコミットされたかを把握しており、その情報を使用してロールバック機能を提供しています。テーブルを実際に作成するには<code>rake db:migrate</code>を実行します。ロールバックするには<code>rake db:rollback</code>を実行します。</p><p>上のマイグレーションコードはデータベースに依存していないことにご注目ください。MySQL、PostgreSQL、Oracleなど多くのデータベースに対して実行できます。マイグレーションの詳細については<a href="migrations.html">Active Recordマイグレーションガイド</a>を参照してください。</p>
         
         <h3>フィードバックについて</h3>
         <p>

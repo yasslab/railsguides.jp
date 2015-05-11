@@ -228,10 +228,8 @@
 <p>本リリースノートでは、主要な変更についてのみ説明します。ここに紹介されていない機能、バグ修正、変更の詳細についてはGitHubにあるRailsメインリポジトリの <a href="https://github.com/rails/rails/commits/4-2-stable">コミットリスト</a> を参照してください。</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
-<li><a href="#rails-4.2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Rails 4.2へのアップグレード</a></li>
+            <ol class="chapters">
+<li><a href="#rails-4-2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Rails 4.2へのアップグレード</a></li>
 <li>
 <a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E5%A4%89%E6%9B%B4">主要な変更</a>
 
@@ -248,10 +246,10 @@
 
 <ul>
 <li><a href="#render%E3%81%AB%E6%96%87%E5%AD%97%E5%88%97%E3%81%AE%E5%BC%95%E6%95%B0%E3%82%92%E4%B8%8E%E3%81%88%E3%81%9F%E5%A0%B4%E5%90%88%E3%81%AE%E6%8C%99%E5%8B%95%E3%81%AE%E5%A4%89%E6%9B%B4"><code>render</code>に文字列の引数を与えた場合の挙動の変更</a></li>
-<li><a href="#respond_with%E3%81%A8%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AErespond_to%E3%81%AE%E6%89%B1%E3%81%84%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"><code>respond_with</code>とクラスレベルの<code>respond_to</code>の扱いについて</a></li>
+<li><a href="#respond-with%E3%81%A8%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AErespond-to%E3%81%AE%E6%89%B1%E3%81%84%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"><code>respond_with</code>とクラスレベルの<code>respond_to</code>の扱いについて</a></li>
 <li><a href="#rails-server%E3%81%AE%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%83%9B%E3%82%B9%E3%83%88"><code>rails server</code>のデフォルトホスト</a></li>
 <li><a href="#html%E3%82%B5%E3%83%8B%E3%82%BF%E3%82%A4%E3%82%B6">HTMLサニタイザ</a></li>
-<li><a href="#assert_select"><code>assert_select</code></a></li>
+<li><a href="#assert-select"><code>assert_select</code></a></li>
 </ul>
 </li>
 <li>
@@ -317,7 +315,6 @@
 </li>
 <li><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">クレジット表記</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -326,17 +323,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="rails-4.2へのアップグレード"><a href="#rails-4.2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">1 Rails 4.2へのアップグレード</a></h3>
-<p>既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。Railのバージョンが4.1に達していない場合は、まずアプリケーションをRails 4.1にアップグレードし、アプリケーションが期待どおりに動作することを確認してからRails 4.2にアップグレードしてください。アップグレードの際に注意すべき点のリストについては、<a href="upgrading_ruby_on_rails.html#rails-4.1%E3%81%8B%E3%82%89rails-4.2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Ruby on Rails アップグレードガイド</a>を参照してください。</p>
-<h3 id="主要な変更"><a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E5%A4%89%E6%9B%B4">2 主要な変更</a></h3>
-<h4 id="active-job"><a href="#active-job">2.1 Active Job</a></h4>
-<p>Active Jobとは、Rails 4.2から採用された新しいフレームワークです。Active Jobは、<a href="https://github.com/resque/resque">Resque</a>、<a href="https://github.com/collectiveidea/delayed_job">Delayed Job</a>、<a href="https://github.com/mperham/sidekiq">Sidekiq</a>など、さまざまなクエリシステムの最上位に位置するものです。</p>
-<p>Active Job APIを使用して記述されたジョブは、Active Jobがサポートするどのクエリシステムでもアダプタを介して実行できます。Active Jobは、ジョブを直ちに実行できるインラインランナー (inline runner) として最初から構成済みです。</p>
-<p>ジョブの引数にActive Recordオブジェクトを与えたくなることはよくあります。Active Jobでは、オブジェクト参照をURI (uniform resource identifiers) として渡します。オブジェクト自身をマーシャリングしません。このURIは、Railsに新しく導入された<a href="https://github.com/rails/globalid">Global ID</a>ライブラリによって生成され、ジョブはこれを元にオブジェクトを参照します。Active Recordオブジェクトをジョブの引数として渡すと、内部的には単にGlobal IDが渡されます。</p>
-<p>たとえば、<code>trashable</code>というActive Recordオブジェクトがあるとすると、以下のようにシリアライズをまったく行わずにジョブに引き渡すことができます。</p>
-<div class="code_container">
+        <h3 id="rails-4-2へのアップグレード"><a href="#rails-4-2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">1 Rails 4.2へのアップグレード</a></h3><p>既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。Railのバージョンが4.1に達していない場合は、まずアプリケーションをRails 4.1にアップグレードし、アプリケーションが期待どおりに動作することを確認してからRails 4.2にアップグレードしてください。アップグレードの際に注意すべき点のリストについては、<a href="upgrading_ruby_on_rails.html#rails-4.1%E3%81%8B%E3%82%89rails-4.2%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Ruby on Rails アップグレードガイド</a>を参照してください。</p><h3 id="主要な変更"><a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E5%A4%89%E6%9B%B4">2 主要な変更</a></h3><h4 id="active-job"><a href="#active-job">2.1 Active Job</a></h4><p>Active Jobとは、Rails 4.2から採用された新しいフレームワークです。Active Jobは、<a href="https://github.com/resque/resque">Resque</a>、<a href="https://github.com/collectiveidea/delayed_job">Delayed Job</a>、<a href="https://github.com/mperham/sidekiq">Sidekiq</a>など、さまざまなクエリシステムの最上位に位置するものです。</p><p>Active Job APIを使用して記述されたジョブは、Active Jobがサポートするどのクエリシステムでもアダプタを介して実行できます。Active Jobは、ジョブを直ちに実行できるインラインランナー (inline runner) として最初から構成済みです。</p><p>ジョブの引数にActive Recordオブジェクトを与えたくなることはよくあります。Active Jobでは、オブジェクト参照をURI (uniform resource identifiers) として渡します。オブジェクト自身をマーシャリングしません。このURIは、Railsに新しく導入された<a href="https://github.com/rails/globalid">Global ID</a>ライブラリによって生成され、ジョブはこれを元にオブジェクトを参照します。Active Recordオブジェクトをジョブの引数として渡すと、内部的には単にGlobal IDが渡されます。</p><p>たとえば、<code>trashable</code>というActive Recordオブジェクトがあるとすると、以下のようにシリアライズをまったく行わずにジョブに引き渡すことができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class TrashableCleanupJob &lt; ActiveJob::Base
   def perform(trashable, depth)
@@ -346,15 +333,7 @@ end
 
 </pre>
 </div>
-<p>詳細については、<a href="active_job_basics.html">Active Jobの基礎</a>を参照してください。</p>
-<h4 id="メールの非同期処理"><a href="#%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E9%9D%9E%E5%90%8C%E6%9C%9F%E5%87%A6%E7%90%86">2.2 メールの非同期処理</a></h4>
-<p>今回のリリースで、Action MailerはActive Jobの最上位に配置され、<code>deliver_later</code>メソッドを使用してジョブキューからメールを送信できるようになりました。これにより、キューを非同期 (asynchronous) に設定すればコントローラやモデルの動作がキューによってブロックされなくなりました (ただしデフォルトのインラインキューではコントローラやモデルの動作はブロックされます)。</p>
-<p><code>deliver_now</code>メソッドを使用すれば、メールを直ちに送信できます。</p>
-<h4 id="adequate-record"><a href="#adequate-record">2.3 Adequate Record</a></h4>
-<p>Adequate Recordとは、Active Recordの性能を向上させるさまざまな改良の総称であり、いわゆる<code>find</code>や<code>find_by</code>呼び出し、および一部の関連付けクエリの動作速度を最大2倍に向上させます。</p>
-<p>この改善は、よく用いられるSQLクエリを準備済みのSQL文 (prepared statement) としてキャッシュし、同様の呼び出しが発生した場合にそれを使い回すことによって行っています。これにより、以後の呼び出しでのクエリ生成作業の大半がスキップされるようになります。詳細については、<a href="http://tenderlovemaking.com/2014/02/19/adequaterecord-pro-like-activerecord.html">Aaron Pattersonのブログ記事</a>を参照してください。</p>
-<p>Active Recordは、サポートされている動作に対してこのAdequate Recordを自動的に適用するので、コードや設定の変更など開発者が何かを行う必要はありません。Adequate Recordでサポートされている動作の例を以下に示します。</p>
-<div class="code_container">
+<p>詳細については、<a href="active_job_basics.html">Active Jobの基礎</a>を参照してください。</p><h4 id="メールの非同期処理"><a href="#%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E9%9D%9E%E5%90%8C%E6%9C%9F%E5%87%A6%E7%90%86">2.2 メールの非同期処理</a></h4><p>今回のリリースで、Action MailerはActive Jobの最上位に配置され、<code>deliver_later</code>メソッドを使用してジョブキューからメールを送信できるようになりました。これにより、キューを非同期 (asynchronous) に設定すればコントローラやモデルの動作がキューによってブロックされなくなりました (ただしデフォルトのインラインキューではコントローラやモデルの動作はブロックされます)。</p><p><code>deliver_now</code>メソッドを使用すれば、メールを直ちに送信できます。</p><h4 id="adequate-record"><a href="#adequate-record">2.3 Adequate Record</a></h4><p>Adequate Recordとは、Active Recordの性能を向上させるさまざまな改良の総称であり、いわゆる<code>find</code>や<code>find_by</code>呼び出し、および一部の関連付けクエリの動作速度を最大2倍に向上させます。</p><p>この改善は、よく用いられるSQLクエリを準備済みのSQL文 (prepared statement) としてキャッシュし、同様の呼び出しが発生した場合にそれを使い回すことによって行っています。これにより、以後の呼び出しでのクエリ生成作業の大半がスキップされるようになります。詳細については、<a href="http://tenderlovemaking.com/2014/02/19/adequaterecord-pro-like-activerecord.html">Aaron Pattersonのブログ記事</a>を参照してください。</p><p>Active Recordは、サポートされている動作に対してこのAdequate Recordを自動的に適用するので、コードや設定の変更など開発者が何かを行う必要はありません。Adequate Recordでサポートされている動作の例を以下に示します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Post.find(1)  # 最初の呼び出しで準備済みSQL文が生成およびキャッシュされる
 Post.find(2)  # キャッシュされた準備済みSQL文は以後の呼び出しで再利用される
@@ -367,8 +346,7 @@ post.comments(true)
 
 </pre>
 </div>
-<p>上の例で、メソッド呼び出しで渡された値そのものは準備済みSQL文のキャッシュに含まれていない点にご注目ください。全体をキャッシュしているのではなく、キャッシュされたSQL文が値のプレースホルダーとなっており、値だけ差し替えられている点が重要です。</p>
-<p>以下のような場合にはキャッシュは使用されません。</p>
+<p>上の例で、メソッド呼び出しで渡された値そのものは準備済みSQL文のキャッシュに含まれていない点にご注目ください。全体をキャッシュしているのではなく、キャッシュされたSQL文が値のプレースホルダーとなっており、値だけ差し替えられている点が重要です。</p><p>以下のような場合にはキャッシュは使用されません。</p>
 <ul>
 <li>モデルにデフォルトスコープが設定されている</li>
 <li>モデルで単一テーブル継承 (STI) が使用されている</li>
@@ -394,12 +372,7 @@ post.comments(true)
 
 </pre>
 </div>
-<h4 id="web-console-gem"><a href="#web-console-gem">2.4 Web Console gem</a></h4>
-<p>Rails 4.2で新規生成したアプリケーションにはデフォルトで<a href="https://github.com/rails/web-console">Web Console</a> gemが含まれるようになりました。Web Console gemはすべてのエラーページに対話操作可能なRubyコンソールを追加し、<code>console</code>ビューとコントローラヘルパーメソッドを提供します。</p>
-<p>エラーページで対話的コンソールが利用できるようになったことで、例外が発生したコンテキストで自由にコードを実行できるようになりました。<code>console</code>ヘルパーは、画面出力が完了した最終的な状態のコンテキストで対話的コンソールを起動します。このヘルパーは、どのビューやコントローラからでも自由に呼び出すことができます。</p>
-<h4 id="外部キーのサポート"><a href="#%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E3%81%AE%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88">2.5 外部キーのサポート</a></h4>
-<p>マイグレーション用DSLで外部キーの追加・削除がサポートされました。今後は外部キーも<code>schema.rb</code>にダンプされます。現時点では、外部キーがサポートされるのは<code>mysql</code>、<code>mysql2</code>、および<code>postgresql</code>アダプタのみです。</p>
-<div class="code_container">
+<h4 id="web-console-gem"><a href="#web-console-gem">2.4 Web Console gem</a></h4><p>Rails 4.2で新規生成したアプリケーションにはデフォルトで<a href="https://github.com/rails/web-console">Web Console</a> gemが含まれるようになりました。Web Console gemはすべてのエラーページに対話操作可能なRubyコンソールを追加し、<code>console</code>ビューとコントローラヘルパーメソッドを提供します。</p><p>エラーページで対話的コンソールが利用できるようになったことで、例外が発生したコンテキストで自由にコードを実行できるようになりました。<code>console</code>ヘルパーは、画面出力が完了した最終的な状態のコンテキストで対話的コンソールを起動します。このヘルパーは、どのビューやコントローラからでも自由に呼び出すことができます。</p><h4 id="外部キーのサポート"><a href="#%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E3%81%AE%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88">2.5 外部キーのサポート</a></h4><p>マイグレーション用DSLで外部キーの追加・削除がサポートされました。今後は外部キーも<code>schema.rb</code>にダンプされます。現時点では、外部キーがサポートされるのは<code>mysql</code>、<code>mysql2</code>、および<code>postgresql</code>アダプタのみです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # `authors.id`を参照する`articles.author_id`への外部キーを追加する
 add_foreign_key :articles, :authors
@@ -416,15 +389,7 @@ remove_foreign_key :accounts, column: :owner_id
 </pre>
 </div>
 <p>完全な説明については、APIドキュメントの <a href="http://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_foreign_key">add_foreign_key</a>
-および <a href="http://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-remove_foreign_key">remove_foreign_key</a> を参照してください。</p>
-<h3 id="非互換性"><a href="#%E9%9D%9E%E4%BA%92%E6%8F%9B%E6%80%A7">3 非互換性</a></h3>
-<p>前のバージョンで非推奨に指定されていた機能が削除されました。今回のリリースで新たに非推奨指定された機能については個別のコンポーネントの情報を参照してください。</p>
-<p>以下の変更については、アップグレード時に対応が必要となることがあります。</p>
-<h4 id="renderに文字列の引数を与えた場合の挙動の変更"><a href="#render%E3%81%AB%E6%96%87%E5%AD%97%E5%88%97%E3%81%AE%E5%BC%95%E6%95%B0%E3%82%92%E4%B8%8E%E3%81%88%E3%81%9F%E5%A0%B4%E5%90%88%E3%81%AE%E6%8C%99%E5%8B%95%E3%81%AE%E5%A4%89%E6%9B%B4">3.1 <code>render</code>に文字列の引数を与えた場合の挙動の変更</a></h4>
-<p>以前は、コントローラのアクションで<code>render "foo/bar"</code>を呼び出すことは<code>render file: "foo/bar"</code>を呼び出すことと同等でした。この動作はRails 4.2から変更され、<code>render template: "foo/bar"</code>と同等になりました。ファイルを指定したい場合は明示的に(<code>render file: "foo/bar"</code>)と書いてください。</p>
-<h4 id="respond_withとクラスレベルのrespond_toの扱いについて"><a href="#respond_with%E3%81%A8%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AErespond_to%E3%81%AE%E6%89%B1%E3%81%84%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">3.2 <code>respond_with</code>とクラスレベルの<code>respond_to</code>の扱いについて</a></h4>
-<p><code>respond_with</code>と、これに対応するクラスレベルの<code>respond_to</code>は<a href="https://github.com/plataformatec/responders">responders</a> gemに移動されましたこの機能を使用したい場合は、Gemfileに<code>gem 'responders', '~&gt; 2.0'</code>を追記してください。</p>
-<div class="code_container">
+および <a href="http://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-remove_foreign_key">remove_foreign_key</a> を参照してください。</p><h3 id="非互換性"><a href="#%E9%9D%9E%E4%BA%92%E6%8F%9B%E6%80%A7">3 非互換性</a></h3><p>前のバージョンで非推奨に指定されていた機能が削除されました。今回のリリースで新たに非推奨指定された機能については個別のコンポーネントの情報を参照してください。</p><p>以下の変更については、アップグレード時に対応が必要となることがあります。</p><h4 id="renderに文字列の引数を与えた場合の挙動の変更"><a href="#render%E3%81%AB%E6%96%87%E5%AD%97%E5%88%97%E3%81%AE%E5%BC%95%E6%95%B0%E3%82%92%E4%B8%8E%E3%81%88%E3%81%9F%E5%A0%B4%E5%90%88%E3%81%AE%E6%8C%99%E5%8B%95%E3%81%AE%E5%A4%89%E6%9B%B4">3.1 <code>render</code>に文字列の引数を与えた場合の挙動の変更</a></h4><p>以前は、コントローラのアクションで<code>render "foo/bar"</code>を呼び出すことは<code>render file: "foo/bar"</code>を呼び出すことと同等でした。この動作はRails 4.2から変更され、<code>render template: "foo/bar"</code>と同等になりました。ファイルを指定したい場合は明示的に(<code>render file: "foo/bar"</code>)と書いてください。</p><h4 id="respond-withとクラスレベルのrespond-toの扱いについて"><a href="#respond-with%E3%81%A8%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AErespond-to%E3%81%AE%E6%89%B1%E3%81%84%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">3.2 <code>respond_with</code>とクラスレベルの<code>respond_to</code>の扱いについて</a></h4><p><code>respond_with</code>と、これに対応するクラスレベルの<code>respond_to</code>は<a href="https://github.com/plataformatec/responders">responders</a> gemに移動されましたこの機能を使用したい場合は、Gemfileに<code>gem 'responders', '~&gt; 2.0'</code>を追記してください。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/controllers/users_controller.rb
 
@@ -439,8 +404,7 @@ end
 
 </pre>
 </div>
-<p>インスタンスレベルでの<code>respond_to</code>は影響を受けません。</p>
-<div class="code_container">
+<p>インスタンスレベルでの<code>respond_to</code>は影響を受けません。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/controllers/users_controller.rb
 
@@ -456,21 +420,10 @@ end
 
 </pre>
 </div>
-<h4 id="rails-serverのデフォルトホスト"><a href="#rails-server%E3%81%AE%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%83%9B%E3%82%B9%E3%83%88">3.3 <code>rails server</code>のデフォルトホスト</a></h4>
-<p><a href="https://github.com/rack/rack/commit/28b014484a8ac0bbb388e7eaeeef159598ec64fc">Rackの変更</a> により、<code>rails server</code>コマンドを実行した際のデフォルトのホストが<code>0.0.0.0</code>から<code>localhost</code>に変更されました。この変更は標準的なローカルでの開発ワークフローにほとんど影響を与えないはずです。<a href="http://127.0.0.1:3000">http://127.0.0.1:3000</a> および <a href="http://localhost:3000">http://localhost:3000</a> の動作はどちらも以前と同じであるからです。</p>
-<p>ただし、今回の変更により、別のPCからRailsサーバーへのアクセスは以前と同じようにはできなくなります。たとえば、development環境が仮想マシン上にあり、ホストマシンからこのdevelopment環境にアクセスする場合などがこれに該当します。
-このような場合、サーバーを起動する際に<code>rails server -b 0.0.0.0</code>とすることで、以前と同じ動作を再現できます。</p>
-<p>以前の動作に戻す場合は、必ずファイアウォールを適切に設定し、自社ネットワーク内の信頼できるPCだけが開発用サーバーにアクセスできるようにしてください。</p>
-<h4 id="htmlサニタイザ"><a href="#html%E3%82%B5%E3%83%8B%E3%82%BF%E3%82%A4%E3%82%B6">3.4 HTMLサニタイザ</a></h4>
-<p>HTMLサニタイザは<a href="https://github.com/flavorjones/loofah">Loofah</a>と
-<a href="https://github.com/sparklemotion/nokogiri">Nokogiri</a>をベースにした、より新しく堅固な実装に置き換えられました。新しいサニタイザはより安全で、かつ強力で柔軟性に富んでいます。</p>
-<p>新しいアルゴリズムが採用されたことにより、特定の汚染された入力をサニタイズした結果が従来と異なる場合があります。</p>
-<p>従来のサニタイザと完全に同じ結果を得たい場合は、<a href="https://github.com/kaspth/rails-deprecated_sanitizer">rails-deprecated_sanitizer</a> gemを
-<code>Gemfile</code>に追加することで従来と同じ結果を得られます。このgemはオプトイン (opt-in: 自らの責任で選ぶこと) であるため、非推奨の警告を表示しません。</p>
-<p><code>rails-deprecated_sanitizer</code>のサポートはRails 4.2でしか行われないことにご注意ください。Rails 5.0ではメンテナンスされません。</p>
-<p>新しいサニタイザの変更点の詳細については、<a href="http://blog.plataformatec.com.br/2014/07/the-new-html-sanitizer-in-rails-4-2/">このブログ記事</a>を参照してください。</p>
-<h4 id="assert_select"><a href="#assert_select">3.5 <code>assert_select</code></a></h4>
-<p><code>assert_select</code>は<a href="https://github.com/sparklemotion/nokogiri">Nokogiri</a>ベースで実装されました。
+<h4 id="rails-serverのデフォルトホスト"><a href="#rails-server%E3%81%AE%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%83%9B%E3%82%B9%E3%83%88">3.3 <code>rails server</code>のデフォルトホスト</a></h4><p><a href="https://github.com/rack/rack/commit/28b014484a8ac0bbb388e7eaeeef159598ec64fc">Rackの変更</a> により、<code>rails server</code>コマンドを実行した際のデフォルトのホストが<code>0.0.0.0</code>から<code>localhost</code>に変更されました。この変更は標準的なローカルでの開発ワークフローにほとんど影響を与えないはずです。<a href="http://127.0.0.1:3000">http://127.0.0.1:3000</a> および <a href="http://localhost:3000">http://localhost:3000</a> の動作はどちらも以前と同じであるからです。</p><p>ただし、今回の変更により、別のPCからRailsサーバーへのアクセスは以前と同じようにはできなくなります。たとえば、development環境が仮想マシン上にあり、ホストマシンからこのdevelopment環境にアクセスする場合などがこれに該当します。
+このような場合、サーバーを起動する際に<code>rails server -b 0.0.0.0</code>とすることで、以前と同じ動作を再現できます。</p><p>以前の動作に戻す場合は、必ずファイアウォールを適切に設定し、自社ネットワーク内の信頼できるPCだけが開発用サーバーにアクセスできるようにしてください。</p><h4 id="htmlサニタイザ"><a href="#html%E3%82%B5%E3%83%8B%E3%82%BF%E3%82%A4%E3%82%B6">3.4 HTMLサニタイザ</a></h4><p>HTMLサニタイザは<a href="https://github.com/flavorjones/loofah">Loofah</a>と
+<a href="https://github.com/sparklemotion/nokogiri">Nokogiri</a>をベースにした、より新しく堅固な実装に置き換えられました。新しいサニタイザはより安全で、かつ強力で柔軟性に富んでいます。</p><p>新しいアルゴリズムが採用されたことにより、特定の汚染された入力をサニタイズした結果が従来と異なる場合があります。</p><p>従来のサニタイザと完全に同じ結果を得たい場合は、<a href="https://github.com/kaspth/rails-deprecated_sanitizer">rails-deprecated_sanitizer</a> gemを
+<code>Gemfile</code>に追加することで従来と同じ結果を得られます。このgemはオプトイン (opt-in: 自らの責任で選ぶこと) であるため、非推奨の警告を表示しません。</p><p><code>rails-deprecated_sanitizer</code>のサポートはRails 4.2でしか行われないことにご注意ください。Rails 5.0ではメンテナンスされません。</p><p>新しいサニタイザの変更点の詳細については、<a href="http://blog.plataformatec.com.br/2014/07/the-new-html-sanitizer-in-rails-4-2/">このブログ記事</a>を参照してください。</p><h4 id="assert-select"><a href="#assert-select">3.5 <code>assert_select</code></a></h4><p><code>assert_select</code>は<a href="https://github.com/sparklemotion/nokogiri">Nokogiri</a>ベースで実装されました。
 これにより、以前は有効であったセレクタの一部がサポートされなくなりました。アプリケーションでこれらを使用している場合は、アプリケーションを変更する必要があります。</p>
 <ul>
 <li>
@@ -527,9 +480,7 @@ assert_select('p', 'AT&amp;amp;T')  # =&gt; false
 </div>
 </li>
 </ul>
-<h3 id="railties"><a href="#railties">4 Railties</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/railties/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="railties-削除されたもの"><a href="#railties-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">4.1 削除されたもの</a></h4>
+<h3 id="railties"><a href="#railties">4 Railties</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/railties/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="railties-削除されたもの"><a href="#railties-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">4.1 削除されたもの</a></h4>
 <ul>
 <li><p>  アプリケーションのジェネレータから<code>--skip-action-view</code>オプションが削除されました。
 (<a href="https://github.com/rails/rails/pull/17042">Pull Request</a>)</p></li>
@@ -609,9 +560,7 @@ end
 <li><p>  <code>Rails.gem_version</code>メソッドが導入されました。これは<code>Gem::Version.new(Rails.version)</code>を簡単に得るためのものです。
 (<a href="https://github.com/rails/rails/pull/14101">Pull Request</a>)</p></li>
 </ul>
-<h3 id="action-pack"><a href="#action-pack">5 Action Pack</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionpack/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="action-pack-削除されたもの"><a href="#action-pack-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">5.1 削除されたもの</a></h4>
+<h3 id="action-pack"><a href="#action-pack">5 Action Pack</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionpack/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="action-pack-削除されたもの"><a href="#action-pack-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">5.1 削除されたもの</a></h4>
 <ul>
 <li><p>  <code>respond_with</code> とクラスレベルでの<code>respond_to</code>がRailsから外され、<code>responders</code> gem (version 2.0) に移されました。引き続きこの機能を使う場合は、
 Gemfileに<code>gem 'responders', '~&gt; 2.0'</code>を追加してください。
@@ -709,9 +658,7 @@ end
 </div>
 </li>
 </ul>
-<h3 id="action-view"><a href="#action-view">6 Action View</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionview/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="action-view-非推奨"><a href="#action-view-%E9%9D%9E%E6%8E%A8%E5%A5%A8">6.1 非推奨</a></h4>
+<h3 id="action-view"><a href="#action-view">6 Action View</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionview/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="action-view-非推奨"><a href="#action-view-%E9%9D%9E%E6%8E%A8%E5%A5%A8">6.1 非推奨</a></h4>
 <ul>
 <li><p>  <code>AbstractController::Base.parent_prefixes</code>は非推奨になりました。ビューの検索対象を変更したい場合は<code>AbstractController::Base.local_prefixes</code>をオーバーライドしてください。
 (<a href="https://github.com/rails/rails/pull/15026">Pull Request</a>)</p></li>
@@ -730,9 +677,7 @@ end
 <li><p>  プレースホルダの国際化 (I18n) が<code>label</code>の国際化と同じルールに従うようになりました。
 (<a href="https://github.com/rails/rails/pull/16438">Pull Request</a>)</p></li>
 </ul>
-<h3 id="action-mailer"><a href="#action-mailer">7 Action Mailer</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionmailer/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="action-mailer-非推奨"><a href="#action-mailer-%E9%9D%9E%E6%8E%A8%E5%A5%A8">7.1 非推奨</a></h4>
+<h3 id="action-mailer"><a href="#action-mailer">7 Action Mailer</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/actionmailer/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="action-mailer-非推奨"><a href="#action-mailer-%E9%9D%9E%E6%8E%A8%E5%A5%A8">7.1 非推奨</a></h4>
 <ul>
 <li><p>  Action Mailerの<code>*_path</code>ヘルパーが非推奨になりました。今後は必ず<code>*_url</code>ヘルパーを使用してください。
 (<a href="https://github.com/rails/rails/pull/15840">Pull Request</a>)</p></li>
@@ -748,9 +693,7 @@ end
 <li><p>  <code>show_previews</code>設定オプションが追加されました。これはdevelopment環境の外でメイラーをプレビューできるようにするためのものです。
 (<a href="https://github.com/rails/rails/pull/15970">Pull Request</a>)</p></li>
 </ul>
-<h3 id="active-record"><a href="#active-record">8 Active Record</a></h3>
-<p>変更の詳細については、<a href="https://github.com/rails/rails/blob/4-2-stable/activerecord/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="active-record-削除されたもの"><a href="#active-record-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">8.1 削除されたもの</a></h4>
+<h3 id="active-record"><a href="#active-record">8 Active Record</a></h3><p>変更の詳細については、<a href="https://github.com/rails/rails/blob/4-2-stable/activerecord/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="active-record-削除されたもの"><a href="#active-record-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">8.1 削除されたもの</a></h4>
 <ul>
 <li><p>  <code>cache_attributes</code>およびその同類が削除されました。すべての属性は常にキャッシュされるようになりました。
 (<a href="https://github.com/rails/rails/pull/15429">Pull Request</a>)</p></li>
@@ -826,9 +769,7 @@ end
 <li><p>  マイグレーションの<code>references</code>メソッドで<code>type</code>オプションがサポートされました。外部キーの種類 (<code>:uuid</code>など) を指定できます。
 (<a href="https://github.com/rails/rails/pull/16231">Pull Request</a>)</p></li>
 </ul>
-<h3 id="active-model"><a href="#active-model">9 Active Model</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/activemodel/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="active-model-削除されたもの"><a href="#active-model-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">9.1 削除されたもの</a></h4>
+<h3 id="active-model"><a href="#active-model">9 Active Model</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/activemodel/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="active-model-削除されたもの"><a href="#active-model-%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">9.1 削除されたもの</a></h4>
 <ul>
 <li>  非推奨の<code>Validator#setup</code>が削除されました。代替はありません。
 (<a href="https://github.com/rails/rails/pull/10716">Pull Request</a>)</li>
@@ -851,9 +792,7 @@ end
 <li><p>  <code>has_secure_password</code>で検証が有効になっている場合は、与えられたパスワードが72文字より少ないかどうかが検証されるようになりました。
 (<a href="https://github.com/rails/rails/pull/15708">Pull Request</a>)</p></li>
 </ul>
-<h3 id="active-support"><a href="#active-support">10 Active Support</a></h3>
-<p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/activesupport/CHANGELOG.md">Changelog</a>を参照してください。</p>
-<h4 id="削除されたもの"><a href="#%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">10.1 削除されたもの</a></h4>
+<h3 id="active-support"><a href="#active-support">10 Active Support</a></h3><p>変更の詳細については<a href="https://github.com/rails/rails/blob/4-2-stable/activesupport/CHANGELOG.md">Changelog</a>を参照してください。</p><h4 id="削除されたもの"><a href="#%E5%89%8A%E9%99%A4%E3%81%95%E3%82%8C%E3%81%9F%E3%82%82%E3%81%AE">10.1 削除されたもの</a></h4>
 <ul>
 <li><p>  非推奨の<code>Numeric#ago</code>、<code>Numeric#until</code>、<code>Numeric#since</code>、<code>Numeric#from_now</code>が削除されました。
 (<a href="https://github.com/rails/rails/commit/f1eddea1e3f6faf93581c43651348f48b2b7d8bb">Commit</a>)</p></li>
@@ -892,10 +831,7 @@ end
 (<a href="https://github.com/rails/rails/commit/b16c36e688970df2f96f793a759365b248b582ad">Commit</a>)</p></li>
 <li><p>  自動読み込みやリロードに関する<a href="constant_autoloading_and_reloading.html">新しいガイド</a>が追加されました。</p></li>
 </ul>
-<h3 id="クレジット表記"><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">11 クレジット表記</a></h3>
-<p>Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、<a href="http://contributors.rubyonrails.org/">Railsコントリビューターの完全なリスト</a>を参照してください。これらの方々全員に深く敬意を表明いたします。</p>
-</body></html>
-
+<h3 id="クレジット表記"><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">11 クレジット表記</a></h3><p>Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、<a href="http://contributors.rubyonrails.org/">Railsコントリビューターの完全なリスト</a>を参照してください。これらの方々全員に深く敬意を表明いたします。</p>
         
         <h3>フィードバックについて</h3>
         <p>

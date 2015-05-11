@@ -228,22 +228,20 @@
 <p>On top of all that, we&#39;ve tried our best to deprecate the old APIs with nice warnings. That means that you can move your existing application to Rails 3 without immediately rewriting all your old code to the latest best practices.</p><p>These release notes cover the major upgrades, but don&#39;t include every little bug fix and change. Rails 3.0 consists of almost 4,000 commits by more than 250 authors! If you want to see everything, check out the <a href="http://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub.</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#upgrading-to-rails-3">Upgrading to Rails 3</a>
 
 <ul>
-<li><a href="#rails-3-requires-at-least-ruby-1.8.7">Rails 3 requires at least Ruby 1.8.7</a></li>
+<li><a href="#rails-3-requires-at-least-ruby-1-8-7">Rails 3 requires at least Ruby 1.8.7</a></li>
 <li><a href="#rails-application-object">Rails Application object</a></li>
-<li><a href="#script/*-replaced-by-script/rails">script/* replaced by script/rails</a></li>
-<li><a href="#dependencies-and-config.gem">Dependencies and config.gem</a></li>
+<li><a href="#script-replaced-by-script-rails">script/* replaced by script/rails</a></li>
+<li><a href="#dependencies-and-config-gem">Dependencies and config.gem</a></li>
 <li><a href="#upgrade-process">Upgrade Process</a></li>
 </ul>
 </li>
 <li>
-<a href="#creating-a-rails-3.0-application">Creating a Rails 3.0 application</a>
+<a href="#creating-a-rails-3-0-application">Creating a Rails 3.0 application</a>
 
 <ul>
 <li><a href="#vendoring-gems">Vendoring Gems</a></li>
@@ -297,7 +295,6 @@
 <li><a href="#action-mailer">Action Mailer</a></li>
 <li><a href="#credits">Credits</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -306,49 +303,27 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<p>To install Rails 3:</p>
-<div class="code_container">
+        <p>To install Rails 3:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # Use sudo if your setup requires it
 $ gem install rails
 
 </pre>
 </div>
-<h3 id="upgrading-to-rails-3"><a href="#upgrading-to-rails-3">1 Upgrading to Rails 3</a></h3>
-<p>If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 2.3.5 and make sure your application still runs as expected before attempting to update to Rails 3. Then take heed of the following changes:</p>
-<h4 id="rails-3-requires-at-least-ruby-1.8.7"><a href="#rails-3-requires-at-least-ruby-1.8.7">1.1 Rails 3 requires at least Ruby 1.8.7</a></h4>
-<p>Rails 3.0 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.0 is also compatible with Ruby 1.9.2.</p>
-<div class="info"><p>Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails 3.0. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults on Rails 3.0, so if you want to use Rails 3 with 1.9.x jump on 1.9.2 for smooth sailing.</p></div>
-<h4 id="rails-application-object"><a href="#rails-application-object">1.2 Rails Application object</a></h4>
-<p>As part of the groundwork for supporting running multiple Rails applications in the same process, Rails 3 introduces the concept of an Application object. An application object holds all the application specific configurations and is very similar in nature to <code>config/environment.rb</code> from the previous versions of Rails.</p>
-<p>Each Rails application now must have a corresponding application object. The application object is defined in <code>config/application.rb</code>. If you're upgrading an existing application to Rails 3, you must add this file and move the appropriate configurations from <code>config/environment.rb</code> to <code>config/application.rb</code>.</p>
-<h4 id="script/*-replaced-by-script/rails"><a href="#script/*-replaced-by-script/rails">1.3 script/* replaced by script/rails</a></h4>
-<p>The new <code>script/rails</code> replaces all the scripts that used to be in the <code>script</code> directory. You do not run <code>script/rails</code> directly though, the <code>rails</code> command detects it is being invoked in the root of a Rails application and runs the script for you. Intended usage is:</p>
-<div class="code_container">
+<h3 id="upgrading-to-rails-3"><a href="#upgrading-to-rails-3">1 Upgrading to Rails 3</a></h3><p>If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 2.3.5 and make sure your application still runs as expected before attempting to update to Rails 3. Then take heed of the following changes:</p><h4 id="rails-3-requires-at-least-ruby-1-8-7"><a href="#rails-3-requires-at-least-ruby-1-8-7">1.1 Rails 3 requires at least Ruby 1.8.7</a></h4><p>Rails 3.0 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.0 is also compatible with Ruby 1.9.2.</p><div class="info"><p>Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails 3.0. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults on Rails 3.0, so if you want to use Rails 3 with 1.9.x jump on 1.9.2 for smooth sailing.</p></div><h4 id="rails-application-object"><a href="#rails-application-object">1.2 Rails Application object</a></h4><p>As part of the groundwork for supporting running multiple Rails applications in the same process, Rails 3 introduces the concept of an Application object. An application object holds all the application specific configurations and is very similar in nature to <code>config/environment.rb</code> from the previous versions of Rails.</p><p>Each Rails application now must have a corresponding application object. The application object is defined in <code>config/application.rb</code>. If you're upgrading an existing application to Rails 3, you must add this file and move the appropriate configurations from <code>config/environment.rb</code> to <code>config/application.rb</code>.</p><h4 id="script-replaced-by-script-rails"><a href="#script-replaced-by-script-rails">1.3 script/* replaced by script/rails</a></h4><p>The new <code>script/rails</code> replaces all the scripts that used to be in the <code>script</code> directory. You do not run <code>script/rails</code> directly though, the <code>rails</code> command detects it is being invoked in the root of a Rails application and runs the script for you. Intended usage is:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails console                      # instead of script/console
 $ rails g scaffold post title:string # instead of script/generate scaffold post title:string
 
 </pre>
 </div>
-<p>Run <code>rails --help</code> for a list of all the options.</p>
-<h4 id="dependencies-and-config.gem"><a href="#dependencies-and-config.gem">1.4 Dependencies and config.gem</a></h4>
-<p>The <code>config.gem</code> method is gone and has been replaced by using <code>bundler</code> and a <code>Gemfile</code>, see <a href="#vendoring-gems">Vendoring Gems</a> below.</p>
-<h4 id="upgrade-process"><a href="#upgrade-process">1.5 Upgrade Process</a></h4>
-<p>To help with the upgrade process, a plugin named <a href="http://github.com/rails/rails_upgrade">Rails Upgrade</a> has been created to automate part of it.</p>
-<p>Simply install the plugin, then run <code>rake rails:upgrade:check</code> to check your app for pieces that need to be updated (with links to information on how to update them). It also offers a task to generate a <code>Gemfile</code> based on your current <code>config.gem</code> calls and a task to generate a new routes file from your current one. To get the plugin, simply run the following:</p>
-<div class="code_container">
+<p>Run <code>rails --help</code> for a list of all the options.</p><h4 id="dependencies-and-config-gem"><a href="#dependencies-and-config-gem">1.4 Dependencies and config.gem</a></h4><p>The <code>config.gem</code> method is gone and has been replaced by using <code>bundler</code> and a <code>Gemfile</code>, see <a href="#vendoring-gems">Vendoring Gems</a> below.</p><h4 id="upgrade-process"><a href="#upgrade-process">1.5 Upgrade Process</a></h4><p>To help with the upgrade process, a plugin named <a href="http://github.com/rails/rails_upgrade">Rails Upgrade</a> has been created to automate part of it.</p><p>Simply install the plugin, then run <code>rake rails:upgrade:check</code> to check your app for pieces that need to be updated (with links to information on how to update them). It also offers a task to generate a <code>Gemfile</code> based on your current <code>config.gem</code> calls and a task to generate a new routes file from your current one. To get the plugin, simply run the following:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby script/plugin install git://github.com/rails/rails_upgrade.git
 
 </pre>
 </div>
-<p>You can see an example of how that works at <a href="http://omgbloglol.com/post/364624593/rails-upgrade-is-now-an-official-plugin">Rails Upgrade is now an Official Plugin</a></p>
-<p>Aside from Rails Upgrade tool, if you need more help, there are people on IRC and <a href="http://groups.google.com/group/rubyonrails-talk">rubyonrails-talk</a> that are probably doing the same thing, possibly hitting the same issues. Be sure to blog your own experiences when upgrading so others can benefit from your knowledge!</p>
-<h3 id="creating-a-rails-3.0-application"><a href="#creating-a-rails-3.0-application">2 Creating a Rails 3.0 application</a></h3>
-<div class="code_container">
+<p>You can see an example of how that works at <a href="http://omgbloglol.com/post/364624593/rails-upgrade-is-now-an-official-plugin">Rails Upgrade is now an Official Plugin</a></p><p>Aside from Rails Upgrade tool, if you need more help, there are people on IRC and <a href="http://groups.google.com/group/rubyonrails-talk">rubyonrails-talk</a> that are probably doing the same thing, possibly hitting the same issues. Be sure to blog your own experiences when upgrading so others can benefit from your knowledge!</p><h3 id="creating-a-rails-3-0-application"><a href="#creating-a-rails-3-0-application">2 Creating a Rails 3.0 application</a></h3><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # You should have the 'rails' RubyGem installed
 $ rails new myapp
@@ -356,58 +331,26 @@ $ cd myapp
 
 </pre>
 </div>
-<h4 id="vendoring-gems"><a href="#vendoring-gems">2.1 Vendoring Gems</a></h4>
-<p>Rails now uses a <code>Gemfile</code> in the application root to determine the gems you require for your application to start. This <code>Gemfile</code> is processed by the <a href="http://github.com/carlhuda/bundler,">Bundler</a> which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.</p>
-<p>More information: - <a href="http://gembundler.com">bundler homepage</a></p>
-<h4 id="living-on-the-edge"><a href="#living-on-the-edge">2.2 Living on the Edge</a></h4>
-<p><code>Bundler</code> and <code>Gemfile</code> makes freezing your Rails application easy as pie with the new dedicated <code>bundle</code> command, so <code>rake freeze</code> is no longer relevant and has been dropped.</p>
-<p>If you want to bundle straight from the Git repository, you can pass the <code>--edge</code> flag:</p>
-<div class="code_container">
+<h4 id="vendoring-gems"><a href="#vendoring-gems">2.1 Vendoring Gems</a></h4><p>Rails now uses a <code>Gemfile</code> in the application root to determine the gems you require for your application to start. This <code>Gemfile</code> is processed by the <a href="http://github.com/carlhuda/bundler,">Bundler</a> which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.</p><p>More information: - <a href="http://gembundler.com">bundler homepage</a></p><h4 id="living-on-the-edge"><a href="#living-on-the-edge">2.2 Living on the Edge</a></h4><p><code>Bundler</code> and <code>Gemfile</code> makes freezing your Rails application easy as pie with the new dedicated <code>bundle</code> command, so <code>rake freeze</code> is no longer relevant and has been dropped.</p><p>If you want to bundle straight from the Git repository, you can pass the <code>--edge</code> flag:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp --edge
 
 </pre>
 </div>
-<p>If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the <code>--dev</code> flag:</p>
-<div class="code_container">
+<p>If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the <code>--dev</code> flag:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby /path/to/rails/bin/rails new myapp --dev
 
 </pre>
 </div>
-<h3 id="rails-architectural-changes"><a href="#rails-architectural-changes">3 Rails Architectural Changes</a></h3>
-<p>There are six major changes in the architecture of Rails.</p>
-<h4 id="railties-restrung"><a href="#railties-restrung">3.1 Railties Restrung</a></h4>
-<p>Railties was updated to provide a consistent plugin API for the entire Rails framework as well as a total rewrite of generators and the Rails bindings, the result is that developers can now hook into any significant stage of the generators and application framework in a consistent, defined manner.</p>
-<h4 id="all-rails-core-components-are-decoupled"><a href="#all-rails-core-components-are-decoupled">3.2 All Rails core components are decoupled</a></h4>
-<p>With the merge of Merb and Rails, one of the big jobs was to remove the tight coupling between Rails core components. This has now been achieved, and all Rails core components are now using the same API that you can use for developing plugins. This means any plugin you make, or any core component replacement (like DataMapper or Sequel) can access all the functionality that the Rails core components have access to and extend and enhance at will.</p>
-<p>More information: - <a href="http://yehudakatz.com/2009/07/19/rails-3-the-great-decoupling/">The Great Decoupling</a></p>
-<h4 id="active-model-abstraction"><a href="#active-model-abstraction">3.3 Active Model Abstraction</a></h4>
-<p>Part of decoupling the core components was extracting all ties to Active Record from Action Pack. This has now been completed. All new ORM plugins now just need to implement Active Model interfaces to work seamlessly with Action Pack.</p>
-<p>More information: - <a href="http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/">Make Any Ruby Object Feel Like ActiveRecord</a></p>
-<h4 id="controller-abstraction"><a href="#controller-abstraction">3.4 Controller Abstraction</a></h4>
-<p>Another big part of decoupling the core components was creating a base superclass that is separated from the notions of HTTP in order to handle rendering of views etc. This creation of <code>AbstractController</code> allowed <code>ActionController</code> and <code>ActionMailer</code> to be greatly simplified with common code removed from all these libraries and put into Abstract Controller.</p>
-<p>More Information: - <a href="http://yehudakatz.com/2009/06/11/rails-edge-architecture/">Rails Edge Architecture</a></p>
-<h4 id="arel-integration"><a href="#arel-integration">3.5 Arel Integration</a></h4>
-<p><a href="http://github.com/brynary/arel">Arel</a> (or Active Relation) has been taken on as the underpinnings of Active Record and is now required for Rails. Arel provides an SQL abstraction that simplifies out Active Record and provides the underpinnings for the relation functionality in Active Record.</p>
-<p>More information: - <a href="http://magicscalingsprinkles.wordpress.com/2010/01/28/why-i-wrote-arel/.">Why I wrote Arel</a></p>
-<h4 id="mail-extraction"><a href="#mail-extraction">3.6 Mail Extraction</a></h4>
-<p>Action Mailer ever since its beginnings has had monkey patches, pre parsers and even delivery and receiver agents, all in addition to having TMail vendored in the source tree. Version 3 changes that with all email message related functionality abstracted out to the <a href="http://github.com/mikel/mail">Mail</a> gem. This again reduces code duplication and helps create definable boundaries between Action Mailer and the email parser.</p>
-<p>More information: - <a href="http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3">New Action Mailer API in Rails 3</a></p>
-<h3 id="documentation"><a href="#documentation">4 Documentation</a></h3>
-<p>The documentation in the Rails tree is being updated with all the API changes, additionally, the <a href="http://edgeguides.rubyonrails.org/">Rails Edge Guides</a> are being updated one by one to reflect the changes in Rails 3.0. The guides at <a href="http://guides.rubyonrails.org/">guides.rubyonrails.org</a> however will continue to contain only the stable version of Rails (at this point, version 2.3.5, until 3.0 is released).</p>
-<p>More Information: - <a href="http://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.">Rails Documentation Projects</a></p>
-<h3 id="internationalization"><a href="#internationalization">5 Internationalization</a></h3>
-<p>A large amount of work has been done with I18n support in Rails 3, including the latest <a href="http://github.com/svenfuchs/i18n">I18n</a> gem supplying many speed improvements.</p>
+<h3 id="rails-architectural-changes"><a href="#rails-architectural-changes">3 Rails Architectural Changes</a></h3><p>There are six major changes in the architecture of Rails.</p><h4 id="railties-restrung"><a href="#railties-restrung">3.1 Railties Restrung</a></h4><p>Railties was updated to provide a consistent plugin API for the entire Rails framework as well as a total rewrite of generators and the Rails bindings, the result is that developers can now hook into any significant stage of the generators and application framework in a consistent, defined manner.</p><h4 id="all-rails-core-components-are-decoupled"><a href="#all-rails-core-components-are-decoupled">3.2 All Rails core components are decoupled</a></h4><p>With the merge of Merb and Rails, one of the big jobs was to remove the tight coupling between Rails core components. This has now been achieved, and all Rails core components are now using the same API that you can use for developing plugins. This means any plugin you make, or any core component replacement (like DataMapper or Sequel) can access all the functionality that the Rails core components have access to and extend and enhance at will.</p><p>More information: - <a href="http://yehudakatz.com/2009/07/19/rails-3-the-great-decoupling/">The Great Decoupling</a></p><h4 id="active-model-abstraction"><a href="#active-model-abstraction">3.3 Active Model Abstraction</a></h4><p>Part of decoupling the core components was extracting all ties to Active Record from Action Pack. This has now been completed. All new ORM plugins now just need to implement Active Model interfaces to work seamlessly with Action Pack.</p><p>More information: - <a href="http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/">Make Any Ruby Object Feel Like ActiveRecord</a></p><h4 id="controller-abstraction"><a href="#controller-abstraction">3.4 Controller Abstraction</a></h4><p>Another big part of decoupling the core components was creating a base superclass that is separated from the notions of HTTP in order to handle rendering of views etc. This creation of <code>AbstractController</code> allowed <code>ActionController</code> and <code>ActionMailer</code> to be greatly simplified with common code removed from all these libraries and put into Abstract Controller.</p><p>More Information: - <a href="http://yehudakatz.com/2009/06/11/rails-edge-architecture/">Rails Edge Architecture</a></p><h4 id="arel-integration"><a href="#arel-integration">3.5 Arel Integration</a></h4><p><a href="http://github.com/brynary/arel">Arel</a> (or Active Relation) has been taken on as the underpinnings of Active Record and is now required for Rails. Arel provides an SQL abstraction that simplifies out Active Record and provides the underpinnings for the relation functionality in Active Record.</p><p>More information: - <a href="http://magicscalingsprinkles.wordpress.com/2010/01/28/why-i-wrote-arel/.">Why I wrote Arel</a></p><h4 id="mail-extraction"><a href="#mail-extraction">3.6 Mail Extraction</a></h4><p>Action Mailer ever since its beginnings has had monkey patches, pre parsers and even delivery and receiver agents, all in addition to having TMail vendored in the source tree. Version 3 changes that with all email message related functionality abstracted out to the <a href="http://github.com/mikel/mail">Mail</a> gem. This again reduces code duplication and helps create definable boundaries between Action Mailer and the email parser.</p><p>More information: - <a href="http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3">New Action Mailer API in Rails 3</a></p><h3 id="documentation"><a href="#documentation">4 Documentation</a></h3><p>The documentation in the Rails tree is being updated with all the API changes, additionally, the <a href="http://edgeguides.rubyonrails.org/">Rails Edge Guides</a> are being updated one by one to reflect the changes in Rails 3.0. The guides at <a href="http://guides.rubyonrails.org/">guides.rubyonrails.org</a> however will continue to contain only the stable version of Rails (at this point, version 2.3.5, until 3.0 is released).</p><p>More Information: - <a href="http://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.">Rails Documentation Projects</a></p><h3 id="internationalization"><a href="#internationalization">5 Internationalization</a></h3><p>A large amount of work has been done with I18n support in Rails 3, including the latest <a href="http://github.com/svenfuchs/i18n">I18n</a> gem supplying many speed improvements.</p>
 <ul>
 <li>I18n for any object - I18n behavior can be added to any object by including <code>ActiveModel::Translation</code> and <code>ActiveModel::Validations</code>. There is also an <code>errors.messages</code> fallback for translations.</li>
 <li>Attributes can have default translations.</li>
 <li>Form Submit Tags automatically pull the correct status (Create or Update) depending on the object status, and so pull the correct translation.</li>
 <li>Labels with I18n also now work by just passing the attribute name.</li>
 </ul>
-<p>More Information: - <a href="http://blog.plataformatec.com.br/2010/02/rails-3-i18n-changes/">Rails 3 I18n changes</a></p>
-<h3 id="railties"><a href="#railties">6 Railties</a></h3>
-<p>With the decoupling of the main Rails frameworks, Railties got a huge overhaul so as to make linking up frameworks, engines or plugins as painless and extensible as possible:</p>
+<p>More Information: - <a href="http://blog.plataformatec.com.br/2010/02/rails-3-i18n-changes/">Rails 3 I18n changes</a></p><h3 id="railties"><a href="#railties">6 Railties</a></h3><p>With the decoupling of the main Rails frameworks, Railties got a huge overhaul so as to make linking up frameworks, engines or plugins as painless and extensible as possible:</p>
 <ul>
 <li>Each application now has its own name space, application is started with <code>YourAppName.boot</code> for example, makes interacting with other applications a lot easier.</li>
 <li>Anything under <code>Rails.root/app</code> is now added to the load path, so you can make <code>app/observers/user_observer.rb</code> and Rails will load it without any modifications.</li>
@@ -448,21 +391,13 @@ $ ruby /path/to/rails/bin/rails new myapp --dev
 <li>
 <code>RAILS_DEFAULT_LOGGER</code> in favor of <code>Rails.logger</code>.</li>
 </ul>
-<p><code>PLUGIN/rails/tasks</code>, and <code>PLUGIN/tasks</code> are no longer loaded all tasks now must be in <code>PLUGIN/lib/tasks</code>.</p>
-<p>More information:</p>
+<p><code>PLUGIN/rails/tasks</code>, and <code>PLUGIN/tasks</code> are no longer loaded all tasks now must be in <code>PLUGIN/lib/tasks</code>.</p><p>More information:</p>
 <ul>
 <li><a href="http://blog.plataformatec.com.br/2010/01/discovering-rails-3-generators">Discovering Rails 3 generators</a></li>
 <li><a href="http://caffeinedd.com/guides/331-making-generators-for-rails-3-with-thor">Making Generators for Rails 3 with Thor</a></li>
 <li><a href="http://litanyagainstfear.com/blog/2010/02/03/the-rails-module/">The Rails Module (in Rails 3)</a></li>
 </ul>
-<h3 id="action-pack"><a href="#action-pack">7 Action Pack</a></h3>
-<p>There have been significant internal and external changes in Action Pack.</p>
-<h4 id="abstract-controller"><a href="#abstract-controller">7.1 Abstract Controller</a></h4>
-<p>Abstract Controller pulls out the generic parts of Action Controller into a reusable module that any library can use to render templates, render partials, helpers, translations, logging, any part of the request response cycle. This abstraction allowed <code>ActionMailer::Base</code> to now just inherit from <code>AbstractController</code> and just wrap the Rails DSL onto the Mail gem.</p>
-<p>It also provided an opportunity to clean up Action Controller, abstracting out what could to simplify the code.</p>
-<p>Note however that Abstract Controller is not a user facing API, you will not run into it in your day to day use of Rails.</p>
-<p>More Information: - <a href="http://yehudakatz.com/2009/06/11/rails-edge-architecture/">Rails Edge Architecture</a></p>
-<h4 id="action-controller"><a href="#action-controller">7.2 Action Controller</a></h4>
+<h3 id="action-pack"><a href="#action-pack">7 Action Pack</a></h3><p>There have been significant internal and external changes in Action Pack.</p><h4 id="abstract-controller"><a href="#abstract-controller">7.1 Abstract Controller</a></h4><p>Abstract Controller pulls out the generic parts of Action Controller into a reusable module that any library can use to render templates, render partials, helpers, translations, logging, any part of the request response cycle. This abstraction allowed <code>ActionMailer::Base</code> to now just inherit from <code>AbstractController</code> and just wrap the Rails DSL onto the Mail gem.</p><p>It also provided an opportunity to clean up Action Controller, abstracting out what could to simplify the code.</p><p>Note however that Abstract Controller is not a user facing API, you will not run into it in your day to day use of Rails.</p><p>More Information: - <a href="http://yehudakatz.com/2009/06/11/rails-edge-architecture/">Rails Edge Architecture</a></p><h4 id="action-controller"><a href="#action-controller">7.2 Action Controller</a></h4>
 <ul>
 <li>
 <code>application_controller.rb</code> now has <code>protect_from_forgery</code> on by default.</li>
@@ -488,8 +423,7 @@ $ ruby /path/to/rails/bin/rails new myapp --dev
 <li><a href="http://www.engineyard.com/blog/2010/render-options-in-rails-3/">Render Options in Rails 3</a></li>
 <li><a href="http://weblog.rubyonrails.org/2009/8/31/three-reasons-love-responder">Three reasons to love ActionController::Responder</a></li>
 </ul>
-<h4 id="action-dispatch"><a href="#action-dispatch">7.3 Action Dispatch</a></h4>
-<p>Action Dispatch is new in Rails 3.0 and provides a new, cleaner implementation for routing.</p>
+<h4 id="action-dispatch"><a href="#action-dispatch">7.3 Action Dispatch</a></h4><p>Action Dispatch is new in Rails 3.0 and provides a new, cleaner implementation for routing.</p>
 <ul>
 <li>Big clean up and re-write of the router, the Rails router is now <code>rack_mount</code> with a Rails DSL on top, it is a stand alone piece of software.</li>
 <li>
@@ -530,8 +464,7 @@ end
 <li><p>You can pass optional segments into the match, for example <code>match "/:controller(/:action(/:id))(.:format)"</code>, each parenthesized segment is optional.</p></li>
 <li><p>Routes can be expressed via blocks, for example you can call <code>controller :home { match '/:action' }</code>.</p></li>
 </ul>
-<div class="note"><p>The old style <code>map</code> commands still work as before with a backwards compatibility layer, however this will be removed in the 3.1 release.</p></div>
-<p>Deprecations</p>
+<div class="note"><p>The old style <code>map</code> commands still work as before with a backwards compatibility layer, however this will be removed in the 3.1 release.</p></div><p>Deprecations</p>
 <ul>
 <li>The catch all route for non-REST applications (<code>/:controller/:action/:id</code>) is now commented out.</li>
 <li>Routes <code>:path_prefix</code> no longer exists and <code>:name_prefix</code> now automatically adds "_" at the end of the given value.</li>
@@ -539,27 +472,19 @@ end
 <p>More Information:
 * <a href="http://yehudakatz.com/2009/12/26/the-rails-3-router-rack-it-up/">The Rails 3 Router: Rack it Up</a>
 * <a href="http://rizwanreza.com/2009/12/20/revamped-routes-in-rails-3">Revamped Routes in Rails 3</a>
-* <a href="http://yehudakatz.com/2009/12/20/generic-actions-in-rails-3/">Generic Actions in Rails 3</a></p>
-<h4 id="action-view"><a href="#action-view">7.4 Action View</a></h4>
-<h5 id="unobtrusive-javascript"><a href="#unobtrusive-javascript">7.4.1 Unobtrusive JavaScript</a></h5>
-<p>Major re-write was done in the Action View helpers, implementing Unobtrusive JavaScript (UJS) hooks and removing the old inline AJAX commands. This enables Rails to use any compliant UJS driver to implement the UJS hooks in the helpers.</p>
-<p>What this means is that all previous <code>remote_&lt;method&gt;</code> helpers have been removed from Rails core and put into the <a href="http://github.com/rails/prototype_legacy_helper.">Prototype Legacy Helper</a> To get UJS hooks into your HTML, you now pass <code>:remote =&gt; true</code> instead. For example:</p>
-<div class="code_container">
+* <a href="http://yehudakatz.com/2009/12/20/generic-actions-in-rails-3/">Generic Actions in Rails 3</a></p><h4 id="action-view"><a href="#action-view">7.4 Action View</a></h4><h5 id="unobtrusive-javascript"><a href="#unobtrusive-javascript">7.4.1 Unobtrusive JavaScript</a></h5><p>Major re-write was done in the Action View helpers, implementing Unobtrusive JavaScript (UJS) hooks and removing the old inline AJAX commands. This enables Rails to use any compliant UJS driver to implement the UJS hooks in the helpers.</p><p>What this means is that all previous <code>remote_&lt;method&gt;</code> helpers have been removed from Rails core and put into the <a href="http://github.com/rails/prototype_legacy_helper.">Prototype Legacy Helper</a> To get UJS hooks into your HTML, you now pass <code>:remote =&gt; true</code> instead. For example:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 form_for @post, :remote =&gt; true
 
 </pre>
 </div>
-<p>Produces:</p>
-<div class="code_container">
+<p>Produces:</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form action="http://host.com" id="create-post" method="post" data-remote="true"&gt;
 
 </pre>
 </div>
-<h5 id="helpers-with-blocks"><a href="#helpers-with-blocks">7.4.2 Helpers with Blocks</a></h5>
-<p>Helpers like <code>form_for</code> or <code>div_for</code> that insert content from a block use <code>&lt;%=</code> now:</p>
-<div class="code_container">
+<h5 id="helpers-with-blocks"><a href="#helpers-with-blocks">7.4.2 Helpers with Blocks</a></h5><p>Helpers like <code>form_for</code> or <code>div_for</code> that insert content from a block use <code>&lt;%=</code> now:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 &lt;%= form_for @post do |f| %&gt;
   ...
@@ -567,9 +492,7 @@ form_for @post, :remote =&gt; true
 
 </pre>
 </div>
-<p>Your own helpers of that kind are expected to return a string, rather than appending to the output buffer by hand.</p>
-<p>Helpers that do something else, like <code>cache</code> or <code>content_for</code>, are not affected by this change, they need <code>&amp;lt;%</code> as before.</p>
-<h5 id="other-changes"><a href="#other-changes">7.4.3 Other Changes</a></h5>
+<p>Your own helpers of that kind are expected to return a string, rather than appending to the output buffer by hand.</p><p>Helpers that do something else, like <code>cache</code> or <code>content_for</code>, are not affected by this change, they need <code>&amp;lt;%</code> as before.</p><h5 id="other-changes"><a href="#other-changes">7.4.3 Other Changes</a></h5>
 <ul>
 <li>You no longer need to call <code>h(string)</code> to escape HTML output, it is on by default in all view templates. If you want the unescaped string, call <code>raw(string)</code>.</li>
 <li>Helpers now output HTML 5 by default.</li>
@@ -583,13 +506,7 @@ form_for @post, :remote =&gt; true
 <li>passing <code>:id =&gt; nil</code> to form helpers will cause those fields to be rendered with no <code>id</code> attribute</li>
 <li>passing <code>:alt =&gt; nil</code> to <code>image_tag</code> will cause the <code>img</code> tag to render with no <code>alt</code> attribute</li>
 </ul>
-<h3 id="active-model"><a href="#active-model">8 Active Model</a></h3>
-<p>Active Model is new in Rails 3.0. It provides an abstraction layer for any ORM libraries to use to interact with Rails by implementing an Active Model interface.</p>
-<h4 id="orm-abstraction-and-action-pack-interface"><a href="#orm-abstraction-and-action-pack-interface">8.1 ORM Abstraction and Action Pack Interface</a></h4>
-<p>Part of decoupling the core components was extracting all ties to Active Record from Action Pack. This has now been completed. All new ORM plugins now just need to implement Active Model interfaces to work seamlessly with Action Pack.</p>
-<p>More Information: - <a href="http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/">Make Any Ruby Object Feel Like ActiveRecord</a></p>
-<h4 id="validations"><a href="#validations">8.2 Validations</a></h4>
-<p>Validations have been moved from Active Record into Active Model, providing an interface to validations that works across ORM libraries in Rails 3.</p>
+<h3 id="active-model"><a href="#active-model">8 Active Model</a></h3><p>Active Model is new in Rails 3.0. It provides an abstraction layer for any ORM libraries to use to interact with Rails by implementing an Active Model interface.</p><h4 id="orm-abstraction-and-action-pack-interface"><a href="#orm-abstraction-and-action-pack-interface">8.1 ORM Abstraction and Action Pack Interface</a></h4><p>Part of decoupling the core components was extracting all ties to Active Record from Action Pack. This has now been completed. All new ORM plugins now just need to implement Active Model interfaces to work seamlessly with Action Pack.</p><p>More Information: - <a href="http://yehudakatz.com/2010/01/10/activemodel-make-any-ruby-object-feel-like-activerecord/">Make Any Ruby Object Feel Like ActiveRecord</a></p><h4 id="validations"><a href="#validations">8.2 Validations</a></h4><p>Validations have been moved from Active Record into Active Model, providing an interface to validations that works across ORM libraries in Rails 3.</p>
 <ul>
 <li>There is now a <code>validates :attribute, options_hash</code> shortcut method that allows you to pass options for all the validates class methods, you can pass more than one option to a validate method.</li>
 <li>The <code>validates</code> method has the following options:
@@ -616,9 +533,7 @@ form_for @post, :remote =&gt; true
 </ul>
 </li>
 </ul>
-<div class="note"><p>All the Rails version 2.3 style validation methods are still supported in Rails 3.0, the new validates method is designed as an additional aid in your model validations, not a replacement for the existing API.</p></div>
-<p>You can also pass in a validator object, which you can then reuse between objects that use Active Model:</p>
-<div class="code_container">
+<div class="note"><p>All the Rails version 2.3 style validation methods are still supported in Rails 3.0, the new validates method is designed as an additional aid in your model validations, not a replacement for the existing API.</p></div><p>You can also pass in a validator object, which you can then reuse between objects that use Active Model:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class TitleValidator &lt; ActiveModel::EachValidator
   Titles = ['Mr.', 'Mrs.', 'Dr.']
@@ -647,8 +562,7 @@ end
 
 </pre>
 </div>
-<p>There's also support for introspection:</p>
-<div class="code_container">
+<p>There's also support for introspection:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 User.validators
 User.validators_on(:login)
@@ -660,10 +574,7 @@ User.validators_on(:login)
 <li><a href="http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/">Sexy Validation in Rails 3</a></li>
 <li><a href="http://lindsaar.net/2010/1/31/validates_rails_3_awesome_is_true">Rails 3 Validations Explained</a></li>
 </ul>
-<h3 id="active-record"><a href="#active-record">9 Active Record</a></h3>
-<p>Active Record received a lot of attention in Rails 3.0, including abstraction into Active Model, a full update to the Query interface using Arel, validation updates and many enhancements and fixes. All of the Rails 2.x API will be usable through a compatibility layer that will be supported until version 3.1.</p>
-<h4 id="query-interface"><a href="#query-interface">9.1 Query Interface</a></h4>
-<p>Active Record, through the use of Arel, now returns relations on its core methods. The existing API in Rails 2.3.x is still supported and will not be deprecated until Rails 3.1 and not removed until Rails 3.2, however, the new API provides the following new methods that all return relations allowing them to be chained together:</p>
+<h3 id="active-record"><a href="#active-record">9 Active Record</a></h3><p>Active Record received a lot of attention in Rails 3.0, including abstraction into Active Model, a full update to the Query interface using Arel, validation updates and many enhancements and fixes. All of the Rails 2.x API will be usable through a compatibility layer that will be supported until version 3.1.</p><h4 id="query-interface"><a href="#query-interface">9.1 Query Interface</a></h4><p>Active Record, through the use of Arel, now returns relations on its core methods. The existing API in Rails 2.3.x is still supported and will not be deprecated until Rails 3.1 and not removed until Rails 3.2, however, the new API provides the following new methods that all return relations allowing them to be chained together:</p>
 <ul>
 <li>
 <code>where</code> - provides conditions on the relation, what gets returned.</li>
@@ -706,8 +617,7 @@ User.validators_on(:login)
 <li>Added <code>:destroyed?</code> to Active Record objects.</li>
 <li>Added <code>:inverse_of</code> to Active Record associations allowing you to pull the instance of an already loaded association without hitting the database.</li>
 </ul>
-<h4 id="patches-and-deprecations"><a href="#patches-and-deprecations">9.3 Patches and Deprecations</a></h4>
-<p>Additionally, many fixes in the Active Record branch:</p>
+<h4 id="patches-and-deprecations"><a href="#patches-and-deprecations">9.3 Patches and Deprecations</a></h4><p>Additionally, many fixes in the Active Record branch:</p>
 <ul>
 <li>SQLite 2 support has been dropped in favor of SQLite 3.</li>
 <li>MySQL support for column order.</li>
@@ -734,9 +644,7 @@ User.validators_on(:login)
 <code>ActiveRecord::Base.colorize_logging</code> and <code>config.active_record.colorize_logging</code> are deprecated in favor of <code>Rails::LogSubscriber.colorize_logging</code> or <code>config.colorize_logging</code>
 </li>
 </ul>
-<div class="note"><p>While an implementation of State Machine has been in Active Record edge for some months now, it has been removed from the Rails 3.0 release.</p></div>
-<h3 id="active-resource"><a href="#active-resource">10 Active Resource</a></h3>
-<p>Active Resource was also extracted out to Active Model allowing you to use Active Resource objects with Action Pack seamlessly.</p>
+<div class="note"><p>While an implementation of State Machine has been in Active Record edge for some months now, it has been removed from the Rails 3.0 release.</p></div><h3 id="active-resource"><a href="#active-resource">10 Active Resource</a></h3><p>Active Resource was also extracted out to Active Model allowing you to use Active Resource objects with Action Pack seamlessly.</p>
 <ul>
 <li>Added validations through Active Model.</li>
 <li>Added observing hooks.</li>
@@ -767,9 +675,7 @@ User.validators_on(:login)
 <code>save(false)</code> is deprecated, in favor of <code>save(:validate =&gt; false)</code>.</li>
 <li>Ruby 1.9.2: <code>URI.parse</code> and <code>.decode</code> are deprecated and are no longer used in the library.</li>
 </ul>
-<h3 id="active-support"><a href="#active-support">11 Active Support</a></h3>
-<p>A large effort was made in Active Support to make it cherry pickable, that is, you no longer have to require the entire Active Support library to get pieces of it. This allows the various core components of Rails to run slimmer.</p>
-<p>These are the main changes in Active Support:</p>
+<h3 id="active-support"><a href="#active-support">11 Active Support</a></h3><p>A large effort was made in Active Support to make it cherry pickable, that is, you no longer have to require the entire Active Support library to get pieces of it. This allows the various core components of Rails to run slimmer.</p><p>These are the main changes in Active Support:</p>
 <ul>
 <li>Large clean up of the library removing unused methods throughout.</li>
 <li>Active Support no longer provides vendored versions of <a href="http://tzinfo.rubyforge.org/">TZInfo</a>, <a href="http://deveiate.org/projects/RMemCache/">Memcache Client</a> and <a href="http://builder.rubyforge.org/,">Builder</a> these are all included as dependencies and installed via the <code>bundle install</code> command.</li>
@@ -825,8 +731,7 @@ User.validators_on(:login)
 <li><code>Object#instance_variable_defined?</code></li>
 <li><code>Enumerable#none?</code></li>
 </ul>
-<p>The security patch for REXML remains in Active Support because early patch-levels of Ruby 1.8.7 still need it. Active Support knows whether it has to apply it or not.</p>
-<p>The following methods have been removed because they are no longer used in the framework:</p>
+<p>The security patch for REXML remains in Active Support because early patch-levels of Ruby 1.8.7 still need it. Active Support knows whether it has to apply it or not.</p><p>The following methods have been removed because they are no longer used in the framework:</p>
 <ul>
 <li><code>Kernel#daemonize</code></li>
 <li>
@@ -837,8 +742,7 @@ User.validators_on(:login)
 <code>Regexp#number_of_captures</code>, <code>Regexp.unoptionalize</code>, <code>Regexp.optionalize</code>, <code>Regexp#number_of_captures</code>
 </li>
 </ul>
-<h3 id="action-mailer"><a href="#action-mailer">12 Action Mailer</a></h3>
-<p>Action Mailer has been given a new API with TMail being replaced out with the new <a href="http://github.com/mikel/mail">Mail</a> as the email library. Action Mailer itself has been given an almost complete re-write with pretty much every line of code touched. The result is that Action Mailer now simply inherits from Abstract Controller and wraps the Mail gem in a Rails DSL. This reduces the amount of code and duplication of other libraries in Action Mailer considerably.</p>
+<h3 id="action-mailer"><a href="#action-mailer">12 Action Mailer</a></h3><p>Action Mailer has been given a new API with TMail being replaced out with the new <a href="http://github.com/mikel/mail">Mail</a> as the email library. Action Mailer itself has been given an almost complete re-write with pretty much every line of code touched. The result is that Action Mailer now simply inherits from Abstract Controller and wraps the Mail gem in a Rails DSL. This reduces the amount of code and duplication of other libraries in Action Mailer considerably.</p>
 <ul>
 <li>All mailers are now in <code>app/mailers</code> by default.</li>
 <li>Can now send email using new API with three methods: <code>attachments</code>, <code>headers</code> and <code>mail</code>.</li>
@@ -869,11 +773,7 @@ User.validators_on(:login)
 <li><a href="http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3">New Action Mailer API in Rails 3</a></li>
 <li><a href="http://lindsaar.net/2010/1/23/mail-gem-version-2-released">New Mail Gem for Ruby</a></li>
 </ul>
-<h3 id="credits"><a href="#credits">13 Credits</a></h3>
-<p>See the <a href="http://contributors.rubyonrails.org/">full list of contributors to Rails</a> for the many people who spent many hours making Rails 3. Kudos to all of them.</p>
-<p>Rails 3.0 Release Notes were compiled by <a href="http://lindsaar.net.">Mikel Lindsaar</a></p>
-</body></html>
-
+<h3 id="credits"><a href="#credits">13 Credits</a></h3><p>See the <a href="http://contributors.rubyonrails.org/">full list of contributors to Rails</a> for the many people who spent many hours making Rails 3. Kudos to all of them.</p><p>Rails 3.0 Release Notes were compiled by <a href="http://lindsaar.net.">Mikel Lindsaar</a></p>
         
         <h3>フィードバックについて</h3>
         <p>

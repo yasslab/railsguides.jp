@@ -225,9 +225,7 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<div class="code_container">
+            <div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 * [使用法](#使用法)
 
@@ -239,26 +237,25 @@
 <a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88api">テンプレートAPI</a>
 
 <ul>
-<li><a href="#gem(*args)">gem(*args)</a></li>
-<li><a href="#gem_group(*names,-&amp;block)">gem_group(*names, &amp;block)</a></li>
-<li><a href="#add_source(source,-options-=-%7B%7D)">add_source(source, options = {})</a></li>
-<li><a href="#environment/application(data=nil,-options=%7B%7D,-&amp;block)">environment/application(data=nil, options={}, &amp;block)</a></li>
-<li><a href="#vendor/lib/file/initializer(filename,-data-=-nil,-&amp;block)">vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></li>
-<li><a href="#rakefile(filename,-data-=-nil,-&amp;block)">rakefile(filename, data = nil, &amp;block)</a></li>
-<li><a href="#generate(what,-*args)">generate(what, *args)</a></li>
-<li><a href="#run(command)">run(command)</a></li>
-<li><a href="#rake(command,-options-=-%7B%7D)">rake(command, options = {})</a></li>
-<li><a href="#route(routing_code)">route(routing_code)</a></li>
-<li><a href="#inside(dir)">inside(dir)</a></li>
-<li><a href="#ask(question)">ask(question)</a></li>
-<li><a href="#yes?(question)-or-no?(question)">yes?(question) or no?(question)</a></li>
-<li><a href="#git(:command)">git(:command)</a></li>
-<li><a href="#after_bundle(&amp;block)">after_bundle(&amp;block)</a></li>
+<li><a href="#gem-args">gem(*args)</a></li>
+<li><a href="#gem-group-names-block">gem_group(*names, &amp;block)</a></li>
+<li><a href="#add-source-source-options">add_source(source, options = {})</a></li>
+<li><a href="#environment-application-data-nil-options-block">environment/application(data=nil, options={}, &amp;block)</a></li>
+<li><a href="#vendor-lib-file-initializer-filename-data-nil-block">vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></li>
+<li><a href="#rakefile-filename-data-nil-block">rakefile(filename, data = nil, &amp;block)</a></li>
+<li><a href="#generate-what-args">generate(what, *args)</a></li>
+<li><a href="#run-command">run(command)</a></li>
+<li><a href="#rake-command-options">rake(command, options = {})</a></li>
+<li><a href="#route-routing-code">route(routing_code)</a></li>
+<li><a href="#inside-dir">inside(dir)</a></li>
+<li><a href="#ask-question">ask(question)</a></li>
+<li><a href="#yes-questionmark-question-or-no-questionmark-question">yes?(question) or no?(question)</a></li>
+<li><a href="#git-command">git(:command)</a></li>
+<li><a href="#after-bundle-block">after_bundle(&amp;block)</a></li>
 </ul>
 </li>
 <li><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">高度な利用法</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -267,29 +264,23 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h4 id="使用法"><a href="#%E4%BD%BF%E7%94%A8%E6%B3%95">1 使用法</a></h4>
+        <h4 id="使用法"><a href="#%E4%BD%BF%E7%94%A8%E6%B3%95">1 使用法</a></h4>
 <hr>
-<p>アプリケーションテンプレートを適用するためには、-mオプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。</p>
-<div class="code_container">
+<p>アプリケーションテンプレートを適用するためには、-mオプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new blog -m ~/template.rb
 $ rails new blog -m http://example.com/template.rb
 
 </pre>
 </div>
-<p>rakeタスク<code>rails:template</code>を使用して、既存のRailsアプリケーションにテンプレートを適用することもできます。テンプレートの場所はLOCATION環境変数を使用して渡す必要があります。ここでも、ファイルパスまたはURLのどちらを使用してもかまいません。</p>
-<div class="code_container">
+<p>rakeタスク<code>rails:template</code>を使用して、既存のRailsアプリケーションにテンプレートを適用することもできます。テンプレートの場所はLOCATION環境変数を使用して渡す必要があります。ここでも、ファイルパスまたはURLのどちらを使用してもかまいません。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake rails:template LOCATION=~/template.rb
 $ bin/rake rails:template LOCATION=http://example.com/template.rb
 
 </pre>
 </div>
-<h3 id="テンプレートapi"><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88api">2 テンプレートAPI</a></h3>
-<p>RailsのテンプレートAPIはわかりやすく設計されています。以下は代表的なRailsアプリケーションテンプレートです。</p>
-<div class="code_container">
+<h3 id="テンプレートapi"><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88api">2 テンプレートAPI</a></h3><p>RailsのテンプレートAPIはわかりやすく設計されています。以下は代表的なRailsアプリケーションテンプレートです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # template.rb
 generate(:scaffold, "person name:string")
@@ -304,28 +295,20 @@ end
 
 </pre>
 </div>
-<p>以下のセクションで、APIで提供される主なメソッドの概要を解説します。</p>
-<h4 id="gem(*args)"><a href="#gem(*args)">2.1 gem(*args)</a></h4>
-<p>生成された<code>Gemfile</code>ファイルに、指定された<code>gem</code>のエントリを追加します。</p>
-<p>たとえば、Railsアプリケーションが<code>bj</code>と<code>nokogiri</code> gemに依存しているとします。</p>
-<div class="code_container">
+<p>以下のセクションで、APIで提供される主なメソッドの概要を解説します。</p><h4 id="gem-args"><a href="#gem-args">2.1 gem(*args)</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定された<code>gem</code>のエントリを追加します。</p><p>たとえば、Railsアプリケーションが<code>bj</code>と<code>nokogiri</code> gemに依存しているとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem "bj"
 gem "nokogiri"
 
 </pre>
 </div>
-<p>Gemfileでgemを指定しただけではインストールされないのでご注意ください。指定したgemをインストールするためには<code>bundle install</code>を実行する必要があります。</p>
-<div class="code_container">
+<p>Gemfileでgemを指定しただけではインストールされないのでご注意ください。指定したgemをインストールするためには<code>bundle install</code>を実行する必要があります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 bundle install
 
 </pre>
 </div>
-<h4 id="gem_group(*names,-&amp;block)"><a href="#gem_group(*names,-&amp;block)">2.2 gem_group(*names, &amp;block)</a></h4>
-<p>gemのエントリを指定のグループに含めます。</p>
-<p>たとえば、<code>rspec-rails</code> gemを<code>development</code>グループと<code>test</code>グループだけで読み込みたい場合は以下のようにします。</p>
-<div class="code_container">
+<h4 id="gem-group-names-block"><a href="#gem-group-names-block">2.2 gem_group(*names, &amp;block)</a></h4><p>gemのエントリを指定のグループに含めます。</p><p>たとえば、<code>rspec-rails</code> gemを<code>development</code>グループと<code>test</code>グループだけで読み込みたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem_group :development, :test do
   gem "rspec-rails"
@@ -333,29 +316,19 @@ end
 
 </pre>
 </div>
-<h4 id="add_source(source,-options-=-{})"><a href="#add_source(source,-options-=-%7B%7D)">2.3 add_source(source, options = {})</a></h4>
-<p>生成された<code>Gemfile</code>ファイルに、指定されたソースを追加します。</p>
-<p>たとえば、<code>"http://code.whytheluckystiff.net"</code>にあるgemをソースとして使用したい場合は以下のようにします。</p>
-<div class="code_container">
+<h4 id="add-source-source-options"><a href="#add-source-source-options">2.3 add_source(source, options = {})</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定されたソースを追加します。</p><p>たとえば、<code>"http://code.whytheluckystiff.net"</code>にあるgemをソースとして使用したい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 add_source "http://code.whytheluckystiff.net"
 
 </pre>
 </div>
-<h4 id="environment/application(data=nil,-options={},-&amp;block)"><a href="#environment/application(data=nil,-options=%7B%7D,-&amp;block)">2.4 environment/application(data=nil, options={}, &amp;block)</a></h4>
-<p><code>config/application.rb</code>ファイルの<code>Application</code>クラスの内側に指定の行を追加します。</p>
-<p><code>options[:env]</code>が指定されている場合は、<code>config/environments</code>ディレクトリに置かれている同等のファイルに追加します。</p>
-<div class="code_container">
+<h4 id="environment-application-data-nil-options-block"><a href="#environment-application-data-nil-options-block">2.4 environment/application(data=nil, options={}, &amp;block)</a></h4><p><code>config/application.rb</code>ファイルの<code>Application</code>クラスの内側に指定の行を追加します。</p><p><code>options[:env]</code>が指定されている場合は、<code>config/environments</code>ディレクトリに置かれている同等のファイルに追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 environment 'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}', env: 'production'
 
 </pre>
 </div>
-<p><code>data</code>引数の代わりにブロックをひとつ渡すこともできます。</p>
-<h4 id="vendor/lib/file/initializer(filename,-data-=-nil,-&amp;block)"><a href="#vendor/lib/file/initializer(filename,-data-=-nil,-&amp;block)">2.5 vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></h4>
-<p>生成されたRailsアプリケーションの<code>config/initializers</code>ディレクトリにイニシャライザをひとつ追加します。</p>
-<p>たとえば、<code>Object#not_nil?</code>と<code>Object#not_blank?</code>というメソッドを使用したい場合は以下のようにします。</p>
-<div class="code_container">
+<p><code>data</code>引数の代わりにブロックをひとつ渡すこともできます。</p><h4 id="vendor-lib-file-initializer-filename-data-nil-block"><a href="#vendor-lib-file-initializer-filename-data-nil-block">2.5 vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></h4><p>生成されたRailsアプリケーションの<code>config/initializers</code>ディレクトリにイニシャライザをひとつ追加します。</p><p>たとえば、<code>Object#not_nil?</code>と<code>Object#not_blank?</code>というメソッドを使用したい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 initializer 'bloatlol.rb', &lt;&lt;-CODE
   class Object
@@ -371,9 +344,7 @@ CODE
 
 </pre>
 </div>
-<p>同様に、<code>lib()</code>は<code>lib/</code>ディレクトリに、<code>vendor()</code>は<code>vendor/</code>ディレクトリにそれぞれファイルをひとつ作成します。</p>
-<p><code>file()</code>メソッドを使用すれば、<code>Rails.root</code>からの相対パスを渡してディレクトリやファイルを自在に作成することもできます。</p>
-<div class="code_container">
+<p>同様に、<code>lib()</code>は<code>lib/</code>ディレクトリに、<code>vendor()</code>は<code>vendor/</code>ディレクトリにそれぞれファイルをひとつ作成します。</p><p><code>file()</code>メソッドを使用すれば、<code>Rails.root</code>からの相対パスを渡してディレクトリやファイルを自在に作成することもできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 file 'app/components/foo.rb', &lt;&lt;-CODE
   class Foo
@@ -382,10 +353,7 @@ CODE
 
 </pre>
 </div>
-<p>上のコードは<code>app/components</code>ディレクトリを作成し、その中に<code>foo.rb</code>ファイルを置きます。</p>
-<h4 id="rakefile(filename,-data-=-nil,-&amp;block)"><a href="#rakefile(filename,-data-=-nil,-&amp;block)">2.6 rakefile(filename, data = nil, &amp;block)</a></h4>
-<p>指定されたタスクを含むrakeファイルを<code>lib/tasks</code>の下に作成します。</p>
-<div class="code_container">
+<p>上のコードは<code>app/components</code>ディレクトリを作成し、その中に<code>foo.rb</code>ファイルを置きます。</p><h4 id="rakefile-filename-data-nil-block"><a href="#rakefile-filename-data-nil-block">2.6 rakefile(filename, data = nil, &amp;block)</a></h4><p>指定されたタスクを含むrakeファイルを<code>lib/tasks</code>の下に作成します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rakefile("bootstrap.rake") do
   &lt;&lt;-TASK
@@ -399,49 +367,37 @@ end
 
 </pre>
 </div>
-<p>上のコードは<code>lib/tasks/bootstrap.rake</code>ファイルを作成し、その中に<code>boot:strap</code> rakeタスクを置きます。</p>
-<h4 id="generate(what,-*args)"><a href="#generate(what,-*args)">2.7 generate(what, *args)</a></h4>
-<p>引数を渡してRailsジェネレータを実行します。</p>
-<div class="code_container">
+<p>上のコードは<code>lib/tasks/bootstrap.rake</code>ファイルを作成し、その中に<code>boot:strap</code> rakeタスクを置きます。</p><h4 id="generate-what-args"><a href="#generate-what-args">2.7 generate(what, *args)</a></h4><p>引数を渡してRailsジェネレータを実行します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 generate(:scaffold, "person", "name:string", "address:text", "age:number")
 
 </pre>
 </div>
-<h4 id="run(command)"><a href="#run(command)">2.8 run(command)</a></h4>
-<p>任意のコマンドを実行します。いわゆるバッククォートと同等です。たとえば<code>README.rdoc</code>ファイルを削除する場合は以下のようにします。</p>
-<div class="code_container">
+<h4 id="run-command"><a href="#run-command">2.8 run(command)</a></h4><p>任意のコマンドを実行します。いわゆるバッククォートと同等です。たとえば<code>README.rdoc</code>ファイルを削除する場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 run "rm README.rdoc"
 
 </pre>
 </div>
-<h4 id="rake(command,-options-=-{})"><a href="#rake(command,-options-=-%7B%7D)">2.9 rake(command, options = {})</a></h4>
-<p>Railsアプリケーション内にあるtakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。</p>
-<div class="code_container">
+<h4 id="rake-command-options"><a href="#rake-command-options">2.9 rake(command, options = {})</a></h4><p>Railsアプリケーション内にあるtakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rake "db:migrate"
 
 </pre>
 </div>
-<p>Railsの環境を指定してrakeタスクを実行することもできます。</p>
-<div class="code_container">
+<p>Railsの環境を指定してrakeタスクを実行することもできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rake "db:migrate", env: 'production'
 
 </pre>
 </div>
-<h4 id="route(routing_code)"><a href="#route(routing_code)">2.10 route(routing_code)</a></h4>
-<p>ルーティングエントリを<code>config/routes.rb</code>ファイルにひとつ追加します。上の手順では、scaffoldでpersonを生成し、続けて<code>README.rdoc</code>を削除しました。今度は以下のようにして<code>PeopleController#index</code>をアプリケーションのデフォルトページにします。</p>
-<div class="code_container">
+<h4 id="route-routing-code"><a href="#route-routing-code">2.10 route(routing_code)</a></h4><p>ルーティングエントリを<code>config/routes.rb</code>ファイルにひとつ追加します。上の手順では、scaffoldでpersonを生成し、続けて<code>README.rdoc</code>を削除しました。今度は以下のようにして<code>PeopleController#index</code>をアプリケーションのデフォルトページにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 route "root to: 'person#index'"
 
 </pre>
 </div>
-<h4 id="inside(dir)"><a href="#inside(dir)">2.11 inside(dir)</a></h4>
-<p>ディレクトリを指定してコマンドをひとつ実行します。たとえば、edge railsのコピーがあり、アプリケーションからそこにシンボリックリンクを張るには以下のようにします。</p>
-<div class="code_container">
+<h4 id="inside-dir"><a href="#inside-dir">2.11 inside(dir)</a></h4><p>ディレクトリを指定してコマンドをひとつ実行します。たとえば、edge railsのコピーがあり、アプリケーションからそこにシンボリックリンクを張るには以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 inside('vendor') do
   run "ln -s ~/commit-rails/rails rails"
@@ -449,9 +405,7 @@ end
 
 </pre>
 </div>
-<h4 id="ask(question)"><a href="#ask(question)">2.12 ask(question)</a></h4>
-<p><code>ask()</code>はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使用します。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。</p>
-<div class="code_container">
+<h4 id="ask-question"><a href="#ask-question">2.12 ask(question)</a></h4><p><code>ask()</code>はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使用します。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 lib_name = ask("ライブラリに付ける名前を入力してください")
 lib_name &lt;&lt; ".rb" unless lib_name.index(".rb")
@@ -463,18 +417,14 @@ CODE
 
 </pre>
 </div>
-<h4 id="yes?(question)-or-no?(question)"><a href="#yes?(question)-or-no?(question)">2.13 yes?(question) or no?(question)</a></h4>
-<p>テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみrailsをfreezeしたい場合は以下のようにします。</p>
-<div class="code_container">
+<h4 id="yes-questionmark-question-or-no-questionmark-question"><a href="#yes-questionmark-question-or-no-questionmark-question">2.13 yes?(question) or no?(question)</a></h4><p>テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみrailsをfreezeしたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rake("rails:freeze:gems") if yes?("Freeze rails gems?")
 # no?(question) はyes?と逆の動作
 
 </pre>
 </div>
-<h4 id="git(:command)"><a href="#git(:command)">2.14 git(:command)</a></h4>
-<p>Railsテンプレートで任意のgitコマンドを実行します。</p>
-<div class="code_container">
+<h4 id="git-command"><a href="#git-command">2.14 git(:command)</a></h4><p>Railsテンプレートで任意のgitコマンドを実行します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 git :init
 git add: "."
@@ -482,9 +432,7 @@ git commit: "-a -m 'Initial commit'"
 
 </pre>
 </div>
-<h4 id="after_bundle(&amp;block)"><a href="#after_bundle(&amp;block)">2.15 after_bundle(&amp;block)</a></h4>
-<p>gemのバンドルとbinstub生成の完了後に実行したいコールバックを登録します。生成したファイルをバージョン管理するところまで自動化したい場合に便利です。</p>
-<div class="code_container">
+<h4 id="after-bundle-block"><a href="#after-bundle-block">2.15 after_bundle(&amp;block)</a></h4><p>gemのバンドルとbinstub生成の完了後に実行したいコールバックを登録します。生成したファイルをバージョン管理するところまで自動化したい場合に便利です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 after_bundle do
   git :init
@@ -494,12 +442,8 @@ end
 
 </pre>
 </div>
-<p>これらのコールバックは<code>--skip-bundle</code>や<code>--skip-spring</code>を指定した場合でもスキップされずに実行されます。</p>
-<h3 id="高度な利用法"><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">3 高度な利用法</a></h3>
-<p>アプリケーションテンプレートは、<code>Rails::Generators::AppGenerator</code>インスタンスのコンテキストで評価されます。ここで使用される<code>apply</code>アクションは<a href="https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207">Thor</a>が提供しています。
-これにより、このインスタンスを必要に応じて拡張したり変更したりできます。</p>
-<p>たとえば、<code>source_paths</code>メソッドを上書きしてテンプレートの位置を指定することができます。これにより、<code>copy_file</code>などのメソッドでテンプレートの位置からの相対パスを指定できるようになります。</p>
-<div class="code_container">
+<p>これらのコールバックは<code>--skip-bundle</code>や<code>--skip-spring</code>を指定した場合でもスキップされずに実行されます。</p><h3 id="高度な利用法"><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">3 高度な利用法</a></h3><p>アプリケーションテンプレートは、<code>Rails::Generators::AppGenerator</code>インスタンスのコンテキストで評価されます。ここで使用される<code>apply</code>アクションは<a href="https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207">Thor</a>が提供しています。
+これにより、このインスタンスを必要に応じて拡張したり変更したりできます。</p><p>たとえば、<code>source_paths</code>メソッドを上書きしてテンプレートの位置を指定することができます。これにより、<code>copy_file</code>などのメソッドでテンプレートの位置からの相対パスを指定できるようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def source_paths
   [File.expand_path(File.dirname(__FILE__))]
@@ -507,7 +451,6 @@ end
 
 </pre>
 </div>
-</body></html>
 
         
         <h3>フィードバックについて</h3>

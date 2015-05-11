@@ -220,9 +220,7 @@
       <h2>Active Model の基礎</h2><p>このガイドでは、モデルクラスを使用して作業を開始するのに必要なことをすべて解説します。Action Packヘルパーは、Active Modelのおかげで非Active Recordモデルとやりとりすることができます。Active Modelを使用することで、カスタムのORM (オブジェクトリレーショナルマッピング) を作成してRailsフレームワークの外で使用することもできます。</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">はじめに</a>
 
@@ -235,7 +233,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -244,13 +241,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="はじめに"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3>
-<p>Active Modelは多くのモジュールを含むライブラリであり、それらのモジュールはRailsのAction Packライブラリとやりとりする必要のあるフレームワークで使用されます。Active Modelは、クラスで使用する既知の一連のインターフェイスを提供します。そのうちのいくつかについて以下で説明します。</p>
-<h4 id="attributemethodsモジュール"><a href="#attributemethods%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.1 AttributeMethodsモジュール</a></h4>
-<p>AttributeMethodsモジュールは、クラスのメソッドにカスタムのプレフィックスやサフィックスを追加できます。このモジュールを使用するには、プレフィックスまたはサフィックスを定義し、オブジェクト内にあるプレフィックス/サフィックスの追加対象となるメソッドを指定します。</p>
-<div class="code_container">
+        <h3 id="はじめに"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3><p>Active Modelは多くのモジュールを含むライブラリであり、それらのモジュールはRailsのAction Packライブラリとやりとりする必要のあるフレームワークで使用されます。Active Modelは、クラスで使用する既知の一連のインターフェイスを提供します。そのうちのいくつかについて以下で説明します。</p><h4 id="attributemethodsモジュール"><a href="#attributemethods%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.1 AttributeMethodsモジュール</a></h4><p>AttributeMethodsモジュールは、クラスのメソッドにカスタムのプレフィックスやサフィックスを追加できます。このモジュールを使用するには、プレフィックスまたはサフィックスを定義し、オブジェクト内にあるプレフィックス/サフィックスの追加対象となるメソッドを指定します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   include ActiveModel::AttributeMethods
@@ -279,9 +270,7 @@ person.age_highest?  # false
 
 </pre>
 </div>
-<h4 id="callbacksモジュール"><a href="#callbacks%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.2 Callbacksモジュール</a></h4>
-<p>Callbacksを使用することで、Active Recordスタイルのコールバックを使用できます。これにより、必要なタイミングで実行されるコールバックを定義することができるようになります。コールバックの定義後、それらをカスタムメソッドの実行前(before)、実行後(after)、あるいは実行中(around)にラップすることができます。</p>
-<div class="code_container">
+<h4 id="callbacksモジュール"><a href="#callbacks%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.2 Callbacksモジュール</a></h4><p>Callbacksを使用することで、Active Recordスタイルのコールバックを使用できます。これにより、必要なタイミングで実行されるコールバックを定義することができるようになります。コールバックの定義後、それらをカスタムメソッドの実行前(before)、実行後(after)、あるいは実行中(around)にラップすることができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   extend ActiveModel::Callbacks
@@ -303,9 +292,7 @@ end
 
 </pre>
 </div>
-<h4 id="conversionモジュール"><a href="#conversion%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.3 Conversionモジュール</a></h4>
-<p>クラスで<code>persisted?</code>メソッドと<code>id</code>メソッドが定義されていれば、この<code>Conversion</code>モジュールをインクルードしてRailsの変換メソッドをそのクラスのオブジェクトに対して呼び出すことができます。</p>
-<div class="code_container">
+<h4 id="conversionモジュール"><a href="#conversion%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.3 Conversionモジュール</a></h4><p>クラスで<code>persisted?</code>メソッドと<code>id</code>メソッドが定義されていれば、この<code>Conversion</code>モジュールをインクルードしてRailsの変換メソッドをそのクラスのオブジェクトに対して呼び出すことができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   include ActiveModel::Conversion
@@ -326,9 +313,7 @@ person.to_param            # =&gt; nil
 
 </pre>
 </div>
-<h4 id="dirtyモジュール"><a href="#dirty%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.4 Dirtyモジュール</a></h4>
-<p>あるオブジェクトが数度にわたって変更され、保存されていない状態は、「汚れた (dirty)」状態です。このモジュールを使用して、オブジェクトで変更が生じたかどうかを検出できます。属性名に基づいたアクセサメソッドも使用できます。<code>first_name</code>属性と<code>last_name</code>を持つPersonというクラスを例に考えてみましょう。</p>
-<div class="code_container">
+<h4 id="dirtyモジュール"><a href="#dirty%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.4 Dirtyモジュール</a></h4><p>あるオブジェクトが数度にわたって変更され、保存されていない状態は、「汚れた (dirty)」状態です。このモジュールを使用して、オブジェクトで変更が生じたかどうかを検出できます。属性名に基づいたアクセサメソッドも使用できます。<code>first_name</code>属性と<code>last_name</code>を持つPersonというクラスを例に考えてみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 require 'active_model'
 
@@ -362,8 +347,7 @@ end
 
 </pre>
 </div>
-<h5 id="変更されたすべての属性のリストをオブジェクトから直接取得する"><a href="#%E5%A4%89%E6%9B%B4%E3%81%95%E3%82%8C%E3%81%9F%E3%81%99%E3%81%B9%E3%81%A6%E3%81%AE%E5%B1%9E%E6%80%A7%E3%81%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%82%92%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%8B%E3%82%89%E7%9B%B4%E6%8E%A5%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B">1.4.1 変更されたすべての属性のリストをオブジェクトから直接取得する</a></h5>
-<div class="code_container">
+<h5 id="変更されたすべての属性のリストをオブジェクトから直接取得する"><a href="#%E5%A4%89%E6%9B%B4%E3%81%95%E3%82%8C%E3%81%9F%E3%81%99%E3%81%B9%E3%81%A6%E3%81%AE%E5%B1%9E%E6%80%A7%E3%81%AE%E3%83%AA%E3%82%B9%E3%83%88%E3%82%92%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%8B%E3%82%89%E7%9B%B4%E6%8E%A5%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B">1.4.1 変更されたすべての属性のリストをオブジェクトから直接取得する</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 person = Person.new
 person.changed? # =&gt; false 
@@ -385,9 +369,7 @@ person.changes # =&gt; {"first_name"=&gt;[nil, "First Name"]}
 
 </pre>
 </div>
-<h5 id="属性名に基づいたアクセサメソッド"><a href="#%E5%B1%9E%E6%80%A7%E5%90%8D%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%84%E3%81%9F%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B5%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89">1.4.2 属性名に基づいたアクセサメソッド</a></h5>
-<p>特定の属性が変更されたかどうかを検出します。</p>
-<div class="code_container">
+<h5 id="属性名に基づいたアクセサメソッド"><a href="#%E5%B1%9E%E6%80%A7%E5%90%8D%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%84%E3%81%9F%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B5%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89">1.4.2 属性名に基づいたアクセサメソッド</a></h5><p>特定の属性が変更されたかどうかを検出します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # attr_name_changed?
 person.first_name # =&gt; "First Name"
@@ -395,16 +377,14 @@ person.first_name_changed? # =&gt; true
 
 </pre>
 </div>
-<p>その属性の直前の値を返します。</p>
-<div class="code_container">
+<p>その属性の直前の値を返します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # attr_name_was accessor
 person.first_name_was # =&gt; "First Name"
 
 </pre>
 </div>
-<p>変更された属性の、直前の値と現在の値を両方返します。変更があった場合は配列を返し、変更がなかった場合はnilを返します。</p>
-<div class="code_container">
+<p>変更された属性の、直前の値と現在の値を両方返します。変更があった場合は配列を返し、変更がなかった場合はnilを返します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # attr_name_change
 person.first_name_change # =&gt; [nil, "First Name"]
@@ -412,9 +392,7 @@ person.last_name_change # =&gt; nil
 
 </pre>
 </div>
-<h4 id="validationsモジュール"><a href="#validations%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.5 Validationsモジュール</a></h4>
-<p>Validationsモジュールを使用することで、クラスオブジェクトをActive Recordスタイルで検証することができます。</p>
-<div class="code_container">
+<h4 id="validationsモジュール"><a href="#validations%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">1.5 Validationsモジュール</a></h4><p>Validationsモジュールを使用することで、クラスオブジェクトをActive Recordスタイルで検証することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   include ActiveModel::Validations
@@ -438,7 +416,6 @@ person.valid? # =&gt; ActiveModel::StrictValidationFailedが発生する
 
 </pre>
 </div>
-</body></html>
 
         
         <h3>フィードバックについて</h3>

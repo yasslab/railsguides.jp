@@ -224,14 +224,12 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#model-setup">Model setup</a>
 
 <ul>
-<li><a href="#activerecord::base-model">ActiveRecord::Base model</a></li>
+<li><a href="#activerecord-base-model">ActiveRecord::Base model</a></li>
 <li><a href="#custom-model">Custom model</a></li>
 </ul>
 </li>
@@ -244,7 +242,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -253,18 +250,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<div class="note"><p>This guide assumes the user knows how to use the <a href="form_helpers.html">Rails form helpers</a> in general. Also, it's <strong>not</strong> an API reference. For a complete reference please visit <a href="http://api.rubyonrails.org/">the Rails API documentation</a>.</p></div>
-<h3 id="model-setup"><a href="#model-setup">1 Model setup</a></h3>
-<p>To be able to use the nested model functionality in your forms, the model will need to support some basic operations.</p>
-<p>First of all, it needs to define a writer method for the attribute that corresponds to the association you are building a nested model form for. The <code>fields_for</code> form helper will look for this method to decide whether or not a nested model form should be built.</p>
-<p>If the associated object is an array, a form builder will be yielded for each object, else only a single form builder will be yielded.</p>
-<p>Consider a Person model with an associated Address. When asked to yield a nested FormBuilder for the <code>:address</code> attribute, the <code>fields_for</code> form helper will look for a method on the Person instance named <code>address_attributes=</code>.</p>
-<h4 id="activerecord::base-model"><a href="#activerecord::base-model">1.1 ActiveRecord::Base model</a></h4>
-<p>For an ActiveRecord::Base model and association this writer method is commonly defined with the <code>accepts_nested_attributes_for</code> class method:</p>
-<h5 id="has_one"><a href="#has_one">1.1.1 has_one</a></h5>
-<div class="code_container">
+        <div class="note"><p>This guide assumes the user knows how to use the <a href="form_helpers.html">Rails form helpers</a> in general. Also, it's <strong>not</strong> an API reference. For a complete reference please visit <a href="http://api.rubyonrails.org/">the Rails API documentation</a>.</p></div><h3 id="model-setup"><a href="#model-setup">1 Model setup</a></h3><p>To be able to use the nested model functionality in your forms, the model will need to support some basic operations.</p><p>First of all, it needs to define a writer method for the attribute that corresponds to the association you are building a nested model form for. The <code>fields_for</code> form helper will look for this method to decide whether or not a nested model form should be built.</p><p>If the associated object is an array, a form builder will be yielded for each object, else only a single form builder will be yielded.</p><p>Consider a Person model with an associated Address. When asked to yield a nested FormBuilder for the <code>:address</code> attribute, the <code>fields_for</code> form helper will look for a method on the Person instance named <code>address_attributes=</code>.</p><h4 id="activerecord-base-model"><a href="#activerecord-base-model">1.1 ActiveRecord::Base model</a></h4><p>For an ActiveRecord::Base model and association this writer method is commonly defined with the <code>accepts_nested_attributes_for</code> class method:</p><h5 id="has-one"><a href="#has-one">1.1.1 has_one</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   has_one :address
@@ -273,8 +259,7 @@ end
 
 </pre>
 </div>
-<h5 id="belongs_to"><a href="#belongs_to">1.1.2 belongs_to</a></h5>
-<div class="code_container">
+<h5 id="belongs-to"><a href="#belongs-to">1.1.2 belongs_to</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   belongs_to :firm
@@ -283,8 +268,7 @@ end
 
 </pre>
 </div>
-<h5 id="has_many-/-has_and_belongs_to_many"><a href="#has_many-/-has_and_belongs_to_many">1.1.3 has_many / has_and_belongs_to_many</a></h5>
-<div class="code_container">
+<h5 id="has-many-has-and-belongs-to-many"><a href="#has-many-has-and-belongs-to-many">1.1.3 has_many / has_and_belongs_to_many</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   has_many :projects
@@ -293,10 +277,7 @@ end
 
 </pre>
 </div>
-<h4 id="custom-model"><a href="#custom-model">1.2 Custom model</a></h4>
-<p>As you might have inflected from this explanation, you <em>don't</em> necessarily need an ActiveRecord::Base model to use this functionality. The following examples are sufficient to enable the nested model form behavior:</p>
-<h5 id="single-associated-object"><a href="#single-associated-object">1.2.1 Single associated object</a></h5>
-<div class="code_container">
+<h4 id="custom-model"><a href="#custom-model">1.2 Custom model</a></h4><p>As you might have inflected from this explanation, you <em>don't</em> necessarily need an ActiveRecord::Base model to use this functionality. The following examples are sufficient to enable the nested model form behavior:</p><h5 id="single-associated-object"><a href="#single-associated-object">1.2.1 Single associated object</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   def address
@@ -310,8 +291,7 @@ end
 
 </pre>
 </div>
-<h5 id="association-collection"><a href="#association-collection">1.2.2 Association collection</a></h5>
-<div class="code_container">
+<h5 id="association-collection"><a href="#association-collection">1.2.2 Association collection</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   def projects
@@ -325,12 +305,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>See (TODO) in the advanced section for more information on how to deal with the CRUD operations in your custom model.</p></div>
-<h3 id="views"><a href="#views">2 Views</a></h3>
-<h4 id="controller-code"><a href="#controller-code">2.1 Controller code</a></h4>
-<p>A nested model form will <em>only</em> be built if the associated object(s) exist. This means that for a new model instance you would probably want to build the associated object(s) first.</p>
-<p>Consider the following typical RESTful controller which will prepare a new Person instance and its <code>address</code> and <code>projects</code> associations before rendering the <code>new</code> template:</p>
-<div class="code_container">
+<div class="note"><p>See (TODO) in the advanced section for more information on how to deal with the CRUD operations in your custom model.</p></div><h3 id="views"><a href="#views">2 Views</a></h3><h4 id="controller-code"><a href="#controller-code">2.1 Controller code</a></h4><p>A nested model form will <em>only</em> be built if the associated object(s) exist. This means that for a new model instance you would probably want to build the associated object(s) first.</p><p>Consider the following typical RESTful controller which will prepare a new Person instance and its <code>address</code> and <code>projects</code> associations before rendering the <code>new</code> template:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PeopleController &lt; ApplicationController
   def new
@@ -349,12 +324,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>Obviously the instantiation of the associated object(s) can become tedious and not DRY, so you might want to move that into the model itself. ActiveRecord::Base provides an <code>after_initialize</code> callback which is a good way to refactor this.</p></div>
-<h4 id="form-code"><a href="#form-code">2.2 Form code</a></h4>
-<p>Now that you have a model instance, with the appropriate methods and associated object(s), you can start building the nested model form.</p>
-<h5 id="standard-form"><a href="#standard-form">2.2.1 Standard form</a></h5>
-<p>Start out with a regular RESTful form:</p>
-<div class="code_container">
+<div class="note"><p>Obviously the instantiation of the associated object(s) can become tedious and not DRY, so you might want to move that into the model itself. ActiveRecord::Base provides an <code>after_initialize</code> callback which is a good way to refactor this.</p></div><h4 id="form-code"><a href="#form-code">2.2 Form code</a></h4><p>Now that you have a model instance, with the appropriate methods and associated object(s), you can start building the nested model form.</p><h5 id="standard-form"><a href="#standard-form">2.2.1 Standard form</a></h5><p>Start out with a regular RESTful form:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -362,8 +332,7 @@ end
 
 </pre>
 </div>
-<p>This will generate the following html:</p>
-<div class="code_container">
+<p>This will generate the following html:</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form action="/people" class="new_person" id="new_person" method="post"&gt;
   &lt;input id="person_name" name="person[name]" type="text" /&gt;
@@ -371,9 +340,7 @@ end
 
 </pre>
 </div>
-<h5 id="nested-form-for-a-single-associated-object"><a href="#nested-form-for-a-single-associated-object">2.2.2 Nested form for a single associated object</a></h5>
-<p>Now add a nested form for the <code>address</code> association:</p>
-<div class="code_container">
+<h5 id="nested-form-for-a-single-associated-object"><a href="#nested-form-for-a-single-associated-object">2.2.2 Nested form for a single associated object</a></h5><p>Now add a nested form for the <code>address</code> association:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -385,8 +352,7 @@ end
 
 </pre>
 </div>
-<p>This generates:</p>
-<div class="code_container">
+<p>This generates:</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form action="/people" class="new_person" id="new_person" method="post"&gt;
   &lt;input id="person_name" name="person[name]" type="text" /&gt;
@@ -396,9 +362,7 @@ end
 
 </pre>
 </div>
-<p>Notice that <code>fields_for</code> recognized the <code>address</code> as an association for which a nested model form should be built by the way it has namespaced the <code>name</code> attribute.</p>
-<p>When this form is posted the Rails parameter parser will construct a hash like the following:</p>
-<div class="code_container">
+<p>Notice that <code>fields_for</code> recognized the <code>address</code> as an association for which a nested model form should be built by the way it has namespaced the <code>name</code> attribute.</p><p>When this form is posted the Rails parameter parser will construct a hash like the following:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 {
   "person" =&gt; {
@@ -411,10 +375,7 @@ end
 
 </pre>
 </div>
-<p>That's it. The controller will simply pass this hash on to the model from the <code>create</code> action. The model will then handle building the <code>address</code> association for you and automatically save it when the parent (<code>person</code>) is saved.</p>
-<h5 id="nested-form-for-a-collection-of-associated-objects"><a href="#nested-form-for-a-collection-of-associated-objects">2.2.3 Nested form for a collection of associated objects</a></h5>
-<p>The form code for an association collection is pretty similar to that of a single associated object:</p>
-<div class="code_container">
+<p>That's it. The controller will simply pass this hash on to the model from the <code>create</code> action. The model will then handle building the <code>address</code> association for you and automatically save it when the parent (<code>person</code>) is saved.</p><h5 id="nested-form-for-a-collection-of-associated-objects"><a href="#nested-form-for-a-collection-of-associated-objects">2.2.3 Nested form for a collection of associated objects</a></h5><p>The form code for an association collection is pretty similar to that of a single associated object:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -426,8 +387,7 @@ end
 
 </pre>
 </div>
-<p>Which generates:</p>
-<div class="code_container">
+<p>Which generates:</p><div class="code_container">
 <pre class="brush: xml; gutter: false; toolbar: false">
 &lt;form action="/people" class="new_person" id="new_person" method="post"&gt;
   &lt;input id="person_name" name="person[name]" type="text" /&gt;
@@ -438,8 +398,7 @@ end
 
 </pre>
 </div>
-<p>As you can see it has generated 2 <code>project name</code> inputs, one for each new <code>project</code> that was built in the controller's <code>new</code> action. Only this time the <code>name</code> attribute of the input contains a digit as an extra namespace. This will be parsed by the Rails parameter parser as:</p>
-<div class="code_container">
+<p>As you can see it has generated 2 <code>project name</code> inputs, one for each new <code>project</code> that was built in the controller's <code>new</code> action. Only this time the <code>name</code> attribute of the input contains a digit as an extra namespace. This will be parsed by the Rails parameter parser as:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 {
   "person" =&gt; {
@@ -453,11 +412,7 @@ end
 
 </pre>
 </div>
-<p>You can basically see the <code>projects_attributes</code> hash as an array of attribute hashes, one for each model instance.</p>
-<div class="note"><p>The reason that <code>fields_for</code> constructed a hash instead of an array is that it won't work for any form nested deeper than one level deep.</p></div>
-<div class="info"><p>You <em>can</em> however pass an array to the writer method generated by <code>accepts_nested_attributes_for</code> if you're using plain Ruby or some other API access. See (TODO) for more info and example.</p></div>
-</body></html>
-
+<p>You can basically see the <code>projects_attributes</code> hash as an array of attribute hashes, one for each model instance.</p><div class="note"><p>The reason that <code>fields_for</code> constructed a hash instead of an array is that it won't work for any form nested deeper than one level deep.</p></div><div class="info"><p>You <em>can</em> however pass an array to the writer method generated by <code>accepts_nested_attributes_for</code> if you're using plain Ruby or some other API access. See (TODO) for more info and example.</p></div>
         
         <h3>フィードバックについて</h3>
         <p>

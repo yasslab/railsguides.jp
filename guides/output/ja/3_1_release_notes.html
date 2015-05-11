@@ -227,19 +227,17 @@
 <p>This release notes cover the major changes, but don&#39;t include every little bug fix and change. If you want to see everything, check out the <a href="https://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub.</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
-<a href="#upgrading-to-rails-3.1">Upgrading to Rails 3.1</a>
+<a href="#upgrading-to-rails-3-1">Upgrading to Rails 3.1</a>
 
 <ul>
-<li><a href="#rails-3.1-requires-at-least-ruby-1.8.7">Rails 3.1 requires at least Ruby 1.8.7</a></li>
+<li><a href="#rails-3-1-requires-at-least-ruby-1-8-7">Rails 3.1 requires at least Ruby 1.8.7</a></li>
 <li><a href="#what-to-update-in-your-apps">What to update in your apps</a></li>
 </ul>
 </li>
 <li>
-<a href="#creating-a-rails-3.1-application">Creating a Rails 3.1 application</a>
+<a href="#creating-a-rails-3-1-application">Creating a Rails 3.1 application</a>
 
 <ul>
 <li><a href="#vendoring-gems">Vendoring Gems</a></li>
@@ -272,7 +270,6 @@
 <li><a href="#active-support">Active Support</a></li>
 <li><a href="#credits">Credits</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -281,18 +278,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="upgrading-to-rails-3.1"><a href="#upgrading-to-rails-3.1">1 Upgrading to Rails 3.1</a></h3>
-<p>If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 3 in case you haven't and make sure your application still runs as expected before attempting to update to Rails 3.1. Then take heed of the following changes:</p>
-<h4 id="rails-3.1-requires-at-least-ruby-1.8.7"><a href="#rails-3.1-requires-at-least-ruby-1.8.7">1.1 Rails 3.1 requires at least Ruby 1.8.7</a></h4>
-<p>Rails 3.1 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.1 is also compatible with Ruby 1.9.2.</p>
-<div class="info"><p>Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults, so if you want to use 1.9.x jump on 1.9.2 for smooth sailing.</p></div>
-<h4 id="what-to-update-in-your-apps"><a href="#what-to-update-in-your-apps">1.2 What to update in your apps</a></h4>
-<p>The following changes are meant for upgrading your application to Rails 3.1.3, the latest 3.1.x version of Rails.</p>
-<h5 id="gemfile"><a href="#gemfile">1.2.1 Gemfile</a></h5>
-<p>Make the following changes to your <code>Gemfile</code>.</p>
-<div class="code_container">
+        <h3 id="upgrading-to-rails-3-1"><a href="#upgrading-to-rails-3-1">1 Upgrading to Rails 3.1</a></h3><p>If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 3 in case you haven't and make sure your application still runs as expected before attempting to update to Rails 3.1. Then take heed of the following changes:</p><h4 id="rails-3-1-requires-at-least-ruby-1-8-7"><a href="#rails-3-1-requires-at-least-ruby-1-8-7">1.1 Rails 3.1 requires at least Ruby 1.8.7</a></h4><p>Rails 3.1 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.1 is also compatible with Ruby 1.9.2.</p><div class="info"><p>Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults, so if you want to use 1.9.x jump on 1.9.2 for smooth sailing.</p></div><h4 id="what-to-update-in-your-apps"><a href="#what-to-update-in-your-apps">1.2 What to update in your apps</a></h4><p>The following changes are meant for upgrading your application to Rails 3.1.3, the latest 3.1.x version of Rails.</p><h5 id="gemfile"><a href="#gemfile">1.2.1 Gemfile</a></h5><p>Make the following changes to your <code>Gemfile</code>.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem 'rails', '= 3.1.3'
 gem 'mysql2'
@@ -309,7 +295,7 @@ gem 'jquery-rails'
 
 </pre>
 </div>
-<h5 id="config/application.rb"><a href="#config/application.rb">1.2.2 config/application.rb</a></h5>
+<h5 id="config-application-rb"><a href="#config-application-rb">1.2.2 config/application.rb</a></h5>
 <ul>
 <li>
 <p>The asset pipeline requires the following additions:</p>
@@ -332,7 +318,7 @@ config.assets.prefix = '/asset-files'
 </div>
 </li>
 </ul>
-<h5 id="config/environments/development.rb"><a href="#config/environments/development.rb">1.2.3 config/environments/development.rb</a></h5>
+<h5 id="config-environments-development-rb"><a href="#config-environments-development-rb">1.2.3 config/environments/development.rb</a></h5>
 <ul>
 <li><p>Remove the RJS setting <code>config.action_view.debug_rjs = true</code>.</p></li>
 <li>
@@ -349,7 +335,7 @@ config.assets.debug = true
 </div>
 </li>
 </ul>
-<h5 id="config/environments/production.rb"><a href="#config/environments/production.rb">1.2.4 config/environments/production.rb</a></h5>
+<h5 id="config-environments-production-rb"><a href="#config-environments-production-rb">1.2.4 config/environments/production.rb</a></h5>
 <ul>
 <li>
 <p>Again, most of the changes below are for the asset pipeline. You can read more about these in the <a href="asset_pipeline.html">Asset Pipeline</a> guide.</p>
@@ -377,8 +363,7 @@ config.assets.digest = true
 </div>
 </li>
 </ul>
-<h5 id="config/environments/test.rb"><a href="#config/environments/test.rb">1.2.5 config/environments/test.rb</a></h5>
-<div class="code_container">
+<h5 id="config-environments-test-rb"><a href="#config-environments-test-rb">1.2.5 config/environments/test.rb</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Configure static asset server for tests with Cache-Control for performance
 config.serve_static_assets = true
@@ -386,7 +371,7 @@ config.static_cache_control = "public, max-age=3600"
 
 </pre>
 </div>
-<h5 id="config/initializers/wrap_parameters.rb"><a href="#config/initializers/wrap_parameters.rb">1.2.6 config/initializers/wrap_parameters.rb</a></h5>
+<h5 id="config-initializers-wrap-parameters-rb"><a href="#config-initializers-wrap-parameters-rb">1.2.6 config/initializers/wrap_parameters.rb</a></h5>
 <ul>
 <li>
 <p>Add this file with the following contents, if you wish to wrap parameters into a nested hash. This is on by default in new applications.</p>
@@ -410,12 +395,11 @@ end
 </div>
 </li>
 </ul>
-<h5 id="remove-:cache-and-:concat-options-in-asset-helpers-references-in-views"><a href="#remove-:cache-and-:concat-options-in-asset-helpers-references-in-views">1.2.7 Remove :cache and :concat options in asset helpers references in views</a></h5>
+<h5 id="remove-cache-and-concat-options-in-asset-helpers-references-in-views"><a href="#remove-cache-and-concat-options-in-asset-helpers-references-in-views">1.2.7 Remove :cache and :concat options in asset helpers references in views</a></h5>
 <ul>
 <li>With the Asset Pipeline the :cache and :concat options aren't used anymore, delete these options from your views.</li>
 </ul>
-<h3 id="creating-a-rails-3.1-application"><a href="#creating-a-rails-3.1-application">2 Creating a Rails 3.1 application</a></h3>
-<div class="code_container">
+<h3 id="creating-a-rails-3-1-application"><a href="#creating-a-rails-3-1-application">2 Creating a Rails 3.1 application</a></h3><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 # You should have the 'rails' RubyGem installed
 $ rails new myapp
@@ -423,42 +407,25 @@ $ cd myapp
 
 </pre>
 </div>
-<h4 id="vendoring-gems"><a href="#vendoring-gems">2.1 Vendoring Gems</a></h4>
-<p>Rails now uses a <code>Gemfile</code> in the application root to determine the gems you require for your application to start. This <code>Gemfile</code> is processed by the <a href="https://github.com/carlhuda/bundler">Bundler</a> gem, which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.</p>
-<p>More information: - <a href="http://gembundler.com">bundler homepage</a></p>
-<h4 id="living-on-the-edge"><a href="#living-on-the-edge">2.2 Living on the Edge</a></h4>
-<p><code>Bundler</code> and <code>Gemfile</code> makes freezing your Rails application easy as pie with the new dedicated <code>bundle</code> command. If you want to bundle straight from the Git repository, you can pass the <code>--edge</code> flag:</p>
-<div class="code_container">
+<h4 id="vendoring-gems"><a href="#vendoring-gems">2.1 Vendoring Gems</a></h4><p>Rails now uses a <code>Gemfile</code> in the application root to determine the gems you require for your application to start. This <code>Gemfile</code> is processed by the <a href="https://github.com/carlhuda/bundler">Bundler</a> gem, which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.</p><p>More information: - <a href="http://gembundler.com">bundler homepage</a></p><h4 id="living-on-the-edge"><a href="#living-on-the-edge">2.2 Living on the Edge</a></h4><p><code>Bundler</code> and <code>Gemfile</code> makes freezing your Rails application easy as pie with the new dedicated <code>bundle</code> command. If you want to bundle straight from the Git repository, you can pass the <code>--edge</code> flag:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp --edge
 
 </pre>
 </div>
-<p>If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the <code>--dev</code> flag:</p>
-<div class="code_container">
+<p>If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the <code>--dev</code> flag:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 
 </pre>
 </div>
-<h3 id="rails-architectural-changes"><a href="#rails-architectural-changes">3 Rails Architectural Changes</a></h3>
-<h4 id="assets-pipeline"><a href="#assets-pipeline">3.1 Assets Pipeline</a></h4>
-<p>The major change in Rails 3.1 is the Assets Pipeline. It makes CSS and JavaScript first-class code citizens and enables proper organization, including use in plugins and engines.</p>
-<p>The assets pipeline is powered by <a href="https://github.com/sstephenson/sprockets">Sprockets</a> and is covered in the <a href="asset_pipeline.html">Asset Pipeline</a> guide.</p>
-<h4 id="http-streaming"><a href="#http-streaming">3.2 HTTP Streaming</a></h4>
-<p>HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of nginx and unicorn is ready to take advantage of it.</p>
-<h4 id="default-js-library-is-now-jquery"><a href="#default-js-library-is-now-jquery">3.3 Default JS library is now jQuery</a></h4>
-<p>jQuery is the default JavaScript library that ships with Rails 3.1. But if you use Prototype, it's simple to switch.</p>
-<div class="code_container">
+<h3 id="rails-architectural-changes"><a href="#rails-architectural-changes">3 Rails Architectural Changes</a></h3><h4 id="assets-pipeline"><a href="#assets-pipeline">3.1 Assets Pipeline</a></h4><p>The major change in Rails 3.1 is the Assets Pipeline. It makes CSS and JavaScript first-class code citizens and enables proper organization, including use in plugins and engines.</p><p>The assets pipeline is powered by <a href="https://github.com/sstephenson/sprockets">Sprockets</a> and is covered in the <a href="asset_pipeline.html">Asset Pipeline</a> guide.</p><h4 id="http-streaming"><a href="#http-streaming">3.2 HTTP Streaming</a></h4><p>HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of nginx and unicorn is ready to take advantage of it.</p><h4 id="default-js-library-is-now-jquery"><a href="#default-js-library-is-now-jquery">3.3 Default JS library is now jQuery</a></h4><p>jQuery is the default JavaScript library that ships with Rails 3.1. But if you use Prototype, it's simple to switch.</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp -j prototype
 
 </pre>
 </div>
-<h4 id="identity-map"><a href="#identity-map">3.4 Identity Map</a></h4>
-<p>Active Record has an Identity Map in Rails 3.1. An identity map keeps previously instantiated records and returns the object associated with the record if accessed again. The identity map is created on a per-request basis and is flushed at request completion.</p>
-<p>Rails 3.1 comes with the identity map turned off by default.</p>
-<h3 id="railties"><a href="#railties">4 Railties</a></h3>
+<h4 id="identity-map"><a href="#identity-map">3.4 Identity Map</a></h4><p>Active Record has an Identity Map in Rails 3.1. An identity map keeps previously instantiated records and returns the object associated with the record if accessed again. The identity map is created on a per-request basis and is flushed at request completion.</p><p>Rails 3.1 comes with the identity map turned off by default.</p><h3 id="railties"><a href="#railties">4 Railties</a></h3>
 <ul>
 <li><p>jQuery is the new default JavaScript library.</p></li>
 <li><p>jQuery and Prototype are no longer vendored and is provided from now on by the jquery-rails and prototype-rails gems.</p></li>
@@ -474,8 +441,7 @@ $ rails new myapp -j prototype
 <li><p>Added <code>Rack::Cache</code> to the default middleware stack.</p></li>
 <li><p>Engines received a major update - You can mount them at any path, enable assets, run generators etc.</p></li>
 </ul>
-<h3 id="action-pack"><a href="#action-pack">5 Action Pack</a></h3>
-<h4 id="action-controller"><a href="#action-controller">5.1 Action Controller</a></h4>
+<h3 id="action-pack"><a href="#action-pack">5 Action Pack</a></h3><h4 id="action-controller"><a href="#action-controller">5.1 Action Controller</a></h4>
 <ul>
 <li><p>A warning is given out if the CSRF token authenticity cannot be verified.</p></li>
 <li><p>Specify <code>force_ssl</code> in a controller to force the browser to transfer data via HTTPS protocol on that particular controller. To limit to specific actions, <code>:only</code> or <code>:except</code> can be used.</p></li>
@@ -774,11 +740,7 @@ end
 <li>
 <code>ActiveSupport::SecureRandom</code> is deprecated in favor of <code>SecureRandom</code> from the Ruby standard library.</li>
 </ul>
-<h3 id="credits"><a href="#credits">10 Credits</a></h3>
-<p>See the <a href="http://contributors.rubyonrails.org/">full list of contributors to Rails</a> for the many people who spent many hours making Rails, the stable and robust framework it is. Kudos to all of them.</p>
-<p>Rails 3.1 Release Notes were compiled by <a href="https://github.com/vijaydev.">Vijay Dev</a></p>
-</body></html>
-
+<h3 id="credits"><a href="#credits">10 Credits</a></h3><p>See the <a href="http://contributors.rubyonrails.org/">full list of contributors to Rails</a> for the many people who spent many hours making Rails, the stable and robust framework it is. Kudos to all of them.</p><p>Rails 3.1 Release Notes were compiled by <a href="https://github.com/vijaydev.">Vijay Dev</a></p>
         
         <h3>フィードバックについて</h3>
         <p>

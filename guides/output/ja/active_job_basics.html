@@ -227,9 +227,7 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">はじめに</a></li>
 <li><a href="#active-job%E3%81%AE%E7%9B%AE%E7%9A%84">Active Jobの目的</a></li>
 <li>
@@ -261,7 +259,6 @@
 <li><a href="#globalid">GlobalID</a></li>
 <li><a href="#%E4%BE%8B%E5%A4%96">例外</a></li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -270,35 +267,21 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="はじめに"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3>
-<p>Active Jobは、ジョブを宣言し、それによってバックエンドでさまざまな方法によるキュー操作を実行するためのフレームワークです。これらのジョブでは、定期的なクリーンアップを始めとして、請求書発行やメール配信など、どんなことでも実行できます。これらのジョブをより細かな作業単位に分割して並列実行することもできます。</p>
-<h3 id="active-jobの目的"><a href="#active-job%E3%81%AE%E7%9B%AE%E7%9A%84">2 Active Jobの目的</a></h3>
-<p>Active Jobの主要な目的は、Railsアプリを即席で作成した直後でも使用できる、自前のジョブ管理インフラを持つことです。これにより、Delayed JobとResqueなどのように、さまざまなジョブ実行機能のAPIの違いを気にせずにジョブフレームワーク機能やその他のgemを搭載することができるようになります。バックエンドでのキューイング作業では、操作方法以外のことを気にせずに済みます。さらに、ジョブ管理フレームワークを切り替える際にジョブを書き直さずに済みます。</p>
-<h3 id="ジョブを作成する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 ジョブを作成する</a></h3>
-<p>このセクションでは、ジョブの作成方法とジョブの登録 (enqueue) 方法を手順を追って説明します。</p>
-<h4 id="ジョブを作成する-ジョブを作成する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B-%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.1 ジョブを作成する</a></h4>
-<p>Active Jobは、ジョブ作成用のRailsジェネレータを提供しています。以下を実行すると、<code>app/jobs</code>にジョブが1つ作成されます。</p>
-<div class="code_container">
+        <h3 id="はじめに"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3><p>Active Jobは、ジョブを宣言し、それによってバックエンドでさまざまな方法によるキュー操作を実行するためのフレームワークです。これらのジョブでは、定期的なクリーンアップを始めとして、請求書発行やメール配信など、どんなことでも実行できます。これらのジョブをより細かな作業単位に分割して並列実行することもできます。</p><h3 id="active-jobの目的"><a href="#active-job%E3%81%AE%E7%9B%AE%E7%9A%84">2 Active Jobの目的</a></h3><p>Active Jobの主要な目的は、Railsアプリを即席で作成した直後でも使用できる、自前のジョブ管理インフラを持つことです。これにより、Delayed JobとResqueなどのように、さまざまなジョブ実行機能のAPIの違いを気にせずにジョブフレームワーク機能やその他のgemを搭載することができるようになります。バックエンドでのキューイング作業では、操作方法以外のことを気にせずに済みます。さらに、ジョブ管理フレームワークを切り替える際にジョブを書き直さずに済みます。</p><h3 id="ジョブを作成する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 ジョブを作成する</a></h3><p>このセクションでは、ジョブの作成方法とジョブの登録 (enqueue) 方法を手順を追って説明します。</p><h4 id="ジョブを作成する-ジョブを作成する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B-%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.1 ジョブを作成する</a></h4><p>Active Jobは、ジョブ作成用のRailsジェネレータを提供しています。以下を実行すると、<code>app/jobs</code>にジョブが1つ作成されます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate job guests_cleanup
 create  app/jobs/guests_cleanup_job.rb
 
 </pre>
 </div>
-<p>以下のようにすると、特定のキューに対してジョブを1つ作成できます。</p>
-<div class="code_container">
+<p>以下のようにすると、特定のキューに対してジョブを1つ作成できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate job guests_cleanup --queue urgent
 create  app/jobs/guests_cleanup_job.rb
 
 </pre>
 </div>
-<p>上のように、Railsで他のジェネレータを使用するときとまったく同じ方法でジョブを作成できます。</p>
-<p>ジェネレータを使用したくないのであれば、<code>app/jobs</code>の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず<code>ActiveJob::Base</code>を継承してください。</p>
-<p>作成されたジョブは以下のようになります。</p>
-<div class="code_container">
+<p>上のように、Railsで他のジェネレータを使用するときとまったく同じ方法でジョブを作成できます。</p><p>ジェネレータを使用したくないのであれば、<code>app/jobs</code>の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず<code>ActiveJob::Base</code>を継承してください。</p><p>作成されたジョブは以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class GuestsCleanupJob &lt; ActiveJob::Base
   queue_as :default
@@ -310,9 +293,7 @@ end
 
 </pre>
 </div>
-<h4 id="ジョブをキューに登録する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E3%82%AD%E3%83%A5%E3%83%BC%E3%81%AB%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B">3.2 ジョブをキューに登録する</a></h4>
-<p>キューへのジョブ登録は以下のように行います。</p>
-<div class="code_container">
+<h4 id="ジョブをキューに登録する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E3%82%AD%E3%83%A5%E3%83%BC%E3%81%AB%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B">3.2 ジョブをキューに登録する</a></h4><p>キューへのジョブ登録は以下のように行います。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 MyJob.perform_later record  # キューイングシステムがビジーでなくなり次第ジョブをキューに登録する
 
@@ -330,14 +311,7 @@ MyJob.set(wait: 1.week).perform_later(record) # 一週間後に実行したい�
 
 </pre>
 </div>
-<p>以上で終わりです。</p>
-<h3 id="ジョブを実行する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">4 ジョブを実行する</a></h3>
-<p>アダプタが設定されていない場合、ジョブは直ちに実行されます。</p>
-<h4 id="バックエンド"><a href="#%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89">4.1 バックエンド</a></h4>
-<p>Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキューイングバックエンドに接続できるアダプタがビルトインで用意されています。利用可能な最新のアダプタのリストについては、APIドキュメントの<a href="http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html">ActiveJob::QueueAdapters</a> を参照してください。</p>
-<h4 id="バックエンドを変更する"><a href="#%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">4.2 バックエンドを変更する</a></h4>
-<p>キューイングバックエンドは自由に取り替えることができます。</p>
-<div class="code_container">
+<p>以上で終わりです。</p><h3 id="ジョブを実行する"><a href="#%E3%82%B8%E3%83%A7%E3%83%96%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">4 ジョブを実行する</a></h3><p>アダプタが設定されていない場合、ジョブは直ちに実行されます。</p><h4 id="バックエンド"><a href="#%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89">4.1 バックエンド</a></h4><p>Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキューイングバックエンドに接続できるアダプタがビルトインで用意されています。利用可能な最新のアダプタのリストについては、APIドキュメントの<a href="http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html">ActiveJob::QueueAdapters</a> を参照してください。</p><h4 id="バックエンドを変更する"><a href="#%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">4.2 バックエンドを変更する</a></h4><p>キューイングバックエンドは自由に取り替えることができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # 必ずアダプタgemをGemfileに追加し、アダプタごとに必要な
 # インストールとデプロイ指示に従ってください。
@@ -345,9 +319,7 @@ Rails.application.config.active_job.queue_adapter = :sidekiq
 
 </pre>
 </div>
-<h3 id="キュー"><a href="#%E3%82%AD%E3%83%A5%E3%83%BC">5 キュー</a></h3>
-<p>多くのアダプタでは複数のキューを扱うことができます。Active Jobを使用することで、特定のキューに入っているジョブをスケジューリングすることができます。</p>
-<div class="code_container">
+<h3 id="キュー"><a href="#%E3%82%AD%E3%83%A5%E3%83%BC">5 キュー</a></h3><p>多くのアダプタでは複数のキューを扱うことができます。Active Jobを使用することで、特定のキューに入っているジョブをスケジューリングすることができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class GuestsCleanupJob &lt; ActiveJob::Base
   queue_as :low_priority
@@ -356,8 +328,7 @@ end
 
 </pre>
 </div>
-<p><code>application.rb</code>で以下のように<code>config.active_job.queue_name_prefix</code>を使用することで、すべてのジョブでキュー名の前に特定の文字列を追加することができます。</p>
-<div class="code_container">
+<p><code>application.rb</code>で以下のように<code>config.active_job.queue_name_prefix</code>を使用することで、すべてのジョブでキュー名の前に特定の文字列を追加することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # config/application.rb
 module YourApp
@@ -378,15 +349,13 @@ end
 
 </pre>
 </div>
-<p>ジョブを実行するキューをより詳細に制御したい場合は、#setに<code>:queue</code>オプションを追加することもできます。</p>
-<div class="code_container">
+<p>ジョブを実行するキューをより詳細に制御したい場合は、#setに<code>:queue</code>オプションを追加することもできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 MyJob.set(queue: :another_queue).perform_later(record)
 
 </pre>
 </div>
-<p>そのジョブレベルにあるキューを制御するために、queue_asにブロックを渡すこともできます。与えられたブロックは、そのジョブのコンテキストで実行されます (従ってself.argumentsにアクセスできます)。そしてキュー名を返さなくてはなりません。</p>
-<div class="code_container">
+<p>そのジョブレベルにあるキューを制御するために、queue_asにブロックを渡すこともできます。与えられたブロックは、そのジョブのコンテキストで実行されます (従ってself.argumentsにアクセスできます)。そしてキュー名を返さなくてはなりません。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProcessVideoJob &lt; ActiveJob::Base
   queue_as do
@@ -407,10 +376,7 @@ ProcessVideoJob.perform_later(Video.last)
 
 </pre>
 </div>
-<div class="note"><p>設定したキュー名をキューイングバックエンドが「リッスンする」ようにしてください。一部のバックエンドでは、リッスンするキューを指定する必要があるものがあります。</p></div>
-<h3 id="コールバック"><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">6 コールバック</a></h3>
-<p>Active Jobは、ジョブのライフサイクルでのフックを提供します。これによりコールバックが利用できるので、ジョブのライフサイクルの間に特定のロジックをトリガできます。</p>
-<h4 id="利用可能なコールバック"><a href="#%E5%88%A9%E7%94%A8%E5%8F%AF%E8%83%BD%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">6.1 利用可能なコールバック</a></h4>
+<div class="note"><p>設定したキュー名をキューイングバックエンドが「リッスンする」ようにしてください。一部のバックエンドでは、リッスンするキューを指定する必要があるものがあります。</p></div><h3 id="コールバック"><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">6 コールバック</a></h3><p>Active Jobは、ジョブのライフサイクルでのフックを提供します。これによりコールバックが利用できるので、ジョブのライフサイクルの間に特定のロジックをトリガできます。</p><h4 id="利用可能なコールバック"><a href="#%E5%88%A9%E7%94%A8%E5%8F%AF%E8%83%BD%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">6.1 利用可能なコールバック</a></h4>
 <ul>
 <li><code>before_enqueue</code></li>
 <li><code>around_enqueue</code></li>
@@ -419,8 +385,7 @@ ProcessVideoJob.perform_later(Video.last)
 <li><code>around_perform</code></li>
 <li><code>after_perform</code></li>
 </ul>
-<h4 id="使用法"><a href="#%E4%BD%BF%E7%94%A8%E6%B3%95">6.2 使用法</a></h4>
-<div class="code_container">
+<h4 id="使用法"><a href="#%E4%BD%BF%E7%94%A8%E6%B3%95">6.2 使用法</a></h4><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class GuestsCleanupJob &lt; ActiveJob::Base
   queue_as :default
@@ -442,9 +407,7 @@ end
 
 </pre>
 </div>
-<h3 id="actionmailer"><a href="#actionmailer">7 ActionMailer</a></h3>
-<p>最近のWebアプリケーションでよく実行されるジョブといえば、リクエスト-レスポンスのサイクルの外でメールを送信することでしょう。これにより、ユーザーが送信を待つ必要がなくなります。Active JobはAction Mailerと統合されているので、非同期メール送信を簡単に行えます。</p>
-<div class="code_container">
+<h3 id="actionmailer"><a href="#actionmailer">7 ActionMailer</a></h3><p>最近のWebアプリケーションでよく実行されるジョブといえば、リクエスト-レスポンスのサイクルの外でメールを送信することでしょう。これにより、ユーザーが送信を待つ必要がなくなります。Active JobはAction Mailerと統合されているので、非同期メール送信を簡単に行えます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # すぐにメール送信したい場合は#deliver_nowを使用
 UserMailer.welcome(@user).deliver_now
@@ -454,9 +417,7 @@ UserMailer.welcome(@user).deliver_later
 
 </pre>
 </div>
-<h3 id="globalid"><a href="#globalid">8 GlobalID</a></h3>
-<p>Active JobではGlobalIDがパラメータとしてサポートされています。GlobalIDを使用すると、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ (deserialize) する必要がありました。従来のジョブが以下のようなものだったとします。</p>
-<div class="code_container">
+<h3 id="globalid"><a href="#globalid">8 GlobalID</a></h3><p>Active JobではGlobalIDがパラメータとしてサポートされています。GlobalIDを使用すると、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ (deserialize) する必要がありました。従来のジョブが以下のようなものだったとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class TrashableCleanupJob
   def perform(trashable_class, trashable_id, depth)
@@ -467,8 +428,7 @@ end
 
 </pre>
 </div>
-<p>現在は以下のように簡潔に書くことができます。</p>
-<div class="code_container">
+<p>現在は以下のように簡潔に書くことができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class TrashableCleanupJob
   def perform(trashable, depth)
@@ -478,10 +438,7 @@ end
 
 </pre>
 </div>
-<p>上のコードは、<code>ActiveModel::GlobalIdentification</code>をミックスインするすべてのクラスで動作します。このモジュールはActive Modelクラスにデフォルトでミックスインされます。</p>
-<h3 id="例外"><a href="#%E4%BE%8B%E5%A4%96">9 例外</a></h3>
-<p>Active Jobでは、ジョブ実行時に発生する例外をキャッチする方法が1つ提供されています。</p>
-<div class="code_container">
+<p>上のコードは、<code>ActiveModel::GlobalIdentification</code>をミックスインするすべてのクラスで動作します。このモジュールはActive Modelクラスにデフォルトでミックスインされます。</p><h3 id="例外"><a href="#%E4%BE%8B%E5%A4%96">9 例外</a></h3><p>Active Jobでは、ジョブ実行時に発生する例外をキャッチする方法が1つ提供されています。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 
 class GuestsCleanupJob &lt; ActiveJob::Base
@@ -498,7 +455,6 @@ end
 
 </pre>
 </div>
-</body></html>
 
         
         <h3>フィードバックについて</h3>

@@ -227,9 +227,7 @@
 
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E7%A4%8E">コマンドラインの基礎</a>
 
@@ -267,7 +265,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -276,11 +273,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<div class="note"><p>このチュートリアルは、<a href="getting_started.html">Railsをはじめよう</a>を読んで、基本的なRailsの知識があることを前提としています。</p></div>
-<h3 id="コマンドラインの基礎"><a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E7%A4%8E">1 コマンドラインの基礎</a></h3>
-<p>Railsを使用する際に、きわめて重要なコマンドがいくつかあります。それらを使用頻度順に並べると以下のとおりです。</p>
+        <div class="note"><p>このチュートリアルは、<a href="getting_started.html">Railsをはじめよう</a>を読んで、基本的なRailsの知識があることを前提としています。</p></div><h3 id="コマンドラインの基礎"><a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E7%A4%8E">1 コマンドラインの基礎</a></h3><p>Railsを使用する際に、きわめて重要なコマンドがいくつかあります。それらを使用頻度順に並べると以下のとおりです。</p>
 <ul>
 <li><code>rails console</code></li>
 <li><code>rails server</code></li>
@@ -289,12 +282,7 @@
 <li><code>rails dbconsole</code></li>
 <li><code>rails new app_name</code></li>
 </ul>
-<p>どのコマンドも<code>-h もしくは --help</code>オプションを使用することで、詳細な情報をみることができます。</p>
-<p>簡単なRailsアプリケーションをつくりながら、一つずつコマンドを実行していきましょう。</p>
-<h4 id="rails-new"><a href="#rails-new">1.1 <code>rails new</code></a></h4>
-<p>Railsをインストールしたあと、最初にやりたいことは<code>rails new</code>コマンドを実行して、新しいRailsアプリケーションを作成することです。</p>
-<div class="info"><p>まだRailsをインストールしていない場合、<code>gem install rails</code>を実行してRailsをインストールできます。</p></div>
-<div class="code_container">
+<p>どのコマンドも<code>-h もしくは --help</code>オプションを使用することで、詳細な情報をみることができます。</p><p>簡単なRailsアプリケーションをつくりながら、一つずつコマンドを実行していきましょう。</p><h4 id="rails-new"><a href="#rails-new">1.1 <code>rails new</code></a></h4><p>Railsをインストールしたあと、最初にやりたいことは<code>rails new</code>コマンドを実行して、新しいRailsアプリケーションを作成することです。</p><div class="info"><p>まだRailsをインストールしていない場合、<code>gem install rails</code>を実行してRailsをインストールできます。</p></div><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new commandsapp
     create
@@ -311,11 +299,7 @@ $ rails new commandsapp
 
 </pre>
 </div>
-<p>このような短いコマンドをうつだけで、Railsは非常に多くのものを用意してくれます。たったこれだけで、完璧なRailsのディレクトリ構成と、アプリケーションに必要なコードがすべて手に入りました。</p>
-<h4 id="rails-server"><a href="#rails-server">1.2 <code>rails server</code></a></h4>
-<p><code>rails server</code>コマンドを実行すると、WEBrickという小規模のwebサーバーが起動します(WEBrickはRubyに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。</p>
-<p><code>rails server</code>を実行することで、新しいRailsアプリケーションを作成後すぐにRailsアプリケーションを起動することができます。</p>
-<div class="code_container">
+<p>このような短いコマンドをうつだけで、Railsは非常に多くのものを用意してくれます。たったこれだけで、完璧なRailsのディレクトリ構成と、アプリケーションに必要なコードがすべて手に入りました。</p><h4 id="rails-server"><a href="#rails-server">1.2 <code>rails server</code></a></h4><p><code>rails server</code>コマンドを実行すると、WEBrickという小規模のwebサーバーが起動します(WEBrickはRubyに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。</p><p><code>rails server</code>を実行することで、新しいRailsアプリケーションを作成後すぐにRailsアプリケーションを起動することができます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd commandsapp
 $ bin/rails server
@@ -329,20 +313,13 @@ $ bin/rails server
 
 </pre>
 </div>
-<p>ちょうど3つのコマンドで、Railsサーバーを3000番ポートで起動しました。ブラウザを立ち上げて、<a href="http://localhost:3000">http://localhost:3000</a>を開いてみてください。Railsアプリケーションが動作していることが分かります。</p>
-<div class="info"><p>サーバーを起動する際には<code>rails s</code>のように"s"というエイリアスが使用できます。</p></div>
-<p><code>-p</code> オプションを使用することで、待ち受けるポートを指定できます。サーバーの環境は <code>-e</code> オプションで変更することができ、デフォルトではdevelopment (開発) 環境で実行されます。</p>
-<div class="code_container">
+<p>ちょうど3つのコマンドで、Railsサーバーを3000番ポートで起動しました。ブラウザを立ち上げて、<a href="http://localhost:3000">http://localhost:3000</a>を開いてみてください。Railsアプリケーションが動作していることが分かります。</p><div class="info"><p>サーバーを起動する際には<code>rails s</code>のように"s"というエイリアスが使用できます。</p></div><p><code>-p</code> オプションを使用することで、待ち受けるポートを指定できます。サーバーの環境は <code>-e</code> オプションで変更することができ、デフォルトではdevelopment (開発) 環境で実行されます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails server -e production -p 4000
 
 </pre>
 </div>
-<p><code>-b</code>オプションを使用するとRailsを特定のIPにバインドできます。デフォルトでは0.0.0.0です。<code>-d</code>オプションを使用することで、デーモンとしてサーバーを起動することができます。</p>
-<h4 id="rails-generate"><a href="#rails-generate">1.3 <code>rails generate</code></a></h4>
-<p><code>rails generate</code>コマンドでは、テンプレートを使用して様々なものを作成します。<code>rails generate</code>を実行すると、利用可能なジェネレータの一覧が表示されます。</p>
-<div class="info"><p>ジェネレータコマンドを実行する際には<code>rails g</code>のように"g"というエイリアスが使用できます。</p></div>
-<div class="code_container">
+<p><code>-b</code>オプションを使用するとRailsを特定のIPにバインドできます。デフォルトでは0.0.0.0です。<code>-d</code>オプションを使用することで、デーモンとしてサーバーを起動することができます。</p><h4 id="rails-generate"><a href="#rails-generate">1.3 <code>rails generate</code></a></h4><p><code>rails generate</code>コマンドでは、テンプレートを使用して様々なものを作成します。<code>rails generate</code>を実行すると、利用可能なジェネレータの一覧が表示されます。</p><div class="info"><p>ジェネレータコマンドを実行する際には<code>rails g</code>のように"g"というエイリアスが使用できます。</p></div><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate
 Usage: rails generate GENERATOR [args] [options]
@@ -361,11 +338,7 @@ Rails:
 
 </pre>
 </div>
-<div class="note"><p>ジェネレータgemをインストールしたり、プラグインに付属しているジェネレータをインストールすることで、ジェネレータを増やせます。また、自分でジェネレータを開発することもできます。</p></div>
-<p>ジェネレータを使用すると、アプリケーションを動かすのに必要な <a href="http://en.wikipedia.org/wiki/Boilerplate_code"><strong>Boilerplate Code</strong></a> (訳注: 多くの箇所で使われている、ほとんどor全く変更がないコード) を書かなくて済むため、時間を節約できます。</p>
-<p>それではコントローラジェネレータを使って、コントローラを作ってみましょう。どのようなコマンドを使用すればよいのでしょうか？ジェネレータに聞いてみましょう。</p>
-<div class="info"><p>Railsのすべてのコマンドにはヘルプがついています。多くの *nix (訳注: LinuxやUnix、UnixライクなOSなど) のユーティリティと同じようにコマンドの最後に<code>--help</code>もしくは<code>-h</code>オプションを与えてください (例: <code>rails server --help</code>)。</p></div>
-<div class="code_container">
+<div class="note"><p>ジェネレータgemをインストールしたり、プラグインに付属しているジェネレータをインストールすることで、ジェネレータを増やせます。また、自分でジェネレータを開発することもできます。</p></div><p>ジェネレータを使用すると、アプリケーションを動かすのに必要な <a href="http://en.wikipedia.org/wiki/Boilerplate_code"><strong>Boilerplate Code</strong></a> (訳注: 多くの箇所で使われている、ほとんどor全く変更がないコード) を書かなくて済むため、時間を節約できます。</p><p>それではコントローラジェネレータを使って、コントローラを作ってみましょう。どのようなコマンドを使用すればよいのでしょうか？ジェネレータに聞いてみましょう。</p><div class="info"><p>Railsのすべてのコマンドにはヘルプがついています。多くの *nix (訳注: LinuxやUnix、UnixライクなOSなど) のユーティリティと同じようにコマンドの最後に<code>--help</code>もしくは<code>-h</code>オプションを与えてください (例: <code>rails server --help</code>)。</p></div><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate controller
 Usage: rails generate controller NAME [action action] [options]
@@ -391,8 +364,7 @@ Example:
 
 </pre>
 </div>
-<p>コントローラジェネレータには<code>generate controller ControllerName action1 action2</code>という形式でパラメータを渡します。<strong>hello</strong>アクションを実行すると、すてきなメッセージを返してくれる<code>Greetings</code>コントローラを作ってみましょう。</p>
-<div class="code_container">
+<p>コントローラジェネレータには<code>generate controller ControllerName action1 action2</code>という形式でパラメータを渡します。<strong>hello</strong>アクションを実行すると、すてきなメッセージを返してくれる<code>Greetings</code>コントローラを作ってみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate controller Greetings hello
      create  app/controllers/greetings_controller.rb
@@ -412,9 +384,7 @@ $ bin/rails generate controller Greetings hello
 
 </pre>
 </div>
-<p>どのようなものが作成されたのでしょう？いくつかのディレクトリがアプリケーションに存在することを確認し、コントローラファイル、ビューファイル、機能テストのファイル、ビューのヘルパー、JavaScriptファイルそしてスタイルシートファイルを作成しました。</p>
-<p>コントローラ(<code>app/controllers/greetings_controller.rb</code>)を確認し、少し編集してみましょう。</p>
-<div class="code_container">
+<p>どのようなものが作成されたのでしょう？いくつかのディレクトリがアプリケーションに存在することを確認し、コントローラファイル、ビューファイル、機能テストのファイル、ビューのヘルパー、JavaScriptファイルそしてスタイルシートファイルを作成しました。</p><p>コントローラ(<code>app/controllers/greetings_controller.rb</code>)を確認し、少し編集してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class GreetingsController &lt; ApplicationController
   def hello
@@ -424,26 +394,21 @@ end
 
 </pre>
 </div>
-<p>メッセージを表示するためにビュー(<code>app/views/greetings/hello.html.erb</code>)を編集します。</p>
-<div class="code_container">
+<p>メッセージを表示するためにビュー(<code>app/views/greetings/hello.html.erb</code>)を編集します。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;A Greeting for You!&lt;/h1&gt;
 &lt;p&gt;&lt;%= @message %&gt;&lt;/p&gt;
 
 </pre>
 </div>
-<p><code>rails server</code>でサーバーを起動します。</p>
-<div class="code_container">
+<p><code>rails server</code>でサーバーを起動します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails server
 =&gt; Booting WEBrick...
 
 </pre>
 </div>
-<p>URLは<a href="http://localhost:3000/greetings/hello">http://localhost:3000/greetings/hello</a>です。</p>
-<div class="info"><p>通常のRailsアプリケーションでは、URLはhttp://(host)/(controller)/(action)というパターンになります。またhttp://(host)/(controller)というパターンのURLはコントローラの<strong>index</strong>アクションへのURLとなります。</p></div>
-<p>Railsにはデータモデルのためのジェネレータもついています。</p>
-<div class="code_container">
+<p>URLは<a href="http://localhost:3000/greetings/hello">http://localhost:3000/greetings/hello</a>です。</p><div class="info"><p>通常のRailsアプリケーションでは、URLはhttp://(host)/(controller)/(action)というパターンになります。またhttp://(host)/(controller)というパターンのURLはコントローラの<strong>index</strong>アクションへのURLとなります。</p></div><p>Railsにはデータモデルのためのジェネレータもついています。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate model
 Usage:
@@ -462,10 +427,7 @@ Description:
 
 </pre>
 </div>
-<div class="note"><p>利用可能なフィールドタイプ(field types)については<a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column">API documentation</a>に記載されている、<code>TableDefinition</code>のcolumnメソッドの説明を参照してください。</p></div>
-<p>ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて<strong>scaffold</strong>とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。</p>
-<p>"HighScore"という名のリソースを準備してみましょう。このリソースの役割はビデオゲームでの最高得点を記録することです。</p>
-<div class="code_container">
+<div class="note"><p>利用可能なフィールドタイプ(field types)については<a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column">API documentation</a>に記載されている、<code>TableDefinition</code>のcolumnメソッドの説明を参照してください。</p></div><p>ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて<strong>scaffold</strong>とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。</p><p>"HighScore"という名のリソースを準備してみましょう。このリソースの役割はビデオゲームでの最高得点を記録することです。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate scaffold HighScore game:string score:integer
     invoke  active_record
@@ -502,9 +464,7 @@ $ bin/rails generate scaffold HighScore game:string score:integer
 
 </pre>
 </div>
-<p>ジェネレータはモデル、コントローラ、ヘルパー、レイアウト、機能テスト、ユニットテスト、スタイルシート用のディレクトリが存在することをチェックし、ビュー、コントローラ、モデル、マイグレーション(<code>high_scores</code>テーブルとフィールドを作成する)を生成し、この<strong>resource</strong>のためのルーティングを用意します。またこれらのためのテストも作成します。</p>
-<p><strong>migrate</strong>を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは<code>20130717151933_create_high_scores.rb</code>に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？<code>rake db:migrate</code>コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。Rakeについては後ほど詳しく説明します。</p>
-<div class="code_container">
+<p>ジェネレータはモデル、コントローラ、ヘルパー、レイアウト、機能テスト、ユニットテスト、スタイルシート用のディレクトリが存在することをチェックし、ビュー、コントローラ、モデル、マイグレーション(<code>high_scores</code>テーブルとフィールドを作成する)を生成し、この<strong>resource</strong>のためのルーティングを用意します。またこれらのためのテストも作成します。</p><p><strong>migrate</strong>を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは<code>20130717151933_create_high_scores.rb</code>に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？<code>rake db:migrate</code>コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。Rakeについては後ほど詳しく説明します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake db:migrate
 ==  CreateHighScores: migrating ===============================================
@@ -514,27 +474,19 @@ $ bin/rake db:migrate
 
 </pre>
 </div>
-<div class="info"><p>単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。</p></div>
-<p>Railsが作ったインターフェースをみてみましょう。</p>
-<div class="code_container">
+<div class="info"><p>単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。</p></div><p>Railsが作ったインターフェースをみてみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails server
 
 </pre>
 </div>
-<p>ブラウザで<a href="http://localhost:3000/high_scores">http://localhost:3000/high_scores</a>を開いてみましょう。新しいハイスコアを作ることができます(スペースインベーダーで55,160点とかね!) (訳注: 2003年にDonald Hayesがたたき出したスコアです)。</p>
-<h4 id="rails-console"><a href="#rails-console">1.4 <code>rails console</code></a></h4>
-<p><code>console</code>コマンドを使うと、コマンドラインでRailsアプリケーションとやり取りすることができます。<code>rails console</code>は内部的にIRBを使用しているので、IRBを使ったことがあれば、扱うのは簡単です。ひらめいたアイデアを試してみたり、ウェブサイトにアクセスすることなくサーバのデータを変更するのに役立ちます。</p>
-<div class="info"><p>コンソールコマンドを実行する際には<code>rails c</code>のように"c"というエイリアスが使用できます。</p></div>
-<p><code>console</code>コマンドを実行する環境を指定することができます。</p>
-<div class="code_container">
+<p>ブラウザで<a href="http://localhost:3000/high_scores">http://localhost:3000/high_scores</a>を開いてみましょう。新しいハイスコアを作ることができます(スペースインベーダーで55,160点とかね!) (訳注: 2003年にDonald Hayesがたたき出したスコアです)。</p><h4 id="rails-console"><a href="#rails-console">1.4 <code>rails console</code></a></h4><p><code>console</code>コマンドを使うと、コマンドラインでRailsアプリケーションとやり取りすることができます。<code>rails console</code>は内部的にIRBを使用しているので、IRBを使ったことがあれば、扱うのは簡単です。ひらめいたアイデアを試してみたり、ウェブサイトにアクセスすることなくサーバのデータを変更するのに役立ちます。</p><div class="info"><p>コンソールコマンドを実行する際には<code>rails c</code>のように"c"というエイリアスが使用できます。</p></div><p><code>console</code>コマンドを実行する環境を指定することができます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails console staging
 
 </pre>
 </div>
-<p>データを変更することなくコードをテストしたいときは、<code>rails console --sandbox</code>を実行します。</p>
-<div class="code_container">
+<p>データを変更することなくコードをテストしたいときは、<code>rails console --sandbox</code>を実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails console --sandbox
 Loading development environment in sandbox (Rails 4.2.0)
@@ -543,10 +495,7 @@ irb(main):001:0&gt;
 
 </pre>
 </div>
-<h5 id="appオブジェクトとhelperオブジェクト"><a href="#app%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%A8helper%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88">1.4.1 appオブジェクトとhelperオブジェクト</a></h5>
-<p><code>rails console</code>の実行中、<code>app</code>オブジェクトと<code>helper</code>オブジェクトにアクセスできます。</p>
-<p><code>app</code>メソッドを使用すると、URLヘルパーとpathヘルパーにアクセスできます。またrequest投げることもできます。</p>
-<div class="code_container">
+<h5 id="appオブジェクトとhelperオブジェクト"><a href="#app%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%A8helper%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88">1.4.1 appオブジェクトとhelperオブジェクト</a></h5><p><code>rails console</code>の実行中、<code>app</code>オブジェクトと<code>helper</code>オブジェクトにアクセスできます。</p><p><code>app</code>メソッドを使用すると、URLヘルパーとpathヘルパーにアクセスできます。またrequest投げることもできます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 &gt;&gt; app.root_path
 =&gt; "/"
@@ -557,8 +506,7 @@ Started GET "/" for 127.0.0.1 at 2014-06-19 10:41:57 -0300
 
 </pre>
 </div>
-<p><code>helper</code>メソッドを使用すると、Railsのアプリケーションヘルパーと自分が実装したヘルパーにアクセスすることができます。</p>
-<div class="code_container">
+<p><code>helper</code>メソッドを使用すると、Railsのアプリケーションヘルパーと自分が実装したヘルパーにアクセスすることができます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 &gt;&gt; helper.time_ago_in_words 30.days.ago
 =&gt; "about 1 month"
@@ -568,29 +516,19 @@ Started GET "/" for 127.0.0.1 at 2014-06-19 10:41:57 -0300
 
 </pre>
 </div>
-<h4 id="rails-dbconsole"><a href="#rails-dbconsole">1.5 <code>rails dbconsole</code></a></h4>
-<p><code>rails dbconsole</code>コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL、PostgreSQL、SQLite、そしてSQLite3をサポートしています。</p>
-<div class="info"><p>DBコンソールコマンドを実行する際には<code>rails db</code>のように"db"というエイリアスが使用できます。</p></div>
-<h4 id="rails-runner"><a href="#rails-runner">1.6 <code>rails runner</code></a></h4>
-<p><code>runner</code>コマンドを使うと、非対話的にRailsの文脈でRubyのコードを実行することができます。たとえば次のようになります。</p>
-<div class="code_container">
+<h4 id="rails-dbconsole"><a href="#rails-dbconsole">1.5 <code>rails dbconsole</code></a></h4><p><code>rails dbconsole</code>コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL、PostgreSQL、SQLite、そしてSQLite3をサポートしています。</p><div class="info"><p>DBコンソールコマンドを実行する際には<code>rails db</code>のように"db"というエイリアスが使用できます。</p></div><h4 id="rails-runner"><a href="#rails-runner">1.6 <code>rails runner</code></a></h4><p><code>runner</code>コマンドを使うと、非対話的にRailsの文脈でRubyのコードを実行することができます。たとえば次のようになります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails runner "Model.long_running_method"
 
 </pre>
 </div>
-<div class="info"><p>ランナーコマンドを実行する際には<code>rails r</code>のように"r"というエイリアスが使用できます。</p></div>
-<p><code>-e</code>を使用することで<code>runner</code>コマンドを実行する環境を指定することができます。</p>
-<div class="code_container">
+<div class="info"><p>ランナーコマンドを実行する際には<code>rails r</code>のように"r"というエイリアスが使用できます。</p></div><p><code>-e</code>を使用することで<code>runner</code>コマンドを実行する環境を指定することができます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails runner -e staging "Model.long_running_method"
 
 </pre>
 </div>
-<h4 id="rails-destroy"><a href="#rails-destroy">1.7 <code>rails destroy</code></a></h4>
-<p><code>destroy</code>は<code>generate</code>の反対と言えます。ジェネレータコマンドが何をしたか把握し、それを取り消します。</p>
-<div class="info"><p><code>rails d</code>のように、"d"というエイリアスを使ってdestroyコマンドを実行することもできます。</p></div>
-<div class="code_container">
+<h4 id="rails-destroy"><a href="#rails-destroy">1.7 <code>rails destroy</code></a></h4><p><code>destroy</code>は<code>generate</code>の反対と言えます。ジェネレータコマンドが何をしたか把握し、それを取り消します。</p><div class="info"><p><code>rails d</code>のように、"d"というエイリアスを使ってdestroyコマンドを実行することもできます。</p></div><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate model Oops
       invoke  active_record
@@ -614,12 +552,8 @@ $ bin/rails destroy model Oops
 
 </pre>
 </div>
-<h3 id="rake"><a href="#rake">2 Rake</a></h3>
-<p>RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と<code>.rake</code>ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。</p>
-<p><code>rake --tasks</code>とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。</p>
-<p><code>--trace</code>を使うことで、タスクを実行する際のバックトレースをすべて表示することができます (訳注: バックトレースには、依存するタスクの呼び出しと実行順序が表示されます)。
-例えば <code>rake db:create --trace</code> のようにしてタスクを実行します。</p>
-<div class="code_container">
+<h3 id="rake"><a href="#rake">2 Rake</a></h3><p>RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と<code>.rake</code>ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。</p><p><code>rake --tasks</code>とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。</p><p><code>--trace</code>を使うことで、タスクを実行する際のバックトレースをすべて表示することができます (訳注: バックトレースには、依存するタスクの呼び出しと実行順序が表示されます)。
+例えば <code>rake db:create --trace</code> のようにしてタスクを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake --tasks
 rake about              # List versions of all Rails frameworks and the environment
@@ -636,10 +570,7 @@ rake tmp:create         # Creates tmp directories for sessions, cache, sockets, 
 
 </pre>
 </div>
-<div class="info"><p><code>rake -T</code>でもタスクの一覧を表示することができます。</p></div>
-<h4 id="about"><a href="#about">2.1 <code>about</code></a></h4>
-<p><code>rake about</code>を実行すると、Ruby、RubyGems、Rails、Railsのサブコンポーネント (訳注: Active RecordやAction Packなど) のバージョン、Railsアプリケーションのフォルダー名、現在のRailsの環境名とデータベースアダプター、そして、スキーマのバージョンが表示されます。誰かに質問をしたいときや、セキュリティパッチが自分のアプリケーションに影響するか確認したいときなど、現在使用しているRailsに関する情報が必要なときに役立ちます。</p>
-<div class="code_container">
+<div class="info"><p><code>rake -T</code>でもタスクの一覧を表示することができます。</p></div><h4 id="about"><a href="#about">2.1 <code>about</code></a></h4><p><code>rake about</code>を実行すると、Ruby、RubyGems、Rails、Railsのサブコンポーネント (訳注: Active RecordやAction Packなど) のバージョン、Railsアプリケーションのフォルダー名、現在のRailsの環境名とデータベースアダプター、そして、スキーマのバージョンが表示されます。誰かに質問をしたいときや、セキュリティパッチが自分のアプリケーションに影響するか確認したいときなど、現在使用しているRailsに関する情報が必要なときに役立ちます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake about
 About your application's environment
@@ -661,14 +592,7 @@ Database schema version   20110805173523
 
 </pre>
 </div>
-<h4 id="assets"><a href="#assets">2.2 <code>assets</code></a></h4>
-<p><code>rake assets:precompile</code>を実行すると、<code>app/assets</code>配下のファイルをプレコンパイルすることができます。また<code>rake assets:clean</code>を実行すると、古くなったコンパイル済みのファイルを削除できます。<code>assets:clean</code>は、新しいassetsのビルドをしながらも古いassetsへのリンクを残す「ローリングデプロイ (rolling deploy)」というやり方を実現しています。</p>
-<p><code>public/assets</code>配下を完全に消去するには<code>rake assets:clobber</code>を実行します。</p>
-<h4 id="db"><a href="#db">2.3 <code>db</code></a></h4>
-<p>Rakeの<code>db:</code>という名前空間に属するタスクのうち、最もよく使われるのは<code>migrate</code>と<code>create</code>です。マイグレーションに関するタスク(<code>up</code>, <code>down</code>, <code>redo</code>, <code>reset</code>)はいずれも一度試してみることをおすすめします。<code>rake db:version</code>を使えばデータベースの状況が分かるので、トラブルシューティングの際に役立ちます。</p>
-<p>マイグレーションについては、<a href="active_record_migrations.html">Migrations</a>でより詳しく扱っています。</p>
-<h4 id="doc"><a href="#doc">2.4 <code>doc</code></a></h4>
-<p><code>doc:</code>という名前空間にはアプリケーションやAPI、Railsガイドのドキュメントをつくるためのタスクが入っています。ドキュメントを別で管理することができるので、コードベースの肥大化を防ぐことができます (まるで組込み系の開発をしているかのようです)。</p>
+<h4 id="assets"><a href="#assets">2.2 <code>assets</code></a></h4><p><code>rake assets:precompile</code>を実行すると、<code>app/assets</code>配下のファイルをプレコンパイルすることができます。また<code>rake assets:clean</code>を実行すると、古くなったコンパイル済みのファイルを削除できます。<code>assets:clean</code>は、新しいassetsのビルドをしながらも古いassetsへのリンクを残す「ローリングデプロイ (rolling deploy)」というやり方を実現しています。</p><p><code>public/assets</code>配下を完全に消去するには<code>rake assets:clobber</code>を実行します。</p><h4 id="db"><a href="#db">2.3 <code>db</code></a></h4><p>Rakeの<code>db:</code>という名前空間に属するタスクのうち、最もよく使われるのは<code>migrate</code>と<code>create</code>です。マイグレーションに関するタスク(<code>up</code>, <code>down</code>, <code>redo</code>, <code>reset</code>)はいずれも一度試してみることをおすすめします。<code>rake db:version</code>を使えばデータベースの状況が分かるので、トラブルシューティングの際に役立ちます。</p><p>マイグレーションについては、<a href="active_record_migrations.html">Migrations</a>でより詳しく扱っています。</p><h4 id="doc"><a href="#doc">2.4 <code>doc</code></a></h4><p><code>doc:</code>という名前空間にはアプリケーションやAPI、Railsガイドのドキュメントをつくるためのタスクが入っています。ドキュメントを別で管理することができるので、コードベースの肥大化を防ぐことができます (まるで組込み系の開発をしているかのようです)。</p>
 <ul>
 <li>
 <code>rake doc:app</code>で、<code>doc/app</code>配下に開発しているアプリケーションのドキュメントを作成します。</li>
@@ -677,9 +601,7 @@ Database schema version   20110805173523
 <li>
 <code>rake doc:rails</code>で、<code>doc/api</code>配下にRailsのAPIドキュメントを作成します。</li>
 </ul>
-<h4 id="notes"><a href="#notes">2.5 <code>notes</code></a></h4>
-<p><code>rake notes</code>は、コードのコメントからFIXME、OPTIMIZE、TODOで始まる行を探し出して表示します (訳注: [FIXME]のように[から始まるものはヒットしません)。検索対象となるファイルの拡張子は<code>.builder</code>、<code>.rb</code>、<code>.rake</code>、<code>.yml</code>、<code>.yaml</code>、<code>.ruby</code>、<code>.css</code>、<code>.js</code>、<code>.erb</code>で、デフォルトのアノテーション以外に独自のアノテーションも使用できます。</p>
-<div class="code_container">
+<h4 id="notes"><a href="#notes">2.5 <code>notes</code></a></h4><p><code>rake notes</code>は、コードのコメントからFIXME、OPTIMIZE、TODOで始まる行を探し出して表示します (訳注: [FIXME]のように[から始まるものはヒットしません)。検索対象となるファイルの拡張子は<code>.builder</code>、<code>.rb</code>、<code>.rake</code>、<code>.yml</code>、<code>.yaml</code>、<code>.ruby</code>、<code>.css</code>、<code>.js</code>、<code>.erb</code>で、デフォルトのアノテーション以外に独自のアノテーションも使用できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake notes
 (in /home/foobar/commandsapp)
@@ -693,15 +615,13 @@ app/models/school.rb:
 
 </pre>
 </div>
-<p>検索するファイルの拡張子を追加するには、<code>config.annotations.register_extensions</code>オプションを使います。このオプションは拡張子の一覧と、マッチするべき行 を表す正規表現を引数にとります。</p>
-<div class="code_container">
+<p>検索するファイルの拡張子を追加するには、<code>config.annotations.register_extensions</code>オプションを使います。このオプションは拡張子の一覧と、マッチするべき行 を表す正規表現を引数にとります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.annotations.register_extensions("scss", "sass", "less") { |annotation| /\/\/\s*(#{annotation}):?\s*(.*)$/ }
 
 </pre>
 </div>
-<p>特定のアノテーションのみを表示したいとき(例えばFIXMEのみを表示したいとき)は<code>rake notes:fixme</code>のように実行します。このとき、アノテーションは小文字で書くことに注意してください。</p>
-<div class="code_container">
+<p>特定のアノテーションのみを表示したいとき(例えばFIXMEのみを表示したいとき)は<code>rake notes:fixme</code>のように実行します。このとき、アノテーションは小文字で書くことに注意してください。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake notes:fixme
 (in /home/foobar/commandsapp)
@@ -713,8 +633,7 @@ app/models/school.rb:
 
 </pre>
 </div>
-<p>独自のアノテーションを使う際には、<code>rake notes:custom</code>と書いて、<code>ANNOTATION</code>環境変数を使ってアノテーション名を指定します。</p>
-<div class="code_container">
+<p>独自のアノテーションを使う際には、<code>rake notes:custom</code>と書いて、<code>ANNOTATION</code>環境変数を使ってアノテーション名を指定します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake notes:custom ANNOTATION=BUG
 (in /home/foobar/commandsapp)
@@ -723,9 +642,7 @@ app/models/article.rb:
 
 </pre>
 </div>
-<div class="note"><p>特定のアノテーションのみを表示するときや、独自のアノテーションを表示する際には、FIXMEやBUGといったアノテーション名は表示されません。</p></div>
-<p><code>rake notes</code>タスクはデフォルトでは<code>app</code>、<code>config</code>、<code>lib</code>、<code>bin</code>、<code>test</code>ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、<code>SOURCE_ANNOTATION_DIRECTORIES</code>環境変数にディレクトリ名をカンマ区切りで与えてください。</p>
-<div class="code_container">
+<div class="note"><p>特定のアノテーションのみを表示するときや、独自のアノテーションを表示する際には、FIXMEやBUGといったアノテーション名は表示されません。</p></div><p><code>rake notes</code>タスクはデフォルトでは<code>app</code>、<code>config</code>、<code>lib</code>、<code>bin</code>、<code>test</code>ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、<code>SOURCE_ANNOTATION_DIRECTORIES</code>環境変数にディレクトリ名をカンマ区切りで与えてください。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ export SOURCE_ANNOTATION_DIRECTORIES='spec,vendor'
 $ bin/rake notes
@@ -737,14 +654,7 @@ spec/models/user_spec.rb:
 
 </pre>
 </div>
-<h4 id="routes"><a href="#routes">2.6 <code>routes</code></a></h4>
-<p><code>rake routes</code>を使うと、定義されている全ルーティングをみることができます。これはルーティングの問題を解くときや、アプリケーションのルーティング全体を理解するのに役立ちます。</p>
-<h4 id="test"><a href="#test">2.7 <code>test</code></a></h4>
-<div class="info"><p>Railsでの単体テストについては<a href="testing.html">Railsアプリケーションをテストする</a>を参照してください。</p></div>
-<p>RailsにはMinitestと呼ばれるテストスイートが付属しています。Railsではテストを書くことで、安定したアプリケーションを開発します。<code>test:</code>という名前空間の中で定義されたタスクは、あなたがこれから(期待を持って)書く様々なテストを実行するときに役立ちます。</p>
-<h4 id="tmp"><a href="#tmp">2.8 <code>tmp</code></a></h4>
-<p><code>Rails.root/tmp</code>ディレクトリは、(*nix系でいう/tmpディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、(ファイルを利用してセッションの管理を行っている場合) セッションのためのファイルやプロセスIDのファイル、アクションキャッシュのためのファイルなどがあります (訳注: 最近のRailsではセッションをファイルで管理することは稀です)。</p>
-<p><code>tmp:</code>という名前空間には、<code>Rails.root/tmp</code>ディレクトリを作成、削除するためのタスクが入っています。</p>
+<h4 id="routes"><a href="#routes">2.6 <code>routes</code></a></h4><p><code>rake routes</code>を使うと、定義されている全ルーティングをみることができます。これはルーティングの問題を解くときや、アプリケーションのルーティング全体を理解するのに役立ちます。</p><h4 id="test"><a href="#test">2.7 <code>test</code></a></h4><div class="info"><p>Railsでの単体テストについては<a href="testing.html">Railsアプリケーションをテストする</a>を参照してください。</p></div><p>RailsにはMinitestと呼ばれるテストスイートが付属しています。Railsではテストを書くことで、安定したアプリケーションを開発します。<code>test:</code>という名前空間の中で定義されたタスクは、あなたがこれから(期待を持って)書く様々なテストを実行するときに役立ちます。</p><h4 id="tmp"><a href="#tmp">2.8 <code>tmp</code></a></h4><p><code>Rails.root/tmp</code>ディレクトリは、(*nix系でいう/tmpディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、(ファイルを利用してセッションの管理を行っている場合) セッションのためのファイルやプロセスIDのファイル、アクションキャッシュのためのファイルなどがあります (訳注: 最近のRailsではセッションをファイルで管理することは稀です)。</p><p><code>tmp:</code>という名前空間には、<code>Rails.root/tmp</code>ディレクトリを作成、削除するためのタスクが入っています。</p>
 <ul>
 <li>
 <code>rake tmp:cache:clear</code>で、<code>tmp/cache</code>を空にします。</li>
@@ -766,11 +676,9 @@ spec/models/user_spec.rb:
 <li>
 <code>rake time:zones:all</code>で、Railsが扱える全タイムゾーンを表示します。</li>
 </ul>
-<h4 id="カスタムrakeタスク"><a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0rake%E3%82%BF%E3%82%B9%E3%82%AF">2.10 カスタムRakeタスク</a></h4>
-<p>独自のRakeタスクの拡張子は<code>.rake</code>で
+<h4 id="カスタムrakeタスク"><a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0rake%E3%82%BF%E3%82%B9%E3%82%AF">2.10 カスタムRakeタスク</a></h4><p>独自のRakeタスクの拡張子は<code>.rake</code>で
 <code>Rails.root/lib/tasks</code>配下に保存します。また、独自のタスクを作成することができる
-<code>bin/rails generate task</code>というコマンドもあります。</p>
-<div class="code_container">
+<code>bin/rails generate task</code>というコマンドもあります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 desc "I am short, but comprehensive description for my cool task"
 task task_name: [:prerequisite_task, :another_task_we_depend_on] do
@@ -780,8 +688,7 @@ end
 
 </pre>
 </div>
-<p>タスクに引数を渡すには以下のようにします。</p>
-<div class="code_container">
+<p>タスクに引数を渡すには以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 task :task_name, [:arg_1] =&gt; [:pre_1, :pre_2] do |t, args|
   # You can use args from here
@@ -789,8 +696,7 @@ end
 
 </pre>
 </div>
-<p>名前空間内でタスクを定義することで、タスクをグルーピングできます。</p>
-<div class="code_container">
+<p>名前空間内でタスクを定義することで、タスクをグルーピングできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 namespace :db do 
   desc "This task does nothing"
@@ -801,8 +707,7 @@ end
 
 </pre>
 </div>
-<p>そして、以下のようにしてタスクを呼び出します。</p>
-<div class="code_container">
+<p>そして、以下のようにしてタスクを呼び出します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake task_name
 $ bin/rake "task_name[value 1]" # entire argument string should be quoted
@@ -810,13 +715,7 @@ $ bin/rake db:nothing
 
 </pre>
 </div>
-<div class="note"><p>アプリケーション内のモデルを使用したり、データベースに対してクエリを投げたりしたいときは、タスクから<code>environment</code>タスクへの依存関係を定義する必要があります。<code>environment</code>タスクはアプリケーションのコードを読み込むタスクです。</p></div>
-<h3 id="railsの高度なコマンドライン"><a href="#rails%E3%81%AE%E9%AB%98%E5%BA%A6%E3%81%AA%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">3 Railsの高度なコマンドライン</a></h3>
-<p>コマンドラインのより高度な使い方として、便利な(時に驚くような)オプションを見つけて、オプションを使いこなすことがあります。ここでは、Railsのもつ妙技を少しだけ紹介します。</p>
-<h4 id="データベースとソースコード管理システムとrails"><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%A8rails">3.1 データベースとソースコード管理システムとRails</a></h4>
-<p>新しいRailsアプリケーションを作成するときに、データベースの種類とソースコード管理システムの種類を指定することができます。このオプションを使うことで、ちょっとした時間と多くのタイピングを節約できます。</p>
-<p>それでは<code>--database = postgresql</code>オプションと<code>--git</code>オプションの動きを見てみましょう。</p>
-<div class="code_container">
+<div class="note"><p>アプリケーション内のモデルを使用したり、データベースに対してクエリを投げたりしたいときは、タスクから<code>environment</code>タスクへの依存関係を定義する必要があります。<code>environment</code>タスクはアプリケーションのコードを読み込むタスクです。</p></div><h3 id="railsの高度なコマンドライン"><a href="#rails%E3%81%AE%E9%AB%98%E5%BA%A6%E3%81%AA%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">3 Railsの高度なコマンドライン</a></h3><p>コマンドラインのより高度な使い方として、便利な(時に驚くような)オプションを見つけて、オプションを使いこなすことがあります。ここでは、Railsのもつ妙技を少しだけ紹介します。</p><h4 id="データベースとソースコード管理システムとrails"><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%A8rails">3.1 データベースとソースコード管理システムとRails</a></h4><p>新しいRailsアプリケーションを作成するときに、データベースの種類とソースコード管理システムの種類を指定することができます。このオプションを使うことで、ちょっとした時間と多くのタイピングを節約できます。</p><p>それでは<code>--database = postgresql</code>オプションと<code>--git</code>オプションの動きを見てみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ mkdir gitapp
 $ cd gitapp
@@ -843,8 +742,7 @@ $ rails new . --git --database=postgresql
 
 </pre>
 </div>
-<p>Railsがgitのリポジトリ内にファイルを作成する前に、<strong>gitapp</strong>ディレクトリを作成し、空のgitリポジトリを初期化する必要があります。Railsがどのようなデータベースの設定ファイルを作ったか見てみましょう。</p>
-<div class="code_container">
+<p>Railsがgitのリポジトリ内にファイルを作成する前に、<strong>gitapp</strong>ディレクトリを作成し、空のgitリポジトリを初期化する必要があります。Railsがどのようなデータベースの設定ファイルを作ったか見てみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cat config/database.yml
 # PostgreSQL. Versions 8.2 and up are supported.
@@ -875,10 +773,7 @@ development:
 
 </pre>
 </div>
-<p>選択したデータベース(PostgreSQL)に対応するように、Railsはdatabase.ymlを作成します。</p>
-<div class="note"><p>ソースコード管理システムに関するオプションを使う際には、まずアプリケーション用のディレクトリを作り、ソースコード管理システムの初期化を行ってから、<code>rails new</code>コマンドを実行する点に注意してください。</p></div>
-</body></html>
-
+<p>選択したデータベース(PostgreSQL)に対応するように、Railsはdatabase.ymlを作成します。</p><div class="note"><p>ソースコード管理システムに関するオプションを使う際には、まずアプリケーション用のディレクトリを作り、ソースコード管理システムの初期化を行ってから、<code>rails new</code>コマンドを実行する点に注意してください。</p></div>
         
         <h3>フィードバックについて</h3>
         <p>

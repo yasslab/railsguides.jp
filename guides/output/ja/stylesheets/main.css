@@ -18,7 +18,7 @@
 .snsb iframe {
     margin: 0 !important;
 }
-     
+
 .left {float: left; margin-right: 1em;}
 .right {float: right; margin-left: 1em;}
 @media screen and (max-width: 480px) {

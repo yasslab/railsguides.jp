@@ -238,9 +238,7 @@
 あなたは鳥の中でも特に Yaffle (ヨーロッパアオゲラ) が大好きで、この鳥がいかに素晴らしいかを他の開発者と共有するためのプラグインを作成したいと考えています。</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<ol class="chapters">
+            <ol class="chapters">
 <li>
 <a href="#%E8%A8%AD%E5%AE%9A">設定</a>
 
@@ -251,7 +249,7 @@
 <li><a href="#%E6%96%B0%E3%81%97%E3%81%8F%E7%94%9F%E6%88%90%E3%81%97%E3%81%9F%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">新しく生成したプラグインをテストする</a></li>
 <li><a href="#%E3%82%B3%E3%82%A2%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E6%8B%A1%E5%BC%B5%E3%81%99%E3%82%8B">コアクラスを拡張する</a></li>
 <li>
-<a href="#%22acts_as%22%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">"acts_as"メソッドをActive Recordに追加する</a>
+<a href="#acts-as-%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">"acts_as"メソッドをActive Recordに追加する</a>
 
 <ul>
 <li><a href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">クラスメソッドを追加する</a></li>
@@ -268,7 +266,6 @@
 </ul>
 </li>
 </ol>
-</body></html>
 
           </div>
 </div>
@@ -277,39 +274,25 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-<h3 id="設定"><a href="#%E8%A8%AD%E5%AE%9A">1 設定</a></h3>
-<p>以前と異なり、現在Railsのプラグインはgemとしてビルドします。gem形式を取っているので、必要であればRubygemsとBunderを使用してプラグインを他のRailsアプリケーションと共有することもできます。</p>
-<h4 id="gem形式のプラグインを生成する"><a href="#gem%E5%BD%A2%E5%BC%8F%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">1.1 gem形式のプラグインを生成する</a></h4>
-<p>RailsにはあらゆるRails拡張機能の開発用スケルトンを作成する<code>rails plugin new</code>というコマンドが最初から装備されています。これで作成したスケルトンはダミーのRailsアプリケーションを使用して結合テストを実行することもできます。プラグインを作成するには以下のコマンドを実行します。</p>
-<div class="code_container">
+        <h3 id="設定"><a href="#%E8%A8%AD%E5%AE%9A">1 設定</a></h3><p>以前と異なり、現在Railsのプラグインはgemとしてビルドします。gem形式を取っているので、必要であればRubygemsとBunderを使用してプラグインを他のRailsアプリケーションと共有することもできます。</p><h4 id="gem形式のプラグインを生成する"><a href="#gem%E5%BD%A2%E5%BC%8F%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">1.1 gem形式のプラグインを生成する</a></h4><p>RailsにはあらゆるRails拡張機能の開発用スケルトンを作成する<code>rails plugin new</code>というコマンドが最初から装備されています。これで作成したスケルトンはダミーのRailsアプリケーションを使用して結合テストを実行することもできます。プラグインを作成するには以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails plugin new yaffle
 
 </pre>
 </div>
-<p>使用法とオプションは以下の方法で表示できます。</p>
-<div class="code_container">
+<p>使用法とオプションは以下の方法で表示できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails plugin new --help
 
 </pre>
 </div>
-<h3 id="新しく生成したプラグインをテストする"><a href="#%E6%96%B0%E3%81%97%E3%81%8F%E7%94%9F%E6%88%90%E3%81%97%E3%81%9F%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">2 新しく生成したプラグインをテストする</a></h3>
-<p>プラグインを作成したディレクトリに移動して<code>bundle install</code>コマンドを実行し、自動生成されたテストを<code>rake</code>コマンドで実行します。</p>
-<p>実行結果は以下のようになります。</p>
-<div class="code_container">
+<h3 id="新しく生成したプラグインをテストする"><a href="#%E6%96%B0%E3%81%97%E3%81%8F%E7%94%9F%E6%88%90%E3%81%97%E3%81%9F%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">2 新しく生成したプラグインをテストする</a></h3><p>プラグインを作成したディレクトリに移動して<code>bundle install</code>コマンドを実行し、自動生成されたテストを<code>rake</code>コマンドで実行します。</p><p>実行結果は以下のようになります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
   1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
 
 </pre>
 </div>
-<p>生成が無事完了し、いつでも機能を追加できる状態であることがわかります。</p>
-<h3 id="コアクラスを拡張する"><a href="#%E3%82%B3%E3%82%A2%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E6%8B%A1%E5%BC%B5%E3%81%99%E3%82%8B">3 コアクラスを拡張する</a></h3>
-<p>このセクションでは、Railsアプリケーションのどこでも利用できるメソッドをStringクラスに追加する方法を解説します。</p>
-<p>この例では、<code>to_squawk</code>(ガーガー鳴くの意)という名前のメソッドをStringクラスに追加します。最初に、テストファイルをひとつ作成してそこにアサーションをいくつか追加しましょう。</p>
-<div class="code_container">
+<p>生成が無事完了し、いつでも機能を追加できる状態であることがわかります。</p><h3 id="コアクラスを拡張する"><a href="#%E3%82%B3%E3%82%A2%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E6%8B%A1%E5%BC%B5%E3%81%99%E3%82%8B">3 コアクラスを拡張する</a></h3><p>このセクションでは、Railsアプリケーションのどこでも利用できるメソッドをStringクラスに追加する方法を解説します。</p><p>この例では、<code>to_squawk</code>(ガーガー鳴くの意)という名前のメソッドをStringクラスに追加します。最初に、テストファイルをひとつ作成してそこにアサーションをいくつか追加しましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/test/core_ext_test.rb
 
@@ -323,8 +306,7 @@ end
 
 </pre>
 </div>
-<p><code>rake</code>を実行してテストします。<code>to_squawk</code>は実装されていないので、当然テストは失敗します。</p>
-<div class="code_container">
+<p><code>rake</code>を実行してテストします。<code>to_squawk</code>は実装されていないので、当然テストは失敗します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
     1) Error:
   CoreExtTest#test_to_squawk_prepends_the_word_squawk:
@@ -333,9 +315,7 @@ end
 
 </pre>
 </div>
-<p>ここまで準備できれば、いよいよコーディング開始です。</p>
-<p><code>lib/yaffle.rb</code>に<code>require 'yaffle/core_ext'</code>を追加します。</p>
-<div class="code_container">
+<p>ここまで準備できれば、いよいよコーディング開始です。</p><p><code>lib/yaffle.rb</code>に<code>require 'yaffle/core_ext'</code>を追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/lib/yaffle.rb
 
@@ -346,8 +326,7 @@ end
 
 </pre>
 </div>
-<p>最後に<code>core_ext.rb</code>ファイルを作成して<code>to_squawk</code>メソッドを追加します。</p>
-<div class="code_container">
+<p>最後に<code>core_ext.rb</code>ファイルを作成して<code>to_squawk</code>メソッドを追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/lib/yaffle/core_ext.rb
 
@@ -359,15 +338,13 @@ end
 
 </pre>
 </div>
-<p>プラグインのあるディレクトリで<code>rake</code>テストを実行して、メソッドがテストにパスすることを確認します。</p>
-<div class="code_container">
+<p>プラグインのあるディレクトリで<code>rake</code>テストを実行して、メソッドがテストにパスすることを確認します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
   2 runs, 2 assertions, 0 failures, 0 errors, 0 skips
 
 </pre>
 </div>
-<p>最後にメソッドを実際に使ってみましょう。test/dummyディレクトリに移動してガーガー鳴いてみましょう(squawk)。</p>
-<div class="code_container">
+<p>最後にメソッドを実際に使ってみましょう。test/dummyディレクトリに移動してガーガー鳴いてみましょう(squawk)。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails console
 &gt;&gt; "Hello World".to_squawk
@@ -375,10 +352,7 @@ $ bin/rails console
 
 </pre>
 </div>
-<h3 id='"acts_as"メソッドをactive-recordに追加する'><a href="#%22acts_as%22%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4 "acts_as"メソッドをActive Recordに追加する</a></h3>
-<p>プラグインでは、<code>acts_as_何とか</code>という名前のメソッドをモデルに追加することがよく行われます。この例ではそれにならって<code>acts_as_yaffle</code>というメソッドを追加してみます。これは<code>squawk</code>メソッドを自分のActive Recordモデルに追加するメソッドです。</p>
-<p>最初に以下のファイルを準備します。</p>
-<div class="code_container">
+<h3 id="acts-as-メソッドをactive-recordに追加する"><a href="#acts-as-%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4 "acts_as"メソッドをActive Recordに追加する</a></h3><p>プラグインでは、<code>acts_as_何とか</code>という名前のメソッドをモデルに追加することがよく行われます。この例ではそれにならって<code>acts_as_yaffle</code>というメソッドを追加してみます。これは<code>squawk</code>メソッドを自分のActive Recordモデルに追加するメソッドです。</p><p>最初に以下のファイルを準備します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/test/acts_as_yaffle_test.rb
 
@@ -413,10 +387,7 @@ end
 
 </pre>
 </div>
-<h4 id="クラスメソッドを追加する"><a href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.1 クラスメソッドを追加する</a></h4>
-<p>このプラグインはモデルに<code>last_squawk</code>という名前のメソッドが追加されていることを前提にしています。しかし、プラグインがインストールされた環境には、そのモデルに目的の異なる<code>last_squawk</code>という名前のメソッドが既にあるかもしれません。そこで、このプラグインでは<code>yaffle_text_field</code>という名前のクラスメソッドをひとつ追加することによって名前を変更できるようにしたいと思います。</p>
-<p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p>
-<div class="code_container">
+<h4 id="クラスメソッドを追加する"><a href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.1 クラスメソッドを追加する</a></h4><p>このプラグインはモデルに<code>last_squawk</code>という名前のメソッドが追加されていることを前提にしています。しかし、プラグインがインストールされた環境には、そのモデルに目的の異なる<code>last_squawk</code>という名前のメソッドが既にあるかもしれません。そこで、このプラグインでは<code>yaffle_text_field</code>という名前のクラスメソッドをひとつ追加することによって名前を変更できるようにしたいと思います。</p><p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/test/acts_as_yaffle_test.rb
 
@@ -436,8 +407,7 @@ end
 
 </pre>
 </div>
-<p><code>rake</code>を実行すると以下が出力されます。</p>
-<div class="code_container">
+<p><code>rake</code>を実行すると以下が出力されます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
     1) Error:
   ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
@@ -453,8 +423,7 @@ end
 
 </pre>
 </div>
-<p>この結果から、テストの対象となるモデル (Hickwall and Wickwall) がそもそもないことがわかります。必要なモデルはダミーのRailsアプリケーションで簡単に作成できます。test/dummyディレクトリに移動して以下のコマンドを実行します。</p>
-<div class="code_container">
+<p>この結果から、テストの対象となるモデル (Hickwall and Wickwall) がそもそもないことがわかります。必要なモデルはダミーのRailsアプリケーションで簡単に作成できます。test/dummyディレクトリに移動して以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd test/dummy
 $ bin/rails generate model Hickwall last_squawk:string
@@ -462,16 +431,14 @@ $ bin/rails generate model Wickwall last_squawk:string last_tweet:string
 
 </pre>
 </div>
-<p>これで必要なデータベーステーブルをテストデータベース内に作成するための準備が整いました。作成は、ダミーアプリケーションのディレクトリに移動してデータベースのマイグレーションを実行することで行います。最初に以下を実行します。</p>
-<div class="code_container">
+<p>これで必要なデータベーステーブルをテストデータベース内に作成するための準備が整いました。作成は、ダミーアプリケーションのディレクトリに移動してデータベースのマイグレーションを実行することで行います。最初に以下を実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ cd test/dummy
 $ bin/rake db:migrate
 
 </pre>
 </div>
-<p>続いて、このディレクトリでHickwallモデルとWickwallモデルを変更し、これらのモデルにyafflesとしての振る舞いが期待されていることが伝わるようにします。</p>
-<div class="code_container">
+<p>続いて、このディレクトリでHickwallモデルとWickwallモデルを変更し、これらのモデルにyafflesとしての振る舞いが期待されていることが伝わるようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # test/dummy/app/models/hickwall.rb
 
@@ -488,8 +455,7 @@ end
 
 </pre>
 </div>
-<p><code>acts_as_yaffle</code>メソッドを定義するコードも追加します。</p>
-<div class="code_container">
+<p><code>acts_as_yaffle</code>メソッドを定義するコードも追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/lib/yaffle/acts_as_yaffle.rb
 module Yaffle
@@ -511,8 +477,7 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 </pre>
 </div>
-<p>終わったら<code>cd ../..</code>を実行してプラグインのルートディレクトリに戻り、<code>rake</code>を実行してテストを再実行します。</p>
-<div class="code_container">
+<p>終わったら<code>cd ../..</code>を実行してプラグインのルートディレクトリに戻り、<code>rake</code>を実行してテストを再実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
     1) Error:
   ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
@@ -531,8 +496,7 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 </pre>
 </div>
-<p>開発がだいぶ進んできました。今度は<code>acts_as_yaffle</code>メソッドを実装し、テストがパスするようにしましょう。</p>
-<div class="code_container">
+<p>開発がだいぶ進んできました。今度は<code>acts_as_yaffle</code>メソッドを実装し、テストがパスするようにしましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/lib/yaffle/acts_as_yaffle.rb
 
@@ -556,17 +520,13 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 </pre>
 </div>
-<p><code>rake</code>を実行すると、今度のテストはすべてパスします。</p>
-<div class="code_container">
+<p><code>rake</code>を実行すると、今度のテストはすべてパスします。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
   4 runs, 4 assertions, 0 failures, 0 errors, 0 skips
 
 </pre>
 </div>
-<h4 id="インスタンスメソッドを追加する"><a href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.2 インスタンスメソッドを追加する</a></h4>
-<p>今度はこのプラグインに'squawk'というメソッドを追加して、'acts_as_yaffle'を呼び出すすべてのActive Recordオブジェクトに追加しましょう'squawk'メソッドはデータベースのフィールドにある値のいずれかひとつを設定するだけのシンプルなものです。</p>
-<p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p>
-<div class="code_container">
+<h4 id="インスタンスメソッドを追加する"><a href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.2 インスタンスメソッドを追加する</a></h4><p>今度はこのプラグインに'squawk'というメソッドを追加して、'acts_as_yaffle'を呼び出すすべてのActive Recordオブジェクトに追加しましょう'squawk'メソッドはデータベースのフィールドにある値のいずれかひとつを設定するだけのシンプルなものです。</p><p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/test/acts_as_yaffle_test.rb
 require 'test_helper'
@@ -596,8 +556,7 @@ end
 
 </pre>
 </div>
-<p>テストを実行して、最後に追加した2つのテストが失敗することを確認します。失敗のメッセージには"NoMethodError: undefined method `squawk'"が含まれているので、'acts_as_yaffle.rb'を以下のように更新します。</p>
-<div class="code_container">
+<p>テストを実行して、最後に追加した2つのテストが失敗することを確認します。失敗のメッセージには"NoMethodError: undefined method `squawk'"が含まれているので、'acts_as_yaffle.rb'を以下のように更新します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # yaffle/lib/yaffle/acts_as_yaffle.rb
 
@@ -629,45 +588,33 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 </pre>
 </div>
-<p>最後に<code>rake</code>を実行すると以下の結果が表示されます。</p>
-<div class="code_container">
+<p>最後に<code>rake</code>を実行すると以下の結果が表示されます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
   6 runs, 6 assertions, 0 failures, 0 errors, 0 skips
 
 </pre>
 </div>
-<div class="note"><p>上のコードでは<code>write_attribute</code>を使用してモデルのフィールドへの書き出しを行っていますが、これはあくまでプラグインからモデルとやりとりする際の書き方を示すための一例にすぎません。この書き方が適切とは限らないこともあるのでご注意ください。たとえば同じコードを以下のように書くこともできます。</p></div>
-<div class="code_container">
+<div class="note"><p>上のコードでは<code>write_attribute</code>を使用してモデルのフィールドへの書き出しを行っていますが、これはあくまでプラグインからモデルとやりとりする際の書き方を示すための一例にすぎません。この書き方が適切とは限らないこともあるのでご注意ください。たとえば同じコードを以下のように書くこともできます。</p></div><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 send("#{self.class.yaffle_text_field}=", string.to_squawk)
 
 </pre>
 </div>
-<h3 id="ジェネレータ"><a href="#%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF">5 ジェネレータ</a></h3>
-<p>gemにジェネレータを含めるには、単にジェネレータを作成してプラグインのlib/generatorsディレクトリに置くだけでもかまいません。ジェネレータの作成方法の詳細については<a href="generators.html">Rails ジェネレータとテンプレート入門</a>を参照してください。</p>
-<h3 id="gemを公開する"><a href="#gem%E3%82%92%E5%85%AC%E9%96%8B%E3%81%99%E3%82%8B">6 gemを公開する</a></h3>
-<p>開発中のgemであってもGitリポジトリで簡単に共有できます。今回のYaffle gemを他の開発者と共有するには、コードをGithubなどのGitリポジトリにコミットしておき、gemを使用したいアプリケーションのGemfileに一行書くだけで済みます。</p>
-<div class="code_container">
+<h3 id="ジェネレータ"><a href="#%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF">5 ジェネレータ</a></h3><p>gemにジェネレータを含めるには、単にジェネレータを作成してプラグインのlib/generatorsディレクトリに置くだけでもかまいません。ジェネレータの作成方法の詳細については<a href="generators.html">Rails ジェネレータとテンプレート入門</a>を参照してください。</p><h3 id="gemを公開する"><a href="#gem%E3%82%92%E5%85%AC%E9%96%8B%E3%81%99%E3%82%8B">6 gemを公開する</a></h3><p>開発中のgemであってもGitリポジトリで簡単に共有できます。今回のYaffle gemを他の開発者と共有するには、コードをGithubなどのGitリポジトリにコミットしておき、gemを使用したいアプリケーションのGemfileに一行書くだけで済みます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem 'yaffle', git: 'git://github.com/yaffle_watcher/yaffle.git'
 
 </pre>
 </div>
-<p>後は<code>bundle install</code>を実行すればgemの機能をアプリケーションで利用できるようになります。</p>
-<p>gemを正式なリリースとして一般公開するのであれば<a href="http://www.rubygems.org">RubyGems</a>でパブリッシュします。
-RubyGemsサイトでgemを公開する方法の詳細については、<a href="http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html">はじめてのRuby Gem作成・パブリッシュ方法</a>(英語) を参照してください。</p>
-<h3 id="rdocドキュメント"><a href="#rdoc%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88">7 RDocドキュメント</a></h3>
-<p>プラグインの開発が一段落してデプロイする段階になったら、プラグインの利用者のためにちゃんとしたドキュメントを作成しましょう。幸い、プラグインのドキュメント作成は簡単です。</p>
-<p>最初に、プラグインの使用法をREADMEファイルに詳しく記載します。以下の項目は忘れずに記入してください。</p>
+<p>後は<code>bundle install</code>を実行すればgemの機能をアプリケーションで利用できるようになります。</p><p>gemを正式なリリースとして一般公開するのであれば<a href="http://www.rubygems.org">RubyGems</a>でパブリッシュします。
+RubyGemsサイトでgemを公開する方法の詳細については、<a href="http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html">はじめてのRuby Gem作成・パブリッシュ方法</a>(英語) を参照してください。</p><h3 id="rdocドキュメント"><a href="#rdoc%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88">7 RDocドキュメント</a></h3><p>プラグインの開発が一段落してデプロイする段階になったら、プラグインの利用者のためにちゃんとしたドキュメントを作成しましょう。幸い、プラグインのドキュメント作成は簡単です。</p><p>最初に、プラグインの使用法をREADMEファイルに詳しく記載します。以下の項目は忘れずに記入してください。</p>
 <ul>
 <li>自分の名前</li>
 <li>インストール方法</li>
 <li>アプリケーションに機能を追加する具体的な方法 (一般的なユースケースもいくつか例として追加)</li>
 <li>警告、注意点、ヒントなど (ユーザーが無駄な時間を使わずに済むように)</li>
 </ul>
-<p>READMEの内容が固まってきたら、コードをひととおりチェックしてすべてのメソッドにrdoc形式のコメントを追加します。このコメントは開発者にとって役立つ情報となります。パブリックAPIにしたくない箇所には'#:nodoc:'というコメントを追加します。</p>
-<p>コメントを付け終わったらプラグインのルートディレクトリに移動して以下を実行します。</p>
-<div class="code_container">
+<p>READMEの内容が固まってきたら、コードをひととおりチェックしてすべてのメソッドにrdoc形式のコメントを追加します。このコメントは開発者にとって役立つ情報となります。パブリックAPIにしたくない箇所には'#:nodoc:'というコメントを追加します。</p><p>コメントを付け終わったらプラグインのルートディレクトリに移動して以下を実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rake rdoc
 
@@ -684,7 +631,6 @@ $ bin/rake rdoc
 <li>
 <a href="http://www.intridea.com/blog/2008/6/11/gemplugins-a-brief-introduction-to-the-future-of-rails-plugins">GemPlugin: Railsプラグインの今後の見通し</a>(英語)</li>
 </ul>
-</body></html>
 
         
         <h3>フィードバックについて</h3>
