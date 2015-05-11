@@ -11,4 +11,4 @@ RSpec.configure do |config|
   config.color = true
 end
 
-Capybara.app = Rack::File.new(File.expand_path('../../guides/output', __FILE__))
+Capybara.app = Rack::File.new(File.expand_path('../../guides/output/ja', __FILE__))
