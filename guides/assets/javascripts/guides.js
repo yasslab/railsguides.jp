@@ -57,3 +57,9 @@ $(document).ready(function() {
   SyntaxHighlighter.defaults['auto-links'] = false;
   SyntaxHighlighter.all();
 });
+
+// Link to Gumroad
+jQuery('.gumroad-button').click(function() {
+  window.location=$(this).find("a").attr("href");
+  return false;
+});

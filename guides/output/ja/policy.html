@@ -24,7 +24,8 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Ruby on Rails のメンテナンスポリシー — Rails ガイド</title>
+    <title>Ruby on Rails Guides: Policy
+</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -221,25 +222,73 @@
 
   <div id="feature">
     <div class="wrapper">
-      <h2>Ruby on Rails のメンテナンスポリシー</h2><p>Railsフレームワークのサポートは、新機能 (New feature)、バグ修正 (bug fixes)、セキュリティ問題 (security issues)、重大なセキュリティ問題 (severe security issue) の4つのグループに分割されています。これらは以下のように扱われています。バージョン表記はすべて<code>X.Y.Z</code>の形式に従います。</p>
-                <div id="subCol">
-            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
-            <ol class="chapters">
-<li><a href="#%E6%96%B0%E6%A9%9F%E8%83%BD">新機能</a></li>
-<li><a href="#%E3%83%90%E3%82%B0%E4%BF%AE%E6%AD%A3">バグ修正</a></li>
-<li><a href="#%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%95%8F%E9%A1%8C">セキュリティ問題</a></li>
-<li><a href="#%E9%87%8D%E5%A4%A7%E3%81%AA%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%95%8F%E9%A1%8C">重大なセキュリティ問題</a></li>
-<li><a href="#%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E5%AF%BE%E8%B1%A1%E5%A4%96%E3%81%A8%E3%81%AA%E3%82%8B%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA">サポート対象外となるリリースシリーズ</a></li>
-</ol>
+      <h2>特定商取引法に基づく表記について</h2>
 
-          </div>
-</div>
+      </div>
   </div>
 
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <p>Railsのバージョン命名は<a href="http://semver.org/">semver</a>のSemantic Versioningをシフトしたものに従っています。</p><p><strong>パッチ<code>Z</code></strong></p><p>このパッチではバグ修正のみを行います。API変更や機能追加はこのパッチでは行いません。ただしセキュリティ修正については、必要であればこれらの変更を行なうこともあります。</p><p><strong>マイナー<code>Y</code></strong></p><p>新機能を追加します。ここにAPIの変更を含めることもできます (Semverでいうメジャーバージョンに相当)。重大な変更を行う場合は、必ず事前にマイナーリリースまたはメジャーリリースで非推奨通知を行います。</p><p><strong>メジャー<code>X</code></strong></p><p>新機能を追加します。多くの場合API変更も含まれます。Railsにおけるマイナーリリースとメジャーリリースの違いは変更の重大性の度合いであり、通常は特別な場合に備えて予約されます。</p><h3 id="新機能"><a href="#%E6%96%B0%E6%A9%9F%E8%83%BD">1 新機能</a></h3><p>新機能はmasterブランチにのみ追加されます。ポイントリリース (=メジャーでないリリース) で新機能を追加することはありません。</p><h3 id="バグ修正"><a href="#%E3%83%90%E3%82%B0%E4%BF%AE%E6%AD%A3">2 バグ修正</a></h3><p>バグ修正は最新リリースのシリーズでのみ利用できます。バグ修正が十分に行われ、新しいgemをリリースする価値があると認められた場合は、そこからブランチを作成します。</p><p>特別な場合として、Core Teamメンバーの誰かがサポート対象となるシリーズを増やすことに賛成した場合は、それらはサポート対象のシリーズに追加されます。</p><p><strong>現在対象となっているシリーズ:</strong> <code>4.2.Z</code>、<code>4.1.Z</code> (サポート担当: Rafael França)。</p><h3 id="セキュリティ問題"><a href="#%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%95%8F%E9%A1%8C">3 セキュリティ問題</a></h3><p>現在のリリースシリーズ (訳注: 複数のリリースに対する総称)、および次のリリースシリーズには、セキュリティ問題発生時にパッチと新バージョンが適用されます。</p><p>これらのリリースは、直前にリリースされたバージョンにセキュリティパッチを適用してリリースされます。続いて、それらのパッチはx-y-stable (安定版) ブランチの最後に適用されます。たとえば、仮に1.2.3というセキュリティリリースがあるとすると、このリリースは1.2.2を元にビルドされ、1-2-stableの最後に追加されます。つまり、最新のRailsを使用していればセキュリティリリースのアップグレードが容易に行えるということです。</p><p><strong>現在対象となっているシリーズ:</strong> <code>4.2.Z</code>、<code>4.1.Z</code>。</p><h3 id="重大なセキュリティ問題"><a href="#%E9%87%8D%E5%A4%A7%E3%81%AA%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%95%8F%E9%A1%8C">4 重大なセキュリティ問題</a></h3><p>重大なセキュリティ問題については、上と同様に新バージョンを提供し、かつ最新のメジャーリリースシリーズに対してセキュリティパッチと新バージョンを提供します。セキュリティ問題がどれほど重大であるかの判断はコアチームによって行われます。</p><p><strong>現在対象となっているシリーズ:</strong> <code>4.2.Z</code>、<code>4.1.Z</code>、<code>3.2.Z</code>。</p><h3 id="サポート対象外となるリリースシリーズ"><a href="#%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E5%AF%BE%E8%B1%A1%E5%A4%96%E3%81%A8%E3%81%AA%E3%82%8B%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA">5 サポート対象外となるリリースシリーズ</a></h3><p>あるリリースシリーズがサポート対象外になった場合、バグ修正とセキュリティ問題の対応は各自の責任となります。場合によっては修正のバックポートの提供とgitへの公開が行われることもありますが、以後新バージョンがリリースされることはありません。アプリケーションで使用しているバージョンを維持しきれない場合は、サポート対象となっているバージョンにアップグレードしてください。</p>
+        
+
+<div class="legal">
+  <table border="0" cellpadding="9" cellspacing="1">
+  <tr>
+      <th>事業者名称</th>
+      <td><a href="http://yasslab.jp/ja/">ヤスラボ</a> (代表: 安川 要平)</td>
+    </tr>
+    <tr>
+      <th>事業者住所</th>
+      <td>〒169-0075 東京都新宿区高田馬場1-28-10 三慶ビル4F</td>
+    </tr>
+    <tr>
+      <th>サイトURL</th>
+      <td><a href="/screencasts">http://railstutorial.jp/screencasts</a></td>
+    </tr>
+    <tr>
+      <th>お支払い方法</th>
+      <td>決済サービス「Gumroad」を利用したクレジットカード決済</td>
+    </tr>
+    <tr>
+      <th>販売価格</th>
+      <td>各商品ページに記載のとおり</td>
+    </tr>
+    <tr>
+      <th>商品の引渡し時期</th>
+      <td>決済完了後、即時</td>
+    </tr>
+    <tr>
+      <th>商品の引渡し方法</th>
+      <td>Gumroad のページから視聴またはダウンロードできます。</td>
+    </tr>
+    <tr>
+      <th>キャンセルについて</th>
+      <td>ご注文確定後のキャンセルは承っておりません。</td>
+    </tr>
+    <tr>
+      <th>お問い合わせ<br/>　</th>
+      <td>電子メールにて yohei [at] yasslab.jp までご連絡ください。<br/>
+        ([at]は「@」に書き換えて下さい)</td>
+    </tr>
+    <tr>
+      <th>申込に有効期限がある場合には、その期限</th>
+      <td>特になし</td>
+    </tr>
+    <tr>
+      <th>不良品・破損時の対応</th>
+      <td>商品不良、内容相違等の場合は、回線手数料等を除いて当方費用負担でお取替えいたします。</td>
+    </tr>
+    <tr>
+      <th>販売数量の制限やその他特別な販売条件があるなら、その内容</th>
+      <td>特になし</td>
+    </tr>
+    <tr height="10px">
+      <td class="copyright" colspan="2"> Copyright &copy; 2015 ヤスラボ</td>
+    </tr>
+  </table>
+</div>
+
         
         <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
         <p>

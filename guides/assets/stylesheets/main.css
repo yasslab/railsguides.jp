@@ -734,6 +734,61 @@ div.code_container {
   font-size: 1.1667em;
 }
 
+.legal table{
+  border: none;
+}
+.legal th {
+  border-bottom: 1px solid #CCC;
+}
+.legal td {
+  font-size:13px;
+  text-align: left;
+}
+
+.legal .copyright {
+  color: gray;
+  text-align: right;
+  font-size: 10px;
+  border: none;
+}
+
+.gumroad-button {
+  display: inline-block;
+  border-top: 1px solid rgba(255,255,255,.5);
+  background: #751913;
+  background: -webkit-gradient(linear, left top, left bottom, from(#c52f24), to(#751913));
+  background: -webkit-linear-gradient(top, #c52f24, #751913);
+  background: -moz-linear-gradient(top, #c52f24, #751913);
+  background: -ms-linear-gradient(top, #c52f24, #751913);
+  background: -o-linear-gradient(top, #c52f24, #751913);
+  padding: 9px 18px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  border-radius: 11px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  cursor: pointer;
+  width: 86%;
+  margin: 20px;
+  text-align: center;
+}
+
+.gumroad-button  a {
+  font-size: 15px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  text-decoration: none;
+  vertical-align: middle;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+}
+
+.ebook {
+  border: solid 1px #D0D0D0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  box-shadow: -5px 4px 6px rgba(166, 166, 166, 0.8);
+}
 /* Clearing
 --------------------------------------- */
 

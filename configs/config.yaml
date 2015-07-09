@@ -69,6 +69,7 @@ paths:
   maintenance_policy: /maintenance_policy.html
   migrations: /migrations.html
   nested_model_forms: /nested_model_forms.html
+  options: /options.html
   plugins: /plugins.html
   rails_application_templates: /rails_application_templates.html
   rails_on_rack: /rails_on_rack.html
