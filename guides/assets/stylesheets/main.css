@@ -759,7 +759,7 @@ div.code_container {
 
 @media screen and (max-width: 480px) {
   .top #subCol {
-    height: 100%;
+    min-height: 722px;
     padding: 0;
     margin-right: 10px;
   }
@@ -811,6 +811,7 @@ div.code_container {
     width: 100%;
     margin: 0px;
     float: left;
+    position: absolute;
   }
 }
 
@@ -837,6 +838,15 @@ div.code_container {
   margin-top: 20px;
   display: block;
 }
+#subCol #ebook-ribbon {
+  width: 100px;
+  height: 100px;
+  box-shadow: none;
+  border: none;
+  position: absolute;
+  top: -19px;
+  right: 0px;
+}
 
 #subCol #ebook-right {
   display:none;
@@ -853,6 +863,10 @@ div.code_container {
     margin-left: 1px;
     display: block;
   }
+  #subCol #ebook-ribbon {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 
@@ -864,6 +878,10 @@ div.code_container {
   }
   #subCol #ebook-right {
     display:none;
+  }
+  #subCol #ebook-ribbon {
+    top: 0;
+    right: 0;
   }
 }
 
