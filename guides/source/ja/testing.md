@@ -222,7 +222,7 @@ assert true
 `rake test`コマンドでテストケースを含むファイルを呼び出すことで、簡単にテストを実行できます。
 
 ```bash
-$ bin/rake test test/models/article_test.rb
+$ bin/rails test test/models/article_test.rb
 .
 
 Finished tests in 0.009262s, 107.9680 tests/s, 107.9680 assertions/s.
@@ -233,7 +233,7 @@ Finished tests in 0.009262s, 107.9680 tests/s, 107.9680 assertions/s.
 テスト実行時にテストメソッド名を与えれば、テストケースに含まれる特定のテストメソッドだけを実行することもできます。
 
 ```bash
-$ bin/rake test test/models/article_test.rb test_the_truth
+$ bin/rails test test/models/article_test.rb test_the_truth
 .
 
 Finished tests in 0.009064s, 110.3266 tests/s, 110.3266 assertions/s.
@@ -257,7 +257,7 @@ end
 それでは、新しく追加したテストを実行してみましょう。
 
 ```bash
-$ bin/rake test test/models/article_test.rb test_should_not_save_article_without_title
+$ bin/rails test test/models/article_test.rb test_should_not_save_article_without_title
 F
 
 Finished tests in 0.044632s, 22.4054 tests/s, 22.4054 assertions/s.
@@ -297,7 +297,7 @@ end
 このテストはパスするはずです。もう一度テストを実行してみましょう。
 
 ```bash
-$ bin/rake test test/models/article_test.rb test_should_not_save_article_without_title
+$ bin/rails test test/models/article_test.rb test_should_not_save_article_without_title
 .
 
 Finished tests in 0.047721s, 20.9551 tests/s, 20.9551 assertions/s.
@@ -322,7 +322,7 @@ end
 これで、このテストを実行するとさらに多くのメッセージがコンソールに表示されるようになりました。
 
 ```bash
-$ bin/rake test test/models/article_test.rb test_should_report_error
+$ bin/rails test test/models/article_test.rb test_should_report_error
 E:
 
 Finished tests in 0.030974s, 32.2851 tests/s, 0.0000 assertions/s.
@@ -342,7 +342,7 @@ NOTE: テストスイートに含まれる各テストメソッドは、エラ�
 テストが失敗すると、それに応じたバックトレースが出力されます。Railsはデフォルトでバックトレースをフィルタし、アプリケーションに関連するバックトレースのみを出力します。これによって、フレームワークから発生する不要な情報を排除して作成中のコードに集中できます。完全なバックトレースを参照しなければならなくなった場合は、`BACKTRACE`環境変数を設定するだけで動作を変更できます。
 
 ```bash
-$ BACKTRACE=1 bin/rake test test/models/article_test.rb
+$ BACKTRACE=1 bin/rails test test/models/article_test.rb
 ```
 
 ### 単体テストに含めるべき項目

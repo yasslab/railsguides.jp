@@ -142,7 +142,7 @@ Railsのメイラーは、ビューのレンダリングと本質的に同じこ
 
 ```bash
 $ bin/rails generate scaffold user name email login
-$ bin/rake db:migrate
+$ bin/rails db:migrate
 ```
 
 説明用のユーザーモデルを作成したので、続いて`app/controllers/users_controller.rb`を編集し、新規ユーザーの保存成功直後に`UserMailer`の`UserMailer.welcome_email`を使用してそのユーザーにメールが送信されるようにしましょう。
