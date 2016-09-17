@@ -255,7 +255,7 @@ Active Recordコールバックを使用することで、モデルのライフ�
 マイグレーション
 ----------
 
-Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。`rake`を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
+Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。`bin/rails`を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
 
 ```ruby
 class CreatePublications < ActiveRecord::Migration
@@ -275,6 +275,6 @@ class CreatePublications < ActiveRecord::Migration
 end
 ```
 
-Railsはどのマイグレーションファイルがデータベースにコミットされたかを把握しており、その情報を使用してロールバック機能を提供しています。テーブルを実際に作成するには`rake db:migrate`を実行します。ロールバックするには`rake db:rollback`を実行します。
+Railsはどのマイグレーションファイルがデータベースにコミットされたかを把握しており、その情報を使用してロールバック機能を提供しています。テーブルを実際に作成するには`bin/rails db:migrate`を実行します。ロールバックするには`bin/rails db:rollback`を実行します。
 
 上のマイグレーションコードはデータベースに依存していないことにご注目ください。MySQL、PostgreSQL、Oracleなど多くのデータベースに対して実行できます。マイグレーションの詳細については[Active Recordマイグレーション](active_record_migrations.html)を参照してください。

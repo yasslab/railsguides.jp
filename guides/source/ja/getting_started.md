@@ -250,10 +250,10 @@ Rails.application.routes.draw do
 end
 ```
 
-コマンドラインで`rake routes`コマンドを実行すると、標準的なRESTfulアクションへのルーティングがすべて定義されていることが確認できます。以下の出力のprefix列や他の列については後ほど解説しますが、ここでご注目いただきたいのは、Railsは「articles」というリソース名から単数形の「article」を推測し、両者をその意味にそって使い分けているという点です。prefix列で単一の項目には単数形のarticle、複数項目を扱う場合には複数形のarticlesが使われているという具合です。
+コマンドラインで`bin/rails routes`コマンドを実行すると、標準的なRESTfulアクションへのルーティングがすべて定義されていることが確認できます。以下の出力のprefix列や他の列については後ほど解説しますが、ここでご注目いただきたいのは、Railsは「articles」というリソース名から単数形の「article」を推測し、両者をその意味にそって使い分けているという点です。prefix列で単一の項目には単数形のarticle、複数項目を扱う場合には複数形のarticlesが使われているという具合です。
 
 ```bash
-$ rake routes
+$ bin/rails routes
       Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -375,10 +375,10 @@ Missing template articles/new, application/new with {locale:[:en], formats:[:htm
 ```
 
 この例では、`:url`オプションに`articles_path`ヘルパーが渡されています。
-このときRailsの内部で何が行われているのかを知るために、`rake routes`の出力結果をもう一度見てみましょう。
+このときRailsの内部で何が行われているのかを知るために、`bin/rails routes`の出力結果をもう一度見てみましょう。
 
 ```bash
-$ rake routes
+$ bin/rails routes
       Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -453,7 +453,7 @@ TIP: Active Recordは、データベースのカラム名とモデルの属性�
 
 ### マイグレーションを実行する
 
-既に見たように`rails generate model`を実行すると _データベースマイグレーション_ ファイルが`db/migrate`の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはrakeコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。
+既に見たように`rails generate model`を実行すると _データベースマイグレーション_ ファイルが`db/migrate`の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。
 
 ここで`db/migrate/20140120191729_create_articles.rb` ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。
 
@@ -474,10 +474,10 @@ end
 
 TIP: マイグレーションの詳細については、[Active Recordマイグレーション](active_record_migrations.html)を参照してください。
 
-ここでは、以下のようにrakeコマンドでマイグレーションを実行します。
+ここでは、以下のようにコマンドでマイグレーションを実行します。
 
 ```bash
-$ rake db:migrate
+$ bin/rails db:migrate
 ```
 
 マイグレーションコマンドによってArticlesテーブルがデータベース上に作成されます。
@@ -489,7 +489,7 @@ $ rake db:migrate
 ==  CreateArticles: migrated (0.0020s) =========================================
 ```
 
-NOTE: マイグレーションはデフォルトではdevelopment (開発) 環境で実行されます。そのため、`config/database.yml`ファイルの`development`セクションで定義されている開発用データベースに対して実行される点にご注意ください。production (本番) 環境など、development以外の環境に対してもマイグレーションを実行したい場合は、`rake db:migrate RAILS_ENV=production`のように環境変数を明示的に指定する必要があります。
+NOTE: マイグレーションはデフォルトではdevelopment (開発) 環境で実行されます。そのため、`config/database.yml`ファイルの`development`セクションで定義されている開発用データベースに対して実行される点にご注意ください。production (本番) 環境など、development以外の環境に対してもマイグレーションを実行したい場合は、`bin/rails db:migrate RAILS_ENV=production`のように環境変数を明示的に指定する必要があります。
 
 ### コントローラでデータを保存する
 
@@ -545,7 +545,7 @@ TIP: 詳細については、上に挙げた参考資料に加えて[Strong Para
 
 現時点の状態でフォームを再度送信すると、`show`アクションがないというメッセージがRailsから返されます。このままでは実用に耐えないので、`show`アクションを追加して先に進むことにしましょう。
 
-`rake routes`の出力結果にもあったように`show`アクションへのルーティングは以下のようになります。
+`bin/rails routes`の出力結果にもあったように`show`アクションへのルーティングは以下のようになります。
 
 ```
 article GET    /articles/:id(.:format)      articles#show
@@ -585,7 +585,7 @@ end
 ### すべての記事を一覧表示する
 
 単独の記事は表示できるようになりましたが、今度は記事の一覧も表示できるようにしてみましょう。
-今度も`rake routes`でルーティングを確認すると、以下のようなルーティングが既にあります。
+今度も`bin/rails routes`でルーティングを確認すると、以下のようなルーティングが既にあります。
 
 ```
 articles GET    /articles(.:format)          articles#index
@@ -944,7 +944,7 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
 
 ### 記事を削除する
 
-いよいよCRUDのDまで到達しました。ここでは記事をデータベースから削除します。RESTの慣例に従い、記事の削除に使用するルーティングを`rake routes`の出力結果から取り出したのが以下です。
+いよいよCRUDのDまで到達しました。ここでは記事をデータベースから削除します。RESTの慣例に従い、記事の削除に使用するルーティングを`bin/rails routes`の出力結果から取り出したのが以下です。
 
 ```ruby
 DELETE /articles/:id(.:format)      articles#destroy
@@ -1056,7 +1056,7 @@ end
 `t.references`という行は、2つのモデルの関連付けを指定するための外部キーを設定します。このとき、関連付け用のインデックスもカラム上に作成されます。それではマイグレーションを実行しましょう。
 
 ```bash
-$ rake db:migrate
+$ bin/rails db:migrate
 ```
 
 Railsは、これまで実行されていないマイグレーションだけを適切に見分けて実行しますので、以下のようなメッセージだけが表示されるはずです。
@@ -1468,12 +1468,6 @@ class CommentsController < ApplicationController
 * [Ruby on Railsメーリングリスト](http://www.ruby.or.jp/ja/tech/development/web_application/100_community.html)
 * irc.freenode.net上の[#rubyonrails](irc://irc.freenode.net/#rubyonrails)チャンネル
 
-Railsには、rakeコマンドラインユーティリティを使用して生成できるビルトインヘルプもあります。
-
-* `rake doc:guides`を実行すると、本Railsガイドの完全なコピーがアプリケーションの`doc/guides`フォルダに生成されます。ブラウザで`doc/guides/index.html`を開くことでガイドを参照できます。
-* `rake doc:rails`を実行すると、Rails APIドキュメントの完全なコピーがアプリケーションの`doc/api`フォルダに生成されます。ブラウザで`doc/api/index.html`を開いてAPIドキュメントを参照できます。
-
-TIP: `doc:guides` rakeタスクを使用してRailsガイドをローカル生成するには、RedCloth gemをインストールする必要があります。RedCloth gemを`Gemfile`に追記して`bundle install`を実行することで利用できるようになります。
 
 設定の落とし穴
 ---------------------

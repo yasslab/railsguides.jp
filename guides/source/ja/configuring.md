@@ -49,7 +49,7 @@ config.active_record.schema_format = :ruby
 
 Rails全般に対する設定を行うには、`Rails::Railtie`オブジェクトを呼び出すか、`Rails::Engine`や`Rails::Application`のサブクラスを呼び出します。
 
-* `config.after_initialize`にはブロックを渡すことができます。このブロックは、Railsによるアプリケーションの初期化が完了した _直後_ に実行されます。アプリケーションの初期化作業には、フレームワーク自体の初期化、エンジンの初期化、そして`config/initializers`に記述されたすべてのアプリケーションイニシャライザの実行が含まれます。ここで渡すブロックはrakeタスクとして_実行される_ ことにご注意ください。このブロックは、他のイニシャライザによって設定される値を設定するのに便利です。
+* `config.after_initialize`にはブロックを渡すことができます。このブロックは、Railsによるアプリケーションの初期化が完了した _直後_ に実行されます。アプリケーションの初期化作業には、フレームワーク自体の初期化、エンジンの初期化、そして`config/initializers`に記述されたすべてのアプリケーションイニシャライザの実行が含まれます。ここで渡すブロックはタスクとして_実行される_ ことにご注意ください。このブロックは、他のイニシャライザによって設定される値を設定するのに便利です。
 
     ```ruby
     config.after_initialize do
@@ -144,7 +144,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.assets.paths`には、アセット探索用のパスを指定します。この設定オプションにパスを追加すると、アセットの検索先として追加されます。
 
-* `config.assets.precompile`は、`application.css`と`application.js`以外に追加したいアセットがある場合に指定します。これらは`rake assets:precompile`を実行するときに一緒にプリコンパイルされます。
+* `config.assets.precompile`は、`application.css`と`application.js`以外に追加したいアセットがある場合に指定します。これらは`bin/rails assets:precompile`を実行するときに一緒にプリコンパイルされます。
 
 * `config.assets.prefix`はアセットを置くディレクトリを指定します。デフォルトは`/assets`です。
 

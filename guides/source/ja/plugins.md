@@ -212,7 +212,7 @@ $ bin/rails generate model Wickwall last_squawk:string last_tweet:string
 
 ```bash
 $ cd test/dummy
-$ bin/rake db:migrate
+$ bin/rails db:migrate
 ```
 
 続いて、このディレクトリでHickwallモデルとWickwallモデルを変更し、これらのモデルにyafflesとしての振る舞いが期待されていることが伝わるようにします。
@@ -417,7 +417,7 @@ READMEの内容が固まってきたら、コードをひととおりチェッ�
 コメントを付け終わったらプラグインのルートディレクトリに移動して以下を実行します。
 
 ```bash
-$ bin/rake rdoc
+$ bin/rails rdoc
 ```
 
 ### 参考資料
