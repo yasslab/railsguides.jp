@@ -80,7 +80,7 @@ Rails 4.2 の Active Record モデルは `ActiveRecord::Base` を継承してい
 
 アプリのコントローラーが`ActionController::Base`に代わって`ApplicationController`を継承するように、アプリのすべてのモデルが`ApplicationRecord`をスーパークラスとして使うようになりました。この変更により、アプリ全体のモデルの動作を1か所で変更できるようになりました。
 
-Rails 4.2 を Rails 5.0 にアップグレードする場合、`app/jobs/`ディレクトリに`application_record.rb`ファイルを追加し、このファイルに以下の設定を追加する必要があります。
+Rails 4.2 を Rails 5.0 にアップグレードする場合、`app/models/`ディレクトリに`application_record.rb`ファイルを追加し、このファイルに以下の設定を追加する必要があります。
 
 ```
 class ApplicationRecord < ActiveRecord::Base
@@ -108,7 +108,7 @@ Active Support のコールバックはこのオプションの影響を受け�
 
 Rails 4.2 のActive Jobは`ActiveJob::Base`を継承しますが、Rails 5.0 ではデフォルトで`ApplicationJob`を継承するよう変更されました。
 
-Rails 4.2 を Rails 5.0 にアップグレードする場合、`app/models/`ディレクトリに`application_job.rb`ファイルを追加し、このファイルに以下の設定を追加する必要があります。
+Rails 4.2 を Rails 5.0 にアップグレードする場合、`app/jobs/`ディレクトリに`application_job.rb`ファイルを追加し、このファイルに以下の設定を追加する必要があります。
 
 ```
 class ApplicationJob < ActiveJob::Base
