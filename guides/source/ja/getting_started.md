@@ -1466,7 +1466,7 @@ class CommentsController < ApplicationController
 * [Ruby on Railsガイド](http://railsguides.jp) -- 本書です
 * [Ruby on Railsチュートリアル](http://railstutorial.jp)
 * [Ruby on Railsメーリングリスト](http://www.ruby.or.jp/ja/tech/development/web_application/100_community.html)
-* irc.freenode.net上の[#rubyonrails](irc://irc.freenode.net/#rubyonrails)チャンネル
+* irc.freenode.net上の[#rubyonrails](irc://irc.freenode.net/#rubyonrails)チャネル
 
 
 
