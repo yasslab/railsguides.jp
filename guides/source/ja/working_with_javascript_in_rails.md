@@ -282,18 +282,18 @@ $("<%= escape_javascript(render @user) %>").appendTo("#users");
 Turbolinks
 ----------
 
-Rails 4には[Turbolinks gem](https://github.com/rails/turbolinks)が同梱されています。このgemでは、ページのレンダリングを多くのページで高速化するのにAjaxを使用しています。
+Railsには[Turbolinks ライブラリ](https://github.com/rails/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
 
 ### Turbolinksの動作原理
 
 Turbolinksは、ページにあるすべての`<a>`にクリックハンドラを1つずつ追加します。ブラウザで[PushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState\(\).C2.A0method)がサポートされている場合、Turbolinksはそのページ用のAjaxリクエストを生成し、サーバーからのレスポンスを解析し、そのページの`<body>`全体をレスポンスの`<body>`で置き換えます。続いて、TurbolinksはPushStateを使用してURLを正しいものに書き換え、リフレッシュのセマンティクスを維持しながらプリティURLを与えます。
 
-Turbolinksを有効にするには、TurbolinksをGemfileに追加し、CoffeeScriptのマニフェスト (通常は`app/assets/javascripts/application.js`) に`//= require turbolinks`を追加します。
+Turbolinksを有効にするには、TurbolinksをGemfileに追加し、JavaScriptのマニフェスト (通常は`app/assets/javascripts/application.js`) に`//= require turbolinks`を追加します。
 
-Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに`data-no-turbolink`属性を追加します。
+Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに`data-turbolinks="false"`属性を追加します。
 
 ```html
-<a href="..." data-no-turbolink>No turbolinks here</a>.
+<a href="..." data-turbolinks="false">No turbolinks here</a>.
 ```
 
 ### ページ変更イベント
@@ -308,7 +308,7 @@ $(document).ready ->
 しかし、通常のページ読み込みプロセスはTurbolinksによって上書きされてしまうため、ページ読み込みに依存するイベントはトリガされません。このようなコードがある場合は、以下のように書き換えなければなりません。
 
 ```coffeescript
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   alert "page has loaded!"
 ```
 
