@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
 API Documentation Guidelines
 ============================
 
@@ -14,7 +16,8 @@ RDoc
 ----
 
 The [Rails API documentation](http://api.rubyonrails.org) is generated with
-[RDoc](http://docs.seattlerb.org/rdoc/).
+[RDoc](http://docs.seattlerb.org/rdoc/). To generate it, make sure you are
+in the rails root directory, run `bundle install` and execute:
 
 ```bash
   bundle exec rake rdoc
@@ -81,6 +84,12 @@ English
 
 Please use American English (*color*, *center*, *modularize*, etc). See [a list of American and British English spelling differences here](http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences).
 
+Oxford Comma
+------------
+
+Please use the [Oxford comma](http://en.wikipedia.org/wiki/Serial_comma)
+("red, white, and blue", instead of "red, white and blue").
+
 Example Code
 ------------
 
@@ -111,7 +120,7 @@ On the other hand, big chunks of structured documentation may have a separate "E
 The results of expressions follow them and are introduced by "# => ", vertically aligned:
 
 ```ruby
-# For checking if a fixnum is even or odd.
+# For checking if an integer is even or odd.
 #
 #   1.even? # => false
 #   1.odd?  # => true
@@ -231,7 +240,7 @@ You can quickly test the RDoc output with the following command:
 
 ```
 $ echo "+:to_param+" | rdoc --pipe
-#=> <p><code>:to_param</code></p>
+# => <p><code>:to_param</code></p>
 ```
 
 ### Regular Font
@@ -323,10 +332,6 @@ If you thought, "this method looks like a public class method for `ActiveRecord:
 As a contributor, it's important to think about whether this API is meant for end-user consumption. The Rails team is committed to not making any breaking changes to public API across releases without going through a full deprecation cycle. It's recommended that you `:nodoc:` any of your internal methods/classes unless they're already private (meaning visibility), in which case it's internal by default. Once the API stabilizes the visibility can change, but changing public API is much harder due to backwards compatibility.
 
 A class or module is marked with `:nodoc:` to indicate that all methods are internal API and should never be used directly.
-
-If you come across an existing `:nodoc:` you should tread lightly. Consider asking someone from the core team or author of the code before removing it. This should almost always happen through a pull request instead of the docrails project.
-
-A `:nodoc:` should never be added simply because a method or class is missing documentation. There may be an instance where an internal public method wasn't given a `:nodoc:` by mistake, for example when switching a method from private to public visibility. When this happens it should be discussed over a PR on a case-by-case basis and never committed directly to docrails.
 
 To summarize, the Rails team uses `:nodoc:` to mark publicly visible methods and classes for internal use; changes to the visibility of API should be considered carefully and discussed over a pull request first.
 
