@@ -63,7 +63,7 @@ With no further work, `rails server` will run our new shiny Rails app:
 $ cd commandsapp
 $ bin/rails server
 => Booting Puma
-=> Rails 5.0.0 application starting in development on http://0.0.0.0:3000
+=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
 => Run `rails server -h` for more startup options
 Puma starting in single mode...
 * Version 3.0.2 (ruby 2.3.0-p0), codename: Plethora of Penguin Pinatas
@@ -209,7 +209,7 @@ Description:
     Create rails files for model generator.
 ```
 
-NOTE: For a list of available field types, refer to the [API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column) for the column method for the `TableDefinition` class.
+NOTE: For a list of available field types for the `type` parameter, refer to the [API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column) for the add_column method for the `SchemaStatements` module. The `index` parameter generates a corresponding index for the column.
 
 But instead of generating a model directly (which we'll be doing later), let's set up a scaffold. A **scaffold** in Rails is a full set of model, database migration for that model, controller to manipulate it, views to view and manipulate the data, and a test suite for each of the above.
 
@@ -294,7 +294,7 @@ If you wish to test out some code without changing any data, you can do that by 
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 5.0.0)
+Loading development environment in sandbox (Rails 5.1.0)
 Any modifications you make will be rolled back on exit
 irb(main):001:0>
 ```
@@ -407,8 +407,8 @@ db:fixtures:load                    Loads fixtures into the ...
 db:migrate                          Migrate the database ...
 db:migrate:status                   Display status of migrations
 db:rollback                         Rolls the schema back to ...
-db:schema:cache:clear               Clears a db/schema_cache.dump file
-db:schema:cache:dump                Creates a db/schema_cache.dump file
+db:schema:cache:clear               Clears a db/schema_cache.yml file
+db:schema:cache:dump                Creates a db/schema_cache.yml file
 db:schema:dump                      Creates a db/schema.rb file ...
 db:schema:load                      Loads a schema.rb file ...
 db:seed                             Loads the seed data ...
@@ -428,12 +428,12 @@ INFO: You can also use `bin/rails -T`  to get the list of tasks.
 ```bash
 $ bin/rails about
 About your application's environment
-Rails version             5.0.0
+Rails version             5.1.0
 Ruby version              2.2.2 (x86_64-linux)
 RubyGems version          2.4.6
-Rack version              1.6
+Rack version              2.0.1
 JavaScript Runtime        Node.js (V8)
-Middleware                Rack::Sendfile, ActionDispatch::Static, ActionDispatch::Executor, #<ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x007ffd131a7c88>, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, Rails::Rack::Logger, ActionDispatch::ShowExceptions, ActionDispatch::DebugExceptions, ActionDispatch::RemoteIp, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, Rack::Head, Rack::ConditionalGet, Rack::ETag
+Middleware:               Rack::Sendfile, ActionDispatch::Static, ActionDispatch::Executor, ActiveSupport::Cache::Strategy::LocalCache::Middleware, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, ActionDispatch::RemoteIp, Sprockets::Rails::QuietAssets, Rails::Rack::Logger, ActionDispatch::ShowExceptions, WebConsole::Middleware, ActionDispatch::DebugExceptions, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, Rack::Head, Rack::ConditionalGet, Rack::ETag
 Application root          /home/foobar/commandsapp
 Environment               development
 Database adapter          sqlite3
@@ -497,7 +497,13 @@ app/models/article.rb:
 
 NOTE. When using specific annotations and custom annotations, the annotation name (FIXME, BUG etc) is not displayed in the output lines.
 
-By default, `rails notes` will look in the `app`, `config`, `db`, `lib` and `test` directories. If you would like to search other directories, you can provide them as a comma separated list in an environment variable `SOURCE_ANNOTATION_DIRECTORIES`.
+By default, `rails notes` will look in the `app`, `config`, `db`, `lib` and `test` directories. If you would like to search other directories, you can configure them using `config.annotations.register_directories` option.
+
+```ruby
+config.annotations.register_directories("spec", "vendor")
+```
+
+You can also provide them as a comma separated list in the environment variable `SOURCE_ANNOTATION_DIRECTORIES`.
 
 ```bash
 $ export SOURCE_ANNOTATION_DIRECTORIES='spec,vendor'

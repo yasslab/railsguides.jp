@@ -46,7 +46,7 @@ development with Rails.
 What is Rails?
 --------------
 
-Rails is a web application development framework written in the Ruby language.
+Rails is a web application development framework written in the Ruby programming language.
 It is designed to make programming web applications easier by making assumptions
 about what every developer needs to get started. It allows you to write less
 code while accomplishing more than many other languages and frameworks.
@@ -68,7 +68,7 @@ The Rails philosophy includes two major guiding principles:
   again, our code is more maintainable, more extensible, and less buggy.
 * **Convention Over Configuration:** Rails has opinions about the best way to do many
   things in a web application, and defaults to this set of conventions, rather than
-  require that you specify every minutiae through endless configuration files.
+  require that you specify minutiae through endless configuration files.
 
 Creating a New Rails Project
 ----------------------------
@@ -86,7 +86,7 @@ your prompt will look something like `c:\source_code>`
 
 ### Installing Rails
 
-Open up a command line prompt. On Mac OS X open Terminal.app, on Windows choose
+Open up a command line prompt. On macOS open Terminal.app, on Windows choose
 "Run" from your Start menu and type 'cmd.exe'. Any commands prefaced with a
 dollar sign `$` should be run in the command line. Verify that you have a
 current version of Ruby installed:
@@ -98,7 +98,7 @@ ruby 2.3.1p112
 
 TIP: A number of tools exist to help you quickly install Ruby and Ruby
 on Rails on your system. Windows users can use [Rails Installer](http://railsinstaller.org),
-while Mac OS X users can use [Tokaido](https://github.com/tokaido/tokaidoapp).
+while macOS users can use [Tokaido](https://github.com/tokaido/tokaidoapp).
 For more installation methods for most Operating Systems take a look at
 [ruby-lang.org](https://www.ruby-lang.org/en/documentation/installation/).
 
@@ -127,7 +127,7 @@ run the following:
 $ rails --version
 ```
 
-If it says something like "Rails 5.0.0", you are ready to continue.
+If it says something like "Rails 5.1.0", you are ready to continue.
 
 ### Creating the Blog Application
 
@@ -147,6 +147,10 @@ $ rails new blog
 This will create a Rails application called Blog in a `blog` directory and
 install the gem dependencies that are already mentioned in `Gemfile` using
 `bundle install`.
+
+NOTE: If you're using Windows Subsystem for Linux then there are currently some
+limitations on file system notifications that mean you should disable the `spring`
+and `listen` gems which you can do by running `rails new blog --skip-spring --skip-listen`.
 
 TIP: You can see all of the command line options that the Rails application
 builder accepts by running `rails new -h`.
@@ -178,6 +182,7 @@ of the files and folders that Rails created by default:
 |test/|Unit tests, fixtures, and other test apparatus. These are covered in [Testing Rails Applications](testing.html).|
 |tmp/|Temporary files (like cache and pid files).|
 |vendor/|A place for all third-party code. In a typical Rails application this includes vendored gems.|
+|.gitignore|This file tells git which files (or patterns) it should ignore. See [GitHub - Ignoring files](https://help.github.com/articles/ignoring-files) for more info about ignoring files.
 
 Hello, Rails!
 -------------
@@ -201,7 +206,7 @@ folder directly to the Ruby interpreter e.g. `ruby bin\rails server`.
 TIP: Compiling CoffeeScript and JavaScript asset compression requires you
 have a JavaScript runtime available on your system, in the absence
 of a runtime you will see an `execjs` error during asset compilation.
-Usually Mac OS X and Windows come with a JavaScript runtime installed.
+Usually macOS and Windows come with a JavaScript runtime installed.
 Rails adds the `therubyracer` gem to the generated `Gemfile` in a
 commented line for new apps and you can uncomment if you need it.
 `therubyrhino` is the recommended runtime for JRuby users and is added by
@@ -216,7 +221,7 @@ your application in action, open a browser window and navigate to
 
 TIP: To stop the web server, hit Ctrl+C in the terminal window where it's
 running. To verify the server has stopped you should see your command prompt
-cursor again. For most UNIX-like systems including Mac OS X this will be a
+cursor again. For most UNIX-like systems including macOS this will be a
 dollar sign `$`. In development mode, Rails does not generally require you to
 restart the server; changes you make in files will be automatically picked up by
 the server.
@@ -349,6 +354,7 @@ resource. You need to add the _article resource_ to the
 
 ```ruby
 Rails.application.routes.draw do
+  get 'welcome/index'
 
   resources :articles
 
@@ -465,29 +471,24 @@ The first part identifies which template is missing. In this case, it's the
 then it will attempt to load a template called `application/new`. It looks for
 one here because the `ArticlesController` inherits from `ApplicationController`.
 
-The next part of the message contains a hash. The `:locale` key in this hash
-simply indicates which spoken language template should be retrieved. By default,
-this is the English - or "en" - template. The next key, `:formats` specifies the
-format of the template to be served in response. The default format is `:html`, and
-so Rails is looking for an HTML template. The final key, `:handlers`, is telling
-us what _template handlers_ could be used to render our template. `:erb` is most
-commonly used for HTML templates, `:builder` is used for XML templates, and
-`:coffee` uses CoffeeScript to build JavaScript templates.
-
-The message also contains `request.formats` which specifies the format of template to be
-served in response. It is set to `text/html` as we requested this page via browser, so Rails
-is looking for an HTML template.
+The next part of the message contains `request.formats` which specifies
+the format of template to be served in response. It is set to `text/html` as we
+requested this page via browser, so Rails is looking for an HTML template.
+`request.variant` specifies what kind of physical devices would be served by
+the response and helps Rails determine which template to use in the response.
+It is empty because no information has been provided.
 
 The simplest template that would work in this case would be one located at
 `app/views/articles/new.html.erb`. The extension of this file name is important:
 the first extension is the _format_ of the template, and the second extension
-is the _handler_ that will be used. Rails is attempting to find a template
-called `articles/new` within `app/views` for the application. The format for
-this template can only be `html` and the handler must be one of `erb`,
-`builder` or `coffee`. `:erb` is most commonly used for HTML templates, `:builder` is
-used for XML templates, and `:coffee` uses CoffeeScript to build JavaScript templates.
-Because you want to create a new HTML form, you will be
-using the `ERB` language which is designed to embed Ruby in HTML.
+is the _handler_ that will be used to render the template. Rails is attempting
+to find a template called `articles/new` within `app/views` for the
+application. The format for this template can only be `html` and the default
+handler for HTML is `erb`. Rails uses other handlers for other formats.
+`builder` handler is used to build XML templates and `coffee` handler uses
+CoffeeScript to build JavaScript templates. Since you want to create a new
+HTML form, you will be using the `ERB` language which is designed to embed Ruby
+in HTML.
 
 Therefore the file should be called `articles/new.html.erb` and needs to be
 located inside the `app/views` directory of the application.
@@ -528,7 +529,7 @@ method called `form_for`. To use this method, add this code into
 <% end %>
 ```
 
-If you refresh the page now, you'll see the exact same form as in the example.
+If you refresh the page now, you'll see the exact same form from our example above.
 Building forms in Rails is really just that easy!
 
 When you call `form_for`, you pass it an identifying object for this
@@ -632,8 +633,7 @@ this situation, the only parameters that matter are the ones from the form.
 
 TIP: Ensure you have a firm grasp of the `params` method, as you'll use it fairly regularly. Let's consider an example URL: **http://www.example.com/?username=dhh&email=dhh@email.com**. In this URL, `params[:username]` would equal "dhh" and `params[:email]` would equal "dhh@email.com".
 
-If you re-submit the form one more time you'll now no longer get the missing
-template error. Instead, you'll see something that looks like the following:
+If you re-submit the form one more time, you'll see something that looks like the following:
 
 ```ruby
 <ActionController::Parameters {"title"=>"First Article!", "text"=>"This is my first article."} permitted: false>
@@ -700,8 +700,8 @@ in case you want to reverse it later. When you run this migration it will create
 an `articles` table with one string column and a text column. It also creates
 two timestamp fields to allow Rails to track article creation and update times.
 
-TIP: For more information about migrations, refer to [Rails Database Migrations]
-(migrations.html).
+TIP: For more information about migrations, refer to [Active Record Migrations]
+(active_record_migrations.html).
 
 At this point, you can use a bin/rails command to run the migration:
 
@@ -827,7 +827,7 @@ NOTE: A frequent practice is to place the standard CRUD actions in each
 controller in the following order: `index`, `show`, `new`, `edit`, `create`, `update`
 and `destroy`. You may use any order you choose, but keep in mind that these
 are public methods; as mentioned earlier in this guide, they must be placed
-before any private or protected method in the controller in order to work.
+before declaring `private` visibility in the controller.
 
 Given that, let's add the `show` action, as follows:
 
@@ -1155,9 +1155,9 @@ new articles. Create a file called `app/views/articles/edit.html.erb` and make
 it look as follows:
 
 ```html+erb
-<h1>Editing article</h1>
+<h1>Edit article</h1>
 
-<%= form_for :article, url: article_path(@article), method: :patch do |f| %>
+<%= form_for(@article) do |f| %>
 
   <% if @article.errors.any? %>
     <div id="error_explanation">
@@ -1195,14 +1195,15 @@ it look as follows:
 This time we point the form to the `update` action, which is not defined yet
 but will be very soon.
 
-The `method: :patch` option tells Rails that we want this form to be submitted
+Passing the article object to the method, will automagically create url for submitting the edited article form. 
+This option tells Rails that we want this form to be submitted
 via the `PATCH` HTTP method which is the HTTP method you're expected to use to
 **update** resources according to the REST protocol.
 
 The first parameter of `form_for` can be an object, say, `@article` which would
 cause the helper to fill in the form with the fields of the object. Passing in a
 symbol (`:article`) with the same name as the instance variable (`@article`)
-also automagically leads to the same behavior. This is what is happening here.
+also automagically leads to the same behavior.
 More details can be found in [form_for documentation]
 (http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for).
 
@@ -1655,8 +1656,8 @@ This creates five files and one empty directory:
 | app/views/comments/                          | Views of the controller are stored here  |
 | test/controllers/comments_controller_test.rb | The test for the controller              |
 | app/helpers/comments_helper.rb               | A view helper file                       |
-| app/assets/javascripts/comment.coffee        | CoffeeScript for the controller          |
-| app/assets/stylesheets/comment.scss          | Cascading style sheet for the controller |
+| app/assets/javascripts/comments.coffee       | CoffeeScript for the controller          |
+| app/assets/stylesheets/comments.scss         | Cascading style sheet for the controller |
 
 Like with any blog, our readers will create their comments directly after
 reading the article, and once they have added their comment, will be sent back
