@@ -65,5 +65,9 @@ module RailsGuides
         f.write(result)
       end
     end
+
+    def yml
+      @yml ||= YAML.load(File.read(File.join(source_dir, "references.yml")))
+    end
   end
 end
