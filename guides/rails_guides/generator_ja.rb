@@ -28,17 +28,8 @@ module RailsGuides
     end
 
     def initialize_dirs(output)
-      @guides_dir = File.join(File.dirname(__FILE__), '..')
-      @source_dir = "#@guides_dir/source/#@lang"
-      @output_dir = if output
-        output
-      elsif kindle?
-        "#@guides_dir/output/kindle/#@lang"
-      elsif dash?
-        "#@guides_dir/output/dash/#@lang"
-      else
-        "#@guides_dir/output/#@lang"
-      end.sub(%r</$>, '')
+      super
+      @output_dir = "#@guides_dir/output/dash/#@lang".sub(%r</$>, '') if dash?
     end
 
     def generate_guide(guide, output_file)
