@@ -59,5 +59,5 @@ ERROR
 end
 
 require 'rails_guides/markdown'
-require "rails_guides/generator"
-RailsGuides::Generator.new.generate
+require "rails_guides/generator_ja"
+RailsGuides::GeneratorJa.new.generate
