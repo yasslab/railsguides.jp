@@ -97,7 +97,6 @@ module RailsGuides
       generate_guides
       copy_assets
       generate_mobi if kindle?
-      generate_docset if dash?
     end
 
     private
