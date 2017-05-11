@@ -211,10 +211,6 @@ module RailsGuides
       end
     end
 
-    def references?(guide)
-      yml[guide.sub(".md", "")]
-    end
-
     def references_md(guide)
       md = <<-MD
 
