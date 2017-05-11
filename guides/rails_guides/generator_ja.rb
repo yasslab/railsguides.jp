@@ -6,5 +6,11 @@ module RailsGuides
       super
       @dash = ENV['DASH'] == '1'
     end
+
+    private
+
+    def dash?
+      @dash
+    end
   end
 end

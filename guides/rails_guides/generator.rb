@@ -106,10 +106,6 @@ module RailsGuides
       @kindle
     end
 
-    def dash?
-      @dash
-    end
-
     def check_for_kindlegen
       if `which kindlegen`.blank?
         raise "Can't create a kindle version without `kindlegen`."
