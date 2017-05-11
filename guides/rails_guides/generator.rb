@@ -84,7 +84,6 @@ module RailsGuides
       @warnings = ENV['WARNINGS'] == '1'
       @all      = ENV['ALL']      == '1'
       @kindle   = ENV['KINDLE']   == '1'
-      @dash     = ENV['DASH']     == '1'
       @version  = ENV['RAILS_VERSION'] || 'local'
       @lang     = ENV['GUIDES_LANGUAGE']
     end
