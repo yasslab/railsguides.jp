@@ -211,20 +211,6 @@ module RailsGuides
       end
     end
 
-    def references_md(guide)
-      md = <<-MD
-
-
-参考資料
----------
-
-references#{"-" * 80}
-      MD
-      yml[guide.sub(".md", "")].each_with_object(md) do |link, str|
-        str << "* [#{link['title']}](#{link['url']})\n"
-      end
-    end
-
     def warn_about_broken_links(html)
       anchors = extract_anchors(html)
       check_fragment_identifiers(html, anchors)
