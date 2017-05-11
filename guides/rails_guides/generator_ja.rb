@@ -58,7 +58,7 @@ module RailsGuides
     end
 
     def yml
-      @yml ||= YAML.load(File.read(File.join(source_dir, "references.yml")))
+      @yml ||= YAML.load_file(File.join(source_dir, "references.yml"))
     end
 
     def references?(guide)
