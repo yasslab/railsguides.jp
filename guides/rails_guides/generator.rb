@@ -129,8 +129,6 @@ module RailsGuides
         output
       elsif kindle?
         "#@guides_dir/output/kindle/#@lang"
-      elsif dash?
-        "#@guides_dir/output/dash/#@lang"
       else
         "#@guides_dir/output/#@lang"
       end.sub(%r</$>, '')

@@ -26,5 +26,19 @@ module RailsGuides
                     out
       puts "(docset generate log at #{out})."
     end
+
+    def initialize_dirs(output)
+      @guides_dir = File.join(File.dirname(__FILE__), '..')
+      @source_dir = "#@guides_dir/source/#@lang"
+      @output_dir = if output
+        output
+      elsif kindle?
+        "#@guides_dir/output/kindle/#@lang"
+      elsif dash?
+        "#@guides_dir/output/dash/#@lang"
+      else
+        "#@guides_dir/output/#@lang"
+      end.sub(%r</$>, '')
+    end
   end
 end
