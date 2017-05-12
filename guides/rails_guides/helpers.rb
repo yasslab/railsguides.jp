@@ -23,9 +23,7 @@ module RailsGuides
     end
 
     def finished_documents(documents)
-      # Enable this line when not like to display WIP documents
-      #documents.reject { |document| document['work_in_progress'] }
-      documents
+      documents.reject { |document| document['work_in_progress'] }
     end
 
     def docs_for_menu(position=nil)
