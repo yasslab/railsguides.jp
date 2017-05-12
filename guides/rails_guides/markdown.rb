@@ -36,12 +36,6 @@ module RailsGuides
             duplicate_nodes = @node_ids.delete(dom_id)
             new_node_id = "#{duplicate_nodes[-2][:id]}-#{duplicate_nodes.last[:id]}"
             duplicate_nodes.last[:id] = new_node_id
-
-            # Update <a> tag href for self
-            duplicate_nodes.last.children.each do |child|
-              duplicate_nodes.last.children.first[:href] = "##{new_node_id}" if child.name == "a"
-            end
-
             @node_ids[new_node_id] = duplicate_nodes
           end
 
