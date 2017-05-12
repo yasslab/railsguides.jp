@@ -72,12 +72,6 @@ module RailsGuides
         end
       end
 
-      def extract_raw_body_and_references
-        if @raw_body =~ /^references\-{40,}$/
-          @raw_body, _, @raw_references = @raw_body.partition(/^references\-{40,}$/).map(&:strip)
-        end
-      end
-
       def generate_body
         @body = engine.render(@raw_body)
       end
