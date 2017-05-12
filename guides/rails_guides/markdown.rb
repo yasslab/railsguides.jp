@@ -126,7 +126,7 @@ module RailsGuides
 
           @index = <<-INDEX.html_safe
           <div id="subCol">
-            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
             #{@index}
           </div>
           INDEX

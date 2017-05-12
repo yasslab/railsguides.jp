@@ -81,5 +81,29 @@ module RailsGuides
           end.to_html
         end
       end
+
+      def generate_index
+        if @headings_for_index.present?
+          raw_index = ''
+          @headings_for_index.each do |level, node, label|
+            if level == 1
+              raw_index += "1. [#{label}](##{node[:id]})\n"
+            elsif level == 2
+              raw_index += "    * [#{label}](##{node[:id]})\n"
+            end
+          end
+
+          @index = Nokogiri::HTML.fragment(engine.render(raw_index)).tap do |doc|
+            doc.at('ol')[:class] = 'chapters'
+          end.to_html
+
+          @index = <<-INDEX.html_safe
+            <div id="subCol">
+              <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+              #{@index}
+            </div>
+          INDEX
+        end
+      end
   end
 end
