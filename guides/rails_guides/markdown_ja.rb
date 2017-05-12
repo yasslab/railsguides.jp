@@ -47,5 +47,9 @@ module RailsGuides
           @raw_body, _, @raw_references = @raw_body.partition(/^references\-{40,}$/).map(&:strip)
         end
       end
+
+      def generate_references
+        @references = engine.render(@raw_references).html_safe if @raw_references
+      end
   end
 end

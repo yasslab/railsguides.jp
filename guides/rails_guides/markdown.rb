@@ -80,10 +80,6 @@ module RailsGuides
         @header = engine.render(@raw_header).html_safe
       end
 
-      def generate_references
-        @references = engine.render(@raw_references).html_safe if @raw_references
-      end
-
       def generate_structure
         @headings_for_index = []
         if @body.present?
