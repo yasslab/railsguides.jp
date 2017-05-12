@@ -102,8 +102,7 @@ module RailsGuides
                 end
 
                 node[:id] = dom_id(hierarchy)
-                node.inner_html = "<a>#{node_index(hierarchy)} #{node.inner_html}</a>"
-                node.children.first[:href] = "##{node[:id]}"
+                node.inner_html = "#{node_index(hierarchy)} #{node.inner_html}"
               end
             end
           end.to_html

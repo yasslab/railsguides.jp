@@ -51,5 +51,35 @@ module RailsGuides
       def generate_references
         @references = engine.render(@raw_references).html_safe if @raw_references
       end
+
+      def generate_structure
+        @headings_for_index = []
+        if @body.present?
+          @body = Nokogiri::HTML.fragment(@body).tap do |doc|
+            hierarchy = []
+
+            doc.children.each do |node|
+              if node.name =~ /^h[3-6]$/
+                case node.name
+                  when 'h3'
+                    hierarchy = [node]
+                    @headings_for_index << [1, node, node.inner_html]
+                  when 'h4'
+                    hierarchy = hierarchy[0, 1] + [node]
+                    @headings_for_index << [2, node, node.inner_html]
+                  when 'h5'
+                    hierarchy = hierarchy[0, 2] + [node]
+                  when 'h6'
+                    hierarchy = hierarchy[0, 3] + [node]
+                end
+
+                node[:id] = dom_id(hierarchy)
+                node.inner_html = "<a>#{node_index(hierarchy)} #{node.inner_html}</a>"
+                node.children.first[:href] = "##{node[:id]}"
+              end
+            end
+          end.to_html
+        end
+      end
   end
 end
