@@ -36,19 +36,6 @@ module RailsGuides
       end
     end
 
-    def docs_for_sitemap(position)
-      case position
-      when 'L'
-        documents_by_section.to(3)
-      when 'C'
-        documents_by_section.from(4).take(2)
-      when 'R'
-        documents_by_section.from(6)
-      else
-        raise "Unknown position: #{position}"
-      end
-    end
-
     def author(name, nick, image = 'credits_pic_blank.gif', &block)
       image = "images/#{image}"
 
