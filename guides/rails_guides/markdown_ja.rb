@@ -105,5 +105,13 @@ module RailsGuides
           INDEX
         end
       end
+
+      def generate_title
+        if heading = Nokogiri::HTML.fragment(@header).at(:h2)
+          @title = "#{heading.text} | Rails ガイド".html_safe
+        else
+          @title = "Ruby on Rails ガイド：体系的に Rails を学ぼう"
+        end
+      end
   end
 end
