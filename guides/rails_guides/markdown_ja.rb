@@ -113,5 +113,13 @@ module RailsGuides
           @title = "Ruby on Rails ガイド：体系的に Rails を学ぼう"
         end
       end
+
+      def render_page
+        @view.content_for(:header_section) { @header }
+        @view.content_for(:page_title) { @title }
+        @view.content_for(:index_section) { @index }
+        @view.content_for(:references) { @references }
+        @view.render(:layout => @layout, :text => @body)
+      end
   end
 end
