@@ -58,7 +58,7 @@ require 'action_controller'
 require 'action_view'
 
 require 'rails_guides/indexer'
-require 'rails_guides/helpers'
+require 'rails_guides/helpers_ja'
 require 'rails_guides/levenshtein'
 
 module RailsGuides
@@ -211,7 +211,7 @@ module RailsGuides
 
       File.open(output_path, 'w') do |f|
         view = ActionView::Base.new(source_dir, :edge => @edge, :version => @version, :mobi => "kindle/#{mobi}", :lang => @lang)
-        view.extend(Helpers)
+        view.extend(HelpersJa)
 
         if guide =~ /\.(\w+)\.erb$/
           # Generate the special pages like the home.
