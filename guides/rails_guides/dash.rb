@@ -42,9 +42,9 @@ module Dash
   def create_html_and_register_index(file, doc_name)
     title = ''
     html_body = file.read
-    html_body.scan(/(<h[1-5]( [^>]+)?>(.*?)<\/h([1-5])>)/).each do |match|
+    html_body.scan(/(<h[1-5]( [^>]+)?>\n?[[:space:]]*(.*?)<\/h([1-5])>)/m).each do |match|
       tag = match[0]
-      name = ActionView::Base.full_sanitizer.sanitize(match[2])
+      name = ActionView::Base.full_sanitizer.sanitize(match[2]).delete("\n")
       puts "Index: #{name}"
       hash = Digest::MD5.hexdigest name
 

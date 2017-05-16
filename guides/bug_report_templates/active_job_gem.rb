@@ -8,18 +8,25 @@ end
 gemfile(true) do
   source "https://rubygems.org"
   # Activate the gem you are reporting the issue against.
-  gem "activesupport", "5.1.0"
+  gem "activejob", "5.1.0"
 end
 
-require "active_support/core_ext/object/blank"
 require "minitest/autorun"
+require "active_job"
 
 # Ensure backward compatibility with Minitest 4
 Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
 
-class BugTest < Minitest::Test
+class BuggyJob < ActiveJob::Base
+  def perform
+    puts "performed"
+  end
+end
+
+class BuggyJobTest < ActiveJob::TestCase
   def test_stuff
-    assert "zomg".present?
-    refute "".present?
+    assert_enqueued_with(job: BuggyJob) do
+      BuggyJob.perform_later
+    end
   end
 end

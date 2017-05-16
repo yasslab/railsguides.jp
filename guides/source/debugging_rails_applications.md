@@ -313,7 +313,7 @@ For example:
 
 ```bash
 => Booting Puma
-=> Rails 5.0.0 application starting in development on http://0.0.0.0:3000
+=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
 => Run `rails server -h` for more startup options
 Puma starting in single mode...
 * Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
@@ -445,11 +445,11 @@ then `backtrace` will supply the answer.
 --> #0  ArticlesController.index
       at /PathToProject/app/controllers/articles_controller.rb:8
     #1  ActionController::BasicImplicitRender.send_action(method#String, *args#Array)
-      at /PathToGems/actionpack-5.0.0/lib/action_controller/metal/basic_implicit_render.rb:4
+      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/basic_implicit_render.rb:4
     #2  AbstractController::Base.process_action(action#NilClass, *args#Array)
-      at /PathToGems/actionpack-5.0.0/lib/abstract_controller/base.rb:181
+      at /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb:181
     #3  ActionController::Rendering.process_action(action, *args)
-      at /PathToGems/actionpack-5.0.0/lib/action_controller/metal/rendering.rb:30
+      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/rendering.rb:30
 ...
 ```
 
@@ -461,7 +461,7 @@ context.
 ```
 (byebug) frame 2
 
-[176, 185] in /PathToGems/actionpack-5.0.0/lib/abstract_controller/base.rb
+[176, 185] in /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb
    176:       # is the intended way to override action dispatching.
    177:       #
    178:       # Notice that the first argument is the method to be dispatched
@@ -606,7 +606,6 @@ You can also inspect for an object method this way:
 @new_record = true
 @readonly = false
 @transaction_state = nil
-@txn = nil
 ```
 
 You can also use `display` to start watching variables. This is a good way of
@@ -677,13 +676,13 @@ Ruby instruction to be executed -- in this case, Active Support's `week` method.
 ```
 (byebug) step
 
-[49, 58] in /PathToGems/activesupport-5.0.0/lib/active_support/core_ext/numeric/time.rb
+[49, 58] in /PathToGems/activesupport-5.1.0/lib/active_support/core_ext/numeric/time.rb
    49:
    50:   # Returns a Duration instance matching the number of weeks provided.
    51:   #
    52:   #   2.weeks # => 14 days
    53:   def weeks
-=> 54:     ActiveSupport::Duration.new(self * 7.days, [[:days, self * 7]])
+=> 54:     ActiveSupport::Duration.weeks(self)
    55:   end
    56:   alias :week :weeks
    57:
@@ -946,16 +945,10 @@ development that will end your tailing of development.log. Have all information
 about your Rails app requests in the browser — in the Developer Tools panel.
 Provides insight to db/rendering/total times, parameter list, rendered views and
 more.
+* [Pry](https://github.com/pry/pry) An IRB alternative and runtime developer console.
 
 References
 ----------
 
-* [ruby-debug Homepage](http://bashdb.sourceforge.net/ruby-debug/home-page.html)
-* [debugger Homepage](https://github.com/cldwalker/debugger)
 * [byebug Homepage](https://github.com/deivid-rodriguez/byebug)
 * [web-console Homepage](https://github.com/rails/web-console)
-* [Article: Debugging a Rails application with ruby-debug](http://www.sitepoint.com/debug-rails-app-ruby-debug/)
-* [Ryan Bates' debugging ruby (revised) screencast](http://railscasts.com/episodes/54-debugging-ruby-revised)
-* [Ryan Bates' stack trace screencast](http://railscasts.com/episodes/24-the-stack-trace)
-* [Ryan Bates' logger screencast](http://railscasts.com/episodes/56-the-logger)
-* [Debugging with ruby-debug](http://bashdb.sourceforge.net/ruby-debug.html)
