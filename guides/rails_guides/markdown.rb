@@ -17,11 +17,9 @@ module RailsGuides
     def render(body)
       @raw_body = body
       extract_raw_header_and_body
-      extract_raw_body_and_references
       generate_header
       generate_title
       generate_body
-      generate_references
       generate_structure
       generate_index
       render_page
@@ -38,12 +36,6 @@ module RailsGuides
             duplicate_nodes = @node_ids.delete(dom_id)
             new_node_id = "#{duplicate_nodes[-2][:id]}-#{duplicate_nodes.last[:id]}"
             duplicate_nodes.last[:id] = new_node_id
-
-            # Update <a> tag href for self
-            duplicate_nodes.last.children.each do |child|
-              duplicate_nodes.last.children.first[:href] = "##{new_node_id}" if child.name == "a"
-            end
-
             @node_ids[new_node_id] = duplicate_nodes
           end
 
@@ -80,22 +72,12 @@ module RailsGuides
         end
       end
 
-      def extract_raw_body_and_references
-        if @raw_body =~ /^references\-{40,}$/
-          @raw_body, _, @raw_references = @raw_body.partition(/^references\-{40,}$/).map(&:strip)
-        end
-      end
-
       def generate_body
         @body = engine.render(@raw_body)
       end
 
       def generate_header
         @header = engine.render(@raw_header).html_safe
-      end
-
-      def generate_references
-        @references = engine.render(@raw_references).html_safe if @raw_references
       end
 
       def generate_structure
@@ -120,8 +102,7 @@ module RailsGuides
                 end
 
                 node[:id] = dom_id(hierarchy)
-                node.inner_html = "<a>#{node_index(hierarchy)} #{node.inner_html}</a>"
-                node.children.first[:href] = "##{node[:id]}"
+                node.inner_html = "#{node_index(hierarchy)} #{node.inner_html}"
               end
             end
           end.to_html
@@ -145,7 +126,7 @@ module RailsGuides
 
           @index = <<-INDEX.html_safe
           <div id="subCol">
-            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
             #{@index}
           </div>
           INDEX
@@ -154,9 +135,9 @@ module RailsGuides
 
       def generate_title
         if heading = Nokogiri::HTML.fragment(@header).at(:h2)
-          @title = "#{heading.text} | Rails ガイド".html_safe
+          @title = "#{heading.text} — Ruby on Rails Guides"
         else
-          @title = "Ruby on Rails ガイド：体系的に Rails を学ぼう"
+          @title = "Ruby on Rails Guides"
         end
       end
 
@@ -180,7 +161,6 @@ module RailsGuides
         @view.content_for(:header_section) { @header }
         @view.content_for(:page_title) { @title }
         @view.content_for(:index_section) { @index }
-        @view.content_for(:references) { @references }
         @view.render(:layout => @layout, :text => @body)
       end
   end

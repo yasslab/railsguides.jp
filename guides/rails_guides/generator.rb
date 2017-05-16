@@ -220,7 +220,7 @@ module RailsGuides
         else
           body = File.read(File.join(source_dir, guide))
           body = body << references_md(guide) if references?(guide)
-          result = RailsGuides::Markdown.new(view, layout).render(body)
+          result = RailsGuides::MarkdownJa.new(view, layout).render(body)
 
           warn_about_broken_links(result) if @warnings
         end
