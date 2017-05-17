@@ -290,7 +290,7 @@ You can also pass custom message via the `message` option.
 
 ```ruby
 class Person < ApplicationRecord
-  validates :terms_of_service, acceptance: true, message: 'must be abided'
+  validates :terms_of_service, acceptance: { message: 'must be abided' }
 end
 ```
 
@@ -489,9 +489,6 @@ If you set `:only_integer` to `true`, then it will use the
 
 regular expression to validate the attribute's value. Otherwise, it will try to
 convert the value to a number using `Float`.
-
-WARNING. Note that the regular expression above allows a trailing newline
-character.
 
 ```ruby
 class Player < ApplicationRecord
@@ -913,18 +910,6 @@ class Order < ApplicationRecord
   def paid_with_card?
     payment_type == "card"
   end
-end
-```
-
-### Using a String with `:if` and `:unless`
-
-You can also use a string that will be evaluated using `eval` and needs to
-contain valid Ruby code. You should use this option only when the string
-represents a really short condition.
-
-```ruby
-class Person < ApplicationRecord
-  validates :surname, presence: true, if: "name.nil?"
 end
 ```
 
