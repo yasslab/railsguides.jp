@@ -1573,9 +1573,7 @@ The `collection.where` method finds objects within the collection based on the c
 
 ##### `collection.exists?(...)`
 
-The `collection.exists?` method checks whether an object meeting the supplied
-conditions exists in the collection. It uses the same syntax and options as
-[`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as [`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
 
 ##### `collection.build(attributes = {}, ...)`
 
@@ -1696,10 +1694,7 @@ end
 
 By convention, Rails assumes that the column used to hold the primary key of the association is `id`. You can override this and explicitly specify the primary key with the `:primary_key` option.
 
-Let's say the `users` table has `id` as the primary_key but it also
-has a `guid` column. The requirement is that the `todos` table should
-hold the `guid` column value as the foreign key and not `id`
-value. This can be achieved like this:
+Let's say the `users` table has `id` as the primary_key but it also has a `guid` column. The requirement is that the `todos` table should hold the `guid` column value as the foreign key and not `id` value. This can be achieved like this:
 
 ```ruby
 class User < ApplicationRecord
@@ -1707,8 +1702,7 @@ class User < ApplicationRecord
 end
 ```
 
-Now if we execute `@todo = @user.todos.create` then the `@todo`
-record's `user_id` value will be the `guid` value of `@user`.
+Now if we execute `@todo = @user.todos.create` then the `@todo` record's `user_id` value will be the `guid` value of `@user`.
 
 
 ##### `:source`
@@ -1897,22 +1891,15 @@ person.articles.inspect # => [#<Article id: 7, name: "a1">]
 Reading.all.inspect     # => [#<Reading id: 16, person_id: 7, article_id: 7>, #<Reading id: 17, person_id: 7, article_id: 7>]
 ```
 
-In the above case there are still two readings. However `person.articles` shows
-only one article because the collection loads only unique records.
+In the above case there are still two readings. However `person.articles` shows only one article because the collection loads only unique records.
 
-If you want to make sure that, upon insertion, all of the records in the
-persisted association are distinct (so that you can be sure that when you
-inspect the association that you will never find duplicate records), you should
-add a unique index on the table itself. For example, if you have a table named
-`readings` and you want to make sure the articles can only be added to a person once,
-you could add the following in a migration:
+If you want to make sure that, upon insertion, all of the records in the persisted association are distinct (so that you can be sure that when you inspect the association that you will never find duplicate records), you should add a unique index on the table itself. For example, if you have a table named `readings` and you want to make sure the articles can only be added to a person once, you could add the following in a migration:
 
 ```ruby
 add_index :readings, [:person_id, :article_id], unique: true
 ```
 
-Once you have this unique index, attempting to add the article to a person twice
-will raise an `ActiveRecord::RecordNotUnique` error:
+Once you have this unique index, attempting to add the article to a person twice will raise an `ActiveRecord::RecordNotUnique` error:
 
 ```ruby
 person = Person.create(name: 'Honda')
@@ -1921,11 +1908,7 @@ person.articles << article
 person.articles << article # => ActiveRecord::RecordNotUnique
 ```
 
-Note that checking for uniqueness using something like `include?` is subject
-to race conditions. Do not attempt to use `include?` to enforce distinctness
-in an association. For instance, using the article example from above, the
-following code would be racy because multiple users could be attempting this
-at the same time:
+Note that checking for uniqueness using something like `include?` is subject to race conditions. Do not attempt to use `include?` to enforce distinctness in an association. For instance, using the article example from above, the following code would be racy because multiple users could be attempting this at the same time:
 
 ```ruby
 person.articles << article unless person.articles.include?(article)
@@ -2092,9 +2075,7 @@ The `collection.where` method finds objects within the collection based on the c
 
 ##### `collection.exists?(...)`
 
-The `collection.exists?` method checks whether an object meeting the supplied
-conditions exists in the collection. It uses the same syntax and options as
-[`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as [`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
 
 ##### `collection.build(attributes = {})`
 
@@ -2382,10 +2363,7 @@ Extensions can refer to the internals of the association proxy using these three
 Single Table Inheritance
 ------------------------
 
-Sometimes, you may want to share fields and behavior between different models.
-Let's say we have Car, Motorcycle and Bicycle models. We will want to share
-the `color` and `price` fields and some methods for all of them, but having some
-specific behavior for each, and separated controllers too.
+Sometimes, you may want to share fields and behavior between different models. Let's say we have Car, Motorcycle and Bicycle models. We will want to share the `color` and `price` fields and some methods for all of them, but having some specific behavior for each, and separated controllers too.
 
 Rails makes this quite easy. First, let's generate the base Vehicle model:
 
@@ -2393,15 +2371,9 @@ Rails makes this quite easy. First, let's generate the base Vehicle model:
 $ rails generate model vehicle type:string color:string price:decimal{10.2}
 ```
 
-Did you note we are adding a "type" field? Since all models will be saved in a
-single database table, Rails will save in this column the name of the model that
-is being saved. In our example, this can be "Car", "Motorcycle" or "Bicycle."
-STI won't work without a "type" field in the table.
+Did you note we are adding a "type" field? Since all models will be saved in a single database table, Rails will save in this column the name of the model that is being saved. In our example, this can be "Car", "Motorcycle" or "Bicycle." STI won't work without a "type" field in the table.
 
-Next, we will generate the three models that inherit from Vehicle. For this,
-we can use the `--parent=PARENT` option, which will generate a model that
-inherits from the specified parent and without equivalent migration (since the
-table already exists).
+Next, we will generate the three models that inherit from Vehicle. For this, we can use the `--parent=PARENT` option, which will generate a model that inherits from the specified parent and without equivalent migration (since the table already exists).
 
 For example, to generate the Car model:
 
@@ -2416,8 +2388,7 @@ class Car < Vehicle
 end
 ```
 
-This means that all behavior added to Vehicle is available for Car too, as
-associations, public methods, etc.
+This means that all behavior added to Vehicle is available for Car too, as associations, public methods, etc.
 
 Creating a car will save it in the `vehicles` table with "Car" as the `type` field:
 
