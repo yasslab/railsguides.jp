@@ -1,3 +1,13 @@
+*   Load environment file in `dbconsole` command.
+
+    Fixes #29717
+
+    *Yuji Yaginuma*
+
+*   Add `rails secrets:show` command.
+
+    *Yuji Yaginuma*
+
 *   Allow mounting the same engine several times in different locations.
 
     Fixes #20204.
