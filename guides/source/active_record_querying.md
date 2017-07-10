@@ -345,14 +345,9 @@ User.where(weekly_subscriber: true).find_each do |user|
 end
 ```
 
-as long as they have no ordering, since the method needs to force an order
-internally to iterate.
+as long as they have no ordering, since the method needs to force an order internally to iterate.
 
-If an order is present in the receiver the behaviour depends on the flag
-`config.active_record.error_on_ignored_order`. If true, `ArgumentError` is
-raised, otherwise the order is ignored and a warning issued, which is the
-default. This can be overridden with the option `:error_on_ignore`, explained
-below.
+If an order is present in the receiver the behaviour depends on the flag `config.active_record.error_on_ignored_order`. If true, `ArgumentError` is raised, otherwise the order is ignored and a warning issued, which is the default. This can be overridden with the option `:error_on_ignore`, explained below.
 
 ##### Options for `find_each`
 
@@ -380,8 +375,7 @@ end
 
 **`:finish`**
 
-Similar to the `:start` option, `:finish` allows you to configure the last ID of the sequence whenever the highest ID is not the one you need.
-This would be useful, for example, if you wanted to run a batch process using a subset of records based on `:start` and `:finish`.
+Similar to the `:start` option, `:finish` allows you to configure the last ID of the sequence whenever the highest ID is not the one you need. This would be useful, for example, if you wanted to run a batch process using a subset of records based on `:start` and `:finish`.
 
 For example, to send newsletters only to users with the primary key starting from 2000 up to 10000:
 
@@ -391,14 +385,11 @@ User.find_each(start: 2000, finish: 10000) do |user|
 end
 ```
 
-Another example would be if you wanted multiple workers handling the same
-processing queue. You could have each worker handle 10000 records by setting the
-appropriate `:start` and `:finish` options on each worker.
+Another example would be if you wanted multiple workers handling the same processing queue. You could have each worker handle 10000 records by setting the appropriate `:start` and `:finish` options on each worker.
 
 **`:error_on_ignore`**
 
-Overrides the application config to specify if an error should be raised when an
-order is present in the relation.
+Overrides the application config to specify if an error should be raised when an order is present in the relation.
 
 #### `find_in_batches`
 
@@ -419,8 +410,7 @@ Invoice.pending.find_in_batches do |invoice|
 end
 ```
 
-as long as they have no ordering, since the method needs to force an order
-internally to iterate.
+as long as they have no ordering, since the method needs to force an order internally to iterate.
 
 ##### Options for `find_in_batches`
 
@@ -557,8 +547,7 @@ SELECT * FROM clients WHERE (clients.locked != 1)
 
 ### OR Conditions
 
-`OR` conditions between two relations can be built by calling `or` on the first
-relation, and passing the second one as an argument.
+`OR` conditions between two relations can be built by calling `or` on the first relation, and passing the second one as an argument.
 
 ```ruby
 Client.where(locked: true).or(Client.where(orders_count: [1,3,5]))
@@ -1010,10 +999,7 @@ end
 Joining Tables
 --------------
 
-Active Record provides two finder methods for specifying `JOIN` clauses on the
-resulting SQL: `joins` and `left_outer_joins`.
-While `joins` should be used for `INNER JOIN` or custom queries,
-`left_outer_joins` is used for queries using `LEFT OUTER JOIN`.
+Active Record provides two finder methods for specifying `JOIN` clauses on the resulting SQL: `joins` and `left_outer_joins`. While `joins` should be used for `INNER JOIN` or custom queries, `left_outer_joins` is used for queries using `LEFT OUTER JOIN`.
 
 ### `joins`
 
@@ -1151,8 +1137,7 @@ This will find all clients who have orders that were created yesterday, again us
 
 ### `left_outer_joins`
 
-If you want to select a set of records whether or not they have associated
-records you can use the `left_outer_joins` method.
+If you want to select a set of records whether or not they have associated records you can use the `left_outer_joins` method.
 
 ```ruby
 Author.left_outer_joins(:posts).distinct.select('authors.*, COUNT(posts.*) AS posts_count').group('authors.id')
@@ -1165,8 +1150,7 @@ SELECT DISTINCT authors.*, COUNT(posts.*) AS posts_count FROM "authors"
 LEFT OUTER JOIN posts ON posts.author_id = authors.id GROUP BY authors.id
 ```
 
-Which means: "return all authors with their count of posts, whether or not they
-have any posts at all"
+Which means: "return all authors with their count of posts, whether or not they have any posts at all"
 
 
 Eager Loading Associations
@@ -1240,8 +1224,7 @@ However if you must do this, you may use `where` as you would normally.
 Article.includes(:comments).where(comments: { visible: true })
 ```
 
-This would generate a query which contains a `LEFT OUTER JOIN` whereas the
-`joins` method would generate one using the `INNER JOIN` function instead.
+This would generate a query which contains a `LEFT OUTER JOIN` whereas the `joins` method would generate one using the `INNER JOIN` function instead.
 
 ```ruby
   SELECT "articles"."id" AS t0_r0, ... "comments"."updated_at" AS t1_r5 FROM "articles" LEFT OUTER JOIN "comments" ON "comments"."article_id" = "articles"."id" WHERE (comments.visible = 1)
@@ -1249,20 +1232,15 @@ This would generate a query which contains a `LEFT OUTER JOIN` whereas the
 
 If there was no `where` condition, this would generate the normal set of two queries.
 
-NOTE: Using `where` like this will only work when you pass it a Hash. For
-SQL-fragments you need to use `references` to force joined tables:
+NOTE: Using `where` like this will only work when you pass it a Hash. For SQL-fragments you need to use `references` to force joined tables:
 
 ```ruby
 Article.includes(:comments).where("comments.visible = true").references(:comments)
 ```
 
-If, in the case of this `includes` query, there were no comments for any
-articles, all the articles would still be loaded. By using `joins` (an INNER
-JOIN), the join conditions **must** match, otherwise no records will be
-returned.
+If, in the case of this `includes` query, there were no comments for any articles, all the articles would still be loaded. By using `joins` (an INNER JOIN), the join conditions **must** match, otherwise no records will be returned.
 
-NOTE: If an association is eager loaded as part of a join, any fields from a custom select clause will not present be on the loaded models.
-This is because it is ambiguous whether they should appear on the parent record, or the child.
+NOTE: If an association is eager loaded as part of a join, any fields from a custom select clause will not present be on the loaded models. This is because it is ambiguous whether they should appear on the parent record, or the child.
 
 Scopes
 ------
@@ -1365,8 +1343,7 @@ However, there is one important caveat: A scope will always return an `ActiveRec
 
 ### Applying a default scope
 
-If we wish for a scope to be applied across all queries to the model we can use the
-`default_scope` method within the model itself.
+If we wish for a scope to be applied across all queries to the model we can use the `default_scope` method within the model itself.
 
 ```ruby
 class Client < ApplicationRecord
@@ -1374,15 +1351,13 @@ class Client < ApplicationRecord
 end
 ```
 
-When queries are executed on this model, the SQL query will now look something like
-this:
+When queries are executed on this model, the SQL query will now look something like this:
 
 ```sql
 SELECT * FROM clients WHERE removed_at IS NULL
 ```
 
-If you need to do more complex things with a default scope, you can alternatively
-define it as a class method:
+If you need to do more complex things with a default scope, you can alternatively define it as a class method:
 
 ```ruby
 class Client < ApplicationRecord
@@ -1392,9 +1367,7 @@ class Client < ApplicationRecord
 end
 ```
 
-NOTE: The `default_scope` is also applied while creating/building a record
-when the scope arguments are given as a `Hash`. It is not applied while 
-updating a record. E.g.:
+NOTE: The `default_scope` is also applied while creating/building a record when the scope arguments are given as a `Hash`. It is not applied while  updating a record. E.g.:
 
 ```ruby
 class Client < ApplicationRecord
@@ -1405,8 +1378,7 @@ Client.new          # => #<Client id: nil, active: true>
 Client.unscoped.new # => #<Client id: nil, active: nil>
 ```
 
-Be aware that, when given in the `Array` format, `default_scope` query arguments
-cannot be converted to a `Hash` for default attribute assignment. E.g.:
+Be aware that, when given in the `Array` format, `default_scope` query arguments cannot be converted to a `Hash` for default attribute assignment. E.g.:
 
 ```ruby
 class Client < ApplicationRecord
@@ -1430,24 +1402,21 @@ User.active.inactive
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'active' AND "users"."state" = 'inactive'
 ```
 
-We can mix and match `scope` and `where` conditions and the final sql
-will have all conditions joined with `AND`.
+We can mix and match `scope` and `where` conditions and the final sql will have all conditions joined with `AND`.
 
 ```ruby
 User.active.where(state: 'finished')
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'active' AND "users"."state" = 'finished'
 ```
 
-If we do want the last `where` clause to win then `Relation#merge` can
-be used.
+If we do want the last `where` clause to win then `Relation#merge` can be used.
 
 ```ruby
 User.active.merge(User.inactive)
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'inactive'
 ```
 
-One important caveat is that `default_scope` will be prepended in
-`scope` and `where` conditions.
+One important caveat is that `default_scope` will be prepended in `scope` and `where` conditions.
 
 ```ruby
 class User < ApplicationRecord
@@ -1466,14 +1435,11 @@ User.where(state: 'inactive')
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'pending' AND "users"."state" = 'inactive'
 ```
 
-As you can see above the `default_scope` is being merged in both
-`scope` and `where` conditions.
+As you can see above the `default_scope` is being merged in both `scope` and `where` conditions.
 
 ### Removing All Scoping
 
-If we wish to remove scoping for any reason we can use the `unscoped` method. This is
-especially useful if a `default_scope` is specified in the model and should not be
-applied for this particular query.
+If we wish to remove scoping for any reason we can use the `unscoped` method. This is especially useful if a `default_scope` is specified in the model and should not be applied for this particular query.
 
 ```ruby
 Client.unscoped.load
@@ -1517,9 +1483,7 @@ class Book < ApplicationRecord
 end
 ```
 
-This will automatically create the corresponding [scopes](#scopes) to query the
-model. Methods to transition between states and query the current state are also
-added.
+This will automatically create the corresponding [scopes](#scopes) to query the model. Methods to transition between states and query the current state are also added.
 
 ```ruby
 # Both examples below query just available books.
@@ -1533,23 +1497,16 @@ book.unavailable! # => true
 book.available?   # => false
 ```
 
-Read the full documentation about enums
-[in the Rails API docs](http://api.rubyonrails.org/classes/ActiveRecord/Enum.html).
+Read the full documentation about enums [in the Rails API docs](http://api.rubyonrails.org/classes/ActiveRecord/Enum.html).
 
 Understanding The Method Chaining
 ---------------------------------
 
-The Active Record pattern implements [Method Chaining](http://en.wikipedia.org/wiki/Method_chaining),
-which allow us to use multiple Active Record methods together in a simple and straightforward way.
+The Active Record pattern implements [Method Chaining](http://en.wikipedia.org/wiki/Method_chaining), which allow us to use multiple Active Record methods together in a simple and straightforward way.
 
-You can chain methods in a statement when the previous method called returns an
-`ActiveRecord::Relation`, like `all`, `where`, and `joins`. Methods that return
-a single object (see [Retrieving a Single Object Section](#retrieving-a-single-object))
-have to be at the end of the statement.
+You can chain methods in a statement when the previous method called returns an `ActiveRecord::Relation`, like `all`, `where`, and `joins`. Methods that return a single object (see [Retrieving a Single Object Section](#retrieving-a-single-object)) have to be at the end of the statement.
 
-There are some examples below. This guide won't cover all the possibilities, just a few as examples.
-When an Active Record method is called, the query is not immediately generated and sent to the database,
-this just happens when the data is actually needed. So each example below generates a single query.
+There are some examples below. This guide won't cover all the possibilities, just a few as examples. When an Active Record method is called, the query is not immediately generated and sent to the database, this just happens when the data is actually needed. So each example below generates a single query.
 
 ### Retrieving filtered data from multiple tables
 
@@ -1590,9 +1547,7 @@ WHERE people.name = 'John'
 LIMIT 1
 ```
 
-NOTE: Note that if a query matches multiple records, `find_by` will
-fetch only the first one and ignore the others (see the `LIMIT 1`
-statement above).
+NOTE: Note that if a query matches multiple records, `find_by` will fetch only the first one and ignore the others (see the `LIMIT 1` statement above).
 
 Find or Build a New Object
 --------------------------
@@ -1623,10 +1578,7 @@ COMMIT
 
 The new record might not be saved to the database; that depends on whether validations passed or not (just like `create`).
 
-Suppose we want to set the 'locked' attribute to `false` if we're
-creating a new record, but we don't want to include it in the query. So
-we want to find the client named "Andy", or if that client doesn't
-exist, create a client named "Andy" which is not locked.
+Suppose we want to set the 'locked' attribute to `false` if we're creating a new record, but we don't want to include it in the query. So we want to find the client named "Andy", or if that client doesn't exist, create a client named "Andy" which is not locked.
 
 We can achieve this in two ways. The first is to use `create_with`:
 
@@ -1642,8 +1594,7 @@ Client.find_or_create_by(first_name: 'Andy') do |c|
 end
 ```
 
-The block will only be executed if the client is being created. The
-second time we run this code, the block will be ignored.
+The block will only be executed if the client is being created. The second time we run this code, the block will be ignored.
 
 ### `find_or_create_by!`
 
@@ -1662,11 +1613,7 @@ Client.find_or_create_by!(first_name: 'Andy')
 
 ### `find_or_initialize_by`
 
-The `find_or_initialize_by` method will work just like
-`find_or_create_by` but it will call `new` instead of `create`. This
-means that a new model instance will be created in memory but won't be
-saved to the database. Continuing with the `find_or_create_by` example, we
-now want the client named 'Nick':
+The `find_or_initialize_by` method will work just like `find_or_create_by` but it will call `new` instead of `create`. This means that a new model instance will be created in memory but won't be saved to the database. Continuing with the `find_or_create_by` example, we now want the client named 'Nick':
 
 ```ruby
 nick = Client.find_or_initialize_by(first_name: 'Nick')
@@ -1758,10 +1705,7 @@ Client.pluck(:id)
 Client.pluck(:id, :name)
 ```
 
-Unlike `select`, `pluck` directly converts a database result into a Ruby `Array`,
-without constructing `ActiveRecord` objects. This can mean better performance for
-a large or often-running query. However, any model method overrides will
-not be available. For example:
+Unlike `select`, `pluck` directly converts a database result into a Ruby `Array`, without constructing `ActiveRecord` objects. This can mean better performance for a large or often-running query. However, any model method overrides will not be available. For example:
 
 ```ruby
 class Client < ApplicationRecord
@@ -1777,9 +1721,7 @@ Client.pluck(:name)
 # => ["David", "Jeremy", "Jose"]
 ```
 
-Furthermore, unlike `select` and other `Relation` scopes, `pluck` triggers an immediate
-query, and thus cannot be chained with any further scopes, although it can work with
-scopes already constructed earlier:
+Furthermore, unlike `select` and other `Relation` scopes, `pluck` triggers an immediate query, and thus cannot be chained with any further scopes, although it can work with scopes already constructed earlier:
 
 ```ruby
 Client.pluck(:name).limit(1)
@@ -1810,16 +1752,13 @@ Person.ids
 Existence of Objects
 --------------------
 
-If you simply want to check for the existence of the object there's a method called `exists?`.
-This method will query the database using the same query as `find`, but instead of returning an
-object or collection of objects it will return either `true` or `false`.
+If you simply want to check for the existence of the object there's a method called `exists?`. This method will query the database using the same query as `find`, but instead of returning an object or collection of objects it will return either `true` or `false`.
 
 ```ruby
 Client.exists?(1)
 ```
 
-The `exists?` method also takes multiple values, but the catch is that it will return `true` if any
-one of those records exists.
+The `exists?` method also takes multiple values, but the catch is that it will return `true` if any one of those records exists.
 
 ```ruby
 Client.exists?(id: [1,2,3])
@@ -1833,8 +1772,7 @@ It's even possible to use `exists?` without any arguments on a model or a relati
 Client.where(first_name: 'Ryan').exists?
 ```
 
-The above returns `true` if there is at least one client with the `first_name` 'Ryan' and `false`
-otherwise.
+The above returns `true` if there is at least one client with the `first_name` 'Ryan' and `false` otherwise.
 
 ```ruby
 Client.exists?
@@ -1974,9 +1912,7 @@ EXPLAIN for: SELECT `users`.* FROM `users` INNER JOIN `articles` ON `articles`.`
 
 under MySQL and MariaDB.
 
-Active Record performs a pretty printing that emulates that of the
-corresponding database shell. So, the same query running with the
-PostgreSQL adapter would yield instead
+Active Record performs a pretty printing that emulates that of the corresponding database shell. So, the same query running with the PostgreSQL adapter would yield instead
 
 ```
 EXPLAIN for: SELECT "users".* FROM "users" INNER JOIN "articles" ON "articles"."user_id" = "users"."id" WHERE "users"."id" = 1
@@ -1991,9 +1927,7 @@ EXPLAIN for: SELECT "users".* FROM "users" INNER JOIN "articles" ON "articles"."
 (6 rows)
 ```
 
-Eager loading may trigger more than one query under the hood, and some queries
-may need the results of previous ones. Because of that, `explain` actually
-executes the query, and then asks for the query plans. For example,
+Eager loading may trigger more than one query under the hood, and some queries may need the results of previous ones. Because of that, `explain` actually executes the query, and then asks for the query plans. For example,
 
 ```ruby
 User.where(id: 1).includes(:articles).explain
@@ -2036,8 +1970,7 @@ under MySQL and MariaDB.
 
 ### Interpreting EXPLAIN
 
-Interpretation of the output of EXPLAIN is beyond the scope of this guide. The
-following pointers may be helpful:
+Interpretation of the output of EXPLAIN is beyond the scope of this guide. The following pointers may be helpful:
 
 * SQLite3: [EXPLAIN QUERY PLAN](http://www.sqlite.org/eqp.html)
 
