@@ -155,16 +155,13 @@ The `render` method can also use a view that's entirely outside of your applicat
 render file: "/u/apps/warehouse_app/current/app/views/products/show"
 ```
 
-The `:file` option takes an absolute file-system path. Of course, you need to have rights
-to the view that you're using to render the content.
+The `:file` option takes an absolute file-system path. Of course, you need to have rights to the view that you're using to render the content.
 
-NOTE: Using the `:file` option in combination with users input can lead to security problems
-since an attacker could use this action to access security sensitive files in your file system.
+NOTE: Using the `:file` option in combination with users input can lead to security problems since an attacker could use this action to access security sensitive files in your file system.
 
 NOTE: By default, the file is rendered using the current layout.
 
-TIP: If you're running Rails on Microsoft Windows, you should use the `:file` option to
-render a file, because Windows filenames do not have the same format as Unix filenames.
+TIP: If you're running Rails on Microsoft Windows, you should use the `:file` option to render a file, because Windows filenames do not have the same format as Unix filenames.
 
 #### Wrapping it up
 
@@ -209,33 +206,25 @@ render inline: "xml.p {'Horrid coding practice!'}", type: :builder
 
 #### Rendering Text
 
-You can send plain text - with no markup at all - back to the browser by using
-the `:plain` option to `render`:
+You can send plain text - with no markup at all - back to the browser by using the `:plain` option to `render`:
 
 ```ruby
 render plain: "OK"
 ```
 
-TIP: Rendering pure text is most useful when you're responding to Ajax or web
-service requests that are expecting something other than proper HTML.
+TIP: Rendering pure text is most useful when you're responding to Ajax or web service requests that are expecting something other than proper HTML.
 
-NOTE: By default, if you use the `:plain` option, the text is rendered without
-using the current layout. If you want Rails to put the text into the current
-layout, you need to add the `layout: true` option and use the `.text.erb`
-extension for the layout file.
+NOTE: By default, if you use the `:plain` option, the text is rendered without using the current layout. If you want Rails to put the text into the current layout, you need to add the `layout: true` option and use the `.text.erb` extension for the layout file.
 
 #### Rendering HTML
 
-You can send an HTML string back to the browser by using the `:html` option to
-`render`:
+You can send an HTML string back to the browser by using the `:html` option to `render`:
 
 ```ruby
 render html: "<strong>Not Found</strong>".html_safe
 ```
 
-TIP: This is useful when you're rendering a small snippet of HTML code.
-However, you might want to consider moving it to a template file if the markup
-is complex.
+TIP: This is useful when you're rendering a small snippet of HTML code. However, you might want to consider moving it to a template file if the markup is complex.
 
 NOTE: When using `html:` option, HTML entities will be escaped if the string is not marked as HTML safe by using `html_safe` method.
 
@@ -271,19 +260,15 @@ This will send the supplied string to the browser with a MIME type of `text/java
 
 #### Rendering raw body
 
-You can send a raw content back to the browser, without setting any content
-type, by using the `:body` option to `render`:
+You can send a raw content back to the browser, without setting any content type, by using the `:body` option to `render`:
 
 ```ruby
 render body: "raw"
 ```
 
-TIP: This option should be used only if you don't care about the content type of
-the response. Using `:plain` or `:html` might be more appropriate most of the
-time.
+TIP: This option should be used only if you don't care about the content type of the response. Using `:plain` or `:html` might be more appropriate most of the time.
 
-NOTE: Unless overridden, your response returned from this render option will be
-`text/html`, as that is the default content type of Action Dispatch response.
+NOTE: Unless overridden, your response returned from this render option will be `text/html`, as that is the default content type of Action Dispatch response.
 
 #### Options for `render`
 
@@ -400,13 +385,11 @@ Rails understands both numeric status codes and the corresponding symbols shown 
 |                     | 510              | :not_extended                    |
 |                     | 511              | :network_authentication_required |
 
-NOTE:  If you try to render content along with a non-content status code
-(100-199, 204, 205 or 304), it will be dropped from the response.
+NOTE:  If you try to render content along with a non-content status code (100-199, 204, 205 or 304), it will be dropped from the response.
 
 ##### The `:formats` Option
 
-Rails uses the format specified in the request (or `:html` by default). You can
-change this passing the `:formats` option with a symbol or an array:
+Rails uses the format specified in the request (or `:html` by default). You can change this passing the `:formats` option with a symbol or an array:
 
 ```ruby
 render formats: :xml
@@ -625,10 +608,7 @@ Another way to handle returning responses to an HTTP request is with `redirect_t
 redirect_to photos_url
 ```
 
-You can use `redirect_back` to return the user to the page they just came from.
-This location is pulled from the `HTTP_REFERER` header which is not guaranteed
-to be set by the browser, so you must provide the `fallback_location`
-to use in this case.
+You can use `redirect_back` to return the user to the page they just came from. This location is pulled from the `HTTP_REFERER` header which is not guaranteed to be set by the browser, so you must provide the `fallback_location` to use in this case.
 
 ```ruby
 redirect_back(fallback_location: root_path)
@@ -1054,14 +1034,9 @@ One way to use partials is to treat them as the equivalent of subroutines: as a 
 <%= render "shared/footer" %>
 ```
 
-Here, the `_ad_banner.html.erb` and `_footer.html.erb` partials could contain
-content that is shared by many pages in your application. You don't need to see
-the details of these sections when you're concentrating on a particular page.
+Here, the `_ad_banner.html.erb` and `_footer.html.erb` partials could contain content that is shared by many pages in your application. You don't need to see the details of these sections when you're concentrating on a particular page.
 
-As seen in the previous sections of this guide, `yield` is a very powerful tool
-for cleaning up your layouts. Keep in mind that it's pure Ruby, so you can use
-it almost everywhere. For example, we can use it to DRY up form layout
-definitions for several similar resources:
+As seen in the previous sections of this guide, `yield` is a very powerful tool for cleaning up your layouts. Keep in mind that it's pure Ruby, so you can use it almost everywhere. For example, we can use it to DRY up form layout definitions for several similar resources:
 
 * `users/index.html.erb`
 
