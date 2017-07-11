@@ -473,8 +473,7 @@ Rails
 Subscribing to an event
 -----------------------
 
-Subscribing to an event is easy. Use `ActiveSupport::Notifications.subscribe` with a block to
-listen to any notification.
+Subscribing to an event is easy. Use `ActiveSupport::Notifications.subscribe` with a block to listen to any notification.
 
 The block receives the following arguments:
 
@@ -491,8 +490,7 @@ ActiveSupport::Notifications.subscribe "process_action.action_controller" do |na
 end
 ```
 
-Defining all those block arguments each time can be tedious. You can easily create an `ActiveSupport::Notifications::Event`
-from block arguments like this:
+Defining all those block arguments each time can be tedious. You can easily create an `ActiveSupport::Notifications::Event` from block arguments like this:
 
 ```ruby
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
@@ -515,8 +513,7 @@ ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*a
 end
 ```
 
-You may also subscribe to events matching a regular expression. This enables you to subscribe to
-multiple events at once. Here's you could subscribe to everything from `ActionController`.
+You may also subscribe to events matching a regular expression. This enables you to subscribe to multiple events at once. Here's you could subscribe to everything from `ActionController`.
 
 ```ruby
 ActiveSupport::Notifications.subscribe /action_controller/ do |*args|
@@ -527,10 +524,7 @@ end
 Creating custom events
 ----------------------
 
-Adding your own events is easy as well. `ActiveSupport::Notifications` will take care of
-all the heavy lifting for you. Simply call `instrument` with a `name`, `payload` and a block.
-The notification will be sent after the block returns. `ActiveSupport` will generate the start and end times
-as well as the unique ID. All data passed into the `instrument` call will make it into the payload.
+Adding your own events is easy as well. `ActiveSupport::Notifications` will take care of all the heavy lifting for you. Simply call `instrument` with a `name`, `payload` and a block. The notification will be sent after the block returns. `ActiveSupport` will generate the start and end times as well as the unique ID. All data passed into the `instrument` call will make it into the payload.
 
 Here's an example:
 
@@ -548,5 +542,4 @@ ActiveSupport::Notifications.subscribe "my.custom.event" do |name, started, fini
 end
 ```
 
-You should follow Rails conventions when defining your own events. The format is: `event.library`.
-If you application is sending Tweets, you should create an event named `tweet.twitter`.
+You should follow Rails conventions when defining your own events. The format is: `event.library`. If you application is sending Tweets, you should create an event named `tweet.twitter`.
