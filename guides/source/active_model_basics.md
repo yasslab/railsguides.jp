@@ -3,10 +3,7 @@
 Active Model Basics
 ===================
 
-This guide should provide you with all you need to get started using model
-classes. Active Model allows for Action Pack helpers to interact with
-plain Ruby objects. Active Model also helps build custom ORMs for use
-outside of the Rails framework.
+This guide should provide you with all you need to get started using model classes. Active Model allows for Action Pack helpers to interact with plain Ruby objects. Active Model also helps build custom ORMs for use outside of the Rails framework.
 
 After reading this guide, you will know:
 
@@ -20,15 +17,11 @@ After reading this guide, you will know:
 Introduction
 ------------
 
-Active Model is a library containing various modules used in developing
-classes that need some features present on Active Record.
-Some of these modules are explained below.
+Active Model is a library containing various modules used in developing classes that need some features present on Active Record. Some of these modules are explained below.
 
 ### Attribute Methods
 
-The `ActiveModel::AttributeMethods` module can add custom prefixes and suffixes
-on methods of a class. It is used by defining the prefixes and suffixes and
-which methods on the object will use them.
+The `ActiveModel::AttributeMethods` module can add custom prefixes and suffixes on methods of a class. It is used by defining the prefixes and suffixes and which methods on the object will use them.
 
 ```ruby
 class Person
@@ -59,10 +52,7 @@ person.age_highest?  # => false
 
 ### Callbacks
 
-`ActiveModel::Callbacks` gives Active Record style callbacks. This provides an
-ability to define callbacks which run at appropriate times.
-After defining callbacks, you can wrap them with before, after and around
-custom methods.
+`ActiveModel::Callbacks` gives Active Record style callbacks. This provides an ability to define callbacks which run at appropriate times. After defining callbacks, you can wrap them with before, after and around custom methods.
 
 ```ruby
 class Person
@@ -86,9 +76,7 @@ end
 
 ### Conversion
 
-If a class defines `persisted?` and `id` methods, then you can include the
-`ActiveModel::Conversion` module in that class, and call the Rails conversion
-methods on objects of that class.
+If a class defines `persisted?` and `id` methods, then you can include the `ActiveModel::Conversion` module in that class, and call the Rails conversion methods on objects of that class.
 
 ```ruby
 class Person
@@ -111,11 +99,7 @@ person.to_param            # => nil
 
 ### Dirty
 
-An object becomes dirty when it has gone through one or more changes to its
-attributes and has not been saved. `ActiveModel::Dirty` gives the ability to
-check whether an object has been changed or not. It also has attribute based
-accessor methods. Let's consider a Person class with attributes `first_name`
-and `last_name`:
+An object becomes dirty when it has gone through one or more changes to its attributes and has not been saved. `ActiveModel::Dirty` gives the ability to check whether an object has been changed or not. It also has attribute based accessor methods. Let's consider a Person class with attributes `first_name` and `last_name`:
 
 ```ruby
 class Person
@@ -187,8 +171,7 @@ Track the previous value of the attribute.
 person.first_name_was # => nil
 ```
 
-Track both previous and current value of the changed attribute. Returns an array
-if changed, otherwise returns nil.
+Track both previous and current value of the changed attribute. Returns an array if changed, otherwise returns nil.
 
 ```ruby
 # attr_name_change
@@ -198,8 +181,7 @@ person.last_name_change # => nil
 
 ### Validations
 
-The `ActiveModel::Validations` module adds the ability to validate objects
-like in Active Record.
+The `ActiveModel::Validations` module adds the ability to validate objects like in Active Record.
 
 ```ruby
 class Person
@@ -226,9 +208,7 @@ person.valid?                        # => raises ActiveModel::StrictValidationFa
 
 ### Naming
 
-`ActiveModel::Naming` adds a number of class methods which make naming and routing
-easier to manage. The module defines the `model_name` class method which
-will define a number of accessors using some `ActiveSupport::Inflector` methods.
+`ActiveModel::Naming` adds a number of class methods which make naming and routing easier to manage. The module defines the `model_name` class method which will define a number of accessors using some `ActiveSupport::Inflector` methods.
 
 ```ruby
 class Person
@@ -249,8 +229,7 @@ Person.model_name.singular_route_key  # => "person"
 
 ### Model
 
-`ActiveModel::Model` adds the ability for a class to work with Action Pack and
-Action View right out of the box.
+`ActiveModel::Model` adds the ability for a class to work with Action Pack and Action View right out of the box.
 
 ```ruby
 class EmailContact
@@ -274,8 +253,7 @@ When including `ActiveModel::Model` you get some features like:
 - translations
 - validations
 
-It also gives you the ability to initialize an object with a hash of attributes,
-much like any Active Record object.
+It also gives you the ability to initialize an object with a hash of attributes, much like any Active Record object.
 
 ```ruby
 email_contact = EmailContact.new(name: 'David',
@@ -287,15 +265,11 @@ email_contact.valid?     # => true
 email_contact.persisted? # => false
 ```
 
-Any class that includes `ActiveModel::Model` can be used with `form_for`,
-`render` and any other Action View helper methods, just like Active Record
-objects.
+Any class that includes `ActiveModel::Model` can be used with `form_for`, `render` and any other Action View helper methods, just like Active Record objects.
 
 ### Serialization
 
-`ActiveModel::Serialization` provides basic serialization for your object.
-You need to declare an attributes Hash which contains the attributes you want to
-serialize. Attributes must be strings, not symbols.
+`ActiveModel::Serialization` provides basic serialization for your object. You need to declare an attributes Hash which contains the attributes you want to serialize. Attributes must be strings, not symbols.
 
 ```ruby
 class Person
@@ -320,14 +294,11 @@ person.serializable_hash   # => {"name"=>"Bob"}
 
 #### ActiveModel::Serializers
 
-Active Model also provides the `ActiveModel::Serializers::JSON` module
-for JSON serializing / deserializing. This module automatically includes the
-previously discussed `ActiveModel::Serialization` module.
+Active Model also provides the `ActiveModel::Serializers::JSON` module for JSON serializing / deserializing. This module automatically includes the previously discussed `ActiveModel::Serialization` module.
 
 ##### ActiveModel::Serializers::JSON
 
-To use `ActiveModel::Serializers::JSON` you only need to change the
-module you are including from `ActiveModel::Serialization` to `ActiveModel::Serializers::JSON`.
+To use `ActiveModel::Serializers::JSON` you only need to change the module you are including from `ActiveModel::Serialization` to `ActiveModel::Serializers::JSON`.
 
 ```ruby
 class Person
@@ -341,8 +312,7 @@ class Person
 end
 ```
 
-The `as_json` method, similar to `serializable_hash`, provides a Hash representing
-the model.
+The `as_json` method, similar to `serializable_hash`, provides a Hash representing the model.
 
 ```ruby
 person = Person.new
@@ -351,8 +321,7 @@ person.name = "Bob"
 person.as_json # => {"name"=>"Bob"}
 ```
 
-You can also define the attributes for a model from a JSON string.
-However, you need to define the `attributes=` method on your class:
+You can also define the attributes for a model from a JSON string. However, you need to define the `attributes=` method on your class:
 
 ```ruby
 class Person
@@ -383,8 +352,7 @@ person.name            # => "Bob"
 
 ### Translation
 
-`ActiveModel::Translation` provides integration between your object and the Rails
-internationalization (i18n) framework.
+`ActiveModel::Translation` provides integration between your object and the Rails internationalization (i18n) framework.
 
 ```ruby
 class Person
@@ -392,8 +360,7 @@ class Person
 end
 ```
 
-With the `human_attribute_name` method, you can transform attribute names into a
-more human-readable format. The human-readable format is defined in your locale file(s).
+With the `human_attribute_name` method, you can transform attribute names into a more human-readable format. The human-readable format is defined in your locale file(s).
 
 * config/locales/app.pt-BR.yml
 
@@ -411,8 +378,7 @@ Person.human_attribute_name('name') # => "Nome"
 
 ### Lint Tests
 
-`ActiveModel::Lint::Tests` allows you to test whether an object is compliant with
-the Active Model API.
+`ActiveModel::Lint::Tests` allows you to test whether an object is compliant with the Active Model API.
 
 * `app/models/person.rb`
 
@@ -450,23 +416,15 @@ Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
 6 runs, 30 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-An object is not required to implement all APIs in order to work with
-Action Pack. This module only intends to provide guidance in case you want all
-features out of the box.
+An object is not required to implement all APIs in order to work with Action Pack. This module only intends to provide guidance in case you want all features out of the box.
 
 ### SecurePassword
 
-`ActiveModel::SecurePassword` provides a way to securely store any
-password in an encrypted form. When you include this module, a
-`has_secure_password` class method is provided which defines
-a `password` accessor with certain validations on it.
+`ActiveModel::SecurePassword` provides a way to securely store any password in an encrypted form. When you include this module, a `has_secure_password` class method is provided which defines a `password` accessor with certain validations on it.
 
 #### Requirements
 
-`ActiveModel::SecurePassword` depends on [`bcrypt`](https://github.com/codahale/bcrypt-ruby 'BCrypt'),
-so include this gem in your Gemfile to use `ActiveModel::SecurePassword` correctly.
-In order to make this work, the model must have an accessor named `password_digest`.
-The `has_secure_password` will add the following validations on the `password` accessor:
+`ActiveModel::SecurePassword` depends on [`bcrypt`](https://github.com/codahale/bcrypt-ruby 'BCrypt'), so include this gem in your Gemfile to use `ActiveModel::SecurePassword` correctly. In order to make this work, the model must have an accessor named `password_digest`. The `has_secure_password` will add the following validations on the `password` accessor:
 
 1. Password should be present.
 2. Password should be equal to its confirmation (provided `password_confirmation` is passed along).
