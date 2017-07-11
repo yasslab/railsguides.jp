@@ -15,9 +15,7 @@ After reading this guide, you will know:
 RDoc
 ----
 
-The [Rails API documentation](http://api.rubyonrails.org) is generated with
-[RDoc](http://docs.seattlerb.org/rdoc/). To generate it, make sure you are
-in the rails root directory, run `bundle install` and execute:
+The [Rails API documentation](http://api.rubyonrails.org) is generated with [RDoc](http://docs.seattlerb.org/rdoc/). To generate it, make sure you are in the rails root directory, run `bundle install` and execute:
 
 ```bash
   bundle exec rake rdoc
@@ -25,10 +23,7 @@ in the rails root directory, run `bundle install` and execute:
 
 Resulting HTML files can be found in the ./doc/rdoc directory.
 
-Please consult the RDoc documentation for help with the
-[markup](http://docs.seattlerb.org/rdoc/RDoc/Markup.html),
-and also take into account these [additional
-directives](http://docs.seattlerb.org/rdoc/RDoc/Parser/Ruby.html).
+Please consult the RDoc documentation for help with the [markup](http://docs.seattlerb.org/rdoc/RDoc/Markup.html), and also take into account these [additionaldirectives](http://docs.seattlerb.org/rdoc/RDoc/Parser/Ruby.html).
 
 Wording
 -------
@@ -69,9 +64,7 @@ use this style:
 If `return` is needed it is recommended to explicitly define a method.
 ```
 
-That said, when using pronouns in reference to a hypothetical person, such as "a
-user with a session cookie", gender neutral pronouns (they/their/them) should be
-used. Instead of:
+That said, when using pronouns in reference to a hypothetical person, such as "a user with a session cookie", gender neutral pronouns (they/their/them) should be used. Instead of:
 
 * he or she... use they.
 * him or her... use them.
@@ -87,8 +80,7 @@ Please use American English (*color*, *center*, *modularize*, etc). See [a list 
 Oxford Comma
 ------------
 
-Please use the [Oxford comma](http://en.wikipedia.org/wiki/Serial_comma)
-("red, white, and blue", instead of "red, white and blue").
+Please use the [Oxford comma](http://en.wikipedia.org/wiki/Serial_comma) ("red, white, and blue", instead of "red, white and blue").
 
 Example Code
 ------------
@@ -154,15 +146,9 @@ Booleans
 
 In predicates and flags prefer documenting boolean semantics over exact values.
 
-When "true" or "false" are used as defined in Ruby use regular font. The
-singletons `true` and `false` need fixed-width font. Please avoid terms like
-"truthy", Ruby defines what is true and false in the language, and thus those
-words have a technical meaning and need no substitutes.
+When "true" or "false" are used as defined in Ruby use regular font. The singletons `true` and `false` need fixed-width font. Please avoid terms like "truthy", Ruby defines what is true and false in the language, and thus those words have a technical meaning and need no substitutes.
 
-As a rule of thumb, do not document singletons unless absolutely necessary. That
-prevents artificial constructs like `!!` or ternaries, allows refactors, and the
-code does not need to rely on the exact values returned by methods being called
-in the implementation.
+As a rule of thumb, do not document singletons unless absolutely necessary. That prevents artificial constructs like `!!` or ternaries, allows refactors, and the code does not need to rely on the exact values returned by methods being called in the implementation.
 
 For example:
 
@@ -170,8 +156,7 @@ For example:
 `config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default
 ```
 
-the user does not need to know which is the actual default value of the flag,
-and so we only document its boolean semantics.
+the user does not need to know which is the actual default value of the flag, and so we only document its boolean semantics.
 
 An example with a predicate:
 
@@ -193,8 +178,7 @@ def empty?
 end
 ```
 
-The API is careful not to commit to any particular value, the method has
-predicate semantics, that's enough.
+The API is careful not to commit to any particular value, the method has predicate semantics, that's enough.
 
 File Names
 ----------
@@ -231,10 +215,7 @@ class Array
 end
 ```
 
-WARNING: Using `+...+` for fixed-width font only works with simple content like
-ordinary method names, symbols, paths (with forward slashes), etc. Please use
-`<tt>...</tt>` for everything else, notably class or module names with a
-namespace as in `<tt>ActiveRecord::Base</tt>`.
+WARNING: Using `+...+` for fixed-width font only works with simple content like ordinary method names, symbols, paths (with forward slashes), etc. Please use `<tt>...</tt>` for everything else, notably class or module names with a namespace as in `<tt>ActiveRecord::Base</tt>`.
 
 You can quickly test the RDoc output with the following command:
 
@@ -338,29 +319,21 @@ To summarize, the Rails team uses `:nodoc:` to mark publicly visible methods and
 Regarding the Rails Stack
 -------------------------
 
-When documenting parts of Rails API, it's important to remember all of the
-pieces that go into the Rails stack.
+When documenting parts of Rails API, it's important to remember all of the pieces that go into the Rails stack.
 
-This means that behavior may change depending on the scope or context of the
-method or class you're trying to document.
+This means that behavior may change depending on the scope or context of the method or class you're trying to document.
 
-In various places there is different behavior when you take the entire stack
-into account, one such example is
-`ActionView::Helpers::AssetTagHelper#image_tag`:
+In various places there is different behavior when you take the entire stack into account, one such example is `ActionView::Helpers::AssetTagHelper#image_tag`:
 
 ```ruby
 # image_tag("icon.png")
 #   # => <img alt="Icon" src="/assets/icon.png" />
 ```
 
-Although the default behavior for `#image_tag` is to always return
-`/images/icon.png`, we take into account the full Rails stack (including the
-Asset Pipeline) we may see the result seen above.
+Although the default behavior for `#image_tag` is to always return `/images/icon.png`, we take into account the full Rails stack (including the Asset Pipeline) we may see the result seen above.
 
-We're only concerned with the behavior experienced when using the full default
-Rails stack.
+We're only concerned with the behavior experienced when using the full default Rails stack.
 
-In this case, we want to document the behavior of the _framework_, and not just
-this specific method.
+In this case, we want to document the behavior of the _framework_, and not just this specific method.
 
 If you have a question on how the Rails team handles certain API, don't hesitate to open a ticket or send a patch to the [issue tracker](https://github.com/rails/rails/issues).
