@@ -262,13 +262,7 @@ $ bin/rails db:migrate
 ==  CreateHighScores: migrated (0.0019s) ======================================
 ```
 
-INFO: Let's talk about unit tests. Unit tests are code that tests and makes assertions
-about code. In unit testing, we take a little part of code, say a method of a model,
-and test its inputs and outputs. Unit tests are your friend. The sooner you make
-peace with the fact that your quality of life will drastically increase when you unit
-test your code, the better. Seriously. Please visit
-[the testing guide](http://guides.rubyonrails.org/testing.html) for an in-depth
-look at unit testing.
+INFO: Let's talk about unit tests. Unit tests are code that tests and makes assertions about code. In unit testing, we take a little part of code, say a method of a model, and test its inputs and outputs. Unit tests are your friend. The sooner you make peace with the fact that your quality of life will drastically increase when you unit test your code, the better. Seriously. Please visit [the testing guide](http://guides.rubyonrails.org/testing.html) for an in-depth look at unit testing.
 
 Let's see the interface Rails created for us.
 
@@ -545,9 +539,7 @@ The `tmp:` namespaced tasks will help you clear and create the `Rails.root/tmp` 
 
 ### Custom Rake Tasks
 
-Custom rake tasks have a `.rake` extension and are placed in
-`Rails.root/lib/tasks`. You can create these custom rake tasks with the
-`bin/rails generate task` command.
+Custom rake tasks have a `.rake` extension and are placed in `Rails.root/lib/tasks`. You can create these custom rake tasks with the `bin/rails generate task` command.
 
 ```ruby
 desc "I am short, but comprehensive description for my cool task"
