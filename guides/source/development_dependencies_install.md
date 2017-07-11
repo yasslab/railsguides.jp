@@ -46,8 +46,7 @@ $ cd rails
 
 The test suite must pass with any submitted code. No matter whether you are writing a new patch, or evaluating someone else's, you need to be able to run the tests.
 
-Install first SQLite3 and its development files for the `sqlite3` gem. On macOS
-users are done with:
+Install first SQLite3 and its development files for the `sqlite3` gem. On macOS users are done with:
 
 ```bash
 $ brew install sqlite3
@@ -178,8 +177,7 @@ The Active Record test suite requires a custom config file: `activerecord/test/c
 
 #### MySQL and PostgreSQL
 
-To be able to run the suite for MySQL and PostgreSQL we need their gems. Install
-first the servers, their client libraries, and their development files.
+To be able to run the suite for MySQL and PostgreSQL we need their gems. Install first the servers, their client libraries, and their development files.
 
 On OS X, you can run:
 
@@ -204,8 +202,7 @@ $ sudo yum install mysql-server mysql-devel
 $ sudo yum install postgresql-server postgresql-devel
 ```
 
-If you are running Arch Linux, MySQL isn't supported anymore so you will need to
-use MariaDB instead (see [this announcement](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)):
+If you are running Arch Linux, MySQL isn't supported anymore so you will need to use MariaDB instead (see [this announcement](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)):
 
 ```bash
 $ sudo pacman -S mariadb libmariadbclient mariadb-clients
@@ -219,9 +216,7 @@ FreeBSD users will have to run the following:
 # pkg install postgresql94-client postgresql94-server
 ```
 
-Or install them through ports (they are located under the `databases` folder).
-If you run into troubles during the installation of MySQL, please see
-[the MySQL documentation](http://dev.mysql.com/doc/refman/5.1/en/freebsd-installation.html).
+Or install them through ports (they are located under the `databases` folder). If you run into troubles during the installation of MySQL, please see [the MySQL documentation](http://dev.mysql.com/doc/refman/5.1/en/freebsd-installation.html).
 
 After that, run:
 
@@ -253,8 +248,7 @@ $ cd activerecord
 $ bundle exec rake db:mysql:build
 ```
 
-PostgreSQL's authentication works differently. To setup the development environment
-with your development account, on Linux or BSD, you just have to run:
+PostgreSQL's authentication works differently. To setup the development environment with your development account, on Linux or BSD, you just have to run:
 
 ```bash
 $ sudo -u postgres createuser --superuser $USER
