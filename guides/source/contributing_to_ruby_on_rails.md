@@ -15,8 +15,7 @@ After reading this guide, you will know:
 
 Ruby on Rails is not "someone else's framework." Over the years, hundreds of people have contributed to Ruby on Rails ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Ruby on Rails better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.
 
-As mentioned in [Rails'
-README](https://github.com/rails/rails/blob/master/README.md), everyone interacting in Rails and its sub-projects' codebases, issue trackers, chat rooms, and mailing lists is expected to follow the Rails [code of conduct](http://rubyonrails.org/conduct/).
+As mentioned in [Rails'README](https://github.com/rails/rails/blob/master/README.md), everyone interacting in Rails and its sub-projects' codebases, issue trackers, chat rooms, and mailing lists is expected to follow the Rails [code of conduct](http://rubyonrails.org/conduct/).
 
 --------------------------------------------------------------------------------
 
@@ -57,28 +56,11 @@ WARNING: Please do not report security vulnerabilities with public GitHub issue 
 
 ### What about Feature Requests?
 
-Please don't put "feature request" items into GitHub Issues. If there's a new
-feature that you want to see added to Ruby on Rails, you'll need to write the
-code yourself - or convince someone else to partner with you to write the code.
-Later in this guide, you'll find detailed instructions for proposing a patch to
-Ruby on Rails. If you enter a wish list item in GitHub Issues with no code, you
-can expect it to be marked "invalid" as soon as it's reviewed.
+Please don't put "feature request" items into GitHub Issues. If there's a new feature that you want to see added to Ruby on Rails, you'll need to write the code yourself - or convince someone else to partner with you to write the code. Later in this guide, you'll find detailed instructions for proposing a patch to Ruby on Rails. If you enter a wish list item in GitHub Issues with no code, you can expect it to be marked "invalid" as soon as it's reviewed.
 
-Sometimes, the line between 'bug' and 'feature' is a hard one to draw.
-Generally, a feature is anything that adds new behavior, while a bug is
-anything that causes incorrect behavior. Sometimes,
-the core team will have to make a judgment call. That said, the distinction
-generally just affects which release your patch will get in to; we love feature
-submissions! They just won't get backported to maintenance branches.
+Sometimes, the line between 'bug' and 'feature' is a hard one to draw. Generally, a feature is anything that adds new behavior, while a bug is anything that causes incorrect behavior. Sometimes, the core team will have to make a judgment call. That said, the distinction generally just affects which release your patch will get in to; we love feature submissions! They just won't get backported to maintenance branches.
 
-If you'd like feedback on an idea for a feature before doing the work to make
-a patch, please send an email to the [rails-core mailing
-list](https://groups.google.com/forum/?fromgroups#!forum/rubyonrails-core). You
-might get no response, which means that everyone is indifferent. You might find
-someone who's also interested in building that feature. You might get a "This
-won't be accepted." But it's the proper place to discuss new ideas. GitHub
-Issues are not a particularly good venue for the sometimes long and involved
-discussions new features require.
+If you'd like feedback on an idea for a feature before doing the work to make a patch, please send an email to the [rails-core mailinglist](https://groups.google.com/forum/?fromgroups#!forum/rubyonrails-core). You might get no response, which means that everyone is indifferent. You might find someone who's also interested in building that feature. You might get a "This won't be accepted." But it's the proper place to discuss new ideas. GitHub Issues are not a particularly good venue for the sometimes long and involved discussions new features require.
 
 
 Helping to Resolve Existing Issues
@@ -120,15 +102,14 @@ After applying their branch, test it out! Here are some things to think about:
 
 Once you're happy that the pull request contains a good change, comment on the GitHub issue indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
 
->I like the way you've restructured that code in generate_finder_sql - much nicer. The tests look good too.
+> I like the way you've restructured that code in generate_finder_sql - much nicer. The tests look good too.
 
 If your comment simply reads "+1", then odds are that other reviewers aren't going to take it too seriously. Show that you took the time to review the pull request.
 
 Contributing to the Rails Documentation
 ---------------------------------------
 
-Ruby on Rails has two main sets of documentation: the guides, which help you
-learn about Ruby on Rails, and the API, which serves as a reference.
+Ruby on Rails has two main sets of documentation: the guides, which help you learn about Ruby on Rails, and the API, which serves as a reference.
 
 You can help improve the Rails guides by making them more coherent, consistent or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Rails.
 
@@ -224,8 +205,7 @@ $ cd rails
 $ bundle exec rails new ~/my-test-app --dev
 ```
 
-The application generated in `~/my-test-app` runs against your local branch
-and in particular sees any modifications upon server reboot.
+The application generated in `~/my-test-app` runs against your local branch and in particular sees any modifications upon server reboot.
 
 ### Write Your Code
 
@@ -259,37 +239,17 @@ The above are guidelines - please use your best judgment in using them.
 
 ### Benchmark Your Code
 
-For changes that might have an impact on performance, please benchmark your
-code and measure the impact. Please share the benchmark script you used as well
-as the results. You should consider including this information in your commit
-message, which allows future contributors to easily verify your findings and
-determine if they are still relevant. (For example, future optimizations in the
-Ruby VM might render certain optimizations unnecessary.)
+For changes that might have an impact on performance, please benchmark your code and measure the impact. Please share the benchmark script you used as well as the results. You should consider including this information in your commit message, which allows future contributors to easily verify your findings and determine if they are still relevant. (For example, future optimizations in the Ruby VM might render certain optimizations unnecessary.)
 
-It is very easy to make an optimization that improves performance for a
-specific scenario you care about but regresses on other common cases.
-Therefore, you should test your change against a list of representative
-scenarios. Ideally, they should be based on real-world scenarios extracted
-from production applications.
+It is very easy to make an optimization that improves performance for a specific scenario you care about but regresses on other common cases. Therefore, you should test your change against a list of representative scenarios. Ideally, they should be based on real-world scenarios extracted from production applications.
 
-You can use the [benchmark template](https://github.com/rails/rails/blob/master/guides/bug_report_templates/benchmark.rb)
-as a starting point. It includes the boilerplate code to setup a benchmark
-using the [benchmark-ips](https://github.com/evanphx/benchmark-ips) gem. The
-template is designed for testing relatively self-contained changes that can be
-inlined into the script.
+You can use the [benchmark template](https://github.com/rails/rails/blob/master/guides/bug_report_templates/benchmark.rb) as a starting point. It includes the boilerplate code to setup a benchmark using the [benchmark-ips](https://github.com/evanphx/benchmark-ips) gem. The template is designed for testing relatively self-contained changes that can be inlined into the script.
 
 ### Running Tests
 
-It is not customary in Rails to run the full test suite before pushing
-changes. The railties test suite in particular takes a long time, and takes an
-especially long time if the source code is mounted in `/vagrant` as happens in
-the recommended workflow with the [rails-dev-box](https://github.com/rails/rails-dev-box).
+It is not customary in Rails to run the full test suite before pushing changes. The railties test suite in particular takes a long time, and takes an especially long time if the source code is mounted in `/vagrant` as happens in the recommended workflow with the [rails-dev-box](https://github.com/rails/rails-dev-box).
 
-As a compromise, test what your code obviously affects, and if the change is
-not in railties, run the whole test suite of the affected component. If all
-tests are passing, that's enough to propose your contribution. We have
-[Travis CI](https://travis-ci.org/rails/rails) as a safety net for catching
-unexpected breakages elsewhere.
+As a compromise, test what your code obviously affects, and if the change is not in railties, run the whole test suite of the affected component. If all tests are passing, that's enough to propose your contribution. We have [Travis CI](https://travis-ci.org/rails/rails) as a safety net for catching unexpected breakages elsewhere.
 
 #### Entire Rails:
 
@@ -302,8 +262,7 @@ $ bundle exec rake test
 
 #### For a Particular Component
 
-You can run tests only for a particular component (e.g. Action Pack). For example,
-to run Action Mailer tests:
+You can run tests only for a particular component (e.g. Action Pack). For example, to run Action Mailer tests:
 
 ```bash
 $ cd actionmailer
@@ -319,17 +278,13 @@ $ cd actionmailer
 $ bundle exec ruby -w -Itest test/mail_layout_test.rb -n test_explicit_class_layout
 ```
 
-The `-n` option allows you to run a single method instead of the whole
-file.
+The `-n` option allows you to run a single method instead of the whole file.
 
 #### Testing Active Record
 
-First, create the databases you'll need. You can find a list of the required 
-table names, usernames, and passwords in `activerecord/test/config.example.yml`.
+First, create the databases you'll need. You can find a list of the required  table names, usernames, and passwords in `activerecord/test/config.example.yml`.
 
-For MySQL and PostgreSQL, running the SQL statements `create database
-activerecord_unittest` and `create database activerecord_unittest2` is
-sufficient. This is not necessary for SQLite3.
+For MySQL and PostgreSQL, running the SQL statements `create databaseactiverecord_unittest` and `create database activerecord_unittest2` is sufficient. This is not necessary for SQLite3.
 
 This is how you run the Active Record test suite only for SQLite3:
 
@@ -400,8 +355,7 @@ A CHANGELOG entry should summarize what was changed and should end with the auth
     *Your Name*
 ```
 
-Your name can be added directly after the last word if there are no code
-examples or multiple paragraphs. Otherwise, it's best to make a new paragraph.
+Your name can be added directly after the last word if there are no code examples or multiple paragraphs. Otherwise, it's best to make a new paragraph.
 
 ### Updating the Gemfile.lock
 
@@ -415,11 +369,9 @@ When you're happy with the code on your computer, you need to commit the changes
 $ git commit -a
 ```
 
-This should fire up your editor to write a commit message. When you have
-finished, save and close to continue.
+This should fire up your editor to write a commit message. When you have finished, save and close to continue.
 
-A well-formatted and descriptive commit message is very helpful to others for
-understanding why the change was made, so please take the time to write it.
+A well-formatted and descriptive commit message is very helpful to others for understanding why the change was made, so please take the time to write it.
 
 A good commit message looks like this:
 
@@ -452,8 +404,7 @@ You can also add bullet points:
   with 2 spaces for readability
 ```
 
-TIP. Please squash your commits into a single commit when appropriate. This
-simplifies future cherry picks and keeps the git log clean.
+TIP. Please squash your commits into a single commit when appropriate. This simplifies future cherry picks and keeps the git log clean.
 
 ### Update Your Branch
 
@@ -527,39 +478,21 @@ $ git push origin branch_name
 
 ### Issue a Pull Request
 
-Navigate to the Rails repository you just pushed to (e.g.
-https://github.com/your-user-name/rails) and click on "Pull Requests" seen in
-the right panel. On the next page, press "New pull request" in the upper right
-hand corner.
+Navigate to the Rails repository you just pushed to (e.g. https://github.com/your-user-name/rails) and click on "Pull Requests" seen in the right panel. On the next page, press "New pull request" in the upper right hand corner.
 
-Click on "Edit", if you need to change the branches being compared (it compares
-"master" by default) and press "Click to create a pull request for this
-comparison".
+Click on "Edit", if you need to change the branches being compared (it compares "master" by default) and press "Click to create a pull request for this comparison".
 
-Ensure the changesets you introduced are included. Fill in some details about
-your potential patch including a meaningful title. When finished, press "Send
-pull request". The Rails core team will be notified about your submission.
+Ensure the changesets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press "Send pull request". The Rails core team will be notified about your submission.
 
 ### Get some Feedback
 
-Most pull requests will go through a few iterations before they get merged.
-Different contributors will sometimes have different opinions, and often
-patches will need to be revised before they can get merged.
+Most pull requests will go through a few iterations before they get merged. Different contributors will sometimes have different opinions, and often patches will need to be revised before they can get merged.
 
-Some contributors to Rails have email notifications from GitHub turned on, but
-others do not. Furthermore, (almost) everyone who works on Rails is a
-volunteer, and so it may take a few days for you to get your first feedback on
-a pull request. Don't despair! Sometimes it's quick, sometimes it's slow. Such
-is the open source life.
+Some contributors to Rails have email notifications from GitHub turned on, but others do not. Furthermore, (almost) everyone who works on Rails is a volunteer, and so it may take a few days for you to get your first feedback on a pull request. Don't despair! Sometimes it's quick, sometimes it's slow. Such is the open source life.
 
-If it's been over a week, and you haven't heard anything, you might want to try
-and nudge things along. You can use the [rubyonrails-core mailing
-list](http://groups.google.com/group/rubyonrails-core/) for this. You can also
-leave another comment on the pull request.
+If it's been over a week, and you haven't heard anything, you might want to try and nudge things along. You can use the [rubyonrails-core mailinglist](http://groups.google.com/group/rubyonrails-core/) for this. You can also leave another comment on the pull request.
 
-While you're waiting for feedback on your pull request, open up a few other
-pull requests and give someone else some! I'm sure they'll appreciate it in
-the same way that you appreciate feedback on your patches.
+While you're waiting for feedback on your pull request, open up a few other pull requests and give someone else some! I'm sure they'll appreciate it in the same way that you appreciate feedback on your patches.
 
 ### Iterate as Necessary
 
@@ -567,26 +500,17 @@ It's entirely possible that the feedback you get will suggest changes. Don't get
 
 #### Squashing commits
 
-One of the things that we may ask you to do is to "squash your commits", which
-will combine all of your commits into a single commit. We prefer pull requests
-that are a single commit. This makes it easier to backport changes to stable
-branches, squashing makes it easier to revert bad commits, and the git history
-can be a bit easier to follow. Rails is a large project, and a bunch of
-extraneous commits can add a lot of noise.
+One of the things that we may ask you to do is to "squash your commits", which will combine all of your commits into a single commit. We prefer pull requests that are a single commit. This makes it easier to backport changes to stable branches, squashing makes it easier to revert bad commits, and the git history can be a bit easier to follow. Rails is a large project, and a bunch of extraneous commits can add a lot of noise.
 
-In order to do this, you'll need to have a git remote that points at the main
-Rails repository. This is useful anyway, but just in case you don't have it set
-up, make sure that you do this first:
+In order to do this, you'll need to have a git remote that points at the main Rails repository. This is useful anyway, but just in case you don't have it set up, make sure that you do this first:
 
 ```bash
 $ git remote add upstream https://github.com/rails/rails.git
 ```
 
-You can call this remote whatever you'd like, but if you don't use `upstream`,
-then change the name to your own in the instructions below.
+You can call this remote whatever you'd like, but if you don't use `upstream`, then change the name to your own in the instructions below.
 
-Given that your remote branch is called `my_pull_request`, then you can do the
-following:
+Given that your remote branch is called `my_pull_request`, then you can do the following:
 
 ```bash
 $ git fetch upstream
@@ -599,24 +523,17 @@ $ git rebase -i upstream/master
 $ git push origin my_pull_request -f
 ```
 
-You should be able to refresh the pull request on GitHub and see that it has
-been updated.
+You should be able to refresh the pull request on GitHub and see that it has been updated.
 
 #### Updating pull request
 
-Sometimes you will be asked to make some changes to the code you have
-already committed. This can include amending existing commits. In this
-case Git will not allow you to push the changes as the pushed branch
-and local branch do not match. Instead of opening a new pull request,
-you can force push to your branch on GitHub as described earlier in
-squashing commits section:
+Sometimes you will be asked to make some changes to the code you have already committed. This can include amending existing commits. In this case Git will not allow you to push the changes as the pushed branch and local branch do not match. Instead of opening a new pull request, you can force push to your branch on GitHub as described earlier in squashing commits section:
 
 ```bash
 $ git push origin my_pull_request -f
 ```
 
-This will update the branch and pull request on GitHub with your new code. Do
-note that using force push may result in commits being lost on the remote branch; use it with care.
+This will update the branch and pull request on GitHub with your new code. Do note that using force push may result in commits being lost on the remote branch; use it with care.
 
 
 ### Older Versions of Ruby on Rails
