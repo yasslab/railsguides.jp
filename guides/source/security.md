@@ -38,8 +38,7 @@ A good place to start looking at security is with sessions, which can be vulnera
 
 NOTE: _HTTP is a stateless protocol. Sessions make it stateful._
 
-Most applications need to keep track of certain state of a particular user. This could be the contents of a shopping basket or the user id of the currently logged in user. Without the idea of sessions, the user would have to identify, and probably authenticate, on every request.
-Rails will create a new session automatically if a new user accesses the application. It will load an existing session if the user has already used the application.
+Most applications need to keep track of certain state of a particular user. This could be the contents of a shopping basket or the user id of the currently logged in user. Without the idea of sessions, the user would have to identify, and probably authenticate, on every request. Rails will create a new session automatically if a new user accesses the application. It will load an existing session if the user has already used the application.
 
 A session usually consists of a hash of values and a session ID, usually a 32-character string, to identify the hash. Every cookie sent to the client's browser includes the session ID. And the other way round: the browser will send it to the server on every request from the client. In Rails you can save and retrieve values using the session method:
 
@@ -80,8 +79,7 @@ The main objective of most attackers is to make money. The underground prices fo
 
 Here are some general guidelines on sessions.
 
-* _Do not store large objects in a session_. Instead you should store them in the database and save their id in the session. This will eliminate synchronization headaches and it won't fill up your session storage space (depending on what session storage you chose, see below).
-This will also be a good idea, if you modify the structure of an object and old versions of it are still in some user's cookies. With server-side session storages you can clear out the sessions, but with client-side storages, this is hard to mitigate.
+* _Do not store large objects in a session_. Instead you should store them in the database and save their id in the session. This will eliminate synchronization headaches and it won't fill up your session storage space (depending on what session storage you chose, see below). This will also be a good idea, if you modify the structure of an object and old versions of it are still in some user's cookies. With server-side session storages you can clear out the sessions, but with client-side storages, this is hard to mitigate.
 
 * _Critical data should not be stored in session_. If the user clears their cookies or closes the browser, they will be lost. And with a client-side session storage, the user can read the data.
 
@@ -95,19 +93,11 @@ Rails 2 introduced a new default session storage, CookieStore. CookieStore saves
 
 * The client can see everything you store in a session, because it is stored in clear-text (actually Base64-encoded, so not encrypted). So, of course, _you don't want to store any secrets here_. To prevent session hash tampering, a digest is calculated from the session with a server-side secret (`secrets.secret_token`) and inserted into the end of the cookie.
 
-In Rails 4, encrypted cookies through AES in CBC mode with HMAC using SHA1 for
-verification was introduced. This prevents the user from accessing and tampering
-the content of the cookie. Thus the session becomes a more secure place to store
-data. The encryption is performed using a server-side `secrets.secret_key_base`.
-Two salts are used when deriving keys for encryption and verification. These
-salts are set via the `config.action_dispatch.encrypted_cookie_salt` and
-`config.action_dispatch.encrypted_signed_cookie_salt` configuration values.
+In Rails 4, encrypted cookies through AES in CBC mode with HMAC using SHA1 for verification was introduced. This prevents the user from accessing and tampering the content of the cookie. Thus the session becomes a more secure place to store data. The encryption is performed using a server-side `secrets.secret_key_base`. Two salts are used when deriving keys for encryption and verification. These salts are set via the `config.action_dispatch.encrypted_cookie_salt` and `config.action_dispatch.encrypted_signed_cookie_salt` configuration values.
 
-Rails 5.2 uses AES-GCM for the encryption which couples authentication
-and encryption in one faster step and produces shorter ciphertexts.
+Rails 5.2 uses AES-GCM for the encryption which couples authentication and encryption in one faster step and produces shorter ciphertexts.
 
-Encrypted cookies are automatically upgraded if the
-`config.action_dispatch.use_authenticated_cookie_encryption` is enabled.
+Encrypted cookies are automatically upgraded if the `config.action_dispatch.use_authenticated_cookie_encryption` is enabled.
 
 _Do not use a trivial secret, i.e. a word from a dictionary, or one which is shorter than 30 characters! Instead use `rails secret` to generate secret keys!_
 
@@ -264,13 +254,7 @@ protect_from_forgery with: :exception
 
 This will automatically include a security token in all forms and Ajax requests generated by Rails. If the security token doesn't match what was expected, an exception will be thrown.
 
-NOTE: By default, Rails includes an [unobtrusive scripting adapter](https://github.com/rails/rails/blob/master/actionview/app/assets/javascripts),
-which adds a header called `X-CSRF-Token` with the security token on every non-GET
-Ajax call. Without this header, non-GET Ajax requests won't be accepted by Rails.
-When using another library to make Ajax calls, it is necessary to add the security
-token as a default header for Ajax calls in your library. To get the token, have
-a look at `<meta name='csrf-token' content='THE-TOKEN'>` tag printed by
-`<%= csrf_meta_tags %>` in your application view.
+NOTE: By default, Rails includes an [unobtrusive scripting adapter](https://github.com/rails/rails/blob/master/actionview/app/assets/javascripts), which adds a header called `X-CSRF-Token` with the security token on every non-GET Ajax call. Without this header, non-GET Ajax requests won't be accepted by Rails. When using another library to make Ajax calls, it is necessary to add the security token as a default header for Ajax calls in your library. To get the token, have a look at `<meta name='csrf-token' content='THE-TOKEN'>` tag printed by `<%= csrf_meta_tags %>` in your application view.
 
 It is common to use persistent cookies to store user information, with `cookies.permanent` for example. In this case, the cookies will not be cleared and the out of the box CSRF protection will not be effective. If you are using a different cookie store than the session for this information, you must handle what to do with it yourself:
 
@@ -467,8 +451,7 @@ INFO: _A CAPTCHA is a challenge-response test to determine that the response is 
 
 A popular positive CAPTCHA API is [reCAPTCHA](http://recaptcha.net/) which displays two distorted images of words from old books. It also adds an angled line, rather than a distorted background and high levels of warping on the text as earlier CAPTCHAs did, because the latter were broken. As a bonus, using reCAPTCHA helps to digitize old books. [ReCAPTCHA](https://github.com/ambethia/recaptcha/) is also a Rails plug-in with the same name as the API.
 
-You will get two keys from the API, a public and a private key, which you have to put into your Rails environment. After that you can use the recaptcha_tags method in the view, and the verify_recaptcha method in the controller. Verify_recaptcha will return false if the validation fails.
-The problem with CAPTCHAs is that they have a negative impact on the user experience. Additionally, some visually impaired users have found certain kinds of distorted CAPTCHAs difficult to read. Still, positive CAPTCHAs are one of the best methods to prevent all kinds of bots from submitting forms.
+You will get two keys from the API, a public and a private key, which you have to put into your Rails environment. After that you can use the recaptcha_tags method in the view, and the verify_recaptcha method in the controller. Verify_recaptcha will return false if the validation fails. The problem with CAPTCHAs is that they have a negative impact on the user experience. Additionally, some visually impaired users have found certain kinds of distorted CAPTCHAs difficult to read. Still, positive CAPTCHAs are one of the best methods to prevent all kinds of bots from submitting forms.
 
 Most bots are really dumb. They crawl the web and put their spam into every form's field they can find. Negative CAPTCHAs take advantage of that and include a "honeypot" field in the form which will be hidden from the human user by CSS or JavaScript.
 
@@ -949,16 +932,9 @@ Under certain circumstances this would present the malicious HTML to the victim.
 Unsafe Query Generation
 -----------------------
 
-Due to the way Active Record interprets parameters in combination with the way
-that Rack parses query parameters it was possible to issue unexpected database
-queries with `IS NULL` where clauses. As a response to that security issue
-([CVE-2012-2660](https://groups.google.com/forum/#!searchin/rubyonrails-security/deep_munge/rubyonrails-security/8SA-M3as7A8/Mr9fi9X4kNgJ),
-[CVE-2012-2694](https://groups.google.com/forum/#!searchin/rubyonrails-security/deep_munge/rubyonrails-security/jILZ34tAHF4/7x0hLH-o0-IJ)
-and [CVE-2013-0155](https://groups.google.com/forum/#!searchin/rubyonrails-security/CVE-2012-2660/rubyonrails-security/c7jT-EeN9eI/L0u4e87zYGMJ))
-`deep_munge` method was introduced as a solution to keep Rails secure by default.
+Due to the way Active Record interprets parameters in combination with the way that Rack parses query parameters it was possible to issue unexpected database queries with `IS NULL` where clauses. As a response to that security issue ([CVE-2012-2660](https://groups.google.com/forum/#!searchin/rubyonrails-security/deep_munge/rubyonrails-security/8SA-M3as7A8/Mr9fi9X4kNgJ), [CVE-2012-2694](https://groups.google.com/forum/#!searchin/rubyonrails-security/deep_munge/rubyonrails-security/jILZ34tAHF4/7x0hLH-o0-IJ) and [CVE-2013-0155](https://groups.google.com/forum/#!searchin/rubyonrails-security/CVE-2012-2660/rubyonrails-security/c7jT-EeN9eI/L0u4e87zYGMJ)) `deep_munge` method was introduced as a solution to keep Rails secure by default.
 
-Example of vulnerable code that could be used by attacker, if `deep_munge`
-wasn't performed is:
+Example of vulnerable code that could be used by attacker, if `deep_munge` wasn't performed is:
 
 ```ruby
 unless params[:token].nil?
@@ -967,13 +943,9 @@ unless params[:token].nil?
 end
 ```
 
-When `params[:token]` is one of: `[nil]`, `[nil, nil, ...]` or
-`['foo', nil]` it will bypass the test for `nil`, but `IS NULL` or
-`IN ('foo', NULL)` where clauses still will be added to the SQL query.
+When `params[:token]` is one of: `[nil]`, `[nil, nil, ...]` or `['foo', nil]` it will bypass the test for `nil`, but `IS NULL` or `IN ('foo', NULL)` where clauses still will be added to the SQL query.
 
-To keep Rails secure by default, `deep_munge` replaces some of the values with
-`nil`. Below table shows what the parameters look like based on `JSON` sent in
-request:
+To keep Rails secure by default, `deep_munge` replaces some of the values with `nil`. Below table shows what the parameters look like based on `JSON` sent in request:
 
 | JSON                              | Parameters               |
 |-----------------------------------|--------------------------|
@@ -983,8 +955,7 @@ request:
 | `{ "person": [null, null, ...] }` | `{ :person => [] }`     |
 | `{ "person": ["foo", null] }`     | `{ :person => ["foo"] }` |
 
-It is possible to return to old behavior and disable `deep_munge` configuring
-your application if you are aware of the risk and know how to handle it:
+It is possible to return to old behavior and disable `deep_munge` configuring your application if you are aware of the risk and know how to handle it:
 
 ```ruby
 config.action_dispatch.perform_deep_munge = false
@@ -1034,22 +1005,17 @@ It is beyond the scope of this guide to inform you on how to secure your applica
 
 ### Custom secrets
 
-Rails generates a `config/secrets.yml`. By default, this file contains the
-application's `secret_key_base`, but it could also be used to store other
-secrets such as access keys for external APIs.
+Rails generates a `config/secrets.yml`. By default, this file contains the application's `secret_key_base`, but it could also be used to store other secrets such as access keys for external APIs.
 
-The secrets added to this file are accessible via `Rails.application.secrets`.
-For example, with the following `config/secrets.yml`:
+The secrets added to this file are accessible via `Rails.application.secrets`. For example, with the following `config/secrets.yml`:
 
     development:
       secret_key_base: 3b7cd727ee24e8444053437c36cc66c3
       some_api_key: SOMEKEY
 
-`Rails.application.secrets.some_api_key` returns `SOMEKEY` in the development
-environment.
+`Rails.application.secrets.some_api_key` returns `SOMEKEY` in the development environment.
 
-If you want an exception to be raised when some key is blank, use the bang
-version:
+If you want an exception to be raised when some key is blank, use the bang version:
 
 ```ruby
 Rails.application.secrets.some_api_key! # => raises KeyError: key not found: :some_api_key
