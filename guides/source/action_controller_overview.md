@@ -114,9 +114,7 @@ NOTE: The actual URL in this example will be encoded as "/clients?ids%5b%5d=1&id
 
 The value of `params[:ids]` will now be `["1", "2", "3"]`. Note that parameter values are always strings; Rails makes no attempt to guess or cast the type.
 
-NOTE: Values such as `[nil]` or `[nil, nil, ...]` in `params` are replaced
-with `[]` for security reasons by default. See [Security Guide](security.html#unsafe-query-generation)
-for more information.
+NOTE: Values such as `[nil]` or `[nil, nil, ...]` in `params` are replaced with `[]` for security reasons by default. See [Security Guide](security.html#unsafe-query-generation) for more information.
 
 To send a hash, you include the key name inside the brackets:
 
@@ -191,16 +189,9 @@ In a given request, the method is not actually called for every single generated
 
 ### Strong Parameters
 
-With strong parameters, Action Controller parameters are forbidden to
-be used in Active Model mass assignments until they have been
-whitelisted. This means that you'll have to make a conscious decision about
-which attributes to allow for mass update. This is a better security
-practice to help prevent accidentally allowing users to update sensitive
-model attributes.
+With strong parameters, Action Controller parameters are forbidden to be used in Active Model mass assignments until they have been whitelisted. This means that you'll have to make a conscious decision about which attributes to allow for mass update. This is a better security practice to help prevent accidentally allowing users to update sensitive model attributes.
 
-In addition, parameters can be marked as required and will flow through a
-predefined raise/rescue flow that will result in a 400 Bad Request being
-returned if not all required parameters are passed in.
+In addition, parameters can be marked as required and will flow through a predefined raise/rescue flow that will result in a 400 Bad Request being returned if not all required parameters are passed in.
 
 ```ruby
 class PeopleController < ActionController::Base
@@ -241,45 +232,31 @@ Given
 params.permit(:id)
 ```
 
-the key `:id` will pass the whitelisting if it appears in `params` and
-it has a permitted scalar value associated. Otherwise, the key is going
-to be filtered out, so arrays, hashes, or any other objects cannot be
-injected.
+the key `:id` will pass the whitelisting if it appears in `params` and it has a permitted scalar value associated. Otherwise, the key is going to be filtered out, so arrays, hashes, or any other objects cannot be injected.
 
-The permitted scalar types are `String`, `Symbol`, `NilClass`,
-`Numeric`, `TrueClass`, `FalseClass`, `Date`, `Time`, `DateTime`,
-`StringIO`, `IO`, `ActionDispatch::Http::UploadedFile`, and
-`Rack::Test::UploadedFile`.
+The permitted scalar types are `String`, `Symbol`, `NilClass`, `Numeric`, `TrueClass`, `FalseClass`, `Date`, `Time`, `DateTime`, `StringIO`, `IO`, `ActionDispatch::Http::UploadedFile`, and `Rack::Test::UploadedFile`.
 
-To declare that the value in `params` must be an array of permitted
-scalar values, map the key to an empty array:
+To declare that the value in `params` must be an array of permitted scalar values, map the key to an empty array:
 
 ```ruby
 params.permit(id: [])
 ```
 
-Sometimes it is not possible or convenient to declare the valid keys of
-a hash parameter or its internal structure. Just map to an empty hash:
+Sometimes it is not possible or convenient to declare the valid keys of a hash parameter or its internal structure. Just map to an empty hash:
 
 ```ruby
 params.permit(preferences: {})
 ```
 
-but be careful because this opens the door to arbitrary input. In this
-case, `permit` ensures values in the returned structure are permitted
-scalars and filters out anything else.
+but be careful because this opens the door to arbitrary input. In this case, `permit` ensures values in the returned structure are permitted scalars and filters out anything else.
 
-To whitelist an entire hash of parameters, the `permit!` method can be
-used:
+To whitelist an entire hash of parameters, the `permit!` method can be used:
 
 ```ruby
 params.require(:log_entry).permit!
 ```
 
-This marks the `:log_entry` parameters hash and any sub-hash of it as
-permitted and does not check for permitted scalars, anything is accepted.
-Extreme care should be taken when using `permit!`, as it will allow all current
-and future model attributes to be mass-assigned.
+This marks the `:log_entry` parameters hash and any sub-hash of it as permitted and does not check for permitted scalars, anything is accepted. Extreme care should be taken when using `permit!`, as it will allow all current and future model attributes to be mass-assigned.
 
 #### Nested Parameters
 
@@ -291,19 +268,11 @@ params.permit(:name, { emails: [] },
                          { family: [ :name ], hobbies: [] }])
 ```
 
-This declaration whitelists the `name`, `emails`, and `friends`
-attributes. It is expected that `emails` will be an array of permitted
-scalar values, and that `friends` will be an array of resources with
-specific attributes: they should have a `name` attribute (any
-permitted scalar values allowed), a `hobbies` attribute as an array of
-permitted scalar values, and a `family` attribute which is restricted
-to having a `name` (any permitted scalar values allowed here, too).
+This declaration whitelists the `name`, `emails`, and `friends` attributes. It is expected that `emails` will be an array of permitted scalar values, and that `friends` will be an array of resources with specific attributes: they should have a `name` attribute (any permitted scalar values allowed), a `hobbies` attribute as an array of permitted scalar values, and a `family` attribute which is restricted to having a `name` (any permitted scalar values allowed here, too).
 
 #### More Examples
 
-You may want to also use the permitted attributes in your `new`
-action. This raises the problem that you can't use `require` on the
-root key because, normally, it does not exist when calling `new`:
+You may want to also use the permitted attributes in your `new` action. This raises the problem that you can't use `require` on the root key because, normally, it does not exist when calling `new`:
 
 ```ruby
 # using `fetch` you can supply a default and use
@@ -311,19 +280,14 @@ root key because, normally, it does not exist when calling `new`:
 params.fetch(:blog, {}).permit(:title, :author)
 ```
 
-The model class method `accepts_nested_attributes_for` allows you to
-update and destroy associated records. This is based on the `id` and `_destroy`
-parameters:
+The model class method `accepts_nested_attributes_for` allows you to update and destroy associated records. This is based on the `id` and `_destroy` parameters:
 
 ```ruby
 # permit :id and :_destroy
 params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy])
 ```
 
-Hashes with integer keys are treated differently, and you can declare
-the attributes as if they were direct children. You get these kinds of
-parameters when you use `accepts_nested_attributes_for` in combination
-with a `has_many` association:
+Hashes with integer keys are treated differently, and you can declare the attributes as if they were direct children. You get these kinds of parameters when you use `accepts_nested_attributes_for` in combination with a `has_many` association:
 
 ```ruby
 # To whitelist the following data:
@@ -336,17 +300,9 @@ params.require(:book).permit(:title, chapters_attributes: [:title])
 
 #### Outside the Scope of Strong Parameters
 
-The strong parameter API was designed with the most common use cases
-in mind. It is not meant as a silver bullet to handle all of your
-whitelisting problems. However, you can easily mix the API with your
-own code to adapt to your situation.
+The strong parameter API was designed with the most common use cases in mind. It is not meant as a silver bullet to handle all of your whitelisting problems. However, you can easily mix the API with your own code to adapt to your situation.
 
-Imagine a scenario where you have parameters representing a product
-name and a hash of arbitrary data associated with that product, and
-you want to whitelist the product name attribute and also the whole
-data hash. The strong parameters API doesn't let you directly
-whitelist the whole of a nested hash with any keys, but you can use
-the keys of your nested hash to declare what to whitelist:
+Imagine a scenario where you have parameters representing a product name and a hash of arbitrary data associated with that product, and you want to whitelist the product name attribute and also the whole data hash. The strong parameters API doesn't let you directly whitelist the whole of a nested hash with any keys, but you can use the keys of your nested hash to declare what to whitelist:
 
 ```ruby
 def product_params
@@ -603,15 +559,9 @@ end
 
 Note that while for session values you set the key to `nil`, to delete a cookie value you should use `cookies.delete(:key)`.
 
-Rails also provides a signed cookie jar and an encrypted cookie jar for storing
-sensitive data. The signed cookie jar appends a cryptographic signature on the
-cookie values to protect their integrity. The encrypted cookie jar encrypts the
-values in addition to signing them, so that they cannot be read by the end user.
-Refer to the [API documentation](http://api.rubyonrails.org/classes/ActionDispatch/Cookies.html)
-for more details.
+Rails also provides a signed cookie jar and an encrypted cookie jar for storing sensitive data. The signed cookie jar appends a cryptographic signature on the cookie values to protect their integrity. The encrypted cookie jar encrypts the values in addition to signing them, so that they cannot be read by the end user. Refer to the [API documentation](http://api.rubyonrails.org/classes/ActionDispatch/Cookies.html) for more details.
 
-These special cookie jars use a serializer to serialize the assigned values into
-strings and deserializes them into Ruby objects on read.
+These special cookie jars use a serializer to serialize the assigned values into strings and deserializes them into Ruby objects on read.
 
 You can specify what serializer to use:
 
@@ -619,25 +569,17 @@ You can specify what serializer to use:
 Rails.application.config.action_dispatch.cookies_serializer = :json
 ```
 
-The default serializer for new applications is `:json`. For compatibility with
-old applications with existing cookies, `:marshal` is used when `serializer`
-option is not specified.
+The default serializer for new applications is `:json`. For compatibility with old applications with existing cookies, `:marshal` is used when `serializer` option is not specified.
 
-You may also set this option to `:hybrid`, in which case Rails would transparently
-deserialize existing (`Marshal`-serialized) cookies on read and re-write them in
-the `JSON` format. This is useful for migrating existing applications to the
-`:json` serializer.
+You may also set this option to `:hybrid`, in which case Rails would transparently deserialize existing (`Marshal`-serialized) cookies on read and re-write them in the `JSON` format. This is useful for migrating existing applications to the `:json` serializer.
 
-It is also possible to pass a custom serializer that responds to `load` and
-`dump`:
+It is also possible to pass a custom serializer that responds to `load` and `dump`:
 
 ```ruby
 Rails.application.config.action_dispatch.cookies_serializer = MyCustomSerializer
 ```
 
-When using the `:json` or `:hybrid` serializer, you should beware that not all
-Ruby objects can be serialized as JSON. For example, `Date` and `Time` objects
-will be serialized as strings, and `Hash`es will have their keys stringified.
+When using the `:json` or `:hybrid` serializer, you should beware that not all Ruby objects can be serialized as JSON. For example, `Date` and `Time` objects will be serialized as strings, and `Hash`es will have their keys stringified.
 
 ```ruby
 class CookiesController < ApplicationController
@@ -652,12 +594,9 @@ class CookiesController < ApplicationController
 end
 ```
 
-It's advisable that you only store simple data (strings and numbers) in cookies.
-If you have to store complex objects, you would need to handle the conversion
-manually when reading the values on subsequent requests.
+It's advisable that you only store simple data (strings and numbers) in cookies. If you have to store complex objects, you would need to handle the conversion manually when reading the values on subsequent requests.
 
-If you use the cookie session store, this would apply to the `session` and
-`flash` hash as well.
+If you use the cookie session store, this would apply to the `session` and `flash` hash as well.
 
 Rendering XML and JSON data
 ---------------------------
@@ -715,8 +654,7 @@ end
 
 Now, the `LoginsController`'s `new` and `create` actions will work as before without requiring the user to be logged in. The `:only` option is used to skip this filter only for these actions, and there is also an `:except` option which works the other way. These options can be used when adding filters too, so you can add a filter which only runs for selected actions in the first place.
 
-NOTE: Calling the same filter multiple times with different options will not work,
-since the last filter definition will overwrite the previous ones.
+NOTE: Calling the same filter multiple times with different options will not work, since the last filter definition will overwrite the previous ones.
 
 ### After Filters and Around Filters
 
@@ -1006,17 +944,12 @@ GET /clients/1.pdf
 
 ### Live Streaming of Arbitrary Data
 
-Rails allows you to stream more than just files. In fact, you can stream anything
-you would like in a response object. The `ActionController::Live` module allows
-you to create a persistent connection with a browser. Using this module, you will
-be able to send arbitrary data to the browser at specific points in time.
+Rails allows you to stream more than just files. In fact, you can stream anything you would like in a response object. The `ActionController::Live` module allows you to create a persistent connection with a browser. Using this module, you will be able to send arbitrary data to the browser at specific points in time.
 
 
 #### Incorporating Live Streaming
 
-Including `ActionController::Live` inside of your controller class will provide
-all actions inside of the controller the ability to stream data. You can mix in
-the module like so:
+Including `ActionController::Live` inside of your controller class will provide all actions inside of the controller the ability to stream data. You can mix in the module like so:
 
 ```ruby
 class MyController < ActionController::Base
@@ -1034,25 +967,15 @@ class MyController < ActionController::Base
 end
 ```
 
-The above code will keep a persistent connection with the browser and send 100
-messages of `"hello world\n"`, each one second apart.
+The above code will keep a persistent connection with the browser and send 100 messages of `"hello world\n"`, each one second apart.
 
-There are a couple of things to notice in the above example. We need to make
-sure to close the response stream. Forgetting to close the stream will leave
-the socket open forever. We also have to set the content type to `text/event-stream`
-before we write to the response stream. This is because headers cannot be written
-after the response has been committed (when `response.committed?` returns a truthy
-value), which occurs when you `write` or `commit` the response stream.
+There are a couple of things to notice in the above example. We need to make sure to close the response stream. Forgetting to close the stream will leave the socket open forever. We also have to set the content type to `text/event-stream` before we write to the response stream. This is because headers cannot be written after the response has been committed (when `response.committed?` returns a truthy value), which occurs when you `write` or `commit` the response stream.
 
 #### Example Usage
 
-Let's suppose that you were making a Karaoke machine and a user wants to get the
-lyrics for a particular song. Each `Song` has a particular number of lines and
-each line takes time `num_beats` to finish singing.
+Let's suppose that you were making a Karaoke machine and a user wants to get the lyrics for a particular song. Each `Song` has a particular number of lines and each line takes time `num_beats` to finish singing.
 
-If we wanted to return the lyrics in Karaoke fashion (only sending the line when
-the singer has finished the previous line), then we could use `ActionController::Live`
-as follows:
+If we wanted to return the lyrics in Karaoke fashion (only sending the line when the singer has finished the previous line), then we could use `ActionController::Live` as follows:
 
 ```ruby
 class LyricsController < ActionController::Base
@@ -1072,24 +995,15 @@ class LyricsController < ActionController::Base
 end
 ```
 
-The above code sends the next line only after the singer has completed the previous
-line.
+The above code sends the next line only after the singer has completed the previous line.
 
 #### Streaming Considerations
 
-Streaming arbitrary data is an extremely powerful tool. As shown in the previous
-examples, you can choose when and what to send across a response stream. However,
-you should also note the following things:
+Streaming arbitrary data is an extremely powerful tool. As shown in the previous examples, you can choose when and what to send across a response stream. However, you should also note the following things:
 
-* Each response stream creates a new thread and copies over the thread local
-  variables from the original thread. Having too many thread local variables can
-  negatively impact performance. Similarly, a large number of threads can also
-  hinder performance.
-* Failing to close the response stream will leave the corresponding socket open
-  forever. Make sure to call `close` whenever you are using a response stream.
-* WEBrick servers buffer all responses, and so including `ActionController::Live`
-  will not work. You must use a web server which does not automatically buffer
-  responses.
+* Each response stream creates a new thread and copies over the thread local variables from the original thread. Having too many thread local variables can negatively impact performance. Similarly, a large number of threads can also hinder performance.
+* Failing to close the response stream will leave the corresponding socket open forever. Make sure to call `close` whenever you are using a response stream.
+* WEBrick servers buffer all responses, and so including `ActionController::Live` will not work. You must use a web server which does not automatically buffer responses.
 
 Log Filtering
 -------------
@@ -1108,8 +1022,7 @@ NOTE: Provided parameters will be filtered out by partial matching regular expre
 
 ### Redirects Filtering
 
-Sometimes it's desirable to filter out from log files some sensitive locations your application is redirecting to.
-You can do that by using the `config.filter_redirect` configuration option:
+Sometimes it's desirable to filter out from log files some sensitive locations your application is redirecting to. You can do that by using the `config.filter_redirect` configuration option:
 
 ```ruby
 config.filter_redirect << 's3.amazonaws.com'
@@ -1188,9 +1101,7 @@ end
 
 WARNING: You shouldn't do `rescue_from Exception` or `rescue_from StandardError` unless you have a particular reason as it will cause serious side-effects (e.g. you won't be able to see exception details and tracebacks during development).
 
-NOTE: When running in the production environment, all
-`ActiveRecord::RecordNotFound` errors render the 404 error page. Unless you need
-a custom behavior you don't need to handle this.
+NOTE: When running in the production environment, all `ActiveRecord::RecordNotFound` errors render the 404 error page. Unless you need a custom behavior you don't need to handle this.
 
 NOTE: Certain exceptions are only rescuable from the `ApplicationController` class, as they are raised before the controller gets initialized and the action gets executed.
 
