@@ -20,25 +20,19 @@ This guide describes how to build a test-driven plugin that will:
 * Add methods to `ApplicationRecord` in the tradition of the `acts_as` plugins.
 * Give you information about where to put generators in your plugin.
 
-For the purpose of this guide pretend for a moment that you are an avid bird watcher.
-Your favorite bird is the Yaffle, and you want to create a plugin that allows other developers to share in the Yaffle
-goodness.
+For the purpose of this guide pretend for a moment that you are an avid bird watcher. Your favorite bird is the Yaffle, and you want to create a plugin that allows other developers to share in the Yaffle goodness.
 
 --------------------------------------------------------------------------------
 
 Setup
 -----
 
-Currently, Rails plugins are built as gems, _gemified plugins_. They can be shared across
-different Rails applications using RubyGems and Bundler if desired.
+Currently, Rails plugins are built as gems, _gemified plugins_. They can be shared across different Rails applications using RubyGems and Bundler if desired.
 
 ### Generate a gemified plugin.
 
 
-Rails ships with a `rails plugin new` command which creates a
-skeleton for developing any kind of Rails extension with the ability
-to run integration tests using a dummy Rails application. Create your
-plugin with the command:
+Rails ships with a `rails plugin new` command which creates a skeleton for developing any kind of Rails extension with the ability to run integration tests using a dummy Rails application. Create your plugin with the command:
 
 ```bash
 $ rails plugin new yaffle
@@ -53,8 +47,7 @@ $ rails plugin new --help
 Testing Your Newly Generated Plugin
 -----------------------------------
 
-You can navigate to the directory that contains the plugin, run the `bundle install` command
- and run the one generated test using the `bin/test` command.
+You can navigate to the directory that contains the plugin, run the `bundle install` command  and run the one generated test using the `bin/test` command.
 
 You should see:
 
@@ -144,8 +137,7 @@ $ bin/rails console
 Add an "acts_as" Method to Active Record
 ----------------------------------------
 
-A common pattern in plugins is to add a method called `acts_as_something` to models. In this case, you
-want to write a method called `acts_as_yaffle` that adds a `squawk` method to your Active Record models.
+A common pattern in plugins is to add a method called `acts_as_something` to models. In this case, you want to write a method called `acts_as_yaffle` that adds a `squawk` method to your Active Record models.
 
 To begin, set up your files so that you have:
 
@@ -180,9 +172,7 @@ end
 
 ### Add a Class Method
 
-This plugin will expect that you've added a method to your model named `last_squawk`. However, the
-plugin users might have already defined a method on their model named `last_squawk` that they use
-for something else. This plugin will allow the name to be changed by adding a class method called `yaffle_text_field`.
+This plugin will expect that you've added a method to your model named `last_squawk`. However, the plugin users might have already defined a method on their model named `last_squawk` that they use for something else. This plugin will allow the name to be changed by adding a class method called `yaffle_text_field`.
 
 To start out, write a failing test that shows the behavior you'd like:
 
@@ -232,9 +222,7 @@ Finished in 0.004812s, 831.2949 runs/s, 415.6475 assertions/s.
 4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
 ```
 
-This tells us that we don't have the necessary models (Hickwall and Wickwall) that we are trying to test.
-We can easily generate these models in our "dummy" Rails application by running the following commands from the
-test/dummy directory:
+This tells us that we don't have the necessary models (Hickwall and Wickwall) that we are trying to test. We can easily generate these models in our "dummy" Rails application by running the following commands from the test/dummy directory:
 
 ```bash
 $ cd test/dummy
@@ -242,16 +230,14 @@ $ bin/rails generate model Hickwall last_squawk:string
 $ bin/rails generate model Wickwall last_squawk:string last_tweet:string
 ```
 
-Now you can create the necessary database tables in your testing database by navigating to your dummy app
-and migrating the database. First, run:
+Now you can create the necessary database tables in your testing database by navigating to your dummy app and migrating the database. First, run:
 
 ```bash
 $ cd test/dummy
 $ bin/rails db:migrate
 ```
 
-While you are here, change the Hickwall and Wickwall models so that they know that they are supposed to act
-like yaffles.
+While you are here, change the Hickwall and Wickwall models so that they know that they are supposed to act like yaffles.
 
 ```ruby
 # test/dummy/app/models/hickwall.rb
@@ -363,8 +349,7 @@ When you run `bin/test`, you should see the tests all pass:
 
 ### Add an Instance Method
 
-This plugin will add a method named 'squawk' to any Active Record object that calls 'acts_as_yaffle'. The 'squawk'
-method will simply set the value of one of the fields in the database.
+This plugin will add a method named 'squawk' to any Active Record object that calls 'acts_as_yaffle'. The 'squawk' method will simply set the value of one of the fields in the database.
 
 To start out, write a failing test that shows the behavior you'd like:
 
@@ -395,8 +380,7 @@ class ActsAsYaffleTest < ActiveSupport::TestCase
 end
 ```
 
-Run the test to make sure the last two tests fail with an error that contains "NoMethodError: undefined method `squawk'",
-then update 'acts_as_yaffle.rb' to look like this:
+Run the test to make sure the last two tests fail with an error that contains "NoMethodError: undefined method `squawk'", then update 'acts_as_yaffle.rb' to look like this:
 
 ```ruby
 # yaffle/lib/yaffle/acts_as_yaffle.rb
@@ -448,14 +432,12 @@ send("#{self.class.yaffle_text_field}=", string.to_squawk)
 Generators
 ----------
 
-Generators can be included in your gem simply by creating them in a lib/generators directory of your plugin. More information about
-the creation of generators can be found in the [Generators Guide](generators.html)
+Generators can be included in your gem simply by creating them in a lib/generators directory of your plugin. More information about the creation of generators can be found in the [Generators Guide](generators.html)
 
 Publishing Your Gem
 -------------------
 
-Gem plugins currently in development can easily be shared from any Git repository. To share the Yaffle gem with others, simply
-commit the code to a Git repository (like GitHub) and add a line to the Gemfile of the application in question:
+Gem plugins currently in development can easily be shared from any Git repository. To share the Yaffle gem with others, simply commit the code to a Git repository (like GitHub) and add a line to the Gemfile of the application in question:
 
 ```ruby
 gem 'yaffle', git: 'git://github.com/yaffle_watcher/yaffle.git'
@@ -463,8 +445,7 @@ gem 'yaffle', git: 'git://github.com/yaffle_watcher/yaffle.git'
 
 After running `bundle install`, your gem functionality will be available to the application.
 
-When the gem is ready to be shared as a formal release, it can be published to [RubyGems](http://www.rubygems.org).
-For more information about publishing gems to RubyGems, see: [Creating and Publishing Your First Ruby Gem](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html).
+When the gem is ready to be shared as a formal release, it can be published to [RubyGems](http://www.rubygems.org). For more information about publishing gems to RubyGems, see: [Creating and Publishing Your First Ruby Gem](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html).
 
 RDoc Documentation
 ------------------
