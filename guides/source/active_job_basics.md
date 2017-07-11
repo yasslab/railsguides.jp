@@ -3,8 +3,7 @@
 Active Job Basics
 =================
 
-This guide provides you with all you need to get started in creating,
-enqueuing and executing background jobs.
+This guide provides you with all you need to get started in creating, enqueuing and executing background jobs.
 
 After reading this guide, you will know:
 
@@ -19,24 +18,14 @@ After reading this guide, you will know:
 Introduction
 ------------
 
-Active Job is a framework for declaring jobs and making them run on a variety
-of queuing backends. These jobs can be everything from regularly scheduled
-clean-ups, to billing charges, to mailings. Anything that can be chopped up
-into small units of work and run in parallel, really.
+Active Job is a framework for declaring jobs and making them run on a variety of queuing backends. These jobs can be everything from regularly scheduled clean-ups, to billing charges, to mailings. Anything that can be chopped up into small units of work and run in parallel, really.
 
 
 The Purpose of Active Job
 -----------------------------
-The main point is to ensure that all Rails apps will have a job infrastructure
-in place. We can then have framework features and other gems build on top of that,
-without having to worry about API differences between various job runners such as
-Delayed Job and Resque. Picking your queuing backend becomes more of an operational
-concern, then. And you'll be able to switch between them without having to rewrite
-your jobs.
+The main point is to ensure that all Rails apps will have a job infrastructure in place. We can then have framework features and other gems build on top of that, without having to worry about API differences between various job runners such as Delayed Job and Resque. Picking your queuing backend becomes more of an operational concern, then. And you'll be able to switch between them without having to rewrite your jobs.
 
-NOTE: Rails by default comes with an asynchronous queuing implementation that
-runs jobs with an in-process thread pool. Jobs will run asynchronously, but any
-jobs in the queue will be dropped upon restart.
+NOTE: Rails by default comes with an asynchronous queuing implementation that runs jobs with an in-process thread pool. Jobs will run asynchronously, but any jobs in the queue will be dropped upon restart.
 
 
 Creating a Job
@@ -46,8 +35,7 @@ This section will provide a step-by-step guide to creating a job and enqueuing i
 
 ### Create the Job
 
-Active Job provides a Rails generator to create jobs. The following will create a
-job in `app/jobs` (with an attached test case under `test/jobs`):
+Active Job provides a Rails generator to create jobs. The following will create a job in `app/jobs` (with an attached test case under `test/jobs`):
 
 ```bash
 $ bin/rails generate job guests_cleanup
@@ -62,8 +50,7 @@ You can also create a job that will run on a specific queue:
 $ bin/rails generate job guests_cleanup --queue urgent
 ```
 
-If you don't want to use a generator, you could create your own file inside of
-`app/jobs`, just make sure that it inherits from `ApplicationJob`.
+If you don't want to use a generator, you could create your own file inside of `app/jobs`, just make sure that it inherits from `ApplicationJob`.
 
 Here's what a job looks like:
 
@@ -110,18 +97,11 @@ That's it!
 Job Execution
 -------------
 
-For enqueuing and executing jobs in production you need to set up a queuing backend,
-that is to say you need to decide for a 3rd-party queuing library that Rails should use.
-Rails itself only provides an in-process queuing system, which only keeps the jobs in RAM.
-If the process crashes or the machine is reset, then all outstanding jobs are lost with the
-default async backend. This may be fine for smaller apps or non-critical jobs, but most
-production apps will need to pick a persistent backend.
+For enqueuing and executing jobs in production you need to set up a queuing backend, that is to say you need to decide for a 3rd-party queuing library that Rails should use. Rails itself only provides an in-process queuing system, which only keeps the jobs in RAM. If the process crashes or the machine is reset, then all outstanding jobs are lost with the default async backend. This may be fine for smaller apps or non-critical jobs, but most production apps will need to pick a persistent backend.
 
 ### Backends
 
-Active Job has built-in adapters for multiple queuing backends (Sidekiq,
-Resque, Delayed Job and others). To get an up-to-date list of the adapters
-see the API Documentation for [ActiveJob::QueueAdapters](http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html).
+Active Job has built-in adapters for multiple queuing backends (Sidekiq, Resque, Delayed Job and others). To get an up-to-date list of the adapters see the API Documentation for [ActiveJob::QueueAdapters](http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html).
 
 ### Setting the Backend
 
@@ -153,10 +133,7 @@ end
 
 ### Starting the Backend
 
-Since jobs run in parallel to your Rails application, most queuing libraries
-require that you start a library-specific queuing service (in addition to
-starting your Rails app) for the job processing to work. Refer to library
-documentation for instructions on starting your queue backend.
+Since jobs run in parallel to your Rails application, most queuing libraries require that you start a library-specific queuing service (in addition to starting your Rails app) for the job processing to work. Refer to library documentation for instructions on starting your queue backend.
 
 Here is a noncomprehensive list of documentation:
 
@@ -168,8 +145,7 @@ Here is a noncomprehensive list of documentation:
 Queues
 ------
 
-Most of the adapters support multiple queues. With Active Job you can schedule
-the job to run on a specific queue:
+Most of the adapters support multiple queues. With Active Job you can schedule the job to run on a specific queue:
 
 ```ruby
 class GuestsCleanupJob < ApplicationJob
@@ -178,8 +154,7 @@ class GuestsCleanupJob < ApplicationJob
 end
 ```
 
-You can prefix the queue name for all your jobs using
-`config.active_job.queue_name_prefix` in `application.rb`:
+You can prefix the queue name for all your jobs using `config.active_job.queue_name_prefix` in `application.rb`:
 
 ```ruby
 # config/application.rb
@@ -200,8 +175,7 @@ end
 # on your staging environment
 ```
 
-The default queue name prefix delimiter is '\_'.  This can be changed by setting
-`config.active_job.queue_name_delimiter` in `application.rb`:
+The default queue name prefix delimiter is '\_'.  This can be changed by setting `config.active_job.queue_name_delimiter` in `application.rb`:
 
 ```ruby
 # config/application.rb
@@ -223,16 +197,13 @@ end
 # on your staging environment
 ```
 
-If you want more control on what queue a job will be run you can pass a `:queue`
-option to `#set`:
+If you want more control on what queue a job will be run you can pass a `:queue` option to `#set`:
 
 ```ruby
 MyJob.set(queue: :another_queue).perform_later(record)
 ```
 
-To control the queue from the job level you can pass a block to `#queue_as`. The
-block will be executed in the job context (so you can access `self.arguments`)
-and you must return the queue name:
+To control the queue from the job level you can pass a block to `#queue_as`. The block will be executed in the job context (so you can access `self.arguments`) and you must return the queue name:
 
 ```ruby
 class ProcessVideoJob < ApplicationJob
@@ -253,15 +224,13 @@ end
 ProcessVideoJob.perform_later(Video.last)
 ```
 
-NOTE: Make sure your queuing backend "listens" on your queue name. For some
-backends you need to specify the queues to listen to.
+NOTE: Make sure your queuing backend "listens" on your queue name. For some backends you need to specify the queues to listen to.
 
 
 Callbacks
 ---------
 
-Active Job provides hooks during the life cycle of a job. Callbacks allow you to
-trigger logic during the life cycle of a job.
+Active Job provides hooks during the life cycle of a job. Callbacks allow you to trigger logic during the life cycle of a job.
 
 ### Available callbacks
 
@@ -298,9 +267,7 @@ end
 Action Mailer
 ------------
 
-One of the most common jobs in a modern web application is sending emails outside
-of the request-response cycle, so the user doesn't have to wait on it. Active Job
-is integrated with Action Mailer so you can easily send emails asynchronously:
+One of the most common jobs in a modern web application is sending emails outside of the request-response cycle, so the user doesn't have to wait on it. Active Job is integrated with Action Mailer so you can easily send emails asynchronously:
 
 ```ruby
 # If you want to send the email now use #deliver_now
@@ -310,18 +277,13 @@ UserMailer.welcome(@user).deliver_now
 UserMailer.welcome(@user).deliver_later
 ```
 
-NOTE: Using the asynchronous queue from a Rake task (for example, to
-send an email using `.deliver_later`) will generally not work because Rake will
-likely end, causing the in-process thread pool to be deleted, before any/all
-of the `.deliver_later` emails are processed. To avoid this problem, use
-`.deliver_now` or run a persistent queue in development.
+NOTE: Using the asynchronous queue from a Rake task (for example, to send an email using `.deliver_later`) will generally not work because Rake will likely end, causing the in-process thread pool to be deleted, before any/all of the `.deliver_later` emails are processed. To avoid this problem, use `.deliver_now` or run a persistent queue in development.
 
 
 Internationalization
 --------------------
 
-Each job uses the `I18n.locale` set when the job was created. Useful if you send
-emails asynchronously:
+Each job uses the `I18n.locale` set when the job was created. Useful if you send emails asynchronously:
 
 ```ruby
 I18n.locale = :eo
@@ -333,9 +295,7 @@ UserMailer.welcome(@user).deliver_later # Email will be localized to Esperanto.
 GlobalID
 --------
 
-Active Job supports GlobalID for parameters. This makes it possible to pass live
-Active Record objects to your job instead of class/id pairs, which you then have
-to manually deserialize. Before, jobs would look like this:
+Active Job supports GlobalID for parameters. This makes it possible to pass live Active Record objects to your job instead of class/id pairs, which you then have to manually deserialize. Before, jobs would look like this:
 
 ```ruby
 class TrashableCleanupJob < ApplicationJob
@@ -356,15 +316,13 @@ class TrashableCleanupJob < ApplicationJob
 end
 ```
 
-This works with any class that mixes in `GlobalID::Identification`, which
-by default has been mixed into Active Record classes.
+This works with any class that mixes in `GlobalID::Identification`, which by default has been mixed into Active Record classes.
 
 
 Exceptions
 ----------
 
-Active Job provides a way to catch exceptions raised during the execution of the
-job:
+Active Job provides a way to catch exceptions raised during the execution of the job:
 
 ```ruby
 class GuestsCleanupJob < ApplicationJob
@@ -384,12 +342,9 @@ end
 
 GlobalID allows serializing full Active Record objects passed to `#perform`.
 
-If a passed record is deleted after the job is enqueued but before the `#perform`
-method is called Active Job will raise an `ActiveJob::DeserializationError`
-exception.
+If a passed record is deleted after the job is enqueued but before the `#perform` method is called Active Job will raise an `ActiveJob::DeserializationError` exception.
 
 Job Testing
 --------------
 
-You can find detailed instructions on how to test your jobs in the
-[testing guide](testing.html#testing-jobs).
+You can find detailed instructions on how to test your jobs in the [testing guide](testing.html#testing-jobs).
