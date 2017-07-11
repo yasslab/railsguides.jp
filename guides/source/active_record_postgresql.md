@@ -14,18 +14,14 @@ After reading this guide, you will know:
 
 --------------------------------------------------------------------------------
 
-In order to use the PostgreSQL adapter you need to have at least version 9.1
-installed. Older versions are not supported.
+In order to use the PostgreSQL adapter you need to have at least version 9.1 installed. Older versions are not supported.
 
-To get started with PostgreSQL have a look at the
-[configuring Rails guide](configuring.html#configuring-a-postgresql-database).
-It describes how to properly setup Active Record for PostgreSQL.
+To get started with PostgreSQL have a look at the [configuring Rails guide](configuring.html#configuring-a-postgresql-database). It describes how to properly setup Active Record for PostgreSQL.
 
 Datatypes
 ---------
 
-PostgreSQL offers a number of specific datatypes. Following is a list of types,
-that are supported by the PostgreSQL adapter.
+PostgreSQL offers a number of specific datatypes. Following is a list of types, that are supported by the PostgreSQL adapter.
 
 ### Bytea
 
@@ -184,8 +180,7 @@ event.ends_at # => Thu, 13 Feb 2014
 
 * [type definition](http://www.postgresql.org/docs/current/static/rowtypes.html)
 
-Currently there is no special support for composite types. They are mapped to
-normal text columns:
+Currently there is no special support for composite types. They are mapped to normal text columns:
 
 ```sql
 CREATE TYPE full_address AS
@@ -224,8 +219,7 @@ contact.save!
 
 * [type definition](http://www.postgresql.org/docs/current/static/datatype-enum.html)
 
-Currently there is no special support for enumerated types. They are mapped as
-normal text columns:
+Currently there is no special support for enumerated types. They are mapped as normal text columns:
 
 ```ruby
 # db/migrate/20131220144913_create_articles.rb
@@ -293,8 +287,7 @@ SELECT n.nspname AS enum_schema,
 * [pgcrypto generator function](http://www.postgresql.org/docs/current/static/pgcrypto.html#AEN182570)
 * [uuid-ossp generator functions](http://www.postgresql.org/docs/current/static/uuid-ossp.html)
 
-NOTE: You need to enable the `pgcrypto` (only PostgreSQL >= 9.4) or `uuid-ossp`
-extension to use uuid.
+NOTE: You need to enable the `pgcrypto` (only PostgreSQL >= 9.4) or `uuid-ossp` extension to use uuid.
 
 ```ruby
 # db/migrate/20131220144913_create_revisions.rb
@@ -366,9 +359,7 @@ user.save!
 
 * [type definition](http://www.postgresql.org/docs/current/static/datatype-net-types.html)
 
-The types `inet` and `cidr` are mapped to Ruby
-[`IPAddr`](http://www.ruby-doc.org/stdlib-2.2.2/libdoc/ipaddr/rdoc/IPAddr.html)
-objects. The `macaddr` type is mapped to normal text.
+The types `inet` and `cidr` are mapped to Ruby [`IPAddr`](http://www.ruby-doc.org/stdlib-2.2.2/libdoc/ipaddr/rdoc/IPAddr.html) objects. The `macaddr` type is mapped to normal text.
 
 ```ruby
 # db/migrate/20140508144913_create_devices.rb
@@ -401,15 +392,13 @@ macbook.address
 
 * [type definition](http://www.postgresql.org/docs/current/static/datatype-geometric.html)
 
-All geometric types, with the exception of `points` are mapped to normal text.
-A point is casted to an array containing `x` and `y` coordinates.
+All geometric types, with the exception of `points` are mapped to normal text. A point is casted to an array containing `x` and `y` coordinates.
 
 
 UUID Primary Keys
 -----------------
 
-NOTE: You need to enable the `pgcrypto` (only PostgreSQL >= 9.4) or `uuid-ossp`
-extension to generate random UUIDs.
+NOTE: You need to enable the `pgcrypto` (only PostgreSQL >= 9.4) or `uuid-ossp` extension to generate random UUIDs.
 
 ```ruby
 # db/migrate/20131220144913_create_devices.rb
@@ -427,8 +416,7 @@ device = Device.create
 device.id # => "814865cd-5a1d-4771-9306-4268f188fe9e"
 ```
 
-NOTE: `gen_random_uuid()` (from `pgcrypto`) is assumed if no `:default` option was
-passed to `create_table`.
+NOTE: `gen_random_uuid()` (from `pgcrypto`) is assumed if no `:default` option was passed to `create_table`.
 
 Full Text Search
 ----------------
@@ -475,9 +463,7 @@ Indexes:
     "TBL_ART_pkey" PRIMARY KEY, btree ("INT_ID")
 ```
 
-This table does not follow the Rails conventions at all.
-Because simple PostgreSQL views are updateable by default,
-we can wrap it as follows:
+This table does not follow the Rails conventions at all. Because simple PostgreSQL views are updateable by default, we can wrap it as follows:
 
 ```ruby
 # db/migrate/20131220144913_create_articles_view.rb
@@ -513,5 +499,4 @@ first.archive!
 Article.count # => 1
 ```
 
-NOTE: This application only cares about non-archived `Articles`. A view also
-allows for conditions so we can exclude the archived `Articles` directly.
+NOTE: This application only cares about non-archived `Articles`. A view also allows for conditions so we can exclude the archived `Articles` directly.
