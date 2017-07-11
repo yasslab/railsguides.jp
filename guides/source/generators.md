@@ -240,9 +240,7 @@ $ bin/rails generate generator rails/my_helper
       create  lib/generators/rails/my_helper/templates
 ```
 
-After that, we can delete both the `templates` directory and the `source_root`
-class method call from our new generator, because we are not going to need them.
-Add the method below, so our generator looks like the following:
+After that, we can delete both the `templates` directory and the `source_root` class method call from our new generator, because we are not going to need them. Add the method below, so our generator looks like the following:
 
 ```ruby
 # lib/generators/rails/my_helper/my_helper_generator.rb
@@ -351,11 +349,9 @@ end
 
 If you generate another resource, you can see that we get exactly the same result! This is useful if you want to customize your scaffold templates and/or layout by just creating `edit.html.erb`, `index.html.erb` and so on inside `lib/templates/erb/scaffold`.
 
-Scaffold templates in Rails frequently use ERB tags; these tags need to be
-escaped so that the generated output is valid ERB code.
+Scaffold templates in Rails frequently use ERB tags; these tags need to be escaped so that the generated output is valid ERB code.
 
-For example, the following escaped ERB tag would be needed in the template
-(note the extra `%`)...
+For example, the following escaped ERB tag would be needed in the template (note the extra `%`)...
 
 ```ruby
 <%%= stylesheet_include_tag :application %>
