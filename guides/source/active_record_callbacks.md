@@ -3,8 +3,7 @@
 Active Record Callbacks
 =======================
 
-This guide teaches you how to hook into the life cycle of your Active Record
-objects.
+This guide teaches you how to hook into the life cycle of your Active Record objects.
 
 After reading this guide, you will know:
 
@@ -117,9 +116,7 @@ Here is a list with all the available Active Record callbacks, listed in the sam
 
 WARNING. `after_save` runs both on create and update, but always _after_ the more specific callbacks `after_create` and `after_update`, no matter the order in which the macro calls were executed.
 
-NOTE: `before_destroy` callbacks should be placed before `dependent: :destroy`
-associations (or use the `prepend: true` option), to ensure they execute before
-the records are deleted by `dependent: :destroy`.
+NOTE: `before_destroy` callbacks should be placed before `dependent: :destroy` associations (or use the `prepend: true` option), to ensure they execute before the records are deleted by `dependent: :destroy`.
 
 ### `after_initialize` and `after_find`
 
@@ -405,11 +402,9 @@ class PictureFile < ApplicationRecord
 end
 ```
 
-NOTE: The `:on` option specifies when a callback will be fired. If you
-don't supply the `:on` option the callback will fire for every action.
+NOTE: The `:on` option specifies when a callback will be fired. If you don't supply the `:on` option the callback will fire for every action.
 
-Since using `after_commit` callback only on create, update or delete is
-common, there are aliases for those operations:
+Since using `after_commit` callback only on create, update or delete is common, there are aliases for those operations:
 
 * `after_create_commit`
 * `after_update_commit`
