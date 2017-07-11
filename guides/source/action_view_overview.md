@@ -43,16 +43,13 @@ $ bin/rails generate scaffold article
       [...]
 ```
 
-There is a naming convention for views in Rails. Typically, the views share their name with the associated controller action, as you can see above.
-For example, the index controller action of the `articles_controller.rb` will use the `index.html.erb` view file in the `app/views/articles` directory.
-The complete HTML returned to the client is composed of a combination of this ERB file, a layout template that wraps it, and all the partials that the view may reference. Within this guide you will find more detailed documentation about each of these three components.
+There is a naming convention for views in Rails. Typically, the views share their name with the associated controller action, as you can see above. For example, the index controller action of the `articles_controller.rb` will use the `index.html.erb` view file in the `app/views/articles` directory. The complete HTML returned to the client is composed of a combination of this ERB file, a layout template that wraps it, and all the partials that the view may reference. Within this guide you will find more detailed documentation about each of these three components.
 
 
 Templates, Partials and Layouts
 -------------------------------
 
-As mentioned, the final HTML output is a composition of three Rails elements: `Templates`, `Partials` and `Layouts`.
-Below is a brief overview of each of them.
+As mentioned, the final HTML output is a composition of three Rails elements: `Templates`, `Partials` and `Layouts`. Below is a brief overview of each of them.
 
 ### Templates
 
@@ -148,9 +145,7 @@ end
 ```
 
 #### Jbuilder
-[Jbuilder](https://github.com/rails/jbuilder) is a gem that's
-maintained by the Rails team and included in the default Rails Gemfile.
-It's similar to Builder, but is used to generate JSON, instead of XML.
+[Jbuilder](https://github.com/rails/jbuilder) is a gem that's maintained by the Rails team and included in the default Rails Gemfile. It's similar to Builder, but is used to generate JSON, instead of XML.
 
 If you don't have it, you can add the following to your Gemfile:
 
@@ -158,8 +153,7 @@ If you don't have it, you can add the following to your Gemfile:
 gem 'jbuilder'
 ```
 
-A Jbuilder object named `json` is automatically made available to templates with
-a `.jbuilder` extension.
+A Jbuilder object named `json` is automatically made available to templates with a `.jbuilder` extension.
 
 Here is a basic example:
 
@@ -177,8 +171,7 @@ would produce:
 }
 ```
 
-See the [Jbuilder documentation](https://github.com/rails/jbuilder#jbuilder) for
-more examples and information.
+See the [Jbuilder documentation](https://github.com/rails/jbuilder#jbuilder) for more examples and information.
 
 #### Template Caching
 
@@ -225,9 +218,7 @@ Here, the `_ad_banner.html.erb` and `_footer.html.erb` partials could contain co
 
 #### `render` without `partial` and `locals` options
 
-In the above example, `render` takes 2 options: `partial` and `locals`. But if
-these are the only options you want to pass, you can skip using these options.
-For example, instead of:
+In the above example, `render` takes 2 options: `partial` and `locals`. But if these are the only options you want to pass, you can skip using these options. For example, instead of:
 
 ```erb
 <%= render partial: "product", locals: { product: @product } %>
@@ -247,8 +238,7 @@ By default `ActionView::Partials::PartialRenderer` has its object in a local var
 <%= render partial: "product" %>
 ```
 
-within `_product` partial we'll get `@product` in the local variable `product`,
-as if we had written:
+within `_product` partial we'll get `@product` in the local variable `product`, as if we had written:
 
 ```erb
 <%= render partial: "product", locals: { product: @product } %>
@@ -370,16 +360,13 @@ Supposing we use the same `_box` partial from above, this would produce the same
 View Paths
 ----------
 
-When rendering a response, the controller needs to resolve where the different
-views are located. By default it only looks inside the `app/views` directory.
+When rendering a response, the controller needs to resolve where the different views are located. By default it only looks inside the `app/views` directory.
 
-We can add other locations and give them a certain precedence when resolving
-paths using the `prepend_view_path` and `append_view_path` methods.
+We can add other locations and give them a certain precedence when resolving paths using the `prepend_view_path` and `append_view_path` methods.
 
 ### Prepend view path
 
-This can be helpful for example, when we want to put views inside a different
-directory for subdomains.
+This can be helpful for example, when we want to put views inside a different directory for subdomains.
 
 We can do this by using:
 
@@ -1492,8 +1479,7 @@ strip_links('Blog: <a href="http://myblog.com/">Visit</a>.')
 
 #### strip_tags(html)
 
-Strips all HTML tags from the html, including comments.
-This functionality is powered by the rails-html-sanitizer gem.
+Strips all HTML tags from the html, including comments. This functionality is powered by the rails-html-sanitizer gem.
 
 ```ruby
 strip_tags("Strip <i>these</i> tags!")
@@ -1509,15 +1495,13 @@ NB: The output may still contain unescaped '<', '>', '&' characters and confuse 
 
 ### CsrfHelper
 
-Returns meta tags "csrf-param" and "csrf-token" with the name of the cross-site
-request forgery protection parameter and token, respectively.
+Returns meta tags "csrf-param" and "csrf-token" with the name of the cross-site request forgery protection parameter and token, respectively.
 
 ```html
 <%= csrf_meta_tags %>
 ```
 
-NOTE: Regular forms generate hidden fields so they do not use these tags. More
-details can be found in the [Rails Security Guide](security.html#cross-site-request-forgery-csrf).
+NOTE: Regular forms generate hidden fields so they do not use these tags. More details can be found in the [Rails Security Guide](security.html#cross-site-request-forgery-csrf).
 
 Localized Views
 ---------------
