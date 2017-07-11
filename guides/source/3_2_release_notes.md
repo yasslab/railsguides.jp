@@ -10,10 +10,7 @@ Highlights in Rails 3.2:
 * Automatic Query Explains
 * Tagged Logging
 
-These release notes cover only the major changes. To learn about various bug
-fixes and changes, please refer to the change logs or check out the [list of
-commits](https://github.com/rails/rails/commits/3-2-stable) in the main Rails
-repository on GitHub.
+These release notes cover only the major changes. To learn about various bug fixes and changes, please refer to the change logs or check out the [list ofcommits](https://github.com/rails/rails/commits/3-2-stable) in the main Rails repository on GitHub.
 
 --------------------------------------------------------------------------------
 
