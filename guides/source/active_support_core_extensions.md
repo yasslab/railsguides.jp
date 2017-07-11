@@ -135,10 +135,7 @@ NOTE: Defined in `active_support/core_ext/object/blank.rb`.
 
 ### `duplicable?`
 
-In Ruby 2.4 most objects can be duplicated via `dup` or `clone` except 
-methods and certain numbers. Though Ruby 2.2 and 2.3 can't duplicate `nil`,
-`false`, `true`, and  symbols as well as instances `Float`, `Fixnum`, 
-and `Bignum` instances.
+In Ruby 2.4 most objects can be duplicated via `dup` or `clone` except  methods and certain numbers. Though Ruby 2.2 and 2.3 can't duplicate `nil`, `false`, `true`, and  symbols as well as instances `Float`, `Fixnum`,  and `Bignum` instances.
 
 ```ruby
 "foo".dup           # => "foo"
@@ -460,8 +457,7 @@ Active Support provides several methods to ease access to instance variables.
 
 #### `instance_values`
 
-The method `instance_values` returns a hash that maps instance variable names without "@" to their
-corresponding values. Keys are strings:
+The method `instance_values` returns a hash that maps instance variable names without "@" to their corresponding values. Keys are strings:
 
 ```ruby
 class C
@@ -841,9 +837,7 @@ NOTE: Defined in `active_support/core_ext/module/delegation.rb`
 
 #### `delegate_missing_to`
 
-Imagine you would like to delegate everything missing from the `User` object,
-to the `Profile` one. The `delegate_missing_to` macro lets you implement this
-in a breeze:
+Imagine you would like to delegate everything missing from the `User` object, to the `Profile` one. The `delegate_missing_to` macro lets you implement this in a breeze:
 
 ```ruby
 class User < ApplicationRecord
@@ -853,8 +847,7 @@ class User < ApplicationRecord
 end
 ```
 
-The target can be anything callable within the object, e.g. instance variables,
-methods, constants, etc. Only the public methods of the target are delegated.
+The target can be anything callable within the object, e.g. instance variables, methods, constants, etc. Only the public methods of the target are delegated.
 
 NOTE: Defined in `active_support/core_ext/module/delegation.rb`.
 
@@ -1279,8 +1272,7 @@ end
 
 the user would see the usage message aligned against the left margin.
 
-Technically, it looks for the least indented line in the whole string, and removes
-that amount of leading whitespace.
+Technically, it looks for the least indented line in the whole string, and removes that amount of leading whitespace.
 
 NOTE: Defined in `active_support/core_ext/string/strip.rb`.
 
@@ -1709,8 +1701,7 @@ Specifically performs these transformations:
   * Downcases all words except acronyms.
   * Capitalizes the first word.
 
-The capitalization of the first word can be turned off by setting the
-+:capitalize+ option to false (default is true).
+The capitalization of the first word can be turned off by setting the +:capitalize+ option to false (default is true).
 
 ```ruby
 "name".humanize                         # => "Name"
@@ -1726,8 +1717,7 @@ If "SSL" was defined to be an acronym:
 'ssl_error'.humanize # => "SSL error"
 ```
 
-The helper method `full_messages` uses `humanize` as a fallback to include
-attribute names:
+The helper method `full_messages` uses `humanize` as a fallback to include attribute names:
 
 ```ruby
 def full_messages
@@ -1834,8 +1824,7 @@ NOTE: Defined in `active_support/core_ext/numeric/bytes.rb`.
 
 Enables the use of time calculations and declarations, like `45.minutes + 2.hours + 4.years`.
 
-These methods use Time#advance for precise date calculations when using from_now, ago, etc.
-as well as adding or subtracting their results from a Time object. For example:
+These methods use Time#advance for precise date calculations when using from_now, ago, etc. as well as adding or subtracting their results from a Time object. For example:
 
 ```ruby
 # equivalent to Time.current.advance(months: 1)
@@ -2092,8 +2081,7 @@ NOTE: Defined in `active_support/core_ext/enumerable.rb`.
 
 ### `without`
 
-The method `without` returns a copy of an enumerable with the specified elements
-removed:
+The method `without` returns a copy of an enumerable with the specified elements removed:
 
 ```ruby
 ["David", "Rafael", "Aaron", "Todd"].without("Aaron", "Todd") # => ["David", "Rafael"]
@@ -2225,9 +2213,7 @@ NOTE: Defined in `active_support/core_ext/array/conversions.rb`.
 
 The method `to_formatted_s` acts like `to_s` by default.
 
-If the array contains items that respond to `id`, however, the symbol
-`:db` may be passed as argument. That's typically used with
-collections of Active Record objects. Returned strings are:
+If the array contains items that respond to `id`, however, the symbol `:db` may be passed as argument. That's typically used with collections of Active Record objects. Returned strings are:
 
 ```ruby
 [].to_formatted_s(:db)            # => "null"
@@ -2383,8 +2369,7 @@ NOTE: Defined in `active_support/core_ext/array/wrap.rb`.
 
 ### Duplicating
 
-The method `Array#deep_dup` duplicates itself and all objects inside
-recursively with Active Support method `Object#deep_dup`. It works like `Array#map` with sending `deep_dup` method to each object inside.
+The method `Array#deep_dup` duplicates itself and all objects inside recursively with Active Support method `Object#deep_dup`. It works like `Array#map` with sending `deep_dup` method to each object inside.
 
 ```ruby
 array = [1, [2, 3]]
@@ -2604,8 +2589,7 @@ NOTE: Defined in `active_support/core_ext/hash/deep_merge.rb`.
 
 ### Deep duplicating
 
-The method `Hash#deep_dup` duplicates itself and all keys and values
-inside recursively with Active Support method `Object#deep_dup`. It works like `Enumerator#each_with_object` with sending `deep_dup` method to each pair inside.
+The method `Hash#deep_dup` duplicates itself and all keys and values inside recursively with Active Support method `Object#deep_dup`. It works like `Enumerator#each_with_object` with sending `deep_dup` method to each pair inside.
 
 ```ruby
 hash = { a: 1, b: { c: 2, d: [3, 4] } }
@@ -2912,13 +2896,9 @@ Rails implements `Regexp#match?` for Ruby versions prior to 2.4:
 /oo/.match?('foo', 1) # => true
 ```
 
-The backport has the same interface and lack of side-effects in the caller like
-not setting `$1` and friends, but it does not have the speed benefits. Its
-purpose is to be able to write 2.4 compatible code. Rails itself uses this
-predicate internally for example.
+The backport has the same interface and lack of side-effects in the caller like not setting `$1` and friends, but it does not have the speed benefits. Its purpose is to be able to write 2.4 compatible code. Rails itself uses this predicate internally for example.
 
-Active Support defines `Regexp#match?` only if not present, so code running
-under 2.4 or later does run the original one and gets the performance boost.
+Active Support defines `Regexp#match?` only if not present, so code running under 2.4 or later does run the original one and gets the performance boost.
 
 Extensions to `Range`
 ---------------------
@@ -3056,10 +3036,7 @@ Time.local(2000, 11, 31).next_quarter # => Wed, 28 Feb 2001
 
 ##### `beginning_of_week`, `end_of_week`
 
-The methods `beginning_of_week` and `end_of_week` return the dates for the
-beginning and end of the week, respectively. Weeks are assumed to start on
-Monday, but that can be changed passing an argument, setting thread local
-`Date.beginning_of_week` or `config.beginning_of_week`.
+The methods `beginning_of_week` and `end_of_week` return the dates for the beginning and end of the week, respectively. Weeks are assumed to start on Monday, but that can be changed passing an argument, setting thread local `Date.beginning_of_week` or `config.beginning_of_week`.
 
 ```ruby
 d = Date.new(2010, 5, 8)     # => Sat, 08 May 2010
@@ -3073,8 +3050,7 @@ d.end_of_week(:sunday)       # => Sat, 08 May 2010
 
 ##### `monday`, `sunday`
 
-The methods `monday` and `sunday` return the dates for the previous Monday and
-next Sunday, respectively.
+The methods `monday` and `sunday` return the dates for the previous Monday and next Sunday, respectively.
 
 ```ruby
 d = Date.new(2010, 5, 8)     # => Sat, 08 May 2010
