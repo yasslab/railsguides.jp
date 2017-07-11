@@ -39,11 +39,7 @@ fixtures/              integration/           models/                application
 
 The `helpers`, `mailers`, and `models` directories are meant to hold tests for view helpers, mailers, and models, respectively. The `controllers` directory is meant to hold tests for controllers, routes, and views. The `integration` directory is meant to hold tests for interactions between controllers.
 
-The system test directory holds system tests, which are used for full browser
-testing of your application. System tests allow you to test your application
-the way your users experience it and help you test your JavaScript as well.
-System tests inherit from Capybara and perform in browser tests for your
-application.
+The system test directory holds system tests, which are used for full browser testing of your application. System tests allow you to test your application the way your users experience it and help you test your JavaScript as well. System tests inherit from Capybara and perform in browser tests for your application.
 
 Fixtures are a way of organizing test data; they reside in the `fixtures` directory.
 
@@ -51,8 +47,7 @@ A `jobs` directory will also be created when an associated test is first generat
 
 The `test_helper.rb` file holds the default configuration for your tests.
 
-The `application_system_test_case.rb` holds the default configuration for your system
-tests.
+The `application_system_test_case.rb` holds the default configuration for your system tests.
 
 
 ### The Test Environment
@@ -65,9 +60,7 @@ NOTE: Your tests are run under `RAILS_ENV=test`.
 
 ### Rails meets Minitest
 
-If you remember, we used the `rails generate model` command in the
-[Getting Started with Rails](getting_started.html) guide. We created our first
-model, and among other things it created test stubs in the `test` directory:
+If you remember, we used the `rails generate model` command in the [Getting Started with Rails](getting_started.html) guide. We created our first model, and among other things it created test stubs in the `test` directory:
 
 ```bash
 $ bin/rails generate model article title:string body:text
@@ -104,8 +97,7 @@ class ArticleTest < ActiveSupport::TestCase
 
 The `ArticleTest` class defines a _test case_ because it inherits from `ActiveSupport::TestCase`. `ArticleTest` thus has all the methods available from `ActiveSupport::TestCase`. Later in this guide, we'll see some of the methods it gives us.
 
-Any method defined within a class inherited from `Minitest::Test`
-(which is the superclass of `ActiveSupport::TestCase`) that begins with `test_` (case sensitive) is simply called a test. So, methods defined as `test_password` and `test_valid_password` are legal test names and are run automatically when the test case is run.
+Any method defined within a class inherited from `Minitest::Test` (which is the superclass of `ActiveSupport::TestCase`) that begins with `test_` (case sensitive) is simply called a test. So, methods defined as `test_password` and `test_valid_password` are legal test names and are run automatically when the test case is run.
 
 Rails also adds a `test` method that takes a test name and a block. It generates a normal `Minitest::Unit` test with method names prefixed with `test_`. So you don't have to worry about naming the methods, and you can write something like:
 
@@ -218,11 +210,7 @@ Finished in 0.027476s, 36.3952 runs/s, 36.3952 assertions/s.
 1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-Now, if you noticed, we first wrote a test which fails for a desired
-functionality, then we wrote some code which adds the functionality and finally
-we ensured that our test passes. This approach to software development is
-referred to as
-[_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
+Now, if you noticed, we first wrote a test which fails for a desired functionality, then we wrote some code which adds the functionality and finally we ensured that our test passes. This approach to software development is referred to as [_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
 
 #### What an error looks like
 
@@ -263,17 +251,9 @@ Finished in 0.040609s, 49.2500 runs/s, 24.6250 assertions/s.
 
 Notice the 'E' in the output. It denotes a test with error.
 
-NOTE: The execution of each test method stops as soon as any error or an
-assertion failure is encountered, and the test suite continues with the next
-method. All test methods are executed in random order. The
-[`config.active_support.test_order` option](configuring.html#configuring-active-support)
-can be used to configure test order.
+NOTE: The execution of each test method stops as soon as any error or an assertion failure is encountered, and the test suite continues with the next method. All test methods are executed in random order. The [`config.active_support.test_order` option](configuring.html#configuring-active-support) can be used to configure test order.
 
-When a test fails you are presented with the corresponding backtrace. By default
-Rails filters that backtrace and will only print lines relevant to your
-application. This eliminates the framework noise and helps to focus on your
-code. However there are situations when you want to see the full
-backtrace. Simply set the `-b` (or `--backtrace`) argument to enable this behavior:
+When a test fails you are presented with the corresponding backtrace. By default Rails filters that backtrace and will only print lines relevant to your application. This eliminates the framework noise and helps to focus on your code. However there are situations when you want to see the full backtrace. Simply set the `-b` (or `--backtrace`) argument to enable this behavior:
 
 ```bash
 $ bin/rails test -b test/models/article_test.rb
@@ -296,10 +276,7 @@ This test should now pass.
 
 By now you've caught a glimpse of some of the assertions that are available. Assertions are the worker bees of testing. They are the ones that actually perform the checks to ensure that things are going as planned.
 
-Here's an extract of the assertions you can use with
-[`Minitest`](https://github.com/seattlerb/minitest), the default testing library
-used by Rails. The `[msg]` parameter is an optional string message you can
-specify to make your test failure messages clearer.
+Here's an extract of the assertions you can use with [`Minitest`](https://github.com/seattlerb/minitest), the default testing library used by Rails. The `[msg]` parameter is an optional string message you can specify to make your test failure messages clearer.
 
 | Assertion                                                        | Purpose |
 | ---------------------------------------------------------------- | ------- |
@@ -333,10 +310,7 @@ specify to make your test failure messages clearer.
 | `assert_not_predicate ( obj, predicate, [msg] )`                 | Ensures that `obj.predicate` is false, e.g. `assert_not_predicate str, :empty?`|
 | `flunk( [msg] )`                                                 | Ensures failure. This is useful to explicitly mark a test that isn't finished yet.|
 
-The above are a subset of assertions that minitest supports. For an exhaustive &
-more up-to-date list, please check
-[Minitest API documentation](http://docs.seattlerb.org/minitest/), specifically
-[`Minitest::Assertions`](http://docs.seattlerb.org/minitest/Minitest/Assertions.html).
+The above are a subset of assertions that minitest supports. For an exhaustive & more up-to-date list, please check [Minitest API documentation](http://docs.seattlerb.org/minitest/), specifically [`Minitest::Assertions`](http://docs.seattlerb.org/minitest/Minitest/Assertions.html).
 
 Because of the modular nature of the testing framework, it is possible to create your own assertions. In fact, that's exactly what Rails does. It includes some specialized assertions to make your life easier.
 
@@ -373,8 +347,7 @@ All the basic assertions such as `assert_equal` defined in `Minitest::Assertions
 
 Each of these classes include `Minitest::Assertions`, allowing us to use all of the basic assertions in our tests.
 
-NOTE: For more information on `Minitest`, refer to [its
-documentation](http://docs.seattlerb.org/minitest).
+NOTE: For more information on `Minitest`, refer to [itsdocumentation](http://docs.seattlerb.org/minitest).
 
 ### The Rails Test Runner
 
@@ -397,8 +370,7 @@ Finished in 0.027034s, 73.9810 runs/s, 110.9715 assertions/s.
 
 This will run all test methods from the test case.
 
-You can also run a particular test method from the test case by providing the
-`-n` or `--name` flag and the test's method name.
+You can also run a particular test method from the test case by providing the `-n` or `--name` flag and the test's method name.
 
 ```bash
 $ bin/rails test test/models/article_test.rb -n test_the_truth
@@ -425,8 +397,7 @@ You can also run an entire directory of tests by providing the path to the direc
 $ bin/rails test test/controllers # run all tests from specific directory
 ```
 
-The test runner also provides a lot of other features like failing fast, deferring test output
-at the end of test run and so on. Check the documentation of the test runner as follows:
+The test runner also provides a lot of other features like failing fast, deferring test output at the end of test run and so on. Check the documentation of the test runner as follows:
 
 ```bash
 $ bin/rails test -h
@@ -470,22 +441,13 @@ A dedicated test database allows you to set up and interact with test data in is
 
 ### Maintaining the test database schema
 
-In order to run your tests, your test database will need to have the current
-structure. The test helper checks whether your test database has any pending
-migrations. It will try to load your `db/schema.rb` or `db/structure.sql`
-into the test database. If migrations are still pending, an error will be
-raised. Usually this indicates that your schema is not fully migrated. Running
-the migrations against the development database (`bin/rails db:migrate`) will
-bring the schema up to date.
+In order to run your tests, your test database will need to have the current structure. The test helper checks whether your test database has any pending migrations. It will try to load your `db/schema.rb` or `db/structure.sql` into the test database. If migrations are still pending, an error will be raised. Usually this indicates that your schema is not fully migrated. Running the migrations against the development database (`bin/rails db:migrate`) will bring the schema up to date.
 
-NOTE: If there were modifications to existing migrations, the test database needs to
-be rebuilt. This can be done by executing `bin/rails db:test:prepare`.
+NOTE: If there were modifications to existing migrations, the test database needs to be rebuilt. This can be done by executing `bin/rails db:test:prepare`.
 
 ### The Low-Down on Fixtures
 
-For good tests, you'll need to give some thought to setting up test data.
-In Rails, you can handle this by defining and customizing fixtures.
-You can find comprehensive documentation in the [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
+For good tests, you'll need to give some thought to setting up test data. In Rails, you can handle this by defining and customizing fixtures. You can find comprehensive documentation in the [Fixtures API documentation](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html).
 
 #### What Are Fixtures?
 
@@ -516,9 +478,7 @@ steve:
 
 Each fixture is given a name followed by an indented list of colon-separated key/value pairs. Records are typically separated by a blank line. You can place comments in a fixture file by using the # character in the first column.
 
-If you are working with [associations](/association_basics.html), you can simply
-define a reference node between two different fixtures. Here's an example with
-a `belongs_to`/`has_many` association:
+If you are working with [associations](/association_basics.html), you can simply define a reference node between two different fixtures. Here's an example with a `belongs_to`/`has_many` association:
 
 ```yaml
 # In fixtures/categories.yml
@@ -550,8 +510,7 @@ user_<%= n %>:
 
 #### Fixtures in Action
 
-Rails automatically loads all fixtures from the `test/fixtures` directory by
-default. Loading involves three steps:
+Rails automatically loads all fixtures from the `test/fixtures` directory by default. Loading involves three steps:
 
 1. Remove any existing data from the table corresponding to the fixture
 2. Load the fixture data into the table
@@ -588,8 +547,7 @@ Model Testing
 
 Model tests are used to test the various models of your application.
 
-Rails model tests are stored under the `test/models` directory. Rails provides
-a generator to create a model test skeleton for you.
+Rails model tests are stored under the `test/models` directory. Rails provides a generator to create a model test skeleton for you.
 
 ```bash
 $ bin/rails generate test_unit:model article title:string body:text
@@ -602,11 +560,9 @@ Model tests don't have their own superclass like `ActionMailer::TestCase` instea
 System Testing
 --------------
 
-System tests allow you to test user interactions with your application, running tests
-in either a real or a headless browser. System tests uses Capybara under the hood.
+System tests allow you to test user interactions with your application, running tests in either a real or a headless browser. System tests uses Capybara under the hood.
 
-For creating Rails system tests, you use the `test/system` directory in your
-application. Rails provides a generator to create a system test skeleton for you.
+For creating Rails system tests, you use the `test/system` directory in your application. Rails provides a generator to create a system test skeleton for you.
 
 ```bash
 $ bin/rails generate system_test users
@@ -628,23 +584,15 @@ class UsersTest < ApplicationSystemTestCase
 end
 ```
 
-By default, system tests are run with the Selenium driver, using the Chrome
-browser, and a screen size of 1400x1400. The next section explains how to
-change the default settings.
+By default, system tests are run with the Selenium driver, using the Chrome browser, and a screen size of 1400x1400. The next section explains how to change the default settings.
 
 ### Changing the default settings
 
-Rails makes changing the default settings for system tests very simple. All
-the setup is abstracted away so you can focus on writing your tests.
+Rails makes changing the default settings for system tests very simple. All the setup is abstracted away so you can focus on writing your tests.
 
-When you generate a new application or scaffold, an `application_system_test_case.rb` file
-is created in the test directory. This is where all the configuration for your
-system tests should live.
+When you generate a new application or scaffold, an `application_system_test_case.rb` file is created in the test directory. This is where all the configuration for your system tests should live.
 
-If you want to change the default settings you can simply change what the system
-tests are "driven by". Say you want to change the driver from Selenium to
-Poltergeist. First add the `poltergeist` gem to your Gemfile. Then in your
-`application_system_test_case.rb` file do the following:
+If you want to change the default settings you can simply change what the system tests are "driven by". Say you want to change the driver from Selenium to Poltergeist. First add the `poltergeist` gem to your Gemfile. Then in your `application_system_test_case.rb` file do the following:
 
 ```ruby
 require "test_helper"
@@ -655,11 +603,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 end
 ```
 
-The driver name is a required argument for `driven_by`. The optional arguments
-that can be passed to `driven_by` are `:using` for the browser (this will only
-be used by Selenium), `:screen_size` to change the size of the screen for
-screenshots, and `:options` which can be used to set options supported by the
-driver.
+The driver name is a required argument for `driven_by`. The optional arguments that can be passed to `driven_by` are `:using` for the browser (this will only be used by Selenium), `:screen_size` to change the size of the screen for screenshots, and `:options` which can be used to set options supported by the driver.
 
 ```ruby
 require "test_helper"
@@ -669,41 +613,29 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 end
 ```
 
-If your Capybara configuration requires more setup than provided by Rails, this
-additional configuration could be added into the `application_system_test_case.rb`
-file.
+If your Capybara configuration requires more setup than provided by Rails, this additional configuration could be added into the `application_system_test_case.rb` file.
 
-Please see [Capybara's documentation](https://github.com/teamcapybara/capybara#setup)
-for additional settings.
+Please see [Capybara's documentation](https://github.com/teamcapybara/capybara#setup) for additional settings.
 
 ### Screenshot Helper
 
-The `ScreenshotHelper` is a helper designed to capture screenshots of your tests.
-This can be helpful for viewing the browser at the point a test failed, or
-to view screenshots later for debugging.
+The `ScreenshotHelper` is a helper designed to capture screenshots of your tests. This can be helpful for viewing the browser at the point a test failed, or to view screenshots later for debugging.
 
-Two methods are provided: `take_screenshot` and `take_failed_screenshot`.
-`take_failed_screenshot` is automatically included in `after_teardown` inside
-Rails.
+Two methods are provided: `take_screenshot` and `take_failed_screenshot`. `take_failed_screenshot` is automatically included in `after_teardown` inside Rails.
 
-The `take_screenshot` helper method can be included anywhere in your tests to
-take a screenshot of the browser.
+The `take_screenshot` helper method can be included anywhere in your tests to take a screenshot of the browser.
 
 ### Implementing a system test
 
-Now we're going to add a system test to our blog application. We'll demonstrate
-writing a system test by visiting the index page and creating a new blog article.
+Now we're going to add a system test to our blog application. We'll demonstrate writing a system test by visiting the index page and creating a new blog article.
 
-If you used the scaffold generator, a system test skeleton was automatically
-created for you. If you didn't use the scaffold generator, start by creating a
-system test skeleton.
+If you used the scaffold generator, a system test skeleton was automatically created for you. If you didn't use the scaffold generator, start by creating a system test skeleton.
 
 ```bash
 $ bin/rails generate system_test articles
 ```
 
-It should have created a test file placeholder for us. With the output of the
-previous command you should see:
+It should have created a test file placeholder for us. With the output of the previous command you should see:
 
 ```bash
       invoke  test_unit
@@ -731,8 +663,7 @@ Run the system tests.
 bin/rails test:system
 ```
 
-NOTE: By default, running `bin/rails test` won't run your system tests.
-Make sure to run `bin/rails test:system` to actually run them.
+NOTE: By default, running `bin/rails test` won't run your system tests. Make sure to run `bin/rails test:system` to actually run them.
 
 #### Creating articles system test
 
@@ -753,27 +684,17 @@ test "creating an article" do
 end
 ```
 
-The first step is to call `visit articles_path`. This will take the test to the
-articles index page.
+The first step is to call `visit articles_path`. This will take the test to the articles index page.
 
-Then the `click_on "New Article"` will find the "New Article" button on the
-index page. This will redirect the browser to `/articles/new`.
+Then the `click_on "New Article"` will find the "New Article" button on the index page. This will redirect the browser to `/articles/new`.
 
-Then the test will fill in the title and body of the article with the specified
-text. Once the fields are filled in, "Create Article" is clicked on which will
-send a POST request to create the new article in the database.
+Then the test will fill in the title and body of the article with the specified text. Once the fields are filled in, "Create Article" is clicked on which will send a POST request to create the new article in the database.
 
-We will be redirected back to the the articles index page and there we assert
-that the text from the new article's title is on the articles index page.
+We will be redirected back to the the articles index page and there we assert that the text from the new article's title is on the articles index page.
 
 #### Taking it further
 
-The beauty of system testing is that it is similar to integration testing in
-that it tests the user's interaction with your controller, model, and view, but
-system testing is much more robust and actually tests your application as if
-a real user were using it. Going forward, you can test anything that the user
-themselves would do in your application such as commenting, deleting articles,
-publishing draft articles, etc.
+The beauty of system testing is that it is similar to integration testing in that it tests the user's interaction with your controller, model, and view, but system testing is much more robust and actually tests your application as if a real user were using it. Going forward, you can test anything that the user themselves would do in your application such as commenting, deleting articles, publishing draft articles, etc.
 
 Integration Testing
 -------------------
@@ -822,8 +743,7 @@ We'll start by generating our integration test skeleton:
 $ bin/rails generate integration_test blog_flow
 ```
 
-It should have created a test file placeholder for us. With the output of the
-previous command we should see:
+It should have created a test file placeholder for us. With the output of the previous command we should see:
 
 ```bash
       invoke  test_unit
@@ -916,11 +836,9 @@ create    test/controllers/articles_controller_test.rb
 ...
 ```
 
-This will generate the controller code and tests for an `Article` resource.
-You can take a look at the file `articles_controller_test.rb` in the `test/controllers` directory.
+This will generate the controller code and tests for an `Article` resource. You can take a look at the file `articles_controller_test.rb` in the `test/controllers` directory.
 
-If you already have a controller and just want to generate the test scaffold code for
-each of the seven default actions, you can use the following command:
+If you already have a controller and just want to generate the test scaffold code for each of the seven default actions, you can use the following command:
 
 ```bash
 $ bin/rails generate test_unit:scaffold article
@@ -942,15 +860,12 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 end
 ```
 
-In the `test_should_get_index` test, Rails simulates a request on the action called `index`, making sure the request was successful
-and also ensuring that the right response body has been generated.
+In the `test_should_get_index` test, Rails simulates a request on the action called `index`, making sure the request was successful and also ensuring that the right response body has been generated.
 
 The `get` method kicks off the web request and populates the results into the `@response`. It can accept up to 6 arguments:
 
-* The URI of the controller action you are requesting.
-  This can be in the form of a string or a route helper (e.g. `articles_url`).
-* `params`: option with a hash of request parameters to pass into the action
-  (e.g. query string parameters or article variables).
+* The URI of the controller action you are requesting. This can be in the form of a string or a route helper (e.g. `articles_url`).
+* `params`: option with a hash of request parameters to pass into the action (e.g. query string parameters or article variables).
 * `headers`: for setting the headers that will be passed with the request.
 * `env`: for customizing the request environment as needed.
 * `xhr`: whether the request is Ajax request or not. Can be set to true for marking the request as Ajax.
@@ -1010,8 +925,7 @@ NOTE: Functional tests do not verify whether the specified request type is accep
 
 ### Testing XHR (AJAX) requests
 
-To test AJAX requests, you can specify the `xhr: true` option to `get`, `post`,
-`patch`, `put`, and `delete` methods. For example:
+To test AJAX requests, you can specify the `xhr: true` option to `get`, `post`, `patch`, `put`, and `delete` methods. For example:
 
 ```ruby
 test "ajax request" do
@@ -1062,10 +976,7 @@ end
 
 ### Setting Headers and CGI variables
 
-[HTTP headers](http://tools.ietf.org/search/rfc2616#section-5.3)
-and
-[CGI variables](http://tools.ietf.org/search/rfc3875#section-4.1)
-can be passed as headers:
+[HTTP headers](http://tools.ietf.org/search/rfc2616#section-5.3) and [CGI variables](http://tools.ietf.org/search/rfc3875#section-4.1) can be passed as headers:
 
 ```ruby
 # setting an HTTP Header
@@ -1079,8 +990,7 @@ get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # simul
 
 If you remember from earlier, one of the Three Hashes of the Apocalypse was `flash`.
 
-We want to add a `flash` message to our blog application whenever someone
-successfully creates a new Article.
+We want to add a `flash` message to our blog application whenever someone successfully creates a new Article.
 
 Let's start by adding this assertion to our `test_should_create_article` test:
 
@@ -1240,8 +1150,7 @@ Similar to other callbacks in Rails, the `setup` and `teardown` methods can also
 
 ### Test helpers
 
-To avoid code duplication, you can add your own test helpers.
-Sign in helper can be a good example:
+To avoid code duplication, you can add your own test helpers. Sign in helper can be a good example:
 
 ```ruby
 # test/test_helper.rb
@@ -1300,8 +1209,7 @@ assert_select 'title', "Welcome to Rails Testing Guide"
 
 You can also use nested `assert_select` blocks for deeper investigation.
 
-In the following example, the inner `assert_select` for `li.menu_item` runs
-within the collection of elements selected by the outer block:
+In the following example, the inner `assert_select` for `li.menu_item` runs within the collection of elements selected by the outer block:
 
 ```ruby
 assert_select 'ul.navigation' do
@@ -1348,12 +1256,9 @@ end
 Testing Helpers
 ---------------
 
-A helper is just a simple module where you can define methods which are
-available into your views.
+A helper is just a simple module where you can define methods which are available into your views.
 
-In order to test helpers, all you need to do is check that the output of the
-helper method matches what you'd expect. Tests related to the helpers are
-located under the `test/helpers` directory.
+In order to test helpers, all you need to do is check that the output of the helper method matches what you'd expect. Tests related to the helpers are located under the `test/helpers` directory.
 
 Given we have the following helper:
 
@@ -1377,8 +1282,7 @@ class UserHelperTest < ActionView::TestCase
 end
 ```
 
-Moreover, since the test class extends from `ActionView::TestCase`, you have
-access to Rails' helper methods such as `link_to` or `pluralize`.
+Moreover, since the test class extends from `ActionView::TestCase`, you have access to Rails' helper methods such as `link_to` or `pluralize`.
 
 Testing Your Mailers
 --------------------
@@ -1436,14 +1340,9 @@ class UserMailerTest < ActionMailer::TestCase
 end
 ```
 
-In the test we send the email and store the returned object in the `email`
-variable. We then ensure that it was sent (the first assert), then, in the
-second batch of assertions, we ensure that the email does indeed contain what we
-expect. The helper `read_fixture` is used to read in the content from this file.
+In the test we send the email and store the returned object in the `email` variable. We then ensure that it was sent (the first assert), then, in the second batch of assertions, we ensure that the email does indeed contain what we expect. The helper `read_fixture` is used to read in the content from this file.
 
-NOTE: `email.body.to_s` is present when there's only one (HTML or text) part present.
-If the mailer provides both, you can test your fixture against specific parts
-with `email.text_part.body.to_s` or `email.html_part.body.to_s`.
+NOTE: `email.body.to_s` is present when there's only one (HTML or text) part present. If the mailer provides both, you can test your fixture against specific parts with `email.text_part.body.to_s` or `email.html_part.body.to_s`.
 
 Here's the content of the `invite` fixture:
 
@@ -1455,17 +1354,9 @@ You have been invited.
 Cheers!
 ```
 
-This is the right time to understand a little more about writing tests for your
-mailers. The line `ActionMailer::Base.delivery_method = :test` in
-`config/environments/test.rb` sets the delivery method to test mode so that
-email will not actually be delivered (useful to avoid spamming your users while
-testing) but instead it will be appended to an array
-(`ActionMailer::Base.deliveries`).
+This is the right time to understand a little more about writing tests for your mailers. The line `ActionMailer::Base.delivery_method = :test` in `config/environments/test.rb` sets the delivery method to test mode so that email will not actually be delivered (useful to avoid spamming your users while testing) but instead it will be appended to an array (`ActionMailer::Base.deliveries`).
 
-NOTE: The `ActionMailer::Base.deliveries` array is only reset automatically in
-`ActionMailer::TestCase` and `ActionDispatch::IntegrationTest` tests.
-If you want to have a clean slate outside these test cases, you can reset it
-manually with: `ActionMailer::Base.deliveries.clear`
+NOTE: The `ActionMailer::Base.deliveries` array is only reset automatically in `ActionMailer::TestCase` and `ActionDispatch::IntegrationTest` tests. If you want to have a clean slate outside these test cases, you can reset it manually with: `ActionMailer::Base.deliveries.clear`
 
 ### Functional Testing
 
@@ -1491,14 +1382,11 @@ end
 Testing Jobs
 ------------
 
-Since your custom jobs can be queued at different levels inside your application,
-you'll need to test both, the jobs themselves (their behavior when they get enqueued)
-and that other entities correctly enqueue them.
+Since your custom jobs can be queued at different levels inside your application, you'll need to test both, the jobs themselves (their behavior when they get enqueued) and that other entities correctly enqueue them.
 
 ### A Basic Test Case
 
-By default, when you generate a job, an associated test will be generated as well
-under the `test/jobs` directory. Here's an example test with a billing job:
+By default, when you generate a job, an associated test will be generated as well under the `test/jobs` directory. Here's an example test with a billing job:
 
 ```ruby
 require 'test_helper'
@@ -1511,22 +1399,15 @@ class BillingJobTest < ActiveJob::TestCase
 end
 ```
 
-This test is pretty simple and only asserts that the job get the work done
-as expected.
+This test is pretty simple and only asserts that the job get the work done as expected.
 
-By default, `ActiveJob::TestCase` will set the queue adapter to `:test` so that
-your jobs are performed inline. It will also ensure that all previously performed
-and enqueued jobs are cleared before any test run so you can safely assume that
-no jobs have already been executed in the scope of each test.
+By default, `ActiveJob::TestCase` will set the queue adapter to `:test` so that your jobs are performed inline. It will also ensure that all previously performed and enqueued jobs are cleared before any test run so you can safely assume that no jobs have already been executed in the scope of each test.
 
 ### Custom Assertions And Testing Jobs Inside Other Components
 
 Active Job ships with a bunch of custom assertions that can be used to lessen the verbosity of tests. For a full list of available assertions, see the API documentation for [`ActiveJob::TestHelper`](http://api.rubyonrails.org/classes/ActiveJob/TestHelper.html).
 
-It's a good practice to ensure that your jobs correctly get enqueued or performed
-wherever you invoke them (e.g. inside your controllers). This is precisely where
-the custom assertions provided by Active Job are pretty useful. For instance,
-within a model:
+It's a good practice to ensure that your jobs correctly get enqueued or performed wherever you invoke them (e.g. inside your controllers). This is precisely where the custom assertions provided by Active Job are pretty useful. For instance, within a model:
 
 ```ruby
 require 'test_helper'
@@ -1560,5 +1441,4 @@ end
 assert_equal Date.new(2004, 10, 24), user.activation_date # The change was visible only inside the `travel_to` block.
 ```
 
-Please see [`ActiveSupport::Testing::TimeHelpers` API Documentation](http://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html)
-for in-depth information about the available time helpers.
+Please see [`ActiveSupport::Testing::TimeHelpers` API Documentation](http://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html) for in-depth information about the available time helpers.
