@@ -148,9 +148,7 @@ class CreateSuppliers < ActiveRecord::Migration[5.0]
 end
 ```
 
-Depending on the use case, you might also need to create a unique index and/or
-a foreign key constraint on the supplier column for the accounts table. In this
-case, the column definition might look like this:
+Depending on the use case, you might also need to create a unique index and/or a foreign key constraint on the supplier column for the accounts table. In this case, the column definition might look like this:
 
 ```ruby
 create_table :accounts do |t|
@@ -240,15 +238,13 @@ class CreateAppointments < ActiveRecord::Migration[5.0]
 end
 ```
 
-The collection of join models can be managed via the [`has_many` association methods](#has-many-association-reference).
-For example, if you assign:
+The collection of join models can be managed via the [`has_many` association methods](#has-many-association-reference). For example, if you assign:
 
 ```ruby
 physician.patients = patients
 ```
 
-Then new join models are automatically created for the newly associated objects.
-If some that existed previously are now missing, then their join rows are automatically deleted.
+Then new join models are automatically created for the newly associated objects. If some that existed previously are now missing, then their join rows are automatically deleted.
 
 WARNING: Automatic deletion of join models is direct, no destroy callbacks are triggered.
 
@@ -278,10 +274,7 @@ With `through: :sections` specified, Rails will now understand:
 
 ### The `has_one :through` Association
 
-A `has_one :through` association sets up a one-to-one connection with another model. This association indicates
-that the declaring model can be matched with one instance of another model by proceeding _through_ a third model.
-For example, if each supplier has one account, and each account is associated with one account history, then the
-supplier model could look like this:
+A `has_one :through` association sets up a one-to-one connection with another model. This association indicates that the declaring model can be matched with one instance of another model by proceeding _through_ a third model. For example, if each supplier has one account, and each account is associated with one account history, then the supplier model could look like this:
 
 ```ruby
 class Supplier < ApplicationRecord
@@ -588,8 +581,7 @@ end
 
 If you create an association some time after you build the underlying model, you need to remember to create an `add_column` migration to provide the necessary foreign key.
 
-It's a good practice to add an index on the foreign key to improve queries
-performance and a foreign key constraint to ensure referential data integrity:
+It's a good practice to add an index on the foreign key to improve queries performance and a foreign key constraint to ensure referential data integrity:
 
 ```ruby
 class CreateBooks < ActiveRecord::Migration[5.0]
@@ -942,14 +934,9 @@ end
 
 With this declaration, Rails will keep the cache value up to date, and then return that value in response to the `size` method.
 
-Although the `:counter_cache` option is specified on the model that includes
-the `belongs_to` declaration, the actual column must be added to the
-_associated_ (`has_many`) model. In the case above, you would need to add a
-column named `books_count` to the `Author` model.
+Although the `:counter_cache` option is specified on the model that includes the `belongs_to` declaration, the actual column must be added to the _associated_ (`has_many`) model. In the case above, you would need to add a column named `books_count` to the `Author` model.
 
-You can override the default column name by specifying a custom column name in
-the `counter_cache` declaration instead of `true`. For example, to use
-`count_of_books` instead of `books_count`:
+You can override the default column name by specifying a custom column name in the `counter_cache` declaration instead of `true`. For example, to use `count_of_books` instead of `books_count`:
 
 ```ruby
 class Book < ApplicationRecord
@@ -960,8 +947,7 @@ class Author < ApplicationRecord
 end
 ```
 
-NOTE: You only need to specify the `:counter_cache` option on the `belongs_to`
-side of the association.
+NOTE: You only need to specify the `:counter_cache` option on the `belongs_to` side of the association.
 
 Counter cache columns are added to the containing model's list of read-only attributes through `attr_readonly`.
 
@@ -991,8 +977,7 @@ TIP: In any case, Rails will not create foreign key columns for you. You need to
 
 ##### `:primary_key`
 
-By convention, Rails assumes that the `id` column is used to hold the primary key
-of its tables. The `:primary_key` option allows you to specify a different column.
+By convention, Rails assumes that the `id` column is used to hold the primary key of its tables. The `:primary_key` option allows you to specify a different column.
 
 For example, given we have a `users` table with `guid` as the primary key. If we want a separate `todos` table to hold the foreign key `user_id` in the `guid` column, then we can use `primary_key` to achieve this like so:
 
@@ -1006,8 +991,7 @@ class Todo < ApplicationRecord
 end
 ```
 
-When we execute `@user.todos.create` then the `@todo` record will have its
-`user_id` value as the `guid` value of `@user`.
+When we execute `@user.todos.create` then the `@todo` record will have its `user_id` value as the `guid` value of `@user`.
 
 ##### `:inverse_of`
 
@@ -1055,8 +1039,7 @@ If you set the `:validate` option to `true`, then associated objects will be val
 
 ##### `:optional`
 
-If you set the `:optional` option to `true`, then the presence of the associated
-object won't be validated. By default, this option is set to `false`.
+If you set the `:optional` option to `true`, then the presence of the associated object won't be validated. By default, this option is set to `false`.
 
 #### Scopes for `belongs_to`
 
@@ -1276,11 +1259,7 @@ Controls what happens to the associated object when its owner is destroyed:
 * `:restrict_with_exception` causes an exception to be raised if there is an associated record
 * `:restrict_with_error` causes an error to be added to the owner if there is an associated object
 
-It's necessary not to set or leave `:nullify` option for those associations
-that have `NOT NULL` database constraints. If you don't set `dependent` to
-destroy such associations you won't be able to change the associated object
-because the initial associated object's foreign key will be set to the
-unallowed `NULL` value.
+It's necessary not to set or leave `:nullify` option for those associations that have `NOT NULL` database constraints. If you don't set `dependent` to destroy such associations you won't be able to change the associated object because the initial associated object's foreign key will be set to the unallowed `NULL` value.
 
 ##### `:foreign_key`
 
@@ -1533,8 +1512,7 @@ The `collection.clear` method removes all objects from the collection according 
 @author.books.clear
 ```
 
-WARNING: Objects will be deleted if they're associated with `dependent: :destroy`,
-just like `dependent: :delete_all`.
+WARNING: Objects will be deleted if they're associated with `dependent: :destroy`, just like `dependent: :delete_all`.
 
 ##### `collection.empty?`
 
@@ -1573,9 +1551,7 @@ The `collection.where` method finds objects within the collection based on the c
 
 ##### `collection.exists?(...)`
 
-The `collection.exists?` method checks whether an object meeting the supplied
-conditions exists in the collection. It uses the same syntax and options as
-[`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as [`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
 
 ##### `collection.build(attributes = {}, ...)`
 
@@ -1696,10 +1672,7 @@ end
 
 By convention, Rails assumes that the column used to hold the primary key of the association is `id`. You can override this and explicitly specify the primary key with the `:primary_key` option.
 
-Let's say the `users` table has `id` as the primary_key but it also
-has a `guid` column. The requirement is that the `todos` table should
-hold the `guid` column value as the foreign key and not `id`
-value. This can be achieved like this:
+Let's say the `users` table has `id` as the primary_key but it also has a `guid` column. The requirement is that the `todos` table should hold the `guid` column value as the foreign key and not `id` value. This can be achieved like this:
 
 ```ruby
 class User < ApplicationRecord
@@ -1707,8 +1680,7 @@ class User < ApplicationRecord
 end
 ```
 
-Now if we execute `@todo = @user.todos.create` then the `@todo`
-record's `user_id` value will be the `guid` value of `@user`.
+Now if we execute `@todo = @user.todos.create` then the `@todo` record's `user_id` value will be the `guid` value of `@user`.
 
 
 ##### `:source`
@@ -1861,8 +1833,7 @@ WARNING: If you specify your own `select`, be sure to include the primary key an
 
 ##### `distinct`
 
-Use the `distinct` method to keep the collection free of duplicates. This is
-mostly useful together with the `:through` option.
+Use the `distinct` method to keep the collection free of duplicates. This is mostly useful together with the `:through` option.
 
 ```ruby
 class Person < ApplicationRecord
@@ -1878,8 +1849,7 @@ person.articles.inspect # => [#<Article id: 5, name: "a1">, #<Article id: 5, nam
 Reading.all.inspect     # => [#<Reading id: 12, person_id: 5, article_id: 5>, #<Reading id: 13, person_id: 5, article_id: 5>]
 ```
 
-In the above case there are two readings and `person.articles` brings out both of
-them even though these records are pointing to the same article.
+In the above case there are two readings and `person.articles` brings out both of them even though these records are pointing to the same article.
 
 Now let's set `distinct`:
 
@@ -1897,22 +1867,15 @@ person.articles.inspect # => [#<Article id: 7, name: "a1">]
 Reading.all.inspect     # => [#<Reading id: 16, person_id: 7, article_id: 7>, #<Reading id: 17, person_id: 7, article_id: 7>]
 ```
 
-In the above case there are still two readings. However `person.articles` shows
-only one article because the collection loads only unique records.
+In the above case there are still two readings. However `person.articles` shows only one article because the collection loads only unique records.
 
-If you want to make sure that, upon insertion, all of the records in the
-persisted association are distinct (so that you can be sure that when you
-inspect the association that you will never find duplicate records), you should
-add a unique index on the table itself. For example, if you have a table named
-`readings` and you want to make sure the articles can only be added to a person once,
-you could add the following in a migration:
+If you want to make sure that, upon insertion, all of the records in the persisted association are distinct (so that you can be sure that when you inspect the association that you will never find duplicate records), you should add a unique index on the table itself. For example, if you have a table named `readings` and you want to make sure the articles can only be added to a person once, you could add the following in a migration:
 
 ```ruby
 add_index :readings, [:person_id, :article_id], unique: true
 ```
 
-Once you have this unique index, attempting to add the article to a person twice
-will raise an `ActiveRecord::RecordNotUnique` error:
+Once you have this unique index, attempting to add the article to a person twice will raise an `ActiveRecord::RecordNotUnique` error:
 
 ```ruby
 person = Person.create(name: 'Honda')
@@ -1921,11 +1884,7 @@ person.articles << article
 person.articles << article # => ActiveRecord::RecordNotUnique
 ```
 
-Note that checking for uniqueness using something like `include?` is subject
-to race conditions. Do not attempt to use `include?` to enforce distinctness
-in an association. For instance, using the article example from above, the
-following code would be racy because multiple users could be attempting this
-at the same time:
+Note that checking for uniqueness using something like `include?` is subject to race conditions. Do not attempt to use `include?` to enforce distinctness in an association. For instance, using the article example from above, the following code would be racy because multiple users could be attempting this at the same time:
 
 ```ruby
 person.articles << article unless person.articles.include?(article)
@@ -2092,9 +2051,7 @@ The `collection.where` method finds objects within the collection based on the c
 
 ##### `collection.exists?(...)`
 
-The `collection.exists?` method checks whether an object meeting the supplied
-conditions exists in the collection. It uses the same syntax and options as
-[`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
+The `collection.exists?` method checks whether an object meeting the supplied conditions exists in the collection. It uses the same syntax and options as [`ActiveRecord::Base.exists?`](http://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F).
 
 ##### `collection.build(attributes = {})`
 
@@ -2382,10 +2339,7 @@ Extensions can refer to the internals of the association proxy using these three
 Single Table Inheritance
 ------------------------
 
-Sometimes, you may want to share fields and behavior between different models.
-Let's say we have Car, Motorcycle and Bicycle models. We will want to share
-the `color` and `price` fields and some methods for all of them, but having some
-specific behavior for each, and separated controllers too.
+Sometimes, you may want to share fields and behavior between different models. Let's say we have Car, Motorcycle and Bicycle models. We will want to share the `color` and `price` fields and some methods for all of them, but having some specific behavior for each, and separated controllers too.
 
 Rails makes this quite easy. First, let's generate the base Vehicle model:
 
@@ -2393,15 +2347,9 @@ Rails makes this quite easy. First, let's generate the base Vehicle model:
 $ rails generate model vehicle type:string color:string price:decimal{10.2}
 ```
 
-Did you note we are adding a "type" field? Since all models will be saved in a
-single database table, Rails will save in this column the name of the model that
-is being saved. In our example, this can be "Car", "Motorcycle" or "Bicycle."
-STI won't work without a "type" field in the table.
+Did you note we are adding a "type" field? Since all models will be saved in a single database table, Rails will save in this column the name of the model that is being saved. In our example, this can be "Car", "Motorcycle" or "Bicycle." STI won't work without a "type" field in the table.
 
-Next, we will generate the three models that inherit from Vehicle. For this,
-we can use the `--parent=PARENT` option, which will generate a model that
-inherits from the specified parent and without equivalent migration (since the
-table already exists).
+Next, we will generate the three models that inherit from Vehicle. For this, we can use the `--parent=PARENT` option, which will generate a model that inherits from the specified parent and without equivalent migration (since the table already exists).
 
 For example, to generate the Car model:
 
@@ -2416,8 +2364,7 @@ class Car < Vehicle
 end
 ```
 
-This means that all behavior added to Vehicle is available for Car too, as
-associations, public methods, etc.
+This means that all behavior added to Vehicle is available for Car too, as associations, public methods, etc.
 
 Creating a car will save it in the `vehicles` table with "Car" as the `type` field:
 
