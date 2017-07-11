@@ -68,8 +68,7 @@ These configuration methods are to be called on a `Rails::Railtie` object, such 
 
 * `config.action_view.cache_template_loading` controls whether or not templates should be reloaded on each request. Defaults to whatever is set for `config.cache_classes`.
 
-* `config.beginning_of_week` sets the default beginning of week for the
-application. Accepts a valid week day symbol (e.g. `:monday`).
+* `config.beginning_of_week` sets the default beginning of week for the application. Accepts a valid week day symbol (e.g. `:monday`).
 
 * `config.cache_store` configures which cache store to use for Rails caching. Options include one of the symbols `:memory_store`, `:file_store`, `:mem_cache_store`, `:null_store`, or an object that implements the cache API. Defaults to `:file_store`.
 
@@ -104,17 +103,13 @@ application. Accepts a valid week day symbol (e.g. `:monday`).
 
 * `config.file_watcher` is the class used to detect file updates in the file system when `config.reload_classes_only_on_change` is `true`. Rails ships with `ActiveSupport::FileUpdateChecker`, the default, and `ActiveSupport::EventedFileUpdateChecker` (this one depends on the [listen](https://github.com/guard/listen) gem). Custom classes must conform to the `ActiveSupport::FileUpdateChecker` API.
 
-* `config.filter_parameters` used for filtering out the parameters that
-you don't want shown in the logs, such as passwords or credit card
-numbers. By default, Rails filters out passwords by adding `Rails.application.config.filter_parameters += [:password]` in `config/initializers/filter_parameter_logging.rb`. Parameters filter works by partial matching regular expression.
+* `config.filter_parameters` used for filtering out the parameters that you don't want shown in the logs, such as passwords or credit card numbers. By default, Rails filters out passwords by adding `Rails.application.config.filter_parameters += [:password]` in `config/initializers/filter_parameter_logging.rb`. Parameters filter works by partial matching regular expression.
 
 * `config.force_ssl` forces all requests to be served over HTTPS by using the `ActionDispatch::SSL` middleware, and sets `config.action_mailer.default_url_options` to be `{ protocol: 'https' }`. This can be configured by setting `config.ssl_options` - see the [ActionDispatch::SSL documentation](http://api.rubyonrails.org/classes/ActionDispatch/SSL.html) for details.
 
 * `config.log_formatter` defines the formatter of the Rails logger. This option defaults to an instance of `ActiveSupport::Logger::SimpleFormatter` for all modes. If you are setting a value for `config.logger` you must manually pass the value of your formatter to your logger before it is wrapped in an `ActiveSupport::TaggedLogging` instance, Rails will not do it for you.
 
-* `config.log_level` defines the verbosity of the Rails logger. This option
-defaults to `:debug` for all environments. The available log levels are: `:debug`,
-`:info`, `:warn`, `:error`, `:fatal`, and `:unknown`.
+* `config.log_level` defines the verbosity of the Rails logger. This option defaults to `:debug` for all environments. The available log levels are: `:debug`, `:info`, `:warn`, `:error`, `:fatal`, and `:unknown`.
 
 * `config.log_tags` accepts a list of: methods that the `request` object responds to, a `Proc` that accepts the `request` object, or something that responds to `to_s`. This makes it easy to tag log lines with debug information like subdomain and request id - both very helpful in debugging multi-user production applications.
 
@@ -154,8 +149,7 @@ defaults to `:debug` for all environments. The available log levels are: `:debug
 
 ### Configuring Assets
 
-* `config.assets.enabled` a flag that controls whether the asset
-pipeline is enabled. It is set to `true` by default.
+* `config.assets.enabled` a flag that controls whether the asset pipeline is enabled. It is set to `true` by default.
 
 * `config.assets.css_compressor` defines the CSS compressor to use. It is set by default by `sass-rails`. The unique alternative value at the moment is `:yui`, which uses the `yui-compressor` gem.
 
@@ -206,8 +200,7 @@ The full set of methods that can be used in this block are as follows:
 * `javascript_engine` configures the engine to be used (for eg. coffee) when generating assets. Defaults to `:js`.
 * `orm` defines which orm to use. Defaults to `false` and will use Active Record by default.
 * `resource_controller` defines which generator to use for generating a controller when using `rails generate resource`. Defaults to `:controller`.
-* `resource_route` defines whether a resource route definition should be generated
-  or not. Defaults to `true`.
+* `resource_route` defines whether a resource route definition should be generated or not. Defaults to `true`.
 * `scaffold_controller` different from `resource_controller`, defines which generator to use for generating a _scaffolded_ controller when using `rails generate scaffold`. Defaults to `:scaffold_controller`.
 * `stylesheets` turns on the hook for stylesheets in generators. Used in Rails for when the `scaffold` generator is run, but this hook can be used in other generates as well. Defaults to `true`.
 * `stylesheet_engine` configures the stylesheet engine (for eg. sass) to be used when generating assets. Defaults to `:css`.
@@ -342,34 +335,17 @@ All these configuration options are delegated to the `I18n` library.
 
 * `config.active_record.maintain_test_schema` is a boolean value which controls whether Active Record should try to keep your test database schema up-to-date with `db/schema.rb` (or `db/structure.sql`) when you run your tests. The default is `true`.
 
-* `config.active_record.dump_schema_after_migration` is a flag which
-  controls whether or not schema dump should happen (`db/schema.rb` or
-  `db/structure.sql`) when you run migrations. This is set to `false` in
-  `config/environments/production.rb` which is generated by Rails. The
-  default value is `true` if this configuration is not set.
+* `config.active_record.dump_schema_after_migration` is a flag which controls whether or not schema dump should happen (`db/schema.rb` or `db/structure.sql`) when you run migrations. This is set to `false` in `config/environments/production.rb` which is generated by Rails. The default value is `true` if this configuration is not set.
 
-* `config.active_record.dump_schemas` controls which database schemas will be dumped when calling `db:structure:dump`.
-  The options are `:schema_search_path` (the default) which dumps any schemas listed in `schema_search_path`,
-  `:all` which always dumps all schemas regardless of the `schema_search_path`,
-  or a string of comma separated schemas.
+* `config.active_record.dump_schemas` controls which database schemas will be dumped when calling `db:structure:dump`. The options are `:schema_search_path` (the default) which dumps any schemas listed in `schema_search_path`, `:all` which always dumps all schemas regardless of the `schema_search_path`, or a string of comma separated schemas.
 
-* `config.active_record.belongs_to_required_by_default` is a boolean value and
-  controls whether a record fails validation if `belongs_to` association is not
-  present.
+* `config.active_record.belongs_to_required_by_default` is a boolean value and controls whether a record fails validation if `belongs_to` association is not present.
 
-* `config.active_record.warn_on_records_fetched_greater_than` allows setting a
-  warning threshold for query result size. If the number of records returned
-  by a query exceeds the threshold, a warning is logged. This can be used to
-  identify queries which might be causing a memory bloat.
+* `config.active_record.warn_on_records_fetched_greater_than` allows setting a warning threshold for query result size. If the number of records returned by a query exceeds the threshold, a warning is logged. This can be used to identify queries which might be causing a memory bloat.
 
-* `config.active_record.index_nested_attribute_errors` allows errors for nested
-  `has_many` relationships to be displayed with an index as well as the error.
-  Defaults to `false`.
+* `config.active_record.index_nested_attribute_errors` allows errors for nested `has_many` relationships to be displayed with an index as well as the error. Defaults to `false`.
 
-* `config.active_record.use_schema_cache_dump` enables users to get schema cache information
-  from `db/schema_cache.yml` (generated by `bin/rails db:schema:cache:dump`), instead of
-  having to send a query to the database to get this information.
-  Defaults to `true`.
+* `config.active_record.use_schema_cache_dump` enables users to get schema cache information from `db/schema_cache.yml` (generated by `bin/rails db:schema:cache:dump`), instead of having to send a query to the database to get this information. Defaults to `true`.
 
 The MySQL adapter adds one additional configuration option:
 
@@ -447,25 +423,17 @@ The schema dumper adds one additional configuration option:
 
 * `config.action_dispatch.x_sendfile_header` specifies server specific X-Sendfile header. This is useful for accelerated file sending from server. For example it can be set to 'X-Sendfile' for Apache.
 
-* `config.action_dispatch.http_auth_salt` sets the HTTP Auth salt value. Defaults
-to `'http authentication'`.
+* `config.action_dispatch.http_auth_salt` sets the HTTP Auth salt value. Defaults to `'http authentication'`.
 
-* `config.action_dispatch.signed_cookie_salt` sets the signed cookies salt value.
-Defaults to `'signed cookie'`.
+* `config.action_dispatch.signed_cookie_salt` sets the signed cookies salt value. Defaults to `'signed cookie'`.
 
-* `config.action_dispatch.encrypted_cookie_salt` sets the encrypted cookies salt
-  value. Defaults to `'encrypted cookie'`.
+* `config.action_dispatch.encrypted_cookie_salt` sets the encrypted cookies salt value. Defaults to `'encrypted cookie'`.
 
-* `config.action_dispatch.encrypted_signed_cookie_salt` sets the signed
-  encrypted cookies salt value. Defaults to `'signed encrypted cookie'`.
+* `config.action_dispatch.encrypted_signed_cookie_salt` sets the signed encrypted cookies salt value. Defaults to `'signed encrypted cookie'`.
 
-* `config.action_dispatch.authenticated_encrypted_cookie_salt` sets the
-  authenticated encrypted cookie salt. Defaults to `'authenticated encrypted
-  cookie'`.
+* `config.action_dispatch.authenticated_encrypted_cookie_salt` sets the authenticated encrypted cookie salt. Defaults to `'authenticated encryptedcookie'`.
 
-* `config.action_dispatch.perform_deep_munge` configures whether `deep_munge`
-  method should be performed on the parameters. See [Security Guide](security.html#unsafe-query-generation)
-  for more information. It defaults to `true`.
+* `config.action_dispatch.perform_deep_munge` configures whether `deep_munge` method should be performed on the parameters. See [Security Guide](security.html#unsafe-query-generation) for more information. It defaults to `true`.
 
 * `config.action_dispatch.rescue_responses` configures what exceptions are assigned to an HTTP status. It accepts a hash and you can specify pairs of exception/status. By default, this is defined as:
 
@@ -509,23 +477,13 @@ Defaults to `'signed cookie'`.
     end
     ```
 
-* `config.action_view.default_form_builder` tells Rails which form builder to
-  use by default. The default is `ActionView::Helpers::FormBuilder`. If you
-  want your form builder class to be loaded after initialization (so it's
-  reloaded on each request in development), you can pass it as a `String`.
+* `config.action_view.default_form_builder` tells Rails which form builder to use by default. The default is `ActionView::Helpers::FormBuilder`. If you want your form builder class to be loaded after initialization (so it's reloaded on each request in development), you can pass it as a `String`.
 
 * `config.action_view.logger` accepts a logger conforming to the interface of Log4r or the default Ruby Logger class, which is then used to log information from Action View. Set to `nil` to disable logging.
 
 * `config.action_view.erb_trim_mode` gives the trim mode to be used by ERB. It defaults to `'-'`, which turns on trimming of tail spaces and newline when using `<%= -%>` or `<%= =%>`. See the [Erubis documentation](http://www.kuwata-lab.com/erubis/users-guide.06.html#topics-trimspaces) for more information.
 
-* `config.action_view.embed_authenticity_token_in_remote_forms` allows you to
-  set the default behavior for `authenticity_token` in forms with `remote:
-  true`. By default it's set to `false`, which means that remote forms will not
-  include `authenticity_token`, which is helpful when you're fragment-caching
-  the form. Remote forms get the authenticity from the `meta` tag, so embedding
-  is unnecessary unless you support browsers without JavaScript. In such case
-  you can either pass `authenticity_token: true` as a form option or set this
-  config setting to `true`.
+* `config.action_view.embed_authenticity_token_in_remote_forms` allows you to set the default behavior for `authenticity_token` in forms with `remote:true`. By default it's set to `false`, which means that remote forms will not include `authenticity_token`, which is helpful when you're fragment-caching the form. Remote forms get the authenticity from the `meta` tag, so embedding is unnecessary unless you support browsers without JavaScript. In such case you can either pass `authenticity_token: true` as a form option or set this config setting to `true`.
 
 * `config.action_view.prefix_partial_path_with_controller_namespace` determines whether or not partials are looked up from a subdirectory in templates rendered from namespaced controllers. For example, consider a controller named `Admin::ArticlesController` which renders this template:
 
@@ -535,11 +493,9 @@ Defaults to `'signed cookie'`.
 
     The default setting is `true`, which uses the partial at `/admin/articles/_article.erb`. Setting the value to `false` would render `/articles/_article.erb`, which is the same behavior as rendering from a non-namespaced controller such as `ArticlesController`.
 
-* `config.action_view.raise_on_missing_translations` determines whether an
-  error should be raised for missing translations.
+* `config.action_view.raise_on_missing_translations` determines whether an error should be raised for missing translations.
 
-* `config.action_view.automatically_disable_submit_tag` determines whether
-  submit_tag should automatically disable on click, this defaults to `true`.
+* `config.action_view.automatically_disable_submit_tag` determines whether submit_tag should automatically disable on click, this defaults to `true`.
 
 * `config.action_view.debug_missing_translation` determines whether to wrap the missing translations key in a `<span>` tag or not. This defaults to `true`.
 
@@ -613,8 +569,7 @@ There are a number of settings available on `config.action_mailer`:
     config.action_mailer.show_previews = false
     ```
 
-* `config.action_mailer.deliver_later_queue_name` specifies the queue name for
-  mailers. By default this is `mailers`.
+* `config.action_mailer.deliver_later_queue_name` specifies the queue name for mailers. By default this is `mailers`.
 
 * `config.action_mailer.perform_caching` specifies whether the mailer templates should perform fragment caching or not. By default this is `false` in all environments.
 
@@ -698,14 +653,8 @@ There are a few configuration options available in Active Support:
 
 ### Configuring Action Cable
 
-* `config.action_cable.url` accepts a string for the URL for where
- you are hosting your Action Cable server. You would use this option
-if you are running Action Cable servers that are separated from your
-main application.
-* `config.action_cable.mount_path` accepts a string for where to mount Action
-  Cable, as part of the main server process. Defaults to `/cable`.
-You can set this as nil to not mount Action Cable as part of your
-normal Rails server.
+* `config.action_cable.url` accepts a string for the URL for where you are hosting your Action Cable server. You would use this option if you are running Action Cable servers that are separated from your main application.
+* `config.action_cable.mount_path` accepts a string for where to mount Action Cable, as part of the main server process. Defaults to `/cable`. You can set this as nil to not mount Action Cable as part of your normal Rails server.
 
 ### Configuring a Database
 
@@ -945,18 +894,15 @@ That environment is no different than the default ones, start a server with `rai
 
 ### Deploy to a subdirectory (relative url root)
 
-By default Rails expects that your application is running at the root
-(eg. `/`). This section explains how to run your application inside a directory.
+By default Rails expects that your application is running at the root (eg. `/`). This section explains how to run your application inside a directory.
 
-Let's assume we want to deploy our application to "/app1". Rails needs to know
-this directory to generate the appropriate routes:
+Let's assume we want to deploy our application to "/app1". Rails needs to know this directory to generate the appropriate routes:
 
 ```ruby
 config.relative_url_root = "/app1"
 ```
 
-alternatively you can set the `RAILS_RELATIVE_URL_ROOT` environment
-variable.
+alternatively you can set the `RAILS_RELATIVE_URL_ROOT` environment variable.
 
 Rails will now prepend "/app1" when generating links.
 
@@ -1145,8 +1091,7 @@ Below is a comprehensive list of all the initializers found in Rails in the orde
 
 * `active_record.add_watchable_files`: Adds `schema.rb` and `structure.sql` files to watchable files.
 
-* `active_job.logger`: Sets `ActiveJob::Base.logger` - if it's not already set -
-  to `Rails.logger`.
+* `active_job.logger`: Sets `ActiveJob::Base.logger` - if it's not already set - to `Rails.logger`.
 
 * `active_job.set_configs`: Sets up Active Job by using the settings in `config.active_job` by `send`'ing the method names as setters to `ActiveJob::Base` and passing the values through.
 
@@ -1209,16 +1154,13 @@ Since the connection pooling is handled inside of Active Record by default, all 
 
 Any one request will check out a connection the first time it requires access to the database. At the end of the request it will check the connection back in. This means that the additional connection slot will be available again for the next request in the queue.
 
-If you try to use more connections than are available, Active Record will block
-you and wait for a connection from the pool. If it cannot get a connection, a
-timeout error similar to that given below will be thrown.
+If you try to use more connections than are available, Active Record will block you and wait for a connection from the pool. If it cannot get a connection, a timeout error similar to that given below will be thrown.
 
 ```ruby
 ActiveRecord::ConnectionTimeoutError - could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)
 ```
 
-If you get the above error, you might want to increase the size of the
-connection pool by incrementing the `pool` option in `database.yml`
+If you get the above error, you might want to increase the size of the connection pool by incrementing the `pool` option in `database.yml`
 
 NOTE. If you are running in a multi-threaded environment, there could be a chance that several threads may be accessing multiple connections simultaneously. So depending on your current request load, you could very well have multiple threads contending for a limited number of connections.
 
@@ -1226,11 +1168,7 @@ NOTE. If you are running in a multi-threaded environment, there could be a chanc
 Custom configuration
 --------------------
 
-You can configure your own code through the Rails configuration object with
-custom configuration under either the `config.x` namespace, or `config` directly.
-The key difference between these two is that you should be using `config.x` if you
-are defining _nested_ configuration (ex: `config.x.nested.nested.hi`), and just
-`config` for _single level_ configuration (ex: `config.hello`).
+You can configure your own code through the Rails configuration object with custom configuration under either the `config.x` namespace, or `config` directly. The key difference between these two is that you should be using `config.x` if you are defining _nested_ configuration (ex: `config.x.nested.nested.hi`), and just `config` for _single level_ configuration (ex: `config.hello`).
 
   ```ruby
   config.x.payment_processing.schedule = :daily
@@ -1277,29 +1215,21 @@ You can also use `Rails::Application.config_for` to load whole configuration fil
 Search Engines Indexing
 -----------------------
 
-Sometimes, you may want to prevent some pages of your application to be visible
-on search sites like Google, Bing, Yahoo or Duck Duck Go. The robots that index
-these sites will first analyze the `http://your-site.com/robots.txt` file to
-know which pages it is allowed to index.
+Sometimes, you may want to prevent some pages of your application to be visible on search sites like Google, Bing, Yahoo or Duck Duck Go. The robots that index these sites will first analyze the `http://your-site.com/robots.txt` file to know which pages it is allowed to index.
 
-Rails creates this file for you inside the `/public` folder. By default, it allows
-search engines to index all pages of your application. If you want to block
-indexing on all pages of you application, use this:
+Rails creates this file for you inside the `/public` folder. By default, it allows search engines to index all pages of your application. If you want to block indexing on all pages of you application, use this:
 
 ```
 User-agent: *
 Disallow: /
 ```
 
-To block just specific pages, it's necessary to use a more complex syntax. Learn
-it on the [official documentation](http://www.robotstxt.org/robotstxt.html).
+To block just specific pages, it's necessary to use a more complex syntax. Learn it on the [official documentation](http://www.robotstxt.org/robotstxt.html).
 
 Evented File System Monitor
 ---------------------------
 
-If the [listen gem](https://github.com/guard/listen) is loaded Rails uses an
-evented file system monitor to detect changes when `config.cache_classes` is
-`false`:
+If the [listen gem](https://github.com/guard/listen) is loaded Rails uses an evented file system monitor to detect changes when `config.cache_classes` is `false`:
 
 ```ruby
 group :development do
@@ -1307,11 +1237,8 @@ group :development do
 end
 ```
 
-Otherwise, in every request Rails walks the application tree to check if
-anything has changed.
+Otherwise, in every request Rails walks the application tree to check if anything has changed.
 
-On Linux and macOS no additional gems are needed, but some are required
-[for *BSD](https://github.com/guard/listen#on-bsd) and
-[for Windows](https://github.com/guard/listen#on-windows).
+On Linux and macOS no additional gems are needed, but some are required [for *BSD](https://github.com/guard/listen#on-bsd) and [for Windows](https://github.com/guard/listen#on-windows).
 
 Note that [some setups are unsupported](https://github.com/guard/listen#issues--limitations).
