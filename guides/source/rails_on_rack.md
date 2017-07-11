@@ -20,18 +20,14 @@ Introduction to Rack
 
 Rack provides a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.
 
-Explaining how Rack works is not really in the scope of this guide. In case you
-are not familiar with Rack's basics, you should check out the [Resources](#resources)
-section below.
+Explaining how Rack works is not really in the scope of this guide. In case you are not familiar with Rack's basics, you should check out the [Resources](#resources) section below.
 
 Rails on Rack
 -------------
 
 ### Rails Application's Rack Object
 
-`Rails.application` is the primary Rack application object of a Rails
-application. Any Rack compliant web server should be using
-`Rails.application` object to serve a Rails application.
+`Rails.application` is the primary Rack application object of a Rails application. Any Rack compliant web server should be using `Rails.application` object to serve a Rails application.
 
 ### `rails server`
 
@@ -89,8 +85,7 @@ Action Dispatcher Middleware Stack
 
 Many of Action Dispatcher's internal components are implemented as Rack middlewares. `Rails::Application` uses `ActionDispatch::MiddlewareStack` to combine various internal and external middlewares to form a complete Rails Rack application.
 
-NOTE: `ActionDispatch::MiddlewareStack` is Rails' equivalent of `Rack::Builder`,
-but is built for better flexibility and more features to meet Rails' requirements.
+NOTE: `ActionDispatch::MiddlewareStack` is Rails' equivalent of `Rack::Builder`, but is built for better flexibility and more features to meet Rails' requirements.
 
 ### Inspecting Middleware Stack
 
@@ -175,8 +170,7 @@ Add the following lines to your application configuration:
 config.middleware.delete Rack::Runtime
 ```
 
-And now if you inspect the middleware stack, you'll find that `Rack::Runtime` is
-not a part of it.
+And now if you inspect the middleware stack, you'll find that `Rack::Runtime` is not a part of it.
 
 ```bash
 $ bin/rails middleware
