@@ -83,9 +83,7 @@ Rails would dispatch that request to the `destroy` action on the `photos` contro
 
 ### CRUD, Verbs, and Actions
 
-In Rails, a resourceful route provides a mapping between HTTP verbs and URLs to
-controller actions. By convention, each action also maps to a specific CRUD
-operation in a database. A single entry in the routing file, such as:
+In Rails, a resourceful route provides a mapping between HTTP verbs and URLs to controller actions. By convention, each action also maps to a specific CRUD operation in a database. A single entry in the routing file, such as:
 
 ```ruby
 resources :photos
@@ -486,10 +484,7 @@ end
 
 This will recognize `/photos/1/preview` with GET, and route to the `preview` action of `PhotosController`, with the resource id value passed in `params[:id]`. It will also create the `preview_photo_url` and `preview_photo_path` helpers.
 
-Within the block of member routes, each route name specifies the HTTP verb
-will be recognized. You can use `get`, `patch`, `put`, `post`, or `delete` here
-. If you don't have multiple `member` routes, you can also pass `:on` to a
-route, eliminating the block:
+Within the block of member routes, each route name specifies the HTTP verb will be recognized. You can use `get`, `patch`, `put`, `post`, or `delete` here . If you don't have multiple `member` routes, you can also pass `:on` to a route, eliminating the block:
 
 ```ruby
 resources :photos do
@@ -806,16 +801,13 @@ As long as `MyRackApp` responds to `call` and returns a `[status, headers, body]
 
 NOTE: For the curious, `'articles#index'` actually expands out to `ArticlesController.action(:index)`, which returns a valid Rack application.
 
-If you specify a Rack application as the endpoint for a matcher, remember that
-the route will be unchanged in the receiving application. With the following
-route your Rack application should expect the route to be '/admin':
+If you specify a Rack application as the endpoint for a matcher, remember that the route will be unchanged in the receiving application. With the following route your Rack application should expect the route to be '/admin':
 
 ```ruby
 match '/admin', to: AdminApp, via: :all
 ```
 
-If you would prefer to have your Rack application receive requests at the root
-path instead, use mount:
+If you would prefer to have your Rack application receive requests at the root path instead, use mount:
 
 ```ruby
 mount AdminApp, at: '/admin'
@@ -887,10 +879,7 @@ resources :user_permissions, controller: 'admin/user_permissions'
 
 This will route to the `Admin::UserPermissions` controller.
 
-NOTE: Only the directory notation is supported. Specifying the
-controller with Ruby constant notation (eg. `controller: 'Admin::UserPermissions'`)
-can lead to routing problems and results in
-a warning.
+NOTE: Only the directory notation is supported. Specifying the controller with Ruby constant notation (eg. `controller: 'Admin::UserPermissions'`) can lead to routing problems and results in a warning.
 
 ### Specifying Constraints
 
@@ -1064,10 +1053,7 @@ This will create routing helpers such as `magazine_periodical_ads_url` and `edit
 
 ### Overriding Named Route Parameters
 
-The `:param` option overrides the default resource identifier `:id` (name of
-the [dynamic segment](routing.html#dynamic-segments) used to generate the
-routes). You can access that segment from your controller using
-`params[<:param>]`.
+The `:param` option overrides the default resource identifier `:id` (name of the [dynamic segment](routing.html#dynamic-segments) used to generate the routes). You can access that segment from your controller using `params[<:param>]`.
 
 ```ruby
 resources :videos, param: :identifier
@@ -1084,8 +1070,7 @@ edit_videos GET  /videos/:identifier/edit(.:format) videos#edit
 Video.find_by(identifier: params[:identifier])
 ```
 
-You can override `ActiveRecord::Base#to_param` of a related model to construct
-a URL:
+You can override `ActiveRecord::Base#to_param` of a related model to construct a URL:
 
 ```ruby
 class Video < ApplicationRecord
