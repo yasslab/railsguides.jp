@@ -100,15 +100,7 @@ form_tag({controller: "people", action: "search"}, method: "get", class: "nifty_
 
 ### Helpers for Generating Form Elements
 
-Rails provides a series of helpers for generating form elements such as
-checkboxes, text fields, and radio buttons. These basic helpers, with names
-ending in `_tag` (such as `text_field_tag` and `check_box_tag`), generate just a
-single `<input>` element. The first parameter to these is always the name of the
-input. When the form is submitted, the name will be passed along with the form
-data, and will make its way to the `params` in the controller with the
-value entered by the user for that field. For example, if the form contains
-`<%= text_field_tag(:query) %>`, then you would be able to get the value of this
-field in the controller with `params[:query]`.
+Rails provides a series of helpers for generating form elements such as checkboxes, text fields, and radio buttons. These basic helpers, with names ending in `_tag` (such as `text_field_tag` and `check_box_tag`), generate just a single `<input>` element. The first parameter to these is always the name of the input. When the form is submitted, the name will be passed along with the form data, and will make its way to the `params` in the controller with the value entered by the user for that field. For example, if the form contains `<%= text_field_tag(:query) %>`, then you would be able to get the value of this field in the controller with `params[:query]`.
 
 When naming inputs, Rails uses certain conventions that make it possible to submit parameters with non-scalar values such as arrays or hashes, which will also be accessible in `params`. You can read more about them in [chapter 7 of this guide](#understanding-parameter-naming-conventions). For details on the precise usage of these helpers, please refer to the [API documentation](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html).
 
@@ -156,16 +148,11 @@ Output:
 
 As with `check_box_tag`, the second parameter to `radio_button_tag` is the value of the input. Because these two radio buttons share the same name (`age`), the user will only be able to select one of them, and `params[:age]` will contain either `"child"` or `"adult"`.
 
-NOTE: Always use labels for checkbox and radio buttons. They associate text with a specific option and,
-by expanding the clickable region,
-make it easier for users to click the inputs.
+NOTE: Always use labels for checkbox and radio buttons. They associate text with a specific option and, by expanding the clickable region, make it easier for users to click the inputs.
 
 ### Other Helpers of Interest
 
-Other form controls worth mentioning are textareas, password fields,
-hidden fields, search fields, telephone fields, date fields, time fields,
-color fields, datetime-local fields, month fields, week fields,
-URL fields, email fields, number fields and range fields:
+Other form controls worth mentioning are textareas, password fields, hidden fields, search fields, telephone fields, date fields, time fields, color fields, datetime-local fields, month fields, week fields, URL fields, email fields, number fields and range fields:
 
 ```erb
 <%= text_area_tag(:message, "Hi, nice site", size: "24x6") %>
@@ -207,13 +194,7 @@ Output:
 
 Hidden inputs are not shown to the user but instead hold data like any textual input. Values inside them can be changed with JavaScript.
 
-IMPORTANT: The search, telephone, date, time, color, datetime, datetime-local,
-month, week, URL, email, number and range inputs are HTML5 controls.
-If you require your app to have a consistent experience in older browsers,
-you will need an HTML5 polyfill (provided by CSS and/or JavaScript).
-There is definitely [no shortage of solutions for this](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills), although a popular tool at the moment is
-[Modernizr](https://modernizr.com/), which provides a simple way to add functionality based on the presence of
-detected HTML5 features.
+IMPORTANT: The search, telephone, date, time, color, datetime, datetime-local, month, week, URL, email, number and range inputs are HTML5 controls. If you require your app to have a consistent experience in older browsers, you will need an HTML5 polyfill (provided by CSS and/or JavaScript). There is definitely [no shortage of solutions for this](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills), although a popular tool at the moment is [Modernizr](https://modernizr.com/), which provides a simple way to add functionality based on the presence of detected HTML5 features.
 
 TIP: If you're using password input fields (for any purpose), you might want to configure your application to prevent those parameters from being logged. You can learn about this in the [Security Guide](security.html#logging).
 
@@ -571,8 +552,7 @@ The `:prefix` option is the key used to retrieve the hash of date components fro
 
 ### Model Object Helpers
 
-`select_date` does not work well with forms that update or create Active Record objects as Active Record expects each element of the `params` hash to correspond to one attribute.
-The model object helpers for dates and times submit parameters with special names; when Active Record sees parameters with such names it knows they must be combined with the other parameters and given to a constructor appropriate to the column type. For example:
+`select_date` does not work well with forms that update or create Active Record objects as Active Record expects each element of the `params` hash to correspond to one attribute. The model object helpers for dates and times submit parameters with special names; when Active Record sees parameters with such names it knows they must be combined with the other parameters and given to a constructor appropriate to the column type. For example:
 
 ```erb
 <%= date_select :person, :birth_date %>
@@ -704,8 +684,7 @@ If `f` is an instance of `FormBuilder` then this will render the `form` partial,
 Understanding Parameter Naming Conventions
 ------------------------------------------
 
-As you've seen in the previous sections, values from forms can be at the top level of the `params` hash or nested in another hash. For example, in a standard `create`
-action for a Person model, `params[:person]` would usually be a hash of all the attributes for the person to create. The `params` hash can also contain arrays, arrays of hashes and so on.
+As you've seen in the previous sections, values from forms can be at the top level of the `params` hash or nested in another hash. For example, in a standard `create` action for a Person model, `params[:person]` would usually be a hash of all the attributes for the person to create. The `params` hash can also contain arrays, arrays of hashes and so on.
 
 Fundamentally HTML forms don't know about any sort of structured data, all they generate is name-value pairs, where pairs are just plain strings. The arrays and hashes you see in your application are the result of some parameter naming conventions that Rails uses.
 
@@ -796,16 +775,9 @@ This will result in a `params` hash that looks like
 {'person' => {'name' => 'Bob', 'address' => {'23' => {'city' => 'Paris'}, '45' => {'city' => 'London'}}}}
 ```
 
-Rails knows that all these inputs should be part of the person hash because you
-called `fields_for` on the first form builder. By specifying an `:index` option
-you're telling Rails that instead of naming the inputs `person[address][city]`
-it should insert that index surrounded by [] between the address and the city.
-This is often useful as it is then easy to locate which Address record
-should be modified. You can pass numbers with some other significance,
-strings or even `nil` (which will result in an array parameter being created).
+Rails knows that all these inputs should be part of the person hash because you called `fields_for` on the first form builder. By specifying an `:index` option you're telling Rails that instead of naming the inputs `person[address][city]` it should insert that index surrounded by [] between the address and the city. This is often useful as it is then easy to locate which Address record should be modified. You can pass numbers with some other significance, strings or even `nil` (which will result in an array parameter being created).
 
-To create more intricate nestings, you can specify the first part of the input
-name (`person[address]` in the previous example) explicitly:
+To create more intricate nestings, you can specify the first part of the input name (`person[address]` in the previous example) explicitly:
 
 ```erb
 <%= fields_for 'person[address][primary]', address, index: address do |address_form| %>
@@ -920,9 +892,7 @@ def new
 end
 ```
 
-The `fields_for` yields a form builder. The parameters' name will be what
-`accepts_nested_attributes_for` expects. For example, when creating a user with
-2 addresses, the submitted parameters would look like:
+The `fields_for` yields a form builder. The parameters' name will be what `accepts_nested_attributes_for` expects. For example, when creating a user with 2 addresses, the submitted parameters would look like:
 
 ```ruby
 {
@@ -948,9 +918,7 @@ If the associated object is already saved, `fields_for` autogenerates a hidden i
 
 ### The Controller
 
-As usual you need to
-[whitelist the parameters](action_controller_overview.html#strong-parameters) in
-the controller before you pass them to the model:
+As usual you need to [whitelist the parameters](action_controller_overview.html#strong-parameters) in the controller before you pass them to the model:
 
 ```ruby
 def create
@@ -975,9 +943,7 @@ class Person < ApplicationRecord
 end
 ```
 
-If the hash of attributes for an object contains the key `_destroy` with a value
-of `1` or `true` then the object will be destroyed. This form allows users to
-remove addresses:
+If the hash of attributes for an object contains the key `_destroy` with a value of `1` or `true` then the object will be destroyed. This form allows users to remove addresses:
 
 ```erb
 <%= form_for @person do |f| %>
@@ -995,8 +961,7 @@ remove addresses:
 <% end %>
 ```
 
-Don't forget to update the whitelisted params in your controller to also include
-the `_destroy` field:
+Don't forget to update the whitelisted params in your controller to also include the `_destroy` field:
 
 ```ruby
 def person_params
