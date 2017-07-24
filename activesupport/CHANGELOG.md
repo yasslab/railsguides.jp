@@ -1,3 +1,25 @@
+*   Add purpose and expiry support to `ActiveSupport::MessageVerifier` &
+   `ActiveSupport::MessageEncryptor`.
+
+    For instance, to ensure a message is only usable for one intended purpose:
+
+        token = @verifier.generate("x", purpose: :shipping)
+
+        @verifier.verified(token, purpose: :shipping) # => "x"
+        @verifier.verified(token)                     # => nil
+
+    Or make it expire after a set time:
+
+        @verifier.generate("x", expires_in: 1.month)
+        @verifier.generate("y", expires_at: Time.now.end_of_year)
+
+    Showcased with `ActiveSupport::MessageVerifier`, but works the same for
+    `ActiveSupport::MessageEncryptor`'s `encrypt_and_sign` and `decrypt_and_verify`.
+
+    Pull requests: #29599, #29854
+
+    *Assain Jaleel*
+
 *   Make the order of `Hash#reverse_merge!` consistent with `HashWithIndifferentAccess`.
 
     *Erol Fornoles*

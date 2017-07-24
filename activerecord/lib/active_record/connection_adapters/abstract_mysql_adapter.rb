@@ -177,7 +177,8 @@ module ActiveRecord
       #++
 
       def explain(arel, binds = [])
-        sql     = "EXPLAIN #{to_sql(arel, binds)}"
+        sql, binds = to_sql(arel, binds)
+        sql     = "EXPLAIN #{sql}"
         start   = Time.now
         result  = exec_query(sql, "EXPLAIN", binds)
         elapsed = Time.now - start
@@ -494,7 +495,7 @@ module ActiveRecord
 
       def case_sensitive_comparison(table, attribute, column, value) # :nodoc:
         if column.collation && !column.case_sensitive?
-          table[attribute].eq(Arel::Nodes::Bin.new(value))
+          table[attribute].eq(Arel::Nodes::Bin.new(Arel::Nodes::BindParam.new(value)))
         else
           super
         end

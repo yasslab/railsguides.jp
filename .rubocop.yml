@@ -89,9 +89,14 @@ Style/FrozenStringLiteralComment:
   Include:
     - 'activesupport/**/*'
     - 'activemodel/**/*'
+    - 'actioncable/**/*'
     - 'activejob/**/*'
     - 'activerecord/**/*'
     - 'actionmailer/**/*'
+    - 'actionview/**/*'
+  Exclude:
+    - 'actionview/test/**/*.builder'
+    - 'actionview/test/**/*.ruby'
 
 # Use `foo {}` not `foo{}`.
 Layout/SpaceBeforeBlockBraces:

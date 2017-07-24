@@ -90,9 +90,9 @@ module ActiveRecord
     attr_reader :bind_map, :query_builder
 
     def self.create(connection, block = Proc.new)
-      relation      = block.call Params.new
-      bind_map      = BindMap.new relation.bound_attributes
-      query_builder = connection.cacheable_query(self, relation.arel)
+      relation = block.call Params.new
+      query_builder, binds = connection.cacheable_query(self, relation.arel)
+      bind_map = BindMap.new(binds)
       new query_builder, bind_map
     end
 

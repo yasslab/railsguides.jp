@@ -19,7 +19,7 @@ class MessageVerifierTest < ActiveSupport::TestCase
 
   def setup
     @verifier = ActiveSupport::MessageVerifier.new("Hey, I'm a secret!")
-    @data = { some: "data", now: Time.local(2010) }
+    @data = { some: "data", now: Time.utc(2010) }
   end
 
   def test_valid_message
@@ -97,6 +97,21 @@ class MessageVerifierMetadataTest < ActiveSupport::TestCase
 
   setup do
     @verifier = ActiveSupport::MessageVerifier.new("Hey, I'm a secret!", verifier_options)
+  end
+
+  def test_verify_raises_when_purpose_differs
+    assert_raise(ActiveSupport::MessageVerifier::InvalidSignature) do
+      @verifier.verify(@verifier.generate(@message, purpose: "payment"), purpose: "shipping")
+    end
+  end
+
+  def test_verify_raises_when_expired
+    signed_message = @verifier.generate(@message, expires_in: 1.month)
+
+    travel 2.months
+    assert_raise(ActiveSupport::MessageVerifier::InvalidSignature) do
+      @verifier.verify(signed_message)
+    end
   end
 
   private
