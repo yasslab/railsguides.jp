@@ -418,9 +418,9 @@ module ActiveRecord
           when DEADLOCK_DETECTED
             Deadlocked.new(message)
           when LOCK_NOT_AVAILABLE
-            TransactionTimeout.new(message)
+            LockWaitTimeout.new(message)
           when QUERY_CANCELED
-            StatementTimeout.new(message)
+            QueryCanceled.new(message)
           else
             super
           end
