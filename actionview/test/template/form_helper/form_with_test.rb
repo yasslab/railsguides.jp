@@ -5,6 +5,15 @@ require "controller/fake_models"
 
 class FormWithTest < ActionView::TestCase
   include RenderERBUtils
+
+  setup do
+    @old_value = ActionView::Helpers::FormHelper.form_with_generates_ids
+    ActionView::Helpers::FormHelper.form_with_generates_ids = true
+  end
+
+  teardown do
+    ActionView::Helpers::FormHelper.form_with_generates_ids = @old_value
+  end
 end
 
 class FormWithActsLikeFormTagTest < FormWithTest
@@ -218,7 +227,7 @@ class FormWithActsLikeFormForTest < FormWithTest
 
     @post = Post.new
     @comment = Comment.new
-    def @post.errors()
+    def @post.errors
       Class.new {
         def [](field); field == "author_name" ? ["can't be empty"] : [] end
         def empty?() false end
