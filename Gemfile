@@ -109,10 +109,6 @@ end
 local_gemfile = File.dirname(__FILE__) + "/.Gemfile"
 instance_eval File.read local_gemfile if File.exist? local_gemfile
 
-# Add railsguides.jp required gems.
-railsguides_jp_gemfile = File.expand_path("yasslab/Gemfile", __dir__)
-instance_eval File.read railsguides_jp_gemfile if File.exist? railsguides_jp_gemfile
-
 group :test do
   gem "minitest-bisect"
 
