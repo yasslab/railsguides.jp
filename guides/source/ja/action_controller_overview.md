@@ -49,7 +49,10 @@ class ClientsController < ApplicationController
   end
 end
 ```
-
+<!--
+run が call に変わったので、実行から、呼び出すに変更してください
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468841
+-->
 例として、クライアントを1人追加するためにブラウザでアプリケーションの`/clients/new`にアクセスすると、Railsは`ClientsController`のインスタンスを作成して`new`メソッドを実行します。ここでご注目いただきたいのは、`new`メソッドの内容が空であるにもかかわらず正常に動作するという点です。これは、Railsでは`new`アクションで特に指定のない場合には`new.html.erb`ビューを描画するようになっているからです。ビューで`@client`インスタンス変数にアクセスできるようにするために、`new`メソッドで`Client`を新規作成し、@clientに保存してみましょう。
 
 ```ruby
@@ -60,8 +63,16 @@ end
 
 この詳細については、[レイアウト・レンダリングガイド](layouts_and_rendering.html)で説明されています。
 
+<!--
+参照リンクが追加されてるので、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468857
+-->
 `ApplicationController`は、便利なメソッドが多数定義されている`ActionController::Base`を継承しています。本ガイドではそれらの一部について説明しますが、もっと知りたい場合はAPIドキュメントかRailsのソースコードを参照してください。
 
+<!--
+補足する内容が追加されてるので、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468870
+-->
 publicなメソッドでないとアクションとして呼び出すことはできません。補助メソッドやフィルタのような、アクションとして扱われたくないメソッドはprivateを指定するのが定石です。
 
 パラメータ
@@ -109,6 +120,10 @@ end
 GET /clients?ids[]=1&ids[]=2&ids[]=3
 ```
 
+<!--
+変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468886
+-->
 NOTE: "["と"]"はURLで使用できない文字なので、この例の実際のURLは "/clients?ids%5b%5d=1&ids%5b%5d=2&ids%5b%5d=3"のようになります。これについては、ブラウザが自動的に面倒を見てくれ、さらにRailsはパラメータ受け取り時に自動的に復元してくれるので、通常は気にする必要はありません。ただし、何らかの理由でサーバーにリクエストを手動送信しなければならない場合には、このことを思い出す必要があります。
 
 これで、受け取った`params[:ids]`の値は`["1", "2", "3"]`になりました。もう一つ知っておいて欲しいのは、パラメータの値はすべて「文字列型」であることです。Railsはパラメータの型を推測することもしなければ、型変換も行いませんので、必要であれば自分で型を変換する必要があります。パラメータの数字を`to_i`で整数に変換するのはよく行われます。
@@ -128,6 +143,10 @@ NOTE: `params`の中に`[]`、`[nil]`、`[nil, nil, ...]`という値がある�
 
 このフォームを送信すると、`params[:client]`の値は`{ "name" => "Acme", "phone" => "12345", "address" => { "postcode" => "12345", "city" => "Carrot City" } }`になります。`params[:client][:address]`のハッシュがネストしていることにご注目ください。
 
+<!--
+文字が消されてる、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468909
+-->
 この`params`ハッシュは、実は`ActiveSupport::HashWithIndifferentAccess`のインスタンスです。これはハッシュのように振る舞いますが、キーとしてシンボルと文字列のどちらを指定してもよい (交換可能) 点が異なります。
 
 ### JSONパラメータ
@@ -142,6 +161,10 @@ Webサービスアプリケーションを開発していると、パラメー�
 
 `params[:company]`で受け取る値は`{ "name" => "acme", "address" => "123 Carrot Street" }`になります。
 
+<!--
+使われている単語が変わっている、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468976
+-->
 同様に、初期化設定で`config.wrap_parameters`をオンにした場合や、コントローラで`wrap_parameters`を呼び出した場合、JSONパラメータのルート要素を安全に取り除くことができます。このパラメータは、デフォルトではコントローラ名に応じて複製およびラップされます。従って、上のパラメータは以下のように書けます。
 
 ```json
@@ -165,11 +188,20 @@ NOTE: 従来のXMLパラメータ解析のサポートは、`actionpack-xml_pars
 ```ruby
 get '/clients/:status' => 'clients#index', foo: 'bar'
 ```
-
+<!--
+文字の定義が入っているため、変更必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469002
+-->
 この場合、ブラウザで`/clients/active`というURLを開くと、`params[:status]`が"active" (有効) に設定されます。このルーティングを使用すると、あたかもクエリ文字列で渡したかのように`params[:foo]`にも"bar"が設定されます。同様に、`params[:action]`には"index"が含まれます。
 
 ### `default_url_options`
 
+<!--
+新しくコンセプトが追加された、変更必要
+https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469008
+書き換えられてる変更必要
+https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469027
+-->
 コントローラで`default_url_options`という名前のメソッドを定義すると、URL生成用のグローバルなデフォルトパラメータを設定できます。このようなメソッドは、必要なデフォルト値を持つハッシュを返さねばならず、キーはシンボルでなければなりません。
 
 ```ruby
@@ -186,13 +218,25 @@ end
 
 ### Strong Parameters
 
+<!--
+変更が必要、新しく言葉やコンセプトが追加された
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469046
+-->
 strong parametersを使用することで、Action ControllerのパラメータがActive Modelのマスアサインメントに利用されることを禁止できます。ホワイトリストに追記したもののみ使用できます。これは、多くの属性を一度に更新したいときに、どの属性の更新を許可し、どの属性の更新を禁止するかを明示的に決定しなければならないことを意味します。大雑把にすべての属性の更新をまとめて許可してしまうと、外部に公開する必要のない属性まで誤って公開されてしまう可能性が生じますので、そのような事態を防ぐために行います。
 
+<!--
+補足情報が追加されている、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469068
+-->
 さらに、パラメータの属性には「必須 (required)」を指定することもでき、事前に定義したraise/rescueフローを実行して400 Bad Requestで終了するようにすることもできます。
 
 ```ruby
 class PeopleController < ActionController::Base
-  # 以下のコードはActiveModel::ForbiddenAttributes例外を発生します
+　<!--
+  名前が変わっている、変更が必要
+  #TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469079
+  -->
+  # 以下のコードはActiveModel::ForbiddenAttributes例外を発生します
   # 明示的な許可を行なわずに、パラメータを一括で渡してしまう
   # 危険な「マスアサインメント」が行われているからです。
   def create
@@ -240,6 +284,11 @@ params.permit(id: [])
 ```
 
 パラメータのハッシュ全体をホワイトリスト化したい場合は、`permit!`メソッドを使用できます。
+
+<!--
+新たに補足が追加されている、変更必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469129
+-->
 
 ```ruby
 params.require(:log_entry).permit!
@@ -291,6 +340,9 @@ params.require(:book).permit(:title, chapters_attributes: [:title])
 
 strong parameter APIは、最も一般的な使用状況を念頭に置いて設計されています。つまり、あらゆるホワイトリスト化問題を扱えるような万能性があるわけではないということです。しかし、このAPIを自分のコードに混在させることで、状況に対応しやすくすることはできます。
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469188
+-->
 次のような状況を想像してみましょう。製品名と、その製品名に関連する任意のデータを表すパラメータがあるとします。そして、この製品名もデータハッシュ全体もまとめてホワイトリスト化したいとします。strong parameters APIは、任意のキーを持つネストしたハッシュ全体を直接ホワイトリスト化することはしませんが、ネストしたハッシュのキーを使用して、ホワイトリスト化する対象を宣言することはできます。
 
 ```ruby
@@ -319,6 +371,10 @@ CookieStoreには約4KBのデータを保存できます。他のセッション
 
 セッションストレージの詳細については[セキュリティガイド](security.html)を参照してください。
 
+<!--
+変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469212
+-->
 別のセッションメカニズムが必要な場合は、`config/initializers/session_store.rb`ファイルを変更することで切り替えられます。
 
 ```ruby
@@ -327,7 +383,10 @@ CookieStoreには約4KBのデータを保存できます。他のセッション
 # (セッションテーブルの作成は"rails g active_record:session_migration"で行なう)
 # Rails.application.config.session_store :active_record_store
 ```
-
+<!--
+変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469233
+-->
 Railsは、セッションデータに署名するときにセッションキー(=cookieの名前)を設定します。この動作も`config/initializers/session_store.rb`で変更できます。
 
 ```ruby
@@ -342,8 +401,16 @@ Rails.application.config.session_store :cookie_store, key: '_your_app_session'
 Rails.application.config.session_store :cookie_store, key: '_your_app_session', domain: ".example.com"
 ```
 
+<!--
+変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469251
+-->
 Railsはセッションデータの署名に使用する秘密鍵を (CookieStore用に) 設定します。この秘密鍵は`config/secrets.yml`で変更できます。
 
+<!--
+codeの変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469275
+-->
 ```ruby
 # Be sure to restart your server when you modify this file.
 
@@ -635,7 +702,12 @@ end
 
 このメソッドはエラーメッセージをflashに保存し、ユーザーがログインしていない場合にはログインフォームにリダイレクトするというシンプルなものです。"before"フィルタによって出力またはリダイレクトが行われると、このアクションは実行されません。フィルタの実行後に実行されるようスケジュールされた追加のフィルタがある場合、これらもキャンセルされます。
 
+<!--
+Noteが追加されたので、変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469326
+-->
 この例ではフィルタを`ApplicationController`に追加したので、これを継承するすべてのコントローラが影響を受けます。つまり、アプリケーションのあらゆる機能についてログインが要求されることになります。当然ですが、アプリケーションのあらゆる画面で認証を要求してしまうと、認証に必要なログイン画面まで表示できなくなるという困った事態になってしまいます。従って、このようにすべてのコントローラやアクションでログイン要求を設定すべきではありません。`skip_before_action`メソッドを使用すれば、特定のアクションでフィルタを止めることができます。
+
 
 ```ruby
 class LoginsController < ApplicationController
@@ -649,6 +721,10 @@ end
 
 "before"フィルタ以外に、アクションの実行後に実行されるフィルタや、実行前実行後の両方で実行されるフィルタを使用することもできます。
 
+<!--
+追加の内容があるため変更が必要
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469371
+-->
 "after"フィルタは"before"フィルタと似ていますが、"after"フィルタの場合はアクションは既に実行済みであり、クライアントに送信されようとしている応答データにアクセスできる点が"before"フィルタとは異なります。当然ながら、"after"フィルタをどのように書いても、アクションの実行が中断するようなことはありません。
 
 "around"フィルタを使用する場合は、フィルタ内のどこかで必ず`yield`を実行して、関連付けられたアクションを実行してやる義務が生じます。これはRackミドルウェアの動作と似ています。
@@ -725,7 +801,9 @@ end
 その具体的な保護方法は、推測不可能なトークンをすべてのリクエストに追加することです。このトークンはサーバーだけが知っています。これにより、リクエストに含まれているトークンが不正であればアクセスが拒否されます。
 
 以下のようなフォームを試しに生成してみます。
-
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469381
+-->
 ```erb
 <%= form_for @user do |f| %>
   <%= f.text_field :username %>
@@ -753,10 +831,16 @@ Railsでは、[formヘルパー](form_helpers.html)を使用して生成され�
 リクエストオブジェクトとレスポンスオブジェクト
 --------------------------------
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469394
+-->
 すべてのコントローラには、現在実行中のリクエストサイクルに関連するリクエストオブジェクトとレスポンスオブジェクトを指す、2つのアクセサメソッドがあります。`request`メソッドは`AbstractRequest`クラスのインスタンスを含み、`response`メソッドは、今クライアントに戻されようとしている内容を表すレスポンスオブジェクトを返します。
 
 ### `request`オブジェクト
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469409
+-->
 リクエストオブジェクトには、クライアントブラウザから返されるリクエストに関する有用な情報が多数含まれています。利用可能なメソッドをすべて知りたい場合は[APIドキュメント](http://api.rubyonrails.org/classes/ActionDispatch/Request.html)を参照してください。その中から、このオブジェクトでアクセス可能なメソッドを紹介します。
 
 | `request`のプロパティ                     | 目的                                                                          |
@@ -957,6 +1041,9 @@ end
 
 上のコードでは、ブラウザとの間に永続的な接続を確立し、1秒おきに`"hello world\n"`を100個ずつ送信しています。
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469422
+-->
 上の例には注意点がいくつもあります。レスポンスのストリームは確実に閉じられるようにする必要があります。ストリームを閉じ忘れると、ソケットが永久に開いたままになってしまいます。レスポンスストリームへの書き込みを行う前に、Content-Typeを`text/event-stream`に設定する必要もあります。その理由は、レスポンスがコミットされてしまうと (`response.committed`がtrueに相当する値を返したとき)、以後ヘッダーに書き込みできないからです。これは、レスポンスストリームに対して`write`または`commit`を行った場合に発生します。
 
 #### 使用例
@@ -1006,6 +1093,10 @@ Railsアプリケーションの設定ファイル config.filter_parameters に�
 config.filter_parameters << :password
 ```
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469446
+-->
+
 ### リダイレクトをフィルタする
 
 アプリケーションからのリダイレクト先となるURLのいくつかは、場合によってはログに出力しない方がよいことがあります。
@@ -1032,6 +1123,9 @@ Railsのデフォルトの例外ハンドリングでは、例外の種類にか
 
 ### デフォルトの500・404テンプレート
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469446
+-->
 デフォルトでは、本番のRailsアプリケーションは404または500エラーメッセージを表示します。これらのメッセージは`public`フォルダ以下に置かれている静的なHTMLファイルです。それぞれ`404.html`および`500.html`という名前です。これらのファイルをカスタマイズして、情報を追加したりレイアウトを整えたりできます。ただし、これらはあくまで静的なHTMLファイルなので、RHTMLやERBは使用できません。
 
 ### `rescue_from`
@@ -1086,6 +1180,9 @@ class ClientsController < ApplicationController
 end
 ```
 
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469633
+-->
 NOTE: `ApplicationController`クラスでは特定の例外についてはrescueできないものがあります。その理由は、コントローラが初期化されてアクションが実行される前に発生する例外があるからです。詳細については、Pratik Naikによる[記事](http://m.onkey.org/2008/7/20/rescue-from-dispatching)を参照してください。
 
 HTTPSプロトコルを強制する
