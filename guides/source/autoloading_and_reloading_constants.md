@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
 Autoloading and Reloading Constants
 ===================================
 
@@ -179,14 +181,14 @@ constant.
 That is,
 
 ```ruby
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
 end
 ```
 
 performs a constant assignment equivalent to
 
 ```ruby
-Project = Class.new(ActiveRecord::Base)
+Project = Class.new(ApplicationRecord)
 ```
 
 including setting the name of the class as a side-effect:
@@ -328,10 +330,16 @@ its resolution next. Let's define *parent* to be that qualifying class or module
 object, that is, `Billing` in the example above. The algorithm for qualified
 constants goes like this:
 
-1. The constant is looked up in the parent and its ancestors.
+1. The constant is looked up in the parent and its ancestors. In Ruby >= 2.5,
+`Object` is skipped if present among the ancestors. `Kernel` and `BasicObject`
+are still checked though.
 
 2. If the lookup fails, `const_missing` is invoked in the parent. The default
 implementation of `const_missing` raises `NameError`, but it can be overridden.
+
+INFO. In Ruby < 2.5 `String::Hash` evaluates to `Hash` and the interpreter
+issues a warning: "toplevel constant Hash referenced by String::Hash". Starting
+with 2.5, `String::Hash` raises `NameError` because `Object` is skipped.
 
 As you see, this algorithm is simpler than the one for relative constants. In
 particular, the nesting plays no role here, and modules are not special-cased,
@@ -447,11 +455,12 @@ Alright, Rails has a collection of directories similar to `$LOAD_PATH` in which
 to look up `post.rb`. That collection is called `autoload_paths` and by
 default it contains:
 
-* All subdirectories of `app` in the application and engines. For example,
-  `app/controllers`. They do not need to be the default ones, any custom
-  directories like `app/workers` belong automatically to `autoload_paths`.
+* All subdirectories of `app` in the application and engines present at boot
+  time. For example, `app/controllers`. They do not need to be the default
+  ones, any custom directories like `app/workers` belong automatically to
+  `autoload_paths`.
 
-* Second level directories `app/{controllers,models}/concerns` in the
+* Any existing second level directories called `app/*/concerns` in the
   application and engines.
 
 * The directory `test/mailers/previews`.
@@ -463,7 +472,8 @@ by adding this to `config/application.rb`:
 ```ruby
 config.autoload_paths << "#{Rails.root}/lib"
 ```
-`config.autoload_paths` is accessible from environment-specific configuration files, but any changes made to it outside `config/application.rb` don't have an effect.
+
+`config.autoload_paths` is not changeable from environment-specific configuration files.
 
 The value of `autoload_paths` can be inspected. In a just generated application
 it is (edited):
@@ -471,12 +481,21 @@ it is (edited):
 ```
 $ bin/rails r 'puts ActiveSupport::Dependencies.autoload_paths'
 .../app/assets
+.../app/channels
 .../app/controllers
+.../app/controllers/concerns
 .../app/helpers
+.../app/jobs
 .../app/mailers
 .../app/models
-.../app/controllers/concerns
 .../app/models/concerns
+.../activestorage/app/assets
+.../activestorage/app/controllers
+.../activestorage/app/javascript
+.../activestorage/app/jobs
+.../activestorage/app/models
+.../actioncable/app/assets
+.../actionview/app/assets
 .../test/mailers/previews
 ```
 
@@ -521,7 +540,7 @@ On the contrary, if `ApplicationController` is unknown, the constant is
 considered missing and an autoload is going to be attempted by Rails.
 
 In order to load `ApplicationController`, Rails iterates over `autoload_paths`.
-First checks if `app/assets/application_controller.rb` exists. If it does not,
+First it checks if `app/assets/application_controller.rb` exists. If it does not,
 which is normally the case, it continues and finds
 `app/controllers/application_controller.rb`.
 
@@ -621,7 +640,7 @@ file is loaded. If the file actually defines `Post` all is fine, otherwise
 ### Qualified References
 
 When a qualified constant is missing Rails does not look for it in the parent
-namespaces. But there is a caveat: When a constant is missing, Rails is
+namespaces. But there is a caveat: when a constant is missing, Rails is
 unable to tell if the trigger was a relative reference or a qualified one.
 
 For example, consider
@@ -682,7 +701,7 @@ to trigger the heuristic is defined in the conflicting place.
 ### Automatic Modules
 
 When a module acts as a namespace, Rails does not require the application to
-defines a file for it, a directory matching the namespace is enough.
+define a file for it, a directory matching the namespace is enough.
 
 Suppose an application has a back office whose controllers are stored in
 `app/controllers/admin`. If the `Admin` module is not yet loaded when
@@ -787,7 +806,7 @@ Constant Reloading
 When `config.cache_classes` is false Rails is able to reload autoloaded
 constants.
 
-For example, in you're in a console session and edit some file behind the
+For example, if you're in a console session and edit some file behind the
 scenes, the code can be reloaded with the `reload!` command:
 
 ```
@@ -909,7 +928,7 @@ these classes:
 
 ```ruby
 # app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+class Polygon < ApplicationRecord
 end
 
 # app/models/triangle.rb
@@ -941,7 +960,7 @@ to work on some subclass, things get interesting.
 While working with `Polygon` you do not need to be aware of all its descendants,
 because anything in the table is by definition a polygon, but when working with
 subclasses Active Record needs to be able to enumerate the types it is looking
-for. Let’s see an example.
+for. Let's see an example.
 
 `Rectangle.all` only loads rectangles by adding a type constraint to the query:
 
@@ -950,7 +969,7 @@ SELECT "polygons".* FROM "polygons"
 WHERE "polygons"."type" IN ("Rectangle")
 ```
 
-Let’s introduce now a subclass of `Rectangle`:
+Let's introduce now a subclass of `Rectangle`:
 
 ```ruby
 # app/models/square.rb
@@ -965,7 +984,7 @@ SELECT "polygons".* FROM "polygons"
 WHERE "polygons"."type" IN ("Rectangle", "Square")
 ```
 
-But there’s a caveat here: How does Active Record know that the class `Square`
+But there's a caveat here: How does Active Record know that the class `Square`
 exists at all?
 
 Even if the file `app/models/square.rb` exists and defines the `Square` class,
@@ -979,20 +998,19 @@ WHERE "polygons"."type" IN ("Rectangle")
 That is not a bug, the query includes all *known* descendants of `Rectangle`.
 
 A way to ensure this works correctly regardless of the order of execution is to
-load the leaves of the tree by hand at the bottom of the file that defines the
-root class:
+manually load the direct subclasses at the bottom of the file that defines each
+intermediate class:
 
 ```ruby
-# app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+# app/models/rectangle.rb
+class Rectangle < Polygon
 end
-require_dependency ‘square’
+require_dependency 'square'
 ```
 
-Only the leaves that are **at least grandchildren** need to be loaded this
-way. Direct subclasses do not need to be preloaded. If the hierarchy is
-deeper, intermediate classes will be autoloaded recursively from the bottom
-because their constant will appear in the class definitions as superclass.
+This needs to happen for every intermediate (non-root and non-leaf) class. The
+root class does not scope the query by type, and therefore does not necessarily
+have to know all its descendants.
 
 ### Autoloading and `require`
 
@@ -1037,7 +1055,7 @@ end
 
 The purpose of this setup would be that the application uses the class that
 corresponds to the environment via `AUTH_SERVICE`. In development mode
-`MockedAuthService` gets autoloaded when the initializer runs. Let’s suppose
+`MockedAuthService` gets autoloaded when the initializer runs. Let's suppose
 we do some requests, change its implementation, and hit the application again.
 To our surprise the changes are not reflected. Why?
 
@@ -1165,6 +1183,8 @@ end
 ```
 
 #### Qualified References
+
+WARNING. This gotcha is only possible in Ruby < 2.5.
 
 Given
 
