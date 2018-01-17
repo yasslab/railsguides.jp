@@ -10,7 +10,9 @@ Active Model の基礎
 
 はじめに
 ------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/0ef590f7382008f2823e75d5b5dbef6cf606afff#r26906647
+-->
 Active Modelは多くのモジュールを含むライブラリであり、それらのモジュールはRailsのAction Packライブラリとやりとりする必要のあるフレームワークで使用されます。Active Modelは、クラスで使用する既知の一連のインターフェイスを提供します。そのうちのいくつかについて以下で説明します。
 
 ### AttributeMethodsモジュール
@@ -131,6 +133,9 @@ end
 
 ```ruby
 person = Person.new
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/0ef590f7382008f2823e75d5b5dbef6cf606afff#r26906753
+-->
 person.changed? # => false 
 
 person.first_name = "First Name"
@@ -175,7 +180,9 @@ person.last_name_change # => nil
 ```
 
 ### Validationsモジュール
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/0ef590f7382008f2823e75d5b5dbef6cf606afff#r26906869
+-->
 Validationsモジュールを使用することで、クラスオブジェクトをActive Recordスタイルで検証することができます。
 
 ```ruby
@@ -199,3 +206,8 @@ person.valid? # => true
 person.token = nil
 person.valid? # => ActiveModel::StrictValidationFailedが発生する
 ```
+
+<!--
+ここから先の翻訳がない
+TODO: https://github.com/yasslab/railsguides.jp/commit/0ef590f7382008f2823e75d5b5dbef6cf606afff#r26906916
+-->
