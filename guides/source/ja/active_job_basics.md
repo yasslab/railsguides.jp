@@ -22,6 +22,9 @@ Active Jobは、ジョブを宣言し、それによってバックエンドで�
 
 Active Jobの目的
 -----------------------------
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26904906
+-->
 Active Jobの主要な目的は、Railsアプリを即席で作成した直後でも使用できる、自前のジョブ管理インフラを持つことです。これにより、Delayed JobとResqueなどのように、さまざまなジョブ実行機能のAPIの違いを気にせずにジョブフレームワーク機能やその他のgemを搭載することができるようになります。バックエンドでのキューイング作業では、操作方法以外のことを気にせずに済みます。さらに、ジョブ管理フレームワークを切り替える際にジョブを書き直さずに済みます。
 
 
@@ -47,14 +50,16 @@ create  app/jobs/guests_cleanup_job.rb
 ```
 
 上のように、Railsで他のジェネレータを使用するときとまったく同じ方法でジョブを作成できます。
-
-ジェネレータを使用したくないのであれば、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ActiveJob::Base`を継承してください。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26904983
+-->
+ジェネレータを使用したくないのであれば、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
 
 作成されたジョブは以下のようになります。
 
 ```ruby
-class GuestsCleanupJob < ActiveJob::Base
-  queue_as :default
+class GuestsCleanupJob < ApplicationJob
+  queue_as :default
 
   def perform(*args)
     # 後で実行したい作業をここに書く
@@ -93,6 +98,10 @@ GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
 ジョブを実行する
 -------------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905034
+-->
+
 アダプタが設定されていない場合、ジョブは直ちに実行されます。
 
 ### バックエンド
@@ -104,6 +113,9 @@ Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキュー�
 キューイングバックエンドは自由に取り替えることができます。
 
 ```ruby
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905099
+-->
 # 必ずアダプタgemをGemfileに追加し、アダプタごとに必要な
 # インストールとデプロイ指示に従ってください。
 Rails.application.config.active_job.queue_adapter = :sidekiq
@@ -114,9 +126,11 @@ Rails.application.config.active_job.queue_adapter = :sidekiq
 ------
 
 多くのアダプタでは複数のキューを扱うことができます。Active Jobを使用することで、特定のキューに入っているジョブをスケジューリングすることができます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905301
+-->
 ```ruby
-class GuestsCleanupJob < ActiveJob::Base
+class GuestsCleanupJob < ApplicationJob
   queue_as :low_priority
   #....
 end
@@ -132,8 +146,8 @@ module YourApp
   end
 end
 
-# app/jobs/guests_cleanup.rb
-class GuestsCleanupJob < ActiveJob::Base
+# app/jobs/guests_cleanup_job.rb
+class GuestsCleanupJob < ApplicationJob
   queue_as :low_priority
   #....
 end
@@ -152,7 +166,10 @@ MyJob.set(queue: :another_queue).perform_later(record)
 そのジョブレベルにあるキューを制御するために、queue_asにブロックを渡すこともできます。与えられたブロックは、そのジョブのコンテキストで実行されます (従ってself.argumentsにアクセスできます)。そしてキュー名を返さなくてはなりません。
 
 ```ruby
-class ProcessVideoJob < ActiveJob::Base
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905497
+-->
+class ProcessVideoJob < ApplicationJob
   queue_as do
     video = self.arguments.first
     if video.owner.premium?
@@ -163,7 +180,7 @@ class ProcessVideoJob < ActiveJob::Base
   end
 
   def perform(video)
-    # do process video
+    # Do process video
   end
 end
 
@@ -176,7 +193,9 @@ NOTE: 設定したキュー名をキューイングバックエンドが「リ�
 
 コールバック
 ---------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905571
+-->
 Active Jobは、ジョブのライフサイクルでのフックを提供します。これによりコールバックが利用できるので、ジョブのライフサイクルの間に特定のロジックをトリガできます。
 
 ### 利用可能なコールバック
@@ -191,10 +210,12 @@ Active Jobは、ジョブのライフサイクルでのフックを提供しま�
 ### 使用法
 
 ```ruby
-class GuestsCleanupJob < ActiveJob::Base
-  queue_as :default
-
-  before_enqueue do |job|
+class GuestsCleanupJob < ApplicationJob
+  queue_as :default
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905612
+-->
+  before_enqueue do |job|
     # ジョブインスタンスで行なう作業
   end
 
@@ -207,8 +228,14 @@ class GuestsCleanupJob < ActiveJob::Base
   def perform
     # 後で行なう
   end
+  <!--
+  TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905642
+  -->
 end
 ```
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905673
+-->
 
 
 ActionMailer
@@ -223,6 +250,13 @@ UserMailer.welcome(@user).deliver_now
 # Active Jobを使用して後でメール送信したい場合は#deliver_laterを使用
 UserMailer.welcome(@user).deliver_later
 ```
+
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905763
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905852
 
 
 GlobalID
@@ -239,7 +273,9 @@ end
 ```
 
 現在は以下のように簡潔に書くことができます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905864
+-->
 ```ruby
 class TrashableCleanupJob
   def perform(trashable, depth)
@@ -247,7 +283,9 @@ class TrashableCleanupJob
   end
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905881
+-->
 上のコードは、`ActiveModel::GlobalIdentification`をミックスインするすべてのクラスで動作します。このモジュールはActive Modelクラスにデフォルトでミックスインされます。
 
 
@@ -255,10 +293,11 @@ end
 ----------
 
 Active Jobでは、ジョブ実行時に発生する例外をキャッチする方法が1つ提供されています。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905936
+-->
 ```ruby
-
-class GuestsCleanupJob < ActiveJob::Base
+class GuestsCleanupJob < ApplicationJob
   queue_as :default
 
   rescue_from(ActiveRecord::RecordNotFound) do |exception|
@@ -270,3 +309,7 @@ class GuestsCleanupJob < ActiveJob::Base
   end
 end
 ```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26906006
+-->
