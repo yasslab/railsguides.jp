@@ -6,6 +6,9 @@ Action View の概要
 
 * Action Viewの概要とRailsでの利用法
 * テンプレート、パーシャル(部分テンプレート)、レイアウトの最適な利用法
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901427
+-->
 * Action Viewで提供されるヘルパーの紹介と、カスタムヘルパーの作成法
 * ビューのローカライズ方法
 
@@ -13,7 +16,9 @@ Action View の概要
 
 Action Viewについて
 --------------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901448
+-->
 Action ViewおよびAction Controllerは、Action Packを構成する2大要素です。Railsでは、WebリクエストはAction Packで取り扱われます。この動作はコントローラ寄りの部分 (ロジックの実行) とビュー寄りの部分(テンプレートの描画) に分かれます。Action Controllerは、データベースとのやりとりや、必要に応じたCRUD (Create/Read/Update/Delete) アクションの実行にかかわります。Action View はその後レスポンスを実際のWebページにまとめる役割を担います。
 
 Action Viewのテンプレートは、HTMLタグの合間にERB (Embedded Ruby) を含む形式で書かれます。ビューテンプレートがコードの繰り返しでうずまって乱雑になるのを避けるために、フォーム・日付・文字列に対して共通の動作を提供するヘルパークラスが多数用意されています。アプリケーションの機能向上に応じて独自のヘルパーを追加することも簡単にできます。
@@ -145,6 +150,9 @@ xml.rss("version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/") do
   end
 end
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901471
+-->
 
 #### テンプレートをキャッシュする
 
@@ -189,6 +197,9 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 
 上のコードの`_ad_banner.html.erb`パーシャルと`_footer.html.erb`パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901534
+-->
 #### `as`と`object`オプション
 
 `ActionView::Partials::PartialRenderer`は、デフォルトでテンプレートと同じ名前を持つローカル変数の中に自身のオブジェクトを持ちます。以下のコードを見てみましょう。
@@ -200,7 +211,7 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 上のコードでは、ローカル変数である`product`の中に`@product`が置かれます。これは以下のコードと同等の結果になります。
 
 ```erb
-<%= render partial: "product", locals: {product: @product} %>
+<%= render partial: "product", locals: { product: product } %>
 ```
 
 `as`オプションは、ローカル変数の名前を変更したい場合に使用します。たとえば、ローカル変数名を`product`ではなく`item`にしたいのであれば、以下のようにします。
@@ -214,7 +225,7 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 たとえば、以下のコードがあるとします。
 
 ```erb
-<%= render partial: "product", locals: {product: @item} %>
+<%= render partial: "product", locals: { product: @product } %>
 ```
 
 上のコードは以下のようになります。
@@ -222,12 +233,18 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 ```erb
 <%= render partial: "product", object: @item %>
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901620
+-->
 `object`オプションと`as`オプションは同時に使用することもできます。
 
 ```erb
 <%= render partial: "product", object: @item, as: "item" %>
 ```
+
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901659
+-->
 
 #### コレクションを出力する
 
@@ -244,7 +261,7 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 上のコードは以下のように1行で書けます。
 
 ```erb
-<%= render partial: "product", collection: @products %>
+<%= render partial: "product", locals: { product: @item } %>
 ```
 
 パーシャルでこのようにコレクションなどが使用されている場合、パーシャルの各インスタンスは、パーシャル名に基づいた変数を経由して出力されるコレクションのメンバーにアクセスします。このパーシャルは`_product`という名前なので、`product`を指定すれば、出力されるインスタンスを取得できます。
@@ -287,7 +304,7 @@ Post.create(body: 'Partial Layouts are cool!')
 **posts/show.html.erb**
 
 ```erb
-<%= render partial: 'post', layout: 'box', locals: {post: @post} %>
+<%= render partial: 'article', layout: 'box', locals: { article: @article } %>
 ```
 
 `box`レイアウトは、`div`タグの中に`_post`パーシャルを内包した簡単な構造です。
@@ -327,10 +344,10 @@ Post.create(body: 'Partial Layouts are cool!')
 **posts/show.html.erb**
 
 ```html+erb
-<% render(layout: 'box', locals: {post: @post}) do %>
-  <%= div_for(post) do %>
+<% render(layout: 'box', locals: { article: @article }) do %>
+  <div>
     <p><%= post.body %></p>
-  <% end %>
+  </div>
 <% end %>
 ```
 
@@ -338,6 +355,10 @@ Post.create(body: 'Partial Layouts are cool!')
 
 ビューのパス
 ----------
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901770
+-->
 
 (執筆予定)
 
@@ -353,6 +374,10 @@ Action Viewで利用できるヘルパーの概要を以下に示します。[AP
 このモジュールは、`div`などのコンテナタグを生成するメソッドを提供します。Active Recordオブジェクトを出力するためのコンテナ作成方法にはこれを使うことをお勧めします。この方法であれば、適切なクラスとid属性がコンテナに追加されるからです。これにより、これらのコンテナを通常の方法で簡単に参照でき、どのクラスやどのid属性を使用すべきかどうかを考えずに済みます。
 
 #### content_tag_for
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26901779
+-->
 
 Active Recordオブジェクトに関連付けられるコンテナタグを出力します。
 
@@ -407,6 +432,11 @@ Active Recordオブジェクトのコレクションを渡すこともできま�
 </tr>
 ```
 
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902362
+-->
+
 #### div_for
 
 このメソッドは内部で`content_tag_for`を呼び出して`:div`をタグ名にしてくれる、便利なメソッドです。Active Recordオブジェクトを単体またはコレクションとして渡すことができます。例：
@@ -433,7 +463,7 @@ Active Recordオブジェクトのコレクションを渡すこともできま�
 
 ```ruby
 config.action_controller.asset_host = "assets.example.com"
-image_tag("rails.png") # => <img src="http://assets.example.com/images/rails.png" alt="Rails" />
+image_tag("rails.png") # => <img src="http://assets.example.com/images/rails.png" />
 ```
 
 #### register_javascript_expansion
@@ -464,7 +494,7 @@ stylesheet_link_tag :monkey # =>
 
 #### auto_discovery_link_tag
 
-ブラウザやフィードリーダーが検出可能なRSSフィードやAtomフィードのリンクタグを返します。
+ブラウザやフィードリーダーが検出可能なRSSフィード、Atomフィード、JSONフィードのリンクタグを返します。
 
 ```ruby
 auto_discovery_link_tag(:rss, "http://www.example.com/feed.rss", {title: "RSS Feed"}) # =>
@@ -498,7 +528,7 @@ image_url("edit.png") # => http://www.example.com/assets/edit.png
 HTML imgタグを返します。画像へのフルパス、または`app/assets/images`ディレクトリ内にあるファイルを引数として与えられます。
 
 ```ruby
-image_tag("icon.png") # => <img src="/assets/icon.png" alt="Icon" />
+image_tag("icon.png") # => <img src="/assets/icon.png" />
 ```
 
 #### javascript_include_tag
@@ -575,11 +605,14 @@ end
 ```
 
 **app/views/posts/index.atom.builder**
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902842
+-->
 
 ```ruby
 atom_feed do |feed|
   feed.title("Posts Index")
-  feed.updated((@posts.first.created_at))
+  feed.updated(@articles.first.created_at)
 
   @posts.each do |post|
     feed.entry(post) do |entry|
@@ -612,7 +645,7 @@ end
 
 #### cache
 
-`cache`メソッドは、(アクション全体やページ全体ではなく) ビューの断片をキャッシュするメソッドです。この手法は、メニュー・ニュース記事・静的HTMLの断片などをキャッシュするのに便利です。このメソッドには、キャッシュしたいコンテンツを1つのブロックに含めて引数として渡します。詳細については、`ActionController::Caching::Fragments`を参照してください。
+`cache`メソッドは、(アクション全体やページ全体ではなく) ビューの断片をキャッシュするメソッドです。この手法は、メニュー・ニュース記事・静的HTMLの断片などをキャッシュするのに便利です。このメソッドには、キャッシュしたいコンテンツを1つのブロックに含めて引数として渡します。詳細については、`AbstractController::Caching::Fragments`を参照してください。
 
 ```erb
 <% cache do %>
@@ -750,10 +783,13 @@ select_hour(Time.now + 6.hours)
 #### select_minute
 
 0から59までの分をオプションに持ち、現在時刻の分が選択されているselectタグを返します。
+<!-- 
+TODO:https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902898
+-->
 
 ```ruby
 # 指定された分をデフォルト値として持つセレクトボックスを生成する
-select_minute(Time.now + 6.hours)
+select_minute(Time.now + 10.minutes)
 ```
 
 #### select_month
@@ -771,7 +807,7 @@ select_month(Date.today)
 
 ```ruby
 # 指定の秒を現在時刻に加えた値をデフォルト値に持つ秒用のセレクトボックスを生成する
-select_second(Time.now + 16.minutes)
+select_second(Time.now + 16.seconds)
 ```
 
 #### select_time
@@ -817,7 +853,7 @@ time_select("order", "submitted")
 YAMLからダンプしたオブジェクトを含む`pre`タグを返します。これを利用することで、オブジェクトの内容が非常に読みやすくなります。
 
 ```ruby
-my_hash = {'first' => 1, 'second' => 'two', 'third' => [1,2,3]}
+my_hash = { 'first' => 1, 'second' => 'two', 'third' => [1,2,3] }
 debug(my_hash)
 ```
 
@@ -835,14 +871,16 @@ third:
 ### FormHelper
 
 フォームヘルパーを使用すると、標準のHTML要素だけを使用するよりもはるかに容易に、モデルと連携動作するフォームを作成することができます。Formヘルパーはフォーム用のHTMLを生成し、テキストやパスワードといった入力の種類に応じたメソッドを提供します。(送信ボタンがクリックされたり、JavaScriptでform.submitを呼び出すなどして) フォームが送信されると、フォームの入力内容はparamsオブジェクトにまとめて保存され、コントローラに渡されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903009
+-->
 フォームヘルパーは、モデル属性の操作に特化したものと、より一般的なものの2種類に分類できます。ここではモデル属性の扱いに特化したものについて説明します。モデル属性に特化していない一般的なフォームヘルパーについては、ActionView::Helpers::FormTagHelperのドキュメントを参照してください。
 
 ここで扱うフォームヘルパーの中心となるメソッドはform_forです。このメソッドはモデルのインスタンスからフォームを作成することができます。たとえば、以下のようにPersonというモデルがあり、このモデルをもとにしてインスタンスを1つ作成するとします。
 
 ```html+erb
 # メモ: a @person変数はコントローラ側で設定済みであるとする (@person = Person.newなど)
-<%= form_for @person, url: {action: "create"} do |f| %>
+<%= form_for @person, url: { action: "create" } do |f| %>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
   <%= submit_tag 'Create' %>
@@ -862,7 +900,7 @@ third:
 上のフォームが送信される時に作成されるparamsオブジェクトは以下のようになります。
 
 ```ruby
-{"action" => "create", "controller" => "people", "person" => {"first_name" => "William", "last_name" => "Smith"}}
+{ "action" => "create", "controller" => "people", "person" => { "first_name" => "William", "last_name" => "Smith" } }
 ```
 
 上のparamsハッシュには、Personモデル用の値がネストした形で含まれているので、コントローラで`params[:person]`と書くことで内容にアクセスできます。
@@ -880,10 +918,10 @@ check_box("post", "validated")
 
 #### fields_for
 
-form_forのような特定のモデルオブジェクトの外側にスコープを作成しますが、フォームタグ自体は作成しません。このため、fields_forは同じフォームに別のモデルオブジェクトを追加するのに向いています。
+`form_for` のような特定のモデルオブジェクトの外側にスコープを作成しますが、フォームタグ自体は作成しません。このため、`fields_for` は同じフォームに別のモデルオブジェクトを追加するのに向いています。
 
 ```html+erb
-<%= form_for @person, url: {action: "update"} do |person_form| %>
+<%= form_for @person, url: { action: "update" } do |person_form| %>
   First name: <%= person_form.text_field :first_name %>
   Last name : <%= person_form.text_field :last_name %>
 
@@ -1003,11 +1041,11 @@ url_field(:user, :url)
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   belongs_to :author
 end
 
-class Author < ActiveRecord::Base
+class Author < ApplicationRecord
   has_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1018,7 +1056,7 @@ end
 利用法は、たとえば以下のようになります。ここでは、Postモデルのインスタンスである`@post`に関連付けられているAuthorモデルから選択肢を取り出しています。
 
 ```ruby
-collection_select(:post, :author_id, Author.all, :id, :name_with_initial, {prompt: true})
+collection_select(:article, :author_id, Author.all, :id, :name_with_initial, { prompt: true })
 ```
 
 `@post.author_id`が1の場合、以下が返されます。
@@ -1039,11 +1077,11 @@ collection_select(:post, :author_id, Author.all, :id, :name_with_initial, {promp
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   belongs_to :author
 end
 
-class Author < ActiveRecord::Base
+class Author < AApplicationRecord
   has_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1075,11 +1113,11 @@ collection_radio_buttons(:post, :author_id, Author.all, :id, :name_with_initial)
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   has_and_belongs_to_many :authors
 end
 
-class Author < ActiveRecord::Base
+class Author < ApplicationRecord
   has_and_belongs_to_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1120,12 +1158,12 @@ country_options_for_selectを使用してオプションタグを生成し、指
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
 ```ruby
-class Continent < ActiveRecord::Base
+class Continent < ApplicationRecord
   has_many :countries
   # attribs: id, name
 end
 
-class Country < ActiveRecord::Base
+class Country < ApplicationRecord
   belongs_to :continent
   # attribs: id, name, continent_id
 end
@@ -1174,7 +1212,7 @@ NOTE: 返されるのは`option`だけです。従って、出力結果の外側
 options_from_collection_for_select(collection, value_method, text_method, selected = nil)
 ```
 
-たとえば、@project.peopleに入っているpersonをループですべて列挙してinputタグを作成するのであれば、以下のようになります。
+たとえば、`@project.people` に入っているpersonをループですべて列挙してinputタグを作成するのであれば、以下のようになります。
 
 ```ruby
 options_from_collection_for_select(@project.people, "id", "name")
@@ -1199,8 +1237,8 @@ select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {include
 <select name="post[person_id]">
   <option value=""></option>
   <option value="1" selected="selected">David</option>
-  <option value="2">Sam</option>
-  <option value="3">Tobias</option>
+  <option value="2">Eileen</option>
+  <option value="3">Rafael</option>
 </select>
 ```
 
@@ -1213,7 +1251,7 @@ select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {include
 time_zone_options_for_selectを使用してオプションタグを生成し、指定されたオブジェクトとメソッド用のselectタグとoptionタグを返します。
 
 ```ruby
-time_zone_select( "user", "time_zone")
+time_zone_select("user", "time_zone")
 ```
 
 #### date_field
@@ -1482,10 +1520,13 @@ number_with_delimiter(12345678) # => 12,345,678
 #### number_with_precision
 
 数値を指定された精度(`precision`)に変換します。デフォルトの精度は3です。
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903128
+-->
 
 ```ruby
-number_with_precision(111.2345)     # => 111.235
-number_with_precision(111.2345, 2)  # => 111.23
+number_with_precision(111.2345)     # => 111.235
+number_with_precision(111.2345, precision: 2)  # => 111.23
 ```
 
 ### SanitizeHelper
@@ -1500,7 +1541,7 @@ sanitizeヘルパーメソッドは、すべてのタグ文字をHTMLエンコ�
 sanitize @article.body
 ```
 
-:attributesオプションまたは:tagsオプションが渡されると、そこで指定されたタグおよび属性のみが処理の対象外となります。
+`:attributes` オプションまたは `:tags` オプションが渡されると、そこで指定されたタグおよび属性のみが処理の対象外となります。
 
 ```ruby
 sanitize @article.body, tags: %w(table tr td), attributes: %w(id class style)
@@ -1522,12 +1563,12 @@ CSSコードをサニタイズします。
 リンクテキストを残してリンクタグをすべて削除します。
 
 ```ruby
-strip_links("<a href="http://rubyonrails.org">Ruby on Rails</a>")
+strip_links('<a href="http://rubyonrails.org">Ruby on Rails</a>')
 # => Ruby on Rails
 ```
 
 ```ruby
-strip_links("emails to <a href="mailto:me@email.com">me@email.com</a>.")
+strip_links('emails to <a href="mailto:me@email.com">me@email.com</a>.')
 # => emails to me@email.com.
 ```
 
@@ -1537,6 +1578,10 @@ strip_links('Blog: <a href="http://myblog.com/">Visit</a>.')
 ```
 
 #### strip_tags(html)
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903145
+-->
 
 HTMLからHTMLタグをすべて削除します。HTMLコメントも削除されます。
 このメソッドではHTMLスキャナとHTMLトークナイザ (tokenizer) を使用しており、HTMLの解析能力はスキャナの能力に依存しています。
@@ -1565,6 +1610,10 @@ NOTE: 通常のフォームではそのための隠しフィールドが生成�
 
 ローカライズされたビュー
 ---------------
+
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903149
+-->
 
 Action Viewは、現在のロケールに応じてさまざまなテンプレートを出力することができます。
 
