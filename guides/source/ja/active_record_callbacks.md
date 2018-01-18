@@ -66,7 +66,7 @@ class User < ApplicationRecord
 
   private
     def normalize_name
-      self.name = self.name.downcase.titleize
+      self.name = name.downcase.titleize
     end
 
     def set_location
@@ -111,6 +111,10 @@ Active Recordで利用可能なコールバックの一覧を以下に示しま�
 * `after_destroy`
 
 WARNING: `after_save`は作成と更新の両方で呼び出されますが、コールバックマクロの呼び出し順にかかわらず、必ず、より具体的な`after_create`および`after_update`より _後_ に呼び出されます。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26928618
+-->
 
 ### `after_initialize`と`after_find`
 
@@ -204,6 +208,7 @@ Employeeにタッチされました
 * `save!`
 * `save(validate: false)`
 * `toggle!`
+* `touch`
 * `update_attribute`
 * `update`
 * `update!`
@@ -282,7 +287,9 @@ Post destroyed
 
 条件付きコールバック
 ---------------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26932997
+-->
 検証と同様、与えられた述語による条件を満たす場合に実行されるコールバックメソッドの呼び出しを作成することもできます。これを行なうには、コールバックで`:if`オプションまたは`:unless`オプションを使用します。このオプションはシンボル、`Proc`、または`Array`を引数に取ります。特定の状況でのみコールバックが呼び出される必要がある場合は、`:if`オプションを使用します。特定の状況ではコールバックを呼び出してはならない場合は、`:unless`オプションを使用します。
 
 ### `:if`および`:unless`オプションでシンボルを使用する
@@ -379,7 +386,9 @@ end
 ```
 
 `after_commit`コールバックを使用することで、このような場合に対応することができます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26933260
+-->
 ```ruby
 class PictureFile < ApplicationRecord
   after_commit :delete_picture_file_from_disk, on: [:destroy]
@@ -411,5 +420,7 @@ class PictureFile < ApplicationRecord
   end
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26933271
+-->
 WARNING: `after_commit`コールバックおよび`after_rollback`コールバックは、1つのトランザクションブロック内におけるあらゆるモデルの作成/更新/destroy時に呼び出されます。これらのコールバックのいずれかで何らかの例外が発生すると、例外は無視されるため、他のコールバックに干渉しません。従って、もし自作のコールバックが例外を発生する可能性がある場合は、自分のコールバック内でrescueし、適切にエラー処理を行なう必要があります。
