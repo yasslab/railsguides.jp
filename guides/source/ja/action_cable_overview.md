@@ -45,10 +45,10 @@ module ApplicationCable
       self.current_user = find_verified_user
     end
 
-    protected
+    private
       def find_verified_user
-        if current_user = User.find_by(id: cookies.signed[:user_id])
-          current_user
+        if verified_user = User.find_by(id: cookies.encrypted[:user_id])
+          verified_user
         else
           reject_unauthorized_connection
         end
@@ -127,6 +127,9 @@ end
 }).call(this);
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26482621
+-->
 これにより、サーバーの`/cable`にデフォルトで接続するコンシューマーが準備されます。利用したいサブスクリプションが指定されていない場合、接続は確立しません。
 
 #### 購読側
@@ -198,9 +201,12 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483298
+-->
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
 
 ### サブスクリプション
 
@@ -337,6 +343,9 @@ end
 
 クライアント側のアピアランスチャネルを作成します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483469
+-->
 ```coffeescript
 # app/assets/javascripts/cable/subscriptions/appearance.coffee
 App.cable.subscriptions.create "AppearanceChannel",
@@ -431,9 +440,9 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
 
 ### より詳しい例
 
@@ -457,8 +466,12 @@ test:
 production:
   adapter: redis
   url: redis://10.10.3.153:6381
+  channel_prefix: appname_production
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483686
+-->
 ### 許可されたリクエスト送信元
 
 Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストのインスタンスでは、文字列を利用することも、正規表現で一致をチェックすることもできます。
@@ -538,7 +551,9 @@ bundle exec puma -p 28080 cable/config.ru
 WebSocketサーバーからはセッションにアクセスできませんが、cookieにはアクセスできます。これを利用して認証を処理できます。[Action CableとDeviseでの認証](http://www.rubytutorial.io/actioncable-devise-authentication) 記事をご覧ください。
 
 ## 依存関係
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483806
+-->
 Action Cableは、自身のpubsub内部のプロセスへの購読用アダプタインターフェイスを提供します。非同期、インライン、PostgreSQL、イベント化Redis、非イベント化Redisなどのアダプタをデフォルトで利用できます。新規Railsアプリケーションのデフォルトアダプタは非同期（`async`）アダプタです。
 
 Ruby側では、[websocket-driver](https://github.com/faye/websocket-driver-ruby)、
