@@ -8,6 +8,9 @@ Active Record マイグレーション
 
 * マイグレーション作成で使用できるジェネレータ
 * Active Recordが提供するデータベース操作用メソッド群の解説
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26956797
+-->
 * マイグレーション実行とスキーマ更新用のRakeタスクの解説
 * マイグレーションとスキーマファイル`schema.rb`の関係
 
@@ -15,13 +18,18 @@ Active Record マイグレーション
 
 マイグレーションの概要
 ------------------
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26956814
+-->
 
 マイグレーションは、[データベーススキーマの継続的な変更](http://en.wikipedia.org/wiki/Schema_migration) (英語) を、統一的かつ簡単に行なうための便利な手法です。マイグレーションではRubyのDSLを使用しているので、生のSQLを作成する必要がなく、スキーマとスキーマへの変更をデータベースの種類に依存せずに済みます。
 
 1つ1つのマイグレーションは、データベースの新しい'version'とみなすことができます。スキーマは最初空の状態から始まり、マイグレーションによる変更が加わるたびにテーブル、カラム、エントリが追加または削除されます。Active Recordは時系列に沿ってスキーマを更新する方法を知っているので、履歴のどの時点からでも最新バージョンのスキーマに更新することができます。Active Recordは`db/schema.rb`ファイルを更新し、データベースの最新の構造と一致するようにします。
 
 マイグレーションの例を以下に示します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26956826
+-->
 ```ruby
 class CreateProducts < ActiveRecord::Migration
   def change
@@ -44,7 +52,9 @@ end
 NOTE: ある種のクエリは、トランザクション内で実行できないことがあります。アダプタがDDLトランザクションをサポートしている場合は、`disable_ddl_transaction!`を使用して単一のマイグレーションでこれらを無効にすることができます。
 
 マイグレーションを逆方向に実行 (ロールバック) する方法が推測できない場合、`reversible` を使用します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26957020
+-->
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
   def change
@@ -60,6 +70,9 @@ end
 
 `change`の代りに`up`と`down`を使用することもできます。
 
+<!--
+https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26957030
+-->
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
   def up
@@ -105,7 +118,9 @@ $ bin/rails generate migration AddPartNumberToProducts part_number:string
 ```
 
 上を実行すると以下が生成されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26957047
+-->
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
   def change
@@ -203,7 +218,9 @@ end
 ```
 
 このマイグレーションを実行すると、`user_id`が作成され、適切なインデックスが追加されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26957584
+-->
 名前の一部に`JoinTable`が含まれているとテーブル結合を生成するジェネレータもあります。
 
 ```bash
@@ -298,8 +315,14 @@ end
 
 上のマイグレーションでは、テーブルを生成するSQLステートメントに`ENGINE=BLACKHOLE`を指定しています (MySQLを使用する場合、デフォルトは`ENGINE=InnoDB`です)。
 
-### テーブル結合を作成する
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26957799
+-->
 
+### テーブル結合を作成する
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958096
+-->
 マイグレーションの`create_join_table`メソッドはhas_and_belongs_to_many (HABTM) テーブル結合を作成します。典型的な利用法を以下に示します。
 
 ```ruby
@@ -307,11 +330,15 @@ create_join_table :products, :categories
 ```
 
 上によって`categories_products`テーブルが作成され、その中に`category_id`カラムと`product_id`カラムが生成されます。これらのカラムには`:null`オプションがあり、デフォルト値は`false`です。`:column_options`オプションを指定することでこれらを上書きできます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958102
+-->
 ```ruby
 create_join_table :products, :categories, column_options: {null: true}
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958113
+-->
 上によって`product_id`と`category_id`が作成され、`:null`が`true`に設定されます。
 
 テーブル名をカスタマイズしたい場合は`:table_name`オプションを渡すこともできます。たとえば次のようになります。
@@ -319,7 +346,9 @@ create_join_table :products, :categories, column_options: {null: true}
 ```ruby
 create_join_table :products, :categories, table_name: :categorization
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958126
+-->
 上のようにすることで`categorization`テーブルが作成されます。
 
 `create_join_table`はブロックを引数に取ることもできます。これはインデックスを追加したり (インデックスはデフォルトでは作成されません)、カラムを追加するのに使用されます。
@@ -332,9 +361,13 @@ end
 ```
 
 ### テーブルを変更する
-
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958258
+-->
 既存のテーブルを変更する`change_table`は、`create_table`とよく似ています。基本的には`create_table`と同じ要領で使用しますが、ブロックに対してyieldされるオブジェクトではいくつかのテクニックが使用できます。たとえば次のようになります。
-
+<!-- TODO:
+https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958262
+-->
 ```ruby
 change_table :products do |t|
   t.remove :description, :name
@@ -357,14 +390,18 @@ change_column :products, :part_number, :text
 productsテーブル上の`part_number`カラムの種類を`:text`フィールドに変更しています。
 
 `change_column`の他に`change_column_null`メソッドと`change_column_default`メソッドもあり、それぞれnot null制約を変更したりデフォルト値を指定したりするのに使用します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26958310
+-->
 ```ruby
 change_column_null :products, :name, false
 change_column_default :products, :approved, false
 ```
 
 上のマイグレーションはproductsテーブルの`:name`フィールドに`NOT NULL`制約を設定し、`:approved`フィールドのデフォルト値をfalseに設定します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26959794
+-->
 TIP: `change_column` (および`change_column_default`) と異なる点は、`change_column_null`が可逆的であることです。
 
 ### カラム修飾子
@@ -379,8 +416,14 @@ TIP: `change_column` (および`change_column_default`) と異なる点は、`ch
 * `default` - カラムでのデフォルト値の設定を許可します。dateなどの動的な値を使用している場合は、デフォルト値は最初 (マイグレーションが実行された日付など) にしか計算されないことに注意してください。
 * `index` - カラムにインデックスを追加します。
 
-アダプタによってはこの他にも使用できるオプションがあるものもあります。詳細については各アダプタ固有のAPIドキュメントを参照してください。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960057
+-->
 
+アダプタによってはこの他にも使用できるオプションがあるものもあります。詳細については各アダプタ固有のAPIドキュメントを参照してください。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960074
+-->
 ### 外部キー
 
 [参照整合性の保証](#active-recordと参照整合性) に対して外部キー制約を追加することもできます。これは必須ではありません。
@@ -390,12 +433,16 @@ add_foreign_key :articles, :authors
 ```
 
 上によって新たな外部キーが`articles`テーブルの`author_id`カラムに追加されます。このキーは`authors`テーブルの`id`カラムを参照します。欲しいカラム名をテーブル名から類推できない場合は、`:column`オプションと`:primary_key`オプションを使用できます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960116
+-->
 Railsでは、すべての外部キーは`fk_rails_`という名前で始まり、その後ろに10文字のランダムな文字列が続きます。
 必要であれば、`:name`オプションを指定することで別の名前を使用できます。
 
 NOTE: Active Recordでは単一カラムの外部キーのみがサポートされています。複合外部キーを使用する場合は`execute`と`structure.sql`が必要です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960116
+-->
 外部キーの削除も以下のように簡単に行えます。
 
 ```ruby
@@ -412,7 +459,9 @@ remove_foreign_key :accounts, name: :special_fk_name
 ### ヘルパーの機能だけでは足りない場合
 
 Active Recordが提供するヘルパーの機能だけでは不十分な場合、`execute`メソッドを使用して任意のSQLを実行できます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960164
+-->
 ```ruby
 Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
 ```
@@ -439,9 +488,13 @@ Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
 * `rename_index`
 * `remove_reference`
 * `rename_table`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960172
+-->
 `change_table`の逆転は、`change`、`change_default`、`remove`が呼び出されない限り可能です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960253
+-->
 これ以外のメソッドを使用する必要が生じた場合は、`change`メソッドではなく`reversible`メソッドを利用するか、`up`と`down`メソッドを明示的に書くようにしてください。
 
 ### `reversible`を使用する
@@ -479,7 +532,9 @@ end
 ```
 
 `reversible`メソッドを使用することで、各命令を正しい順序で実行できます。前述のマイグレーション例を逆転させた場合、`down`ブロックは必ず`home_page_url`カラムが削除された直後、そして`distributors`テーブルがdropされる直前に実行されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960357
+-->
 自作したマイグレーションがたまたま逆転不可能にするしかない内容の場合、データの一部が失われる可能性があります。そのような場合は、`down`ブロック内で`ActiveRecord::IrreversibleMigration`をレイズできます。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。
 
 ### `up`/`down`メソッドを使用する
@@ -524,6 +579,9 @@ end
 ### 以前のマイグレーションを逆転する
 
 `revert`メソッドを使用することで、Active Recordのマイグレーションロールバック (逆転) 機能を使用できます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960368
+-->
 
 ```ruby
 require_relative '2012121212_example_migration'
@@ -574,13 +632,21 @@ end
 `revert`を使用せずに同様のマイグレーションを自作することもできますが、その分余計な手間がかかります (`create_table`と`reversible`の順序を逆にし、`create_table`を`drop_table`に置き換え、最後に`up`と`down`を入れ替えます)。
 `revert`はこれらを一手に引き受けてくれます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960376
+-->
+
 マイグレーションを実行する
 ------------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960588
+-->
 Railsにはマイグレーションを実行するためのRakeタスクがいくつか用意されています。
 
 最も手っ取り早くマイグレーションを実行するRakeタスクは、ほとんどの場合`bin/rails db:migrate`でしょう。このRakeタスクは、基本的にこれまで実行されたことのない`change`または`up`メソッドを実行します。未実行のマイグレーションがない場合は何もせずに終了します。マイグレーションの実行順序は、マイグレーションの日付に基づきます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960632
+-->
 `db:migrate`タスクを実行すると、`db:schema:dump`タスクも同時に呼び出される点にご注意ください。このタスクは`db/schema.rb`スキーマファイルを更新し、スキーマがデータベースの構造に一致するようにします。
 
 マイグレーションの特定のバージョンを指定すると、Active Recordは指定されたマイグレーションに達するまでマイグレーション (change/up/down) を実行します。マイグレーションのバージョンは、マイグレーションファイル名の冒頭に付いている数字で表されます。たとえば、20080906120000というバージョンまでマイグレーションしたい場合は、以下を実行します。
@@ -660,12 +726,15 @@ $ bin/rails db:migrate RAILS_ENV=test
 
 | メソッド               | 目的
 | -------------------- | -------
-| suppress_messages    | 引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。
+| 
+| 引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。
 | say                  | 引数としてメッセージを1つ受け取り、それをそのまま出力する。2番目の引数として、出力をインデントするかどうかを指定するbooleanを与えられる。
 | say_with_time        | 受け取ったブロックを実行するのにかかった時間を示すテキストを出力する。ブロックが整数を1つ返す場合、影響を受けた行数であるとみなす。
 
 以下のマイグレーションを例に説明します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009229
+-->
 ```ruby
 class CreateProducts < ActiveRecord::Migration
   def change
@@ -751,9 +820,13 @@ end
 ```
 
 このスキーマ情報は、見てのとおりその内容を単刀直入に表しています。このファイルは、データベースを詳細に検査し、`create_table`や`add_index`などでその構造を表現することによって作成されています。このスキーマ情報はデータベースの種類に依存しないため、Active Recordがサポートしているデータベースであればどんなものにでも読み込むことができます。この特性は、複数の種類のデータベースを実行できるアプリケーションを展開する必要がある場合に特に有用です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009455
+-->
 このような有用な特性を得られる代りに、1つの代償があります。当然ながら、`db/schema.rb`にはデータベース固有の項目 (トリガーやストアドプロシージャなど) を含めることはできません。マイグレーションにはカスタムSQLを含めることはできますが、スキーマをダンプするときにデータベースからこの構文を再構成することはできないのです。データベース固有の機能を使用するのであれば、スキーマのフォーマットを`:sql`にする必要があります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009601
+-->
 この場合、Active Recordのスキーマダンプを使用する代りに、データベース固有のツールを使用してデータベースの構造を`db/structure.sql`にダンプします (`db:structure:dump` Rakeタスクを使用します)。たとえばPostgreSQLの場合は`pg_dump`ユーティリティが使用されます。MySQLの場合は、多くのテーブルにおいて`SHOW CREATE TABLE`の出力結果がファイルに含まれます。
 
 これらのスキーマの読み込みは、そこに含まれるSQL文を実行するだけの非常にシンプルなものです。定義上、これによってデータベース構造の完全なコピーが作成されます。その代わり、`:sql`スキーマフォーマットを使用した場合は、そのスキーマを作成したRDBMS以外では読み込めないという制限が生じます。
@@ -775,9 +848,13 @@ Active Recordだけではこうした外部機能を扱うツールをすべて�
 
 マイグレーションとシードデータ
 ------------------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009619
+-->
 データベースにデータを追加するのにマイグレーションが使用されることがあります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009651
+-->
 ```ruby
 class AddInitialProducts < ActiveRecord::Migration
   def up
@@ -791,7 +868,9 @@ class AddInitialProducts < ActiveRecord::Migration
   end
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009703
+-->
 しかしRailsには初期データをデータベースに与えるためのシード機能があります。これは、`db/seeds.rb`ファイルに若干のRubyコードを追加して`bin/rails db:seed`を実行するだけですぐに利用できます。
 
 ```ruby
