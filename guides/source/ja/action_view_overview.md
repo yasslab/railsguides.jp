@@ -529,10 +529,11 @@ image_url("edit.png") # => http://www.example.com/assets/edit.png
 
 HTML imgタグを返します。画像へのフルパス、または`app/assets/images`ディレクトリ内にあるファイルを引数として与えられます。
 
-```ruby
 <!-- 
 TODO: /https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902721
 -->
+
+```ruby
 image_tag("icon.png") # => <img src="/assets/icon.png" alt="Icon" />
 ```
 
@@ -610,11 +611,13 @@ end
 ```
 
 **app/views/posts/index.atom.builder**
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902842
+-->
 
 ```ruby
 atom_feed do |feed|
   feed.title("Posts Index")
-  <!-- TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902842 -->
   feed.updated((@posts.first.created_at))
 
   @posts.each do |post|
@@ -788,10 +791,12 @@ select_hour(Time.now + 6.hours)
 #### select_minute
 
 0から59までの分をオプションに持ち、現在時刻の分が選択されているselectタグを返します。
+<!-- 
+TODO:https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902898
+-->
 
 ```ruby
 # 指定された分をデフォルト値として持つセレクトボックスを生成する
-<!-- TODO:https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902898 -->
 select_minute(Time.now + 6.hours)
 ```
 
@@ -1045,10 +1050,11 @@ url_field(:user, :url)
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
-```ruby
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903068
 -->
+
+```ruby
 class Post < ActiveRecord::Base
   belongs_to :author
 end
@@ -1083,11 +1089,11 @@ collection_select(:post, :author_id, Author.all, :id, :name_with_initial, {promp
 `object`が属するクラスのメソッド値の既存の戻り値をコレクションにした`radio_button`タグを返します。
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
-
-```ruby
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903079
 -->
+
+```ruby
 class Post < ActiveRecord::Base
   belongs_to :author
 end
@@ -1123,10 +1129,11 @@ collection_radio_buttons(:post, :author_id, Author.all, :id, :name_with_initial)
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
-```ruby
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903088
 -->
+
+```ruby
 class Post < ActiveRecord::Base
   has_and_belongs_to_many :authors
 end
@@ -1249,10 +1256,11 @@ select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {include
 
 `@post.person_id`が1の場合、以下が返されます。
 
-```html
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903108
 -->
+
+```html
 <select name="post[person_id]">
   <option value=""></option>
   <option value="1" selected="selected">David</option>
@@ -1268,9 +1276,12 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 #### time_zone_select
 
 time_zone_options_for_selectを使用してオプションタグを生成し、指定されたオブジェクトとメソッド用のselectタグとoptionタグを返します。
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903112
+-->
+
 
 ```ruby
-<!-- TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903112 -->
 time_zone_select( "user", "time_zone")
 ```
 
@@ -1540,12 +1551,12 @@ number_with_delimiter(12345678) # => 12,345,678
 #### number_with_precision
 
 数値を指定された精度(`precision`)に変換します。デフォルトの精度は3です。
-
-```ruby
-number_with_precision(111.2345)     # => 111.235
 <!-- 
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903128
 -->
+
+```ruby
+number_with_precision(111.2345)     # => 111.235
 number_with_precision(111.2345, 2)  # => 111.23
 ```
 
@@ -1583,11 +1594,10 @@ CSSコードをサニタイズします。
 
 #### strip_links(html)
 リンクテキストを残してリンクタグをすべて削除します。
-
-```ruby
 <!-- 
 TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903142
 -->
+```ruby
 strip_links("<a href="http://rubyonrails.org">Ruby on Rails</a>")
 # => Ruby on Rails
 ```
