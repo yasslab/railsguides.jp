@@ -73,6 +73,9 @@ Active Recordでは、データベースのテーブルで使用されるカラ�
 * `lock_version` - モデルに[optimistic locking](http://api.rubyonrails.org/classes/ActiveRecord/Locking.html)を追加します
 * `type` - モデルで[Single Table Inheritance](http://api.rubyonrails.org/classes/ActiveRecord/Base.html#class-ActiveRecord::Base-label-Single+table+inheritance)を使用する場合に指定します
 * `関連付け名_type` - [ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)の種類を保存します
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/b4ba6580c40d67f90f4abbb9415ee3c9bce6c95a#r27011485
+-->
 * `テーブル名_count` - 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使用されます。たとえば、`Post`クラスに`comments_count`というカラムがあり、そこに`Comment`のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。
 
 NOTE: これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、`type`という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。
@@ -227,6 +230,9 @@ User.update_all "max_login_attempts = 3, must_change_password = 'true'"
 user = User.find_by(name: 'David')
 user.destroy
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/b4ba6580c40d67f90f4abbb9415ee3c9bce6c95a#r27011930
+-->
 
 検証(validation)
 -----------
