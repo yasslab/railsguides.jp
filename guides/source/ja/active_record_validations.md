@@ -17,6 +17,10 @@ Active Record バリデーション
 
 きわめてシンプルなバリデーションの例を以下に紹介します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012142
+-->
+
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true
@@ -47,6 +51,9 @@ Person.create(name: nil).valid? # => false
 Active Recordのオブジェクトには2種類あります。オブジェクトがデータベースの行(row)に対応しているものと、そうでないものです。たとえば、`new`メソッドを使用して新しくオブジェクトを作成しただけでは、オブジェクトはデータベースに属していません。`save`メソッドを呼ぶことで、オブジェクトは適切なデータベースのテーブルに保存されます。Active Recordの`new_record?`インスタンスメソッドを使用して、オブジェクトが既にデータベース上にあるかどうかを確認できます。
 次の単純なActive Recordクラスを例に取ってみましょう。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012176
+-->
 ```ruby
 class Person < ActiveRecord::Base
 end
@@ -105,10 +112,16 @@ CAUTION: データベース上のオブジェクトの状態を変える方法�
 
 ### `valid?`と`invalid?`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012223
+-->
 Railsでオブジェクトが有効(valid)であるかどうかを検証するには、`valid?`メソッドを使用します。
 このメソッドは単独で使用できます。`valid?`を実行するとバリデーションがトリガされ、オブジェクトにエラーがない場合はtrueが返され、そうでなければfalseが返されます。
 これは以下のように実装できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012243
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true
@@ -121,8 +134,14 @@ Person.create(name: nil).valid? # => false
 Active Recordでバリデーションが行われた後は、`errors.messages`インスタンスメソッドを使用すると、発生したエラーにアクセスできます。このメソッドはエラーのコレクションを返します。
 定義上は、バリデーション実行後にコレクションが空になった場合は有効です。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012270
+-->
 `new`を使用してインスタンス化されたオブジェクトは、仮に技術的に無効であってもエラーは報告されないので、注意が必要です。`new`ではバリデーションは実行されません。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012281
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true
@@ -161,6 +180,9 @@ end
 
 このメソッドが便利なのは、バリデーションを実行した後だけです。このメソッドはエラーのコレクションを調べるだけで、バリデーションそのものをトリガしないからです。このメソッドは、前述の`ActiveRecord::Base#invalid?`メソッドとは異なります。このメソッドはオブジェクト全体の正当性については確認しないためです。オブジェクトの個別の属性についてエラーがあるかどうかだけを調べます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012286
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true
@@ -186,6 +208,9 @@ end
  >> person.errors.details[:name] # => [{error: :blank}]
  ```
  
+ <!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012314
+-->
 
 バリデーションヘルパー
 ------------------
@@ -198,28 +223,50 @@ Active Recordには、クラス定義の内側で直接使用できる定義済�
 
 ### `acceptance`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012357
+-->
 このメソッドは、フォームが送信されたときにユーザーインターフェイス上のチェックボックスがオンになっているかどうかを検証します。ユーザーにサービス利用条項への同意、何らかの文書に目を通すことなどを義務付けるのに使用するのが典型的な利用法です。このバリデーションはWebアプリケーション特有のものなので、'acceptance'はデータベースに保存する必要はありません。保存用のフィールドを作成しなかった場合、ヘルパーは単に仮想の属性を作成します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012357
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :terms_of_service, acceptance: true
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012373
+-->
 このヘルパーのデフォルトエラーメッセージは _"must be accepted"_ です。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012388
+-->
 このヘルパーでは`:accept`オプションを使用できます。このオプションは、「受付済み」を表す値を指定します。デフォルトは"1"ですが、容易に変更できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012392
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012397
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :terms_of_service, acceptance: { accept: 'yes' }
 end
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012403
+-->
 
 ### `validates_associated`
 
 モデルが他のモデルに関連付けられていて、両方のモデルに対してバリデーションを実行する必要がある場合はこのヘルパーを使用します。オブジェクトを保存しようとすると、関連付けられているオブジェクトごとに`valid?`が呼び出されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012417
+-->
 ```ruby
 class Library < ActiveRecord::Base
   has_many :books
@@ -238,6 +285,9 @@ CAUTION: `validates_associated`は関連付けの両側のオブジェクトで�
 
 このヘルパーは、2つのテキストフィールドが完全に一致する内容を受け取る必要がある場合に使用します。たとえば、メールアドレスやパスワードで、確認フィールドを使用するとします。このバリデーションヘルパーは仮想の属性を作成します。その属性の名前は、確認したい属性名に "_confirmation" を追加したものになります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012420
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :email, confirmation: true
@@ -253,6 +303,9 @@ end
 
 このチェックは、`email_confirmation`が`nil`でない場合のみ実施されます。確認を必須にするには、確認用の属性について存在チェックも追加しておくようにしてください。`presence`を使用した存在チェックについてはこの後解説します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012439
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :email, confirmation: true
@@ -260,12 +313,19 @@ class Person < ActiveRecord::Base
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012453
+-->
+
 このヘルパーのデフォルトメッセージは _"doesn't match confirmation"_ です。
 
 ### `exclusion`
 
 このヘルパーは、与えられた集合に属性の値が含まれて「いない」ことを検証します。集合としては任意のenumerableオブジェクトが使用できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012538
+-->
 ```ruby
 class Account < ActiveRecord::Base
   validates :subdomain, exclusion: { in: %w(www us ca jp),
@@ -273,6 +333,9 @@ class Account < ActiveRecord::Base
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012545
+-->
 `exclusion`ヘルパーの`:in`オプションには、バリデーションを行った属性の値に含めたくない値の集合を指定します。`:in`オプションには`:within`というエイリアスもあり、好みに応じてどちらでも使用できます。上の例では、`:message`オプションを使用して属性の値を含める方法を示しています。
 
 デフォルトのエラーメッセージは _"is reserved"_ です。
@@ -281,6 +344,9 @@ end
 
 このヘルパーは、`with`オプションで与えられた正規表現と属性の値がマッチするかどうかをテストすることによってバリデーションを行います。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012549
+-->
 ```ruby
 class Product < ActiveRecord::Base
   validates :legacy_code, format: { with: /\A[a-zA-Z]+\z/,
@@ -295,6 +361,9 @@ end
 このヘルパーは、与えられた集合に属性の値が含まれているかどうかを検証します。
 集合としては任意のenumerableオブジェクトが使用できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012551
+-->
 ```ruby
 class Coffee < ActiveRecord::Base
   validates :size, inclusion: { in: %w(small medium large),
@@ -302,6 +371,9 @@ message: "%{value} のサイズは無効です" }
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012558
+-->
 `inclusion`ヘルパーには`:in`オプションがあり、受け付け可能とする値の集合を指定します。`:in`オプションには`:within`というエイリアスもあり、好みに応じてどちらでも使用できます。上の例では、属性の値をインクルードする方法を示すために`:message`オプションも使用しています。
 
 このヘルパーのデフォルトのエラーメッセージは _"is not included in the list"_ です。
@@ -310,6 +382,9 @@ end
 
 このヘルパーは、属性の値の長さを検証します。多くのオプションがあり、長さ制限をさまざまな方法で指定できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012566
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, length: { minimum: 2 }
@@ -328,6 +403,9 @@ end
 
 デフォルトのエラーメッセージは、実行されるバリデーションの種類によって異なります。デフォルトのメッセージは`:wrong_length`、`:too_long`、`:too_short`オプションを使用してカスタマイズしたり、`%{count}`を長さ制限に対応する数値のプレースホルダとして使用したりできます。`:message`オプションを使用してエラーメッセージを指定することもできます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012582
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :bio, length: { maximum: 1000,
@@ -343,14 +421,23 @@ end
 
 `:only_integer`を`true`に設定すると、
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012598
+-->
 ```ruby
 /\A[+-]?\d+\Z/
 ```
 
 上の正規表現を使用して属性の値に対するバリデーションが行われます。それ以外の場合は、`Float`で値を数値に変換してからバリデーションを行おうとします。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012618
+-->
 WARNING: 上の正規表現では末尾に改行記号があってもマッチします。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012621
+-->
 ```ruby
 class Player < ActiveRecord::Base
   validates :points, numericality: true
@@ -365,8 +452,15 @@ end
 * `:equal_to` - 指定された値と等しくなければならないことを示します。デフォルトのエラーメッセージは _"must be equal to %{count}"_ です。
 * `:less_than` - 指定された値よりも小さくなければならないことを指定します。デフォルトのエラーメッセージは _"must be less than %{count}"_ です。
 * `:less_than_or_equal_to` - 指定された値と等しいか、それよりも小さくなければならないことを指定します。デフォルトのエラーメッセージは _"must be less than or equal to %{count}"_ です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012654
+-->
 * `:odd` - trueに設定されている場合は、奇数でなければなりません。デフォルトのエラーメッセージは _"must be odd"_ です。
 * `:even` - trueに設定されている場合は、偶数でなければなりません。デフォルトのエラーメッセージは _"must be even"_ です。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012666
+-->
 
 デフォルトのエラーメッセージは _"is not a number"_ です。
 
@@ -374,6 +468,9 @@ end
 
 このヘルパーは、指定された属性が空でないことを確認します。値が`nil`や空文字でない(つまり空欄でもなければホワイトスペースでもない)ことを確認するために、内部では`blank?`メソッドを使用しています。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012672
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, :login, :email, presence: true
@@ -382,6 +479,9 @@ end
 
 関連付けが存在することを確認したい場合は、関連付けられたオブジェクト自体が存在することを確認し、そのオブジェクトが関連付けにマッピングされた外部キーでないことを確認する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012678
+-->
 ```ruby
 class LineItem < ActiveRecord::Base
   belongs_to :order
@@ -391,6 +491,9 @@ end
 
 関連付けられたレコードの存在が必須である場合、これを検証するには`:inverse_of`オプションでその関連付けを指定する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012681
+-->
 ```ruby
 class Order < ActiveRecord::Base
   has_many :line_items, inverse_of: :order
@@ -401,12 +504,19 @@ end
 
 `false.blank?`は常にtrueなので、真偽値に対してこのメソッドを使用すると正しい結果が得られません。真偽値の存在をチェックしたい場合は、`validates :field_name, inclusion: { in: [true, false] }`を使用する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012741
+-->
+
 デフォルトのエラーメッセージは _"can't be blank"_ です。
 
 ### `absence`
 
 このヘルパーは、指定された属性が空であることを検証します。値が`nil`や空文字である (つまり空欄またはホワイトスペースである) かどうかを確認するために、内部では`present?`メソッドを使用しています。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012752
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, :login, :email, absence: true
@@ -415,6 +525,9 @@ end
 
 関連付けが存在しないことを確認したい場合は、関連付けられたオブジェクト自体が存在しないかどうかを確認し、そのオブジェクトが関連付けにマッピングされた外部キーでないことを確認する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012764
+-->
 ```ruby
 class LineItem < ActiveRecord::Base
   belongs_to :order
@@ -424,6 +537,9 @@ end
 
 関連付けられたレコードが存在してはならない場合、これを検証するには`:inverse_of`オプションでその関連付けを指定する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012771
+-->
 ```ruby
 class Order < ActiveRecord::Base
   has_many :line_items, inverse_of: :order
@@ -438,8 +554,14 @@ end
 
 ### `uniqueness`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012777
+-->
 このヘルパーは、オブジェクトが保存される直前に、属性の値が一意であり重複していないことを検証します。このヘルパーはデータベース自体に一意性の制約を作成するわけではないので、2つのデータベース接続がたまたま、一意であってほしいカラムについて同じ値を持つレコードを2つ作成するようなことが起こり得ます。これを避けるには、データベースの両方のカラムに一意インデックスを作成する必要があります。複合インデックスの詳細については[MySQLのマニュアル](http://dev.mysql.com/doc/refman/5.6/en/multiple-column-indexes.html) (英語) を参照してください。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012779
+-->
 ```ruby
 class Account < ActiveRecord::Base
   validates :email, uniqueness: true
@@ -450,6 +572,9 @@ end
 
 このヘルパーには、一意性チェックを制限するために使用される別の属性を指定するための`:scope`オプションがあります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012791
+-->
 ```ruby
 class Holiday < ActiveRecord::Base
   validates :name, uniqueness: { scope: :year,
@@ -457,8 +582,15 @@ class Holiday < ActiveRecord::Base
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012800
+-->
+
 このヘルパーには`:case_sensitive`というオプションもあります。これは一意性制約で大文字小文字を区別するかどうかを指定します。このオプションはデフォルトでtrueです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012818
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, uniqueness: { case_sensitive: false }
@@ -473,6 +605,9 @@ WARNING: 一部のデータベースでは、大文字小文字を区別しな�
 
 このヘルパーは、バリデーション専用の別のクラスにレコードを渡します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012837
+-->
 ```ruby
 class GoodnessValidator < ActiveModel::Validator
   def validate(record)
@@ -495,6 +630,9 @@ NOTE: `record.errors[:base]`に追加されるエラーは、概して特定の�
 
 他のバリデーションと同様、`validates_with`ヘルパーでも`:if`、`:unless`、`:on`オプションを取ることができます。これら以外のオプションを渡すと、バリデータクラスに`options`として渡されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012840
+-->
 ```ruby
 class GoodnessValidator < ActiveModel::Validator
   def validate(record)
@@ -513,6 +651,9 @@ end
 
 作成したバリデータが複雑になってインスタンス変数を使いたくなった場合は、旧来のRubyオブジェクトを簡単に使うことができます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012841
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validate do |person|
@@ -539,6 +680,9 @@ end
 
 このヘルパーは、1つのブロックに対して属性を検証します。定義済みのバリデーション関数はありません。このため、ブロックを使用するバリデーションを自分で作成し、`validates_each`に渡す属性がすべてブロックに対してテストされるようにする必要があります。以下の例では、苗字と名前が小文字で始まらないようにしたいと考えています。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012861
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates_each :name, :surname do |record, attr, value|
@@ -558,17 +702,26 @@ end
 
 `:allow_nil`オプションは、対象の値が`nil`の場合にバリデーションをスキップします。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012869
+-->
 ```ruby
 class Coffee < ActiveRecord::Base
   validates :size, inclusion: { in: %w(small medium large),
     message: "%{value}は有効な値ではありません" }, allow_nil: true
 end
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012875
+-->
 
 ### `:allow_blank`
 
 `:allow_blank`オプションは`:allow_nil`オプションと似ています。このオプションを指定すると、属性の値が`blank?`に該当する場合にバリデーションがパスします。`blank?`に該当する値には`nil`と空文字も含まれます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012881
+-->
 ```ruby
 class Topic < ActiveRecord::Base
   validates :title, length: { is: 5 }, allow_blank: true
@@ -580,12 +733,18 @@ Topic.create(title: nil).valid? # => true
 
 ### `:message`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012885
+-->
 既に例示したように、`:message`オプションを使用することで、バリデーション失敗時に`errors`コレクションに追加されるカスタムエラーメッセージを指定できます。このオプションを使用しない場合、Active Recordはバリデーションヘルパーのデフォルトのエラーメッセージを使用します。
 
 ### `:on`
 
 `:on`オプションは、バリデーション実行のタイミングを指定します。ビルトインのバリデーションヘルパーは、デフォルトでは保存時に実行されます。これはレコードの作成時および更新時のどちらの場合にも行われます。バリデーションのタイミングを変更したい場合、`on: :create`を指定すればレコード新規作成時にのみ検証が行われ、`on: :update`を指定すればレコードの更新時にのみ検証が行われます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012888
+-->
 ```ruby
 class Person < ActiveRecord::Base
   # 値が重複していてもemailを更新できる
@@ -599,11 +758,18 @@ class Person < ActiveRecord::Base
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012891
+-->
+
 厳密なバリデーション
 ------------------
 
 バリデーションを厳密にし、オブジェクトが無効だった場合に`ActiveModel::StrictValidationFailed`が発生するようにすることができます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27012900
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: { strict: true }
@@ -614,6 +780,9 @@ Person.new.valid?  # => ActiveModel::StrictValidationFailed: 名前は空欄に�
 
 カスタムの例外を`:strict`オプションに追加することもできます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013026
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :token, presence: true, uniqueness: true, strict: TokenGenerationException
@@ -632,6 +801,9 @@ Person.new.valid?  # => TokenGenerationException: トークンは空欄にでき
 バリデーションの実行直前に呼び出されるメソッド名をシンボルで`:if`や`:unless`オプションに指定することもできます。
 これは最も頻繁に使用されるオプションです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013040
+-->
 ```ruby
 class Order < ActiveRecord::Base
   validates :card_number, presence: true, if: :paid_with_card?
@@ -646,6 +818,9 @@ end
 
 呼び出したい`Proc`オブジェクトを`:if`や`:unless`で使用することもできます。`Proc`オブジェクトを使用すると、個別のメソッドを指定する代りに、その場で条件を書くことができるようになります。ワンライナーに収まる条件を使用したい場合に最適です。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013065
+-->
 ```ruby
 class Account < ActiveRecord::Base
   validates :password, confirmation: true,
@@ -657,6 +832,9 @@ end
 
 1つの条件を複数のバリデーションで共用できると便利なことがあります。これは`with_options`を使用することで簡単に実現できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013076
+-->
 ```ruby
 class User < ActiveRecord::Base
   with_options if: :is_admin? do |admin|
@@ -672,6 +850,10 @@ end
 
 逆に、バリデーションを行なう条件を複数定義したい場合、`Array`を使用できます。同じバリデーションに対して、`:if`または`:unless`のどちらでも使用できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013076
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013102
+-->
 ```ruby
 class Computer < ActiveRecord::Base
   validates :mouse, presence: true,
@@ -689,6 +871,9 @@ end
 
 ### カスタムバリデータ
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013127
+-->
 カスタムバリデータ (validator) は、`ActiveModel::Validator`を拡張したクラスです。これらのクラスでは、`validate`メソッドが実装されている必要があります。このメソッドはレコードを1つ引数に取り、それに対してバリデーションを実行します。カスタムバリデータは`validates_with`メソッドを使用して呼び出します。
 
 ```ruby
@@ -708,6 +893,9 @@ end
 
 個別の属性を検証するためのカスタムバリデータを追加するには、`ActiveModel::EachValidator`を使用するのが最も簡単で便利です。この場合、このカスタムバリデータクラスは`validate_each`メソッドを実装する必要があります。このメソッドは、そのインスタンスに対応する「レコードと属性と値」、バリデーションを行なう属性、そして渡されたインスタンスの属性の値の3つの引数を取ります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013138
+-->
 ```ruby
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
@@ -728,8 +916,14 @@ end
 
 モデルの状態を確認し、無効な場合に`errors`コレクションにメッセージを追加するメソッドを作成することができます。これらのメソッドを作成後、バリデーションメソッド名を指すシンボルを渡し、`validate`クラスメソッドを使用して登録する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013149
+-->
 1つのクラスメソッドには複数のシンボルを渡すことができます。バリデーションは、登録されたとおりの順序で実行されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013152
+-->
 ```ruby
 class Invoice < ActiveRecord::Base
   validate :expiration_date_cannot_be_in_the_past,
@@ -749,8 +943,14 @@ class Invoice < ActiveRecord::Base
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013175
+-->
 これらのバリデーションは、`valid?`を呼び出すたびに実行されます。カスタムバリデーションが実行されるタイミングは、`:on`オプションを使用して変更できます。`validate`に対して`on: :create`または`on: :update`を指定します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013179
+-->
 ```ruby
 class Invoice < ActiveRecord::Base
   validate :active_customer, on: :create
@@ -772,6 +972,9 @@ end
 
 すべてのエラーを含む`ActiveModel::Errors`クラスのインスタンスを1つ返します。キーは属性名、値はすべてのエラー文字列の配列です。
 
+<!--
+TODO: 
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
@@ -791,6 +994,9 @@ person.errors.messages # => {}
 
 `errors[]`は、特定の属性についてエラーメッセージをチェックしたい場合に使用します。指定の属性に関するすべてのエラーメッセージの文字列の配列を返します。1つの文字列が1つのエラーメッセージです。属性に関連するエラーがない場合は空の配列を返します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013187
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
@@ -812,8 +1018,14 @@ person.errors[:name]
 
 ### `errors.add`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013202
+-->
 `add`メソッドを使用して、特定の属性に関連するメッセージを手動で追加できます。`errors.full_messages`メソッドまたは`errors.to_a`メソッドを使用して、ユーザーが実際に見ることのできるフォーム内のメッセージを表示できます。これら特定のメッセージの前には、大文字で始まる属性名が追加されます。`add`メソッドは、メッセージを追加したい属性名、およびメッセージ自身を受け取ります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013209
+-->
 ```ruby
 class Person < ActiveRecord::Base
   def a_method_used_for_validation_purposes
@@ -830,8 +1042,14 @@ person.errors.full_messages
 # => ["Name は以下の文字を含むことができません !@#%*()_-+="]
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013222
+-->
 `[]=`セッターを使用して同じことを行えます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013234
+-->
 ```ruby
 class Person < ActiveRecord::Base
   def a_method_used_for_validation_purposes
@@ -848,10 +1066,16 @@ person.errors.to_a
 # => ["Name は以下の文字を含むことができません !@#%*()_-+="]
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013238
+-->
 ### `errors[:base]`
 
 個別の属性に関連するエラーメッセージを追加する代りに、オブジェクトの状態全体に関連するエラーメッセージを追加することもできます。属性の値がどのようなものであってもオブジェクトが無効であることを通知したい場合にこのメソッドを使用できます。`errors[:base]`は配列なので、これに文字列を単に追加するだけでエラーメッセージとして使用できるようになります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013244
+-->
 ```ruby
 class Person < ActiveRecord::Base
   def a_method_used_for_validation_purposes
@@ -864,6 +1088,10 @@ end
 
 `clear`メソッドは、`errors`コレクションに含まれるメッセージをすべてクリアしたい場合に使用できます。無効なオブジェクトに対して`errors.clear`メソッドを呼び出しても、それだけでオブジェクトが有効になるわけではありませんのでご注意ください。`errors`は空になりますが、`valid?`やオブジェクトをデータベースに保存しようとするメソッドが次回呼び出されたときに、バリデーションが再実行されます。そしていずれかのバリデーションが失敗すると、`errors`コレクションに再びメッセージが格納されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013248
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013252
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
@@ -887,6 +1115,9 @@ p.errors[:name]
 
 `size`メソッドは、そのオブジェクトのエラーメッセージの総数を返します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013270
+-->
 ```ruby
 class Person < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
