@@ -726,12 +726,15 @@ $ bin/rails db:migrate RAILS_ENV=test
 
 | メソッド               | 目的
 | -------------------- | -------
-| suppress_messages    | 引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。
+| 
+| 引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。
 | say                  | 引数としてメッセージを1つ受け取り、それをそのまま出力する。2番目の引数として、出力をインデントするかどうかを指定するbooleanを与えられる。
 | say_with_time        | 受け取ったブロックを実行するのにかかった時間を示すテキストを出力する。ブロックが整数を1つ返す場合、影響を受けた行数であるとみなす。
 
 以下のマイグレーションを例に説明します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009229
+-->
 ```ruby
 class CreateProducts < ActiveRecord::Migration
   def change
@@ -817,9 +820,13 @@ end
 ```
 
 このスキーマ情報は、見てのとおりその内容を単刀直入に表しています。このファイルは、データベースを詳細に検査し、`create_table`や`add_index`などでその構造を表現することによって作成されています。このスキーマ情報はデータベースの種類に依存しないため、Active Recordがサポートしているデータベースであればどんなものにでも読み込むことができます。この特性は、複数の種類のデータベースを実行できるアプリケーションを展開する必要がある場合に特に有用です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009455
+-->
 このような有用な特性を得られる代りに、1つの代償があります。当然ながら、`db/schema.rb`にはデータベース固有の項目 (トリガーやストアドプロシージャなど) を含めることはできません。マイグレーションにはカスタムSQLを含めることはできますが、スキーマをダンプするときにデータベースからこの構文を再構成することはできないのです。データベース固有の機能を使用するのであれば、スキーマのフォーマットを`:sql`にする必要があります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009601
+-->
 この場合、Active Recordのスキーマダンプを使用する代りに、データベース固有のツールを使用してデータベースの構造を`db/structure.sql`にダンプします (`db:structure:dump` Rakeタスクを使用します)。たとえばPostgreSQLの場合は`pg_dump`ユーティリティが使用されます。MySQLの場合は、多くのテーブルにおいて`SHOW CREATE TABLE`の出力結果がファイルに含まれます。
 
 これらのスキーマの読み込みは、そこに含まれるSQL文を実行するだけの非常にシンプルなものです。定義上、これによってデータベース構造の完全なコピーが作成されます。その代わり、`:sql`スキーマフォーマットを使用した場合は、そのスキーマを作成したRDBMS以外では読み込めないという制限が生じます。
@@ -841,9 +848,13 @@ Active Recordだけではこうした外部機能を扱うツールをすべて�
 
 マイグレーションとシードデータ
 ------------------------
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009619
+-->
 データベースにデータを追加するのにマイグレーションが使用されることがあります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009651
+-->
 ```ruby
 class AddInitialProducts < ActiveRecord::Migration
   def up
@@ -857,7 +868,9 @@ class AddInitialProducts < ActiveRecord::Migration
   end
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009703
+-->
 しかしRailsには初期データをデータベースに与えるためのシード機能があります。これは、`db/seeds.rb`ファイルに若干のRubyコードを追加して`bin/rails db:seed`を実行するだけですぐに利用できます。
 
 ```ruby
