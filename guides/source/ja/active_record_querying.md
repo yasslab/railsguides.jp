@@ -7,7 +7,9 @@ Active Record クエリインターフェイス
 このガイドでは、Active Recordを使用してデータベースからデータを取り出すためのさまざまな方法について解説します。
 
 このガイドの内容:
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27011658
+-->
 * 多くのメソッドや条件を駆使してレコードを検索する
 * 検索されたレコードのソート順、取り出したい属性、グループ化の有無などを指定する
 * 一括読み込み (eager loading) を使用して、データ取り出しに必要なクエリの実行回数を減らす
@@ -50,7 +52,9 @@ class Role < ApplicationRecord
   has_and_belongs_to_many :clients
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27011687
+-->
 Active Recordは、ユーザーに代わってデータベースにクエリを発行します。発行されるクエリは多くのデータベースシステム (MySQL、PostgreSQL、SQLiteなど) と互換性があります。Active Recordを使用していれば、利用しているデータベースシステムの種類にかかわらず、同じ表記を使用できます。
 
 データベースからオブジェクトを取り出す
@@ -83,11 +87,15 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * `reverse_order`
 * `select`
 * `where`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27011708
+-->
 検索メソッドは`where`や`group`と行ったコレクションを返したり、`ActiveRecord::Relation`のインスタンスを返します。また、`find`や`first`などの１つのエンティティを検索するメソッドの場合、そのモデルのインスタンスを返します。
 
 `Model.find(options)`という操作を要約すると以下のようになります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27011729
+-->
 * 与えられたオプションを同等のSQLクエリに変換します。
 * SQLクエリを発行し、該当する結果をデータベースから取り出します。
 * 得られた結果を行ごとに同等のRubyオブジェクトとしてインスタンス化します。
@@ -100,7 +108,9 @@ Active Recordには、単一のオブジェクトを取り出すためのさま�
 #### `find`
 
 `find`メソッドを使用すると、与えられたどのオプションにもマッチする _主キー_ に対応するオブジェクトを取り出すことができます。以下に例を示します。
-
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27012042
+-->
 ```ruby
 # Find the client with primary key (id) 10.
 client = Client.find(10)
@@ -327,7 +337,9 @@ Railsでは、メモリを圧迫しないサイズにバッチを分割して処
 TIP: `find_each`メソッドと`find_in_batches`メソッドは、一度にメモリに読み込めないような大量のレコードに対するバッチ処理のためのものです。数千のレコードに対して単にループ処理を行なうのであれば通常の検索メソッドで十分です。
 
 #### `find_each`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27012794
+-->
 `find_each`メソッドは、レコードのバッチを1つ取り出し、続いて _各_ レコードを1つのブロックにyieldします。以下の例では、`find_each`でバッチから1000件のレコードを取り出し、各レコードをブロックにyieldします。
 
 ```ruby
@@ -335,9 +347,13 @@ User.find_each do |user|
   NewsMailer.weekly(user).deliver_now
 end
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27012822
+-->
 この処理は、すべてのレコードが処理されるまで繰り返されます。
-
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27012882
+-->
 上記からもわかるように、`find_each`メソッドはモデルクラスで動きます。内部でイテレートするための順序制約を持っていないため、順序に関する制約がない限り、リレーションについても同様です。
 
 ```ruby
@@ -437,7 +453,9 @@ WARNING: 条件を文字列だけで構成すると、SQLインジェクショ�
 ```ruby
 Client.where("orders_count = ?", params[:orders])
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27013233
+-->
 Active Recordは最初の引数を、文字列で表された条件として受け取ります。文字列内にある疑問符 `?` には、その後に続く引数が置き換えられます。
 
 複数の条件を指定したい場合は次のようにします。
@@ -476,7 +494,9 @@ Client.where("created_at >= :start_date AND created_at <= :end_date",
 このように書くことで、条件で多数の変数が使用されている場合にコードが読みやすくなります。
 
 ### ハッシュを使用した条件
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27013328
+-->
 Active Recordは条件をハッシュで渡すこともできます。この書式を使用することで条件構文が読みやすくなります。条件をハッシュで渡す場合、ハッシュのキーには条件付けしたいフィールドを、ハッシュの値にはそのフィールドをどのように条件づけするかを、それぞれ指定します。
 
 NOTE: ハッシュによる条件は、等値、範囲、サブセットのチェックでのみ使用できます。
@@ -505,7 +525,9 @@ belongs_toリレーションシップの場合、Active Recordオブジェクト
 Article.where(author: author)
 Author.joins(:articles).where(articles: { author: author })
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27013853
+-->
 NOTE: この値はシンボルにすることはできません。たとえば`Client.where(status: :active)`のような書き方はできません。
 
 #### 範囲条件
