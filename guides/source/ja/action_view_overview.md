@@ -211,7 +211,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 上のコードでは、ローカル変数である`product`の中に`@product`が置かれます。これは以下のコードと同等の結果になります。
 
 ```erb
-<%= render partial: "product", locals: {product: @product} %>
+<%= render partial: "product", locals: { product: product } %>
 ```
 
 `as`オプションは、ローカル変数の名前を変更したい場合に使用します。たとえば、ローカル変数名を`product`ではなく`item`にしたいのであれば、以下のようにします。
@@ -225,7 +225,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 たとえば、以下のコードがあるとします。
 
 ```erb
-<%= render partial: "product", locals: {product: @item} %>
+<%= render partial: "product", locals: { product: @product } %>
 ```
 
 上のコードは以下のようになります。
@@ -261,7 +261,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 上のコードは以下のように1行で書けます。
 
 ```erb
-<%= render partial: "product", collection: @products %>
+<%= render partial: "product", locals: { product: @item } %>
 ```
 
 パーシャルでこのようにコレクションなどが使用されている場合、パーシャルの各インスタンスは、パーシャル名に基づいた変数を経由して出力されるコレクションのメンバーにアクセスします。このパーシャルは`_product`という名前なので、`product`を指定すれば、出力されるインスタンスを取得できます。
@@ -304,7 +304,7 @@ Post.create(body: 'Partial Layouts are cool!')
 **posts/show.html.erb**
 
 ```erb
-<%= render partial: 'post', layout: 'box', locals: {post: @post} %>
+<%= render partial: 'article', layout: 'box', locals: { article: @article } %>
 ```
 
 `box`レイアウトは、`div`タグの中に`_post`パーシャルを内包した簡単な構造です。
@@ -344,10 +344,10 @@ Post.create(body: 'Partial Layouts are cool!')
 **posts/show.html.erb**
 
 ```html+erb
-<% render(layout: 'box', locals: {post: @post}) do %>
-  <%= div_for(post) do %>
+<% render(layout: 'box', locals: { article: @article }) do %>
+  <div>
     <p><%= post.body %></p>
-  <% end %>
+  </div>
 <% end %>
 ```
 
@@ -463,7 +463,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 
 ```ruby
 config.action_controller.asset_host = "assets.example.com"
-image_tag("rails.png") # => <img src="http://assets.example.com/images/rails.png" alt="Rails" />
+image_tag("rails.png") # => <img src="http://assets.example.com/images/rails.png" />
 ```
 
 #### register_javascript_expansion
@@ -493,10 +493,8 @@ stylesheet_link_tag :monkey # =>
 ```
 
 #### auto_discovery_link_tag
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902703
--->
-ブラウザやフィードリーダーが検出可能なRSSフィードやAtomフィードのリンクタグを返します。
+
+ブラウザやフィードリーダーが検出可能なRSSフィード、Atomフィード、JSONフィードのリンクタグを返します。
 
 ```ruby
 auto_discovery_link_tag(:rss, "http://www.example.com/feed.rss", {title: "RSS Feed"}) # =>
@@ -529,12 +527,8 @@ image_url("edit.png") # => http://www.example.com/assets/edit.png
 
 HTML imgタグを返します。画像へのフルパス、または`app/assets/images`ディレクトリ内にあるファイルを引数として与えられます。
 
-<!-- 
-TODO: /https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902721
--->
-
 ```ruby
-image_tag("icon.png") # => <img src="/assets/icon.png" alt="Icon" />
+image_tag("icon.png") # => <img src="/assets/icon.png" />
 ```
 
 #### javascript_include_tag
@@ -618,7 +612,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 ```ruby
 atom_feed do |feed|
   feed.title("Posts Index")
-  feed.updated((@posts.first.created_at))
+  feed.updated(@articles.first.created_at)
 
   @posts.each do |post|
     feed.entry(post) do |entry|
@@ -650,10 +644,8 @@ end
 ### CacheHelper
 
 #### cache
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26902845
--->
-`cache`メソッドは、(アクション全体やページ全体ではなく) ビューの断片をキャッシュするメソッドです。この手法は、メニュー・ニュース記事・静的HTMLの断片などをキャッシュするのに便利です。このメソッドには、キャッシュしたいコンテンツを1つのブロックに含めて引数として渡します。詳細については、`ActionController::Caching::Fragments`を参照してください。
+
+`cache`メソッドは、(アクション全体やページ全体ではなく) ビューの断片をキャッシュするメソッドです。この手法は、メニュー・ニュース記事・静的HTMLの断片などをキャッシュするのに便利です。このメソッドには、キャッシュしたいコンテンツを1つのブロックに含めて引数として渡します。詳細については、`AbstractController::Caching::Fragments`を参照してください。
 
 ```erb
 <% cache do %>
@@ -797,7 +789,7 @@ TODO:https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c3
 
 ```ruby
 # 指定された分をデフォルト値として持つセレクトボックスを生成する
-select_minute(Time.now + 6.hours)
+select_minute(Time.now + 10.minutes)
 ```
 
 #### select_month
@@ -815,7 +807,7 @@ select_month(Date.today)
 
 ```ruby
 # 指定の秒を現在時刻に加えた値をデフォルト値に持つ秒用のセレクトボックスを生成する
-select_second(Time.now + 16.minutes)
+select_second(Time.now + 16.seconds)
 ```
 
 #### select_time
@@ -861,7 +853,7 @@ time_select("order", "submitted")
 YAMLからダンプしたオブジェクトを含む`pre`タグを返します。これを利用することで、オブジェクトの内容が非常に読みやすくなります。
 
 ```ruby
-my_hash = {'first' => 1, 'second' => 'two', 'third' => [1,2,3]}
+my_hash = { 'first' => 1, 'second' => 'two', 'third' => [1,2,3] }
 debug(my_hash)
 ```
 
@@ -888,7 +880,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 
 ```html+erb
 # メモ: a @person変数はコントローラ側で設定済みであるとする (@person = Person.newなど)
-<%= form_for @person, url: {action: "create"} do |f| %>
+<%= form_for @person, url: { action: "create" } do |f| %>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
   <%= submit_tag 'Create' %>
@@ -908,7 +900,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 上のフォームが送信される時に作成されるparamsオブジェクトは以下のようになります。
 
 ```ruby
-{"action" => "create", "controller" => "people", "person" => {"first_name" => "William", "last_name" => "Smith"}}
+{ "action" => "create", "controller" => "people", "person" => { "first_name" => "William", "last_name" => "Smith" } }
 ```
 
 上のparamsハッシュには、Personモデル用の値がネストした形で含まれているので、コントローラで`params[:person]`と書くことで内容にアクセスできます。
@@ -925,13 +917,11 @@ check_box("post", "validated")
 ```
 
 #### fields_for
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903032
--->
-form_forのような特定のモデルオブジェクトの外側にスコープを作成しますが、フォームタグ自体は作成しません。このため、fields_forは同じフォームに別のモデルオブジェクトを追加するのに向いています。
+
+`form_for` のような特定のモデルオブジェクトの外側にスコープを作成しますが、フォームタグ自体は作成しません。このため、`fields_for` は同じフォームに別のモデルオブジェクトを追加するのに向いています。
 
 ```html+erb
-<%= form_for @person, url: {action: "update"} do |person_form| %>
+<%= form_for @person, url: { action: "update" } do |person_form| %>
   First name: <%= person_form.text_field :first_name %>
   Last name : <%= person_form.text_field :last_name %>
 
@@ -1050,16 +1040,12 @@ url_field(:user, :url)
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903068
--->
-
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   belongs_to :author
 end
 
-class Author < ActiveRecord::Base
+class Author < ApplicationRecord
   has_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1070,7 +1056,7 @@ end
 利用法は、たとえば以下のようになります。ここでは、Postモデルのインスタンスである`@post`に関連付けられているAuthorモデルから選択肢を取り出しています。
 
 ```ruby
-collection_select(:post, :author_id, Author.all, :id, :name_with_initial, {prompt: true})
+collection_select(:article, :author_id, Author.all, :id, :name_with_initial, { prompt: true })
 ```
 
 `@post.author_id`が1の場合、以下が返されます。
@@ -1089,16 +1075,13 @@ collection_select(:post, :author_id, Author.all, :id, :name_with_initial, {promp
 `object`が属するクラスのメソッド値の既存の戻り値をコレクションにした`radio_button`タグを返します。
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903079
--->
 
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   belongs_to :author
 end
 
-class Author < ActiveRecord::Base
+class Author < AApplicationRecord
   has_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1129,16 +1112,12 @@ collection_radio_buttons(:post, :author_id, Author.all, :id, :name_with_initial)
 
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903088
--->
-
 ```ruby
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   has_and_belongs_to_many :authors
 end
 
-class Author < ActiveRecord::Base
+class Author < ApplicationRecord
   has_and_belongs_to_many :posts
   def name_with_initial
     "#{first_name.first}. #{last_name}"
@@ -1179,12 +1158,12 @@ country_options_for_selectを使用してオプションタグを生成し、指
 例として、このメソッドを適用するオブジェクトの構造が以下のようになっているとします。
 
 ```ruby
-class Continent < ActiveRecord::Base
+class Continent < ApplicationRecord
   has_many :countries
   # attribs: id, name
 end
 
-class Country < ActiveRecord::Base
+class Country < ApplicationRecord
   belongs_to :continent
   # attribs: id, name, continent_id
 end
@@ -1232,10 +1211,8 @@ NOTE: 返されるのは`option`だけです。従って、出力結果の外側
 ```ruby
 options_from_collection_for_select(collection, value_method, text_method, selected = nil)
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903096
--->
-たとえば、@project.peopleに入っているpersonをループですべて列挙してinputタグを作成するのであれば、以下のようになります。
+
+たとえば、`@project.people` に入っているpersonをループですべて列挙してinputタグを作成するのであれば、以下のようになります。
 
 ```ruby
 options_from_collection_for_select(@project.people, "id", "name")
@@ -1256,16 +1233,12 @@ select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, {include
 
 `@post.person_id`が1の場合、以下が返されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903108
--->
-
 ```html
 <select name="post[person_id]">
   <option value=""></option>
   <option value="1" selected="selected">David</option>
-  <option value="2">Sam</option>
-  <option value="3">Tobias</option>
+  <option value="2">Eileen</option>
+  <option value="3">Rafael</option>
 </select>
 ```
 
@@ -1276,13 +1249,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 #### time_zone_select
 
 time_zone_options_for_selectを使用してオプションタグを生成し、指定されたオブジェクトとメソッド用のselectタグとoptionタグを返します。
-<!-- 
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903112
--->
-
 
 ```ruby
-time_zone_select( "user", "time_zone")
+time_zone_select("user", "time_zone")
 ```
 
 #### date_field
@@ -1557,7 +1526,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c
 
 ```ruby
 number_with_precision(111.2345)     # => 111.235
-number_with_precision(111.2345, 2)  # => 111.23
+number_with_precision(111.2345, precision: 2)  # => 111.23
 ```
 
 ### SanitizeHelper
@@ -1571,10 +1540,8 @@ sanitizeヘルパーメソッドは、すべてのタグ文字をHTMLエンコ�
 ```ruby
 sanitize @article.body
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903139
--->
-:attributesオプションまたは:tagsオプションが渡されると、そこで指定されたタグおよび属性のみが処理の対象外となります。
+
+`:attributes` オプションまたは `:tags` オプションが渡されると、そこで指定されたタグおよび属性のみが処理の対象外となります。
 
 ```ruby
 sanitize @article.body, tags: %w(table tr td), attributes: %w(id class style)
@@ -1594,16 +1561,14 @@ CSSコードをサニタイズします。
 
 #### strip_links(html)
 リンクテキストを残してリンクタグをすべて削除します。
-<!-- 
-TODO: https://github.com/yasslab/railsguides.jp/commit/3dc4225f5516c73b2a3cea63c34636897b50af66#r26903142
--->
+
 ```ruby
-strip_links("<a href="http://rubyonrails.org">Ruby on Rails</a>")
+strip_links('<a href="http://rubyonrails.org">Ruby on Rails</a>')
 # => Ruby on Rails
 ```
 
 ```ruby
-strip_links("emails to <a href="mailto:me@email.com">me@email.com</a>.")
+strip_links('emails to <a href="mailto:me@email.com">me@email.com</a>.')
 # => emails to me@email.com.
 ```
 
