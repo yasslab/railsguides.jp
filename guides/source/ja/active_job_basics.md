@@ -53,16 +53,13 @@ create  app/jobs/guests_cleanup_job.rb
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26904983
 -->
-ジェネレータを使用したくないのであれば、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ActiveJob::Base`を継承してください。
+ジェネレータを使用したくないのであれば、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
 
 作成されたジョブは以下のようになります。
 
 ```ruby
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905013
--->
-class GuestsCleanupJob < ActiveJob::Base
-  queue_as :default
+class GuestsCleanupJob < ApplicationJob
+  queue_as :default
 
   def perform(*args)
     # 後で実行したい作業をここに書く
@@ -133,14 +130,12 @@ Rails.application.config.active_job.queue_adapter = :sidekiq
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905301
 -->
 ```ruby
-class GuestsCleanupJob < ActiveJob::Base
+class GuestsCleanupJob < ApplicationJob
   queue_as :low_priority
   #....
 end
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905232
--->
+
 `application.rb`で以下のように`config.active_job.queue_name_prefix`を使用することで、すべてのジョブでキュー名の前に特定の文字列を追加することができます。
 
 ```ruby
@@ -151,11 +146,8 @@ module YourApp
   end
 end
 
-# app/jobs/guests_cleanup.rb
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905470
--->
-class GuestsCleanupJob < ActiveJob::Base
+# app/jobs/guests_cleanup_job.rb
+class GuestsCleanupJob < ApplicationJob
   queue_as :low_priority
   #....
 end
@@ -177,7 +169,7 @@ MyJob.set(queue: :another_queue).perform_later(record)
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905497
 -->
-class ProcessVideoJob < ActiveJob::Base
+class ProcessVideoJob < ApplicationJob
   queue_as do
     video = self.arguments.first
     if video.owner.premium?
@@ -188,7 +180,7 @@ class ProcessVideoJob < ActiveJob::Base
   end
 
   def perform(video)
-    # do process video
+    # Do process video
   end
 end
 
@@ -218,10 +210,7 @@ Active Jobは、ジョブのライフサイクルでのフックを提供しま�
 ### 使用法
 
 ```ruby
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905578
--->
-class GuestsCleanupJob < ActiveJob::Base
+class GuestsCleanupJob < ApplicationJob
   queue_as :default
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905612
@@ -284,11 +273,10 @@ end
 ```
 
 現在は以下のように簡潔に書くことができます。
-
-```ruby
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905864
 -->
+```ruby
 class TrashableCleanupJob
   def perform(trashable, depth)
     trashable.cleanup(depth)
@@ -305,12 +293,11 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234
 ----------
 
 Active Jobでは、ジョブ実行時に発生する例外をキャッチする方法が1つ提供されています。
-
-```ruby
-<!-h
+<!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/5d56c756f37f2fe595bffb234affdbf0d801afaf#r26905936
 -->
-class GuestsCleanupJob < ActiveJob::Base
+```ruby
+class GuestsCleanupJob < ApplicationJob
   queue_as :default
 
   rescue_from(ActiveRecord::RecordNotFound) do |exception|
