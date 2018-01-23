@@ -198,6 +198,9 @@ INFO. 呼び出し側でキーが追加される可能性があります。
 }
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036673
+-->
 Action View
 -----------
 
@@ -208,6 +211,9 @@ Action View
 | `:identifier` | テンプレートへの完全なパス |
 | `:layout`     | 該当のレイアウト     |
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036707
+-->
 ```ruby
 {
   identifier: "/Users/adam/projects/notifications/app/views/posts/index.html.erb",
@@ -232,6 +238,9 @@ Active Record
 
 ### sql.active_record
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036744
+-->
 | キー         | 値              |
 | ---------------- | --------------------- |
 | `:sql`           | SQL文         |
@@ -286,7 +295,7 @@ Action Mailer
   mailer: "Notification",
   message_id: "4f5b5491f1774_181b23fc3d4434d38138e5@mba.local.mail",
   subject: "Rails Guides",
-  to: ["users@rails.com", "ddh@rails.com"],
+  to: ["users@rails.com", "dhh@rails.com"],
   from: ["me@rails.com"],
   date: Sat, 10 Mar 2012 14:18:09 +0100,
   mail: "..." #（長いので省略）
@@ -312,12 +321,16 @@ Action Mailer
   mailer: "Notification",
   message_id: "4f5b5491f1774_181b23fc3d4434d38138e5@mba.local.mail",
   subject: "Rails Guides",
-  to: ["users@rails.com", "ddh@rails.com"],
+  to: ["users@rails.com", "dhh@rails.com"],
   from: ["me@rails.com"],
   date: Sat, 10 Mar 2012 14:18:09 +0100,
   mail: "..." #（長いので省略）
 }
 ```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036763
+-->
 
 Active Support
 --------------
@@ -432,6 +445,9 @@ Active Job
 | `:adapter`   | ジョブを処理するQueueAdapterオブジェクト |
 | `:job`       | Jobオブジェクト                             |
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036805
+-->
 
 Railties
 --------
