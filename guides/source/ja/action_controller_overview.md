@@ -22,7 +22,7 @@ Action Controller の概要
 
 Action Controllerは、MVCモデルのCに相当します。リクエストを処理するコントローラがルーティング設定によって指名されると、コントローラはリクエストの意味を理解し、適切な出力を行なうための責任を持ちます。幸い、これらの処理はほとんどAction Controllerが行ってくれます。しかも吟味された規則を使用しているので、リクエストの処理は可能な限り素直な方法で行われます。
 
-従来のいわゆる[RESTful](http://ja.wikipedia.org/wiki/REST) なアプリケーションでは、コントローラはリクエストを受け取り (この部分は開発者からは見えないようになっています)、データをモデルから取得したりモデルに保存するなどの作業を行い、最後にビューを使用してHTML出力を生成する、という役割を担います。自分のコントローラのつくりがこれと少し違っていたりするかもしれませんが、気にする必要はありません。ここではコントローラの一般的な使用法について説明しています。
+従来のいわゆる[RESTful](https://ja.wikipedia.org/wiki/REST) なアプリケーションでは、コントローラはリクエストを受け取り (この部分は開発者からは見えないようになっています)、データをモデルから取得したりモデルに保存するなどの作業を行い、最後にビューを使用してHTML出力を生成する、という役割を担います。自分のコントローラのつくりがこれと少し違っていたりするかもしれませんが、気にする必要はありません。ここではコントローラの一般的な使用法について説明しています。
 
 コントローラは、モデルとビューの間に立って仲介を行っているという見方もできます。コントローラはモデルのデータをビューで使用できるようにすることで、データをビューで表示したり、入力されたデータでモデルを更新したりします。
 
@@ -63,11 +63,7 @@ end
 
 この詳細については、[レイアウト・レンダリングガイド](layouts_and_rendering.html)で説明されています。
 
-<!--
-参照リンクが追加されてるので、変更が必要
-TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26468857
--->
-`ApplicationController`は、便利なメソッドが多数定義されている`ActionController::Base`を継承しています。本ガイドではそれらの一部について説明しますが、もっと知りたい場合はAPIドキュメントかRailsのソースコードを参照してください。
+`ApplicationController`は、便利なメソッドが多数定義されている`ActionController::Base`を継承しています。本ガイドではそれらの一部について説明しますが、もっと知りたい場合は[APIドキュメント](https://api.rubyonrails.org/classes/ActionController.html)かRailsのソースコードを参照してください。
 
 <!--
 補足する内容が追加されてるので、変更が必要
@@ -232,11 +228,7 @@ TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d6
 
 ```ruby
 class PeopleController < ActionController::Base
-　<!--
-  名前が変わっている、変更が必要
-  #TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469079
-  -->
-  # 以下のコードはActiveModel::ForbiddenAttributes例外を発生します
+  # 以下のコードはActiveModel::ForbiddenAttributesError例外を発生します
   # 明示的な許可を行なわずに、パラメータを一括で渡してしまう
   # 危険な「マスアサインメント」が行われているからです。
   def create
@@ -801,13 +793,11 @@ end
 その具体的な保護方法は、推測不可能なトークンをすべてのリクエストに追加することです。このトークンはサーバーだけが知っています。これにより、リクエストに含まれているトークンが不正であればアクセスが拒否されます。
 
 以下のようなフォームを試しに生成してみます。
-<!--
-TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469381
--->
+
 ```erb
-<%= form_for @user do |f| %>
-  <%= f.text_field :username %>
-  <%= f.text_field :password %>
+<%= form_with model: @user, local: true do |form| %>
+  <%= form.text_field :username %>
+  <%= form.text_field :password %>
 <% end %>
 ```
 
@@ -831,17 +821,12 @@ Railsでは、[formヘルパー](form_helpers.html)を使用して生成され�
 リクエストオブジェクトとレスポンスオブジェクト
 --------------------------------
 
-<!--
-TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469394
--->
-すべてのコントローラには、現在実行中のリクエストサイクルに関連するリクエストオブジェクトとレスポンスオブジェクトを指す、2つのアクセサメソッドがあります。`request`メソッドは`AbstractRequest`クラスのインスタンスを含み、`response`メソッドは、今クライアントに戻されようとしている内容を表すレスポンスオブジェクトを返します。
+すべてのコントローラには、現在実行中のリクエストサイクルに関連するリクエストオブジェクトとレスポンスオブジェクトを指す、2つのアクセサメソッドがあります。`request`メソッドは`ActionDispatch::Request`クラスのインスタンスを含み、`response`メソッドは、今クライアントに戻されようとしている内容を表すレスポンスオブジェクトを返します。
+
 
 ### `request`オブジェクト
 
-<!--
-TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469409
--->
-リクエストオブジェクトには、クライアントブラウザから返されるリクエストに関する有用な情報が多数含まれています。利用可能なメソッドをすべて知りたい場合は[APIドキュメント](http://api.rubyonrails.org/classes/ActionDispatch/Request.html)を参照してください。その中から、このオブジェクトでアクセス可能なメソッドを紹介します。
+リクエストオブジェクトには、クライアントブラウザから返されるリクエストに関する有用な情報が多数含まれています。利用可能なメソッドをすべて知りたい場合は[APIドキュメント](https://api.rubyonrails.org/classes/ActionDispatch/Request.html)と[Rackドキュメント](https://www.rubydoc.info/github/rack/rack/Rack/Request)を参照してください。その中から、このオブジェクトでアクセス可能なメソッドを紹介します。
 
 | `request`のプロパティ                     | 目的                                                                          |
 | ----------------------------------------- | -------------------------------------------------------------------------------- |
@@ -1044,7 +1029,7 @@ end
 <!--
 TODO:https://github.com/yasslab/railsguides.jp/commit/d8553fd65f43b4fec2ca9183d62a6d491936a9ff#r26469422
 -->
-上の例には注意点がいくつもあります。レスポンスのストリームは確実に閉じられるようにする必要があります。ストリームを閉じ忘れると、ソケットが永久に開いたままになってしまいます。レスポンスストリームへの書き込みを行う前に、Content-Typeを`text/event-stream`に設定する必要もあります。その理由は、レスポンスがコミットされてしまうと (`response.committed`がtrueに相当する値を返したとき)、以後ヘッダーに書き込みできないからです。これは、レスポンスストリームに対して`write`または`commit`を行った場合に発生します。
+上の例には注意点がいくつもあります。レスポンスのストリームは確実に閉じられるようにする必要があります。ストリームを閉じ忘れると、ソケットが永久に開いたままになってしまいます。レスポンスストリームへの書き込みを行う前に、Content-Typeを`text/event-stream`に設定する必要もあります。その理由は、レスポンスがコミットされてしまうと (`response.committed?`がtrueに相当する値を返したとき)、以後ヘッダーに書き込みできないからです。これは、レスポンスストリームに対して`write`または`commit`を行った場合に発生します。
 
 #### 使用例
 
@@ -1158,7 +1143,7 @@ class ApplicationController < ActionController::Base
 
     def user_not_authorized
       flash[:error] = "You don't have access to this section."
-      redirect_to :back
+      redirect_back(fallback_location: root_path)
     end
 end
 
