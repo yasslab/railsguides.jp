@@ -390,14 +390,20 @@ developmentモードの場合、アセットは個別のファイルとして、
 
 `body`パラメータはSprocketsで必要となります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063875
+-->
 ### ランタイムエラーをチェックする
 
 アセットパイプラインはdevelopmentモードでランタイム時のエラーをデフォルトでチェックします。この動作を無効にするには、以下の設定を使用します。
 
 ```ruby
-config.assets.raise_runtime_errors = false
+config.assets.unknown_asset_fallback = false
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063894
+-->
 このオプションがtrueになっていると、アプリケーションのアセットが`config.assets.precompile`に記載されているとおりにすべて読み込まれているかどうかをチェックします。`config.assets.digest`もtrueになっている場合、アセットへのリクエストにダイジェストを含むことが必須となります。
 
 ### ダイジェストをオフにする
@@ -444,7 +450,7 @@ production環境の場合
 
 Sprocketsは、production環境では前述のフィンガープリントによるスキームを使用します。デフォルトでは、Railsのアセットはプリコンパイル済みかつ静的なアセットとしてWebサーバーから提供されることが前提になっています。
 
-MD5はコンパイルされるファイルの内容を元にプリコンパイル中に生成され、ファイル名に挿入されてディスクに保存されます。マニフェスト名はRailsヘルパーによってこれらのフィンガープリント名と置き換えられて使用されます。
+SHA256はコンパイルされるファイルの内容を元にプリコンパイル中に生成され、ファイル名に挿入されてディスクに保存されます。マニフェスト名はRailsヘルパーによってこれらのフィンガープリント名と置き換えられて使用されます。
 
 以下の例で説明します。
 
@@ -460,9 +466,9 @@ MD5はコンパイルされるファイルの内容を元にプリコンパイ�
 <link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" media="screen" rel="stylesheet" />
 ```
 
-NOTE: アセットパイプラインの:cacheオプションと:concatオプションは廃止されました。これらのオプションは`javascript_include_tag`と`stylesheet_link_tag`から削除してください。
+NOTE: アセットパイプラインの`:cache`オプションと`:concat`オプションは廃止されました。これらのオプションは`javascript_include_tag`と`stylesheet_link_tag`から削除してください。
 
-フィンガープリントの振る舞いについては`config.assets.digest`初期化オプションで制御できます。productionモードではデフォルトで`true`、それ以外では`false`です。
+フィンガープリントの振る舞いについては`config.assets.digest`初期化オプションで制御できます。デフォルトでは`true`です。
 
 NOTE: デフォルトの`config.assets.digest`オプションは、通常は変更しないでください。ファイル名にダイジェストが含まれないと、遠い将来にヘッダが設定されたときに (ブラウザなどの) リモートクライアントがファイルの内容変更を検出して再度取得することができなくなってしまいます。
 
@@ -504,7 +510,7 @@ NOTE: このマッチャ (および後述するプリコンパイル配列の他
 他のマニフェストや、個別のスタイルシート/JavaScriptファイルをインクルードしたい場合は、`config/initializers/assets.rb`の`precompile`という配列を使用します。
 
 ```ruby
-Rails.application.config.assets.precompile += ['admin.js', 'admin.css', 'swfObject.js']
+Rails.application.config.assets.precompile += %w( admin.js admin.css )
 ```
 
 あるいは、以下のようにすべてのアセットをプリコンパイルすることもできます。
@@ -528,21 +534,26 @@ Rails.application.config.assets.precompile << Proc.new do |path|
 end
 ```
 
-NOTE: プリコンパイル配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず.jsや.cssで終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。
+NOTE: プリコンパイル配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず`.js`や`.css`で終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。
 
-このタスクは、`manifest-md5hash.json`ファイルも生成します。これはすべてのアセットとそれらのフィンガープリントのリストです。Railsヘルパーはこれを使用して、マッピングリクエストがSprocketsへ戻されることを回避します。典型的なマニフェストファイルの内容は以下のような感じになっています。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064164
+-->
+このタスクは、`.sprockets-manifest-md5hash.json`ファイルも生成します。これはすべてのアセットとそれらのフィンガープリントのリストです。Railsヘルパーはこれを使用して、マッピングリクエストがSprocketsへ戻されることを回避します。典型的なマニフェストファイルの内容は以下のような感じになっています。
 
 ```ruby
-{"files":{"application-723d1be6cc741a3aabb1cec24276d681.js":{"logical_path":"application.js","mtime":"2013-07-26T22:55:03-07:00","size":302506,
-"digest":"723d1be6cc741a3aabb1cec24276d681"},"application-12b3c7dd74d2e9df37e7cbb1efa76a6d.css":{"logical_path":"application.css","mtime":"2013-07-26T22:54:54-07:00","size":1560,
-"digest":"12b3c7dd74d2e9df37e7cbb1efa76a6d"},"application-1c5752789588ac18d7e1a50b1f0fd4c2.css":{"logical_path":"application.css","mtime":"2013-07-26T22:56:17-07:00","size":1591,
-"digest":"1c5752789588ac18d7e1a50b1f0fd4c2"},"favicon-a9c641bf2b81f0476e876f7c5e375969.ico":{"logical_path":"favicon.ico","mtime":"2013-07-26T23:00:10-07:00","size":1406,
-"digest":"a9c641bf2b81f0476e876f7c5e375969"},"my_image-231a680f23887d9dd70710ea5efd3c62.png":{"logical_path":"my_image.png","mtime":"2013-07-26T23:00:27-07:00","size":6646,
-"digest":"231a680f23887d9dd70710ea5efd3c62"}},"assets":{"application.js":
-"application-723d1be6cc741a3aabb1cec24276d681.js","application.css":
-"application-1c5752789588ac18d7e1a50b1f0fd4c2.css",
-"favicon.ico":"favicona9c641bf2b81f0476e876f7c5e375969.ico","my_image.png":
-"my_image-231a680f23887d9dd70710ea5efd3c62.png"}}
+{"files":{"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js":{"logical_path":"application.js","mtime":"2016-12-23T20:12:03-05:00","size":412383,
+"digest":"aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b","integrity":"sha256-ruS+cfEogDeueLmX3ziDMu39JGRxtTPc7aqPn+FWRCs="},
+"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css":{"logical_path":"application.css","mtime":"2016-12-23T19:12:20-05:00","size":2994,
+"digest":"86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18","integrity":"sha256-hqKStQcHk8N+LA5fOfc7s4dkTq6tp/lub8BAoCixbBg="},
+"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico":{"logical_path":"favicon.ico","mtime":"2016-12-23T20:11:00-05:00","size":8629,
+"digest":"8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda","integrity":"sha256-jSOHuNTTLOzZP6OQDfDp/4nQGqzYT1DngMF8n2s9Dto="},
+"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png":{"logical_path":"my_image.png","mtime":"2016-12-23T20:10:54-05:00","size":23414,
+"digest":"f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493","integrity":"sha256-9AKBVv1+ygNYTV8vwEcN8eDbxzaequY4sv8DP5iOxJM="}},
+"assets":{"application.js":"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js",
+"application.css":"application-86a292b5070793c37e2c0e5f39f73bb387644eaeada7f96e6fc040a028b16c18.css",
+"favicon.ico":"favicon-8d2387b8d4d32cecd93fa3900df0e9ff89d01aacd84f50e780c17c9f6b3d0eda.ico",
+"my_image.png":"my_image-f4028156fd7eca03584d5f2fc0470df1e0dbc7369eaae638b2ff033f988ec493.png"}}
 ```
 
 マニフェストのデフォルトの置き場所は、`config.assets.prefix`で指定された場所のルートディレクトリ (デフォルトでは'/assets') です。
@@ -576,7 +587,6 @@ location ~ ^/assets/ {
   add_header Cache-Control public;
 
   add_header ETag "";
-  break;
 }
 ```
 
@@ -641,7 +651,7 @@ config.assets.prefix = "/dev-assets"
 config.assets.compile = true
 ```
 
-最初のリクエストを受けると、アセットは上述のdevelopment環境のところで説明したとおりにコンパイルおよびキャッシュされます。ヘルパーで使用されるマニフェスト名にはMD5ハッシュが含まれます。
+最初のリクエストを受けると、アセットは上述のdevelopment環境のところで説明したとおりにコンパイルおよびキャッシュされます。ヘルパーで使用されるマニフェスト名にはSHA256ハッシュが含まれます。
 
 また、Sprocketsは`Cache-Control` HTTPヘッダーを`max-age=31536000`に変更します。このヘッダーは、サーバーとクライアントブラウザの間にあるすべてのキャッシュ (プロキシなど) に対して、サーバーが提供するこのコンテンツは1年間キャッシュしてよいと通知します。これにより、そのサーバーのアセットに対するリクエスト数を減らすことができ、アセットをローカルブラウザのキャッシュやその他の中間キャッシュで代替するよい機会が与えられます。
 
@@ -651,13 +661,13 @@ config.assets.compile = true
 
 ```ruby
 group :production do
-  gem 'therubyracer'
+  gem 'mini_racer'
 end
 ```
 
 ### CDN
 
-CDN ([コンテンツデリバリーネットワーク](http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF))は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。それにより、ブラウザからアセットをリクエストすると、ネットワーク上で最も近くにあるキャッシュのコピーが使用されます。production環境のRailsサーバーから (中間キャッシュを使用せずに) 直接アセットを提供しているのであれば、アプリケーションとブラウザの間でCDNを使用するのがベストプラクティスです。
+CDN ([コンテンツデリバリーネットワーク](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF))は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。それにより、ブラウザからアセットをリクエストすると、ネットワーク上で最も近くにあるキャッシュのコピーが使用されます。production環境のRailsサーバーから (中間キャッシュを使用せずに) 直接アセットを提供しているのであれば、アプリケーションとブラウザの間でCDNを使用するのがベストプラクティスです。
 
 CDNの典型的な利用法は、productionサーバーを "origin" サーバーとして設定することです。つまり、ブラウザがCDN上のアセットをリクエストしてキャッシュが見つからない場合、オンデマンドでサーバーからアセットファイルを取得してキャッシュするということです。たとえば、Railsアプリケーションを`example.com`というドメインで運用しており、`mycdnsubdomain.fictional-cdn.com`というCDNが設定済みであるとします。`mycdnsubdomain.fictional-cdn.com/assets/smile.png`がリクエストされると、CDNはいったん元のサーバーの`example.com/assets/smile.png`にアクセスしてこのリクエストをキャッシュします。CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーがヒットします。CDNがアセットを直接提供する場合、ブラウザからのリクエストが直接Railsサーバーに達することはありません。CDNが提供するアセットはネットワーク上でブラウザに近い位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをより高速で提供することに集中できます。
 
@@ -665,7 +675,7 @@ CDNの典型的な利用法は、productionサーバーを "origin" サーバー
 
 CDNを設定するには、Railsアプリケーションがインターネット上でproductionモードで運用されており、`example.com`などのように誰でもアクセスできるURLがある必要があります。続いて、クラウドホスティングプロバイダーが提供するCDNサービスと契約を結ぶ必要もあります。その際、CDNの"origin"設定をRailsアプリケーションのWebサイト`example.com`にする必要もあります。originサーバーの設定方法のドキュメントについてはプロバイダーにお問い合わせください。
 
-サービスに使用するCDNから、アプリケーションで使用するためのカスタムサブドメイン (例: `mycdnsubdomain.fictional-cdn.com`) を交付してもらう必要もあります (メモ: fictional-cdn.comは説明用であり、少なくとも執筆時点では本当のCDNプロバイダーではありません)。以上でCDNサーバーの設定が終わりましたので、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、`config/production.rb`の`config.action_controller.asset_host`を以下のように設定します。
+サービスに使用するCDNから、アプリケーションで使用するためのカスタムサブドメイン (例: `mycdnsubdomain.fictional-cdn.com`) を交付してもらう必要もあります (メモ: fictional-cdn.comは説明用であり、少なくとも執筆時点では本当のCDNプロバイダーではありません)。以上でCDNサーバーの設定が終わりましたので、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、`config/environments/production.rb`の`config.action_controller.asset_host`を以下のように設定します。
 
 ```ruby
 config.action_controller.asset_host = 'mycdnsubdomain.fictional-cdn.com'
@@ -673,7 +683,7 @@ config.action_controller.asset_host = 'mycdnsubdomain.fictional-cdn.com'
 
 NOTE: ここに記述するのは "ホスト名" (サブドメインとルートドメインを合わせたもの) のみです。`http://`や`https://`などのプロトコルスキームを記述する必要はありません。アセットへのリンクで使用されるプロトコルスキームは、Webページヘのリクエスト発生時に、そのページへのデフォルトのアクセス方法に合わせて適切に生成されます。
 
-この値は[環境変数](http://ja.wikipedia.org/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)で設定することもできます。これを使用すると、ステージングサーバー (訳注: 検証用に本番サーバーを複製したサーバー) の実行が楽になります。
+この値は[環境変数](https://ja.wikipedia.org/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)で設定することもできます。これを使用すると、ステージングサーバー (訳注: 検証用に本番サーバーを複製したサーバー) の実行が楽になります。
 
 ```
 config.action_controller.asset_host = ENV['CDN_HOST']
@@ -758,7 +768,9 @@ CDNが提供する`X-Cache`などの機能やCDNが追加するヘッダなど�
 [Cache-Controlヘッダ](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9)は、リクエストがキャッシュされる方法を定めたW3Cの仕様です。CDNを使用していない場合、ブラウザはこのヘッダ情報を使用してコンテンツをキャッシュします。このヘッダのおかげで、アセットで変更が発生していない場合にブラウザがCSSやJavaScriptをリクエストのたびに再度ダウンロードせずに済み、非常に有用です。アセットのCache-Controlヘッダは一般に "public" にしておくものであり、RailsサーバーはCDNやブラウザに対してこのヘッダを通じてそのことを通知します。アセットが "public" であるということは、そのリクエストをどんなキャッシュにも保存してよいということを意味します。同様に`max-age` もこのヘッダでCDNやブラウザに通知されます。`max-age`は、キャッシュがオブジェクトを保存する期間を指定します。この期間を過ぎるとキャッシュは廃棄されます。`max-age`の値は秒単位で指定します。最大値は`31536000`であり、これは一年に相当します。Railsでは以下の設定でこの期間を指定できます。
 
 ```
-config.static_cache_control = "public, max-age=31536000"
+config.public_file_server.headers = {
+  'Cache-Control' => 'public, max-age=31536000'
+}
 ```
 
 production環境のアセットは上の設定によってアプリケーションから提供されるようになり、キャッシュは1年間保存されます。多くのCDNはリクエストのキャッシュも保存しているので、この`Cache-Control`ヘッダーはアセットをリクエストするすべてのブラウザ (将来登場するブラウザも含める) に渡されます。ブラウザはこのヘッダを受け取ると、次回再度リクエストが必要になったときに備えてそのアセットを当分の間キャッシュに保存してよいことを知ります。
@@ -784,7 +796,7 @@ http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
 
 ### CSSを圧縮する
 
-YUIはCSS圧縮方法のひとつです。[YUI CSS compressor](http://yui.github.io/yuicompressor/css.html)は最小化機能を提供します (訳注: この項では、圧縮 (compress) という語は最小化 (minify) や難読化 (uglify) と同じ意味で使用されており、圧縮後のファイルはzipのようなバイナリになりません)。
+YUIはCSS圧縮方法のひとつです。[YUI CSS compressor](https://yui.github.io/yuicompressor/css.html)は最小化機能を提供します (訳注: この項では、圧縮 (compress) という語は最小化 (minify) や難読化 (uglify) と同じ意味で使用されており、圧縮後のファイルはzipのようなバイナリになりません)。
 
 YUI圧縮は以下の記述で有効にできます。これには`yui-compressor` gemが必要です。
 
@@ -801,7 +813,7 @@ config.assets.css_compressor = :sass
 
 JavaScriptを圧縮する際には`:closure`、`:uglifier`、`:yui`のいずれかのオプションを指定できます。それぞれ、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemが必要です。
 
-RailsのGemfileにはデフォルトで[uglifier](https://github.com/lautis/uglifier)が含まれています。このgemは、NodeJSで記述された[UglifyJS](https://github.com/mishoo/UglifyJS)をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
+Railsの`Gemfile`にはデフォルトで[uglifier](https://github.com/lautis/uglifier)が含まれています。このgemは、NodeJSで記述された[UglifyJS](https://github.com/mishoo/UglifyJS)をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
 
 以下の設定により、JavaScriptの圧縮に`uglifier`が使用されます。
 
@@ -809,9 +821,11 @@ RailsのGemfileにはデフォルトで[uglifier](https://github.com/lautis/ugli
 config.assets.js_compressor = :uglifier
 ```
 
-NOTE: `uglifier`を利用するには[ExecJS](https://github.com/sstephenson/execjs#readme)をサポートするJavaScriptランタイムが必要です。Mac OS XやWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。
+NOTE: `uglifier`を利用するには[ExecJS](https://github.com/sstephenson/execjs#readme)をサポートするJavaScriptランタイムが必要です。macOSやWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。
 
-NOTE: CSSやJavaScriptの圧縮を有効にする`config.assets.compress`初期化オプションはRails 4で廃止されました。現在はこのオプションを設定しても何も変わりません。CSSおよびJavaScriptアセットの圧縮を制御するには、`config.assets.css_compressor`および`config.assets.js_compressor`を使用します。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064477
+-->
 
 ### 独自の圧縮機能を使用する
 
@@ -867,14 +881,10 @@ TIP: 詳細については、production環境用Webサーバーのドキュメ�
 Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットをキャッシュを使用します。キャッシュストアの設定は`config.assets.cache_store`で変更できます。
 
 ```ruby
-config.assets.cache_store = :memory_store
-```
-
-アセットキャッシュストアで利用できるオプションは、アプリケーションのキャッシュストアと同じです。
-
-
-```ruby
-config.assets.cache_store = :memory_store, { size: 32.megabytes }
+config.assets.configure do |env|
+  env.cache = ActiveSupport::Cache.lookup_store(:memory_store,
+                                                { size: 32.megabytes })
+end                                                
 ```
 
 アセットキャッシュストアを無効にするには以下のようにします。
@@ -895,27 +905,26 @@ end
 ライブラリやGemをプリプロセッサ化する
 ------------------------------------------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064536
+-->
 Sprocketsは異なるテンプレートエンジンへの一般的なインターフェイスとして[Tilt](https://github.com/rtomayko/tilt)を使用するため、gemにTiltテンプレートプロトコルのみを実装するだけで済みます。通常、Tiltを`Tilt::Template`のようにサブクラス化して`prepare`メソッドと`evaluate`メソッドを再実装します。`prepare`メソッドはテンプレートを初期化し、`evaluate`メソッドは処理の終わったソースを返します。処理前のソースは`data`に保存されます。詳細については[`Tilt::Template`](https://github.com/rtomayko/tilt/blob/master/lib/tilt/template.rb)のソースを参照してください。
 
 ```ruby
-module BangBang
-  class Template < ::Tilt::Template
-    def prepare
-      # ここですべての初期化を行なう
-    end
-
-    # 元のテンプレートに"!"を追加する
-    def evaluate(scope, locals, &block)
-      "#{data}!"
-    end
+module AddComment
+  def self.call(input)
+    { data: input[:data] + "/* Hello From my sprockets extension */" }
   end
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064550
+-->
 これで`Template`クラスができましたので、続いてテンプレートファイルの拡張子との関連付けを行います。
 
 ```ruby
-Sprockets.register_engine '.bang', BangBang::Template
+Sprockets.register_preprocessor 'text/css', AddComment
 ```
 
 古いバージョンのRailsからアップグレードする
@@ -945,6 +954,9 @@ config.assets.debug = true
 
 `production.rb`の場合。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064603
+-->
 ```ruby
 # 圧縮機能を使用するには config.assets.js_compressor  = を使用する
 # :uglifier config.assets.css_compressor = :yui
@@ -952,13 +964,17 @@ config.assets.debug = true
 # プリコンパイル済みのアセットが見当たらない場合にアセットパイプラインにフォールバックしない
 config.assets.compile = false
 
-# アセットURLのダイジェストを生成する。(今後非推奨になる計画あり)
+# アセットURLのダイジェストを生成する。
 config.assets.digest = true
 
 # 追加のアセットをプリコンパイルする (application.js、application.css、およびすべての
-# 非JS/CSSファイルが追加済み) config.assets.precompile += %w( search.js )
+# 非JS/CSSファイルが追加済み)
+# config.assets.precompile += %w( admin.js admin.css )
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064656
+-->
 Rails 4はSprocketsのデフォルト設定値をtest環境用の`test.rb`に設定しなくなりました。従って、`test.rb`にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、`config.assets.compile = true`、`config.assets.compress = false`、`config.assets.debug = false`、`config.assets.digest = false`です。
 
 以下を`Gemfile`に追加する必要があります。
