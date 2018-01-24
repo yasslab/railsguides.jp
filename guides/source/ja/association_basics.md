@@ -729,7 +729,9 @@ a.first_name == b.author.first_name # => true
 ```
 
 Active Recordでは標準的な名前同士の関連付けのほとんどをサポートしていて、自動的に認識することができます。一方で、Active Recordで次のようなオプションを使った場合、双方向の関連付けが自動的に認識されないようにすることもできます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27066124
+-->
 * `:conditions`
 * `:through`
 * `:polymorphic`
@@ -804,6 +806,7 @@ a.first_name == b.writer.first_name # => true
 * `build_association(attributes = {})`
 * `create_association(attributes = {})`
 * `create_association!(attributes = {})`
+* `reload_association`
 
 これらのメソッドのうち、`association`の部分はプレースホルダであり、`belongs_to`の最初の引数である関連付け名をシンボルにしたものに置き換えられます。例えば次のように宣言をした場合
 
@@ -821,6 +824,7 @@ author=
 build_author
 create_author
 create_author!
+reload_author
 ```
 
 NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付けを初期化するには、`build_`で始まるメソッドを使用する必要があります。この場合`has_many`関連付けや`has_and_belongs_to_many`関連付けで使用される`association.build`メソッドは使用しないでください。作成するには、`create_`で始まるメソッドを使用してください。
