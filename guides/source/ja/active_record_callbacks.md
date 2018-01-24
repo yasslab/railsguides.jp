@@ -56,9 +56,7 @@ end
 ```
 
 コールバックは、特定のライフサイクルのイベントでのみ呼び出されるように登録することもできます。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26928568
--->
+
 ```ruby
 class User < ApplicationRecord
   before_validation :normalize_name, on: :create
@@ -68,7 +66,7 @@ class User < ApplicationRecord
 
   private
     def normalize_name
-      self.name = self.name.downcase.titleize
+      self.name = name.downcase.titleize
     end
 
     def set_location
@@ -210,9 +208,7 @@ Employeeにタッチされました
 * `save!`
 * `save(validate: false)`
 * `toggle!`
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26928629
--->
+* `touch`
 * `update_attribute`
 * `update`
 * `update!`
