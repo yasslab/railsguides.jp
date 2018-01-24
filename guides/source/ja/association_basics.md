@@ -1,4 +1,4 @@
-﻿
+
 
 
 Active Record の関連付け (アソシエーション)
@@ -2394,3 +2394,4 @@ Car.all
 ```sql
 SELECT "vehicles".* FROM "vehicles" WHERE "vehicles"."type" IN ('Car')
 ```
+
