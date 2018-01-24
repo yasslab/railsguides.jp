@@ -1438,7 +1438,7 @@ User.active.where(state: 'finished')
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'active' AND "users"."state" = 'finished'
 ```
 
-末尾のwhere句をどうしてもスコープより優先したい場合は、`Relation#merge`を使用できます。
+末尾の`where`句をどうしてもスコープより優先したい場合は、`Relation#merge`を使用できます。
 
 ```ruby
 User.active.merge(User.inactive)
