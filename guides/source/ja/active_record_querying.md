@@ -1688,8 +1688,13 @@ Client.find_by_sql("SELECT * FROM clients
 `find_by_sql`は、カスタマイズしたデータベース呼び出しを簡単な方法で提供し、インスタンス化されたオブジェクトを返します。
 
 ### `select_all`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27063852
+-->
 `find_by_sql`は`connection#select_all`と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを使用してデータベースからオブジェクトを取り出しますが、取り出したオブジェクトのインスタンス化を行わない点が異なります。代りに、ハッシュの配列を返します。1つのハッシュが1レコードを表します。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/68b89f110ef678fc35b99c559c1426c00f82583c#r27063891
+-->
 
 ```ruby
 Client.connection.select_all("SELECT first_name, created_at FROM clients WHERE id = '1'")
