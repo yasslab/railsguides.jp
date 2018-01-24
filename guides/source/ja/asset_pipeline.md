@@ -19,6 +19,10 @@
 
 アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSASS、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063440
+-->
+
 技術的には、アセットパイプラインは既にRails 4のコア機能ではありません。フレームワークから分離され、[sprockets-rails](https://github.com/rails/sprockets-rails)というgemに書き出されています。
 
 Railsではデフォルトでアセットパイプラインが有効になっています。
@@ -29,7 +33,7 @@ Railsアプリケーションを新規作成する際にアセットパイプラ
 rails new appname --skip-sprockets
 ```
 
-Rails 4では`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
+Railsでは`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
 
 ```ruby
 gem 'sass-rails'
@@ -37,7 +41,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 ```
 
-`--skip-sprockets`オプションを使用すると、Rails 4で`sass-rails`と`uglifier`がGemfileに追加されなくなります。アセットパイプラインを後から有効にしたい場合は、これらのgemもGemfileに追加する必要があります。同様に、アプリケーション新規作成時に`--skip-sprockets`オプションを指定すると`config/application.rb`ファイルの記述内容がデフォルトから若干異なります。具体的にはsprocket railtieで必要となる記述がコメントアウトされます。アセットパイプラインを手動で有効にする場合は、これらのコメントアウトも解除する必要があります。
+`--skip-sprockets`オプションを使用すると、Railsで`sass-rails`と`uglifier`がGemfileに追加されなくなります。アセットパイプラインを後から有効にしたい場合は、これらのgemもGemfileに追加する必要があります。同様に、アプリケーション新規作成時に`--skip-sprockets`オプションを指定すると`config/application.rb`ファイルの記述内容がデフォルトから若干異なります。具体的にはsprocket railtieで必要となる記述がコメントアウトされます。アセットパイプラインを手動で有効にする場合は、これらのコメントアウトも解除する必要があります。
 
 ```ruby
 # require "sprockets/railtie"
@@ -50,14 +54,14 @@ config.assets.css_compressor = :yui
 config.assets.js_compressor = :uglifier
 ```
 
-NOTE: `sass-rails` gemがGemfileに含まれていれば自動的にCSS圧縮に使用されます。この場合`config.assets.css_compressor`オプションは設定されません。
+NOTE: `sass-rails` gemが`Gemfile`に含まれていれば自動的にCSS圧縮に使用されます。この場合`config.assets.css_compressor`オプションは設定されません。
 
 
 ### 主要な機能
 
 アセットパイプラインの第一の機能はアセットを連結することです。これにより、ブラウザがWebページをレンダリングするためのリクエスト数を減らすことができます。Webブラウザが同時に処理できるリクエスト数には限りがあるため、同時リクエスト数を減らすことができればその分読み込みが高速になります。
 
-SprocketsはすべてのJavaScriptファイルを1つのマスター`.js`ファイルに連結し、すべてのCSSファイルを1つのマスター`.css`ファイルに連結します。本ガイドで後述するように、アセットファイルをグループ化する方法は自由にカスタマイズできます。production環境では、アセットファイル名にMD5フィンガープリントを挿入し、アセットファイルがWebブラウザでキャッシュされるようにしています。このフィンガープリントを変更することでブラウザでキャッシュされていた既存のアセットを無効にすることができます。フィンガープリントの変更は、アセットファイルの内容が変更された時に自動的に行われます。
+SprocketsはすべてのJavaScriptファイルを1つのマスター`.js`ファイルに連結し、すべてのCSSファイルを1つのマスター`.css`ファイルに連結します。本ガイドで後述するように、アセットファイルをグループ化する方法は自由にカスタマイズできます。production環境では、アセットファイル名にSHA256フィンガープリントを挿入し、アセットファイルがWebブラウザでキャッシュされるようにしています。このフィンガープリントを変更することでブラウザでキャッシュされていた既存のアセットを無効にすることができます。フィンガープリントの変更は、アセットファイルの内容が変更された時に自動的に行われます。
 
 アセットパイプラインのもうひとつの機能はアセットの最小化 (一種の圧縮) です。CSSファイルの最小化は、ホワイトスペースとコメントを削除することによって行われます。JavaScriptの最小化プロセスはもう少し複雑です。最小化方法はビルトインのオプションから選んだり、独自に指定したりすることができます。
 
@@ -99,11 +103,14 @@ global-908e25f4bf641868d8683022a5b62f54.css
 
 フィンガープリントが導入されたことによって上述のクエリ文字列による問題点が解決され、アセットの内容が同じであればファイル名も常に同じになるようになりました。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063600
+-->
 フィンガープリントはproduction環境ではデフォルトでオンになっており、それ以外の環境ではオフになります。設定ファイルで`config.assets.digest`オプションを使用してフィンガープリントのオン/オフを制御できます。
 
 詳細については以下を参照してください。
 
-* [キャッシュの最適化](http://code.google.com/speed/page-speed/docs/caching.html)
+* [キャッシュの最適化](https://developers.google.com/speed/docs/insights/LeverageBrowserCaching)
 * [ファイル名の変更にクエリ文字列を使用してはいけない理由](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 
 
@@ -112,15 +119,15 @@ global-908e25f4bf641868d8683022a5b62f54.css
 
 以前のRailsでは、すべてのアセットは`public`ディレクトリの下の`images`、`javascripts`、`stylesheets`などのサブフォルダに置かれました。アセットパイプライン導入後は、`app/assets`ディレクトリがアセットの置き場所として推奨されています。このディレクトリに置かれたファイルはSprocketsミドルウェアによってサポートされます。
 
-アセットは引き続き`public`ディレクトリ以下に置くことも可能です。`config.serve_static_files`がtrueに設定されていると、`public`ディレクトリ以下に置かれているあらゆるアセットはアプリケーションまたはWebサーバーによって静的なファイルとして取り扱われます。プリプロセスが必要なファイルは`app/assets`ディレクトリの下に置く必要があります。
+アセットは引き続き`public`ディレクトリ以下に置くことも可能です。`config.public_file_server.enabled`がtrueに設定されていると、`public`ディレクトリ以下に置かれているあらゆるアセットはアプリケーションまたはWebサーバーによって静的なファイルとして取り扱われます。プリプロセスが必要なファイルは`app/assets`ディレクトリの下に置く必要があります。
 
 productionモードでは、Railsはプリコンパイルされたファイルを`public/assets`に置きます。プリコンパイルされたファイルは、Webサーバーによって静的なアセットとして扱われます。`app/assets`に置かれたファイルがそのままの形でproduction環境で使用されることは決してありません。
 
 ### コントローラ固有のアセット
 
-Railsでscaffoldやコントローラを生成すると、JavaScriptファイル (`coffee-rails` gemが`Gemfile`で有効になっている場合はCoffeeScript) とCSS (`sass-rails` gemが`Gemfile`で有効になっている場合はSCSS) もそのコントローラ用に生成されます。scaffold生成時には、さらにscaffolds.css (`sass-rails` gemが`Gemfile`で有効になっている場合はscaffolds.css.scss) も生成されます。
+Railsでscaffoldやコントローラを生成すると、JavaScriptファイル (`coffee-rails` gemが`Gemfile`で有効になっている場合はCoffeeScript) とCSS (`sass-rails` gemが`Gemfile`で有効になっている場合はSCSS) もそのコントローラ用に生成されます。scaffold生成時には、さらに`scaffolds.css` (`sass-rails` gemが`Gemfile`で有効になっている場合は`scaffolds.css.scss`) も生成されます。
 
-たとえば`ProjectsController`を生成すると、`app/assets/javascripts/projects.js.coffee`ファイルと`app/assets/stylesheets/projects.css.scss`ファイルが新しく作成されます。`require_tree`ディレクティブを使用すると、これらのファイルを即座にアプリケーションから利用できます。require_treeの詳細については[マニフェストファイルとディレクティブ](#マニフェストファイルとディレクティブ)を参照してください。
+たとえば`ProjectsController`を生成すると、`app/assets/javascripts/projects.coffee`ファイルと`app/assets/stylesheets/projects.scss`ファイルが新しく作成されます。`require_tree`ディレクティブを使用すると、これらのファイルを即座にアプリケーションから利用できます。require_treeの詳細については[マニフェストファイルとディレクティブ](#マニフェストファイルとディレクティブ)を参照してください。
 
 関連するコントローラで以下のコードを使用することで、コントローラ固有のスタイルシートやJavaScriptファイルをそのコントローラだけで使用できます。
 
@@ -128,9 +135,9 @@ Railsでscaffoldやコントローラを生成すると、JavaScriptファイル
 
 上のコードを使用する際は、`require_tree`ディレクティブを使用していないことを必ず確認してください。`require_tree`と併用すると、アセットが2回以上インクルードされてしまいます。
 
-WARNING: アセットのプリコンパイルを使用する場合、ページが読み込まれるたびにコントローラのアセットがプリコンパイルされるようにしておく必要があります。デフォルトでは、.coffeeファイルと.scssファイルは自動ではプリコンパイルされません。プリコンパイルの動作の詳細については、[アセットをプリコンパイルする](#アセットをプリコンパイルする)を参照してください。
+WARNING: アセットのプリコンパイルを使用する場合、ページが読み込まれるたびにコントローラのアセットがプリコンパイルされるようにしておく必要があります。デフォルトでは、`.coffee`ファイルと`.scss`ファイルは自動ではプリコンパイルされません。プリコンパイルの動作の詳細については、[アセットをプリコンパイルする](#アセットをプリコンパイルする)を参照してください。
 
-NOTE: CoffeeScriptを使用するには、ExecJSがランタイムでサポートされている必要があります。Mac OS XまたはWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。サポートされているすべてのJavaScriptランタイムに関するドキュメントは、[ExecJS](https://github.com/sstephenson/execjs#readme) で参照できます。
+NOTE: CoffeeScriptを使用するには、ExecJSがランタイムでサポートされている必要があります。macOSまたはWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。サポートされているすべてのJavaScriptランタイムに関するドキュメントは、[ExecJS](https://github.com/sstephenson/execjs#readme) で参照できます。
 
 `config/application.rb`設定に以下を追加することで、コントローラ固有のアセットファイル生成を止めることもできます。
 
@@ -190,10 +197,10 @@ app/assets/javascripts/sub/something.js
 
 検索パスを調べるには、Railsコンソールで`Rails.application.config.assets.paths`を調べます。
 
-`config/application.rb`に記述することで、標準の`assets/*`に加えて追加の (fully qualified) パスをパイプラインに追加することができます。以下の例で説明します。
+`config/initializers/assets.rb`に記述することで、標準の`assets/*`に加えて追加の (fully qualified) パスをパイプラインに追加することができます。以下の例で説明します。
 
 ```ruby
-config.assets.paths << Rails.root.join("lib", "videoplayer", "flash")
+Rails.application.config.assets.paths << Rails.root.join("lib", "videoplayer", "flash")
 ```
 
 パスの探索は、検索パスでの出現順で行われます。デフォルトでは`app/assets`の検索が優先されるので、対応するパスが`lib`や`vendor`にある場合はマスクされます。
@@ -223,14 +230,14 @@ Sprocketsはアセットにアクセスするためのメソッドを特に追�
 <%= javascript_include_tag "application" %>
 ```
 
-Rails 4から同梱されるようになったturbolinks gemを使用している場合、'data-turbolinks-track'オプションが利用できます。これはアセットが更新されてページに読み込まれたかどうかをturbolinksがチェックします。
+Railsから同梱されるようになったturbolinks gemを使用している場合、'data-turbolinks-track'オプションが利用できます。これはアセットが更新されてページに読み込まれたかどうかをturbolinksがチェックします。
 
 ```erb
-<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => "reload" %>
+<%= javascript_include_tag "application", "data-turbolinks-track" => "reload" %>
 ```
 
-通常のビューでは以下のような方法で`public/assets/images`ディレクトリの画像にアクセスできます。
+通常のビューでは以下のような方法で`app/assets/images`ディレクトリの画像にアクセスできます。
 
 ```erb
 <%= image_tag "rails.png" %>
@@ -238,7 +245,7 @@ Rails 4から同梱されるようになったturbolinks gemを使用してい�
 
 パイプラインが有効でかつ現在の環境で無効になっていない場合、このファイルはSprocketsによって扱われます。ファイルが`public/assets/rails.png`に置かれている場合、Webサーバーによって扱われます。
 
-`public/assets/rails-af27b6a414e6da00003503148be9b409.png`など、ファイル名にMD5ハッシュを含むファイルへのリクエストについても同様に扱われます。ハッシュの生成法については、本ガイドの[production環境の場合](#production環境の場合)で後述します。
+`public/assets/rails-f90d8a84c707a8dc923fca1ca1895ae8ed0a09237f6992015fef1e11be77c023.png`など、ファイル名にSHA256ハッシュを含むファイルへのリクエストについても同様に扱われます。ハッシュの生成法については、本ガイドの[production環境の場合](#production環境の場合)で後述します。
 
 Sprocketsは`config.assets.paths`で指定したパスも探索します。このパスには、標準的なアプリケーションパスと、Railsエンジンによって追加されるすべてのパスが含まれます。
 
@@ -260,7 +267,7 @@ WARNING: アセットのプリコンパイルを行っている場合 ([producti
 
 これは、指定されたアセットへのパスを記述します。上の例では、アセット読み込みパスのいずれかにある画像ファイル (`app/assets/images/image.png`など) が指定されたと解釈されます。この画像が既にフィンガープリント付きで`public/assets`にあれば、このパスによる参照は有効になります。
 
-[データURIスキーム](http://ja.wikipedia.org/wiki/Data_URI_scheme) (CSSファイルにデータを直接埋め込む手法) を使用したい場合は、`asset_data_uri`を使用できます。
+[データURIスキーム](https://ja.wikipedia.org/wiki/Data_URI_scheme) (CSSファイルにデータを直接埋め込む手法) を使用したい場合は、`asset_data_uri`を使用できます。
 
 ```css
 #logo { background: url(<%= asset_data_uri 'logo.png' %>) }
@@ -292,7 +299,7 @@ $('#logo').attr({ src: "<%= asset_path('logo.png') %>" });
 
 これは、指定されたアセットへのパスを記述します。
 
-CoffeeScriptファイルでも、`application.js.coffee.erb`のように`erb`拡張子を追加することで同様に`asset_path`ヘルパーを使用できます。
+CoffeeScriptファイルでも、`application.coffee.erb`のように`erb`拡張子を追加することで同様に`asset_path`ヘルパーを使用できます。
 
 ```js
 $('#logo').attr src: "<%= asset_path('logo.png') %>"
@@ -303,16 +310,16 @@ $('#logo').attr src: "<%= asset_path('logo.png') %>"
 Sprocketsでは、どのアセットをインクルードしてサポートするかを指定するのにマニフェストファイルを使用します。マニフェストファイルには _ディレクティブ (directive: 命令、指示)_ を含めます。ディレクティブを使用して必要なファイルを指定し、それに基いて最終的に単一のCSSやJavaScriptファイルがビルドされます。Sprocketsはディレクティブで指定されたファイルを読み込み、必要に応じて処理を行い、連結して単一のファイルを生成し、圧縮します (`Rails.application.config.assets.compress`がtrueの場合)。ファイルを連結してひとつにすることにより、ブラウザからサーバーへのリクエスト数を減らすことができ、ページの読み込み時間が大きく短縮されます。圧縮することによってもファイルサイズが小さくなり、ブラウザへの読み込み時間が短縮されます。
 
 
-新規作成したRails 4アプリケーションにはデフォルトで`app/assets/javascripts/application.js`ファイルに以下のような記述が含まれています。
+新規作成したRailsアプリケーションにはデフォルトで`app/assets/javascripts/application.js`ファイルに以下のような記述が含まれています。
 
 ```js
 // ...
-//= require jquery
-//= require jquery_ujs
+//= require rails-ujs
+//= require turbolinks
 //= require_tree .
 ```
 
-JavaScriptのSprocketsディレクティブは`//=`で始まります。上の例では`require`と`require_tree`というディレクティブが使用されています。`require`は、必要なファイルをSprocketsに指定するのに使用します。ここでは`jquery.js`と`jquery_ujs.js`を必要なファイルとして指定しています。これらのファイルはSprocketsの検索パスのどこかから読み込み可能になっています。このディレクティブでは拡張子を明示的に指定する必要はありません。ディレクティブが`.js`ファイルに書かれていれば、Sprocketsによって自動的に`.js`ファイルが必要ファイルとして指定されます。
+JavaScriptのSprocketsディレクティブは`//=`で始まります。上の例では`require`と`require_tree`というディレクティブが使用されています。`require`は、必要なファイルをSprocketsに指定するのに使用します。ここでは`rails-ujs.js`と`turbolinks.js`を必要なファイルとして指定しています。これらのファイルはSprocketsの検索パスのどこかから読み込み可能になっています。このディレクティブでは拡張子を明示的に指定する必要はありません。ディレクティブが`.js`ファイルに書かれていれば、Sprocketsによって自動的に`.js`ファイルが必要ファイルとして指定されます。
 
 `require_tree`ディレクティブは、指定されたディレクトリ以下の _すべての_ JavaScriptファイルを再帰的にインクルードし、出力に含めます。このパスは、マニフェストファイルからの相対パスとして指定する必要があります。`require_directory`ディレクティブを使用すると、指定されたディレクトリの直下にあるすべてのJavaScriptファイルのみをインクルードします。この場合サブディレクトリを再帰的に探索しません。
 
@@ -327,7 +334,7 @@ Railsは以下の行を含むデフォルトの`app/assets/stylesheets/applicati
 */
 ```
 
-Rails 4は`app/assets/javascripts/application.js`と`app/assets/stylesheets/application.css`ファイルを両方作成します。これはRailsアプリケーション新規作成時に--skip-sprocketsを指定するかどうかにかかわらず行われます。これにより、必要に応じて後からアセットパイプラインを追加することもできます。
+Railsは`app/assets/javascripts/application.js`と`app/assets/stylesheets/application.css`ファイルを両方作成します。これはRailsアプリケーション新規作成時に--skip-sprocketsを指定するかどうかにかかわらず行われます。これにより、必要に応じて後からアセットパイプラインを追加することもできます。
 
 JavaScriptで使用できるディレクティブはスタイルシートでも使用できます (なおJavaScriptと異なりスタイルシートは明示的にインクルードされるという違いがあります)。CSSマニフェストにおける`require_tree`ディレクティブの動作はJavaScriptの場合と同様に現在のディレクトリにあるすべてのスタイルシートをrequireします。
 
@@ -351,13 +358,13 @@ NOTE: Sassファイルを複数使用しているのであれば、Sprocketsデ�
 
 ### プリプロセス
 
-適用されるプリプロセスの種類は、アセットファイルの拡張子によって決まります。コントローラやscaffoldをデフォルトのgemセットで生成した場合、通常JavaScriptファイルやCSSファイルが置かれる場所にCoffeeScriptファイルとSCSSファイルがそれぞれ生成されます。先の例では、コントローラ名が"projects"で、`app/assets/javascripts/projects.js.coffee`ファイルと`app/assets/stylesheets/projects.css.scss`ファイルが生成されます。
+適用されるプリプロセスの種類は、アセットファイルの拡張子によって決まります。コントローラやscaffoldをデフォルトのgemセットで生成した場合、通常JavaScriptファイルやCSSファイルが置かれる場所にCoffeeScriptファイルとSCSSファイルがそれぞれ生成されます。先の例では、コントローラ名が"projects"で、`app/assets/javascripts/projects.coffee`ファイルと`app/assets/stylesheets/projects.scss`ファイルが生成されます。
 
 developmentモードの場合、あるいはアセットパイプラインが無効になっている場合は、これらのアセットへのリクエストは`coffee-script` gemと`sass` gemが提供するプロセッサによって処理され、それぞれJavaScriptとCSSとしてブラウザへのレスポンスが送信されます。アセットパイプラインが有効になっている場合は、これらのアセットファイルはプリプロセスの対象となり、処理後のファイルが`public/assets`ディレクトリに置かれてRailsアプリケーションまたはWebサーバーによって利用されます。
 
-アセットファイル名に別の拡張子を追加することにより、プリプロセス時に別のレイヤを追加でリクエストすることができます。アセットファイル名の拡張子は、「右から左」の順に処理されます。従って、アセットファイル名の拡張子は、これに従って処理を行うべき順序で与える必要があります。たとえば、`app/assets/stylesheets/projects.css.scss.erb`というスタイルシートでは、最初にERBとして処理され、続いてSCSS、最後にCSSとして処理されます。同様にして、 `app/assets/javascripts/projects.js.coffee.erb` というJavaScriptファイルの場合では、ERB → CoffeeScript → JavaScript の順に処理されます。
+アセットファイル名に別の拡張子を追加することにより、プリプロセス時に別のレイヤを追加でリクエストすることができます。アセットファイル名の拡張子は、「右から左」の順に処理されます。従って、アセットファイル名の拡張子は、これに従って処理を行うべき順序で与える必要があります。たとえば、`app/assets/stylesheets/projects.scss.erb`というスタイルシートでは、最初にERBとして処理され、続いてSCSS、最後にCSSとして処理されます。同様にして、 `app/assets/javascripts/projects.coffee.erb` というJavaScriptファイルの場合では、ERB → CoffeeScript → JavaScript の順に処理されます。
 
-このプリプロセス順序は非常に重要ですので、心に留めておいてください。たとえば、仮に`app/assets/javascripts/projects.js.erb.coffee`というファイルを呼び出すと、最初にCoffeeScriptインタプリタによって処理されます。しかしこれは次のERBで処理できないので問題が発生することがあります。
+このプリプロセス順序は非常に重要ですので、心に留めておいてください。たとえば、仮に`app/assets/javascripts/projects.erb.coffee`というファイルを呼び出すと、最初にCoffeeScriptインタプリタによって処理されます。しかしこれは次のERBで処理できないので問題が発生することがあります。
 
 
 development環境の場合
