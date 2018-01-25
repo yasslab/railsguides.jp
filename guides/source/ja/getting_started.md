@@ -1,4 +1,4 @@
-
+﻿
 Rails をはじめよう
 ==========================
 
@@ -123,7 +123,7 @@ $ cd blog
 |config/|アプリケーションの設定ファイル (ルーティング、データベースなど) がここに置かれます。詳しくは[Railsアプリケーションを設定する](configuring.html) を参照してください。|
 |config.ru|アプリケーションの起動に必要となる、Rackベースのサーバー用のRack設定ファイルです。Rackについて詳しくは、[RackのWebサイト](https://rack.github.io/)を参照してください。|
 |db/|現時点のデータベーススキーマと、データベースマイグレーションファイルが置かれます。|
-|Gemfile<br>Gemfile.lock|これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルはBundler gemで使用されます。Bundlerについて詳しくは[BundlerのWebサイト](https://bundler.io/)を参照してください。
+|Gemfile<br>Gemfile.lock|これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルはBundler gemで使用されます。Bundlerの詳細については[BundlerのWebサイト](http://bundler.io/)を参照してください。
 |lib/|アプリケーションで使用する拡張モジュールが置かれます。|
 |log/|アプリケーションのログファイルが置かれます。|
 |package.json|Railsアプリで必要なnpm依存関係をこのファイルで指定できます。このファイルはYarnで使われます。Yarnについて詳しくは、[YarnのWebサイト](https://yarnpkg.com/lang/en/)を参照してください。|
@@ -149,7 +149,7 @@ Hello, Rails!
 $ rails server
 ```
 
-TIP: CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。macOSやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`mini_racer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムについて詳しくは[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
+TIP: CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。Mac OS XやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`therubyracer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムの詳細については[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
 
 Railsで起動されるWebサーバーは、Railsにデフォルトで付属している[Puma](http://puma.io/)です。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <http://localhost:3000> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
 
@@ -217,7 +217,7 @@ Rails.application.routes.draw do
 end
 ```
 
-上はアプリケーションの**ルーティングファイル**の内容です。外部からのリクエストをコントローラとアクションに振り分ける方法を、[DSL (ドメイン特化言語: domain-specific language)](https://en.wikipedia.org/wiki/Domain-specific_language)という特殊な言語でこのファイル内に記述します。このファイルに`root 'welcome#index'`というコードを追加すると、次のようになります。
+上はアプリケーションの _ルーティングファイル_ の内容です。外部からのリクエストをどのようにコントローラとアクションに振り分けるかを、DSL (ドメイン特化言語: domain-specific language) という特殊な言語を使用してこのファイル内に記述します。デフォルトのconfig/routes.rbには多数のルーティングサンプルがコメント行に記載されており、そのうちの1つに、サイトのルートにアクセスがあったときに接続するコントローラとアクションを指定する方法が書かれています。`root`で始まっている行を見つけ、コメント記号を外してください。以下のようになるはずです。
 
 ```ruby
 Rails.application.routes.draw do
@@ -367,7 +367,7 @@ ArticlesController#new is missing a template for this request format and variant
 
 ページをブラウザで再表示すると、先に図に示したフォームの例のとおりにフォームが表示されます。Railsのフォーム作成は非常に簡単です。
 
-`form_with`メソッドを呼び出すときには、このフォームを識別するためのオブジェクトを渡してください。ここでは`:article`というシンボルを渡します。`form_with`ヘルパーは、これを見て何のフォームであるかを知ることができます。このメソッドのブロックの内側は`FormBuilder`オブジェクトを置きます(`form`で表すのが通例です)。ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、`form`オブジェクトに対して`submit`を実行すると、フォームの送信ボタンが作成されます。
+`form_with`メソッドを呼び出すときには、このフォームを識別するためのスコープを渡してください。ここでは`:article`というシンボルを渡します。`form_with`ヘルパーは、これを見て何のフォームであるかを知ることができます。このメソッドのブロックの内側は`FormBuilder`オブジェクトを置きます(`form`で表すのが通例です)。ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、`form`オブジェクトに対して`submit`を実行すると、フォームの送信ボタンが作成されます。
 
 しかし、このフォームには1つ問題があります。このフォームページのソースを表示して、生成されたHTMLをよく調べてみると、フォームの`action`属性の送信先が`/articles/new`になってしまっています。`/articles/new`というルーティングは、このフォームを最初に表示するときに使用されるものなので、記入されたフォームの送信先まで同じルーティングにしてしまうのは変です。`/articles/new`はフォームの表示専用にすべきです。
 
@@ -406,6 +406,10 @@ welcome_index GET    /welcome/index(.:format)     welcome#index
 そこで今度は`ArticlesController`コントローラ内に`create`アクションを作成し、フォームが動作する必要があります。
 
 NOTE: `form_with`はデフォルトではAjaxを用いてフォームを送信するため、完全なページリダイレクトはスキップされます。本ガイドでは説明を簡単にするため`local: true`を無効にしてあります。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118871
+-->
 
 ### 記事を作成する
 
@@ -1011,7 +1015,7 @@ end
 </table>
 ```
 
-上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`method: :delete`オプションと`data: { confirm: 'Are you sure?' }`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`rails-ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されません。
+上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`:method`オプションと`:'data-confirm'`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`jquery_ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。
 
 ![Confirm Dialog](images/getting_started/confirm_dialog.png)
 
@@ -1056,6 +1060,10 @@ Commentモデルの内容は、これまでに見た`Article`モデルと非常�
 
 bashコマンドで使われている`:references`キーワードは、モデルの特殊なデータ型を表します。
 これは、指定されたモデル名の後ろに`_id`を追加した名前を持つ新しいカラムをデータベーステーブルに作成します。マイグレーションの実行後に`db/schema.rb`ファイルを調べてみると理解が進みます。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119358
+-->
 
 モデルのファイルの他にマイグレーションファイルも生成されています。マイグレーションファイルは、モデルに対応するデータベーステーブルを生成するために使用されます。
 
