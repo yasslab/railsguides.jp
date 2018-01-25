@@ -16,17 +16,13 @@ Rails をはじめよう
 本ガイドの前提条件
 -----------------
 
-本ガイドは、ゼロからRailsアプリケーションを構築したいと考えている初心者を対象にしています。読者がRailsの経験がないことを前提としています。ただし、このドキュメントを最大限に活用するために、以下のソフトウェアがインストールされ、利用可能な状態になっていることを前提としています。
-
-* [Ruby](https://www.ruby-lang.org/ja/downloads/) 2.2.2以降。
-* [RubyGems](http://rubygems.org)パッケージングシステム。これはRuby 1.9以降であればRubyをインストールすると自動的に導入されます。RubyGemsの詳細については、[RubyGemsガイド](http://guides.rubygems.org/)を参照してください。
-* [SQLite3データベース](http://www.sqlite.org)がインストールされ、正常に動作する状態になっていること。
+本ガイドは、ゼロからRailsアプリケーションを構築したいと考えている初心者を対象にしています。読者がRailsの経験がないことを前提としています。
 
 Railsとは、Rubyプログラミング言語の上で動作するWebアプリケーションフレームワークです。
 Rubyの経験がまったくない場合、Railsを学ぶのはかなり大変な作業になるでしょう。Rubyを学ぶための精選されたオンラインリソース一覧はたくさんありますので、その中から以下をご紹介します。
 
 * [Rubyプログラミング言語公式Webサイトの情報](https://www.ruby-lang.org/ja/documentation/)
-* [reSRCが選ぶ無料のプログラミング学習用書籍一覧 (英語)](http://resrc.io/list/10/list-of-free-programming-books/#ruby)
+* [reSRCが選ぶ無料のプログラミング学習用書籍一覧 (英語)]((https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#ruby)
 
 これらはいずれもよくできていますが、中にはRubyのバージョンが1.6など古いものもありますのでご注意ください。また、バージョン1.8を対象にしているものが多く、Railsでの日常的な開発に使用されている新しい文法が含まれていないこともあります。
 
@@ -47,6 +43,9 @@ Railsの哲学には、以下の2つの主要な基本理念があります。
 Railsプロジェクトを新規作成する
 ----------------------------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095470
+-->
 本ガイドを活用するための最善の方法は、以下の手順を文字どおり1つずつ実行し、手順を取りこぼさないようにすることです。取りこぼしがあると、その後の手順が期待どおりに進まない可能性があります。この手順で作成された完全なRailsプロジェクトのコードは[コチラ](https://github.com/yasslab/getting_started)で公開されているので、躓いてしまったときなどに参照してください。また、完成したサンプルアプリケーションは[コチラ](https://getting-started-jp.herokuapp.com/)で公開されています。
 
 本ガイドの手順に従うことで、`blog`という名前の非常にシンプルなブログのRailsプロジェクトを作成できます。Railsアプリケーションを構築する前に、Rails本体がインストールされていることを確認してください。
@@ -55,21 +54,29 @@ TIP: 以下の例では、Unix系OSのプロンプトとして`$`記号を使用
 
 ### Railsのインストール
 
-ターミナル (コマンドプロンプトとも言います) ウィンドウを開いてください。Mac OS Xの場合、ターミナル (Terminal.app) という名前のアプリケーションを実行します。Windowsの場合は[スタート] メニューから [ファイル名を指定して実行] をクリックして'cmd.exe'と入力します。`$`で始まる記述はコマンド行なので、これらはコマンドラインに入力して実行してください。続いて現在インストールされているRubyのバージョンが最新のものであることを確認してください。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095486
+-->
+ターミナル (コマンドプロンプトとも言います) ウィンドウを開いてください。macOSの場合、ターミナル (Terminal.app) という名前のアプリケーションを実行します。Windowsの場合は[スタート] メニューから [ファイル名を指定して実行] をクリックして'cmd.exe'と入力します。`$`で始まる記述はコマンド行なので、これらはコマンドラインに入力して実行してください。続いて現在インストールされているRubyのバージョンが最新のものであることを確認してください。
 
 TIP: RubyやRuby on Railsを素早くインストールするためのツールは多数存在します。Windowsユーザーの場合は[Railsインストーラ](http://railsinstaller.org)をお使いください。Mac OS Xユーザーは[Tokaido](https://github.com/tokaido/tokaidoapp)をお使いください。(訳注: 具体的なインストール方法については[Railsチュートリアル 1.2 さっそく動作させる](http://railstutorial.jp/chapters/beginning?version=4.0#sec-up_and_running)を参照してください)
 
 ```bash
 $ ruby -v
-ruby 2.3.0p0
+ruby 2.3.1p112
 ```
 
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095513
+-->
 自分のPC環境にRubyがインストールされていない場合は、[ruby-lang.org](https://www.ruby-lang.org/ja/installation/) を参照して、自分の環境に合うインストール方法を参照してください。
 
 
 
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095532
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095555
+-->
 多くのUnix系OSには実用的なバージョンのSQLite3が同梱されています。 Windowsユーザーなどその他の環境の方は[SQLite3](http://www.sqlite.org)のインストール方法を参照してください。
 正しくインストールされていること、PATH環境変数が正しく通っていることを確認してください。
 
@@ -91,7 +98,7 @@ $ gem install rails
 $ rails --version
 ```
 
-"Rails 5.0.0"のように表示されれば、次に進むことができます。
+"Rails 5.1.1"のように表示されれば、次に進むことができます。
 
 ### ブログアプリケーションを作成する
 
@@ -105,6 +112,10 @@ $ rails new blog
 
 これにより、Blogという名前のRails アプリケーションが`blog`ディレクトリに作成され、`Gemfile`というファイルで指定されているgemファイルが`bundle install`コマンドによってインストールされます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095572
+-->
+
 TIP: `rails new -h`を実行すると、Railsアプリケーションビルダで使用できるすべてのコマンドラインオプションを確認できます。
 
 ブログアプリケーションを作成したら、そのフォルダ内に移動します。
@@ -115,21 +126,26 @@ $ cd blog
 
 `blog`ディレクトリの下には多数のファイルやフォルダが生成されており、これらがRailsアプリケーションを構成しています。このチュートリアルではほとんどの作業を`app`ディレクトリで行いますが、Railsが生成したファイルとフォルダについてここで簡単に説明しておきます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095600
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095632
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095641
+-->
 | ファイル/フォルダ | 目的 |
 | ----------- | ------- |
-|app/|ここにはアプリケーションのコントローラ、モデル、ビュー、ヘルパー、メイラー、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
-|bin/|ここにはアプリケーションを起動したりデプロイしたりするためのRailsスクリプトなどのスクリプトファイルが置かれます。|
+|app/|ここにはアプリケーションのコントローラ、モデル、ビュー、ヘルパー、メイラー、チェンネル、ジョブズ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
+|bin/|ここにはアプリケーションを起動したり、アップデートしたり、デプロイしたりするためのRailsスクリプトなどのスクリプトファイルが置かれます。|
 |config/|アプリケーションの設定ファイル (ルーティング、データベースなど) がここに置かれます。詳細については[Railsアプリケーションを設定する](configuring.html) を参照してください。|
 |config.ru|アプリケーションの起動に必要となる、Rackベースのサーバー用のRack設定ファイルです。|
 |db/|現時点のデータベーススキーマと、データベースマイグレーションファイルが置かれます。|
-|Gemfile<br>Gemfile.lock|これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルはBundler gemで使用されます。Bundlerの詳細については[BundlerのWebサイト](http://bundler.io/)を参照してください。
+|Gemfile<br>Gemfile.lock|これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルはBundler gemで使用されます。Bundlerの詳細については[BundlerのWebサイト](https://bundler.io/)を参照してください。
 |lib/|アプリケーションで使用する拡張モジュールが置かれます。|
 |log/|アプリケーションのログファイルが置かれます。|
 |public/|このフォルダの下にあるファイルは外部 (インターネット) からそのまま参照できます。静的なファイルやコンパイル済みアセットはここに置きます。|
-|Rakefile|このファイルには、コマンドラインから実行できるタスクを記述します。ここでのタスク定義は、Rails全体のコンポーネントに対して定義されます。独自のRakeタスクを定義したい場合は、Rakefileに直接書くと権限が強すぎるので、なるべくlib/tasksフォルダの下にRake用のファイルを追加するようにしてください。|
-|README.rdoc|アプリケーションの概要を説明するマニュアルをここに記入します。このファイルにはアプリケーションの設定方法などを記入し、これさえ読めば誰でもアプリケーションを構築できるようにしておく必要があります。|
+|Rakefile|このファイルには、コマンドラインから実行できるタスクを記述します。ここでのタスク定義は、Rails全体のコンポーネントに対して定義されます。独自のRakeタスクを定義したい場合は、`Rakefile`に直接書くと権限が強すぎるので、なるべく`lib/tasks`フォルダの下にRake用のファイルを追加するようにしてください。|
+|README.md|アプリケーションの概要を説明するマニュアルをここに記入します。このファイルにはアプリケーションの設定方法などを記入し、これさえ読めば誰でもアプリケーションを構築できるようにしておく必要があります。|
 |test/|Unitテスト、フィクスチャなどのテスト関連ファイルをここに置きます。テストについては[Railsアプリケーションをテストする](testing.html)を参照してください。|
-|tmp/|キャッシュ、pid、セッションファイルなどの一時ファイルが置かれます。|
+|tmp/|キャッシュ、pidなどの一時ファイルが置かれます。|
 |vendor/|サードパーティによって書かれたコードはすべてここに置きます。通常のRailsアプリケーションの場合、外部からのgemファイルをここに置きます。|
 
 Hello, Rails!
@@ -145,15 +161,15 @@ Hello, Rails!
 $ rails server
 ```
 
-TIP: CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。Mac OS XやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`therubyracer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムの詳細については[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
+TIP: CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。macOSやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`mini_racer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムの詳細については[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
 
-Railsで起動されるWebサーバーは、Rubyにデフォルトで付属しているWEBrickです。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <http://localhost:3000> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
+Railsで起動されるWebサーバーは、Railsにデフォルトで付属しているPumaです。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <http://localhost:3000> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
 
 ![Welcome画面のスクリーンショット](images/getting_started/rails_welcome.png)
 
-TIP: Webサーバーを停止するには、実行されているターミナルのウィンドウでCtrl + Cキーを押します。コマンドプロンプトのカーソルがふたたび表示されれば、サーバーは停止しています。Mac OS Xを含む多くのUnix系OSではプロンプトとしてドル記号`$`が使用されます。一般に、Railsの開発モードではファイルに変更を加えた場合でもサーバーを再起動する必要はありません。ファイルの変更は自動的にサーバーに反映されます(訳注: libファイルやapplication.rbなど一部の設定ファイルなどはサーバーを再起動しないと読み込まれません)。
+TIP: Webサーバーを停止するには、実行されているターミナルのウィンドウでCtrl + Cキーを押します。コマンドプロンプトのカーソルがふたたび表示されれば、サーバーは停止しています。macOSを含む多くのUnix系OSではプロンプトとしてドル記号`$`が使用されます。一般に、Railsの開発モードではファイルに変更を加えた場合でもサーバーを再起動する必要はありません。ファイルの変更は自動的にサーバーに反映されます(訳注: libファイルやapplication.rbなど一部の設定ファイルなどはサーバーを再起動しないと読み込まれません)。
 
-Railsの初期画面である「Welcome aboard」ページは、新しいRailsアプリケーションの _スモークテスト_ として使えます。このページが表示されれば、サーバーが正常に動作していることまでは確認できたことになります。 _About your application's environment_ リンクをクリックすれば、アプリケーション環境の概要を確認できます。
+Railsの初期画面である「Welcome aboard」ページは、新しいRailsアプリケーションの _スモークテスト_ として使えます。このページが表示されれば、サーバーが正常に動作していることまでは確認できたことになります。
 
 ### Railsに"Hello"と挨拶させる
 
@@ -163,10 +179,10 @@ Railsに"Hello"と表示するには、最低でも _コントローラ_ と _�
 
 ビューの役割は、この情報をユーザーが読める形式で表示することです。ここで気を付けていただきたい重要な違いは、表示する情報を集めるのは _コントローラ_ であって、ビューではないということです。ビューは、コントローラが作成した情報に対して余計なことをせずに表示する必要があります。ビューテンプレートで使用できる言語は、デフォルトではeRuby (ERBとも、Embedded Rubyとも呼ばれます) が使用されます (訳注: 近年はhamlテンプレートがよく使われます)。ERBで書かれたコードは、ユーザーに表示される前のリクエストサイクルでRailsによって処理されます。
 
-コントローラを新規作成するには、コントローラ用のジェネレータを実行します。ここでは以下のように、welcomeという名前のコントローラの中にindexというアクションを作成するよう指定します。
+コントローラを新規作成するには、コントローラ用のジェネレータを実行します。ここでは以下のように、Welcomeという名前のコントローラの中にindexというアクションを作成するよう指定します。
 
 ```bash
-$ rails generate controller welcome index
+$ rails generate controller Welcome index
 ```
 
 Railsは指定どおりコントローラを作成し、関連ファイルやルーティングも設定してくれます。
@@ -182,12 +198,11 @@ create    test/controllers/welcome_controller_test.rb
 invoke  helper
 create    app/helpers/welcome_helper.rb
 invoke    test_unit
-create      test/helpers/welcome_helper_test.rb
 invoke  assets
 invoke    coffee
-create      app/assets/javascripts/welcome.js.coffee
+create      app/assets/javascripts/welcome.coffee
 invoke    scss
-create      app/assets/stylesheets/welcome.css.scss
+create      app/assets/stylesheets/welcome.scss
 ```
 
 この中でもっとも重要なのはもちろんコントローラです。welcomeコントローラは`app/controllers/welcome_controller.rb`に作成され、対応するindexビューが`app/views/welcome/index.html.erb`に作成されます。
@@ -210,22 +225,24 @@ Railsで表示させたい実際のホームページの場所を指定します
 Rails.application.routes.draw do
   get 'welcome/index'
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-  #
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-  #
-  # ...
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+end
 ```
 
-上はアプリケーションの _ルーティングファイル_ の内容です。外部からのリクエストをどのようにコントローラとアクションに振り分けるかを、DSL (ドメイン特化言語: domain-specific language) という特殊な言語を使用してこのファイル内に記述します。デフォルトのconfig/routes.rbには多数のルーティングサンプルがコメント行に記載されており、そのうちの1つに、サイトのルートにアクセスがあったときに接続するコントローラとアクションを指定する方法が書かれています。`root`で始まっている行を見つけ、コメント記号を外してください。以下のようになるはずです。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095807
+-->
+上はアプリケーションの _ルーティングファイル_ の内容です。外部からのリクエストをどのようにコントローラとアクションに振り分けるかを、[DSL (ドメイン特化言語: domain-specific language)](https://en.wikipedia.org/wiki/Domain-specific_language)という特殊な言語を使用してこのファイル内に記述します。デフォルトのconfig/routes.rbには多数のルーティングサンプルがコメント行に記載されており、そのうちの1つに、サイトのルートにアクセスがあったときに接続するコントローラとアクションを指定する方法が書かれています。`root`で始まっている行を見つけ、コメント記号を外してください。以下のようになるはずです。
 
 ```ruby
-root 'welcome#index'
+Rails.application.routes.draw do
+  get 'welcome/index'
+
+  root 'welcome#index'
+end
 ```
 
-`root 'welcome#index'`と記述することで、アプリケーションのルートURLへのアクセスをwelcomeコントローラのindexアクションに割り当てるようRailsに指示が伝わります。同様に、`get 'welcome/index'`は<http://localhost:3000/welcome/index>というリクエストをwelcomeコントローラのindexアクションに割り当てます。後者は先ほどコントローラ用ジェネレータ (`rails generate controller welcome index`) を実行した時に自動的に作成されています。
+`root 'welcome#index'`と記述することで、アプリケーションのルートURLへのアクセスをwelcomeコントローラのindexアクションに割り当てるようRailsに指示が伝わります。同様に、`get 'welcome/index'`は<http://localhost:3000/welcome/index>というリクエストをwelcomeコントローラのindexアクションに割り当てます。後者は先ほどコントローラ用ジェネレータ (`rails generate controller Welcome index`) を実行した時に自動的に作成されています。
 
 ブラウザで<http://localhost:3000>を表示してみましょう (ジェネレータを実行するためにRailsを止めていた場合は`rails server`を再実行してください)。`app/views/welcome/index.html.erb`の中に書いた"Hello, Rails!"という文字がブラウザ上に表示されるはずです。`WelcomeController`の`index`アクションへのルーティングが新たに形成され、ビューが正しく表示されたことがこれで確認できました。
 
@@ -239,10 +256,14 @@ TIP: ルーティングの詳細については[Railsのルーティング](rout
 今度はBlogアプリケーションに新しく _リソース_ を作成します。ここで言う「リソース」とは、記事、人、動物などのよく似たオブジェクト同士が集まったものを指します。
 リソースに対して作成 (create)、読み出し (read)、更新 (update)、削除 (destroy) の4つの操作を行なうことができるようになっており、これらの操作の頭文字を取って _CRUD_ と呼ばれます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27095890
+-->
 Railsのルーティングには`resources`メソッドがあり、これを使用してRESTリソースへの標準的なルーティングを宣言できます (訳注: RESTについては[Wikipedia](http://ja.wikipedia.org/wiki/REST)を参照してください)。たとえば`config/routes.rb`で _articleリソース_ を宣言すると以下のようになります。
 
 ```ruby
 Rails.application.routes.draw do
+  get 'welcome/index'
 
   resources :articles
 
@@ -254,16 +275,17 @@ end
 
 ```bash
 $ bin/rails routes
-      Prefix Verb   URI Pattern                  Controller#Action
-    articles GET    /articles(.:format)          articles#index
-             POST   /articles(.:format)          articles#create
- new_article GET    /articles/new(.:format)      articles#new
-edit_article GET    /articles/:id/edit(.:format) articles#edit
-     article GET    /articles/:id(.:format)      articles#show
-             PATCH  /articles/:id(.:format)      articles#update
-             PUT    /articles/:id(.:format)      articles#update
-             DELETE /articles/:id(.:format)      articles#destroy
-        root GET    /                            welcome#index
+       Prefix Verb   URI Pattern                  Controller#Action
+welcome_index GET    /welcome/index(.:format)     welcome#index
+     articles GET    /articles(.:format)          articles#index
+              POST   /articles(.:format)          articles#create
+  new_article GET    /articles/new(.:format)      articles#new
+ edit_article GET    /articles/:id/edit(.:format) articles#edit
+      article GET    /articles/:id(.:format)      articles#show
+              PATCH  /articles/:id(.:format)      articles#update
+              PUT    /articles/:id(.:format)      articles#update
+              DELETE /articles/:id(.:format)      articles#destroy
+         root GET    /                            welcome#index
 ```
 
 次の節では、アプリケーションで新しい記事を作成してそれを表示する機能を追加しましょう。これはCRUDでいう"C" (作成) と"R" (読み出し) の操作に相当します。作成するフォームは以下のような感じになります。
@@ -281,7 +303,7 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
 このエラーが発生したのは、ルーティングで指定された先に、リクエストを処理するように定義されたコントローラが見つからないためです。この問題を解決するには、それに対応する`ArticlesController`を作成すればよいのです。以下のコマンドを実行して解決します。
 
 ```bash
-$ rails g controller articles
+$ rails g controller Articles
 ```
 
 今作成された`app/controllers/articles_controller.rb`をエディタで開くと、以下のような空のコントローラが作成されています。
@@ -317,7 +339,7 @@ Railsでは、このシンプルなアクションに関連付けられたビュ
 なお、上の画像ではエラーメッセージの下の部分は切り捨ててあります。完全なメッセージは以下のような感じになります。
 
 <blockquote>
-Missing template articles/new, application/new with {locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}. Searched in: * "/path/to/blog/app/views"
+ArticlesController#new is missing a template for this request format and variant. request.formats: ["text/html"] request.variant: [] NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not… nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
 </blockquote>
 
 何だかたくさんのテキストが表示されました。それぞれの部分がどういう意味なのかを見てみましょう。
