@@ -1431,6 +1431,7 @@ end
 * `collection.build(attributes = {}, ...)`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
+* `collection.reload`
 
 上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
 
@@ -1459,10 +1460,13 @@ books.exists?(...)
 books.build(attributes = {}, ...)
 books.create(attributes = {})
 books.create!(attributes = {})
+books.reload
 ```
 
 ##### `collection`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27092427
+-->
 `collection`メソッドは、関連付けられたすべてのオブジェクトの配列を返します。関連付けられたオブジェクトがない場合は、空の配列を1つ返します。
 
 ```ruby
