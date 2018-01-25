@@ -10,7 +10,7 @@ Rails コア開発環境の構築方法
 
 * 自分のPCをRails開発用にセットアップする方法
 * Railsのテストスイートの中から特定のグループを実行する方法
-* RailsテストスイートのうちActiveRecordに関する部分の動作
+* RailsテストスイートのうちActive Recordに関する部分の動作
 
 --------------------------------------------------------------------------------
 
@@ -26,13 +26,12 @@ Rails development boxを利用できない事情がある場合は、この先�
 
 ### Gitをインストールする
 
-Ruby on Railsではソースコード管理にGitを使用しています。インストール方法については[Gitホームページ](http://git-scm.com/)に記載されています。Gitを学ぶための資料はネット上に山ほどあります (特記ないものは英語)。
+Ruby on Railsではソースコード管理にGitを使用しています。インストール方法については[Gitホームページ](https://git-scm.com/)に記載されています。Gitを学ぶための資料はネット上に山ほどあります (特記ないものは英語)。
 
-* [Try Git course](http://try.github.io/)は、対話的な操作のできるコースで基礎を学べます。
-* [Git公式ドキュメント](http://git-scm.com/documentation)には多くの情報がまとめられており、Gitの基礎を学べる動画もあります。
-* [Everyday Git](http://schacon.github.io/git/everyday.html)は最小限必要なGitの知識を学ぶのに向いています。
-* [PeepCode screencast](https://peepcode.com/products/git)のGitのページは学びやすいスクリーンキャストです。
-* [GitHub](http://help.github.com)にはさまざまなGit関連リソースへのリンクがあります。
+* [Try Git course](https://try.github.io/)は、対話的な操作のできるコースで基礎を学べます。
+* [Git公式ドキュメント](https://git-scm.com/documentation)には多くの情報がまとめられており、Gitの基礎を学べる動画もあります。
+* [Everyday Git](https://schacon.github.io/git/everyday.html)は最小限必要なGitの知識を学ぶのに向いています。
+* [GitHub](https://help.github.com)にはさまざまなGit関連リソースへのリンクがあります。
 * [Pro Git日本語版](https://progit-ja.github.io/)ではGitについてすべてをカバーした書籍がさまざまな形式で翻訳されており、クリエイティブ・コモンズ・ライセンスで公開されています。
 
 ### Ruby on Railsリポジトリをクローンする
@@ -40,7 +39,7 @@ Ruby on Railsではソースコード管理にGitを使用しています。イ�
 Ruby on Railsのソースコードを置きたいディレクトリ (そこに`rails`ディレクトリが作成されます) で以下を実行します。
 
 ```bash
-$ git clone git://github.com/rails/rails.git
+$ git clone https://github.com/rails/rails.git
 $ cd rails
 ```
 
@@ -48,7 +47,7 @@ $ cd rails
 
 リポジトリに送信されるコードは、テストスイートにパスしなければなりません。自分でパッチを書いた場合や、他の人が書いたパッチを詳しく評価する場合にも、テストを実行できるようにしておく必要があります。
 
-最初にSQLite3をインストールし、`sqlite3` gem用のSQLite3開発ファイルもインストールします。Mac OS Xの場合は以下を実行します。
+最初にSQLite3をインストールし、`sqlite3` gem用のSQLite3開発ファイルもインストールします。macOSの場合は以下を実行します。
 
 ```bash
 $ brew install sqlite3
@@ -57,7 +56,7 @@ $ brew install sqlite3
 Ubuntuなら以下で行えます。
 
 ```bash
-$ sudo apt-get install sqlite3 libsqlite3-dev
+$ sudo apt-get install libsqlite3x libsqlite3x-devel
 ```
 
 FedoraやCentOSの場合は以下を実行します。
@@ -80,7 +79,7 @@ FreeBSDの場合は以下を実行します。
 
 あるいは`databases/sqlite3`のportsをコンパイルします。
 
-[Bundler](http://bundler.io/)の最新バージョンを入手します。
+[Bundler](https://bundler.io/)の最新バージョンを入手します。
 
 ```bash
 $ gem install bundler
@@ -97,7 +96,7 @@ $ bundle install --without db
 
 NOTE: memcachedを使用するテストを実行したい場合は、memcachedがインストールされ、実行可能であることを確認する必要があります。
 
-OS Xの場合、[Homebrew](http://brew.sh/)を使用してmemcachedをインストールできます。
+macOSの場合、[Homebrew](https://brew.sh/)を使用してmemcachedをインストールできます。
 
 ```bash
 $ brew install memcached
@@ -163,6 +162,10 @@ $ cd actionpack
 $ bundle exec ruby -Itest path/to/test.rb -n test_name
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1c85afdff9f24b3b4281149282fd5b95a93db3b1#r27091860
+-->
+
 ### Active Recordをセットアップする
 
 Active Recordのテストスイートの実行は4回試みられます。SQLite3で1回、MySQLの2つのgem(`mysql`と`mysql2`)でそれぞれ1回、PostgreSQLで1回です。それぞれについて環境構築方法を解説します。
@@ -177,7 +180,7 @@ Active Recordテストスイートでは、`activerecord/test/config.yml`とい�
 
 MySQLとPostgreSQLに対してテストスイートを実行できるようにするには、そのためのgemも必要です。最初にサーバーをインストールし、次にクライアントライブラリをインストール、そして開発用ファイルをインストールします。
 
-OS Xの場合、以下を実行できます。
+macOSの場合、以下を実行できます。
 
 ```bash
 $ brew install mysql
@@ -189,7 +192,7 @@ $ brew install postgresql
 Ubuntuの場合は以下を実行します。
 
 ```bash
-$ sudo apt-get install mysql-server libmysqlclient15-dev
+$ sudo apt-get install mysql-server libmysqlclient-dev
 $ sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 ```
 
@@ -197,7 +200,7 @@ FedoraやCentOSの場合は以下を実行します。
 
 ```bash
 $ sudo yum install mysql-server mysql-devel
-$ sudo yum install postgresql-server postgresql-devel
+$ sudo yum install postgresql94-server postgresql94-devel
 ```
 
 Arch LinuxではMySQLがサポート対象外になったため、MariaDBを代わりに使用します (詳細は[MariaDB replaces MySQL in repositories](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)を参照)。
@@ -253,7 +256,7 @@ PostgreSQLでは認証方法が異なります。LinuxやBSDでdevelop環境にd
 $ sudo -u postgres createuser --superuser $USER
 ```
 
-OS Xの場合は以下を実行します。
+macOSの場合は以下を実行します。
 
 ```bash
 $ createuser --superuser $USER
@@ -280,8 +283,12 @@ $ cd activerecord
 $ bundle exec rake db:drop
 ```
 
-NOTE: testデータベースの作成にはrake タスクを使用してください。これにより、文字セットと照合順序が正しく設定されます。
+NOTE: testデータベースの作成にはRake タスクを使用してください。これにより、文字セットと照合順序が正しく設定されます。
 
 NOTE: PostgreSQL 9.1.x 以前のHStore拡張機能を有効にしようとすると次のような警告 (メッセージはローカライズされることもあります) が表示されます: 「WARNING: => is deprecated as an operator」
 
 他のデータベースを採用する場合は、`activerecord/test/config.yml`や`activerecord/test/config.example.yml`にデフォルトの接続情報があることをチェックしてください。必要であれば`activerecord/test/config.yml`を編集して、認証情報を別のものに変更することもできます。ただし、この臨時の認証情報をRailsのリポジトリに反映しないよう気を付けてください。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/1c85afdff9f24b3b4281149282fd5b95a93db3b1#r27091904
+-->
