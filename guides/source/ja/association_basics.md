@@ -1628,7 +1628,9 @@ end
 `:as`オプションを設定すると、ポリモーフィック関連付けであることが指定されます。([このガイドの説明](#ポリモーフィック関連付け)を参照)
 
 ##### `:autosave`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27095569
+-->
 `:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
 
 ##### `:class_name`
