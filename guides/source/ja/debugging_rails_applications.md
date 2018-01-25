@@ -55,6 +55,9 @@ Title: Rails debugging guide
 
 ### `to_yaml`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088471
+-->
 インスタンス変数や、その他のあらゆるオブジェクトやメソッドをYAML形式で表示します。以下のような感じで使用します。
 
 ```html+erb
@@ -65,6 +68,9 @@ Title: Rails debugging guide
 </p>
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088486
+-->
 `to_yaml`メソッドは、メソッドをYAML形式に変換して読みやすくし、`simple_format`ヘルパーは出力結果をコンソールのように行ごとに改行します。これが`debug`メソッドのマジックです。
 
 これにより、以下のような結果がビューに表示されます。
@@ -112,18 +118,18 @@ Title: Rails debugging guide
 
 Railsは`ActiveSupport::Logger`クラスを利用してログ情報を出力します。必要に応じて、`Log4r`など別のロガーに差し替えることもできます。
 
-別のロガーの指定は、`environment.rb`または環境ごとの設定ファイルで行います。
+別のロガーの指定は、`config/application.rb`または環境ごとの設定ファイルで行います。
 
 ```ruby
-Rails.logger = Logger.new(STDOUT)
-Rails.logger = Log4r::Logger.new("Application Log")
+config.logger = Logger.new(STDOUT)
+config.logger = Log4r::Logger.new("Application Log")
 ```
 
 あるいは、`Initializer`セクションに以下の _いずれか_ を追加します。
 
 ```ruby
-config.logger = Logger.new(STDOUT)
-config.logger = Log4r::Logger.new("Application Log")
+Rails.logger = Logger.new(STDOUT)
+Rails.logger = Log4r::Logger.new("Application Log")
 ```
 
 TIP: ログの保存場所は、デフォルトでは`Rails.root/log/`になります。ログのファイル名は、アプリケーションが実行されるときの環境 (development/test/productionなど) が使用されます。
@@ -160,41 +166,42 @@ logger.fatal "Terminating application, raised unrecoverable error!!!"
   # ...
 
   def create
-    @article = Article.new(params[:article])
+    @article = Article.new(article_params)
     logger.debug "新しい記事: #{@article.attributes.inspect}"
     logger.debug "記事が正しいかどうか: #{@article.valid?}"
 
     if @article.save
       flash[:notice] =  'Article was successfully created.'
       logger.debug "記事は正常に保存され、ユーザーをリダイレクト中..."
-      redirect_to(@article)
+      redirect_to @article, notice: 'Article was successfully created.'
     else
-      render action: "new"
+      render :new
     end
   end
 
   # ...
+  
+  private
+    def article_params
+      params.require(:article).permit(:title, :body, :published)
+    end
 end
 ```
 
 上のコントローラのアクションを実行すると、以下のようなログが生成されます。
 
 ``` 
-Processing ArticlesController#create (for 127.0.0.1 at 2008-09-08 11:52:54) [POST]
-  Session ID: BAh7BzoMY3NyZl9pZCIlMDY5MWU1M2I1ZDRjODBlMzkyMWI1OTg2NWQyNzViZjYiCmZsYXNoSUM6J0FjdGl
-vbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA=--b18cd92fba90eacf8137e5f6b3b06c4d724596a4
-  Parameters: {"commit"=>"Create", "article"=>{"title"=>"Debugging Rails",
-"body"=>"I'm learning how to print in logs!!!", "published"=>"0"},
-"authenticity_token"=>"2059c1286e93402e389127b1153204e0d1e275dd", "action"=>"create", "controller"=>"articles"}
-新しい記事: {"updated_at"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!",
-"published"=>false, "created_at"=>nil}
+Started POST "/articles" for 127.0.0.1 at 2017-08-20 20:53:10 +0900
+Processing by ArticlesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"xhuIbSBFytHCE1agHgvrlKnSVIOGD6jltW2tO+P6a/ACjQ3igjpV4OdbsZjIhC98QizWH9YdKokrqxBCJrtoqQ==", "article"=>{"title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!", "published"=>"0"}, "commit"=>"Create Article"}
+New article: {"id"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!", "published"=>false, "created_at"=>nil, "updated_at"=>nil}
 記事が正しいかどうか: true
-  Article Create (0.000443)   INSERT INTO "articles" ("updated_at", "title", "body", "published",
-"created_at") VALUES('2008-09-08 14:52:54', 'Debugging Rails',
-'I''m learning how to print in logs!!!', 'f', '2008-09-08 14:52:54')
+   (0.1ms)  BEGIN
+ SQL (0.4ms)  INSERT INTO "articles" ("title", "body", "published", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["title", "Debugging Rails"], ["body", "I'm learning how to print in logs!!!"], ["published", "f"], ["created_at", "2017-08-20 11:53:10.010435"], ["updated_at", "2017-08-20 11:53:10.010435"]]
+   (0.3ms)  COMMIT
 記事は正常に保存され、ユーザーをリダイレクト中...
-Redirected to # Article:0x20af760>
-Completed in 0.01224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localhost/articles]
+Redirected to http://localhost:3000/articles/1
+Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
 ```
 
 このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが意味のない大量のメッセージでうずまることのないよう、適切なログレベルを使用するようにしてください。
@@ -211,6 +218,9 @@ logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "
 ```
 
 ### ログがパフォーマンスに与える影響
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088720
+-->
 ログ出力がRailsアプリのパフォーマンスに与える影響は常にわずかです。ログをディスクに保存する場合は特にそうです。ただし、場合によってはそうとは言い切れないことがあります。
 
 ログレベル`:debug`は、`:fatal`と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。
@@ -285,16 +295,15 @@ end
 以下に例を示します。
 
 ```bash
-=> Booting WEBrick
-=> Rails 5.0.0 application starting in development on http://0.0.0.0:3000
+=> Booting Puma
+=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
 => Run `rails server -h` for more startup options
-=> Notice: server is listening on all interfaces (0.0.0.0). Consider using 127.0.0.1 (--binding option)
-=> Ctrl-C to shutdown server
-[2014-04-11 13:11:47] INFO  WEBrick 1.3.1
-[2014-04-11 13:11:47] INFO  ruby 2.1.1 (2014-02-24) [i686-linux]
-[2014-04-11 13:11:47] INFO  WEBrick::HTTPServer#start: pid=6370 port=3000
-
-
+Puma starting in single mode...
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://localhost:3000
+Use Ctrl-C to stop
 Started GET "/" for 127.0.0.1 at 2014-04-11 13:11:48 +0200
   ActiveRecord::SchemaMigration Load (0.2ms)  SELECT "schema_migrations".* FROM "schema_migrations"
 Processing by ArticlesController#index as HTML
@@ -314,21 +323,52 @@ Processing by ArticlesController#index as HTML
 (byebug)
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088834
+-->
 それではアプリケーションの奥深くにダイブしてみましょう。まずはデバッガーのヘルプを表示してみるのがよいでしょう。`help`と入力します。
 
 ``` 
 (byebug) help
+  break      -- Sets breakpoints in the source code
+  catch      -- Handles exception catchpoints
+  condition  -- Sets conditions on breakpoints
+  continue   -- Runs until program ends, hits a breakpoint or reaches a line
+  debug      -- Spawns a subdebugger
+  delete     -- Deletes breakpoints
+  disable    -- Disables breakpoints or displays
+  display    -- Evaluates expressions every time the debugger stops
+  down       -- Moves to a lower frame in the stack trace
+  edit       -- Edits source files
+  enable     -- Enables breakpoints or displays
+  finish     -- Runs the program until frame returns
+  frame      -- Moves to a frame in the call stack
+  help       -- Helps you using byebug
+  history    -- Shows byebug's history of commands
+  info       -- Shows several informations about the program being debugged
+  interrupt  -- Interrupts the program
+  irb        -- Starts an IRB session
+  kill       -- Sends a signal to the current process
+  list       -- Lists lines of source code
+  method     -- Shows methods of an object, class or module
+  next       -- Runs one or more lines of code
+  pry        -- Starts a Pry session
+  quit       -- Exits byebug
+  restart    -- Restarts the debugged program
+  save       -- Saves current byebug session to a file
+  set        -- Modifies byebug settings
+  show       -- Shows byebug settings
+  source     -- Restores a previously saved byebug session
+  step       -- Steps into blocks or methods one or more times
+  thread     -- Commands to manipulate threads
+  tracevar   -- Enables tracing of a global variable
+  undisplay  -- Stops displaying all or some expressions when program stops
+  untracevar -- Stops tracing a global variable
+  up         -- Moves to a higher frame in the stack trace
+  var        -- Shows variables and its values
+  where      -- Displays the backtrace
 
-byebug 2.7.0
-
-Type 'help <command-name>' for help on a specific command
-
-Available commands:
-backtrace  delete   enable  help       list    pry next  restart  source     up
-break      disable  eval    info       method  ps        save     step       var
-catch      display  exit    interrupt  next    putl      set      thread
-condition  down     finish  irb        p       quit      show     trace
-continue   edit     frame   kill       pp      reload    skip     undisplay
+(byebug)
 ```
 
 TIP: 個別のコマンドのヘルプを表示するには、デバッガーのプロンプトで`help <コマンド名>`と入力します。（例: _`help list`_）デバッグ用コマンドは、他のコマンドと区別できる程度に短縮できます。たとえば`list`コマンドの代わりに`l`と入力することもできます。
@@ -348,8 +388,7 @@ TIP: 個別のコマンドのヘルプを表示するには、デバッガーの
    7      byebug
    8      @articles = Article.find_recent
    9
-   10      respond_to do |format|
-
+   10     respond_to do |format|
 ```
 
 上に示したように、該当のファイルに移動して、`byebug`呼び出しを追加した行の前を表示できます。最後に、`list=`と入力して現在の位置を再び表示してみましょう。
@@ -368,7 +407,6 @@ TIP: 個別のコマンドのヘルプを表示するには、デバッガーの
    10:     respond_to do |format|
    11:       format.html # index.html.erb
    12:       format.json { render json: @articles }
-
 (byebug)
 ```
 
@@ -376,6 +414,9 @@ TIP: 個別のコマンドのヘルプを表示するには、デバッガーの
 
 アプリケーションのデバッグ中は、通常と異なる「コンテキスト」に置かれます。具体的には、スタックの別の部分を通って進むコンテキストです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27089010
+-->
 デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を使用して、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行います。また、デバッグ中のプログラムが停止している位置の情報もコンテキストに含まれます。
 
 `backtrace`コマンド (またはそのエイリアスである`where`コマンド) を使用すれば、いつでもアプリケーションのバックトレースを出力できます。これは、コードのその位置に至るまでの経過を知るうえで非常に便利です。コードのある行にたどりついたとき、その経緯を知りたければ`backtrace`でわかります。
