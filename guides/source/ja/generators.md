@@ -89,13 +89,15 @@ $ bin/rails generate generator initializer
       create  lib/generators/initializer/initializer_generator.rb
       create  lib/generators/initializer/USAGE
       create  lib/generators/initializer/templates
+      invoke  test_unit
+      create    test/lib/generators/initializer_generator_test.rb
 ```
 
 上で作成したジェネレータの内容は以下のとおりです。
 
 ```ruby
 class InitializerGenerator < Rails::Generators::NamedBase
-  source_root File.expand_path("../templates", __FILE__)
+  source_root File.expand_path('templates', __dir__)
 end
 ```
 
@@ -121,7 +123,7 @@ Usage:
 
 ```ruby
 class InitializerGenerator < Rails::Generators::NamedBase
-  source_root File.expand_path("../templates", __FILE__)
+  source_root File.expand_path('templates', __dir__)
 
   def copy_initializer_file
     copy_file "initializer.rb", "config/initializers/#{file_name}.rb"
@@ -196,17 +198,23 @@ $ bin/rails generate scaffold User name:string
       invoke    jbuilder
       create      app/views/users/index.json.jbuilder
       create      app/views/users/show.json.jbuilder
+      invoke  test_unit
+      create    test/application_system_test_case.rb
+      create    test/system/users_test.rb
       invoke  assets
       invoke    coffee
-      create      app/assets/javascripts/users.js.coffee
+      create      app/assets/javascripts/users.coffee
       invoke    scss
-      create      app/assets/stylesheets/users.css.scss
+      create      app/assets/stylesheets/users.scss
       invoke  scss
-      create    app/assets/stylesheets/scaffolds.css.scss
+      create    app/assets/stylesheets/scaffolds.scss
 ```
 
 この出力結果から、Rails 3.0以降のジェネレータの動作を容易に理解できます。実はscaffoldジェネレータ自身は何も生成していません。生成に必要なメソッドを順に呼び出しているだけです。このような仕組みになっているので、呼び出しを自由に追加/置換/削除できます。たとえば、scaffoldジェネレータはscaffold_controllerというジェネレータを呼び出しています。これはerbのジェネレータ、test_unitのジェネレータ、そしてヘルパーのジェネレータを呼び出します。ジェネレータごとに役割がひとつずつ割り当てられているので、コードを再利用しやすく、コードの重複も防げます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094626
+-->
 最初のカスタマイズとして、ワークフローでスタイルシートとJavaScriptとテストフィクスチャファイルをscaffoldで生成しないようにしてみましょう。これは、以下のように設定を変更することで行うことができます。
 
 ```ruby
@@ -229,6 +237,8 @@ $ bin/rails generate generator rails/my_helper
       create  lib/generators/rails/my_helper/my_helper_generator.rb
       create  lib/generators/rails/my_helper/USAGE
       create  lib/generators/rails/my_helper/templates
+      invoke  test_unit
+      create    test/lib/generators/rails/my_helper_generator_test.rb
 ```
 
 続いて、`templates`ディレクトリと`source_root`クラスメソッド呼び出しは使う予定がないのでジェネレータから削除します。ジェネレータにメソッドを追加して以下のようにしましょう。
@@ -402,9 +412,12 @@ $ bin/rails generate scaffold Comment body:text
       invoke    jbuilder
       create      app/views/comments/index.json.jbuilder
       create      app/views/comments/show.json.jbuilder
+      invoke  test_unit
+      create    test/application_system_test_case.rb
+      create    test/system/comments_test.rb
       invoke  assets
       invoke    coffee
-      create      app/assets/javascripts/comments.js.coffee
+      create      app/assets/javascripts/comments.coffee
       invoke    scss
 ```
 
@@ -446,6 +459,10 @@ $ rails new thud -m https://gist.github.com/radar/722911/raw/
 
 本章の最後のセクションでは、テンプレートで自由に使えるメソッドを多数紹介していますので、これを使用して自分好みのテンプレートを開発することができます。よく知られた素晴らしいアプリケーションテンプレートの数々を実際に生成する方法までは紹介しきれませんでしたが、何とぞご了承ください。これらのメソッドはジェネレータでも同じように使用できます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094692
+-->
+
 ジェネレータメソッド
 -----------------
 
@@ -471,13 +488,13 @@ gem "devise", "1.1.5"
 メソッドでこれら以外のオプションも使用する場合は、以下のように行の最後に記述します。
 
 ```ruby
-gem "devise", git: "git://github.com/plataformatec/devise", branch: "master"
+gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "master"
 ```
 
 上のコードが実行されると、`Gemfile`に以下の行が追加されます。
 
 ```ruby
-gem "devise", git: "git://github.com/plataformatec/devise", branch: "master"
+gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "master"
 ```
 
 ### `gem_group`
@@ -497,6 +514,10 @@ end
 ```ruby
 add_source "http://gems.github.com"
 ```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094728
+-->
 
 ### `inject_into_file`
 
@@ -586,7 +607,7 @@ lib "special.rb", "p Rails.root"
 
 ```ruby
 lib "super_special.rb" do
-  puts "Super special!"
+  "puts 'Super special!'"
 end
 ```
 
@@ -595,7 +616,7 @@ end
 Railsアプリケーションの`lib/tasks`ディレクトリにRakeファイルをひとつ作成します。
 
 ```ruby
-rakefile "test.rake", "hello there"
+rakefile "test.rake", 'task(:hello) { puts "Hello, there" }'
 ```
 
 このメソッドにはブロックをひとつ渡すこともできます。
@@ -647,14 +668,6 @@ rake "db:migrate"
 
 * `:env` - rakeタスクを実行するときの環境を指定します。
 * `:sudo` - rakeタスクで`sudo`を使用するかどうかを指定します。デフォルトは`false`です。
-
-### `capify!`
-
-Capistranoの`capify`コマンドをアプリケーションのルートディレクトリで実行し、Capistranoの設定を生成します。
-
-```ruby
-capify!
-```
 
 ### `route`
 
