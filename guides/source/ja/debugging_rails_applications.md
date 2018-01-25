@@ -424,33 +424,32 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 ```
 (byebug) where
 --> #0  ArticlesController.index
-      at /PathTo/project/test_app/app/controllers/articles_controller.rb:8
-    #1  ActionController::ImplicitRender.send_action(method#String, *args#Array)
-      at /PathToGems/actionpack-5.0.0/lib/action_controller/metal/implicit_render.rb:4
+      at /PathToProject/app/controllers/articles_controller.rb:8
+    #1  ActionController::BasicImplicitRender.send_action(method#String, *args#Array)
+      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/basic_implicit_render.rb:4
     #2  AbstractController::Base.process_action(action#NilClass, *args#Array)
-      at /PathToGems/actionpack-5.0.0/lib/abstract_controller/base.rb:189
-    #3  ActionController::Rendering.process_action(action#NilClass, *args#NilClass)
-      at /PathToGems/actionpack-5.0.0/lib/action_controller/metal/rendering.rb:10
+      at /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb:181
+    #3  ActionController::Rendering.process_action(action, *args)
+      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/rendering.rb:30
 ...
 ```
 
-現在のフレームは`-->`で示されます。`frame `_n_コマンド (_n_はフレーム番号) を使用すれば、トレース内のどのコンテキストにも自由に移動できます。このコマンドを実行すると、`byebug`は新しいコンテキストを表示します。
+現在のフレームは`-->`で示されます。`frame n`コマンド (_n_はフレーム番号) を使用すれば、トレース内のどのコンテキストにも自由に移動できます。このコマンドを実行すると、`byebug`は新しいコンテキストを表示します。
 
 ```
 (byebug) frame 2
 
-[184, 193] in /PathToGems/actionpack-5.0.0/lib/abstract_controller/base.rb
-   184:       # is the intended way to override action dispatching.
-   185:       #
-   186:       # Notice that the first argument is the method to be dispatched
-   187:       # which is *not* necessarily the same as the action name.
-   188:       def process_action(method_name, *args)
-=> 189:         send_action(method_name, *args)
-   190:       end
-   191:
-   192:       # Actually call the method associated with the action. Override
-   193:       # this method if you wish to change how action methods are called,
-
+[176, 185] in /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb
+   176:       # is the intended way to override action dispatching.
+   177:       #
+   178:       # Notice that the first argument is the method to be dispatched
+   179:       # which is *not* necessarily the same as the action name.
+   180:       def process_action(method_name, *args)
+=> 181:         send_action(method_name, *args)
+   182:       end
+   183:
+   184:       # Actually call the method associated with the action. Override
+   185:       # this method if you wish to change how action methods are called,
 (byebug)
 ```
 
@@ -464,10 +463,13 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 
 * `thread`は現在のスレッドを表示します。
 * `thread list`はすべてのスレッドのリストをステータス付きで表示します。現在実行中のスレッドは「+」記号と数字で示されます。
-* `thread stop `_n_ はスレッド _n_ を停止します。
-* `thread resume `_n_ はスレッド _n_ を再開します。
-* `thread switch `_n_ は現在のスレッドコンテキストを _n_ に切り替えます。
+* `thread stop n`はスレッド _n_ を停止します。
+* `thread resume n`はスレッド _n_ を再開します。
+* `thread switch n`は現在のスレッドコンテキストを _n_ に切り替えます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27090891
+-->
 このコマンドは他の場合にも非常に便利です。同時実行スレッドのデバッグ中に、競合状態が発生していないかどうかを確認する必要がある場合にも使えます。
 
 ### 変数の検査
@@ -490,7 +492,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
    12:       format.json { render json: @articles }
 
 (byebug) instance_variables
-[:@_action_has_layout, :@_routes, :@_headers, :@_status, :@_request, :@_response, :@_env, :@_prefixes, :@_lookup_context, :@_action_name, :@_response_body, :@marked_for_same_origin_verification, :@_config]
+[:@_action_has_layout, :@_routes, :@_request, :@_response, :@_lookup_context,
+ :@_action_name, :@_response_body, :@marked_for_same_origin_verification,
+ :@_config]
 ```
 
 見ての通り、コントローラからアクセスできるすべての変数が表示されています。表示される変数リストは、コードの実行に伴って動的に更新されます。
@@ -498,14 +502,15 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 
 ```
 (byebug) next
+
 [5, 14] in /PathTo/project/app/controllers/articles_controller.rb
    5     # GET /articles.json
    6     def index
    7       byebug
    8       @articles = Article.find_recent
    9
-=> 10       respond_to do |format|
-   11         format.html # index.html.erb
+=> 10      respond_to do |format|
+   11        format.html # index.html.erb
    12        format.json { render json: @articles }
    13      end
    14    end
@@ -516,12 +521,17 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 それではinstance_variablesをもう一度調べてみましょう。
 
 ```
-(byebug) instance_variables.include? "@articles"
-true
+(byebug) instance_variables
+[:@_action_has_layout, :@_routes, :@_request, :@_response, :@_lookup_context,
+ :@_action_name, :@_response_body, :@marked_for_same_origin_verification,
+ :@_config, :@articles]
 ```
 
 定義行が実行されたことによって、今度は`@articles`もインスタンス変数に表示されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27090991
+-->
 TIP: `irb`コマンドを使用することで、**irb**モードで実行できます。
 これにより、呼び出し中のコンテキスト内でirbセッションが開始されます。ただし、この機能はまだ実験中の段階です。
 
@@ -530,11 +540,18 @@ TIP: `irb`コマンドを使用することで、**irb**モードで実行でき
 
 ```
 (byebug) help var
-v[ar] cl[ass]                   show class variables of self
-v[ar] const <object>            show constants of object
-v[ar] g[lobal]                  show global variables
-v[ar] i[nstance] <object>       show instance variables of object
-v[ar] l[ocal]                   show local variables
+
+  [v]ar <subcommand>
+ 
+  Shows variables and its values
+
+
+  var all      -- Shows local, global and instance variables of self.
+  var args     -- Information about arguments of the current scope
+  var const    -- Shows constants of an object.
+  var global   -- Shows global variables.
+  var instance -- Shows instance variables of self or a specific object.
+  var local    -- Shows local variables in current scope.
 ```
 
 このメソッドは、現在のコンテキストでの変数の値を検査するのにうってつけの方法です。たとえば、現時点でローカル変数が何も定義されていないことを確認してみましょう。
@@ -551,14 +568,14 @@ v[ar] l[ocal]                   show local variables
 @_start_transaction_state = {}
 @aggregation_cache = {}
 @association_cache = {}
-@attributes = {"id"=>nil, "created_at"=>nil, "updated_at"=>nil}
-@attributes_cache = {}
-@changed_attributes = nil
-...
+@attributes = #<ActiveRecord::AttributeSet:0x007fd0682a9b18 @attributes={"id"=>#<ActiveRecord::Attribute::FromDatabase:0x007fd0682a9a00 @name="id", @value_be...
+@destroyed = false
+@destroyed_by_association = nil
+@marked_for_destruction = false
+@new_record = true
+@readonly = false
+@transaction_state = nil
 ```
-
-TIP: `p` (print) コマンドと`pp` (pretty print) コマンドを使用して
-Rubyの式を評価し、変数の値をコンソールに出力することができます。
 
 `display`コマンドを使用して変数をウォッチすることもできます。これは、デバッガーで実行を進めながら変数の値の移り変わりを追跡するのに大変便利です。
 
@@ -567,12 +584,15 @@ Rubyの式を評価し、変数の値をコンソールに出力することが�
 1: @articles = nil
 ```
 
-スタック内で移動するたびに、そのときの変数と値のリストが出力されます。変数の表示を止めるには、`undisplay `_n_ (_n_ は変数番号) を実行します。上の例では変数番号は 1 になっています。
+スタック内で移動するたびに、そのときの変数と値のリストが出力されます。変数の表示を止めるには、`undisplay n`(_n_ は変数番号) を実行します。上の例では変数番号は 1 になっています。
 
 ### ステップ実行
 
 これで、トレース実行中に現在の実行位置を確認し、利用可能な変数をいつでも確認できるようになりました。アプリケーションの実行について引き続き学んでみましょう。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091107
+-->
 `step`コマンド (短縮形は`s`) を使用すると、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。
 
 `step`とよく似た`next`を使用することももちろんできますが、`next`はそのコードの行に関数やメソッドがあっても止まらずにそれらの関数やメソッドを実行してしまう点が異なります。
@@ -583,30 +603,29 @@ TIP: `step n`や`next n`と入力することで、`n`ステップずつ進め�
 
 たとえば、次のような状況を考えてみましょう
 
-```ruby
+```
 Started GET "/" for 127.0.0.1 at 2014-04-11 13:39:23 +0200
 Processing by ArticlesController#index as HTML
 
-[1, 8] in /home/davidr/Proyectos/test_app/app/models/article.rb
-   1: class Article < ActiveRecord::Base
-   2:
-   3:   def self.find_recent(limit = 10)
-   4:     byebug
-=> 5:     where('created_at > ?', 1.week.ago).limit(limit)
-   6:   end
-   7:
-   8: end
+[1, 6] in /PathToProject/app/models/article.rb
+   1: class Article < ApplicationRecord
+   2:   def self.find_recent(limit = 10)
+   3:     byebug
+=> 4:     where('created_at > ?', 1.week.ago).limit(limit)
+   5:   end
+   6: end
 
 (byebug)
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091168
+-->
 `next`を使用していて、メソッド呼び出しに潜ってみたいとしましょう。しかしbyebugは、潜る代わりに単に同じコンテキストの次の行に進みます。この例の場合、次の行とはそのメソッドの最終行になります。従って、`byebug`は前のフレームにある次の次の行にジャンプします。
 
 ```
 (byebug) next
-前のフレームの実行が完了するので、Nextによって1つ上のフレームに移動する
-
-[4, 13] in /PathTo/project/test_app/app/controllers/articles_controller.rb
+[4, 13] in /PathToProject/app/controllers/articles_controller.rb
     4:   # GET /articles
     5:   # GET /articles.json
     6:   def index
@@ -621,26 +640,31 @@ Processing by ArticlesController#index as HTML
 (byebug)
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091188
+-->
 同じ状況で`step`を使用すると、文字通り「Rubyコードの、実行すべき次の行」に進みます。ここではactivesupportの`week`メソッドに潜って進むことになります。
 
 ```
 (byebug) step
 
-[50, 59] in /PathToGems/activesupport-5.0.0/lib/active_support/core_ext/numeric/time.rb
-   50:     ActiveSupport::Duration.new(self * 24.hours, [[:days, self]])
-   51:   end
-   52:   alias :day :days
-   53:
-   54:   def weeks
-=> 55:     ActiveSupport::Duration.new(self * 7.days, [[:days, self * 7]])
-   56:   end
-   57:   alias :week :weeks
-   58:
-   59:   def fortnights
-
+[49, 58] in /PathToGems/activesupport-5.1.0/lib/active_support/core_ext/numeric/time.rb
+   49:
+   50:   # Returns a Duration instance matching the number of weeks provided.
+   51:   #
+   52:   #   2.weeks # => 14 days
+   53:   def weeks
+=> 54:     ActiveSupport::Duration.weeks(self)
+   55:   end
+   56:   alias :week :weeks
+   57:
+   58:   # Returns a Duration instance matching the number of fortnights provided.
 (byebug)
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091222
+-->
 これは自分のコードの、ひいてはRuby on Railsのバグを見つけ出す方法として非常に優れています。
 
 ### ブレークポイント
@@ -650,6 +674,9 @@ Processing by ArticlesController#index as HTML
 `break` (または`b`) コマンドを使用してブレークポイントを動的に追加できます。
 手動でブレークポイントを追加する方法は次の 3 とおりです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091240
+-->
 * `break line`: 現在のソースファイルの _line_ で示した行にブレークポイントを設定します。
 * `break file:line [if expression]`: _file_の_line_行目にブレークポイントを設定します。_expression_ が与えられた場合、デバッガを起動するにはこの式が _true_ と評価される必要があります。
 * `break class(.|\#)method [if expression]`: _class_ に定義されている _method_ にブレークポイントを設定します (「.」と「\#」はそれぞれクラスとインスタンスメソッドを指す)。_expression_の動作はfile:lineの場合と同じです。
@@ -658,7 +685,7 @@ Processing by ArticlesController#index as HTML
 さっきと同じ状況を例に説明します。
 
 ```
-[4, 13] in /PathTo/project/app/controllers/articles_controller.rb
+[4, 13] in /PathToProject/app/controllers/articles_controller.rb
     4:   # GET /articles
     5:   # GET /articles.json
     6:   def index
@@ -671,19 +698,19 @@ Processing by ArticlesController#index as HTML
    13:   end
 
 (byebug) break 11
-Created breakpoint 1 at /PathTo/project/app/controllers/articles_controller.rb:11
+Successfully created breakpoint with id 1
 
 ```
 
-ブレークポイントをリスト表示するには、`info breakpoints `_n_や`info break `_n_を使用します。番号を指定すると、その番号のブレークポイントをリスト表示します。番号を指定しない場合は、すべてのブレークポイントをリスト表示します。
+ブレークポイントをリスト表示するには、`info breakpoints`を使用します。番号を指定すると、その番号のブレークポイントをリスト表示します。番号を指定しない場合は、すべてのブレークポイントをリスト表示します。
 
 ```
 (byebug) info breakpoints
 Num Enb What
-1   y   at /PathTo/project/app/controllers/articles_controller.rb:11
+1   y   at /PathToProject/app/controllers/articles_controller.rb:11
 ```
 
-`delete `_n_コマンドを使用すると_n_番のブレークポイントを削除できます。番号を指定しない場合、現在有効なブレークポイントをすべて削除します。
+`delete n`コマンドを使用すると_n_番のブレークポイントを削除できます。番号を指定しない場合、現在有効なブレークポイントをすべて削除します。
 
 ```
 (byebug) delete 1
@@ -693,6 +720,9 @@ No breakpoints.
 
 ブレークポイントを有効にしたり、無効にしたりすることもできます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091314
+-->
 * `enable breakpoints`: _breakpoints_で指定したブレークポイントのリスト (無指定の場合はすべてのブレークポイント) でのプログラムの停止を有効にします。ブレークポイントを作成するとデフォルトでこの状態になります。
 * `disable breakpoints`: _breakpoints_で指定したブレークポイントのリストで停止しなくなります。
 
@@ -706,6 +736,9 @@ No breakpoints.
 
 デバッガーで停止したアプリケーションの再開方法は2種類あります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091335
+-->
 * `continue` [line-specification] \(または`c`): スクリプトが直前に停止していたアドレスからプログラムの実行を再開します。このとき、それまで設定されていたブレークポイントはすべて無視されます。オプションとして、特定の行番号をワンタイムブレークポイントとして[line-specification]で指定できます。このワンタイムブレークポイントに達するとブレークポイントは削除されます。
 * `finish` [frame-number] \(or `fin`): 指定のスタックフレームが返るまで実行を続けます。frame-numberが指定されていない場合は、現在選択しているフレームが返るまで実行を続けます。フレーム位置が指定されていない (upやdownやフレーム番号指定が行われていない) 場合は、現在の位置から最も近いフレームまたは0フレームから開始します。フレーム番号を指定すると、そのフレームが返るまで実行を続けます。
 
@@ -713,10 +746,13 @@ No breakpoints.
 
 デバッガー上のコードをエディタで開くためのコマンドは2種類あります。
 
-* `edit [file:line]`: _file_をエディタで開きます。エディタはEDITOR環境変数で指定します。_line_で行数を指定することもできます。
+* `edit [file:n]`: フィアル名_file_をエディタで開きます。エディタはEDITOR環境変数で指定します。n行で行数を指定することもできます。
 
 ### 終了
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091367
+-->
 デバッガーを終了するには、`quit`コマンド (短縮形は `q`) または別名の`exit`を使用します。
 
 quitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。
@@ -725,18 +761,42 @@ quitを実行すると、事実上すべてのスレッドを終了しようと�
 
 `byebug`の振る舞いを変更するためのオプションがいくつかあります。
 
-* `set autoreload`: ソースコードが変更されると再読み込みします (デフォルト: true)。
-* `set autolist`: すべてのブレークポイントで`list`コマンドを実行します (デフォルト: true)。
-* `set listsize _n_`: リスト表示の行数をデフォルトから_n_ に変更します (デフォルト: 10)。
-* `set forcestep`: `next`や`step`コマンドを実行すると常に新しい行に移動するようにします。
+```
+(byebug) help set
 
-すべてのオプションを表示するには`help set`を実行します。特定の`set`コマンドを調べるには`help set `_subcommand_ を実行します。
+  set <setting> <value>
+
+  Modifies byebug settings
+
+  Boolean values take "on", "off", "true", "false", "1" or "0". If you
+  don't specify a value, the boolean setting will be enabled. Conversely,
+  you can use "set no<setting>" to disable them.
+
+  You can see these environment settings with the "show" command.
+  List of supported settings:
+
+  autosave       -- Automatically save command history record on exit
+  autolist       -- Invoke list command on every stop
+  width          -- Number of characters per line in byebug's output
+  autoirb        -- Invoke IRB on every stop
+  basename       -- <file>:<line> information after every stop uses short paths
+  linetrace      -- Enable line execution tracing
+  autopry        -- Invoke Pry on every stop
+  stack_on_error -- Display stack trace when `eval` raises an exception
+  fullpath       -- Display full file names in backtraces
+  histfile       -- File where cmd history is saved to. Default: ./.byebug_history
+  listsize       -- Set number of source lines to list by default
+  post_mortem    -- Enable/disable post-mortem mode
+  callstyle      -- Set how you want method call parameters to be displayed
+  histsize       -- Maximum number of commands that can be stored in byebug history
+  savefile       -- File where settings are saved to. Default: ~/.byebug_save
+```
 
 TIP: これらの設定は、ホームディレクトリの`.byebugrc`ファイルに保存しておくことができます。
 デバッガーが起動すると、この設定がグローバルに適用されます。以下に例を示します。
 
 ```bash
-set forcestep
+set callstyle short
 set listsize 25
 ```
 
@@ -794,7 +854,7 @@ Railsに限らず、Rubyアプリケーションではメモリーリークが�
 
 ### Valgrind
 
-[Valgrind](http://valgrind.org/)はLinux専用のアプリケーションであり、Cコードベースのメモリーリークや競合状態の検出を行います。
+[Valgrind](http://valgrind.org/)はアプリケーションであり、Cコードベースのメモリーリークや競合状態の検出を行います。
 
 Valgrindには、さまざまなメモリー管理上のバグやスレッドバグなどを自動検出し、プログラムの詳細なプロファイリングを行うための各種ツールがあります。たとえば、インタプリタ内にあるC拡張機能が`malloc()`を呼び出した後`free()`を正しく呼び出さなかった場合、このメモリーはアプリケーションが終了するまで利用できなくなります。
 
@@ -812,16 +872,12 @@ Valgrindのインストール方法とRuby内での使用方法については�
 * [Better Errors](https://github.com/charliesome/better_errors): Rails標準のエラーページを新しい表示に置き換えて、ソースコードや変数検査などのコンテキスト情報を見やすくしてくれます。
 * [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
 db時間、レンダリング時間、トータル時間、パラメータリスト、出力したビューなども表示されます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091660
+-->
 
 参考資料
 ----------
 
-* [ruby-debugホームページ](http://bashdb.sourceforge.net/ruby-debug/home-page.html)(英語)
-* [debuggerホームページ](https://github.com/cldwalker/debugger)(英語)
 * [byebugホームページ](https://github.com/deivid-rodriguez/byebug)(英語)
 * [web-consoleホームページ](https://github.com/rails/web-console)(英語)
-* [記事: ruby-debugでRailsアプリケーションをデバッグする](http://www.sitepoint.com/debug-rails-app-ruby-debug/)(英語)
-* [Ryan Batesのスクリーンキャスト: Rubyデバッグ(改訂版)](http://railscasts.com/episodes/54-debugging-ruby-revised)(英語)
-* [Ryan Batesのスクリーンキャスト: スタックトレース](http://railscasts.com/episodes/24-the-stack-trace)(英語)
-* [Ryan Batesのスクリーンキャスト: ロガー](http://railscasts.com/episodes/56-the-logger)(英語)
-* [ruby-debugによるデバッグ](http://bashdb.sourceforge.net/ruby-debug.html)(英語)
