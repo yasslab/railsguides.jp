@@ -836,7 +836,9 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 ```ruby
 @author = @book.author
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27088643
+-->
 関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。キャッシュを読み出さずにデータベースから直接読み込ませたい場合は、親オブジェクトが持つ`#reload`メソッドを呼び出します。
 
 ```ruby
@@ -900,7 +902,9 @@ end
 * `:optional`
 
 ##### `:autosave`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27091104
+-->
 `:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
 
 ##### `:class_name`
@@ -1016,7 +1020,7 @@ end
 
 ##### `:touch`
 
-`:touch`オプションを`:true`に設定すると、関連付けられているオブジェクトが保存またはdestroyされるたびに、そのオブジェクトの`updated_at`または`updated_on`タイムスタンプが現在時刻に設定されます。
+`:touch`オプションを`true`に設定すると、関連付けられているオブジェクトが保存またはdestroyされるたびに、そのオブジェクトの`updated_at`または`updated_on`タイムスタンプが現在時刻に設定されます。
 
 ```ruby
 class Book < ApplicationRecord
@@ -1239,7 +1243,9 @@ end
 `:as`オプションを設定すると、ポリモーフィック関連付けを指定できます。ポリモーフィック関連付けの詳細については[このガイドの説明](#ポリモーフィック関連付け)を参照してください。
 
 ##### `:autosave`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27091895
+-->
 `:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
 
 ##### `:class_name`
