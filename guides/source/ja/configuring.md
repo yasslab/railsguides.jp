@@ -59,21 +59,23 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.asset_host`はアセットを置くホストを設定します。この設定は、アセットの置き場所がCDN (Contents Delivery Network) の場合や、別のドメインエイリアスを使用するとブラウザの同時実行制限にひっかかるのを避けたい場合に便利です。このメソッドは`config.action_controller.asset_host`を短縮したものです。
 
-* `config.autoload_once_paths`は、サーバーへのリクエストごとにクリアされない定数を自動読込するパスの配列を引数に取ります。この設定は`config.cache_classes`がfalseの場合に影響を受けます。`config.cache_classes`はdevelopmentモードでは`config.cache_classes`はデフォルトでオフです。`config.cache_classes`がtrueの場合、すべての`config.autoload_once_paths`自動読み込みは一度しか行われません。`config.autoload_once_paths`の配列に含まれる要素は、次で説明する`autoload_paths`にもまったく同じように含めておく必要があります。`config.autoload_once_paths`のデフォルト値は、空の配列です。
+* `config.autoload_once_paths`は、サーバーへのリクエストごとにクリアされない定数を自動読込するパスの配列を引数に取ります。この設定は`config.cache_classes`が`false`の場合に影響を受けます。`config.cache_classes`はdevelopmentモードでは`config.cache_classes`はデフォルトでオフです。`config.cache_classes`がtrueの場合、すべての`config.autoload_once_paths`自動読み込みは一度しか行われません。`config.autoload_once_paths`の配列に含まれる要素は、次で説明する`autoload_paths`にもまったく同じように含めておく必要があります。`config.autoload_once_paths`のデフォルト値は、空の配列です。
 
 * `config.autoload_paths`はRailsが定数を自動読込するパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです(訳注: Rails3からはautoload_pathの設定はデフォルトでは無効です)。
 
-* `config.cache_classes`は、アプリケーションのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードではfalseなのでコードの更新がすぐ反映され、testモードとproductionモードではtrueなので動作が高速になります。同時に`threadsafe!`をオンにすることもできます。
+* `config.cache_classes`は、アプリケーションのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードでは`true`なので動作が高速になります。同時に`threadsafe!`をオンにすることもできます。
 
 * `config.action_view.cache_template_loading`は、リクエストのたびにビューテンプレートを再読み込みするか(=キャッシュしないか)を指定します。
 
 * `config.beginning_of_week`は、アプリケーションにおける週の初日を設定します。引数には、曜日を表す正しいシンボルを渡します(`:monday`など)。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27123981
+-->
 * `config.cache_store`はRailsでのキャッシュ処理に使用されるキャッシュストアを設定します。指定できるオプションは次のシンボル`:memory_store`、`:file_store`、`:mem_cache_store`、`:null_store`のいずれか、またはキャッシュAPIを実装するオブジェクトです。`tmp/cache`ディレクトリが存在する場合のデフォルトは`:file_store`に設定され、それ以外の場合のデフォルトは`:memory_store`に設定されます。
 
-* `config.colorize_logging`は、出力するログ情報にANSI色情報を与えるかどうかを指定します。デフォルトはtrueです。
+* `config.colorize_logging`は、出力するログ情報にANSI色情報を与えるかどうかを指定します。デフォルトは`true`です。
 
-* `config.consider_all_requests_local`はフラグです。このフラグがtrueの場合、どのような種類のエラーが発生した場合にも詳細なデバッグ情報がHTTPレスポンスに出力され、アプリケーションの実行時コンテキストが`Rails::Info`コントローラによって`/rails/info/properties`に出力されます。このフラグはdevelopmentモードとtestモードではtrue、productionモードではfalseに設定されます。もっと細かく制御したい場合は、このフラグをfalseに設定してから、コントローラで`local_request?`メソッドを実装し、エラー時にどのデバッグ情報を出力するかをそこで指定してください。
+* `config.consider_all_requests_local`はフラグです。このフラグが`true`の場合、どのような種類のエラーが発生した場合にも詳細なデバッグ情報がHTTPレスポンスに出力され、アプリケーションの実行時コンテキストが`Rails::Info`コントローラによって`/rails/info/properties`に出力されます。このフラグはdevelopmentモードとtestモードでは`true`、productionモードでは`false`に設定されます。もっと細かく制御したい場合は、このフラグを`false`に設定してから、コントローラで`local_request?`メソッドを実装し、エラー時にどのデバッグ情報を出力するかをそこで指定してください。
 
 * `config.console`を使用すると、コンソールで`rails console`を実行する時に使用されるクラスをカスタマイズできます。このメソッドは`console`ブロックで使用するのが最適です。
 
@@ -86,24 +88,35 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
     end
     ```
 
-* `config.eager_load`をtrueにすると、`config.eager_load_namespaces`に登録された事前一括読み込み(eager loading)用の名前空間をすべて読み込みます。ここにはアプリケーション、エンジン、Railsフレームワークを含むあらゆる登録済み名前空間が含まれます。
+* `config.eager_load`を`true`にすると、`config.eager_load_namespaces`に登録された事前一括読み込み(eager loading)用の名前空間をすべて読み込みます。ここにはアプリケーション、エンジン、Railsフレームワークを含むあらゆる登録済み名前空間が含まれます。
 
-* `config.eager_load_namespaces`を使用して登録した名前は、`config.eager_load`がtrueのときに読み込まれます。登録された名前空間は、必ず`eager_load!`メソッドに応答しなければなりません。
+* `config.eager_load_namespaces`を使用して登録した名前は、`config.eager_load`が`true`のときに読み込まれます。登録された名前空間は、必ず`eager_load!`メソッドに応答しなければなりません。
 
 * `config.eager_load_paths`は、パスの配列を引数に取ります。Railsは、cache_classesがオンの場合にこのパスから事前一括読み込み(eager load)します。デフォルトではアプリケーションの`app`ディレクトリ以下のすべてのディレクトリが対象です。
 
-* `config.enable_dependency_loading`：trueの場合、アプリケーションが事前に読み込まれ、`config.cache_classes`がtrueに設定されていても、自動読み込みを有効にします。 デフォルトはfalseです。
+* `config.enable_dependency_loading`：`true`の場合、アプリケーションが事前に読み込まれ、`config.cache_classes`がtrueに設定されていても、自動読み込みを有効にします。 デフォルトは`false`です。
 
 * `config.encoding`はアプリケーション全体のエンコーディングを指定します。デフォルトはUTF-8です。
 
 * `config.exceptions_app`は、例外が発生したときにShowExceptionミドルウェアによって呼び出されるアプリケーション例外を設定します。デフォルトは`ActionDispatch::PublicExceptions.new(Rails.public_path)`です。
-
-* `config.file_watcher`は、`config.reload_classes_only_on_change`がtrueの場合にファイルシステム上のファイル更新検出に使用されるクラスを指定します。`ActiveSupport::FileUpdateChecker` APIに従う必要があります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124190
+-->
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124215
+-->
+* `config.file_watcher`は、`config.reload_classes_only_on_change`が`true`の場合にファイルシステム上のファイル更新検出に使用されるクラスを指定します。`ActiveSupport::FileUpdateChecker` APIに従う必要があります。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124375
+-->
 * `config.filter_parameters`は、パスワードやクレジットカード番号など、ログに出力したくないパラメータをフィルタで除外するために使用します。パスワードを除外するアプリケーションフィルタを追加するには`config/initializers/filter_parameter_logging.rb`を`config.filter_parameters+=[:password]`に追加します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124388
+-->
 * `config.force_ssl`は、`ActionDispatch::SSL`ミドルウェアを使用して、すべてのリクエストをHTTPSプロトコル下で実行するよう強制します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124403
+-->
 * `config.log_formatter`はRailsロガーのフォーマットを定義します。このオプションは、デフォルトでは`ActiveSupport::Logger::SimpleFormatter`のインスタンスを使用します。ただしproductionモードの場合のみ`Logger::Formatter`がデフォルトになります。
 
 * `config.log_level`は、Railsのログ出力をどのぐらい詳細にするかを指定します。デフォルトでは`:debug`が指定されます。productionモードのみデフォルトで`:info`が指定されます。
