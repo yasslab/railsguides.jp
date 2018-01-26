@@ -153,7 +153,7 @@ end
 上のコードは定数代入 (constant assignment) を行います。これは以下のコードと同等です。
 
 ```ruby
-Project = Class.new(ActiveRecord::Base)
+Project = Class.new(ApplicationRecord)
 ```
 
 このとき、以下のようにクラスの名前は副作用として設定されます。
@@ -256,11 +256,15 @@ Billing::Invoice
 INFO: `::Billing::Invoice`のように先頭にコロンを2つ置くことで、最初のセグメントを相対から絶対に変えることができます。このようにすると、この`Billing`はトップレベルの定数としてのみ参照されるようになります。
 
 2番目の`Invoice`定数の方は`Billing`で修飾されています。この定数の解決方法についてはこの後で説明します。ここで、修飾する側のクラスやモジュールオブジェクト (上の例で言う`Billing`) を*親(parent)*と定義します。修飾済み定数を解決するアルゴリズムは以下のようになります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120381
+-->
 1. この定数はその親と先祖の中から探索される。
 
 2. 探索の結果何も見つからない場合、親の`const_missing`が呼び出される。`const_missing`のデフォルトの実装は`NameError`を発生するが、これはオーバーライド可能。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120412
+-->
 見てのとおり、この探索アルゴリズムは相対定数の場合よりもシンプルです。特に、ネストが何の影響も与えていない点にご注意ください。また、モジュールは特別扱いされておらず、モジュール自身またはモジュールの先祖のどちらにも定数がない場合には`Object`は**チェックされない**点にもご注意ください。
 
 Railsの自動読み込みは**このアルゴリズムをエミュレートしているわけではない**ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、その親です。詳細については[修飾済み参照](#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7)を参照してください。
@@ -348,18 +352,29 @@ require 'erb'
 ```ruby
 config.autoload_paths << "#{Rails.root}/lib"
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120499
+-->
 `autoload_paths`の値を検査することもできます。生成したRailsアプリケーションでは以下のようになります (ただし編集済み)。
 
 ```
 $ bin/rails r 'puts ActiveSupport::Dependencies.autoload_paths'
 .../app/assets
+.../app/channels
 .../app/controllers
+.../app/controllers/concerns
 .../app/helpers
+.../app/jobs
 .../app/mailers
 .../app/models
-.../app/controllers/concerns
 .../app/models/concerns
+.../activestorage/app/assets
+.../activestorage/app/controllers
+.../activestorage/app/javascript
+.../activestorage/app/jobs
+.../activestorage/app/models
+.../actioncable/app/assets
+.../actionview/app/assets
 .../test/mailers/previews
 ```
 
@@ -694,7 +709,7 @@ end
 
 ```ruby
 # app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+class Polygon < ApplicationRecord
 end
 
 # app/models/triangle.rb
@@ -752,12 +767,14 @@ WHERE "polygons"."type" IN ("Rectangle")
 コードの実行順序にかかわらず常に期待どおりに動作させる手段として、ルートクラスが定義されているファイルの最終行で、ツリーの末端 (leaf) を明示的に読み込むという方法があります。
 
 ```ruby
-# app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+# app/models/rectangle.rb
+class Rectangle < Polygon
 end
-require_dependency ‘square’
+require_dependency 'square'
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120600
+-->
 この方法で明示的に読み込む必要があるのは、**孫またはそれ以下**のleafだけで十分です。直下のサブクラスである子については事前読み込みは不要です。階層構造が子よりも深い場合、階層の途中にあるクラスの定義で定数がスーパークラスとして記述されているので、途中のクラスは再帰的に自動読み込みされます。
 
 ### 自動読み込みと`require`
@@ -908,7 +925,9 @@ end
 ```
 
 #### 修飾済み参照
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120621
+-->
 以下の例について考察します。
 
 ```ruby
