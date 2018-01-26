@@ -346,6 +346,9 @@ ArticlesController#new is missing a template for this request format and variant
 
 最初の部分では、どのテンプレートが見当たらないかが示されています。ここでは`articles/new`というテンプレートがあるはずだと言っています。Railsは最初にこのテンプレートを探します。見つからない場合は次に`application/new`というテンプレートがあるかどうかを探します。`application/new`にテンプレートがあるかどうかを探しているのは、`ArticlesController`コントローラは`ApplicationController`コントローラを継承しているからです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118616
+-->
 次の部分にはハッシュがあります。ハッシュの`:locale`キーは、単にそのテンプレートが何語向けなのかを示しています。デフォルトでは英語 ("en") テンプレートが使用されます。次の`:formats`キーは、応答時に返されるテンプレートのフォーマットを示します。デフォルトのフォーマットは`:html`なので、RailsはHTMLテンプレートを探します。最後の`:handlers`キーは、テンプレートを描画するときに使用される _テンプレートハンドラ_ を示します。HTMLテンプレートで最もよく使用されるのは`:erb`です。同様に、XMLテンプレートには`:builder`が指定が、CoffeeScriptには`:coffee`が最もよく使用されます。
 
 最後の部分では、Railsがテンプレートを探した場所が示されています。このブログアプリケーションのようなシンプルなRailsアプリケーションでは、テンプレートの置き場所は1箇所ですが、複雑なアプリケーションではさまざまな場所にテンプレートが置かれることもあります。
@@ -362,38 +365,41 @@ ArticlesController#new is missing a template for this request format and variant
 
 ### 最初のフォーム
 
-このテンプレート内にフォームを作成するために、<em>form builder</em> を使用します。Railsには`form_for`というヘルパーメソッドがあり、主にこれを使用してフォームを作成します。以下のコードを`app/views/articles/new.html.erb`に追加して、`form_for`メソッドを使用できるようにしましょう。
+このテンプレート内にフォームを作成するために、<em>form builder</em> を使用します。Railsには`form_for`というヘルパーメソッドがあり、主にこれを使用してフォームを作成します。以下のコードを`app/views/articles/new.html.erb`に追加して、`form_with`メソッドを使用できるようにしましょう。
 
 ```html+erb
-<%= form_for :article do |f| %>
+<%= form_with scope: :article, local: true do |form| %>
   <p>
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
   </p>
 
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
   </p>
 
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118693
+-->
 ページをブラウザで再表示すると、先に図に示したフォームの例のとおりにフォームが表示されます。Railsのフォーム作成は非常に簡単です。
 
-`form_for`メソッドを呼び出すときには、このフォームを識別するためのオブジェクトを渡してください。ここでは`:article`というシンボルを渡します。`form_for`ヘルパーは、これを見て何のフォームであるかを知ることができます。このメソッドのブロックの内側は`FormBuilder`オブジェクトを置きます(`f`で表すのが通例です)。ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、`f`オブジェクトに対して`submit`を実行すると、フォームの送信ボタンが作成されます。
+`form_with`メソッドを呼び出すときには、このフォームを識別するためのスコープを渡してください。ここでは`:article`というシンボルを渡します。`form_with`ヘルパーは、これを見て何のフォームであるかを知ることができます。このメソッドのブロックの内側は`FormBuilder`オブジェクトを置きます(`form`で表すのが通例です)。ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、`form`オブジェクトに対して`submit`を実行すると、フォームの送信ボタンが作成されます。
 
 しかし、このフォームには1つ問題があります。このフォームページのソースを表示して、生成されたHTMLをよく調べてみると、フォームの`action`属性の送信先が`/articles/new`になってしまっています。`/articles/new`というルーティングは、このフォームを最初に表示するときに使用されるものなので、記入されたフォームの送信先まで同じルーティングにしてしまうのは変です。`/articles/new`はフォームの表示専用にすべきです。
 
-どうやらフォームの送信先は別のURLにしなければならないようです。送信先の指定は`form_for`の`:url`オプションで簡単に指定できます。Railsでは、新しいフォームの送信先となるアクションは"create"にするのが普通ですので、それに従って送信先を変更しましょう。
+どうやらフォームの送信先は別のURLにしなければならないようです。送信先の指定は`form_with`の`:url`オプションで簡単に指定できます。Railsでは、新しいフォームの送信先となるアクションは"create"にするのが普通ですので、それに従って送信先を変更しましょう。
 
-`app/views/articles/new.html.erb`をエディタで開き、`form_for`の行を以下のように変更します。
+`app/views/articles/new.html.erb`をエディタで開き、`form_with`の行を以下のように変更します。
 
 ```html+erb
-<%= form_for :article, url: articles_path do |f| %>
+<%= form_with scope: :article, url: articles_path, local: true do |form| %>
 ```
 
 この例では、`:url`オプションに`articles_path`ヘルパーが渡されています。
@@ -402,15 +408,16 @@ ArticlesController#new is missing a template for this request format and variant
 ```bash
 $ bin/rails routes
       Prefix Verb   URI Pattern                  Controller#Action
-    articles GET    /articles(.:format)          articles#index
-             POST   /articles(.:format)          articles#create
- new_article GET    /articles/new(.:format)      articles#new
-edit_article GET    /articles/:id/edit(.:format) articles#edit
-     article GET    /articles/:id(.:format)      articles#show
-             PATCH  /articles/:id(.:format)      articles#update
-             PUT    /articles/:id(.:format)      articles#update
-             DELETE /articles/:id(.:format)      articles#destroy
-        root GET    /                            welcome#index
+welcome_index GET    /welcome/index(.:format)     welcome#index
+     articles GET    /articles(.:format)          articles#index
+              POST   /articles(.:format)          articles#create
+  new_article GET    /articles/new(.:format)      articles#new
+ edit_article GET    /articles/:id/edit(.:format) articles#edit
+      article GET    /articles/:id(.:format)      articles#show
+              PATCH  /articles/:id(.:format)      articles#update
+              PUT    /articles/:id(.:format)      articles#update
+              DELETE /articles/:id(.:format)      articles#destroy
+         root GET    /                            welcome#index
 ```
 
 `articles_path`ヘルパーは、`articles`という接頭語に関連付けられているURIパターンをフォームの送信先とするようRailsに指示します。そしてこのフォームはデフォルトに従って`POST`リクエストとしてルーティングに送信されます。そしてこのルーティングは、現在のコントローラである`ArticlesController`の`create`アクションに関連付けられます。
@@ -420,6 +427,10 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
 ![Unknown action create for ArticlesController](images/getting_started/unknown_action_create_for_articles.png)
 
 そこで今度は`ArticlesController`コントローラ内に`create`アクションを作成し、フォームが動作するようにしましょう。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118871
+-->
 
 ### 記事を作成する
 
@@ -435,6 +446,9 @@ class ArticlesController < ApplicationController
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118901
+-->
 修正後フォームを再送信すると、今度はまたしても「a template is missing」エラーが表示されます。ひとまずこのエラーは無視しましょう。`create`アクションの役割は、記事をデータベースに保存することです。
 
 フォームを送信すると、フォームに含まれるフィールドは _パラメータ_ としてRailsに送信されます。これらのパラメータは、受け取ったコントローラ内のアクションで参照可能になっており、これを使用して特定のタスクを実行します。実際のパラメータがどのようになっているかを確認するために、`create`アクションに以下の変更を加えてみましょう。
@@ -448,13 +462,13 @@ end
 
 
 
-ここで`render`メソッドは非常に単純なハッシュを引数に取ります。ハッシュのキーは`plain`、ハッシュの値は`params[:article].inspect`です。`params`メソッドは、フォームから送信されてきたパラメータ (つまりフォームのフィールド) を表すオブジェクトです。`params`メソッドは`ActiveSupport::HashWithIndifferentAccess`オブジェクトを返します。文字列またはシンボルを使用して、このオブジェクトのハッシュのキーを指定できます。今回の場合、必要なのはフォームの値のうちの1つだけです。
+ここで`render`メソッドは非常に単純なハッシュを引数に取ります。ハッシュのキーは`:plain`、ハッシュの値は`params[:article].inspect`です。`params`メソッドは、フォームから送信されてきたパラメータ (つまりフォームのフィールド) を表すオブジェクトです。`params`メソッドは`ActionController::Parameters`オブジェクトを返します。文字列またはシンボルを使用して、このオブジェクトのハッシュのキーを指定できます。今回の場合、必要なのはフォームの値のうちの1つだけです。
 
 
-フォームを再送信してみると、今度はmissing templateエラーが表示されなくなりました。今度は以下が表示されました。
+フォームを再送信してみると、今度は以下が表示されました。
 
 ```ruby
-{"title"=>"First article!", "text"=>"This is my first article."}
+<ActionController::Parameters {"title"=>"First Article!", "text"=>"This is my first article."} permitted: false>
 ```
 
 このアクションは、フォームから送信されたパラメータをそのまま表示するようになりました。しかしこのままでは役に立ちそうにありません。確かにパラメータは表示されるようになりましたが、何の加工もされていません。
@@ -477,10 +491,10 @@ TIP: Active Recordは、データベースのカラム名とモデルの属性�
 
 既に見たように`rails generate model`を実行すると _データベースマイグレーション_ ファイルが`db/migrate`の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。
 
-ここで`db/migrate/20140120191729_create_articles.rb` ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。
+ここで`db/migrate/YYYYMMDDHHMMSS_create_articles.rb` ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。
 
 ```ruby
-class CreateArticles < ActiveRecord::Migration
+class CreateArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :articles do |t|
       t.string :title
@@ -527,6 +541,10 @@ end
 ```
 
 変更内容を説明します。Railsのすべてのモデルは初期化時に属性(フィールド)を与えられ、それらはデータベースカラムに自動的に対応付けられます。メソッドの1行目ではまさにそれが行われています (取り出したい属性は`params[:article]`の中にあります)。次の`@article.save`で、このモデルをデータベースに保存します。最後に、ユーザーを`show`アクションにリダイレクトします (`show`アクションはこの後定義します)。訳注: モデルを保持している@articleを指定するだけで、そのモデルを表示するための`show`アクションにリダイレクトされる点にご注目ください。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119032
+-->
 
 TIP: 後に解説しますが、`@article.save`は保存に成功したかどうかを真偽値 (trueまたはfalse) で返します。
 
@@ -577,10 +595,19 @@ article GET    /articles/:id(.:format)      articles#show
 
 newで既に行ったのと同じ要領で、`app/controllers/articles_controller.rb`に`show`アクションを追加し、対応するビューも追加する必要があります。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119082
+-->
 ```ruby
-def show
-  @article = Article.find(params[:id])
-end
+class ArticlesController < ApplicationController
+  def show
+    @article = Article.find(params[:id])
+  end
+  
+  def new
+  end
+  
+  # snippet for brevity
 ```
 
 ここでいくつか注意すべき点があります。ここでは`Article.find`を使用して、取り出したい記事をデータベースから探しています。このとき、リクエストの`:id`パラメータを取り出すために`params[:id]`を引数としてfindに渡しています。そして、取り出した記事オブジェクトへの参照を保持するために、通常の変数ではなく、インスタンス変数 (`@`が頭に付いているのが印です) が使用されている点にもご注目ください。これは、Railsではコントローラのインスタンス変数はすべてビューに渡されるようになっているからです (訳注: Railsはそのために背後でインスタンス変数をコントローラからビューに絶え間なくコピーし続けています)。
@@ -630,12 +657,14 @@ end
   <tr>
     <th>Title</th>
     <th>Text</th>
+    <th></th>
   </tr>
 
   <% @articles.each do |article| %>
     <tr>
       <td><%= article.title %></td>
       <td><%= article.text %></td>
+      <td><%= link_to 'Show', article_path(article) %></td>
     </tr>
   <% end %>
 </table>
@@ -667,7 +696,7 @@ end
 `app/views/articles/new.html.erb`のフォームの下に、記事を作成せずに元の`index`アクションに戻るリンクも作成しましょう。
 
 ```erb
-<%= form_for :article, url: articles_path do |f| %>
+<%= form_with scope: :article, url: articles_path, local: true do |form| %>
   ...
 <% end %>
 
@@ -699,16 +728,19 @@ TIP: developmentモード (これはRailsのデフォルトのモードです) �
 モデルファイル`app/models/article.rb`の中身は、以下のように驚くほどシンプルです。
 
 ```ruby
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119148
+-->
 ファイルにはこれしか書かれていませんが、この`Article`クラスが`ActiveRecord::Base`クラスを継承していることにご注目ください。Active Recordは、基本的なデータベースCRUD (Create、Read、Update、Destroy) 操作、データの検証 (バリデーション)、洗練された検索機能、複数のモデルを関連付ける(リレーションシップ) など、きわめて多くの機能をRailsモデルに無償で提供しています。
 
 Railsには、モデルに渡したデータを検証する機能もあります。`app/models/article.rb`ファイルをエディタで開き、以下のように変更します。
 
 ```ruby
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
   validates :title, presence: true,
                     length: { minimum: 5 }
 end
@@ -746,7 +778,7 @@ private
 <http://localhost:3000/articles/new>をブラウザで再表示し、わざと記事のタイトルを空にして保存してみましょう。Railsは記事入力フォームを再表示するはずです。しかしこれだけではまだ不親切です。入力のどこに問題があったのかをユーザーに通知する必要があります。そこで、`app/views/articles/new.html.erb`を変更して、エラーメッセージがある場合に表示するようにしてみましょう。
 
 ```html+erb
-<%= form_for :article, url: articles_path do |f| %>
+<%= form_with scope: :article, url: articles_path, local: true do |form| %>
   <% if @article.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@article.errors.count, "error") %> prohibited
@@ -759,17 +791,17 @@ private
   </div>
   <% end %>
   <p>
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
   </p>
 
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
   </p>
 
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 
@@ -803,9 +835,9 @@ end
 編集用のビューに含まれるフォームは、記事を作成するときのビューに含まれるフォームと基本的にほとんど同じです。`app/views/articles/edit.html.erb`というファイルを作成し、以下のコードを入力してください。
 
 ```html+erb
-<h1>Editing article</h1>
+<h1>Edit article</h1>
 
-<%= form_for :article, url: article_path(@article), method: :patch do |f| %>
+<%= form_with(model: @article, local: true) do |form| %>
   <% if @article.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@article.errors.count, "error") %> prohibited
@@ -818,17 +850,17 @@ end
   </div>
   <% end %>
   <p>
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
   </p>
 
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
   </p>
 
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 
@@ -837,9 +869,14 @@ end
 
 このフォームの送信先は`update`アクションになります。今の時点では未定義ですが、この後すぐ定義します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119185
+-->
 ここで`method: :patch`というオプションが指定されていますので、`PATCH`というHTTPメソッドを使用してこのフォームを送信しようとしていることがRailsに伝わります。PATCHメソッドは、RESTプロトコルに基いてリソースを **更新** するために使用されます。
 
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119187
+-->
 `form_for`ヘルパーメソッドの最初のパラメータには`@article`のようなオブジェクトを使用できます。`@article`のようなオブジェクトが最初のパラメータとして渡されると、ヘルパーはそのパラメータに含まれているフィールドを使用してフォームの項目を埋めます。ここで面白いのは、`@article`のようなインスタンス変数の代わりに同じ名前のシンボル (`:article`など) を渡した場合にも動作はまったく同じであることです。以上がこのコードで行われていることです。詳細については、[form_forに関するAPIドキュメント](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for) (英語) を参照してください。
 
 
@@ -913,7 +950,7 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
 `app/views/articles/_form.html.erb`という名前のパーシャルファイルを作成し、以下の内容を入力してください。
 
 ```html+erb
-<%= form_for @article do |f| %>
+<%= form_with model: @article, local: true do |form| %>
   <% if @article.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@article.errors.count, "error") %> prohibited
@@ -926,23 +963,23 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
   </div>
   <% end %>
   <p>
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
   </p>
 
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
   </p>
 
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 ```
 
-このコードをよく観察してみると、`form_for`の宣言部分以外には元のコードとの違いがないことがわかります。他のフォーム内のコードを置き換えるパーシャル内での`form_for`宣言がこのように短くて簡潔で済むのは、`@article`がRESTfulルーティングの完全なセットに対応する **リソース** であり、必要なURIとメソッドをRailsがそれに基いて推測できるからです。
-`form_for`の使用法の詳細については、[Rails APIのリソース指向のスタイル](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style) (英語) を参照してください。
+このコードをよく観察してみると、`form_with`の宣言部分以外には元のコードとの違いがないことがわかります。他のフォーム内のコードを置き換えるパーシャル内での`form_with`宣言がこのように短くて簡潔で済むのは、`@article`がRESTfulルーティングの完全なセットに対応する **リソース** であり、必要なURIとメソッドをRailsがそれに基いて推測できるからです。
+`form_with`の使用法の詳細については、[Rails APIのリソース指向のスタイル](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with-label-Resource-oriented+style) (英語) を参照してください。
 
 今度は`app/views/articles/new.html.erb`ビューを完全に書き直して、今作成したパーシャルをここで使ってみましょう。
 
@@ -1016,9 +1053,13 @@ end
 </table>
 ```
 
-上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`:method`オプションと`:'data-confirm'`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`jquery_ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。
+上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`method: :delete`オプションと`data: { confirm: 'Are you sure?' }`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`jrails-ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。
 
 ![Confirm Dialog](images/getting_started/confirm_dialog.png)
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119299
+-->
 
 以上で記事の作成、表示、一覧表示、更新、削除をひととおり実装できました。お疲れさまでした!
 
@@ -1050,24 +1091,28 @@ $ rails generate model Comment commenter:string body:text article:references
 最初に`app/models/comment.rb`を見てみましょう。
 
 ```ruby
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :article
 end
 ```
 
 Commentモデルの内容は、これまでに見た`Article`モデルと非常によく似ています。違いといえば、Active Recordの _関連付け (アソシエーション)_ を設定するための`belongs_to :article`という行がある点です。関連付けの詳細については、本ガイドの次の節で説明します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119358
+-->
+
 モデルのファイルの他にマイグレーションファイルも生成されています。マイグレーションファイルは、モデルに対応するデータベーステーブルを生成するために使用されます。
 
 ```ruby
-class CreateComments < ActiveRecord::Migration
+class CreateComments < ActiveRecord::Migration[5.0]
   def change
     create_table :comments do |t|
       t.string :commenter
       t.text :body
 
       # 以下の行によって`article_id`という整数カラムが追加される
-      t.references :article, index: true
+      t.references :article, foreign_key: true
 
       t.timestamps
     end
@@ -1075,6 +1120,9 @@ class CreateComments < ActiveRecord::Migration
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119400
+-->
 `t.references`という行は、2つのモデルの関連付けを指定するための外部キーを設定します。このとき、関連付け用のインデックスもカラム上に作成されます。それではマイグレーションを実行しましょう。
 
 ```bash
@@ -1100,7 +1148,7 @@ Active Recordの関連付け機能により、2つのモデルの間にリレー
 そして上の方法(における英語の記述)は、Railsで関連付けを宣言するために使用される文法と非常に似ています。`Comment` モデル (app/models/comment.rb) 内のコードに既に書かれていたように、各コメントは1つの記事に属しています。
 
 ```ruby
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :article
 end
 ```
@@ -1108,7 +1156,7 @@ end
 そして、Articleモデル`app/models/article.rb`を編集して、他方のモデルを追加する必要があります。
 
 ```ruby
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
   has_many :comments
   validates :title, presence: true,
                     length: { minimum: 5 }
@@ -1150,8 +1198,8 @@ $ rails generate controller Comments
 | test/controllers/comments_controller_test.rb | コントローラのテスト用ファイル              |
 | app/helpers/comments_helper.rb               | ビューヘルパー                       |
 | test/helpers/comments_helper_test.rb         | ヘルパー用のファイル                  |
-| app/assets/javascripts/comment.js.coffee     | コントローラ用のCoffeeScript          |
-| app/assets/stylesheets/comment.css.scss      | コントローラ用のCSS (カスケーディングスタイルシート) ファイル |
+| app/assets/javascripts/comment.coffee        | コントローラ用のCoffeeScript          |
+| app/assets/stylesheets/comment.scss          | コントローラ用のCSS (カスケーディングスタイルシート) ファイル |
 
 一般的なブログと同様、このブログの記事を読んだ人はそこに直接コメントを追加したくなるでしょう。そしてコメントを追加後に元の記事表示ページに戻り、コメントがそこに反映されていることを確認したいはずです。そこで、`CommentsController`を使用してコメントを作成したり、スパムコメントが書き込まれたら削除できるようにしたいと思います。
 
@@ -1169,17 +1217,17 @@ $ rails generate controller Comments
 </p>
 
 <h2>Add a comment:</h2>
-<%= form_for([@article, @article.comments.build]) do |f| %>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
   <p>
-    <%= f.label :commenter %><br>
-    <%= f.text_field :commenter %>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 
@@ -1187,7 +1235,7 @@ $ rails generate controller Comments
 | <%= link_to 'Edit', edit_article_path(@article) %>
 ```
 
-上のコードでは、`Article`のshowページにフォームが1つ追加されています。このフォームは`CommentsController`の`create`アクションを呼び出すことでコメントを新規作成します。`form_for`呼び出しでは配列を1つ渡しています。これは`/articles/1/comments`のような「ネストしたルーティング (nested route)」を生成します。
+上のコードでは、`Article`のshowページにフォームが1つ追加されています。このフォームは`CommentsController`の`create`アクションを呼び出すことでコメントを新規作成します。`form_with`呼び出しでは配列を1つ渡しています。これは`/articles/1/comments`のような「ネストしたルーティング (nested route)」を生成します。
 
 今度は`app/controllers/comments_controller.rb`の`create`アクションを改造しましょう。
 
@@ -1237,17 +1285,17 @@ end
 <% end %>
 
 <h2>Add a comment:</h2>
-<%= form_for([@article, @article.comments.build]) do |f| %>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
   <p>
-    <%= f.label :commenter %><br>
-    <%= f.text_field :commenter %>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 
@@ -1297,17 +1345,17 @@ end
 <%= render @article.comments %>
 
 <h2>Add a comment:</h2>
-<%= form_for([@article, @article.comments.build]) do |f| %>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
   <p>
-    <%= f.label :commenter %><br>
-    <%= f.text_field :commenter %>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 
@@ -1322,17 +1370,17 @@ end
 今度はコメント作成部分もパーシャルに追い出してみましょう。`app/views/comments/_form.html.erb`ファイルを作成し、以下のように入力します。
 
 ```html+erb
-<%= form_for([@article, @article.comments.build]) do |f| %>
+<%= form_with(model: [ @article, @article.comments.build ], local: true) do |form| %>
   <p>
-    <%= f.label :commenter %><br>
-    <%= f.text_field :commenter %>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
   </p>
   <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= form.submit %>
   </p>
 <% end %>
 ```
@@ -1421,7 +1469,7 @@ end
 ある記事を削除したら、その記事に関連付けられているコメントも一緒に削除する必要があります。そうしないと、コメントがいつまでもデータベース上に残ってしまいます。Railsでは関連付けに`dependent`オプションを指定することでこれを実現しています。Articleモデル`app/models/article.rb`を以下のように変更しましょう。
 
 ```ruby
-class Article < ActiveRecord::Base
+class Article < ApplicationRecord
   has_many :comments, dependent: :destroy
   validates :title, presence: true,
                     length: { minimum: 5 }
@@ -1483,6 +1531,9 @@ class CommentsController < ApplicationController
 次に学ぶべきこと
 ------------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119504
+-->
 以上で、Railsアプリケーションを初めて作るという試みは終わりです。この後は自由に更新したり実験を重ねたりできます。もちろん、何の助けもなしにWebアプリケーションを作らなければならないなどということはありません。Railsを使用してWebアプリケーションを立ち上げたり実行したりするうえで助けが必要になったら、以下のサポート用リソースを自由に参照できます。
 
 * [Ruby on Railsガイド](http://railsguides.jp) -- 本書です
