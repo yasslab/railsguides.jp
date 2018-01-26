@@ -20,7 +20,7 @@ Railsを使用する際に、きわめて重要なコマンドがいくつかあ
 
 * `rails console`
 * `rails server`
-* `rake`
+* `bin/rails`
 * `rails generate`
 * `rails dbconsole`
 * `rails new app_name`
@@ -38,8 +38,8 @@ INFO: まだRailsをインストールしていない場合、`gem install rails
 ```bash
 $ rails new commandsapp
     create
-    create README.rdoc
-    create Rakefile
+    create README.md
+    create Rakefile
     create config.ru
     create .gitignore
     create Gemfile
@@ -54,20 +54,22 @@ $ rails new commandsapp
 
 ### `rails server`
 
-`rails server`コマンドを実行すると、WEBrickという小規模のwebサーバーが起動します(WEBrickはRubyに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。
+`rails server`コマンドを実行すると、Pumaというwebサーバーが起動します(PumaはRailsに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。
 
 `rails server`を実行することで、新しいRailsアプリケーションを作成後すぐにRailsアプリケーションを起動することができます。
 
 ```bash
 $ cd commandsapp
 $ bin/rails server
-=> Booting WEBrick
-=> Rails 4.2.0 application starting in development on http://0.0.0.0:3000
-=> Call with -d to detach
-=> Ctrl-C to shutdown server
-[2013-08-07 02:00:01] INFO  WEBrick 1.3.1
-[2013-08-07 02:00:01] INFO  ruby 2.0.0 (2013-06-27) [x86_64-darwin11.2.0]
-[2013-08-07 02:00:01] INFO  WEBrick::HTTPServer#start: pid=69680 port=3000
+=> Booting Puma
+=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.0.2 (ruby 2.3.0-p0), codename: Plethora of Penguin Pinatas
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://localhost:3000
+Use Ctrl-C to stop
 ```
 
 ちょうど3つのコマンドで、Railsサーバーを3000番ポートで起動しました。ブラウザを立ち上げて、[http://localhost:3000](http://localhost:3000)を開いてみてください。Railsアプリケーションが動作していることが分かります。
@@ -99,6 +101,7 @@ Please choose a generator below.
 
 Rails:
   assets
+  channel
   controller
   generator
   ...
@@ -152,9 +155,9 @@ $ bin/rails generate controller Greetings hello
      create    app/helpers/greetings_helper.rb
      invoke  assets
      invoke    coffee
-     create      app/assets/javascripts/greetings.js.coffee
+     create      app/assets/javascripts/greetings.coffee
      invoke    scss
-     create      app/assets/stylesheets/greetings.css.scss
+     create      app/assets/stylesheets/greetings.scss
 ```
 
 どのようなものが作成されたのでしょう？いくつかのディレクトリがアプリケーションに存在することを確認し、コントローラファイル、ビューファイル、機能テストのファイル、ビューのヘルパー、JavaScriptファイルそしてスタイルシートファイルを作成しました。
@@ -180,7 +183,7 @@ end
 
 ```bash
 $ bin/rails server
-=> Booting WEBrick...
+=> Booting Puma...
 ```
 
 URLは[http://localhost:3000/greetings/hello](http://localhost:3000/greetings/hello)です。
@@ -205,7 +208,9 @@ Active Record options:
 Description:
     Create rails files for model generator.
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122676
+-->
 NOTE: 利用可能なフィールドタイプ(field types)については[API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column)に記載されている、`TableDefinition`のcolumnメソッドの説明を参照してください。
 
 ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて**scaffold**とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。
@@ -238,18 +243,20 @@ $ bin/rails generate scaffold HighScore game:string score:integer
     invoke    jbuilder
     create      app/views/high_scores/index.json.jbuilder
     create      app/views/high_scores/show.json.jbuilder
+    invoke    test_unit
+    create      test/system/high_scores_test.rb
     invoke  assets
     invoke    coffee
-    create      app/assets/javascripts/high_scores.js.coffee
+    create      app/assets/javascripts/high_scores.coffee
     invoke    scss
-    create      app/assets/stylesheets/high_scores.css.scss
+    create      app/assets/stylesheets/high_scores.scss
     invoke    scss
-   identical    app/assets/stylesheets/scaffolds.css.scss
+   identical    app/assets/stylesheets/scaffolds.scss
 ```
 
 ジェネレータはモデル、コントローラ、ヘルパー、レイアウト、機能テスト、ユニットテスト、スタイルシート用のディレクトリが存在することをチェックし、ビュー、コントローラ、モデル、マイグレーション(`high_scores`テーブルとフィールドを作成する)を生成し、この**resource**のためのルーティングを用意します。またこれらのためのテストも作成します。
 
-**migrate**を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは`20130717151933_create_high_scores.rb`に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？`rake db:migrate`コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。Rakeについては後ほど詳しく説明します。
+**migrate**を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは`20130717151933_create_high_scores.rb`に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？`bin/rails db:migrate`コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。bin/railsについては後ほど詳しく説明します。
 
 ```bash
 $ bin/rails db:migrate
@@ -258,7 +265,9 @@ $ bin/rails db:migrate
    -> 0.0017s
 ==  CreateHighScores: migrated (0.0019s) ======================================
 ```
-
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122766
+-->
 INFO: 単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。
 
 Railsが作ったインターフェースをみてみましょう。
@@ -278,14 +287,14 @@ INFO: コンソールコマンドを実行する際には`rails c`のように"c
 `console`コマンドを実行する環境を指定することができます。
 
 ```bash
-$ bin/rails console staging
+$ bin/rails console -e staging
 ```
 
 データを変更することなくコードをテストしたいときは、`rails console --sandbox`を実行します。
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 4.2.0)
+Loading development environment in sandbox (Rails 5.1.0)
 Any modifications you make will be rolled back on exit
 irb(main):001:0>
 ```
@@ -317,7 +326,7 @@ Started GET "/" for 127.0.0.1 at 2014-06-19 10:41:57 -0300
 
 ### `rails dbconsole`
 
-`rails dbconsole`コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL、PostgreSQL、SQLite、そしてSQLite3をサポートしています。
+`rails dbconsole`コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL (MariaDB含む)、PostgreSQL、SQLite、そしてSQLite3をサポートしています。
 
 INFO: DBコンソールコマンドを実行する際には`rails db`のように"db"というエイリアスが使用できます。
 
@@ -336,6 +345,9 @@ INFO: ランナーコマンドを実行する際には`rails r`のように"r"�
 ```bash
 $ bin/rails runner -e staging "Model.long_running_method"
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122817
+-->
 
 ### `rails destroy`
 
@@ -362,9 +374,12 @@ $ bin/rails destroy model Oops
       remove      test/fixtures/oops.yml
 ```
 
-Rake
-----
-
+bin/rails
+---------
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122861
+TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122870
+-->
 RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と`.rake`ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。
 
 `rake --tasks`とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。
@@ -373,20 +388,41 @@ RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRu
 例えば ```rake db:create --trace``` のようにしてタスクを実行します。
 
 ```bash
-$ bin/rails --tasks
-rake about              # List versions of all Rails frameworks and the environment
-rake assets:clean       # Remove old compiled assets
-rake assets:clobber     # Remove compiled assets
-rake assets:precompile  # Compile all the assets named in config.assets.precompile
-rake db:create          # Create the database from config/database.yml for the current Rails.env
+$ bin/rails --help
+Usage: rails COMMAND [ARGS]
+
+The most common rails commands are:
+generate    Generate new code (short-cut alias: "g")
+console     Start the Rails console (short-cut alias: "c")
+server      Start the Rails server (short-cut alias: "s")
 ...
-rake log:clear          # Truncates all *.log files in log/ to zero bytes (specify which logs with LOGS=test,development)
-rake middleware         # Prints out your Rack middleware stack
+
+All commands can be run with -h (or --help) for more information.
+
+In addition to those commands, there are:
+about                               List versions of all Rails ...
+assets:clean[keep]                  Remove old compiled assets
+assets:clobber                      Remove compiled assets
+assets:environment                  Load asset compile environment
+assets:precompile                   Compile all the assets ...
 ...
-rake tmp:clear          # Clear session, cache, and socket files from tmp/ (narrow w/ tmp:sessions:clear, tmp:cache:clear, tmp:sockets:clear)
-rake tmp:create         # Creates tmp directories for sessions, cache, sockets, and pids
+db:fixtures:load                    Loads fixtures into the ...
+db:migrate                          Migrate the database ...
+db:migrate:status                   Display status of migrations
+db:rollback                         Rolls the schema back to ...
+db:schema:cache:clear               Clears a db/schema_cache.yml file
+db:schema:cache:dump                Creates a db/schema_cache.yml file
+db:schema:dump                      Creates a db/schema.rb file ...
+db:schema:load                      Loads a schema.rb file ...
+db:seed                             Loads the seed data ...
+db:structure:dump                   Dumps the database structure ...
+db:structure:load                   Recreates the databases ...
+db:version                          Retrieves the current schema ...
+...
+restart                             Restart app by touching ...
+tmp:create                          Creates tmp directories ...
 ```
-INFO: ```rake -T```でもタスクの一覧を表示することができます。
+INFO: `bin/rails -T`でもタスクの一覧を表示することができます。
 
 ### `about`
 
