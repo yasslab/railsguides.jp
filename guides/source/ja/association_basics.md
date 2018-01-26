@@ -1941,6 +1941,7 @@ person.articles << article unless person.articles.include?(article)
 * `collection.build(attributes = {})`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
+* `collection.reload`
 
 上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_and_belongs_to_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
 
@@ -1969,6 +1970,7 @@ assemblies.exists?(...)
 assemblies.build(attributes = {}, ...)
 assemblies.create(attributes = {})
 assemblies.create!(attributes = {})
+assemblies.reload
 ```
 
 ##### 追加のカラムメソッド
@@ -2089,7 +2091,9 @@ NOTE: このメソッドは`collection.concat`および`collection.push`のエ�
 ##### `collection.create!(attributes = {})`
 
 上の`collection.create`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27118899
+-->
 #### `has_and_belongs_to_many`のオプション
 
 Railsのデフォルトの`has_and_belongs_to_many`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときにオプションを渡すことで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
@@ -2126,7 +2130,9 @@ end
 ```
 
 ##### `:autosave`
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/192f67bc3563a54d1bc406bce076be80a6ff0b1e#r27118921
+-->
 `:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
 
 ##### `:class_name`
@@ -2259,7 +2265,7 @@ end
 
 ##### `distinct`
 
-`uniq`メソッドは、コレクション内の重複を削除します。
+`distinct`メソッドは、コレクション内の重複を削除します。
 
 #### オブジェクトが保存されるタイミング
 
