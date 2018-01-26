@@ -130,13 +130,21 @@ end
 ```
 
 `touch`をtrueに設定すると、gameのレコードの`updated_at`を更新するアクションを実行すると、関連付けられているproductの`updated_at`も同様に更新されてキャッシュの期限が終了します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121546
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121572
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121576
+-->
 ### 依存関係の管理
-
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121619
+-->
 キャッシュを正しく無効にするには、キャッシュの依存関係を適切に定義する必要があります。多くの場合、Railsでは依存関係が適切に処理されるので、特別な対応は不要です。ただし、カスタムヘルパーでキャッシュを扱うなどの場合は、明示的に依存関係を定義する必要があります。
 
 #### 暗黙の依存関係
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121602
+-->
 ほとんどの場合、テンプレートの依存関係は、テンプレート自身で呼び出される`render`によって発生します。以下の例は、デコード方法を取り扱う`ActionView::Digestor`でrender呼び出しする方法です。
 
 ```ruby
@@ -165,7 +173,9 @@ render partial: "documents/document", collection: @project.documents.where(publi
 ```
 
 #### 明示的な依存関係
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121648
+-->
 テンプレートで、思わぬ依存関係が生じることがあります。典型的なのは、ヘルパー内でレンダリングする場合です。以下に例を示します。
 
 ```html+erb
@@ -207,7 +217,9 @@ render partial: "documents/document", collection: @project.documents.where(publi
 ### 低レベルキャッシュ
 
 ビューのフラグメントをキャッシュするのではなく、特定の値やクエリ結果だけをキャッシュしたいことがあります。Railsのキャッシュメカニズムでは、どんな情報でもキャッシュに保存できます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121773
+-->
 低レベルキャッシュの最も効果的な実装方法は、`Rails.cache.fetch`メソッドを利用することです。このメソッドは、キャッシュの書き込みと読み出しの両方に対応しています。引数が1つだけの場合、キーを読み出し、キャッシュから値を取り出して返します。ブロックを引数として渡すと、指定のキーでブロックの処理結果がキャッシュされ、その結果を返します。
 
 次の例を考えてみましょう。アプリケーションに`Product`モデルがあり、競合webサイトの製品価格を検索するインスタンスメソッドがそのモデルにあるとします。低レベルキャッシュを使う場合、このメソッドから完全なデータが返ります。
@@ -330,6 +342,16 @@ config.cache_store = :file_store, "/path/to/cache/directory"
 ```ruby
 config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.com"
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122060
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122073
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122078
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122080
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122081
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122082
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122084
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122085
+-->
 
 ### ActiveSupport::Cache::NullStore
 
@@ -414,6 +436,10 @@ class ProductsController < ApplicationController
   end
 end
 ```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122153
+-->
 
 ### 強いETagと弱いETag
 
