@@ -179,7 +179,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 * `config.assets.digest`は、アセット名に使用するSHA256フィンガープリントを有効にするかどうかを指定します。デフォルトで`true`に設定されます。
 
 * `config.assets.debug`は、デバッグ用にアセットの連結と圧縮をやめるかどうかを指定します。`development.rb`ではデフォルトで`true`に設定されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171345
+-->
 * `config.assets.version`はSHA256ハッシュ生成に使用されるオプション文字列です。この値を変更すると、すべてのアセットファイルが強制的にリコンパイルされます。
 
 * `config.assets.compile`は、production環境での動的なSprocketsコンパイルをオンにするかどうかをtrue/falseで指定します。
@@ -202,20 +204,33 @@ end
 * `assets`は、scaffoldを生成するかどうかを指定します。デフォルトは`true`です。
 * `force_plural`は、モデル名を複数形にするかどうかを指定します。デフォルトは`false`です。
 * `helper`はヘルパーを生成するかどうかを指定します。デフォルトは`true`です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171496
+-->
 * `integration_tool`は、使用する統合ツールを定義します。デフォルトは`nil`です。
 * `javascripts`は、生成時にJavaScriptファイルへのフックをオンにするかどうかを指定します。この設定は`scaffold`ジェネレータの実行中に使用されます。デフォルトは`true`です。
-* `javascript_engine`は、アセット生成時に(coffeeなどで)使用するエンジンを設定します。デフォルトは`nil`です。
+* `javascript_engine`は、アセット生成時に(coffeeなどで)使用するエンジンを設定します。デフォルトは`:js`です。
 * `orm`は、使用するORM (オブジェクトリレーショナルマッピング) を指定します。デフォルトは`false`であり、この場合はActive Recordが使用されます。
 * `resource_controller`は、`rails generate resource`の実行時にどのジェネレータを使用してコントローラを生成するかを指定します。デフォルトは`:controller`です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171511
+-->
 * `scaffold_controller`は`resource_controller`と同じではありません。`scaffold_controller`は _scaffold_ でどのジェネレータを使用してコントローラを生成するか(`rails generate scaffold`の実行時)を指定します。デフォルトは`:scaffold_controller`です。
 * `stylesheets`は、ジェネレータでスタイルシートのフックを行なうかどうかを指定します。この設定は`scaffold`ジェネレータの実行時に使用されますが、このフックは他のジェネレータでも使用されます。デフォルトは`true`です。
 * `stylesheet_engine`は、アセット生成時に使用される、sassなどのスタイルシートエンジンを指定します。デフォルトは`:css`です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171522
+-->
 * `test_framework`は、使用するテストフレームワークを指定します。デフォルトは`false`であり、この場合はTest::Unitが使用されます。
 * `template_engine`はビューのテンプレートエンジン(ERBやHamlなど)を指定します。デフォルトは`:erb`です。
 
 ### ミドルウェアを設定する
 
 どのRailsアプリケーションの背後にも、いくつかの標準的なミドルウェアが配置されています。development環境では、以下の順序でミドルウェアを使用します。
+
+<!--
+TODO :https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171542
+-->
 
 * `ActionDispatch::SSL`はすべてのリクエストにHTTPSプロトコルを強制します。これは`config.force_ssl`を`true`にすると有効になります。渡すオプションは`config.ssl_options`で設定できます。
 * `ActionDispatch::Static`は静的アセットで使用されます。`config.serve_static_assets`を`false`にするとオフになります。
