@@ -941,19 +941,33 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174378
 -->
 * `active_record.logger`: `Rails.logger`に対する設定が行われていない場合に`ActiveRecord::Base.logger`を設定します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174428
+-->
 * `active_record.set_configs`: `config.active_record`の設定を使用してActive Recordを設定します。使用される`config.active_record`の設定は、メソッド名が`ActiveRecord::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174433
+-->
 * `active_record.initialize_database`: データベース設定を`config/database.yml`(デフォルトの読み込み元)から読み込み、現在の環境で接続を確立します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174434
+-->
 * `active_record.log_runtime`: `ActiveRecord::Railties::ControllerRuntime`をインクルードします。これは、リクエストでActive Record呼び出しにかかった時間をロガーにレポートする役割を担います。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174440
+-->
 * `active_record.set_dispatch_hooks`: `config.cache_classes`が`false`に設定されている場合、再読み込み可能なデータベース接続をすべてリセットします。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174444
+-->
 * `action_mailer.logger`: `Rails.logger`に対する設定が行われていない場合に`ActionMailer::Base.logger`を設定します。
-
-* `action_mailer.set_configs`: `config.action_mailer`の設定を使用してAction Mailerを設定します。使用される`config.action_mailer`の設定は、メソッド名が`ActionMailer::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174472
+-->
+* `active_record.set_configs`: `config.active_record`の設定を使用してAction Recordを設定します。使用される`config.active_record`の設定は、メソッド名が`ActionRecord::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
+<!--
+https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174475
+-->
 * `action_mailer.compile_config_methods`: 指定された設定用メソッドを初期化し、より高速にアクセスできるようにします。
 
 * `set_load_path`: このイニシャライザは`bootstrap_hook`より前に実行されます。`vendor`、`lib`、`app`以下のすべてのディレクトリ、`config.load_paths`で指定されるすべてのパスが`$LOAD_PATH`に追加されます。
