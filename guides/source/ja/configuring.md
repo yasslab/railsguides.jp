@@ -465,19 +465,25 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
     * `:domain` - HELOドメインの指定が必要な場合に使用します。
     * `:user_name` - メールサーバーで認証が要求される場合は、ここでユーザー名を設定します。
     * `:password` - メールサーバーで認証が要求される場合は、ここでパスワードを設定します。
-    * `:authentication` - メールサーバーで認証が要求される場合は、ここで認証の種類を指定します。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定できます。
-
+    * `:authentication` - メールサーバーで認証が要求される場合は、ここで認証の種類を指定します。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定できます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172314
+-->
 * `config.action_mailer.sendmail_settings`は、`:sendmail`配信方法を詳細に設定するのに使用できます。これはオプションのハッシュを引数に取り、以下のどのオプションでも含めることができます。
     * `:location` - sendmail実行ファイルの場所。デフォルトは`/usr/sbin/sendmail`です。
-    * `:arguments` - コマンドラインに与える引数。デフォルトは`-i -t`です。
+    * `:arguments` - コマンドラインに与える引数。デフォルトは`-i`です。
 
-* `config.action_mailer.raise_delivery_errors`は、メールの配信が完了しなかった場合にエラーを発生させるかどうかを指定します。デフォルトはtrueです。
+* `config.action_mailer.raise_delivery_errors`は、メールの配信が完了しなかった場合にエラーを発生させるかどうかを指定します。デフォルトは`true`です。
 
 * `config.action_mailer.delivery_method`は、配信方法を指定します。デフォルトは`:smtp`です。詳細については、[Action Mailerガイド](action_mailer_basics.html#action-mailerを設定する)を参照してください。
 
-* `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルトはtrueです。テスト時にメール送信を抑制するのに便利です。
+* `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルトは`true`です。テスト時にメール送信を抑制するのに便利です。
 
 * `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メイラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27173988
+-->
 
     ```ruby
     mime_version:  "1.0",
@@ -511,8 +517,10 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 Active Supportにもいくつかの設定オプションがあります。
 
 * `config.active_support.bare`は、Rails起動時に`active_support/all`の読み込みを行なうかどうかを指定します。デフォルトは`nil`であり、この場合`active_support/all`は読み込まれます。
-
-* `config.active_support.escape_html_entities_in_json`は、JSONシリアライズに含まれるHTMLエンティティをエスケープするかどうかを指定します。デフォルトは`false`です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174045 
+-->
+* `config.active_support.escape_html_entities_in_json`は、JSONシリアライズに含まれるHTMLエンティティをエスケープするかどうかを指定します。デフォルトは`true`です。
 
 * `config.active_support.use_standard_json_time_format`は、ISO 8601フォーマットに従った日付のシリアライズを行なうかどうかを指定します。デフォルトは`true`です。
 
@@ -528,6 +536,9 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `ActiveSupport::Deprecation.silenced`は、非推奨警告メッセージを表示するかどうかを指定します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174053
+-->
 
 ### データベースを設定する
 
@@ -569,7 +580,9 @@ TIP: データベースの接続設定を手動で更新する必要はありま
 
 
 ### 接続設定
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174090
+-->
 環境変数を経由してデータベース接続を設定する方法が2とおりあるので、この2つがどのように相互作用するかを理解しておくことが重要です。
 
 `config/database.yml`ファイルの内容が空で、かつ環境変数`ENV['DATABASE_URL']`が設定されている場合、データベースへの接続には環境変数が使用されます。
@@ -670,11 +683,11 @@ development:
   timeout: 5000
 ```
 
-NOTE: Railsでデータ保存用にSQLite3データベースが採用されているのは、設定なしですぐに使用できるからです。RailsではSQLiteに代えてMySQLやPostgreSQLなどを使用することもできます。また、データベース接続用のプラグインが多数あります。production環境で何らかのデータベースを使用する場合、そのためのアダプタはたいていの場合探せば見つかります。
+NOTE: Railsでデータ保存用にSQLite3データベースが採用されているのは、設定なしですぐに使用できるからです。RailsではSQLiteに代えてMySQL(MariaDB含む)やPostgreSQLなどを使用することもできます。また、データベース接続用のプラグインが多数あります。production環境で何らかのデータベースを使用する場合、そのためのアダプタはたいていの場合探せば見つかります。
 
-#### MySQLデータベースを設定する
+#### MySQLやMariaDBデータベースを設定する
 
-Rails同梱のSQLite3に代えてMySQLを採用した場合、`config/database.yml`の記述方法を少し変更します。developmentセクションの記述は以下のようになります。
+Rails同梱のSQLite3に代えてMySQLやMariaDBなどを採用した場合、`config/database.yml`の記述方法を少し変更します。developmentセクションの記述は以下のようになります。
 
 ```yaml
 development:
@@ -686,7 +699,9 @@ development:
   password:
   socket: /tmp/mysql.sock
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174155
+-->
 開発環境のコンピュータにMySQLがインストールされており、ユーザー名root、パスワードなしで接続できるのであれば、上の設定で接続できるようになるはずです。接続できない場合は、`development`セクションのユーザー名またはパスワードを適切なものに変更してください。
 
 #### PostgreSQLデータベースを設定する
@@ -729,9 +744,9 @@ development:
   database: db/development.sqlite3
 ```
 
-#### JRubyプラットフォームでMySQLデータベースを使用する
+#### JRubyプラットフォームでMySQLやMariaDBのデータベースを使用する
 
-JRuby環境でMySQLを採用する場合、`config/database.yml`の記述方法は少し異なります。developmentセクションは以下のようになります。
+JRuby環境でMySQLやMariaDBなどを採用する場合、`config/database.yml`の記述方法は少し異なります。developmentセクションは以下のようになります。
 
 ```yaml
 development:
@@ -762,7 +777,7 @@ Railsにデフォルトで備わっている環境は、"development"、"test"�
 
 たとえば、production環境をミラーコピーしたサーバーがあるが、テスト目的でのみ使用したいという場合を想定してみましょう。このようなサーバーは通常「ステージングサーバー(staging server)」と呼ばれます。"staging"環境をサーバーに追加したいのであれば、`config/environments/staging.rb`というファイルを作成するだけで済みます。その際にはなるべく`config/environments`にある既存のファイルを流用し、必要な部分のみを変更するようにしてください。
 
-このようにして追加された環境は、デフォルトの3つの環境と同じように利用できます。`rails server -e staging`を実行すればステージング環境でサーバーを起動でき、`rails console staging`や`Rails.env.staging?`なども動作するようになります。
+このようにして追加された環境は、デフォルトの3つの環境と同じように利用できます。`rails server -e staging`を実行すればステージング環境でサーバーを起動でき、`rails console -e staging`や`Rails.env.staging?`なども動作するようになります。
 
 
 ### サブディレクトリにデプロイする (相対URLルートの使用)
@@ -781,20 +796,12 @@ config.relative_url_root = "/app1"
 
 #### Passengerを使用する
 
-Passengerを使用すると、アプリケーションをサブディレクトリで実行するのが容易になります。設定方法の詳細については、[passengerマニュアル](http://www.modrails.com/documentation/Users%20guide%20Apache.html#deploying_rails_to_sub_uri)を参照してください。
+Passengerを使用すると、アプリケーションをサブディレクトリで実行するのが容易になります。設定方法の詳細については、[passengerマニュアル](https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/#deploying-an-app-to-a-sub-uri-or-subdirectory)を参照してください。
 
 #### リバースプロキシを使用する
-
-TODO
-
-#### サブディレクトリにデプロイする場合の検討事項
-
-本番環境でRailsをサブディレクトリにデプロイすると、Railsの多くの部分に影響が生じます。
-
-* 開発環境
-* テスト環境
-* 静的アセットの提供
-* アセットパイプライン
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174212
+-->
 
 Rails環境の設定
 --------------------------
@@ -807,14 +814,15 @@ Rails環境の設定
 
 * `ENV["RAILS_CACHE_ID"]`と`ENV["RAILS_APP_VERSION"]`は、Railsのキャッシュを扱うコードで拡張キャッシュを生成するために使用されます。これにより、ひとつのアプリケーションの中で複数の独立したキャッシュを扱うことができるようになります。
 
-
 イニシャライザファイルを使用する
 -----------------------
 
 Railsは、フレームワークの読み込みとすべてのgemの読み込みが終わってから、イニシャライザの読み込みを開始します。イニシャライザとは、アプリケーションの`config/initializers`ディレクトリに保存されるRubyファイルのことです。たとえば各部分のオプション設定をイニシャライザに保存しておき、フレームワークとgemがすべて読み込まれた後に適用することができます。
 
 NOTE: イニシャライザを置くディレクトリにサブフォルダを作ってイニシャライザを整理することもできます。Railsはイニシャライザ用のディレクトリの下のすべての階層を探して実行してくれます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174230
+-->
 TIP: イニシャライザの実行順序を指定したい場合は、イニシャライザのファイル名を使用して実行順序を制御できます。各フォルダのイニシャライザはアルファベット順に読み込まれます。たとえば`01_critical.rb`は最初に読み込まれ、`02_normal.rb`は次に読み込まれます。
 
 初期化イベント
@@ -885,7 +893,9 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 * `initialize_logger`: ここより前の位置で`Rails.logger`を定義するイニシャライザがない場合、アプリケーションのロガー(`ActiveSupport::Logger`オブジェクト)を初期化し、`Rails.logger`にアクセスできるようにします。
 
 * `initialize_cache`: `Rails.cache`が未設定の場合、`config.cache_store`の値を参照してキャッシュを初期化し、その結果を`Rails.cache`として保存します。そのオブジェクトが`middleware`メソッドに応答する場合、そのミドルウェアをミドルウェアスタックの`Rack::Runtime`の前に挿入します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174269
+-->
 * `set_clear_dependencies_hook`: `active_record.set_dispatch_hooks`へのフックを提供します。このイニシャライザより前に実行されます。このイニシャライザは、`cache_classes`が`false`の場合にのみ実行されます。そして、このイニシャライザは`ActionDispatch::Callbacks.after`を使用して、オブジェクト空間からのリクエスト中に参照された定数を削除します。これにより、これらの定数は以後のリクエストで再度読み込まれるようになります。
 
 * `initialize_dependency_mechanism`: `config.cache_classes`がtrueの場合、`ActiveSupport::Dependencies.mechanism`で依存性を(`load`ではなく)`require`に設定します。
@@ -899,21 +909,37 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 * `active_support.initialize_time_zone`: `config.time_zone`の設定に基いてアプリケーションのデフォルトタイムゾーンを設定します。デフォルト値は"UTC"です。
 
 * `active_support.initialize_beginning_of_week`: `config.beginning_of_week`の設定に基づいてアプリケーションのデフォルトの週開始日を設定します。デフォルト値は`:monday`です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174307
+-->
 * `action_dispatch.configure`: `ActionDispatch::Http::URL.tld_length`を構成して、`config.action_dispatch.tld_length`の値(トップレベルドメイン名の長さ)が設定されるようにします。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174315
+-->
 * `action_view.set_configs`: `config.action_view`の設定を使用してAction Viewを設定します。使用される`config.action_view`の設定は、メソッド名が`ActionView::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174322
+-->
 * `action_controller.logger`: `Rails.logger`に対する設定が行われていない場合に`ActionController::Base.logger`を設定します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174336
+-->
 * `action_controller.initialize_framework_caches`: `Rails.cache`に対する設定が行われていない場合に`ActionController::Base.cache_store`を設定します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174338
+-->
 * `action_controller.set_configs`: `config.action_controller`の設定を使用してAction Controllerを設定します。使用される`config.action_controller`の設定は、メソッド名が`ActionController::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174343
+-->
 * `action_controller.compile_config_methods`: 指定された設定用メソッドを初期化し、より高速にアクセスできるようにします。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174353
+-->
 * `active_record.initialize_timezone`: `ActiveRecord::Base.time_zone_aware_attributes`をtrueに設定し、`ActiveRecord::Base.default_timezone`をUTCに設定します。属性がデータベースから読み込まれた場合、それらの属性は`Time.zone`で指定されたタイムゾーンに変換されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174378
+-->
 * `active_record.logger`: `Rails.logger`に対する設定が行われていない場合に`ActiveRecord::Base.logger`を設定します。
 
 * `active_record.set_configs`: `config.active_record`の設定を使用してActive Recordを設定します。使用される`config.active_record`の設定は、メソッド名が`ActiveRecord::Base`に対するセッターとして`send`され、それを経由して値が渡されることによって行われます。
