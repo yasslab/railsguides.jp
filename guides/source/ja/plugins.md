@@ -16,7 +16,7 @@ Railsのプラグインは、コアフレームワークを拡張したり変更
 本ガイドでは、以下を理解することを目的として、プラグインをテスト駆動方式で開発する方法を解説します。
 
 * HashやStringなどのコアRubyクラスを拡張する
-* `acts_as`プラグインと同様の手法で`ActiveRecord::Base`にメソッドを追加する
+* `acts_as`プラグインと同様の手法で`ApplicationRecord`にメソッドを追加する
 * プラグインのどこにジェネレータを配置すべきかを理解する
 
 ここからは説明上の便宜のため、自分がひとりの熱心なバードウォッチャーであるとお考えください。
@@ -47,7 +47,7 @@ $ bin/rails plugin new --help
 新しく生成したプラグインをテストする
 -----------------------------------
 
-プラグインを作成したディレクトリに移動して`bundle install`コマンドを実行し、自動生成されたテストを`rake`コマンドで実行します。
+プラグインを作成したディレクトリに移動して`bundle install`コマンドを実行し、自動生成されたテストを`bin/test`コマンドで実行します。
 
 実行結果は以下のようになります。
 
@@ -67,7 +67,7 @@ $ bin/rails plugin new --help
   ```ruby
 # yaffle/test/core_ext_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class CoreExtTest < ActiveSupport::TestCase
   def test_to_squawk_prepends_the_word_squawk
@@ -76,25 +76,37 @@ class CoreExtTest < ActiveSupport::TestCase
 end
 ```
 
-`rake`を実行してテストします。`to_squawk`は実装されていないので、当然テストは失敗します。
+`bin/test`を実行してテストします。`to_squawk`は実装されていないので、当然テストは失敗します。
 
 ```bash
-    1) Error:
-  CoreExtTest#test_to_squawk_prepends_the_word_squawk:
-  NoMethodError: undefined method `to_squawk' for "Hello World":String
-    /path/to/yaffle/test/core_ext_test.rb:5:in `test_to_squawk_prepends_the_word_squawk'
+E
+
+Error:
+CoreExtTest#test_to_squawk_prepends_the_word_squawk:
+NoMethodError: undefined method `to_squawk' for "Hello World":String
+
+
+bin/test /path/to/yaffle/test/core_ext_test.rb:4
+
+.
+
+Finished in 0.003358s, 595.6483 runs/s, 297.8242 assertions/s.
+
+2 runs, 1 assertions, 0 failures, 1 errors, 0 skips
 ```
 
 ここまで準備できれば、いよいよコーディング開始です。
 
-`lib/yaffle.rb`に`require 'yaffle/core_ext'`を追加します。
+`lib/yaffle.rb`に`require "yaffle/core_ext"`を追加します。
 
 ```ruby
 # yaffle/lib/yaffle.rb
 
-require 'yaffle/core_ext'
+require "yaffle/railtie"
+require "yaffle/core_ext"
 
 module Yaffle
+  # Your code goes here...
 end
 ```
 
@@ -103,20 +115,20 @@ end
 ```ruby
 # yaffle/lib/yaffle/core_ext.rb
 
-String.class_eval do
+class String
   def to_squawk
     "squawk! #{self}".strip
   end
 end
 ```
 
-プラグインのあるディレクトリで`rake`テストを実行して、メソッドがテストにパスすることを確認します。
+プラグインのあるディレクトリで`bin/test`テストを実行して、メソッドがテストにパスすることを確認します。
 
 ```bash
   2 runs, 2 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-最後にメソッドを実際に使ってみましょう。test/dummyディレクトリに移動してガーガー鳴いてみましょう(squawk)。
+最後にメソッドを実際に使ってみましょう。`test/dummy`ディレクトリに移動してガーガー鳴いてみましょう(squawk)。
 
 ```bash
 $ bin/rails console
@@ -134,7 +146,7 @@ $ bin/rails console
 ```ruby
 # yaffle/test/acts_as_yaffle_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class ActsAsYaffleTest < ActiveSupport::TestCase
 end
@@ -143,10 +155,12 @@ end
 ```ruby
 # yaffle/lib/yaffle.rb
 
-require 'yaffle/core_ext'
-require 'yaffle/acts_as_yaffle'
+require "yaffle/railtie"
+require "yaffle/core_ext"
+require "yaffle/acts_as_yaffle"
 
 module Yaffle
+  # Your code goes here...
 end
 ```
 
@@ -169,10 +183,9 @@ end
 ```ruby
 # yaffle/test/acts_as_yaffle_test.rb
 
-require 'test_helper'
+require "test_helper"
 
 class ActsAsYaffleTest < ActiveSupport::TestCase
-
   def test_a_hickwalls_yaffle_text_field_should_be_last_squawk
     assert_equal "last_squawk", Hickwall.yaffle_text_field
   end
@@ -184,23 +197,37 @@ class ActsAsYaffleTest < ActiveSupport::TestCase
 end
 ```
 
-`rake`を実行すると以下が出力されます。
+`bin/test`を実行すると以下が出力されます。
 
 ```
-    1) Error:
-  ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
-  NameError: uninitialized constant ActsAsYaffleTest::Hickwall
-    /path/to/yaffle/test/acts_as_yaffle_test.rb:6:in `test_a_hickwalls_yaffle_text_field_should_be_last_squawk'
+# Running:
 
-    2) Error:
-  ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
-  NameError: uninitialized constant ActsAsYaffleTest::Wickwall
-    /path/to/yaffle/test/acts_as_yaffle_test.rb:10:in `test_a_wickwalls_yaffle_text_field_should_be_last_tweet'
+..E
 
-  4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
+Error:
+ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
+NameError: uninitialized constant ActsAsYaffleTest::Wickwall
+
+
+bin/test /path/to/yaffle/test/acts_as_yaffle_test.rb:8
+
+E
+
+Error:
+ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
+NameError: uninitialized constant ActsAsYaffleTest::Hickwall
+  		  
+
+bin/test /path/to/yaffle/test/acts_as_yaffle_test.rb:4
+
+
+
+Finished in 0.004812s, 831.2949 runs/s, 415.6475 assertions/s.
+
+4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
 ```
 
-この結果から、テストの対象となるモデル (Hickwall and Wickwall) がそもそもないことがわかります。必要なモデルはダミーのRailsアプリケーションで簡単に作成できます。test/dummyディレクトリに移動して以下のコマンドを実行します。
+この結果から、テストの対象となるモデル (Hickwall and Wickwall) がそもそもないことがわかります。必要なモデルはダミーのRailsアプリケーションで簡単に作成できます。`test/dummy`ディレクトリに移動して以下のコマンドを実行します。
 
 ```bash
 $ cd test/dummy
@@ -220,13 +247,13 @@ $ bin/rails db:migrate
 ```ruby
 # test/dummy/app/models/hickwall.rb
 
-class Hickwall < ActiveRecord::Base
+class Hickwall < ApplicationRecord
   acts_as_yaffle
 end
 
 # test/dummy/app/models/wickwall.rb
 
-class Wickwall < ActiveRecord::Base
+class Wickwall < ApplicationRecord
   acts_as_yaffle yaffle_text_field: :last_tweet
 end
 
@@ -236,41 +263,55 @@ end
 
 ```ruby
 # yaffle/lib/yaffle/acts_as_yaffle.rb
+
 module Yaffle
   module ActsAsYaffle
     extend ActiveSupport::Concern
 
-    included do
-    end
-
-    module ClassMethods
+    class_methods do
       def acts_as_yaffle(options = {})
-        # ここにコードを書く
       end
     end
   end
 end
 
-ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+# test/dummy/app/models/application_record.rb
+
+class ApplicationRecord < ActiveRecord::Base
+  include Yaffle::ActsAsYaffle
+
+  self.abstract_class = true
+end
 ```
 
-終わったら`cd ../..`を実行してプラグインのルートディレクトリに戻り、`rake`を実行してテストを再実行します。
+終わったら`cd ../..`を実行してプラグインのルートディレクトリに戻り、`bin/test`を実行してテストを再実行します。
 
 ```
-    1) Error:
-  ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
-  NoMethodError: undefined method `yaffle_text_field' for #<Class:0x007fd105e3b218>
-    activerecord (4.1.5) lib/active_record/dynamic_matchers.rb:26:in `method_missing'
-    /path/to/yaffle/test/acts_as_yaffle_test.rb:6:in `test_a_hickwalls_yaffle_text_field_should_be_last_squawk'
+# Running:
 
-    2) Error:
-  ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
-  NoMethodError: undefined method `yaffle_text_field' for #<Class:0x007fd105e409c0>
-    activerecord (4.1.5) lib/active_record/dynamic_matchers.rb:26:in `method_missing'
-    /path/to/yaffle/test/acts_as_yaffle_test.rb:10:in `test_a_wickwalls_yaffle_text_field_should_be_last_tweet'
+.E
 
-  4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
+Error:
+ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
+NoMethodError: undefined method `yaffle_text_field' for # <Class:0x0055974ebbe9d8>
 
+
+bin/test /path/to/yaffle/test/acts_as_yaffle_test.rb:4
+
+E
+
+Error:
+ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
+NoMethodError: undefined method `yaffle_text_field' for #<Class:0x0055974eb8cfc8>
+
+
+bin/test /path/to/yaffle/test/acts_as_yaffle_test.rb:8
+
+.
+
+Finished in 0.008263s, 484.0999 runs/s, 242.0500 assertions/s.
+
+4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
 ```
 
 開発がだいぶ進んできました。今度は`acts_as_yaffle`メソッドを実装し、テストがパスするようにしましょう。
@@ -280,24 +321,26 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 module Yaffle
   module ActsAsYaffle
-   extend ActiveSupport::Concern
+    extend ActiveSupport::Concern
 
-    included do
-    end
-
-    module ClassMethods
+    class_methods do
       def acts_as_yaffle(options = {})
-        cattr_accessor :yaffle_text_field
-        self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s
+        cattr_accessor :yaffle_text_field, default: (options[:yaffle_text_field] || :last_squawk).to_s
       end
     end
   end
 end
 
-ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+# test/dummy/app/models/application_record.rb
+
+class ApplicationRecord < ActiveRecord::Base
+  include Yaffle::ActsAsYaffle
+
+  self.abstract_class = true
+end
 ```
 
-`rake`を実行すると、今度のテストはすべてパスします。
+`bin/test`を実行すると、今度のテストはすべてパスします。
 
 ```bash
   4 runs, 4 assertions, 0 failures, 0 errors, 0 skips
@@ -305,16 +348,15 @@ ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
 
 ### インスタンスメソッドを追加する
 
-今度はこのプラグインに'squawk'というメソッドを追加して、'acts_as_yaffle'を呼び出すすべてのActive Recordオブジェクトに追加しましょう'squawk'メソッドはデータベースのフィールドにある値のいずれかひとつを設定するだけのシンプルなものです。
+今度はこのプラグインに'squawk'というメソッドを追加して、`acts_as_yaffle`を呼び出すすべてのActive Recordオブジェクトに追加しましょう'squawk'メソッドはデータベースのフィールドにある値のいずれかひとつを設定するだけのシンプルなものです。
 
 最初に、以下のように振る舞う、失敗するテストをひとつ作成します。
 
 ```ruby
 # yaffle/test/acts_as_yaffle_test.rb
-require 'test_helper'
+require "test_helper"
 
 class ActsAsYaffleTest < ActiveSupport::TestCase
-
   def test_a_hickwalls_yaffle_text_field_should_be_last_squawk
     assert_equal "last_squawk", Hickwall.yaffle_text_field
   end
@@ -337,7 +379,7 @@ class ActsAsYaffleTest < ActiveSupport::TestCase
 end
 ```
 
-テストを実行して、最後に追加した2つのテストが失敗することを確認します。失敗のメッセージには"NoMethodError: undefined method `squawk'"が含まれているので、'acts_as_yaffle.rb'を以下のように更新します。
+テストを実行して、最後に追加した2つのテストが失敗することを確認します。失敗のメッセージには"NoMethodError: undefined method `squawk'"が含まれているので、`acts_as_yaffle.rb`を以下のように更新します。
 
 ```ruby
 # yaffle/lib/yaffle/acts_as_yaffle.rb
@@ -347,29 +389,28 @@ module Yaffle
     extend ActiveSupport::Concern
 
     included do
-    end
-
-    module ClassMethods
-      def acts_as_yaffle(options = {})
-        cattr_accessor :yaffle_text_field
-        self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s
-
-        include Yaffle::ActsAsYaffle::LocalInstanceMethods
-      end
-    end
-
-    module LocalInstanceMethods
       def squawk(string)
         write_attribute(self.class.yaffle_text_field, string.to_squawk)
-      end
+      end
+    end
+
+    class_methods do
+      def acts_as_yaffle(options = {})
+        cattr_accessor :yaffle_text_field, default: (options[:yaffle_text_field] || :last_squawk).to_s
     end
   end
 end
 
-ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+# test/dummy/app/models/application_record.rb
+
+class ApplicationRecord < ActiveRecord::Base
+  include Yaffle::ActsAsYaffle
+
+  self.abstract_class = true
+end
 ```
 
-最後に`rake`を実行すると以下の結果が表示されます。
+最後に`bin/test`を実行すると以下の結果が表示されます。
 
 ```
   6 runs, 6 assertions, 0 failures, 0 errors, 0 skips
@@ -384,21 +425,21 @@ send("#{self.class.yaffle_text_field}=", string.to_squawk)
 ジェネレータ
 ----------
 
-gemにジェネレータを含めるには、単にジェネレータを作成してプラグインのlib/generatorsディレクトリに置くだけでもかまいません。ジェネレータの作成方法の詳細については[Rails ジェネレータとテンプレート入門](generators.html)を参照してください。
+gemにジェネレータを含めるには、単にジェネレータを作成してプラグインの`lib/generators`ディレクトリに置くだけでもかまいません。ジェネレータの作成方法の詳細については[Rails ジェネレータとテンプレート入門](generators.html)を参照してください。
 
 gemを公開する
 -------------------
 
-開発中のgemであってもGitリポジトリで簡単に共有できます。今回のYaffle gemを他の開発者と共有するには、コードをGithubなどのGitリポジトリにコミットしておき、gemを使用したいアプリケーションのGemfileに一行書くだけで済みます。
+開発中のgemであってもGitリポジトリで簡単に共有できます。今回のYaffle gemを他の開発者と共有するには、コードをGithubなどのGitリポジトリにコミットしておき、gemを使用したいアプリケーションの`Gemfile`に一行書くだけで済みます。
 
 ```ruby
-gem 'yaffle', git: 'git://github.com/yaffle_watcher/yaffle.git'
+gem "yaffle", git: "https://github.com/rails/yaffle.git"
 ```
 
 後は`bundle install`を実行すればgemの機能をアプリケーションで利用できるようになります。
 
-gemを正式なリリースとして一般公開するのであれば[RubyGems](http://www.rubygems.org)でパブリッシュします。
-RubyGemsサイトでgemを公開する方法の詳細については、[はじめてのRuby Gem作成・パブリッシュ方法](http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html)(英語) を参照してください。
+gemを正式なリリースとして一般公開するのであれば[RubyGems](https://www.rubygems.org)でパブリッシュします。
+RubyGemsサイトでgemを公開する方法の詳細については、[はじめてのRuby Gem作成・パブリッシュ方法](http://guides.rubygems.org/publishing)(英語) を参照してください。
 
 RDocドキュメント
 ------------------
@@ -412,12 +453,12 @@ RDocドキュメント
 * アプリケーションに機能を追加する具体的な方法 (一般的なユースケースもいくつか例として追加)
 * 警告、注意点、ヒントなど (ユーザーが無駄な時間を使わずに済むように)
 
-READMEの内容が固まってきたら、コードをひととおりチェックしてすべてのメソッドにrdoc形式のコメントを追加します。このコメントは開発者にとって役立つ情報となります。パブリックAPIにしたくない箇所には'#:nodoc:'というコメントを追加します。
+READMEの内容が固まってきたら、コードをひととおりチェックしてすべてのメソッドにrdoc形式のコメントを追加します。このコメントは開発者にとって役立つ情報となります。パブリックAPIにしたくない箇所には`#:nodoc:`というコメントを追加します。
 
 コメントを付け終わったらプラグインのルートディレクトリに移動して以下を実行します。
 
 ```bash
-$ bin/rails rdoc
+$ bundle exec rake rdoc
 ```
 
 ### 参考資料
@@ -425,4 +466,3 @@ $ bin/rails rdoc
 * [Bundlerを使用してRubyGemを開発する](https://github.com/radar/guides/blob/master/gem-development.md)(英語)
 * [gemspecsを意図したとおりに使う](http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/)(英語)
 * [Gemspecリファレンス](http://guides.rubygems.org/specification-reference/)(英語)
-* [GemPlugin: Railsプラグインの今後の見通し](http://www.intridea.com/blog/2008/6/11/gemplugins-a-brief-introduction-to-the-future-of-rails-plugins)(英語)
