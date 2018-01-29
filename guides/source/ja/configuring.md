@@ -969,43 +969,82 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174475
 -->
 * `action_mailer.compile_config_methods`: 指定された設定用メソッドを初期化し、より高速にアクセスできるようにします。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174479
+-->
 * `set_load_path`: このイニシャライザは`bootstrap_hook`より前に実行されます。`vendor`、`lib`、`app`以下のすべてのディレクトリ、`config.load_paths`で指定されるすべてのパスが`$LOAD_PATH`に追加されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174482
+-->
 * `set_autoload_paths`: このイニシャライザは`bootstrap_hook`より前に実行されます。`app`以下のすべてのサブディレクトリと、`config.autoload_paths`で指定したすべてのパスが`ActiveSupport::Dependencies.autoload_paths`に追加されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174494
+-->
 * `add_routing_paths`: デフォルトですべての`config/routes.rb`ファイルを読み込み、アプリケーションのルーティングを設定します。この`config/routes.rb`ファイルは、アプリケーションだけではなく、エンジンなどのrailtiesにもあります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174500
+-->
 * `add_locales`: `config/locales`にあるファイルを`I18n.load_path`に追加し、そのパスで指定された場所にある訳文にアクセスできるようにします。この`config/locales`は、アプリケーションだけではなく、railtiesやエンジンにもあります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174504
+-->
 * `add_view_paths`: アプリケーションやrailtiesやエンジンにある`app/views`へのパスをビューファイルへのパスに追加します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174508
+-->
 * `load_environment_config`: 現在の環境に`config/environments`を読み込みます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174509
+-->
 * `append_asset_paths`: アプリケーションと、それに追加されているrailtiesに含まれているアセットパスを探索し、`config.static_asset_paths`で指定されているディレクトリを監視します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174510
+-->
 * `prepend_helpers_path`: アプリケーションやrailtiesやエンジンに含まれる`app/helpers`ディレクトリをヘルパーへの参照パスに追加します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174511
+-->
 * `load_config_initializers`: アプリケーションやrailtiesやエンジンに含まれる`config/initializers`にあるRubyファイルをすべて読み込みます。このディレクトリに置かれているファイルは、フレームワークの読み込みがすべて読み終わってから行いたい設定を保存しておくのにも使用できます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174512
+-->
 * `engines_blank_point`: エンジンの読み込みが完了する前に行いたい処理がある場合に使用できる初期化ポイントへのフックを提供します。初期化処理がここまで進むと、railtiesやエンジンイニシャライザはすべて起動しています。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174514
+-->
+<!--
 * `add_generator_templates`: アプリケーションやrailtiesやエンジンにある`lib/templates`ディレクトリにあるジェネレータ用のテンプレートを探し、それらを`config.generators.templates`設定に追加します。この設定によって、すべてのジェネレータからテンプレートを参照できるようになります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174514
+-->
 * `ensure_autoload_once_paths_as_subset`: `config.autoload_once_paths`に、`config.autoload_paths`以外のパスが含まれないようにします。それ以外のパスが含まれている場合は例外が発生します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174519
+-->
 * `add_to_prepare_blocks`: アプリケーションやrailtiesやエンジンのすべての`config.to_prepare`呼び出しにおけるブロックが、Action Dispatchの`to_prepare`に追加されます。Action Dispatchはdevelopmentモードではリクエストごとに実行され、productionモードでは最初のリクエストより前に実行されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174520
+-->
 * `add_builtin_route`: アプリケーションがdevelopment環境で動作している場合、`rails/info/properties`へのルーティングをアプリケーションのルーティングに追加します。このルーティングにアクセスすると、デフォルトのRailsアプリケーションで`public/index.html`に表示されるのと同様の詳細情報(RailsやRubyのバージョンなど)が表示されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174521
+-->
 * `build_middleware_stack`: アプリケーションのミドルウェアスタックを構成し、`call`メソッドを持つオブジェクトを返します。この`call`メソッドは、リクエストに対するRack環境のオブジェクトを引数に取ります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174521
+-->
 * `eager_load!`: `config.eager_load`がtrueに設定されている場合、`config.before_eager_load`フックを実行し、続いて`eager_load!`を呼び出します。この呼び出しにより、すべての`config.eager_load_namespaces`が呼び出されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174525
+-->
 * `finisher_hook`: アプリケーションの初期化プロセス完了後に実行されるフックを提供し、アプリケーションやrailtiesやエンジンの`config.after_initialize`ブロックもすべて実行します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174529
+-->
 * `set_routes_reloader`: `ActionDispatch::Callbacks.to_prepare`を使用してルーティングを再読み込みするためにAction Dispatchを構成します。
-
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174721
+-->
 * `disable_dependency_loading`: `config.eager_load`がtrueの場合は自動依存性読み込み(automatic dependency loading)を無効にします。
 
 データベース接続をプールする
@@ -1020,17 +1059,32 @@ development:
   pool: 5
   timeout: 5000
 ```
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174734
+-->
 接続プールはデフォルトではActive Recordで取り扱われるため、アプリケーションサーバーの動作は、ThinやmongrelやUnicornなどどれであっても同じ振る舞いになります。最初はデータベース接続のプールは空で、必要に応じて追加接続が作成され、接続プールの上限に達するまで接続が追加されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174737
+-->
 1つのリクエストの中での接続は常に次のような流れになります: 初回はデータベースアクセスの必要な接続を確保し、以後はその接続があることを再確認します。リクエストの終わりでは、キューで待機する次以降のリクエストに備えて接続スロットが追加で利用できるようになります。
 
 利用可能な数よりも多くの接続を使用しようとすると、Active Recordは接続をブロックし、プールからの接続を待ちます。接続が行えなくなると、以下のようなタイムアウトエラーがスローされます。
 
 ```ruby
-ActiveRecord::ConnectionTimeoutError - could not obtain a database connection within 5 seconds. The max pool size is currently 5; consider increasing it:
+ActiveRecord::ConnectionTimeoutError - could not obtain a database connection within 5.000 seconds (waited 5.000 seconds)
 ```
 
 上のエラーが発生するような場合は、`database.yml`の`pool`オプションの数値を増やして接続プールのサイズを増やすことで対応できます。
 
 NOTE: アプリケーションをマルチスレッド環境で実行している場合、多くのスレッドが多くの接続に同時アクセスする可能性があります。現時点のリクエストの負荷によっては、限られた接続数を多数のスレッドが奪い合うようなことになるかもしれません。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174765
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174772
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174776
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174781
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174787
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174793
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174804
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27174727
+-->
