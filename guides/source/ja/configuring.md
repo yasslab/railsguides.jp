@@ -233,6 +233,9 @@ TODO :https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 -->
 
 * `ActionDispatch::SSL`はすべてのリクエストにHTTPSプロトコルを強制します。これは`config.force_ssl`を`true`にすると有効になります。渡すオプションは`config.ssl_options`で設定できます。
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171570
+-->
 * `ActionDispatch::Static`は静的アセットで使用されます。`config.serve_static_assets`を`false`にするとオフになります。
 * `Rack::Lock`は、アプリケーションをミューテックスでラップし、1度に1つのスレッドでしか呼び出されないようにします。このミドルウェアは、`config.cache_classes`が`false`に設定されている場合のみ有効になります。
 * `ActiveSupport::Cache::Strategy::LocalCache`は基本的なメモリバックアップ式キャッシュとして機能します。このキャッシュはスレッドセーフではなく、単一スレッド用の一時メモリキャッシュとして機能することのみを意図していることにご注意ください。
@@ -243,12 +246,9 @@ TODO :https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 * `ActionDispatch::RemoteIp`はIPスプーフィング攻撃が行われていないかどうかをチェックし、リクエストヘッダーから正しい`client_ip`を取得します。この設定は`config.action_dispatch.ip_spoofing_check`オプションと`config.action_dispatch.trusted_proxies`オプションで変更可能です。
 * `Rack::Sendfile`は、bodyが1つのファイルから作成されているレスポンスをキャッチし、サーバー固有のX-Sendfileヘッダーに差し替えてから送信します。この動作は`config.action_dispatch.x_sendfile_header`で設定可能です。
 * `ActionDispatch::Callbacks`は、リクエストに応答する前に、事前コールバックを実行します。
-* `ActiveRecord::ConnectionAdapters::ConnectionManagement`は、リクエストごとにアクティブな接続をクリアします。ただしリクエスト環境で`rack.test`キーが`true`に設定されている場合を除きます。
-* `ActiveRecord::QueryCache`は、リクエストによって生成されたすべてのSELECTクエリをキャッシュします。INSERTまたはUPDATEが発生するとキャッシュはクリアされます。
 * `ActionDispatch::Cookies`はリクエストに対応するcookieを設定します。
 * `ActionDispatch::Session::CookieStore`は、セッションをcookieに保存する役割を担います。`config.action_controller.session_store`の値を変更すると別のミドルウェアを使用できます。これに渡されるオプションは`config.action_controller.session_options`を使用して設定できます。
 * `ActionDispatch::Flash`は`flash`キーを設定します。これは、`config.action_controller.session_store`に値が設定されている場合にのみ有効です。
-* `ActionDispatch::ParamsParser`は、リクエストからパラメータを切り出して`params`に保存します。
 * `Rack::MethodOverride`は、`params[:_method]`が設定されている場合にメソッドを上書きできるようにします。これは、HTTPでPATCH、PUT、DELETEメソッドを使用できるようにするミドルウェアです。
 * `ActionDispatch::Head`は、HEADリクエストをGETリクエストに変換し、HEADリクエストが機能するようにします。
 
@@ -257,7 +257,9 @@ TODO :https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 ```ruby
 config.middleware.use Magical::Unicorns
 ```
-
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171632
+-->
 上の指定により、`Magical::Unicorns`ミドルウェアがスタックの最後に追加されます。あるミドルウェアの前に別のミドルウェアを追加したい場合は`insert_before`を使用します。
 
 ```ruby
@@ -279,7 +281,7 @@ config.middleware.swap ActionController::Failsafe, Lifo::Failsafe
 同様に、ミドルウェアをスタックから完全に取り除くこともできます。
 
 ```ruby
-config.middleware.delete "Rack::MethodOverride"
+config.middleware.delete Rack::MethodOverride
 ```
 
 ### i18nを設定する
@@ -293,7 +295,9 @@ config.middleware.delete "Rack::MethodOverride"
 * `config.i18n.enforce_available_locales`がオンになっていると、`available_locales`リストで宣言されていないロケールはi18nに渡せなくなります。利用できないロケールがある場合は`i18n::InvalidLocale`例外が発生します。デフォルトは`true`です。このオプションは、ユーザー入力のロケールが不正である場合のセキュリティ対策であるため、特別な理由がない限り無効にしないでください。
 
 * `config.i18n.load_path`は、ロケールファイルの探索パスを設定します。デフォルトは`config/locales/*.{yml,rb}`です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171671
+-->
 ### Active Recordを設定する
 
 `config.active_record`には多くのオプションが含まれています。
@@ -310,17 +314,19 @@ config.middleware.delete "Rack::MethodOverride"
 
 * `config.active_record.schema_migrations_table_name`は、スキーママイグレーションテーブルの名前として使用する文字列を指定します。
 
-* `config.active_record.pluralize_table_names`は、Railsが探すデータベースのテーブル名を単数形にするか複数形にするかを指定します。trueに設定すると、Customerクラスが使用するテーブル名は複数形の`customers`になります(デフォルト)。falseに設定すると、Customerクラスが使用するテーブル名は単数形の`customer`になります。
+* `config.active_record.pluralize_table_names`は、Railsが探すデータベースのテーブル名を単数形にするか複数形にするかを指定します。`true`に設定すると、Customerクラスが使用するテーブル名は複数形の`customers`になります(デフォルト)。`false`に設定すると、Customerクラスが使用するテーブル名は単数形の`customer`になります。
 
 * `config.active_record.default_timezone`は、データベースから日付・時刻を取り出した際のタイムゾーンを`Time.local` (`:local`を指定した場合)と`Time.utc` (`:utc`を指定した場合)のどちらにするかを指定します。デフォルトは`:utc`です。
 
 * `config.active_record.schema_format`は、データベーススキーマをファイルに書き出す際のフォーマットを指定します。デフォルトは`:ruby`で、データベースには依存せず、マイグレーションに依存します。`:sql`を指定するとSQL文で書き出されますが、この場合潜在的にデータベースに依存する可能性があります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171707
+-->
 * `config.active_record.timestamped_migrations`は、マイグレーションファイル名にシリアル番号とタイムスタンプのどちらを与えるかを指定します。デフォルトはtrueで、タイムスタンプが使用されます。開発者が複数の場合は、タイムスタンプの使用をお勧めします。
 
-* `config.active_record.lock_optimistically`は、Active Recordで楽観的ロック(optimistic locking)を使用するかどうかを指定します。デフォルトはtrue(使用する)です。
+* `config.active_record.lock_optimistically`は、Active Recordで楽観的ロック(optimistic locking)を使用するかどうかを指定します。デフォルトは`true`(使用する)です。
 
-* `config.active_record.cache_timestamp_format`は、キャッシュキーに含まれるタイムスタンプ値の形式を指定します。デフォルトは`:number`です。
+* `config.active_record.cache_timestamp_format`は、キャッシュキーに含まれるタイムスタンプ値の形式を指定します。デフォルトは`:nsec`です。
 
 * `config.active_record.record_timestamps`は、モデルで発生する`create`操作や`update`操作にタイムスタンプを付けるかどうかを指定する論理値です。デフォルト値は`true`です。
 
@@ -330,11 +336,16 @@ config.middleware.delete "Rack::MethodOverride"
 
 * `config.active_record.maintain_test_schema`は、テスト実行時にActive Recordがテスト用データベーススキーマを`db/schema.rb`(または`db/structure.sql`)に基いて最新の状態にするかどうかを指定します。デフォルト値は`true`です。
 
-* `config.active_record.dump_schema_after_migration`は、マイグレーション実行時にスキーマダンプ(`db/schema.rb`または`db/structure.sql`)を行なうかどうかを指定します。このオプションは、Railsが生成する`config/environments/production.rb`ではfalseに設定されます。このオプションが無指定の場合は、デフォルトのtrueが指定されます。
+* `config.active_record.dump_schema_after_migration`は、マイグレーション実行時にスキーマダンプ(`db/schema.rb`または`db/structure.sql`)を行なうかどうかを指定します。このオプションは、Railsが生成する`config/environments/production.rb`では`false`に設定されます。このオプションが無指定の場合は、デフォルトの`true`が指定されます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171756
+-->
 
 MySQLアダプターを使用すると、以下の設定オプションが1つ追加されます。
-
-* `ActiveRecord::ConnectionAdapters::MysqlAdapter.emulate_booleans`は、Active RecordがMySQLデータベース内のすべての`tinyint(1)`カラムをデフォルトでbooleanにするかどうかを指定します。デフォルトはtrueです。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171774
+-->
+* `ActiveRecord::ConnectionAdapters::MysqlAdapter.emulate_booleans`は、Active RecordがMySQLデータベース内のすべての`tinyint(1)`カラムをデフォルトでbooleanにするかどうかを指定します。デフォルトは`true`です。
 
 スキーマダンパーは以下のオプションを追加します。
 
@@ -345,11 +356,15 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 `config.action_controller`には多数の設定が含まれています。
 
 * `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171797
+-->
 * `config.action_controller.perform_caching`は、アプリケーションでキャッシュを行なうかどうかを指定します。developmentモードではfalse、productionモードではtrueに設定します。
 
 * `config.action_controller.default_static_extension`は、キャッシュされたページに与える拡張子を指定します。デフォルトは`.html`です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171864
+-->
 * `config.action_controller.default_charset`は、すべての画面出力で使用されるデフォルトの文字セットを指定します。デフォルトは"utf-8"です。
 
 * `config.action_controller.logger`は、Log4rのインターフェイスまたはデフォルトのRuby Loggerクラスに従うロガーを引数として取ります。このロガーは、Action Controllerからの情報をログ出力するために使用されます。ログ出力を無効にするには`nil`を設定します。
@@ -363,7 +378,9 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 * `config.action_controller.permit_all_parameters`は、マスアサインメントされるすべてのパラメータをデフォルトで許可することを設定します。デフォルト値は`false`です。
 
 * `config.action_controller.action_on_unpermitted_parameters`は、明示的に許可されていないパラメータが見つかった場合にログ出力または例外発生を行なうかどうかを指定します。このオプションは、`:log`または`:raise`を指定すると有効になります。test環境とdevelopment環境でのデフォルトは`:log`であり、それ以外の環境では`false`が設定されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172012
+-->
 ### Action Dispatchを設定する
 
 * `config.action_dispatch.session_store`はセッションデータのストア名を設定します。デフォルトのストア名は`:cookie_store`です。この他に`:active_record_store`、`:mem_cache_store`、またはカスタムクラスの名前を指定できます。
