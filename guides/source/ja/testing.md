@@ -6,6 +6,9 @@ Rails テスティングガイド
 
 このガイドの内容:
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177143
+-->
 * Railsテスティング用語
 * アプリケーションに対する単体テスト、機能テスト、結合テストの実施
 * その他の著名なテスティング方法とプラグインの紹介
@@ -17,36 +20,55 @@ Railsアプリケーションでテストを作成しなければならない理
 
 Railsを使用すれば、テストをきわめて簡単に作成できます。テストの作成は、モデルやコントローラを作成する時点でテストコードのスケルトンを作成することから始まります。
 
-Railsのテストが作成されていれば、後はそれを単に実行するだけで、特に大規模なリファクタリングを行なう際にコードが期待どおりに動作していることを即座に確認できます。
+Railsのテストが作成されていれば、後はそれを実行するだけで、特に大規模なリファクタリングを行なう際にコードが期待どおりに動作していることを即座に確認できます。
 
 Railsのテストはブラウザのリクエストをシミュレートできるので、ブラウザを手動で操作せずにアプリケーションのレスポンスをテストできます。
 
 テストを導入する
 -----------------------
 
-テスティングのサポートは最初期からRailsに組み込まれています。決して、最近テスティングが流行っていてクールだから導入してみた、というようなその場の思い付きで導入されたものではありません。Railsアプリケーションは、ほぼ間違いなくデータベースと密接なやりとりを行いますので、テスティングにもデータベースが必要となります。効率のよいテストを作成するには、データベースの設定方法とサンプルデータの導入方法を理解しておく必要があります。
+テスティングのサポートは最初期からRailsに組み込まれています。決して、最近テスティングが流行っていてクールだから導入してみた、というようなその場の思い付きで導入されたものではありません。
+
+### Railsを即座にテスト用に設定する
+
+`rails new` _application_name_でRailsアプリケーションを作成すると、その場で`test`ディレクトリが作成されます。このディレクトリの内容は次のようになっています。
+
+```bash
+$ ls -F test
+controllers/           helpers/               mailers/               system/                test_helper.rb
+fixtures/              integration/           models/                application_system_test_case.rb
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177502
+-->
+`models`ディレクトリはモデル用のテストの置き場所であり、`controllers`ディレクトリはコントローラ用のテストの置き場所です。`integration`ディレクトリは任意の数のコントローラとやりとりするテストを置く場所です。
+
+<!--
+TODO:https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177338
+-->
+
+フィクスチャはテストデータを編成する方法の1つであり、`fixtures`フォルダに置かれます。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177351
+-->
+
+`test_helper.rb`にはテスティングのデフォルト設定を記入します。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177382
+-->
 
 ### test環境
 
 デフォルトでは、すべてのRailsアプリケーションにはdevelopment、test、productionの3つの環境があります。それぞれの環境におけるデータベース設定は`config/database.yml`で行います。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27177423
+-->
 テスティング専用のデータベースがあれば、それを設定して他の環境から切り離された専用のテストデータにアクセスすることができます。テストを実行すればテストデータは確実に元の状態から変わってしまうので、development環境やproduction環境のデータベースにあるデータには決してアクセスしません。
 
-### Railsを即座にテスト用に設定する
-
-`rails new` _application_name_でRailsアプリケーションを作成すると、その場で`test`フォルダが作成されます。このフォルダの内容は次のようになっています。
-
-```bash
-$ ls -F test
-controllers/    helpers/        mailers/        test_helper.rb
-fixtures/       integration/    models/
-```
-
-`models`ディレクトリはモデル用のテストの置き場所であり、`controllers`ディレクトリはコントローラ用のテストの置き場所です。`integration`ディレクトリは任意の数のコントローラとやりとりするテストを置く場所です。
-
-フィクスチャはテストデータを編成する方法の1つであり、`fixtures`フォルダに置かれます。
-
-`test_helper.rb`にはテスティングのデフォルト設定を記入します。
 
 ### フィクスチャのしくみ
 
