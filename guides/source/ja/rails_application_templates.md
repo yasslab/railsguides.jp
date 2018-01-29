@@ -16,7 +16,7 @@ Railsのアプリケーションテンプレートは単純なRubyファイル�
 ### 使用法
 -----
 
-アプリケーションテンプレートを適用するためには、-mオプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。
+アプリケーションテンプレートを適用するためには、`-m`オプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。
 
 ```bash
 $ rails new blog -m ~/template.rb
@@ -39,7 +39,7 @@ RailsのテンプレートAPIはわかりやすく設計されています。以
 # template.rb
 generate(:scaffold, "person name:string")
 route "root to: 'people#index'"
-rake("db:migrate")
+rails_command("db:migrate")
 
 after_bundle do
   git :init
@@ -79,7 +79,7 @@ gem_group :development, :test do
 end
 ```
 
-### add_source(source, options = {})
+### add_source(source, options={}, &block)
 
 生成された`Gemfile`ファイルに、指定されたソースを追加します。
 
@@ -89,6 +89,9 @@ end
 add_source "http://code.whytheluckystiff.net"
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/001f5a070e278a3f4175c4d57fa4f8b4d5d506c1#r27174359
+-->
 ### environment/application(data=nil, options={}, &block)
 
 `config/application.rb`ファイルの`Application`クラスの内側に指定の行を追加します。
@@ -168,6 +171,9 @@ generate(:scaffold, "person", "name:string", "address:text", "age:number")
 run "rm README.rdoc"
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/001f5a070e278a3f4175c4d57fa4f8b4d5d506c1#r27174385
+-->
 ### rake(command, options = {})
 
 Railsアプリケーション内にあるrakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。
@@ -216,10 +222,10 @@ CODE
 
 ### yes?(question) or no?(question)
 
-テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみrailsをfreezeしたい場合は以下のようにします。
+テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみRailsをFreezeしたい場合は以下のようにします。
 
 ```ruby
-rake("rails:freeze:gems") if yes?("Freeze rails gems?")
+rails_command("rails:freeze:gems") if yes?("Freeze rails gems?")
 # no?(question) はyes?と逆の動作
 ```
 
@@ -257,6 +263,6 @@ end
 
 ```ruby
 def source_paths
-  [File.expand_path(File.dirname(__FILE__))]
+  [__dir__]
 end
 ```
