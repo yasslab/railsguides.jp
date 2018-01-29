@@ -49,6 +49,10 @@ Rails ガイドのガイドライン
 ##### `:content_type`オプション
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176609
+-->
+
 APIドキュメントの書き方
 ----------------------------
 
@@ -64,6 +68,9 @@ APIドキュメントの書き方
 HTMLガイド
 -----------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176620
+-->
 ガイドを生成する前に、システムに最新のBundlerがインストールされていることを確認してください。現時点であれば、Bundler 1.3.5がインストールされている必要があります。
 
 最新のBundlerをインストールするには`gem install bundler`コマンドを実行してください。
@@ -82,6 +89,10 @@ bundle exec rake guides:generate
 bundle exec rake guides:generate:html
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176623
+-->
+
 `my_guide.md`ファイルだけを生成したい場合は環境変数`ONLY`に設定します。
 
 ```
@@ -92,8 +103,6 @@ bundle exec rake guides:generate ONLY=my_guide
 デフォルトでは、変更のないガイドは生成がスキップされるので、`ONLY`を使用する機会はそうないと思われます。
 
 すべてのガイドを強制的に生成するには`ALL=1`を指定します。
-
-生成の際には`WARNINGS=1`を指定しておくことをお勧めします。これにより、重複したIDが検出され、内部リンクが切れている場合に警告が出力されます。
 
 英語以外の言語向けに生成を行いたい場合は、`source`ディレクトリの下にたとえば`source/es`のようにその言語用のディレクトリを作成し、`GUIDES_LANGUAGE`環境変数を設定します。
 
