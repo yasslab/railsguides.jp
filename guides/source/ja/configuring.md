@@ -393,10 +393,14 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
       'X-XSS-Protection' => '1; mode=block',
       'X-Content-Type-Options' => 'nosniff'
     }
-    ```
-
+    ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172120
+-->
 * `config.action_dispatch.tld_length`は、アプリケーションで使用するトップレベルドメイン(TLD) の長さを指定します。デフォルトは`1`です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172182
+-->
 * `config.action_dispatch.http_auth_salt`は、HTTP Authのsalt値(訳注: ハッシュの安全性を強化するために加えられるランダムな値)を設定します。デフォルトは`'http authentication'`です。
 
 * `config.action_dispatch.signed_cookie_salt`は、署名済みcookie用のsalt値を設定します。デフォルトは`'signed cookie'`です。
@@ -404,12 +408,16 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 * `config.action_dispatch.encrypted_cookie_salt`は、暗号化済みcookie用のsalt値を設定します。デフォルトは`'encrypted cookie'`です。
 
 * `config.action_dispatch.encrypted_signed_cookie_salt`は、署名暗号化済みcookie用のsalt値を設定します。デフォルトは`'signed encrypted cookie'`です。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172242
+-->
 
-* `config.action_dispatch.perform_deep_munge`は、パラメータに対して`deep_munge`メソッドを実行すべきかどうかを指定します。詳細については[セキュリティガイド](security.html#安全でないクエリ生成)を参照してください。デフォルトはtrueです。
+* `config.action_dispatch.perform_deep_munge`は、パラメータに対して`deep_munge`メソッドを実行すべきかどうかを指定します。詳細については[セキュリティガイド](security.html#安全でないクエリ生成)を参照してください。デフォルトは`true`です。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172252
+-->
 * `ActionDispatch::Callbacks.before`には、リクエストより前に実行したいコードブロックを1つ引数として与えます。
-
-* `ActionDispatch::Callbacks.to_prepare`には、リクエストより前かつ`ActionDispatch::Callbacks.before`より後に実行したいコードブロックを1つ引数として与えます。このブロックは、`development`モードではすべてのリクエストで実行されますが、`production`モードや、`cache_classes`が`true`に設定されている環境では1度しか実行されません。
 
 * `ActionDispatch::Callbacks.after`には、リクエストの後に実行したいコードブロックを1つ引数として与えます。
 
@@ -417,7 +425,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 
 `config.action_view`にもわずかながら設定があります。
 
-* `config.action_view.field_error_proc`は、Active Recordで発生したエラーの表示に使用するHTMLジェネレータを指定します。デフォルトは以下のとおりです。
+* `config.action_view.field_error_proc`は、Active Modelで発生したエラーの表示に使用するHTMLジェネレータを指定します。デフォルトは以下のとおりです。
 
     ```ruby
     Proc.new do |html_tag, instance|
@@ -431,7 +439,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 
 * `config.action_view.erb_trim_mode`は、ERBで使用するトリムモードを指定します。デフォルトは`'-'`で、`<%= -%>`または`<%= =%>`の場合に末尾スペースを削除して改行します。詳細については[Erubisドキュメント](http://www.kuwata-lab.com/erubis/users-guide.06.html#topics-trimspaces)を参照してください。
 
-* `config.action_view.embed_authenticity_token_in_remote_forms`は、フォームで`:remote => true`を使用した場合の`authenticity_token`のデフォルトの動作を設定します。デフォルトではfalseであり、この場合リモートフォームには`authenticity_token`フォームが含まれません。これはフォームでフラグメントキャッシュを使用している場合に便利です。リモートフォームは`meta`タグから認証を受け取るので、JavaScriptの動作しないブラウザをサポートしなければならないのでなければトークンの埋め込みは不要です。JavaScriptが動かないブラウザのサポートが必要な場合は、`:authenticity_token => true`をフォームオプションとして渡すか、この設定を`true`にします。
+* `config.action_view.embed_authenticity_token_in_remote_forms`は、フォームで`remote: true`を使用した場合の`authenticity_token`のデフォルトの動作を設定します。デフォルトではfalseであり、この場合リモートフォームには`authenticity_token`フォームが含まれません。これはフォームでフラグメントキャッシュを使用している場合に便利です。リモートフォームは`meta`タグから認証を受け取るので、JavaScriptの動作しないブラウザをサポートしなければならないのでなければトークンの埋め込みは不要です。JavaScriptが動かないブラウザのサポートが必要な場合は、`authenticity_token: true`をフォームオプションとして渡すか、この設定を`true`にします。
 
 * `config.action_view.prefix_partial_path_with_controller_namespace`は、名前空間化されたコントローラから出力されたテンプレートにあるサブディレクトリから、パーシャル(部分テンプレート)を探索するかどうかを指定します。たとえば、`Admin::PostsController`というコントローラがあり、以下のテンプレートを出力するとします。
 
@@ -442,7 +450,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 このデフォルト設定は`true`であり、`/admin/posts/_post.erb`にあるパーシャルを使用しています。この値を`false`にすると、`/posts/_post.erb`が描画されます。この動作は、`PostsController`などの名前空間化されていないコントローラで描画した場合と同じです。
 
 * `config.action_view.raise_on_missing_translations`は、i18nで訳文が失われている場合にエラーを発生させるかどうかを指定します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27172308
+-->
 ### Action Mailerを設定する
 
 `config.action_mailer`には多数の設定オプションがあります。
