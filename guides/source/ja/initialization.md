@@ -299,6 +299,7 @@ def start
   print_boot_information
   trap(:INT) { exit }
   create_tmp_directories
+  setup_dev_caching
   log_to_stdout if options[:log_stdout]
 
   super
@@ -306,31 +307,39 @@ def start
 end
 
 private
-
   def print_boot_information
     ...
     puts "=> Run `rails server -h` for more startup options"
-    ...
-    puts "=> Ctrl-C to shutdown server" unless options[:daemonize]
   end
 
   def create_tmp_directories
-    %w(cache pids sessions sockets).each do |dir_to_make|
+    %w(cache pids sockets).each do |dir_to_make|
       FileUtils.mkdir_p(File.join(Rails.root, 'tmp', dir_to_make))
+    end
+  end
+
+  def setup_dev_caching
+    if options[:environment] == "development"
+      Rails::DevCaching.enable_by_argument(options[:caching])
     end
   end
 
   def log_to_stdout
     wrapped_app # アプリにタッチしてロガーを設定
 
-    console = ActiveSupport::Logger.new($stdout)
+    console = ActiveSupport::Logger.new(STDOUT)
     console.formatter = Rails.logger.formatter
     console.level = Rails.logger.level
 
-    Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+   unless ActiveSupport::Logger.logger_outputs_to?(Rails.logger, STDOUT)
+      Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+    end
   end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27171771
+-->
 Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。続いて`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。
 
 `super`メソッドは`Rack::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
@@ -413,7 +422,7 @@ private
 ```ruby
 # このファイルはRackベースのサーバーでアプリケーションの起動に使用される
 
-require ::File.expand_path('../config/environment', __FILE__)
+require_relative 'config/environment'
 run <%= app_const %>
 ```
 
@@ -434,7 +443,7 @@ end
 `Rack::Builder`の`initialize`メソッドはこのブロックを受け取り、`Rack::Builder`のインスタンスの中で実行します。Railsの初期化プロセスの大半がこの場所で実行されます。`config.ru`の`config/environment.rb`の`require`行が最初に実行されます。
 
 ```ruby
-require ::File.expand_path('../config/environment', __FILE__)
+require_relative 'config/environment'
 ```
 
 ### `config/environment.rb`
@@ -444,7 +453,7 @@ require ::File.expand_path('../config/environment', __FILE__)
 このファイルの冒頭部分では`config/application.rb`がrequireされます。
 
 ```ruby
-require File.expand_path('../application', __FILE__)
+require_relative 'application'
 ```
 
 ### `config/application.rb`
@@ -452,7 +461,7 @@ require File.expand_path('../application', __FILE__)
 このファイルでは`config/boot.rb`がrequireされます。
 
 ```ruby
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 ```
 
 それまでにboot.rbがrequireされていなかった場合に限り、`rails server`の場合にはboot.rbがrequireされます。ただしPassengerを使用する場合にはboot.rbがrequire**されません**。
@@ -476,15 +485,18 @@ require 'rails/all'
 require "rails"
 
 %w(
-  active_record
-  action_controller
-  action_view
-  action_mailer
-  rails/test_unit
-  sprockets
-).each do |framework|
+  active_record/railtie
+  action_controller/railtie
+  action_view/railtie
+  action_mailer/railtie
+  active_job/railtie
+  action_cable/engine
+  active_storage/engine
+  rails/test_unit/railtie
+  sprockets/railtie
+).each do |railtie|
   begin
-    require "#{framework}/railtie"
+    require railtie
   rescue LoadError
   end
 end
@@ -496,6 +508,9 @@ end
 
 ### `config/environment.rb`に戻る
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27171836
+-->
 `config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここではアプリケーションの初期化が行われます。たとえばアプリケーションの名前が`Blog`であれば、environment.rbに`Rails.application.initialize!`という行があります。これは`rails/application.rb`で定義されています。
 
 ### `railties/lib/rails/application.rb`
@@ -587,7 +602,7 @@ DEFAULT_OPTIONS = {
 }
 
 def self.run(app, options = {})
-  options  = DEFAULT_OPTIONS.merge(options)
+  options = DEFAULT_OPTIONS.merge(options)
 
   if options[:Verbose]
     app = Rack::CommonLogger.new(app, STDOUT)
