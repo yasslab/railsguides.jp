@@ -118,21 +118,34 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124403
 -->
 * `config.log_formatter`はRailsロガーのフォーマットを定義します。このオプションは、デフォルトでは`ActiveSupport::Logger::SimpleFormatter`のインスタンスを使用します。ただしproductionモードの場合のみ`Logger::Formatter`がデフォルトになります。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27124414
+-->
 * `config.log_level`は、Railsのログ出力をどのぐらい詳細にするかを指定します。デフォルトでは`:debug`が指定されます。productionモードのみデフォルトで`:info`が指定されます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171074
+-->
 * `config.log_tags`は、`request`オブジェクトが応答するメソッドのリストを引数に取ります。これは、ログの行にデバッグ情報をタグ付けする場合に便利です。たとえばサブドメインやリクエストidを指定することができ、これらはマルチユーザーのproductionモードアプリケーションをデバッグするのに便利です。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171104
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171093
+-->
 * `config.logger`は、ロガーを指定します。指定されるロガーは、Log4rまたはRubyのデフォルトの`Logger`クラスのインターフェイスに従います。デフォルトでは`ActiveSupport::Logger`のログが指定されます。これはproductionモードでは自動的にログを出力します。
 
 * `config.middleware`は、アプリケーションで使用するミドルウェアをカスタマイズできます。詳細については[ミドルウェアを設定する](#ミドルウェアを設定する)の節を参照してください。
 
-* `config.reload_classes_only_on_change`は、監視しているファイルが変更された場合にのみクラスを再読み込みするかどうかを指定します。デフォルトでは、autoload_pathで指定されたすべてのファイルが監視対象となり、デフォルトでtrueが設定されます。`config.cache_classes`がオンの場合はこのオプションは無視されます。
-
+* `config.reload_classes_only_on_change`は、監視しているファイルが変更された場合にのみクラスを再読み込みするかどうかを指定します。デフォルトでは、autoload_pathで指定されたすべてのファイルが監視対象となり、デフォルトで`true`が設定されます。`config.cache_classes`がオンの場合はこのオプションは無視されます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171138
+-->
 `secrets.secret_key_base`メソッドは、改竄防止のために、アプリケーションのセッションを既知の秘密キーと照合するためのキーを指定するときに使います。アプリケーションは`secrets.secret_key_base`を使用して、`config/secrets.yml`などに保存されるキーをランダムに初期化します。
-
-* `config.serve_static_assets`は、静的アセットを扱うかどうかを指定します。デフォルトではtrueが設定されますが、production環境ではアプリケーションを実行するNginxやApacheなどのサーバーが静的アセットを扱う必要があるので、オフになります。デフォルトの設定とは異なり、WEBrickを使用してアプリケーションをproductionモードで実行したり(これは絶対にやらないでください)テストする場合はtrueに設定されます。そうでないと、ページキャッシュが有効にならず、publicディレクトリ以下に常駐する静的ファイルへのリクエストが毎回Railsアプリケーションを経由してしまいます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171146
+-->
+* `config.serve_static_assets`は、静的アセットを扱うかどうかを指定します。デフォルトでは`true`が設定されますが、production環境ではアプリケーションを実行するNginxやApacheなどのサーバーが静的アセットを扱う必要があるので、オフになります。デフォルトの設定とは異なり、WEBrickを使用してアプリケーションをproductionモードで実行したり(これは絶対にやらないでください)テストする場合は`true`に設定されます。そうでないと、ページキャッシュが有効にならず、publicディレクトリ以下に常駐する静的ファイルへのリクエストが毎回Railsアプリケーションを経由してしまいます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171214
+-->
 * `config.session_store`は、通常は`config/initializers/session_store.rb`で設定されるものであり、セッションを保存するクラスを指定します。指定できる値は`:cookie_store`(デフォルト)、`:mem_cache_store`、`:disabled`です。`:disabled`を指定すると、Railsでセッションが扱われなくなります。カスタムセッションストアを指定することもできます。
 
     ```ruby
@@ -145,20 +158,22 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 
 ### アセットを設定する
 
-* `config.assets.enabled`は、アセットパイプラインを有効にするかどうかを指定します。デフォルトはtrueです。
-
-* `config.assets.raise_runtime_errors`を`true`に設定すると、ランタイムエラーチェックが追加で有効になります。このオプションは`production`環境で使用するとデプロイ時に思わぬ動作をする可能性がありますので、development環境(`config/environments/development.rb`)で使用することをお勧めします。
+* `config.assets.enabled`は、アセットパイプラインを有効にするかどうかを指定します。デフォルトは`true`です。
 
 * `config.assets.compress`は、コンパイル済みアセットを圧縮するかどうかを指定するフラグです。`config/environments/production.rb`では明示的にtrueに設定されています。
 
 * `config.assets.css_compressor`は、CSSの圧縮に使用するプログラムを定義します。このオプションは、`sass-rails`を使用するとデフォルトで設定されます。このオプションでは`:yui`という一風変わったオプションを指定できます。これは`yui-compressor` gemのことです。
 
 * `config.assets.js_compressor`は、JavaScriptの圧縮に使用するプログラムを定義します。指定できる値は`:closure`、`:uglifier`、`:yui`です。それぞれ`closure-compiler`、`uglifier`、`yui-compressor` gemに対応します。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171237
+-->
 * `config.assets.paths`には、アセット探索用のパスを指定します。この設定オプションにパスを追加すると、アセットの検索先として追加されます。
 
 * `config.assets.precompile`は、`application.css`と`application.js`以外に追加したいアセットがある場合に指定します。これらは`bin/rails assets:precompile`を実行するときに一緒にプリコンパイルされます。
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67a4825951875e9d5#r27171247
+-->
 * `config.assets.prefix`はアセットを置くディレクトリを指定します。デフォルトは`/assets`です。
 
 * `config.assets.digest`は、アセット名に使用するMD5フィンガープリントを有効にするかどうかを指定します。`production.rb`ではデフォルトで`true`に設定されます。
