@@ -70,23 +70,25 @@ end
 <h1>Listing Books</h1>
 
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Summary</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
-<% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.content %></td>
-    <td><%= link_to "Show", book %></td>
-    <td><%= link_to "Edit", edit_book_path(book) %></td>
-    <td><%= link_to "Remove", book, method: :delete, data: { confirm: "Are you sure?" } %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.content %></td>
+        <td><%= link_to "Show", book %></td>
+        <td><%= link_to "Edit", edit_book_path(book) %></td>
+        <td><%= link_to "Destroy", book, method: :delete, data: { confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br>
@@ -217,6 +219,9 @@ render plain: "OK"
 
 TIP: 平文テキストの出力は、AjaxやWebサービスリクエストに応答するときに最も有用です。これらではHTML以外の応答を期待しています。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172058
+-->
 NOTE: デフォルトでは、`:plain`オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、`layout: true`オプションを追加する必要があります。
 
 #### HTMLを出力する
@@ -224,12 +229,15 @@ NOTE: デフォルトでは、`:plain`オプションを使用すると出力結
 `render`で`:html`オプションを使用すると、HTML文字列を直接ブラウザに送信することができます。
 
 ```ruby
-render html: "<strong>Not Found</strong>".html_safe
+render html: helpers.tag.strong('Not Found')
 ```
 
 TIP: この手法は、HTMLコードのごく小規模なスニペットを出力したい場合に便利です。
 スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172064
+-->
 NOTE: このオプションを使用すると、文字列が「HTML safe」でない場合にHTML要素をエスケープします。
 
 #### JSONを出力する
@@ -272,16 +280,17 @@ render body: "raw"
 
 TIP: このオプションを使用するのは、レスポンスのcontent typeがどんなものであってもよい場合のみにしてください。ほとんどの場合、`:plain`や`:html`などを使用する方が適切です。
 
-NOTE: このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り`text/html`が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。
+NOTE: このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り`text/plain`が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。
 
 #### `render`のオプション
 
-`render`メソッドに対する呼び出しでは、一般に以下の4つのオプションが使用できます。
+`render`メソッドに対する呼び出しでは、一般に以下の5つのオプションが使用できます。
 
 * `:content_type`
 * `:layout`
 * `:location`
 * `:status`
+* `:formats`
 
 ##### `:content_type`オプション
 
@@ -347,7 +356,6 @@ render status: :forbidden
 |                     | 303              | :see_other                       |
 |                     | 304              | :not_modified                    |
 |                     | 305              | :use_proxy                       |
-|                     | 306              | :reserved                        |
 |                     | 307              | :temporary_redirect              |
 |                     | 308              | :permanent_redirect              |
 | **Client Error**    | 400              | :bad_request                     |
@@ -363,11 +371,12 @@ render status: :forbidden
 |                     | 410              | :gone                            |
 |                     | 411              | :length_required                 |
 |                     | 412              | :precondition_failed             |
-|                     | 413              | :request_entity_too_large        |
-|                     | 414              | :request_uri_too_long            |
+|                     | 413              | :payload_too_large               |
+|                     | 414              | :uri_too_long                    |
 |                     | 415              | :unsupported_media_type          |
-|                     | 416              | :requested_range_not_satisfiable |
+|                     | 416              | :range_not_satisfiable           |
 |                     | 417              | :expectation_failed              |
+|                     | 421              | :misdirected_request             |
 |                     | 422              | :unprocessable_entity            |
 |                     | 423              | :locked                          |
 |                     | 424              | :failed_dependency               |
@@ -375,6 +384,7 @@ render status: :forbidden
 |                     | 428              | :precondition_required           |
 |                     | 429              | :too_many_requests               |
 |                     | 431              | :request_header_fields_too_large |
+|                     | 451              | :unavailable_for_legal_reasons   |
 | **Server Error**    | 500              | :internal_server_error           |
 |                     | 501              | :not_implemented                 |
 |                     | 502              | :bad_gateway                     |
@@ -387,6 +397,9 @@ render status: :forbidden
 |                     | 510              | :not_extended                    |
 |                     | 511              | :network_authentication_required |
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172106
+-->
 #### レイアウトの探索順序
 
 Railsは現在のレイアウトを探索する場合、最初に現在のコントローラと同じ基本名を持つレイアウトが`app/views/layouts`ディレクトリにあるかどうかを調べます。たとえば、`PhotosController`クラスのアクションから出力するのであれば、`app/views/layouts/photos.html.erb`または`app/views/layouts/photos.builder`を探します。該当のコントローラに属するレイアウトがない場合、`app/views/layouts/application.html.erb`または`app/views/layouts/application.builder`を使用します。`.erb`レイアウトがない場合、`.builder`レイアウトがあればそれを使用します。Railsには、各コントローラやアクションに割り当てる特定のレイアウトをもっと正確に指定する方法がいくつも用意されています。
@@ -510,6 +523,9 @@ class ApplicationController < ActionController::Base
 * `OldPostsController#show`ではレイアウトが適用されません。
 * `OldPostsController#index`では`old`レイアウトが使用されます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172111
+-->
 #### 二重レンダリングエラーを避ける
 
 Rails開発をやっていれば、一度は "Can only render or redirect once per action" エラーに遭遇したことがあるでしょう。いまいましいエラーですが、修正は比較的簡単です。このエラーはほとんどの場合、開発者が`render`メソッドの基本的な動作を誤って理解していることが原因です。
