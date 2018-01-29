@@ -176,13 +176,11 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/18328847f801fa8827726dd67
 -->
 * `config.assets.prefix`はアセットを置くディレクトリを指定します。デフォルトは`/assets`です。
 
-* `config.assets.digest`は、アセット名に使用するMD5フィンガープリントを有効にするかどうかを指定します。`production.rb`ではデフォルトで`true`に設定されます。
+* `config.assets.digest`は、アセット名に使用するSHA256フィンガープリントを有効にするかどうかを指定します。デフォルトで`true`に設定されます。
 
 * `config.assets.debug`は、デバッグ用にアセットの連結と圧縮をやめるかどうかを指定します。`development.rb`ではデフォルトで`true`に設定されます。
 
-* `config.assets.cache_store`は、Sprocketsで使用するキャッシュストアを定義します。デフォルトではRailsのファイルストアが使用されます。
-
-* `config.assets.version`はMD5ハッシュ生成に使用されるオプション文字列です。この値を変更すると、すべてのアセットファイルが強制的にリコンパイルされます。
+* `config.assets.version`はSHA256ハッシュ生成に使用されるオプション文字列です。この値を変更すると、すべてのアセットファイルが強制的にリコンパイルされます。
 
 * `config.assets.compile`は、production環境での動的なSprocketsコンパイルをオンにするかどうかをtrue/falseで指定します。
 
