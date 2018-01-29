@@ -583,6 +583,9 @@ redirect_to photos_url
 redirect_back(fallback_location: root_path)
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173271
+-->
 NOTE: `redirect_to`や`redirect_back`はメソッドの実行を即座に中断したりはしません。これらは単にHTTPのレスポンスを設定するだけです。もしこれらの後にメソッドがあった場合そのメソッドは実行されてしまいます。必要であれば、明示的な`return`もしくは他の中断用の手法を使うことで中断可能です。
 
 #### リダイレクトのステータスコードを変更する
@@ -654,7 +657,7 @@ end
 
 ### `head`でヘッダのみのレスポンスを生成する
 
-`head`メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。このメソッド名は`render :nothing`よりも動作を明確に表しています。`head`メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます ([参照テーブル](#statusオプション) 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。
+`head`メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。`head`メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます ([参照テーブル](#statusオプション) 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。
 
 ```ruby
 head :bad_request
@@ -719,7 +722,7 @@ WARNING: これらのアセットタグヘルパーは、指定の場所にア�
 
 #### `auto_discovery_link_tag`を使用してフィードにリンクする
 
-`auto_discovery_link_tag`ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (`:rss`または`:atom`)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。
+`auto_discovery_link_tag`ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィード、JSONフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (`:rss`または`:atom`、`:json`)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。
 
 ```erb
 <%= auto_discovery_link_tag(:rss, {action: "feed"},
@@ -884,7 +887,10 @@ WARNING: 画像ファイルの拡張子は省略できません。
 上のコードによって以下が生成されます。
 
 ```erb
-<video><source src="trailer.ogg" /><source src="movie.ogg" /></video>
+<video>
+  <source src="/videos/trailer.ogg">
+  <source src="/videos/movie.ogg">
+</video>
 ```
 
 #### `audio_tag`を使用して音声ファイルにリンクする
@@ -1000,6 +1006,9 @@ WARNING: 画像ファイルの拡張子は省略できません。
 <%= render "shared/footer" %>
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173435
+-->
 上のコードの`_ad_banner.html.erb`パーシャルと`_footer.html.erb`パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。
 
 TIP: すべてのページで共有されているコンテンツであれば、パーシャルをレイアウトで使用することができます。
@@ -1050,6 +1059,9 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の2つのビューでは同じパーシャルがレンダリングされますが、Action Viewのsubmitヘルパーはnewアクションの場合には"Create Zone"を返し、editアクションの場合は"Update Zone"を返します。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173458
+-->
 どのパーシャルにも、パーシャル名からアンダースコアを取り除いた名前を持つローカル変数が与えられます。`:object`オプションを使用することで、このローカル変数にオブジェクトを渡すことができます。
 
 ```erb
@@ -1141,6 +1153,9 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の場合、`title`という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173485
+-->
 TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、コレクション名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングした回数を`product_counter`変数で参照できます。ただし、このオプションは`as: :value`オプションと併用できません。
 
 `:spacer_template`オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。
