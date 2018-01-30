@@ -342,18 +342,178 @@ NOTE: アサーションの自作は高度なトピックなので、このチ�
 ### Rails固有のアサーション
 
 Railsは`minitest`フレームワークに以下のような独自のカスタムアサーションを追加しています。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201052
+-->
 
 | アサーション                                                                         | 目的 |
 | --------------------------------------------------------------------------------- | ------- |
-| `assert_difference(expressions, difference = 1, message = nil) {...}`             | yieldされたブロックで評価された結果である式の戻り値における数値の違いをテストする。|
-| `assert_no_difference(expressions, message = nil, &amp;block)`                    | 式を評価した結果の数値は、ブロックで渡されたものを呼び出す前と呼び出した後で違いがないと主張する。|
-| `assert_recognizes(expected_options, path, extras={}, message=nil)`               | 渡されたパスのルーティングが正しく扱われ、(expected_optionsハッシュで渡された) 解析オプションがパスと一致したことを主張する。基本的にこのアサーションでは、Railsはexpected_optionsで渡されたルーティングを認識すると主張する。|
-| `assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)` | 渡されたオプションは、渡されたパスの生成に使用できるものであると主張する。assert_recognizesと逆の動作。extrasパラメータは、クエリ文字列に追加リクエストがある場合にそのパラメータの名前と値をリクエストに渡すのに使用される。messageパラメータはアサーションが失敗した場合のカスタムエラーメッセージを渡すことができる。|
-| `assert_response(type, message = nil)`                                            | レスポンスが特定のステータスコードを持っていることを主張する。`:success`を指定するとステータスコード200-299を指定したことになり、同様に`:redirect`は300-399、`:missing`は404、`:error`は500-599にそれぞれマッチする。ステータスコードの数字や同等のシンボルを直接渡すこともできる。詳細については[ステータスコードの完全なリスト](http://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant)および[シンボルとステータスコードの対応リスト](http://rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant)を参照のこと。|
-| `assert_redirected_to(options = {}, message=nil)`                                 | 渡されたリダイレクトオプションが、最後に実行されたアクションで呼び出されたリダイレクトのオプションと一致することを主張する。このアサーションは部分マッチ可能。たとえば`assert_redirected_to(controller: "weblog")`は`redirect_to(controller: "weblog", action: "show")`というリダイレクトなどにもマッチする。`assert_redirected_to root_path`などの名前付きルートを渡したり、`assert_redirected_to @article`などのActive Recordオブジェクトを渡すこともできる。|
-| `assert_template(expected = nil, message=nil)`                                    | リクエストが適切なテンプレートファイルを使用してレンダリングされることを主張する。|
+| [`assert_difference(expressions, difference = 1, message = nil) {...}`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference) | yieldされたブロックで評価された結果である式の戻り値における数値の違いをテストする。|
+| [`assert_no_difference(expressions, message = nil, &block)`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference) | 式を評価した結果の数値は、ブロックで渡されたものを呼び出す前と呼び出した後で違いがないと主張する。|
+| [`assert_no_changes(expressions, message = nil, &block)`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes) | Test the result of evaluating an expression is not changed after invoking the passed in block.|
+| [`assert_nothing_raised { block }`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_nothing_raised) | Ensures that the given block doesn't raise any exceptions.|
+| [`assert_recognizes(expected_options, path, extras={}, message=nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_recognizes) | 渡されたパスのルーティングが正しく扱われ、(expected_optionsハッシュで渡された) 解析オプションがパスと一致したことを主張する。基本的にこのアサーションでは、Railsはexpected_optionsで渡されたルーティングを認識すると主張する。|
+| [`assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_generates) | 渡されたオプションは、渡されたパスの生成に使用できるものであると主張する。assert_recognizesと逆の動作。extrasパラメータは、クエリ文字列に追加リクエストがある場合にそのパラメータの名前と値をリクエストに渡すのに使用される。messageパラメータはアサーションが失敗した場合のカスタムエラーメッセージを渡すことができる。|
+| [`assert_response(type, message = nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_response) | レスポンスが特定のステータスコードを持っていることを主張する。`:success`を指定するとステータスコード200-299を指定したことになり、同様に`:redirect`は300-399、`:missing`は404、`:error`は500-599にそれぞれマッチする。ステータスコードの数字や同等のシンボルを直接渡すこともできる。詳細については[ステータスコードの完全なリスト](http://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant)および[シンボルとステータスコードの対応リスト](http://rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant)を参照のこと。|
+| [`assert_redirected_to(options = {}, message=nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_redirected_to) | 渡されたリダイレクトオプションが、最後に実行されたアクションで呼び出されたリダイレクトのオプションと一致することを主張する。このアサーションは部分マッチ可能。たとえば`assert_redirected_to(controller: "weblog")`は`redirect_to(controller: "weblog", action: "show")`というリダイレクトなどにもマッチする。`assert_redirected_to root_path`などの名前付きルートを渡したり、`assert_redirected_to @article`などのActive Recordオブジェクトを渡すこともできる。|
 
 これらのアサーションのいくつかについては次の章でご説明します。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201536
+-->
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201749
+-->
+
+テストデータベース
+-----------------------
+
+Railsアプリケーションは、ほぼ間違いなくデータベースと密接なやりとりを行いますので、テスティングにもデータベースが必要となります。効率のよいテストを作成するには、データベースの設定方法とサンプルデータの導入方法を理解しておく必要があります。
+
+デフォルトでは、すべてのRailsアプリケーションにはdevelopment、test、productionの3つの環境があります。それぞれの環境におけるデータベース設定は`config/database.yml`で行います。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201848
+-->
+テスティング専用のデータベースがあれば、それを設定して他の環境から切り離された専用のテストデータにアクセスすることができます。テストを実行すればテストデータは確実に元の状態から変わってしまうので、development環境やproduction環境のデータベースにあるデータには決してアクセスしません。
+
+### テストデータベースのスキーマを管理する
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201579
+-->
+テストを実行するには、テストデータベースが最新の状態で構成されている必要があります。テストヘルパーは、テストデータベースに未完了のマイグレーションが残っていないかどうかをチェックします。マイグレーションがすべて終わっている場合、`db/schema.rb`や`db/structure.sql`をテストデータベースに読み込みます。ペンディングされたマイグレーションがある場合、エラーが発生します。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27201605
+-->
+
+### フィクスチャのしくみ
+
+よいテストを作成するにはよいテストデータを準備する必要があることを理解しておく必要があります。
+Railsでは、テストデータの定義とカスタマイズはフィクスチャで行うことができます。
+網羅的なドキュメントについては、[フィクスチャAPIドキュメント](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)を参照してください。
+
+#### フィクスチャとは何か
+
+_フィクスチャ (fixture)_とは、いわゆるサンプルデータを言い換えたものです。フィクスチャを使用することで、事前に定義したデータをテスト実行直前にtestデータベースに導入することができます。フィクスチャはYAMLで記述され、特定のデータベースに依存しません。1つのモデルにつき1つのフィクスチャファイルが作成されます。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202039
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202051
+-->
+フィクスチャファイルは`test/fixtures`の下に置かれます。`rails generate model`を実行すると、モデルのフィクスチャスタブが自動的に作成され、このディレクトリに置かれます。
+
+#### YAML
+
+YAML形式のフィクスチャは人間にとってとても読みやすく、サンプルデータを容易に記述することができます。この形式のフィクスチャには**.yml**というファイル拡張子が与えられます (`users.yml`など)。
+
+YAMLフィクスチャファイルのサンプルを以下に示します。
+
+```yaml
+# この行はYAMLのコメントである
+david:
+  name: David Heinemeier Hansson
+  birthday: 1979-10-15
+  profession: Systems development
+
+steve:
+  name: Steve Ross Kellock
+  birthday: 1974-09-27
+  profession: guy with keyboard
+```
+
+各フィクスチャは名前とコロンで始まり、その後にコロンで区切られたキー/値ペアのリストがインデント付きで置かれます。通常、レコード間は空行で区切られます。行の先頭に#文字を置くことで、フィクスチャファイルにコメントを追加できます。'yes'や'no'などのYAMLキーワードに似たキーについては、引用符で囲むことでYAMLパーサーが正常に動作できます。
+
+[関連付け](/association_basics.html)を使用している場合は、2つの異なるフィクスチャの間に参照ノードを1つ定義すれば済みます。belongs_to/has_many関連付けの例を以下に示します。
+
+```yaml
+# fixtures/categories.ymlの内容:
+about:
+  name: About
+
+# fixtures/articles.ymlの内容
+first:
+  title: Welcome to Rails!
+  body: Hello world!
+  category: about
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202127
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202161
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202171
+-->
+NOTE: 名前で互いを参照する関連付けの場合、フィクスチャで`id:`属性を指定することはできません。Railsはテストの実行中に、一貫性を保つために自動的に主キーを割り当てます。フィクスチャで`id:`属性を指定するとこの自動割り当てがしなくなります。関連付けの詳細な動作については、[フィクスチャAPIドキュメント](http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)を参照してください。
+
+#### ERB
+
+ERBは、テンプレート内にRubyコードを埋め込むのに使用されます。YAMLフィクスチャ形式のファイルは、Railsに読み込まれたときにERBによる事前処理が行われます。ERBを活用すれば、Rubyで一部のサンプルデータを生成できます。たとえば、以下のコードを使用すれば1000人のユーザーを生成できます。
+
+```erb
+<% 1000.times do |n| %>
+user_<%= n %>:
+  username: <%= "user#{n}" %>
+  email: <%= "user#{n}@example.com" %>
+<% end %>
+```
+
+#### フィクスチャの動作
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202233
+-->
+Railsはデフォルトで、`test/fixtures`フォルダにあるすべてのフィクスチャを自動的に読み込み、モデルやコントローラのテストで使用します。フィクスチャの読み込みは主に以下の3つの手順からなります。
+
+1. フィクスチャに対応するテーブルに含まれている既存のデータをすべて削除する
+2. フィクスチャのデータをテーブルに読み込む
+3. フィクスチャに直接アクセスしたい場合はフィクスチャのデータをメソッドにダンプする
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202260
+-->
+
+#### フィクスチャはActive Recordオブジェクト
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202280
+-->
+フィクスチャは、実はActive Recordのインスタンスです。前述の3番目の手順で示したように、フィクスチャはテストケースのローカル変数を自動的に設定してくれるので、フィクスチャのオブジェクトに直接アクセスできます。以下に例を示します。
+
+```ruby
+# davidという名前のフィクスチャに対応するUserオブジェクトを返す
+users(:david)
+
+# idで呼び出されたdavidのプロパティを返す
+users(:david).id
+
+# Userクラスで利用可能なメソッドにアクセスすることもできる
+david = users(:david)
+david.call(david.partner)
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202305
+-->
+
+```ruby
+# this will return an array containing the fixtures david and steve
+users(:david, :steve)
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202402
+-->
 
 コントローラの機能テスト
 -------------------------------------
