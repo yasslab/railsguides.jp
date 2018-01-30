@@ -515,9 +515,65 @@ users(:david, :steve)
 TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202402
 -->
 
+結合テスト
+-------------------
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202908
+-->
+結合テスト (integration test) は、複数のコントローラ同士のやりとりをテストします。一般に、アプリケーション内の重要なワークフローのテストに使用されます。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202914
+-->
+
+```bash
+$ bin/rails generate integration_test user_flows
+      exists  test/integration/
+      create  test/integration/user_flows_test.rb
+```
+
+生成直後の結合テストは以下のような内容になっています。
+
+```ruby
+require 'test_helper'
+
+class UserFlowsTest < ActionDispatch::IntegrationTest
+  # test "the truth" do
+  #   assert true
+  # end
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202961
+-->
+結合テストは`ActionDispatch::IntegrationTest`から継承されます。これにより、結合テスト内でさまざまなヘルパーが利用できます。テストで使用するフィクスチャーも明示的に作成しておく必要があります。
+
+### 結合テストで使用できるヘルパー
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202844
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202969
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202978
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202996
+-->
+
 コントローラの機能テスト
 -------------------------------------
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27203004
+-->
 Railsで1つのコントローラに含まれる複数のアクションをテストするには、コントローラに対する機能テスト (functional test) を作成します。コントローラはアプリケーションへのWebリクエストを受信し、最終的にビューをレンダリングしたものをレスポンスとして返します。
 
 ### 機能テストに含める項目
@@ -530,20 +586,30 @@ Railsで1つのコントローラに含まれる複数のアクションをテ�
 * レスポンスのテンプレートに正しいオブジェクトが保存されたか
 * ビューに表示されたメッセージは適切か
 
-`Article`リソースをRailsのscaffoldジェネレータで作成したので、コントローラとそのテストコードも自動的に作成されています。`test/controllers`ディレクトリに`articles_controller_test.rb`ファイルができているはずなので、中がどのようになっているか見てみましょう。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27203039
+-->
+`test/controllers`ディレクトリに`articles_controller_test.rb`ファイルができているはずなので、中がどのようになっているか見てみましょう。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27203055
+-->
 
 `articles_controller_test.rb`ファイルの`test_should_get_index`というテストについて見てみます。
 
 ```ruby
-class ArticlesControllerTest < ActionController::TestCase
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:articles)
+# articles_controller_test.rb
+class ArticlesControllerTest < ActionDispatch::IntegrationTest
+   test "should get index" do
+     get articles_url
+     assert_response :success
   end
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27203392
+-->
 `test_should_get_index`というテストでは、Railsが`index`という名前のアクションに対するリクエストをシミュレートします。同時に、有効な`articles`インスタンス変数がコントローラに割り当てられます。
 
 `get`メソッドはWebリクエストを開始し、結果をレスポンスとして返します。このメソッドには以下の4つの引数を渡すことができます。
@@ -556,13 +622,13 @@ end
 例: `:show`アクションを呼び出し、`id`に12を指定して`params`として渡し、セッションの`user_id`に5を設定する。
 
 ```ruby
-get(:show, {'id' => "12"}, {'user_id' => 5})
+get article_url, params: { id: 12 }, headers: { "HTTP_REFERER" => "http://example.com/home" }
 ```
 
-別の例: `:view`アクションを呼び出し、`id`に12を指定して`params`として渡すが、セッションの代りにflashメッセージを1つ使用する。
+別の例: `:update`アクションを呼び出し、`id`に12を指定し、Ajaxのリクエストの`params`として渡す
 
 ```ruby
-get(:view, {'id' => '12'}, nil, {'message' => 'booya!'})
+patch article_url, params: { id: 12 }, xhr: true
 ```
 
 NOTE: `articles_controller_test.rb`ファイルにある`test_should_create_article`テストを実行してみると、モデルレベルのバリデーションが新たに追加されることによってテストは失敗します。
@@ -572,14 +638,18 @@ NOTE: `articles_controller_test.rb`ファイルにある`test_should_create_arti
 ```ruby
 test "should create article" do
   assert_difference('Article.count') do
-    post :create, article: {title: 'Some title'}
+    post articles_url, params: { article: { body: 'Rails is awesome!', title: 'Hello Rails' } }
   end
 
-  assert_redirected_to article_path(assigns(:article))
+  assert_redirected_to article_path(Article.last)
 end
 ```
 
 これで、すべてのテストを実行するとパスするようになったはずです。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27203502
+--->
 
 ### 機能テストで利用できるHTTPリクエストの種類
 
