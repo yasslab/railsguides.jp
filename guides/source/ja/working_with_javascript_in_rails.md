@@ -55,7 +55,7 @@ Railsでは、JavaScriptをDOMに追加する際の手法を「控えめな (uno
 だいぶ乱雑になってきました。ではここで関数定義をclickハンドラの外に追い出し、CoffeeScriptで書き換えてみましょう。
 
 ```coffeescript
-paintIt = (element, backgroundColor, textColor) ->
+@paintIt = (element, backgroundColor, textColor) ->
   element.style.backgroundColor = backgroundColor
   if textColor?
     element.style.color = textColor
@@ -78,7 +78,7 @@ paintIt = (element, backgroundColor, textColor) ->
 これではDRYとは言えません。今度はイベントを活用して改良してみましょう。最初に`data-*`属性をリンクに追加しておきます。続いて、この属性を持つすべてのリンクで発生するクリックイベントにハンドラをバインドします。
 
 ```coffeescript
-paintIt = (element, backgroundColor, textColor) ->
+@paintIt = (element, backgroundColor, textColor) ->
   element.style.backgroundColor = backgroundColor
   if textColor?
     element.style.color = textColor
@@ -107,15 +107,19 @@ Railsチームは、本ガイドでご紹介した方法でCoffeeScriptとJavaSc
 HTML生成を行い易くするために、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。
 
 RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptによる要素とRubyによる要素の2つの要素で構成されています。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d81f1aed40e213f8#r27198026
+-->
+JavaScriptによる要素は[rails-ujs](https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts)であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。これによりrails.jsに含まれるCoffeeScriptがDOMの属性をリッスンするようになり、それらの属性に適切なハンドラが与えられます。
 
-JavaScriptによる要素は[rails.js](https://github.com/rails/jquery-ujs/blob/master/src/rails.js)であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。これによりrails.jsに含まれるCoffeeScriptがDOMの属性をリッスンするようになり、それらの属性に適切なハンドラが与えられます。
-
-### form_for
-
-[`form_for`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for) はフォーム作成を支援するヘルパーです。`form_for`は、JavaScriptを利用するための`:remote`オプションを引数に取ることができます。この動作は次のようになります。
+#### form_for
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d81f1aed40e213f8#r27198062
+-->
+[`form_with`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with) はフォーム作成を支援するヘルパーです。`form_with`は、JavaScriptを利用するための`:local`オプションを引数に取ることができます。この動作は次のようになります。
 
 ```erb
-<%= form_for(@article, remote: true) do |f| %>
+<%= form_with(model: @article) do |f| %>
   ...
 <% end %>
 ```
@@ -134,35 +138,19 @@ formタグに`data-remote="true"`という属性が追加されていること�
 
 ```coffeescript
 $(document).ready ->
-  $("#new_article").on("ajax:success", (e, data, status, xhr) ->
-    $("#new_article").append xhr.responseText
-  ).on "ajax:error", (e, xhr, status, error) ->
+  $("#new_article").on("ajax:success", (event) ->
+    [data, status, xhr] = event.detail
+  ).on "ajax:error", (event) ->
     $("#new_article").append "<p>ERROR</p>"
 ```
 
-明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。詳細については、[jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki/ajax)に掲載されているイベントを参照してください。
+明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。  
 
-### form_tag
+<!-- 
+TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d81f1aed40e213f8#r27198192
+-->
 
-[`form_tag`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag) は`form_for`とよく似ています。このメソッドには`:remote`オプションがあり、以下のように使用できます。
-
-```erb
-<%= form_tag('/articles', remote: true) do %>
-  ...
-<% end %>
-```
-
-上のコードから以下のHTMLが生成されます。
-
-```html
-<form accept-charset="UTF-8" action="/articles" data-remote="true" method="post">
-  ...
-</form>
-```
-
-その他の点は`form_for`と同じです。詳細についてはドキュメントを参照してください。
-
-### link_to
+#### link_to
 
 [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) はリンクの生成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
 
