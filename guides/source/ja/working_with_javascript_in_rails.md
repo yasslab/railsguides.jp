@@ -164,7 +164,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d
 <a href="/articles/1" data-remote="true">an article</a>
 ```
 
-`form_for`の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。
+`form_with`の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。
 
 ```erb
 <%= link_to "Delete article", @article, remote: true, method: :delete %>
@@ -174,11 +174,11 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d
 
 ```coffeescript
 $ ->
-  $("a[data-remote]").on "ajax:success", (e, data, status, xhr) ->
+  $("a[data-remote]").on "ajax:success", (event) ->
     alert "The article was deleted."
 ```
 
-### button_to
+#### button_to
 
 [`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to)はボタン作成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
 
@@ -190,12 +190,14 @@ $ ->
 
 ```html
 <form action="/articles/1" class="button_to" data-remote="true" method="post">
-  <div><input type="submit" value="An article"></div>
+  <input type="submit" value="An article" />
 </form>
 ```
 
-作成されるのは通常の`<form>`なので、`form_for`に関する情報はすべて`button_to`にも適用できます。
-
+作成されるのは通常の`<form>`なので、`form_with`に関する情報はすべて`button_to`にも適用できます。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/bca67835841f9279a20d3526d81f1aed40e213f8#r27198378
+-->
 サーバー側で考慮すべき点
 --------------------
 
@@ -225,7 +227,7 @@ indexビュー (`app/views/users/index.html.erb`) の内容は以下のように
 
 <br>
 
-<%= form_for(@user, remote: true) do |f| %>
+<%= form_with(model: @user) do |f| %>
   <%= f.label :name %><br>
   <%= f.text_field :name %>
   <%= f.submit %>
@@ -251,7 +253,7 @@ indexページの上部にはユーザーの一覧が表示されます。下部
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.js   {}
+        format.js
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
@@ -261,7 +263,7 @@ indexページの上部にはユーザーの一覧が表示されます。下部
   end
 ```
 
-format.jsが`respond_to`ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
+`format.js`が`respond_to`ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
 
 ```erb
 $("<%= escape_javascript(render @user) %>").appendTo("#users");
@@ -270,7 +272,7 @@ $("<%= escape_javascript(render @user) %>").appendTo("#users");
 Turbolinks
 ----------
 
-Railsには[Turbolinksライブラリ](https://github.com/rails/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
+Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
 
 ### Turbolinksの動作原理
 
@@ -300,7 +302,7 @@ $(document).on "turbolinks:load", ->
   alert "page has loaded!"
 ```
 
-この他にバインド可能なイベントなどの詳細については、[Turbolinks README](https://github.com/rails/turbolinks/blob/master/README.md)を参照してください。
+この他にバインド可能なイベントなどの詳細については、[Turbolinks README](https://github.com/turbolinks/turbolinks/blob/master/README.md)を参照してください。
 
 その他の情報源
 ---------------
