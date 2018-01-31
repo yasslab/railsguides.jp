@@ -939,61 +939,17 @@ class ProfileControllerTest < ActionDispatch::IntegrationTest
 end		
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227440
+-->
 
+ビューをテストする
+-------------
 
-### テンプレートとレイアウトをテストする
-
-レスポンスが出力するテンプレートとレイアウトが正しいかどうかを確認したい場合は、`assert_template`メソッドを使用することができます。
-
-
-```ruby
-test "index should render correct template and layout" do
-  get :index
-  assert_template :index
-  assert_template layout: "layouts/application"
-end
-```
-
-テンプレートとレイアウトのテストは、一回の`assert_template`呼び出しで同時に行なうことはできない点にご注意ください。さらに`layout`のテストでは通常の文字列に代えて正規表現を与えることもできますが、文字列を使用する方がテストの内容が明確になります。一方、テストするレイアウトを指定する際には必ずレイアウトが置かれているディレクトリ名もパスに含めなければなりません。これはRails標準の"layouts"ディレクトリを使用している場合であっても必要です。従って
-
-```ruby
-assert_template layout: "application"
-```
-
-上のコードは期待どおりに動作しません。
-
-ビューでパーシャル (部分レイアウト) が使用されている場合は、レイアウトに対するアサーションを行なう際に必ずパーシャルにもアサーションを行なう必要があります。このとおりにしなかった場合、アサーションは失敗します。
-
-従って
-
-```ruby
-test "new should render correct layout" do
-  get :new
-  assert_template layout: "layouts/application", partial: "_form"
-end
-```
-
-上のコードでは`_form`というパーシャルを使用しているレイアウトに対して正しいアサーションが行われています。`assert_template`で`:partial`キーを省略してしまうと期待どおりに動作しません。
-
-### 完全な機能テストの例
-
-`flash`、`assert_redirected_to`、`assert_difference`を使用した別のテスト例を以下に示します。
-
-```ruby
-test "should create article" do
-  assert_difference('Article.count') do
-    post :create, article: {title: 'Hi', body: 'This is my first article.'}
-  end
-  assert_redirected_to article_path(assigns(:article))
-  assert_equal 'Article was successfully created.', flash[:notice]
-end
-```
-
-### ビューをテストする
-
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227469
+-->
 アプリケーションのビューのテストで、あるページで重要なHTML要素とその内容がレスポンスに含まれていることを主張する (アサーションを行なう) のは、リクエストに対するレスポンスをテストする方法として便利です。`assert_select`というアサーションを使用すると、こうしたテストで簡潔かつ強力な文法を利用できるようになります。
-
-NOTE: 他のドキュメントで`assert_tag`というアサーションを見かけることがあるかもしれません。このアサーションはRails 4.2で削除されました。今後は`assert_select`を使用してください。
 
 `assert_select`には2つの書式があります。
 
@@ -1007,6 +963,9 @@ NOTE: 他のドキュメントで`assert_tag`というアサーションを見�
 assert_select 'title', "Welcome to Rails Testing Guide"
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227530
+-->
 ネストした`assert_select`ブロックを使用することもできます。以下の例の場合、外側の`assert_select`で選択されたすべての要素の完全なコレクションに対して、内側の`assert_select`がアサーションを実行します。
 
 ```ruby
@@ -1015,6 +974,9 @@ assert_select 'ul.navigation' do
 end
 ```
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227556
+-->
 あるいは、外側の`assert_select`で選択された要素のコレクションをイテレート (列挙) し、`assert_select`が要素ごとに呼び出されるようにすることもできます。たとえば、レスポンスに2つの順序付きリストがあり、1つの順序付きリストにつき要素が4つあれば、以下のテストはどちらもパスします。
 
 ```ruby
@@ -1049,250 +1011,41 @@ assert_select_email do
 end
 ```
 
-結合テスト
--------------------
+ヘルパーをテストする
+---------------
+ヘルパー自体は単なるモジュールであり、ビューから利用するヘルパーメソッドをこの中に定義します。
 
-結合テスト (integration test) は、複数のコントローラ同士のやりとりをテストします。一般に、アプリケーション内の重要なワークフローのテストに使用されます。
+ヘルパーのテストについては、ヘルパーメソッドの出力が期待どおりであるかどうかをチェックするだけで十分です。ヘルパー関連のテストは`test/helpers`ディレクトリに置かれます。
 
-結合テストは他の単体テストや機能テストと異なり、アプリケーションの`test/integration`フォルダの下に明示的に作成する必要があります。Railsには結合テストのスケルトンを生成するためのジェネレータも用意されています。
-
-```bash
-$ bin/rails generate integration_test user_flows
-      exists  test/integration/
-      create  test/integration/user_flows_test.rb
-```
-
-生成直後の結合テストは以下のような内容になっています。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227719
+-->
+ヘルパーテストの外枠は以下のような感じです。
 
 ```ruby
-require 'test_helper'
-
-class UserFlowsTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
-end
-```
-
-結合テストは`ActionDispatch::IntegrationTest`から継承されます。これにより、結合テスト内でさまざまなヘルパーが利用できます。テストで使用するフィクスチャーも明示的に作成しておく必要があります。
-
-### 結合テストで使用できるヘルパー
-
-標準のテスト用ヘルパーの他に、結合テストで利用できるヘルパーを以下に示します。
-
-| ヘルパー                                                             | 目的 |
-| ------------------------------------------------------------------ | ------- |
-| `https?`                                                           | セッションがセキュアなHTTPSリクエストを模倣している場合に`true`を返す。|
-| `https!`                                                           | セキュアなHTTPSリクエストを模倣できるようにする。|
-| `host!`                                                            | 以後のリクエストでホスト名を設定できるようにする。|
-| `redirect?`                                                        | 最後のリクエストがリダイレクトされた場合に`true`を返す。|
-| `follow_redirect!`                                                 | 単一のリダイレクトレスポンスに従う。|
-| `request_via_redirect(http_method, path, [parameters], [headers])` | HTTPリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `post_via_redirect(path, [parameters], [headers])`                 | HTTP POSTリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `get_via_redirect(path, [parameters], [headers])`                  | HTTP GETリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `patch_via_redirect(path, [parameters], [headers])`                | HTTP PATCHリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `put_via_redirect(path, [parameters], [headers])`                  | HTTP PUTリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `delete_via_redirect(path, [parameters], [headers])`               | HTTP DELETEリクエストを1つ作成し、以後のリダイレクトをすべて実行。|
-| `open_session`                                                     | 新しいセッションインスタンスを1つ開く。|
-
-### 結合テストの例
-
-複数のコントローラを対象にした単純な結合テストは、以下のようになります。
-
-```ruby
-require 'test_helper'
-
-class UserFlowsTest < ActionDispatch::IntegrationTest
-  test "login and browse site" do
-    # HTTPSでログイン
-    https!
-    get "/login"
-    assert_response :success
-
-    post_via_redirect "/login", username: users(:david).username, password: users(:david).password
-    assert_equal '/welcome', path
-    assert_equal 'Welcome david!', flash[:notice]
-
-    https!(false)
-    get "/articles/all"
-    assert_response :success
-    assert assigns(:products)
+module UserHelper
+  def link_to_user(user)
+    link_to "#{user.first_name} #{user.last_name}", user
   end
 end
 ```
 
-上のコード例で、結合テストに複数のコントローラが使用されていること、およびデータベースからディスパッチャまでスタック全体がテストされていることがおわかりいただけると思います。また、1つのテストの中で複数のセッションインスタンスを同時にオープンしたり、それらのインスタンスをアサーションメソッドで拡張することで、自分のアプリケーションだけに特化した非常に強力なテスティングDSLを作り出すこともできます。
-
-結合テストで複数のセッションとカスタムDSLを使用した例を以下に示します。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227745
+-->
 
 ```ruby
-require 'test_helper'
+class UserHelperTest < ActionView::TestCase
+  test "should return the user's full name" do
+    user = users(:david)
 
-class UserFlowsTest < ActionDispatch::IntegrationTest
-  test "login and browse site" do
-    # davidというユーザーがログイン
-    david = login(:david)
-    # ゲストユーザーがログイン
-    guest = login(:guest)
-
-    # どちらのユーザーも異なるセッションから利用できる
-    assert_equal 'Welcome david!', david.flash[:notice]
-    assert_equal 'Welcome guest!', guest.flash[:notice]
-
-    # davidというユーザーはWebサイトをブラウズできる
-    david.browses_site
-    # ゲストユーザーもWebサイトをブラウズできる
-    guest.browses_site
-
-    # 他のアサーションに続く
+    assert_dom_equal %{<a href="/user/#{user.id}">David Heinemeier Hansson</a>}, link_to_user(user)
   end
-
-  private
-
-    module CustomDsl
-      def browses_site
-        get "/products/all"
-        assert_response :success
-        assert assigns(:products)
-      end
-    end
-
-    def login(user)
-      open_session do |sess|
-        sess.extend(CustomDsl)
-        u = users(user)
-        sess.https!
-        sess.post "/login", username: u.username, password: u.password
-        assert_equal '/welcome', sess.path
-        sess.https!(false)
-      end
-    end
 end
 ```
 
-Rakeタスクでテストを実行する
----------------------------------
+さらに、テストクラスは`ActionView::TestCase`をextendしたものなので、`link_to`や`pluralize`などのRailsヘルパーメソッドにアクセスできます。
 
-作成したテストをひとつひとつ手動で実行する必要はありません。Railsにはテスティングを支援するためのコマンドが多数用意されています。Railsプロジェクトを生成したときのデフォルトのRakefileで利用できるすべてのコマンドを以下に示します。
-
-| タスク                   | 説明 |
-| ----------------------- | ----------- |
-| `rake test`             | すべての単体テスト、機能テスト、結合テストを実行します。Railsはデフォルトですべてのテストを実行するので、単に`rake`を実行するだけで済みます。
-| `rake test:controllers` | `test/controllers`以下にあるすべてのコントローラ用テストを実行します。|
-| `rake test:functionals` | `test/controllers`、`test/mailers`、`test/functional`以下にあるすべての機能テストを実行します。|
-| `rake test:helpers`     | `test/helpers`以下にあるすべてのヘルパーテストを実行します。 |
-| `rake test:integration` | `test/integration`以下にあるすべての結合テストを実行します。|
-| `rake test:mailers`     | `test/mailers`以下にあるすべてのメイラーテストを実行します。 |
-| `rake test:models`      | `test/models`以下にあるすべてのモデルテストを実行します。 |
-| `rake test:units`       | `test/models`、`test/helpers`、および`test/unit`以下にあるすべての単体テストを実行します。|
-| `rake test:all`         | すべてのテストを素早く実行します (すべての種類のテストをマージし、dbのリセットは行わない)。 |
-| `rake test:all:db`      | すべてのテストを素早く実行します (すべての種類のテストをマージし、dbをリセットする)。 |
-
-
-`Minitest`に関する簡単なメモ
------------------------------
-
-Rubyには、テスティングを含むあらゆる一般的なユースケースのための膨大な標準ライブラリが付属しています。Ruby 1.9からはテスティングフレームワークとして`Minitest`が提供されるようになりました。前述した`assert_equal`などの基本的なアサーションは、実際にはすべて`Minitest::Assertions`で定義されています。テストクラスで継承している`ActiveSupport::TestCase`、`ActionController::TestCase`、`ActionMailer::TestCase`、`ActionView::TestCase`および`ActionDispatch::IntegrationTest`は`Minitest::Assertions`を含んでおり、これによってテスト内で基本的なアサーションがすべて利用できます。
-
-NOTE: `Minitest`の詳細については[Minitest](http://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest.html)を参照してください。
-
-SetupとTeardown
-------------------
-
-各テストの実行前に特定のコードブロックを1つ実行したり、各テストの実行後に別のコードブロックを1つ実行したりしたい場合は、そのための特殊なコールバックを使用することができます。`Articles`コントローラの機能テストを例にとって詳しく見てみましょう。
-
-```ruby
-require 'test_helper'
-
-class ArticlesControllerTest < ActionController::TestCase
-
-  # 各テストが実行される直前に呼び出される
-  def setup
-    @article = articles(:one)
-  end
-
-  # 各テストの実行直後に呼び出される
-  def teardown
-    # @article変数は実際にはテストの実行のたびに直前で初期化されるので
-    # ここで値をnilにする意味は実際にはないのですが、
-    # teardownメソッドの動作を理解いただくためにこのようにしています
-    @article = nil
-  end
-
-  test "should show article" do
-    get :show, id: @article.id
-    assert_response :success
-  end
-
-  test "should destroy article" do
-    assert_difference('Article.count', -1) do
-      delete :destroy, id: @article.id
-    end
-
-    assert_redirected_to articles_path
-  end
-
-end
-```
-
-上の`setup`メソッドは各テストの実行直前に呼び出されるので、`@article`変数はどのテストでも利用できるようになります。`setup`と`teardown`は`ActiveSupport::Callbacks`に実装されています。つまり、`setup`と`teardown`はテストの中で単なるメソッドとして使用する以外の利用法もあるということです。これらを使用する際に以下のものを指定することができます。
-
-* ブロック1つ
-* メソッド1つ (前述の例のとおり)
-* シンボルで表されたメソッド名1つ
-* ラムダ1つ
-
-前述の`setup`コールバックで、メソッド名をシンボルで指定した場合の例を見てみましょう。
-
-```ruby
-require 'test_helper'
-
-class ArticlesControllerTest < ActionController::TestCase
-
-  # 各テストが実行される直前に呼び出される
-  setup :initialize_article
-
-  # 各テストの実行直後に呼び出される
-  def teardown
-    @article = nil
-  end
-
-  test "should show article" do
-    get :show, id: @article.id
-    assert_response :success
-  end
-
-  test "should update article" do
-    patch :update, id: @article.id, article: {}
-    assert_redirected_to article_path(assigns(:article))
-  end
-
-  test "should destroy article" do
-    assert_difference('Article.count', -1) do
-      delete :destroy, id: @article.id
-    end
-
-    assert_redirected_to articles_path
-  end
-
-  private
-
-    def initialize_article
-      @article = articles(:one)
-    end
-end
-```
-
-ルーティングをテストする
---------------
-
-Railsアプリケーションの他の部分と同様、ルーティングもテストすることをお勧めします。前述の`Articles`コントローラのデフォルトである`show`アクションへのルーティングをテストする例は以下のようになります。
-
-```ruby
-test "should route to article" do
-  assert_routing '/articles/1', {controller: "articles", action: "show", id: "1"}
-end
-```
 
 メイラーをテストする
 --------------------
@@ -1327,15 +1080,22 @@ Railsアプリケーションの他の部分と同様、メイラークラスに
 
 `invite`というアクションで知人に招待状を送信する`UserMailer`という名前のメイラーに対する単体テストを以下に示します。これは、`invite`アクションをジェネレータで生成したときに作成される基本的なテストに手を加えたものです。
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227849
+-->
 ```ruby
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
   test "invite" do
-    # メールを送信後キューに追加されるかどうかをテスト
+    # Create the email and store it for further assertions
     email = UserMailer.create_invite('me@example.com',
-                                     'friend@example.com', Time.now).deliver_now
-    assert_not ActionMailer::Base.deliveries.empty?
+                                     'friend@example.com', Time.now)
+
+    # メールを送信後キューに追加されるかどうかをテスト
+    assert_emails 1 do
+      email.deliver_now
+    end
 
     # 送信されたメールの本文が期待どおりの内容であるかどうかをテスト
     assert_equal ['me@example.com'], email.from
@@ -1347,6 +1107,10 @@ end
 ```
 
 このテストでは、メールを送信し、その結果返されたオブジェクトを`email`変数に保存します。続いて、このメールが送信されたことを主張します (最初のアサーション)。次のアサーションでは、メールの内容が期待どおりであることを主張します。`read_fixture`ヘルパーを使用してこのファイルの内容を読みだしています。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227874
+-->
 
 `invite`フィクスチャーは以下のような内容にしておきます。
 
@@ -1360,7 +1124,7 @@ friend@example.comさん、こんにちは。
 
 ここでメイラーのテスト作成方法の詳細部分についてご説明したいと思います。`config/environments/test.rb`の`ActionMailer::Base.delivery_method = :test`という行で送信モードをtestに設定しています。これにより、送信したメールが実際に配信されないようにできます。そうしないと、テスト中にユーザーにスパムメールを送りつけてしまうことになります。この設定で送信したメールは、`ActionMailer::Base.deliveries`という配列に追加されます。
 
-NOTE: この`ActionMailer::Base.deliveries`という配列は、`ActionMailer::TestCase`でのテストを除き、自動的にはリセットされません。Action Mailerテストの外で配列をクリアしたい場合は、`ActionMailer::Base.deliveries.clear`で手動リセットできます。
+NOTE: この`ActionMailer::Base.deliveries`という配列は、`ActionMailer::TestCase`と`ActionDispatch::IntegrationTest`でのテストを除き、自動的にはリセットされません。それらのテストの外で配列をクリアしたい場合は、`ActionMailer::Base.deliveries.clear`で手動リセットできます。
 
 ### 機能テスト
 
@@ -1369,56 +1133,19 @@ NOTE: この`ActionMailer::Base.deliveries`という配列は、`ActionMailer::T
 ```ruby
 require 'test_helper'
 
-class UserControllerTest < ActionController::TestCase
+class UserControllerTest < ActionDispatch::IntegrationTest
   test "invite friend" do
     assert_difference 'ActionMailer::Base.deliveries.size', +1 do
-      post :invite_friend, email: 'friend@example.com'
+      post invite_friend_url, params: { email: 'friend@example.com' }
     end
     invite_email = ActionMailer::Base.deliveries.last
 
     assert_equal "You have been invited by me@example.com", invite_email.subject
     assert_equal 'friend@example.com', invite_email.to[0]
-    assert_match(/Hi friend@example.com/, invite_email.body.to_s)
+    assert_match(/Hi friend@example\.com/, invite_email.body.to_s)
   end
 end
 ```
-
-ヘルパーをテストする
----------------
-
-ヘルパーのテストについては、ヘルパーメソッドの出力が期待どおりであるかどうかをチェックするだけで十分です。ヘルパー関連のテストは`test/helpers`ディレクトリに置かれます。
-
-ヘルパーテストの外枠は以下のような感じです。
-
-```ruby
-require 'test_helper'
-
-class UserHelperTest < ActionView::TestCase
-end
-```
-
-ヘルパー自体は単なるモジュールであり、ビューから利用するヘルパーメソッドをこの中に定義します。ヘルパーメソッドの出力をテストするには、以下のようなミックスインを使用する必要があるでしょう。
-
-```ruby
-class UserHelperTest < ActionView::TestCase
-  include UserHelper
-
-  test "should return the user name" do
-    # ...
-  end
-end
-```
-
-さらに、テストクラスは`ActionView::TestCase`をextendしたものなので、`link_to`や`pluralize`などのRailsヘルパーメソッドにアクセスできます。
-
-その他のテスティングアプローチ
-------------------------
-
-Railsアプリケーションではビルトインの`minitest`ベースのテスティング以外のテストしか利用できないわけではありません。Rails開発者は以下のような実にさまざまなアプローチでテストの実行や支援を行っています。
-
-* [NullDB](http://avdi.org/projects/nulldb/)はデータベースの利用を避けてテスティングを高速化する方法です。
-* [Factory Girl](https://github.com/thoughtbot/factory_girl/tree/master)はフィクスチャーに代わるテストデータ提供/生成ツールです。
-* [Fixture Builder](https://github.com/rdy/fixture_builder)はテスト実行直前にRubyのファクトリーをコンパイルしてフィクスチャーに変換するツールです。
-* [MiniTest::Spec Rails](https://github.com/metaskills/minitest-spec-rails)、RailsのテストではMiniTest::Spec DSLを利用します。
-* [Shoulda](http://www.thoughtbot.com/projects/shoulda)`test/unit`を拡張してさまざまなヘルパー/マクロ/アサーションを追加します。
-* [RSpec](http://relishapp.com/rspec)はビヘイビア駆動開発用のフレームワークです。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27228097
+-->
