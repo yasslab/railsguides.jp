@@ -161,10 +161,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        # Tell the UserMailer to send a welcome email after save
+        # 保存後にUserMailerを使用してwelcomeメールを送信
         UserMailer.with(user: @user).welcome_email.deliver_later
 
-        format.html { redirect_to(@user, notice: 'User was successfully created.') }
+        format.html { redirect_to(@user, notice: 'ユーザーが正常に作成されました。') }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -450,7 +450,7 @@ class UserMailer < ApplicationMailer
                          password: params[:company].smtp_password,
                          address: params[:company].smtp_host }
     mail(to: @user.email,
-         subject: "Please see the Terms and Conditions attached",
+         subject: "添付の利用規約を参照してください",
          delivery_method_options: delivery_options)
   end
 end
@@ -553,8 +553,8 @@ class UserMailer < ApplicationMailer
   private
 
     def set_delivery_options
-      # You have access to the mail instance,
-      # @business and @user instance variables here
+      # ここではメールのインスタンスや
+      # @businessや@userインスタンス変数にアクセスできる
       if @business && @business.has_smtp_settings?
         mail.delivery_method.settings.merge!(@business.smtp_settings)
       end
