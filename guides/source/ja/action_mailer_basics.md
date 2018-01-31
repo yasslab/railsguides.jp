@@ -78,8 +78,8 @@ end
 class UserMailer < ApplicationMailer
   default from: 'notifications@example.com'
 
-  def welcome_email(user)
-    @user = user
+  def welcome_email
+    @user = params[:user]
     @url  = 'http://example.com/login'
     mail(to: @user.email, subject: 'Welcome to My Awesome Site')
   end
@@ -152,9 +152,6 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b
 
 Action MailerはActive Jobとうまく統合されているので、Webのリクエスト/レスポンスサイクルの外で非同期にメールを送信できます。このおかげで、ユーザーは送信完了を待つ必要がありません。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906228
--->
 ```ruby
 class UsersController < ApplicationController
   # POST /users
@@ -164,10 +161,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        # 保存後にUserMailerを使用してwelcomeメールを送信
-        UserMailer.welcome_email(@user).deliver_later
+        # Tell the UserMailer to send a welcome email after save
+        UserMailer.with(user: @user).welcome_email.deliver_later
 
-        format.html { redirect_to(@user, notice: 'ユーザーが正常に作成されました。') }
+        format.html { redirect_to(@user, notice: 'User was successfully created.') }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -181,18 +178,15 @@ end
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906269
 -->
-NOTE: Active Jobはデフォルトでジョブを':inline'で実行します。したがって、この時点で`deliver_later`を使用してメールを送信できます。また、メールを後でバックグラウンドジョブから送信したい場合は、SidekiqやResqueなどのバックエンドクエリシステムを使用するようActive Jobを設定するだけで済みます。
+NOTE: Active Jobはデフォルトでジョブを`:async`で実行します。したがって、この時点で`deliver_later`を使用してメールを送信できます。また、メールを後でバックグラウンドジョブから送信したい場合は、SidekiqやResqueなどのバックエンドクエリシステムを使用するようActive Jobを設定するだけで済みます。
 
 メールをcronjobなどから今すぐ送信したい場合は、`deliver_now`を呼び出すだけで済みます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906283
--->
 ```ruby
 class SendWeeklySummary
   def run
     User.find_each do |user|
-      UserMailer.weekly_summary(user).deliver_now
+      UserMailer.with(user: user).weekly_summary.deliver_now
     end
   end
 end
@@ -233,13 +227,11 @@ NOTE: メールに添付されるファイルは自動的にBase64でエンコ�
 
 * ヘッダーとコンテンツを指定してファイル名を渡すと、それらの設定がAction MailerとMailによって使用されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906335
--->
+
     ```ruby
     encoded_content = SpecialEncode(File.read('/path/to/filename.jpg'))
     attachments['filename.jpg'] = {
-      mime_type: 'application/x-gzip',
+      mime_type: 'application/gzip',
       encoding: 'SpecialEncoding',
       content: encoded_content
     }
@@ -279,12 +271,9 @@ Action Mailer 3.0はファイルをインライン添付できます。この機
 
 1つのメールを複数の相手に送信することももちろん可能です (サインアップが新規に行われたことを全管理者に通知するなど)。これを行なうには、メールのリストを`:to`キーに設定します。メールのリストの形式は、メールアドレスの配列でも、メールアドレスをカンマで区切った文字列でも構いません。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906353
--->
 ```ruby
-class AdminMailer < ActionMailer::Base
-  default to: Proc.new { Admin.pluck(:email) },
+class AdminMailer < ApplicationMailer
+  default to: -> { Admin.pluck(:email) },
           from: 'notification@example.com'
 
   def new_registration(user)
@@ -300,12 +289,9 @@ CC (カーボンコピー) やBCC (ブラインドカーボンコピー) アド�
 
 受信者のメールアドレスをメールにそのまま表示するのではなく、受信者の名前で表示したいことがあります。これを行なうには、メールアドレスを`"フルネーム <メールアドレス>"`の形式で指定します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906389
--->
 ```ruby
-def welcome_email(user)
-  @user = user
+def welcome_email
+  @user = params[:user]
   email_with_name = %("#{@user.name}" <#{@user.email}>)
   mail(to: email_with_name, subject: 'Welcome to My Awesome Site')
 end
@@ -317,15 +303,12 @@ end
 
 アクションで使用するデフォルトのメイラービューを変更するには、たとえば以下のようにします。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906392
--->
 ```ruby
 class UserMailer < ApplicationMailer
   default from: 'notifications@example.com'
 
-  def welcome_email(user)
-    @user = user
+  def welcome_email
+    @user = params[:user]
     @url  = 'http://example.com/login'
     mail(to: @user.email,
          subject: 'Welcome to My Awesome Site',
@@ -341,7 +324,6 @@ end
 
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906402
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906407
 -->
 ```ruby
 class UserMailer < ApplicationMailer
@@ -353,7 +335,7 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email,
          subject: 'Welcome to My Awesome Site') do |format|
       format.html { render 'another_template' }
-      format.text { render text: 'Render text' }
+      format.text { render plain: 'Render text' }
     end
   end
 end
@@ -381,13 +363,10 @@ end
 
 formatブロック内でrenderメソッド呼び出しに`layout: 'layout_name'`オプションを渡すことで、フォーマットごとに異なるレイアウトを指定することもできます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906428
--->
 ```ruby
 class UserMailer < ApplicationMailer
   def welcome_email(user)
-    mail(to: user.email) do |format|
+    mail(to: params[:user].email) do |format|
       format.html { render layout: 'my_layout' }
       format.text
     end
@@ -454,10 +433,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b
 
 ### マルチパートメールを送信する
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906540
--->
-あるアクションに複数の異なるテンプレートがあると、Action Mailerによって自動的にマルチパート形式のメールが送信されます。UserMailerを例にとって説明します。`app/views/user_mailer`ディレクトリに`welcome_email.text.erb`と`welcome_email.html.erb`というテンプレートがあると、Action MailerはそれぞれのテンプレートからHTMLメールとテキストメールを生成し、マルチパート形式のメールとしてひとつにまとめて自動的に送信します。
+あるアクションに複数の異なるテンプレートがあると、Action Mailerによって自動的にマルチパート形式のメールが送信されます。`UserMailer`を例にとって説明します。`app/views/user_mailer`ディレクトリに`welcome_email.text.erb`と`welcome_email.html.erb`というテンプレートがあると、Action MailerはそれぞれのテンプレートからHTMLメールとテキストメールを生成し、マルチパート形式のメールとしてひとつにまとめて自動的に送信します。
 
 マルチパートメールに挿入されるパートの順序は`ActionMailer::Base.default`メソッドの`:parts_order`によって決まります。
 
@@ -465,20 +441,16 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b
 
 SMTP認証情報などのデフォルトの配信オプションをメール配信時に上書きしたい場合、メイラーのアクションで`delivery_method_options`を使用して変更することができます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906552
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906563
--->
 ```ruby
 class UserMailer < ApplicationMailer
-  def welcome_email(user, company)
-    @user = user
+  def welcome_email
+    @user = params[:user]
     @url  = user_url(@user)
-    delivery_options = { user_name: company.smtp_user,
-                         password: company.smtp_password,
-                         address: company.smtp_host }
+    delivery_options = { user_name: params[:company].smtp_user,
+                         password: params[:company].smtp_password,
+                         address: params[:company].smtp_host }
     mail(to: @user.email,
-         subject: "添付の利用規約を参照してください", 
+         subject: "Please see the Terms and Conditions attached",
          delivery_method_options: delivery_options)
   end
 end
@@ -488,14 +460,11 @@ end
 
 メール送信時にテンプレートのレンダリングをスキップしてメール本文を単なる文字列にしたくなることがあります。このような場合には`:body`オプションを使用できます。このオプションを使用する場合は、必ず`:content_type`オプションも指定してください。指定しなかった場合はデフォルトの`text/plain`が適用されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906616
--->
 ```ruby
 class UserMailer < ApplicationMailer
-  def welcome_email(user, email_body)
-    mail(to: user.email,
-         body: email_body,
+  def welcome_email
+    mail(to: params[:user].email,
+         body: params[:email_body],
          content_type: "text/html",
          subject: "レンダリングしました")
   end
@@ -543,39 +512,49 @@ Action Mailerでは`before_action`、`after_action`および`around_action`と�
 
 * `before_action`コールバックを使用してmailオブジェクトにデフォルト値やdelivery_method_optionsを与えたり、デフォルトのヘッダと添付を挿入することもできます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906638
--->
+```ruby
+class InvitationsMailer < ApplicationMailer
+  before_action { @inviter, @invitee = params[:inviter], params[:invitee] }
+  before_action { @account = params[:inviter].account }
+
+  default to:       -> { @invitee.email_address },
+          from:     -> { common_address(@inviter) },
+          reply_to: -> { @inviter.email_address_with_name }
+
+  def account_invitation
+    mail subject: "#{@inviter.name} invited you to their Basecamp (#{@account.name})"
+  end
+
+  def project_invitation
+    @project    = params[:project]
+    @summarizer = ProjectInvitationSummarizer.new(@project.bucket)
+
+    mail subject: "#{@inviter.name.familiar} added you to a project in Basecamp (#{@account.name})"
+  end
+end
+```
 
 * `after_action`コールバックも`before_action`と同様の設定を行いますが、メイラーのアクション内のインスタンス変数を使用します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906643
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906645
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906646
--->
 ```ruby
 class UserMailer < ApplicationMailer
+  before_action { @business, @user = params[:business], params[:user] }
+
   after_action :set_delivery_options,
                :prevent_delivery_to_guests,
                :set_business_headers
 
-  def feedback_message(business, user)
-    @business = business
-    @user = user
-    mail
+  def feedback_message
   end
 
-  def campaign_message(business, user)
-    @business = business
-    @user = user
+  def campaign_message
   end
 
   private
 
     def set_delivery_options
-      # ここではメールのインスタンスや
-      # @businessや@userインスタンス変数にアクセスできる
+      # You have access to the mail instance,
+      # @business and @user instance variables here
       if @business && @business.has_smtp_settings?
         mail.delivery_method.settings.merge!(@business.smtp_settings)
       end
@@ -609,13 +588,12 @@ Action Mailerを設定する
 
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906743
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906756
 -->
 | 設定 | 説明 |
 |---------------|-------------|
 |`logger`|可能であればメール送受信に関する情報を生成します。`nil`を指定するとログ出力を行わなくなります。Ruby自身の`Logger`ロガーおよび`Log4r`ロガーのどちらとも互換性があります。|
 |`smtp_settings`|`:smtp`の配信メソッドの詳細設定を行います。<ul><li>`:address` - リモートのメールサーバーの使用を許可する。デフォルトは`"localhost"`であり、必要に応じて変更する。</li><li>`:port` - メールサーバーが万一ポート25番で動作していない場合はここで変更する。</li><li>`:domain` - HELOドメインを指定する必要がある場合はここで行なう。</li><li>`:user_name` - メールサーバーで認証が必要な場合はここでユーザー名を指定する。</li><li>`:password` - メールサーバーで認証が必要な場合はここでパスワードを指定する。</li><li>`:authentication` - メールサーバーで認証が必要な場合はここで認証の種類を指定する。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定する。</li><li>`:enable_starttls_auto` - 自力では解決できない証明書問題が発生している場合は`false`を指定する。</li></ul>|
-|`sendmail_settings`|`:sendmail`の配信オプションを上書きします。<ul><li>`:location` - sendmailの実行可能ファイルの場所を指定する。デフォルトは`/usr/sbin/sendmail`。</li><li>`:arguments` - sendmailに渡すコマンドライン引数を指定する。デフォルトは`-i -t`。</li></ul>|
+|`sendmail_settings`|`:sendmail`の配信オプションを上書きします。<ul><li>`:location` - sendmailの実行可能ファイルの場所を指定する。デフォルトは`/usr/sbin/sendmail`。</li><li>`:arguments` - sendmailに渡すコマンドライン引数を指定する。デフォルトは`-i`。</li></ul>|
 |`raise_delivery_errors`|メール配信に失敗した場合にエラーを発生するかどうかを指定します。このオプションは、外部のメールサーバーが即時配信を行っている場合にのみ機能します。|
 |`delivery_method`|配信方法を指定します。以下の配信方法を指定可能です。<ul><li>`:smtp` (default) -- `config.action_mailer.smtp_settings`で設定可能。</li><li>`:sendmail` -- `config.action_mailer.sendmail_settings`で設定可能。</li><li>`:file`: -- メールをファイルとして保存する。`config.action_mailer.file_settings`で設定可能。</li><li>`:test`: -- メールを配列`ActionMailer::Base.deliveries`に保存する。</li></ul>詳細については[APIドキュメント](http://api.rubyonrails.org/classes/ActionMailer/Base.html)を参照。|
 |`perform_deliveries`|Mailのメッセージに`deliver`メソッドを実行したときに実際にメール配信を行なうかどうかを指定します。デフォルトでは配信が行われます。機能テストなどで配信を一時的にオフにしたい場合に便利です。|
@@ -628,15 +606,12 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b
 
 適切な`config/environments/$RAILS_ENV.rb`ファイルに追加する設定の例を以下に示します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/b5f9267a1bed1fe868df2d35b17657202fd4a1e0#r26906771
--->
 ```ruby
 config.action_mailer.delivery_method = :sendmail
 # デフォルトは以下のとおりです。
 # config.action_mailer.sendmail_settings = {
 #   location: '/usr/sbin/sendmail',
-#   arguments: '-i -t'
+#   arguments: '-i'
 # }
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
