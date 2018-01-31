@@ -34,9 +34,7 @@ Pub/Subについて
 接続は、`ApplicationCable::Connection`のインスタンスです。このクラスでは、着信接続を承認し、ユーザーを特定できた場合に接続を確立します。
 
 #### 接続の設定
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26482281
--->
+
 ```ruby
 # app/channels/application_cable/connection.rb
 module ApplicationCable
@@ -47,10 +45,10 @@ module ApplicationCable
       self.current_user = find_verified_user
     end
 
-    protected
+    private
       def find_verified_user
-        if current_user = User.find_by(id: cookies.signed[:user_id])
-          current_user
+        if verified_user = User.find_by(id: cookies.encrypted[:user_id])
+          verified_user
         else
           reject_unauthorized_connection
         end
@@ -206,12 +204,9 @@ WebNotificationsChannel.broadcast_to(
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483298
 -->
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483302
--->
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
 
 ### サブスクリプション
 
@@ -444,15 +439,10 @@ WebNotificationsChannel.broadcast_to(
   body: 'All the news fit to print'
 )
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483628
--->
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483642
--->
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
+
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
 
 ### より詳しい例
 
@@ -466,9 +456,6 @@ Action Cableで必須となる設定は、「購読用アダプタ」と「許�
 
 Action Cableは、デフォルトで`config/cable.yml`の設定ファイルを利用します。Railsの環境ごとに、アダプタとURLを1つずつ指定する必要があります。アダプタについて詳しくは、[依存関係](#依存関係) の節をご覧ください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483670
--->
 ```yaml
 development:
   adapter: async
@@ -479,6 +466,7 @@ test:
 production:
   adapter: redis
   url: redis://10.10.3.153:6381
+  channel_prefix: appname_production
 ```
 
 <!--
@@ -486,9 +474,6 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f
 -->
 ### 許可されたリクエスト送信元
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/194802dc04a0366eb55cc619f1b37843917b9944#r26483700
--->
 Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストのインスタンスでは、文字列を利用することも、正規表現で一致をチェックすることもできます。
 
 ```ruby
