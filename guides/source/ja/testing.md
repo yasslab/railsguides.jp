@@ -662,51 +662,284 @@ HTTPリクエストに精通していれば、`get`がHTTPリクエストの一�
 * `head`
 * `delete`
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27225975
+-->
 これらはすべてメソッドとして利用できますが、実際には最初の2つでほとんどの用が足りるはずです。
 
 NOTE: 機能テストは、そのリクエストがアクションで受け付けられるかどうかについては検証するものではありません。機能テストでこれらのリクエストの名前が使用されているのは、リクエストの種類を明示してテストを読みやすくするためです。
 
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27225994
+-->
+
+```ruby
+test "ajax request" do
+  article = articles(:one)
+  get article_url(article), xhr: true
+
+  assert_equal 'hello world', @response.body
+  assert_equal "text/javascript", @response.content_type
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27225994
+-->
 ### 4つのハッシュ
 
 6種類のメソッドのうち、`get`や`post`などいずれかのリクエストが行われて処理されると、以下の4種類のハッシュオブジェクトが使用できるようになります。
 
-* `assigns` - ビューで使用するためにアクションのインスタンス変数として保存されるすべてのオブジェクト。
 * `cookies` - 設定されているすべてのcookies。
 * `flash` - flash内のすべてのオブジェクト。
 * `session` - セッション変数に含まれるすべてのオブジェクト。
 
-これらのハッシュは、通常のHashオブジェクトと同様に文字列をキーとして値を参照できます。シンボル名による参照も可能です (ただし`assigns`は除く)。たとえば次のようになります。
+これらのハッシュは、通常のHashオブジェクトと同様に文字列をキーとして値を参照できます。シンボル名による参照も可能です。たとえば次のようになります。
 
 ```ruby
 flash["gordon"]               flash[:gordon]
 session["shmession"]          session[:shmession]
 cookies["are_good_for_u"]     cookies[:are_good_for_u]
-
-# Because you can't use assigns[:something] for historical reasons:
-assigns["something"]          assigns(:something)
 ```
 
 ### 利用可能なインスタンス変数
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226080
+-->
 機能テストでは以下の3つの専用インスタンス変数を使用できます。
 
 * `@controller` - リクエストを処理するコントローラ
-* `@request` - リクエスト
-* `@response` - レスポンス
+* `@request` - リクエストオブジェクト
+* `@response` - レスポンスオブジェクト
+
+```ruby
+class ArticlesControllerTest < ActionDispatch::IntegrationTest
+  test "should get index" do
+    get articles_url
+
+    assert_equal "index", @controller.action_name
+    assert_equal "application/x-www-form-urlencoded", @request.media_type
+    assert_match "Articles", @response.body
+  end
+end
+```
 
 ### HTTPとヘッダーとCGI変数を設定する
 
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226361
+-->
 [HTTPヘッダー](http://tools.ietf.org/search/rfc2616#section-5.3)と[CGI変数](http://tools.ietf.org/search/rfc3875#section-4.1)は`@request`インスタンス変数で直接設定できます。
 
 ```ruby
 # HTTPヘッダーを設定する
-@request.headers["Accept"] = "text/plain, text/html"
-get :index # ヘッダーをカスタマイズしたリクエストをシミュレートする
+get articles_url, headers: { "Content-Type": "text/plain" } # simulate the request with custom header
 
 # CGI変数を設定する
-@request.headers["HTTP_REFERER"] = "http://example.com/home"
-post :create # 環境変数をカスタマイズしたリクエストをシミュレートする
+get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # simulate the request with custom env variable
 ```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226549
+-->
+
+```ruby
+test "should create article" do
+  assert_difference('Article.count') do
+    post article_url, params: { article: { title: 'Some title' } }
+  end
+
+  assert_redirected_to article_path(Article.last)
+  assert_equal 'Article was successfully created.', flash[:notice]
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226572
+-->
+
+```bash
+$ bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+Run options: -n test_should_create_article --seed 32266
+
+# Running:
+
+F
+
+Finished in 0.114870s, 8.7055 runs/s, 34.8220 assertions/s.
+
+  1) Failure:
+ArticlesControllerTest#test_should_create_article [/test/controllers/articles_controller_test.rb:16]:
+--- expected
++++ actual
+@@ -1 +1 @@
+-"Article was successfully created."
++nil
+
+1 runs, 4 assertions, 1 failures, 0 errors, 0 skips
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226635
+-->
+
+```ruby
+def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    flash[:notice] = 'Article was successfully created.'
+    redirect_to @article
+  else
+    render 'new'
+  end
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226647
+-->
+
+```bash
+$ bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+Run options: -n test_should_create_article --seed 18981
+
+# Running:
+
+.
+
+Finished in 0.081972s, 12.1993 runs/s, 48.7972 assertions/s.
+
+1 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226682
+-->
+
+```ruby
+test "should show article" do
+  article = articles(:one)
+  get article_url(article)
+  assert_response :success
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226705
+-->
+
+```ruby
+test "should destroy article" do
+  article = articles(:one)
+  assert_difference('Article.count', -1) do
+    delete article_url(article)
+  end
+  assert_redirected_to articles_path
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226724
+-->
+
+```ruby
+test "should update article" do
+  article = articles(:one)
+
+  patch article_url(article), params: { article: { title: "updated" } }
+
+  assert_redirected_to article_path(article)
+  # Reload association to fetch updated data and assert that title is updated.
+  article.reload
+  assert_equal "updated", article.title
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226758
+-->
+
+```ruby
+require 'test_helper'
+class ArticlesControllerTest < ActionDispatch::IntegrationTest
+  # called before every single test
+  setup do
+    @article = articles(:one)
+  end  
+
+  # called after every single test
+  teardown do
+    # when controller is using cache it may be a good idea to reset it afterwards
+    Rails.cache.clear
+  end
+
+  test "should show article" do
+    # Reuse the @article instance variable from setup
+    get article_url(@article)
+    assert_response :success
+  end
+
+  test "should destroy article" do
+    assert_difference('Article.count', -1) do
+      delete article_url(@article)
+    end
+    assert_redirected_to articles_path
+  end
+
+  test "should update article" do
+    patch article_url(@article), params: { article: { title: "updated" } }
+ 		  
+    assert_redirected_to article_path(@article)
+    # Reload association to fetch updated data and assert that title is updated.
+    @article.reload
+    assert_equal "updated", @article.title
+  end
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226855
+-->
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27226870
+-->
+
+```ruby
+# test/test_helper.rb
+
+module SignInHelper
+  def sign_in_as(user)
+    post sign_in_url(email: user.email, password: user.password)
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  include SignInHelper
+end
+```
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27227396
+-->
+```ruby
+require 'test_helper'
+class ProfileControllerTest < ActionDispatch::IntegrationTest
+
+  test "should show profile" do
+    # helper is now reusable from any controller test case
+    sign_in_as users(:david)
+
+    get profile_url
+    assert_response :success
+  end
+end		
+```
+
+
 
 ### テンプレートとレイアウトをテストする
 
