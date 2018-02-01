@@ -1,4 +1,4 @@
-
+﻿
 
 
 Ruby on Rails に貢献する方法
