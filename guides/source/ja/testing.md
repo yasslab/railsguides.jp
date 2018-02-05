@@ -513,6 +513,10 @@ users(:david, :steve)
 
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/4ea09d8c1decf178d4135042d30cf9824000df76#r27202402
+
+次のコメントを5.1に対応してください。
+https://github.com/nanophate/railsguides.jp/pull/4#discussion_r165903264
+https://github.com/nanophate/railsguides.jp/pull/4#discussion_r165903297
 -->
 
 結合テスト
