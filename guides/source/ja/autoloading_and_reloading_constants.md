@@ -1,4 +1,4 @@
-
+﻿
 
 
 定数の自動読み込みと再読み込み
@@ -767,8 +767,11 @@ WHERE "polygons"."type" IN ("Rectangle")
 # app/models/polygon.rb
 class Polygon < ApplicationRecord
 end
-require_dependency ‘square’
+require_dependency 'square'
 ```
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120600
+-->
 
 これはあらゆる中間クラス（ルートクラスでも末端のleafクラスでもないクラス）で発生する必要があります。ルートクラスは型によるクエリのスコープを行わないので、すべての子孫についての知識を持たなければならないとは限りません。
 
