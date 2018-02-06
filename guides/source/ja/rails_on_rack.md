@@ -237,6 +237,14 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 * アセットリクエストでのログ書き出しを抑制します。
 
+**`ActionDispatch::RemoteIp`**
+
+* IPスプーフィング攻撃をチェックします。
+
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f4da93be616df2b3#r27174670
+-->
+
 **`Rails::Rack::Logger`**
 
 * リクエストの処理を開始したことを、ログに書き出します。リクエストが完了すると、すべてのログをフラッシュします。
