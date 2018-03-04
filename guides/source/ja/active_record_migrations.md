@@ -402,9 +402,7 @@ Railsでは、すべての外部キーは`fk_rails_`という名前で始まり�
 必要であれば、`:name`オプションを指定することで別の名前を使用できます。
 
 NOTE: Active Recordでは単一カラムの外部キーのみがサポートされています。複合外部キーを使う場合は`execute`と`structure.sql`が必要です。詳しくは[スキーマダンプの意義](#スキーマダンプの意義)をご覧ください。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960116
--->
+
 外部キーの削除も以下のように簡単に行えます。
 
 ```ruby
@@ -421,9 +419,8 @@ remove_foreign_key :accounts, name: :special_fk_name
 ### ヘルパーの機能だけでは足りない場合
 
 Active Recordが提供するヘルパーの機能だけでは不十分な場合、`execute`メソッドを使用して任意のSQLを実行できます。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r26960164
--->
+
+
 ```ruby
 Product.connection.execute("UPDATE products SET price = 'free' WHERE 1=1")
 ```
@@ -693,9 +690,7 @@ $ bin/rails db:migrate RAILS_ENV=test
 | say_with_time        | 受け取ったブロックを実行するのにかかった時間を示すテキストを出力する。ブロックが整数を1つ返す場合、影響を受けた行数であるとみなす。
 
 以下のマイグレーションを例に説明します。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/1adde655a309fbc308a64d923af3f4857e367636#r27009229
--->
+
 ```ruby
 class CreateProducts < ActiveRecord::Migration[5.0]
   def change
