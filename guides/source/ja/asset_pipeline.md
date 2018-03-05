@@ -1,4 +1,4 @@
-﻿
+
 アセットパイプライン
 ==================
 
@@ -18,16 +18,9 @@
 ---------------------------
 
 アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSASS、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。
+アセットパイプラインはアプリのアセットを自動的に他のgemのアセットと結合できます。たとえば、jquery-railsにはRailsでAJAXを使えるようにするjquery.jsが含まれています。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063440
--->
-
-技術的には、アセットパイプラインは既にRails 4のコア機能ではありません。フレームワークから分離され、[sprockets-rails](https://github.com/rails/sprockets-rails)というgemに書き出されています。
-
-Railsではデフォルトでアセットパイプラインが有効になっています。
-
-Railsアプリケーションを新規作成する際にアセットパイプラインをオフにしたい場合は、以下のように`--skip-sprockets`オプションを渡します。
+アセットパイプラインは[sprockets-rails](https://github.com/rails/sprockets-rails)gemによって実装され、デフォルトで有効になっています。アプリの新規作成中にアセットパイプラインを無効にするには、`--skip-sprockets`オプションを渡します。
 
 ```bash
 rails new appname --skip-sprockets
@@ -103,10 +96,7 @@ global-908e25f4bf641868d8683022a5b62f54.css
 
 フィンガープリントが導入されたことによって上述のクエリ文字列による問題点が解決され、アセットの内容が同じであればファイル名も常に同じになるようになりました。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063600
--->
-フィンガープリントはproduction環境ではデフォルトでオンになっており、それ以外の環境ではオフになります。設定ファイルで`config.assets.digest`オプションを使用してフィンガープリントのオン/オフを制御できます。
+フィンガープリントはdevelopment環境とproduction環境の両方でデフォルトでオンになります。設定ファイルで`config.assets.digest`オプションを使用してフィンガープリントのオン/オフを制御できます。
 
 詳細については以下を参照してください。
 
@@ -390,21 +380,15 @@ developmentモードの場合、アセットは個別のファイルとして、
 
 `body`パラメータはSprocketsで必要となります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063875
--->
-### ランタイムエラーをチェックする
+### アセットが見つからない場合にエラーをraiseする
 
-アセットパイプラインはdevelopmentモードでランタイム時のエラーをデフォルトでチェックします。この動作を無効にするには、以下の設定を使用します。
+sprockets-rails >= 3.2.0を使っている場合は、アセットの探索時に何も見つからなかった場合の挙動を設定できます。「asset fallback」を無効にすると、アセットが見つからない場合にエラーをraiseします。
 
 ```ruby
 config.assets.unknown_asset_fallback = false
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27063894
--->
-このオプションがtrueになっていると、アプリケーションのアセットが`config.assets.precompile`に記載されているとおりにすべて読み込まれているかどうかをチェックします。`config.assets.digest`もtrueになっている場合、アセットへのリクエストにダイジェストを含むことが必須となります。
+「asset fallback」を有効にすると、エラーをraiseせずにパスを出力します。アセットのフォールバック動作はデフォルトで有効になっています。
 
 ### ダイジェストをオフにする
 
@@ -536,10 +520,7 @@ end
 
 NOTE: プリコンパイル配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず`.js`や`.css`で終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064164
--->
-このタスクは、`.sprockets-manifest-md5hash.json`ファイルも生成します。これはすべてのアセットとそれらのフィンガープリントのリストです。Railsヘルパーはこれを使用して、マッピングリクエストがSprocketsへ戻されることを回避します。典型的なマニフェストファイルの内容は以下のような感じになっています。
+このタスクによって、すべてのアセットファイルのリストとそれに対応するフィンガープリントを含む`.sprockets-manifest-md5hash.json`ファイルも生成されます（`md5hash`はMD5ハッシュを意味します）。これは、マッピングのリクエストがSprocketsに戻されるのを回避するためにRailsヘルパーメソッドで使われます。典型的なマニフェストファイルは以下のような感じになります。
 
 ```ruby
 {"files":{"application-aee4be71f1288037ae78b997df388332edfd246471b533dcedaa8f9fe156442b.js":{"logical_path":"application.js","mtime":"2016-12-23T20:12:03-05:00","size":412383,
@@ -823,9 +804,13 @@ config.assets.js_compressor = :uglifier
 
 NOTE: `uglifier`を利用するには[ExecJS](https://github.com/sstephenson/execjs#readme)をサポートするJavaScriptランタイムが必要です。macOSやWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064477
--->
+### gzip圧縮されたアセットを提供する
+
+デフォルトで、非圧縮版のアセットの他にgzipで圧縮されたコンパイル済みアセットが生成されます。gzipアセットはデータ転送の削減に役立ちます。これを指定するには`gzip`フラグを設定します。
+
+```ruby
+config.assets.gzip = false # disable gzipped assets generation
+```
 
 ### 独自の圧縮機能を使用する
 
@@ -878,7 +863,7 @@ TIP: 詳細については、production環境用Webサーバーのドキュメ�
 アセットのキャッシュストア
 ------------------
 
-Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットをキャッシュを使用します。キャッシュストアの設定は`config.assets.cache_store`で変更できます。
+デフォルトのSprocketsは、development環境とproduction環境で`tmp/cache/assets`にあるアセットをキャッシュします。これは以下のように変更できます。
 
 ```ruby
 config.assets.configure do |env|
@@ -905,10 +890,7 @@ end
 ライブラリやGemをプリプロセッサ化する
 ------------------------------------------
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064536
--->
-Sprocketsは異なるテンプレートエンジンへの一般的なインターフェイスとして[Tilt](https://github.com/rtomayko/tilt)を使用するため、gemにTiltテンプレートプロトコルのみを実装するだけで済みます。通常、Tiltを`Tilt::Template`のようにサブクラス化して`prepare`メソッドと`evaluate`メソッドを再実装します。`prepare`メソッドはテンプレートを初期化し、`evaluate`メソッドは処理の終わったソースを返します。処理前のソースは`data`に保存されます。詳細については[`Tilt::Template`](https://github.com/rtomayko/tilt/blob/master/lib/tilt/template.rb)のソースを参照してください。
+Sprocketsでは機能を拡張するのにProcessors、Transformers、Compressors、Exportersを使います。詳しくは[Extending Sprockets](https://github.com/rails/sprockets/blob/master/guides/extending_sprockets.md)をご覧ください。ここではtext/css (`.css`)ファイルの末尾にコメントを追加するプリプロセッサを登録しました。
 
 ```ruby
 module AddComment
@@ -918,10 +900,7 @@ module AddComment
 end
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064550
--->
-これで`Template`クラスができましたので、続いてテンプレートファイルの拡張子との関連付けを行います。
+これで入力データを変更するモジュールができましたので、続いてMIMEタイプのプリプロセッサとして登録しましょう。
 
 ```ruby
 Sprockets.register_preprocessor 'text/css', AddComment
@@ -954,12 +933,10 @@ config.assets.debug = true
 
 `production.rb`の場合。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064603
--->
 ```ruby
-# 圧縮機能を使用するには config.assets.js_compressor  = を使用する
-# :uglifier config.assets.css_compressor = :yui
+# 使うコンプレッサを選択する（ある場合）
+config.assets.js_compressor = :uglifier
+# config.assets.css_compressor = :yui
 
 # プリコンパイル済みのアセットが見当たらない場合にアセットパイプラインにフォールバックしない
 config.assets.compile = false
@@ -972,10 +949,7 @@ config.assets.digest = true
 # config.assets.precompile += %w( admin.js admin.css )
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/7da630774aba723c22be9455d69551c1ae57a82e#r27064656
--->
-Rails 4はSprocketsのデフォルト設定値をtest環境用の`test.rb`に設定しなくなりました。従って、`test.rb`にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、`config.assets.compile = true`、`config.assets.compress = false`、`config.assets.debug = false`、`config.assets.digest = false`です。
+Rails 4以降では、Sprocketsのデフォルト設定値をtest環境用の`test.rb`に設定しなくなりました。従って、`test.rb`にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、`config.assets.compile = true`、`config.assets.compress = false`、`config.assets.debug = false`、`config.assets.digest = false`です。
 
 以下を`Gemfile`に追加する必要があります。
 
