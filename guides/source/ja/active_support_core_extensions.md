@@ -1,4 +1,4 @@
-﻿
+
 
 
 Active Support コア拡張機能
@@ -136,42 +136,50 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/blank.rb`で
 
 ### `duplicable?`
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033410
--->
+Ruby 2.4では、メソッドや特定の数値を除くほとんどのオブジェクトが`dup`や`clone`で複製できます。Ruby 2.2や2.3では、`nil`, `false`, `true`、シンボル、`Float`/`Fixnum`/`Bignum`のインスタンスは複製できません。
+
 Rubyにおける基本的なオブジェクトの一部はsingletonオブジェクトです。たとえば、プログラムのライフサイクルが続く間、整数の1は常に同じインスタンスを参照します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033424
--->
 ```ruby
-1.object_id                 # => 3
-Math.cos(0).to_i.object_id  # => 3
+"foo".dup           # => "foo"
+"".dup              # => ""
+1.method(:+).dup    # => TypeError: allocator undefined for Method
+Complex(0).dup      # => TypeError: can't copy Complex
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033454
--->
-従って、このようなオブジェクトは`dup`メソッドや`clone`メソッドで複製することはできません。
+Active Supportでは、複製可能かどうかをオブジェクトに問い合わせる`duplicable?`が提供されています。
 
 ```ruby
-true.dup  # => TypeError: can't dup TrueClass
+"foo".duplicable?           # => true
+"".duplicable?              # => true
+Rational(1).duplicable?     # => false
+Complex(1).duplicable?      # => false
+1.method(:+).duplicable?    # => false
 ```
 
-singletonでない数字にも、複製不可能なものがあります。
+`duplicable?`は、Rubyのバージョンに応じた`dup`にマッチします。
+
+つまり、2.4では次のようになります。
 
 ```ruby
-0.0.clone        # => allocator undefined for Float
-(2**1024).clone  # => allocator undefined for Bignum
+nil.dup                 # => nil
+:my_symbol.dup          # => :my_symbol
+1.dup                   # => 1
+
+nil.duplicable?         # => true
+:my_symbol.duplicable?  # => true
+1.duplicable?           # => true
 ```
 
-Active Supportには、オブジェクトがプログラム的に複製可能かどうかを問い合わせるための`duplicable?`メソッドがあります。
+一方、2.2や2.3では次のようになります。
 
 ```ruby
-"foo".duplicable? # => true
-"".duplicable?    # => true
-0.0.duplicable?  # => false
-false.duplicable? # => false
+nil.dup                 # => TypeError: can't dup NilClass
+:my_symbol.dup          # => TypeError: can't dup Symbol
+1.dup                   # => TypeError: can't dup Fixnum
+nil.duplicable?         # => false
+:my_symbol.duplicable?  # => false
+1.duplicable?           # => false
 ```
 
 デフォルトでは、`nil`、`false`、`true`、シンボル、数値、クラス、モジュール、メソッドオブジェクトを除くすべてのオブジェクトが`duplicable?` #=> trueです。
@@ -258,9 +266,12 @@ end
 @person.try { |p| "#{p.first_name} #{p.last_name}" }
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033462
--->
+`try`メソッドは、`NoMethodError`を握りつぶして代わりに`nil`を返す点に注意が必要です。メソッド名の誤りを防ぎたい場合は`try!`を使います。
+
+```ruby
+@number.try(:nest)  # => nil
+@number.try!(:nest) # NoMethodError: undefined method `nest' for 1:Integer
+```
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/try.rb`です。
 
@@ -705,9 +716,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/anonymous.rb
 
 ### メソッド委譲
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033759
--->
+#### `delegate`
 
 `delegate`マクロを使用すると、メソッドを簡単に委譲できます。
 
@@ -791,9 +800,21 @@ delegate :size, to: :attachment, prefix: :avatar
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/module/delegation.rb`です。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033807
--->
+#### `delegate_missing_to`
+
+`User`オブジェクトにないものを`Profile`にあるものにすべて委譲したいとしましょう。`delegate_missing_to`マクロを使えばこれを簡単に実装できます。
+
+```ruby
+class User < ApplicationRecord
+  has_one :profile
+
+  delegate_missing_to :profile
+end
+```
+
+オブジェクト内にある呼び出し可能なもの（インスタンス変数、メソッド、定数など）なら何でも対象にできます。対象のうち、publicなメソッドだけが委譲されます。
+
+NOTE: 定義ファイルの場所は`active_support/core_ext/module/delegation.rb`です。
 
 ### メソッドの再定義
 
@@ -801,11 +822,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198
 
 `redefine_method`メソッドを使用すれば、必要に応じて既存のメソッドが削除されるので、このような警告表示を抑制できます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27033976
--->
+（`delegate`を使っているなどの理由で）メソッド自身の置き換えを定義する必要がある場合は、`silence_redefinition_of_method`を使うこともできます。
 
-NOTE: 定義ファイルの場所は`active_support/core_ext/module/remove_method.rb`です。
+NOTE: 定義ファイルの場所は`active_support/core_ext/module/redefine_method.rb`です。
 
 `Class`の拡張
 ---------------------
@@ -1540,9 +1559,19 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "Kurt Gödel".parameterize # => "kurt-godel"
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034073
--->
+文字列の大文字小文字が変わらないようにするには、`preserve_case`引数に`true`を指定します。`preserve_case`はデフォルトでは`false`になります。
+
+```ruby
+"John Smith".parameterize(preserve_case: true) # => "John-Smith"
+"Kurt Gödel".parameterize(preserve_case: true) # => "Kurt-Godel"
+```
+
+独自のセパレータを使うには、`separator`引数をオーバーライドします。
+
+```ruby
+"John Smith".parameterize(separator: "_") # => "john\_smith"
+"Kurt Gödel".parameterize(separator: "_") # => "kurt\_godel"
+```
 
 実際に得られる文字列は、`ActiveSupport::Multibyte::Chars`のインスタンスでラップされています。
 
@@ -1775,9 +1804,9 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/numeric/bytes.rb`�
 (4.months + 5.weeks).from_now
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034156
--->
+WARNING. 上記以外の期間については、`Integer`の`Time`拡張を参照してください。
+
+NOTE: 定義ファイルの場所は`active_support/core_ext/numeric/time.rb`です。
 
 ### フォーマッティング
 
@@ -1912,23 +1941,32 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/integer/inflections
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/integer/inflections.rb`です。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034197
--->
+### Time
+
+`4.months + 5.years`のような形式での時間の計算や宣言を行えるようにします。
+
+これらのメソッドでは、`from_now`/`ago`などや、`Time`オブジェクトから得た結果の加減算を使うときに`Time#advance`を用いて正確な日付計算を行います。次の例をご覧ください。
+
+```ruby
+# Time.current.advance(months: 1)と同等
+1.month.from_now
+
+# Time.current.advance(years: 2)と同等
+2.years.from_now
+
+# Time.current.advance(months: 4, years: 5)と同等
+(4.months + 5.years).from_now
+```
+
+WARNING. 上記以外の期間については、`Numeric`の`Time`拡張を参照してください。
+
+NOTE: 定義ファイルの場所は `active_support/core_ext/integer/time.rb`です。
 
 `BigDecimal`の拡張
 --------------------------
 ### `to_s`
 
-この`to_s`メソッドは、`to_formatted_s`メソッドの別名です。このメソッドは、浮動小数点記法のBigDecimal値を簡単に表示するための便利な方法を提供します。
-
-```ruby
-BigDecimal.new(5.00, 6).to_s       # => "5.0"
-```
-
-### `to_formatted_s`
-
-この`to_formatted_s`メソッドは、"F"のデフォルトの指定部 (specifier) を提供します。これは、`to_formatted_s`または`to_s`を単に呼び出すと、エンジニアリング記法 ('0.5E1'のような記法) ではなく浮動小数点記法を得られるということです。
+`to_s`メソッドは「F」のデフォルトの記法を提供します。これは、`to_s`を単に呼び出すと、エンジニアリング向け記法ではなく浮動小数点を得られるということです。
 
 ```ruby
 BigDecimal.new(5.00, 6).to_s(:db)  # => "5.0"
@@ -2042,9 +2080,15 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`で�
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`です。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034291
--->
+### `pluck`
+
+`pluck`メソッドは、指定されたキーに基づく配列を返します。
+
+```ruby
+[{ name: "David" }, { name: "Rafael" }, { name: "Aaron" }].pluck(:name) # => ["David", "Rafael", "Aaron"]
+```
+
+NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`です。
 
 `Array`の拡張
 ---------------------
@@ -2066,10 +2110,7 @@ Active Supportには配列のAPIが多数追加されており、配列に容易
 [].from(0)           # => []
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034297
--->
-`second`、`third`、`fourth`、`fifth`は、対応する位置の要素を返します (`first`は元からビルトインされています)。社会の智慧と建設的な姿勢のおかげで、今では`forty_two`も使用できます (訳注: [Rails 2.2 以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください)。
+`second`、`third`、`fourth`、`fifth`は、`second_to_last`や`third_to_last`と同様に、対応する位置の要素を返します (`first`と`last`は元からビルトインされています)。社会の智慧と建設的な姿勢のおかげで、今では`forty_two`も使用できます (訳注: [Rails 2.2 以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください)。
 
 ```ruby
 %w(a b c d).third # => "c"
@@ -2201,10 +2242,7 @@ Contributor.limit(2).order(:rank).to_xml
 
 実際には、`to_xml`をすべての要素に送り、結果をルートノードの下に集めます。すべての要素が`to_xml`に応答する必要があります。そうでない場合は例外が発生します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034338
--->
-デフォルトでは、ルート要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化(underscorize)とダッシュ化(dasherize)を行います。残りの要素も最初の要素と同じ型 (`is_a?`でチェックされます) に属し、ハッシュでないことが前提となっています。上の例で言うと、"contributors"です。
+デフォルトでは、ルート要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化(underscored)とダッシュ化(dasherize)を行います。残りの要素も最初の要素と同じ型 (`is_a?`でチェックされます) に属し、ハッシュでないことが前提となっています。上の例で言うと、"contributors"です。
 
 最初の要素と同じ型に属さない要素が1つでもある場合、ルートノードには`objects`が使用されます。
 
@@ -2840,9 +2878,19 @@ end
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/regexp.rb`です。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034461
--->
+### `match?`
+
+Railsでは、Ruby 2.4より前のバージョン向けに`Regexp#match?`を実装しています。
+
+```ruby
+/oo/.match?('foo')    # => true
+/oo/.match?('bar')    # => false
+/oo/.match?('foo', 1) # => true
+```
+
+このバックポートのインターフェイスは同じです。副作用は生じません（`$1`が設定されないなど）が、その分速いというわけでもありません。このメソッドの目的は、2.4互換のコードを書けるようにするためです。たとえば、Railsではこの述語メソッドを内部で使っています。
+
+Active Suppotは、`Regexp#match?`が存在しない場合にのみ`Regexp#match?`を定義するので、Ruby 2.4以降で実行されるコードではRubyの元のメソッドが使われ、パフォーマンスが向上します。
 
 `Range`の拡張
 ---------------------
@@ -2936,10 +2984,7 @@ INFO: 以下の計算方法の一部では1582年10月を極端な例として�
 
 #### `Date.current`
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034524
--->
-Active Supportでは、`Date.current`を定義して現在のタイムゾーンにおける「今日」を定めています。このメソッドは`Date.today`と似ていますが、ユーザー定義のタイムゾーンがある場合にそれを考慮する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`、`today?`、`future?`を使用でき、これらはすべて`Date.current`を起点として導かれます。
+Active Supportでは、`Date.current`を定義して現在のタイムゾーンにおける「今日」を定めています。このメソッドは`Date.today`と似ていますが、ユーザー定義のタイムゾーンがある場合にそれを考慮する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`、`today?`、`future?`、`on_weekday?`、`on_weekend?`を使用でき、これらはすべて`Date.current`を起点として導かれます。
 
 ユーザー定義のタイムゾーンを考慮するメソッドを使用して日付を比較したい場合、`Date.today`ではなく必ず`Date.current`を使用してください。将来、ユーザー定義のタイムゾーンがシステムのタイムゾーンと比較されることがありえます。システムのタイムゾーンではデフォルトで`Date.today`が使用されます。つまり、`Date.today`が`Date.yesterday`と等しくなることがありえるということです。
 
@@ -3058,9 +3103,7 @@ Date.new(2012, 2, 29).years_ago(3)     # => Sat, 28 Feb 2009
 Date.new(2012, 2, 29).years_since(3)   # => Sat, 28 Feb 2015
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034545
--->
+`last_year`は`#years_ago(1)`のショートハンドです。
 
 ##### `months_ago`、`months_since`
 
@@ -3078,9 +3121,8 @@ Date.new(2010, 4, 30).months_ago(2)    # => Sun, 28 Feb 2010
 Date.new(2009, 12, 31).months_since(2) # => Sun, 28 Feb 2010
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034549
--->
+`last_month`は`#months_ago(1)`のショートハンドです。
+
 ##### `weeks_ago`
 
 `weeks_ago`メソッドは、同じ要領で週に対して行います。
@@ -3487,9 +3529,73 @@ now.all_year
 # => Fri, 01 Jan 2010 00:00:00 UTC +00:00..Fri, 31 Dec 2010 23:59:59 UTC +00:00
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/9f65311706916a719dfee6198a26984215341fb2#r27034606
--->
+#### `prev_day`, `next_day`
+
+Ruby 1.9の`prev_day`や`next_day`は、前日または翌日の日付を返します。
+
+```ruby
+d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
+d.prev_day               # => Fri, 07 May 2010
+d.next_day               # => Sun, 09 May 2010
+```
+
+#### `prev_month`, `next_month`
+
+Ruby 1.9の`prev_month`や`next_month`は、前月または翌月の同じ日の日付を返します。
+
+```ruby
+d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
+d.prev_month             # => Thu, 08 Apr 2010
+d.next_month             # => Tue, 08 Jun 2010
+```
+
+該当する日付が存在しない場合、対応する月の最終日が返されます。
+
+```ruby
+Date.new(2000, 5, 31).prev_month # => Sun, 30 Apr 2000
+Date.new(2000, 3, 31).prev_month # => Tue, 29 Feb 2000
+Date.new(2000, 5, 31).next_month # => Fri, 30 Jun 2000
+Date.new(2000, 1, 31).next_month # => Tue, 29 Feb 2000
+```
+
+#### `prev_year`, `next_year`
+
+Ruby 1.9の`prev_year`や`next_year`は、前年または翌年の同じ月日の日付を返します。
+
+```ruby
+d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
+d.prev_year              # => Fri, 08 May 2009
+d.next_year              # => Sun, 08 May 2011
+```
+
+うるう年の2月29日の場合、28日の日付が返されます。
+
+```ruby
+d = Date.new(2000, 2, 29) # => Tue, 29 Feb 2000
+d.prev_year               # => Sun, 28 Feb 1999
+d.next_year               # => Wed, 28 Feb 2001
+```
+
+#### `prev_quarter`, `next_quarter`
+
+`prev_quarter`や`next_quarter`は、前四半期または翌四半期の同じ日の日付を返します。
+
+```ruby
+t = Time.local(2010, 5, 8) # => 2010-05-08 00:00:00 +0300
+t.prev_quarter             # => 2010-02-08 00:00:00 +0200
+t.next_quarter             # => 2010-08-08 00:00:00 +0300
+```
+
+該当する日付が存在しない場合、対応する月の最終日が返されます。
+
+```ruby
+Time.local(2000, 7, 31).prev_quarter  # => 2000-04-30 00:00:00 +0300
+Time.local(2000, 5, 31).prev_quarter  # => 2000-02-29 00:00:00 +0200
+Time.local(2000, 10, 31).prev_quarter # => 2000-07-31 00:00:00 +0300
+Time.local(2000, 11, 31).next_quarter # => 2001-03-01 00:00:00 +0200
+```
+
+`prev_quarter`は`last_quarter`のエイリアスです。
 
 ### 時間コンストラクタ
 
