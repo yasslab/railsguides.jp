@@ -1,4 +1,4 @@
-﻿
+
 
 
 Active Support の Instrumentation 機能
@@ -198,9 +198,13 @@ INFO. 呼び出し側でキーが追加される可能性があります。
 }
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036673
--->
+### unpermitted_parameters.action_controller
+
+| キー    | 値               |
+| ------- | ---------------- |
+| `:keys` | 許可されていないキー |
+
+
 Action View
 -----------
 
@@ -211,9 +215,7 @@ Action View
 | `:identifier` | テンプレートへの完全なパス |
 | `:layout`     | 該当のレイアウト     |
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036707
--->
+
 ```ruby
 {
   identifier: "/Users/adam/projects/notifications/app/views/posts/index.html.erb",
@@ -233,20 +235,36 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f760186
 }
 ```
 
+### render_collection.action_view
+
+| キー           | 値                                 |
+| ------------- | ------------------------------------- |
+| `:identifier` | テンプレートへのフルパス              |
+| `:count`      | コレクションのサイズ                  |
+| `:cache_hits` | キャッシュからフェッチしたパーシャルの個数 |
+
+`:cache_hits`は、`cached: true`をオンにしてレンダリングしたときだけ含まれます。
+
+```ruby
+{
+  identifier: "/Users/adam/projects/notifications/app/views/posts/_post.html.erb",
+  count: 3,
+  cache_hits: 0
+}
+```
+
 Active Record
 ------------
 
 ### sql.active_record
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036744
--->
 | キー         | 値              |
 | ---------------- | --------------------- |
 | `:sql`           | SQL文         |
 | `:name`          | 操作の名前 |
 | `:connection_id` | `self.object_id`      |
-| `:binds`         | パラメータの割り当て（バインド）       |
+| `:binds`         | バインドするパラメータ  |
+| `:cached`        | キャッシュされたクエリが使われると`true`が追加される |
 
 INFO. アダプタも独自のデータを追加します。
 
@@ -328,9 +346,21 @@ Action Mailer
 }
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036763
--->
+### process.action_mailer
+
+| キー           | 値                    |
+| ------------- | ------------------------ |
+| `:mailer`     | メイラーのクラス名 |
+| `:action`     | アクション       |
+| `:args`       | 引数            |
+
+```ruby
+{
+  mailer: "Notification",
+  action: "welcome_email",
+  args: []
+}
+```
 
 Active Support
 --------------
@@ -445,9 +475,92 @@ Active Job
 | `:adapter`   | ジョブを処理するQueueAdapterオブジェクト |
 | `:job`       | Jobオブジェクト                             |
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/54eb3512fb610c7db0f7601863e9522a06281e79#r27036805
--->
+Action Cable
+------------
+
+### perform_action.action_cable
+
+| キー              | 値                       |
+| ---------------- | ------------------------- |
+| `:channel_class` | チャンネルのクラス名      |
+| `:action`        | アクション                |
+| `:data`          | 日付（ハッシュ）          |
+
+### transmit.action_cable
+
+| キー              | 値                       |
+| ---------------- | ------------------------- |
+| `:channel_class` | チャンネルのクラス名      |
+| `:data`          | 日付（ハッシュ）          |
+| `:via`           | 経由先                    |
+
+### transmit_subscription_confirmation.action_cable
+
+| キー              | 値                       |
+| ---------------- | ------------------------- |
+| `:channel_class` | チャンネルのクラス名      |
+
+### transmit_subscription_rejection.action_cable
+
+| キー              | 値                       |
+| ---------------- | ------------------------- |
+| `:channel_class` | チャンネルのクラス名      |
+
+### broadcast.action_cable
+
+| キー             | 値                       |
+| --------------- | -------------------- |
+| `:broadcasting` | 名前付きブロードキャスト  |
+| `:message`      | メッセージ（ハッシュ）    |
+| `:coder`        | コーダー                  |
+
+Active Storage
+--------------
+
+### service_upload.active_storage
+
+| キー          | 値                          |
+| ------------ | ---------------------------- |
+| `:key`       | セキュアトークン             |
+| `:service`   | サービス名                   |
+| `:checksum`  | 完全性を担保するチェックサム |
+
+### service_streaming_download.active_storage
+
+| キー          | 値               |
+| ------------ | ------------------- |
+| `:key`       | セキュアトークン             |
+| `:service`   | サービス名                   |
+
+### service_download.active_storage
+
+| キー          | 値               |
+| ------------ | ------------------- |
+| `:key`       | セキュアトークン             |
+| `:service`   | サービス名                   |
+
+### service_delete.active_storage
+
+| キー          | 値               |
+| ------------ | ------------------- |
+| `:key`       | セキュアトークン             |
+| `:service`   | サービス名                   |
+
+### service_exist.active_storage
+
+| キー          | 値                       |
+| ------------ | --------------------------- |
+| `:key`       | セキュアトークン             |
+| `:service`   | サービス名                   |
+| `:exist`     | ファイルかblogが存在するかどうか |
+
+### service_url.active_storage
+
+| キー          | 値                 |
+| ------------ | ------------------- |
+| `:key`       | セキュアトークン    |
+| `:service`   | サービス名          |
+| `:url`       | 生成されたURL       |
 
 Railties
 --------
