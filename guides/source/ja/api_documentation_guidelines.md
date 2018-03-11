@@ -1,4 +1,4 @@
-﻿
+
 API ドキュメント作成ガイドライン
 ============================
 
@@ -14,10 +14,7 @@ API ドキュメント作成ガイドライン
 RDoc
 ----
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/22e9c0991a59c9b0c2424167e4bd9c2604db886c#r27038640
--->
-[Rails API ドキュメント](http://api.rubyonrails.org)は[RDoc](http://docs.seattlerb.org/rdoc/)を使用して生成されます。
+[Rails API ドキュメント](http://api.rubyonrails.org)は[RDoc](http://docs.seattlerb.org/rdoc/)を使用して生成されます。生成するには、Railsのルートディレクトリで`bundle install`を実行してから、以下を実行します。
 
 ```bash
   bundle exec rake rdoc
@@ -79,9 +76,10 @@ If `return` is needed it is recommended to explicitly define a method.
 
 アメリカ英語を使用すること ( *color* 、 *center* 、 *modularize* など)。詳細は[アメリカ英語とイギリス英語のスペルの違い](http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences) (英語) を参照してください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/22e9c0991a59c9b0c2424167e4bd9c2604db886c#r27060137
--->
+オックスフォードカンマ
+------------
+
+カンマのスタイルは[オックスフォードカンマ](https://en.wikipedia.org/wiki/Serial_comma)（カンマなしの"red, white and blue"ではなくカンマありの"red, white, and blue"で列挙を表記する）で統一してください。
 
 サンプルコード
 ------------
