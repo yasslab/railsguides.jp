@@ -1,4 +1,4 @@
-﻿
+
 
 
 
@@ -285,11 +285,8 @@ APIアプリケーション（`ActionController::API`を利用）には、デフ
 - `AbstractController::Callbacks`: `before_action`などのヘルパーをサポート
 - `ActionController::Rescue`: `rescue_from`をサポート
 - `ActionController::Instrumentation`: Action Controllerで定義するinstrumentationフックをサポート（詳しくは[the instrumentation guide](active_support_instrumentation.html#action-controller) を参照）
-- `ActionController::ParamsWrapper`: パラメータハッシュをラップしてネスト化ハッシュにする。これにより、たとえばPOSTリクエスト送信時にルート要素を指定する必要がなくなる。
-
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/bc868b0eb35712469adb049f913add99f3986ae1#r27038293
--->
+- `ActionController::ParamsWrapper`: パラメータハッシュをラップしてネスト化ハッシュにし、POSTリクエスト送信時のルート要素指定などを不要にする
+- `ActionController::Head`: コンテンツのないヘッダのみのレスポンスを返すのに用いる
 
 他のプラグインによってモジュールが追加されることもあります。`ActionController::API`の全モジュールのリストは、次のコマンドで表示できます。
 
@@ -312,10 +309,10 @@ Action Controllerのどのモジュールも、自身が依存するモジュー
 よく追加されるのは、次のようなモジュールです。
 
 - `AbstractController::Translation`: ローカライズ用の`l`メソッドや、翻訳用の`t`メソッド
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/bc868b0eb35712469adb049f913add99f3986ae1#r27038326
--->
-- `ActionController::HttpAuthentication::Basic`（および`Digest`、`Token`）: HTTPのBasic認証、ダイジェスト認証、トークン認証
+- HTTPのBASIC認証、ダイジェスト認証、トークン認証
+    * `ActionController::HttpAuthentication::Basic::ControllerMethods`
+    * `ActionController::HttpAuthentication::Digest::ControllerMethods`
+    *  `ActionController::HttpAuthentication::Token::ControllerMethods`
 - `ActionView::Layouts`: レンダリングのレイアウトをサポート
 - `ActionController::MimeResponds`: `respond_to`をサポート
 - `ActionController::Cookies`: `cookies`のサポート（署名や暗号化も含む）。cookiesミドルウェアが必要。
