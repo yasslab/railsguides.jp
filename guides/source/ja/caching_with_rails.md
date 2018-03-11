@@ -1,4 +1,4 @@
-﻿
+
 
 
 Rails のキャッシュ: 概要
@@ -130,21 +130,31 @@ end
 ```
 
 `touch`をtrueに設定すると、gameのレコードの`updated_at`を更新するアクションを実行すると、関連付けられているproductの`updated_at`も同様に更新されてキャッシュの期限が終了します。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121546
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121572
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121576
--->
+
+### パーシャルキャッシュの共有
+
+パーシャルのキャッシュや関連付けのキャッシュを異なる複数のMIMEタイプ間で共有することが可能です。たとえば、パーシャルキャッシュの共有を使うと、テンプレートライターがHTMLとJavaScript間でパーシャルキャッシュを共有できるようになります。複数のテンプレートがテンプレートリゾルバのファイルパスにコレクションされるときは、テンプレート言語の拡張子のみがそこに含まれ、MIMEタイプは含まれません。これによって、テンプレートを複数のMIMEタイプで利用できます。HTMLリクエストとJavaScriptリクエストは、いずれも以下のコードにレスポンスを返します。
+
+```ruby
+render(partial: 'hotels/hotel', collection: @hotels, cached: true)
+```
+ 
+上のコードは`hotels/hotel.erb`という名前のファイルを読み込みます。
+
+もうひとつの方法として、レンダリングするパーシャルの完全なファイル名を含めることもできます。
+
+```ruby
+render(partial: 'hotels/hotel.html.erb', collection: @hotels, cached: true)
+```
+
+上のコードは、ファイルのMIMEタイプにかかわらず`hotels/hotel.html.erb`という名前のファイルを読み込みます。たとえば、このパーシャルはJavaScriptファイルに含められます。
+ 
 ### 依存関係の管理
-<!-- 
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121619
--->
+
 キャッシュを正しく無効にするには、キャッシュの依存関係を適切に定義する必要があります。多くの場合、Railsでは依存関係が適切に処理されるので、特別な対応は不要です。ただし、カスタムヘルパーでキャッシュを扱うなどの場合は、明示的に依存関係を定義する必要があります。
 
 #### 暗黙の依存関係
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121602
--->
+
 ほとんどの場合、テンプレートの依存関係は、テンプレート自身で呼び出される`render`によって発生します。以下の例は、デコード方法を取り扱う`ActionView::Digestor`でrender呼び出しする方法です。
 
 ```ruby
@@ -173,9 +183,7 @@ render partial: "documents/document", collection: @project.documents.where(publi
 ```
 
 #### 明示的な依存関係
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121648
--->
+
 テンプレートで、思わぬ依存関係が生じることがあります。典型的なのは、ヘルパー内でレンダリングする場合です。以下に例を示します。
 
 ```html+erb
@@ -207,7 +215,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c36
 
 #### 外部の依存関係
 
-たとえば、キャッシュされたブロック内にヘルパーメソッドがあるとします。このヘルパーを更新するときに、キャッシュにもヒットしてしまわないよう、テンプレートファイルのMD5が何らかの方法で変更されるようにする必要があります。推奨される方法のひとつは、次のようにコメントで明示的に更新を示すことです。
+たとえば、キャッシュされたブロック内にヘルパーメソッドがあり、このヘルパーを更新すると、キャッシュも更新しなければならなくなります。どんな方法でキャッシュを更新するかは実際には問題ではありませんが、何らかの形でテンプレートファイルのMD5を変更しなければなりません。推奨される方法のひとつは、次のようにコメントで明示的に更新を示すことです。
 
 ```html+erb
 <%# Helper Dependency Updated: Jul 28, 2015 at 7pm %>
@@ -217,10 +225,8 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c36
 ### 低レベルキャッシュ
 
 ビューのフラグメントをキャッシュするのではなく、特定の値やクエリ結果だけをキャッシュしたいことがあります。Railsのキャッシュメカニズムでは、どんな情報でもキャッシュに保存できます。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27121773
--->
-低レベルキャッシュの最も効果的な実装方法は、`Rails.cache.fetch`メソッドを利用することです。このメソッドは、キャッシュの書き込みと読み出しの両方に対応しています。引数が1つだけの場合、キーを読み出し、キャッシュから値を取り出して返します。ブロックを引数として渡すと、指定のキーでブロックの処理結果がキャッシュされ、その結果を返します。
+
+低レベルキャッシュの最も効果的な実装方法は、`Rails.cache.fetch`メソッドを利用することです。このメソッドは、キャッシュの書き込みと読み出しの両方に対応しています。引数が1つだけの場合、キーを読み出し、キャッシュから値を取り出して返します。ブロックを引数として渡すと、キャッシュにヒットしなかった場合にブロックが実行されます。ブロックの戻り値は、指定のキャッシュキーの下にあるキャッシュに書き込まれます。キャッシュにヒットした場合は、ブロックを実行せずにキャッシュの値を返します。
 
 次の例を考えてみましょう。アプリケーションに`Product`モデルがあり、競合webサイトの製品価格を検索するインスタンスメソッドがそのモデルにあるとします。低レベルキャッシュを使う場合、このメソッドから完全なデータが返ります。
 
@@ -258,7 +264,7 @@ def index
 end
 ```
 
-データベースに対して同じクエリが2回実行されると、実際にはデータベースにアクセスしません。1回目のクエリでは、結果をメモリ上のクエリキャッシュに保存し、2回目のクエリではメモリから結果を読み出します。
+データベースに対して同じクエリが再度実行されると、実際にはデータベースにアクセスしません。1回目のクエリでは、結果をメモリ上のクエリキャッシュに保存し、2回目のクエリではメモリから結果を読み出します。
 
 ただし、次の点にご注意ください。クエリキャッシュはアクションの開始時に作成され、アクションの終了時に破棄されます。従って、キャッシュはアクションの実行中しか保持されません。キャッシュをもっと持続させたい場合は、低レベルキャッシュを使います。
 
@@ -269,7 +275,7 @@ Railsには、キャッシュデータの保存場所がいくつも用意され
 
 ### 設定
 
-アプリケーションのデフォルトのキャッシュストアは、`config.cache_store`オプションで設定できます。キャッシュストアのコンストラクタには、引数として他にもパラメータを渡せます。
+アプリケーションのデフォルトのキャッシュストアは、`config.cache_store`オプションで設定できます。キャッシュストアのコンストラクタには、引数として他のパラメータも渡せます。
 
 ```ruby
 config.cache_store = :memory_store, { size: 64.megabytes }
@@ -289,9 +295,9 @@ NOTE: または、構成ブロックの外部で`ActionController::Base.cache_st
 
 * `:namespace` - キャッシュストア内で名前空間を作成します。特に、キャッシュを他のアプリケーションと共有する場合に役立ちます。
 
-* `:compress` - キャッシュ内での圧縮を有効にします。低速ネットワークで巨大なキャッシュエントリを転送する場合に役立ちます。
+* `:compress` - デフォルトで有効です。キャッシュエントリを圧縮して、メモリ上の同一のフットプリントにより多くのデータを保存できるようにし、キャッシュのエビクション（喪失）を減らしてヒット率を高めます。
 
-* `:compress_threshold` - `:compress`オプションと併用します。キャッシュのサイズが指定の閾値を下回る場合、圧縮しません。デフォルト値は16KBです。
+* `:compress_threshold` - デフォルトは1KBです。このしきい値（バイト数を指定）を超えるキャッシュエントリを圧縮します。
 
 * `:expires_in` - 指定の秒数が経過すると、キャッシュを自動で削除します。
 
@@ -317,6 +323,10 @@ config.cache_store = :memory_store, { size: 64.megabytes }
 
 Ruby on Railsサーバーのプロセスを複数実行している場合（mongrel_clusterやPhusion Passengerを利用中の場合）、Railsサーバーのキャッシュデータはプロセスのインスタンス間で共有されません。このキャッシュストアは、大規模にデプロイされるアプリケーションには向いていません。ただし、小規模でトラフィックの少ないサイトでサーバープロセスを数個動かす程度であれば問題なく動作します。もちろん、development環境やtest環境でも動作します。
 
+新規Railsプロジェクトでは、デフォルトでdevelopment環境の実装を使うよう設定されます。
+
+NOTE: `:memory_store`を使うとキャッシュデータがプロセス間で共有されないため、Railsコンソールから手動でキャッシュを読み書きしたり期限切れにしたりすることはできなくなります。
+
 ### ActiveSupport::Cache::FileStore
 
 このキャッシュストアでは、エントリをファイルシステムに保存します。ファイル保存場所へのパスは、キャッシュを初期化するときに指定する必要があります。
@@ -325,11 +335,11 @@ Ruby on Railsサーバーのプロセスを複数実行している場合（mong
 config.cache_store = :file_store, "/path/to/cache/directory"
 ```
 
-このキャッシュストアでは、複数のサーバープロセス間でキャッシュを共有できます。トラフィックが中規模程度のサイトを1、2個程度ホストする場合に向いています。異なるホストで実行するサーバープロセス間で、ファイルシステムによるキャッシュを共有することは一応可能ですが、おすすめできません。
+このキャッシュストアでは、複数のサーバープロセス間でキャッシュを共有できます。トラフィックが中規模程度のサイトを1、2個程度ホストする場合に向いています。異なるホストで実行するサーバープロセス間で、ファイルシステムを用いてキャッシュを共有することは一応可能ですが、おすすめできません。
 
-ディスク容量がいっぱいになるほどキャッシュが増加する場合は、古いエントリを定期的に削除することをおすすめします。
+キャッシュはディスク容量いっぱいまで増加するため、古いエントリを定期的に削除することをおすすめします。
 
-これは、デフォルトのキャッシュストア実装です。
+`config.cache_store`を明示的に指定しない場合、デフォルトのキャッシュストア実装（`"#{root}/tmp/cache/"`）が使われます。
 
 ### ActiveSupport::Cache::MemCacheStore
 
@@ -342,16 +352,35 @@ config.cache_store = :file_store, "/path/to/cache/directory"
 ```ruby
 config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.com"
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122060
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122073
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122078
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122080
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122081
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122082
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122084
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122085
--->
+
+### ActiveSupport::Cache::RedisCacheStore
+
+Redisキャッシュストアは、Redisがサポートするメモリ最大値到達時のLRU（least-recently-used: 最も最近使われたキャッシュ）やLFU（least-frequently-used: 最も使用頻度の少ないキャッシュ）に基づくキーのエビクション（喪失）を利用して、Memcachedキャッシュサーバーのように振る舞います。
+
+デプロイに関するメモ: Redisのキーはデフォルトでは無期限なので、専用のRedisキャッシュサーバーを使うときはご注意ください。常設のRedisサーバーに期限付きのキャッシュデータを保存しないこと。詳しくは[Redis cache server setup guide](https://redis.io/topics/lru-cache)（英語）をご覧ください。
+
+Redisサーバーを「オールキャッシュ」で使う場合は、`maxmemory-policy`に`allkeys`ポリシーを設定します。Redis 4以降ではLFUエビクション（`allkeys-lfu`）がサポートされており、これはデフォルトの選択肢として非常によいものです。Redis 3以前では`allkeys-lru`を用いてLRUにすべきです。
+
+キャッシュの読み書きのタイムアウトは、比較的低めに設定しましょう。キャッシュの取り出しで1秒以上待つよりも、キャッシュ値を再生成する方がしばしば高速です。読み書きのデフォルトタイムアウト値は1秒ですが、ネットワークのレイテンシが恒常的に低い場合はもっと低い値がよい可能性があります。
+
+キャッシュの読み書きでは決して例外が発生せず、単に`nil`を返してあたかも何もキャッシュされていないかのように振る舞います。キャッシュで例外が生じているかどうかを測定するには、`error_handler`を渡して例外収集サービスにレポートを送信してもよいでしょう。収集サービスは次の3つの引数を受け取れる必要があります。`method`は元々呼び出されていたキャッシュ保存方法、`returning`はユーザーに返された値（通常は`nil`）、`exception`はrescueされた例外です。
+
+これらをまとめたproduction向けRedisキャッシュストアは以下のような感じになります。
+
+```ruby
+cache_servers = %w[ "redis://cache-01:6379/0", "redis://cache-02:6379/0", … ],
+config.cache_store = :redis_cache_store, url: cache_servers,
+
+  connect_timeout: 30,  # Defaults to 20 seconds
+  read_timeout:    0.2, # Defaults to 1 second
+  write_timeout:   0.2, # Defaults to 1 second
+
+  error_handler: -> (method:, returning:, exception:) {
+    # Report errors to Sentry as warnings
+    Raven.capture_exception exception, level: 'warning",
+      tags: { method: method, returning: returning }
+  }
+```
 
 ### ActiveSupport::Cache::NullStore
 
@@ -437,9 +466,71 @@ class ProductsController < ApplicationController
 end
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/d2e8af6cf0dbc3374c8553c362e90b75604b9765#r27122153
--->
+たとえば期限切れのない静的ページ向けにキャッシュを効かせたいことがあります。その場合は、`http_cache_forever`ヘルパーを使ってブラウザやプロキシでキャッシュを無期限にすることができます。
+
+キャッシュのレスポンスはデフォルトではprivateになっており、ユーザーのWebブラウザでのみキャッシュされます。プロキシがキャッシュに応答できるようにするには、`public: true`を設定してすべてのユーザーへのレスポンスがキャッシュされるよう指定します。
+
+このヘルパーメソッドを使うと、`last_modified`ヘッダーは`Time.new(2011, 1, 1).utc`に、`expires`ヘッダーは100年にそれぞれ設定されます。
+
+WARNING: このメソッドの利用には十分ご注意ください。ブラウザのキャッシュを強制的にクリアしない限り、ブラウザやプロキシにキャッシュされたレスポンスは無効にできません。
+
+```ruby
+class HomeController < ApplicationController
+  def index
+    http_cache_forever(public: true) do
+      render
+    end
+  end
+end
+```
+
+### 「strong」Etagと「weak」ETag
+
+Railsはデフォルトでweak ETagを生成します。weak ETagは、同じETagを持つレスポンスと同等であることを意味します（HTML bodyが正確に一致していない場合であっても）。
+これは、レスポンスのbodyで微細な変更が生じたぐらいでページを再生したくない場合に便利です。
+
+weak ETagは`W/`で始まっている点がstrong ETagと異なります。
+
+```
+  W/"618bbc92e2d35ea1945008b42799b0e7" → Weak ETag
+  "618bbc92e2d35ea1945008b42799b0e7" → Strong ETag
+```
+
+strong ETagはweak ETagと異なり、レスポンスがバイトレベルで完全一致すべきであることを暗に求めます。これは、巨大な動画やPDFファイル内でRangeリクエストを行う場合に便利です。Akamaiなど一部のCDN（contents delivery network）ではstrong ETagのみをサポートしています。
+strong ETagの生成がどうしても必要な場合は、次の方法で行えます。
+
+```ruby
+  class ProductsController < ApplicationController
+    def show
+      @product = Product.find(params[:id])
+      fresh_when last_modified: @product.published_at.utc, strong_etag: @product
+    end
+  end
+```
+
+次のように、strong ETagをレスポンスに直接設定することもできます。
+
+```ruby
+  response.strong_etag = response.body # => "618bbc92e2d35ea1945008b42799b0e7"
+```
+
+development環境のキャッシュ
+----------------------
+
+アプリのキャッシュ戦略をdevelopmentモードでテストしたいことはよくあります。Railsの`dev:cache` rakeタスクを使うと、developmentモードのキャッシュを簡単にオンオフできます。
+
+```bash
+$ bin/rails dev:cache
+Development mode is now being cached.
+$ bin/rails dev:cache
+Development mode is no longer being cached.
+```
+
+参考
+----------
+
+* [DHHによるキーベースの期限切れに関する記事](https://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works)（英語）
+* [Ryan BatesのRailsCast: キャッシュダイジェストについて](http://railscasts.com/episodes/387-cache-digests)（英語）
 
 ### 強いETagと弱いETag
 
