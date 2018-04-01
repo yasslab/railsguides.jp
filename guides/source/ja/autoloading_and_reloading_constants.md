@@ -1,4 +1,4 @@
-﻿
+
 
 
 定数の自動読み込みと再読み込み
@@ -146,7 +146,7 @@ Rubyは`Object`に`C`という定数を作成し、その定数にクラスオ�
 すなわち、
 
 ```ruby
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
 end
 ```
 
@@ -256,15 +256,12 @@ Billing::Invoice
 INFO: `::Billing::Invoice`のように先頭にコロンを2つ置くことで、最初のセグメントを相対から絶対に変えることができます。このようにすると、この`Billing`はトップレベルの定数としてのみ参照されるようになります。
 
 2番目の`Invoice`定数の方は`Billing`で修飾されています。この定数の解決方法についてはこの後で説明します。ここで、修飾する側のクラスやモジュールオブジェクト (上の例で言う`Billing`) を*親(parent)*と定義します。修飾済み定数を解決するアルゴリズムは以下のようになります。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120381
--->
-1. この定数はその親と先祖の中から探索される。
 
+1. この定数はその親と先祖の中から探索される。Ruby 2.5以降では、先祖オブジェクトに挟まれている`Object`はスキップされる。`Kernel`や`BasicObject`は従来どおりチェックされる。
 2. 探索の結果何も見つからない場合、親の`const_missing`が呼び出される。`const_missing`のデフォルトの実装は`NameError`を発生するが、これはオーバーライド可能。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120412
--->
+
+INFO: Ruby 2.5より前のバージョンでは、`String::Hash`は`Hash`と評価されてインタプリタが「toplevel constant Hash referenced by String::Hash」というwarningを出力します。Ruby 2.5以降では`Object`がスキップされるため、`String::Hash`で`NameError`がraiseされる。
+
 見てのとおり、この探索アルゴリズムは相対定数の場合よりもシンプルです。特に、ネストが何の影響も与えていない点にご注意ください。また、モジュールは特別扱いされておらず、モジュール自身またはモジュールの先祖のどちらにも定数がない場合には`Object`は**チェックされない**点にもご注意ください。
 
 Railsの自動読み込みは**このアルゴリズムをエミュレートしているわけではない**ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、その親です。詳細については[修飾済み参照](#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7)を参照してください。
@@ -352,9 +349,9 @@ require 'erb'
 ```ruby
 config.autoload_paths << "#{Rails.root}/lib"
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120499
--->
+
+config.autoload_paths`は環境固有の設定ファイルからは変更できません。
+
 `autoload_paths`の値を検査することもできます。生成したRailsアプリケーションでは以下のようになります (ただし編集済み)。
 
 ```
@@ -773,6 +770,8 @@ end
 require_dependency ‘square’
 ```
 
+これはあらゆる中間クラス（ルートクラスでも末端のleafクラスでもないクラス）で発生する必要があります。ルートクラスは型によるクエリのスコープを行わないので、すべての子孫についての知識を持たなければならないとは限りません。
+
 この方法で明示的に読み込む必要があるのは、**孫またはそれ以下**のleafだけで十分です。直下のサブクラスである子については事前読み込みは不要です。階層構造が子よりも深い場合、階層の途中にあるクラスの定義で定数がスーパークラスとして記述されているので、途中のクラスは再帰的に自動読み込みされます。
 
 ### 自動読み込みと`require`
@@ -923,9 +922,9 @@ end
 ```
 
 #### 修飾済み参照
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8f91256213101bcb922022bf01d0abccaa2df76e#r27120621
--->
+
+WARNING: この現象はRuby 2.5より以前のバージョンにしか該当しません。
+
 以下の例について考察します。
 
 ```ruby
@@ -969,7 +968,7 @@ warning: toplevel constant Image referenced by Hotel::Image
 => Array
 ```
 
-WARNING: この落とし穴を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。`Object`はモジュールの先祖ではないからです。
+WARNING: この現象を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。`Object`はモジュールの先祖ではないからです。
 
 ### 特異クラス内で自動読み込みを行う
 
