@@ -1,4 +1,4 @@
-﻿
+
 Rails と Rack
 =============
 
@@ -19,9 +19,6 @@ Rack入門
 
 Rackは、Rubyのウェブアプリケーションに対して、最小限でモジュール化されていて、応用の効くインターフェイスを提供します。RackはHTTPリクエストとレスポンスを可能なかぎり簡単な方法でラッピングすることで、ウェブサーバー、ウェブフレームワーク、その間に位置するソフトウェア (ミドルウェアと呼ばれています) のAPIを一つのメソッド呼び出しの形にまとめます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f4da93be616df2b3#r27174518
--->
 Rackに関する解説はこのガイドの範疇を超えてしまいます。Rackに関する基本的な知識が足らない場合、下記の[リソース](#参考資料) を参照してください。
 
 RailsとRack
@@ -212,9 +209,9 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 * `env["rack.multithread"]`を`false`に設定し、アプリケーションをMutexで包みます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f4da93be616df2b3#r27174641
--->
+**`ActionDispatch::Executor`**
+
+* 開発中にスレッドセーフのコードをリロードするのに使います。
 
 **`ActiveSupport::Cache::Strategy::LocalCache::Middleware`**
 
@@ -232,10 +229,13 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f
 
 * ユニークなidを生成して`X-Request-Id`ヘッダーに設定します。`ActionDispatch::Request#request_id`メソッドも同一のidを利用しています。
 
-
 **`ActionDispatch::RemoteIp`**
 
 * IPスプーフィング攻撃をチェックします。
+
+**`Sprockets::Rails::QuietAssets`**
+
+* アセットリクエストでのログ書き出しを抑制します。
 
 **`Rails::Rack::Logger`**
 
