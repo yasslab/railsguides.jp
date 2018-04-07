@@ -1,4 +1,4 @@
-﻿
+
 Rails の初期化プロセス
 ================================
 
@@ -130,10 +130,11 @@ Rails::Command.invoke command, ARGV
 
 ### `rails/command.rb`
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27123957
--->
-`run_command`は、間違ったRailsコマンドが入力された時にエラーメッセージを表示する役割も担います。正しいコマンドの場合は同じ名前のメソッドが呼び出されます。
+何らかのRailsコマンドを1つ入力すると、`invoke`がコマンドを指定の名前空間内にコマンドがあるかどうか探索を試み、見つかった場合はそのコマンドを実行します。
+
+コマンドがRailsによって認識されない場合はRakeに引き継いで同じ名前で実行します。
+
+以下のソースにあるように、`Rails::Command`は`args`が空の場合に自動的にヘルプを出力します。
 
 ```ruby
 module Rails::Command
@@ -281,10 +282,7 @@ def parse!(args)
 end
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27124073
--->
-このメソッドは`options`のキーを設定します。Railsはこれを使用して、どのようにサーバーを実行するかを決定します。`initialize`が完了すると、`rails/server`に戻ります。ここでは先ほど設定された`APP_PATH`がrequireされます。
+このメソッドは`options`のキーを設定します。Railsはこれを使用して、どのようにサーバーを実行するかを決定します。`initialize`が完了すると、先ほど設定した`APP_PATH`がrequireされたサーバーコマンドに制御が戻ります。
 
 ### `config/application`
 
@@ -337,10 +335,8 @@ private
   end
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27171771
--->
-Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。続いて`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。
+
+Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。`rails server`に`--dev-caching`オプションを指定して呼び出した場合は、development環境でのキャッシュをオンにします。最後に`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。
 
 `super`メソッドは`Rack::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
 
@@ -508,10 +504,8 @@ end
 
 ### `config/environment.rb`に戻る
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f09bc92c8c797471a10b6950b096bea7f0624695#r27171836
--->
-`config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここではアプリケーションの初期化が行われます。たとえばアプリケーションの名前が`Blog`であれば、environment.rbに`Rails.application.initialize!`という行があります。これは`rails/application.rb`で定義されています。
+
+`config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここでは`Rails.application.initialize!`によるアプリケーションの初期化が行われます。これは`rails/application.rb`で定義されています。
 
 ### `railties/lib/rails/application.rb`
 
