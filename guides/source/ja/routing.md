@@ -1,4 +1,4 @@
-﻿
+
 Rails のルーティング
 =================================
 
@@ -6,24 +6,18 @@ Rails のルーティング
 
 このガイドの内容:
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/6a06d9ec3f4dd834faaff20e83496bc2f2c6be9e#r27175332
--->
 * `config/routes.rb`のコードの読み方
 * 独自のルーティング作成法 (リソースベースのルーティングが推奨されますが、`match`メソッドによるルーティングも可能です)
-* アクション側で受け取るパラメータ
+* ルーティングのパラメータの宣言方法（コントローラのアクションに渡される）
 * ルーティングヘルパーを使用してパスやURLを自動生成する方法
-* 制限追加やRackエンドポイントなどの高度な手法
+* 制限の作成やRackエンドポイントのマウントなどの高度な手法
 
 --------------------------------------------------------------------------------
 
 Railsルーターの目的
 -------------------------------
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/6a06d9ec3f4dd834faaff20e83496bc2f2c6be9e#r27175345
--->
-Railsのルーターは受け取ったURLを認識し、適切なコントローラ内アクションに割り当てます。ルーターは、ビューでこれらのパスやURLを直接ハードコードすることを避けるためにパスやURLを生成することもできます。
+Railsのルーターは受け取ったURLを認識し、適切なコントローラ内アクションやRackアプリに割り当てます。ルーターは、ビューでこれらのパスやURLを直接ハードコードすることを避けるためにパスやURLを生成することもできます。
 
 ### URLを実際のコードに割り振る
 
@@ -145,7 +139,7 @@ resources :videos
 get 'profile', to: 'users#show'
 ```
 
-`get`の引数に`文字列`を渡す場合は`コントローラ#アクション`形式であることが前提ですが、`get`の引数に`シンボル`を渡すとアクションに直接割り当てられます。その場合は `controller:` を指定する必要があります。
+`to:`の引数に`文字列`を渡す場合は`コントローラ#アクション`形式であることが前提ですが、`シンボル`を使う場合は、`to:`オプションを`action:`に置き換えるべきです。`#`なしの`文字列`を使う場合は、`to:`オプションを`controller:`に置き換えるべきです。
 
 ```ruby
 get 'profile', to: :show, controller: 'users'
@@ -487,7 +481,7 @@ resources :photos do
 end
 ```
 
-上のルーティングはGETリクエストとそれに伴う`/photos/1/preview`を認識し、リクエストを`Photos`コントローラの`preview`アクションにルーティングし、リソースid値を`params[:id]`に渡します。同時に、`preview_photo_url`ヘルパーと`preview_photo_path`ヘルパーも作成されます。
+上のルーティングはGETリクエストとそれに伴う`/photos/1/preview`を認識し、リクエストを`Photos`コントローラの`preview`アクションにルーティングし、リソースid値を`params[:id]`に渡します。同時に、`photo_preview_url`ヘルパーと`photo_preview_path`ヘルパーも作成されます。
 
 memberルーティングブロックの内側では、次に述べるHTTP動詞が指定されたルーティング名を認識できます。指定可能な動詞は`get`、`patch`、`put`、`post`、`delete`です。`member`ルーティングが1つだけしかないのであれば、以下のようにルーティングで`:on`オプションを指定することでブロックを省略できます。
 
@@ -546,29 +540,23 @@ Railsではリソースルーティングを行なう他に、任意のURLをア
 
 ### パラメータの割り当て
 
-通常のルーティングを設定するのであれば、RailsがルーティングをブラウザからのHTTPリクエストに割り当てるためのシンボルをいくつか渡します。それらのシンボルのうち、`:controller`と`:action`は特別です。`:controller`はアプリケーションのコントローラへの割り当てを行い、`:action`はそのコントローラの中にあるアクションへの割り当てを行います (訳注: 具体的なコントローラ名とアクション名を指定していない点にご注目ください)。以下のルーティングを例にとってみましょう。
+通常のルーティングを設定するのであれば、RailsがルーティングをブラウザからのHTTPリクエストに割り当てるためのシンボルをいくつか渡します。以下のルーティングを例にとってみましょう。
 
 ```ruby
-get ':controller(/:action(/:id))'
+get 'photos(/:id)', to: :display
 ```
 
-ブラウザからの`/photos/show/1`リクエストが上のルーティングで処理される (他のルーティング設定にはマッチしなかったとします) と、`Photos`コントローラの`show`アクションが呼び出され、URL末尾のパラメータ`"1"`へのアクセスは`params[:id]`で行なえます。`:action`と`:id`が必須パラメータではないことがかっこ () で示されているので、このルーティングは`/photos`を`PhotosController#index`にルーティングすることもできます。
+ブラウザからの`/photos/1`リクエストが上のルーティングで処理される (他のルーティング設定にはマッチしなかったとします) と、`PhotosController`の`display`アクションが呼び出され、URL末尾のパラメータ`"1"`へのアクセスは`params[:id]`で行なえます。`:id`が必須パラメータではないことがかっこ () で示されているので、このルーティングは`/photos`を`PhotosController#display`にルーティングすることもできます。
 
 ### 動的なセグメント
 
-通常のルーティングの一部として、文字列を固定しない動的なセグメントを自由に使用できます。`:controller`や`:action`を除き、どんなものでも`params`の一部に含めてアクションに渡すことができます。以下のルーティングを設定したとします。
+通常のルーティングの一部として、文字列を固定しない動的なセグメントを自由に使用できます。あらゆるセグメントは`params`の一部に含めてアクションに渡すことができます。以下のルーティングを設定したとします。
 
 ```ruby
-get ':controller/:action/:id/:user_id'
+get 'photos/:id/:user_id', to: 'photos#show'
 ```
 
-ブラウザからの`/photos/show/1/2`パスは`Photos`コントローラの`show`アクションに割り当てられます。`params[:id]`には`"1"`、`params[:user_id]`には`"2"`がそれぞれ保存されます。
-
-NOTE: `:controller`パスセグメントを使用する場合、`:namespace`や`:module`を併用することはできません。どうしても使用したいのであれば、以下のように、必要な名前空間だけにマッチするように`:controller`に制限を加えます。
-
-```ruby
-get ':controller(/:action(/:id))', controller: /admin\/[^\/]+/
-```
+ブラウザからの`/photos/1/2`パスは`PhotosController`の`show`アクションに割り当てられます。`params[:id]`には`"1"`、`params[:user_id]`には`"2"`がそれぞれ保存されます。
 
 TIP: 動的なセグメント分割ではドット`.`をデフォルトでは使用できません。ドットはフォーマット済みルーティングでは区切り文字として使用されるためです。どうしても動的セグメント内でドットを使用したい場合は、デフォルト設定を上書きする制限を与えます。たとえば`id: /[^\/]+/`とすると、スラッシュ以外のすべての文字が使用できます。
 
@@ -577,38 +565,40 @@ TIP: 動的なセグメント分割ではドット`.`をデフォルトでは使
 ルート作成時にコロンを付けなかった部分は、静的なセグメントとして固定文字列が指定されます。
 
 ```ruby
-get ':controller/:action/:id/with_user/:user_id'
+get 'photos/:id/with_user/:user_id', to: 'photos#show'
 ```
 
-上のルーティングは、`/photos/show/1/with_user/2`のようなパスにマッチします。`with_user`の部分は固定されています。このときアクションで使用できる`params`は `{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
+上のルーティングは、`/photos/1/with_user/2`のようなパスにマッチします。このときアクションで使用できる`params`は `{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
 
 ### クエリ文字列
 
 クエリ文字列 (訳注: `?パラメータ名=値`の形式でURLの末尾に置かれるパラメータ) で指定されているパラメータもすべて`params`に含まれます。以下のルーティングを例にとってみましょう。
 
 ```ruby
-get ':controller/:action/:id'
+photos/:id', to: 'photos#show'
 ```
 
-ブラウザからのリクエストで`/photos/show/1?user_id=2`というパスが渡されると、`Photos`コントローラの`show`アクションに割り当てられます。このときの`params`は`{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
+ブラウザからのリクエストで`/photos/1?user_id=2`というパスが渡されると、`Photos`コントローラの`show`アクションに割り当てられます。このときの`params`は`{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
 
 ### デフォルト設定を定義する
 
-`:controller`シンボルや`:action`シンボルは、ルーティング内で明示的に指定する必要はありません。これらは以下のようにデフォルトとして指定することができます。
-
-```ruby
-get 'photos/:id', to: 'photos#show'
-```
-
-上のルーティングはブラウザからの`/photos/12`パスにマッチし、`Photos`コントローラの`show`アクションに割り当てられます。
-
-`:defaults`オプションにハッシュを渡すことで、これ以外のデフォルト設定を定義することもできます。この定義は、動的セグメントとして指定していないパラメータに対しても適用されます。例:
+`:defaults`オプションにハッシュを1つ渡すことで、ルーティング内にデフォルトを定義できます。このとき、動的なセグメントとして指定する必要のないパラメータを次のように適用することも可能です。
 
 ```ruby
 get 'photos/:id', to: 'photos#show', defaults: { format: 'jpg' }
 ```
 
-上のルーティングは`photos/12`にマッチし、`Photos`コントローラの`show`アクションに割り当てられ、`params[:format]`には`"jpg"`が設定されます。
+上のルーティングはブラウザからの`/photos/12`パスにマッチし、`Photos`コントローラの`show`アクションに割り当てられます。
+
+`defaults`をブロック形式で使うと、複数の項目についてデフォルトを設定することもできます。
+
+```ruby
+defaults format: :json do
+  resources :photos
+end
+```
+
+NOTE: セキュリティ上の理由により、クエリパラメータでデフォルトをオーバーライドすることはできません。URLパスの置き換えによる動的セグメントのみ、オーバーライド可能です。
 
 ### 名前付きルーティング
 
@@ -643,6 +633,8 @@ match 'photos', to: 'photos#show', via: :all
 ```
 
 NOTE: 1つのアクションに`GET`リクエストと`POST`リクエストを両方ルーティングすると、セキュリティに影響する可能性があります。本当に必要な理由がない限り、1つのアクションにすべてのHTTP動詞をルーティングすることは避けてください。
+
+NOTE: Railsでは`GET`のCSRFトークンをチェックしません。絶対に`GET`リクエストでデータベースに書き込んではいけません。詳しくは[セキュリティガイド](security.html#csrfへの対応策)のCSRF対策を参照してください。
 
 ### セグメントを制限する
 
@@ -788,7 +780,11 @@ get '/stories/:name', to: redirect { |path_params, req| "/articles/#{path_params
 get '/stories', to: redirect { |path_params, req| "/articles/#{req.subdomain}" }
 ```
 
-ここで行われているリダイレクトは、HTTPステータスで言う「301 "Moved Permanently"」であることにご注意ください。一部のWebブラウザやプロキシサーバーはこの種のリダイレクトをキャッシュすることがあり、その場合リダイレクト前の古いページにはアクセスできなくなります。
+デフォルトのリダイレクトは、HTTPステータスで言う「301 "Moved Permanently"」であることにご注意ください。一部のWebブラウザやプロキシサーバーはこの種のリダイレクトをキャッシュすることがあり、その場合リダイレクト前の古いページにはアクセスできなくなります。次のように`:status`オプションを使うことでレスポンスのステータスを変更できます。
+
+```ruby
+get '/stories/:name', to: redirect('/articles/%{name}', status: 302)
+```
 
 どの場合であっても、ホスト (`http://www.example.com`など) がURLの冒頭で指定されていない場合は、Railsは (以前のリクエストではなく) 現在のリクエストから詳細を取得します。
 
@@ -797,12 +793,24 @@ get '/stories', to: redirect { |path_params, req| "/articles/#{req.subdomain}" }
 `Post`コントローラの`index`アクションに対応する`'articles#index'`のような文字列の代りに、任意の<a href="rails_on_rack.html">Rackアプリケーション</a>をマッチャーのエンドポイントとして指定することができます。
 
 ```ruby
-match '/application.js', to: Sprockets, via: :all
+match '/application.js', to: MyRackApp, via: :all
 ```
 
-Railsルーターから見れば、`Sprockets`が`call`に応答して`[status, headers, body]`を返す限り、ルーティング先がRackアプリケーションであるかアクションであるかは区別できません。これは`via: :all`の適切な利用法です。というのは、適切と考えられるすべてのHTTP動詞をRackアプリケーションで扱えるようにできるからです。
+Railsルーターから見れば、`MyRackApp`が`call`に応答して`[status, headers, body]`を返す限り、ルーティング先がRackアプリケーションであるかアクションであるかは区別できません。これは`via: :all`の適切な利用法です。というのは、適切と考えられるすべてのHTTP動詞をRackアプリケーションで扱えるようにできるからです。
 
 NOTE: 参考までに、`'articles#index'`は実際には`ArticlesController.action(:index)`という形に展開されます。これは正しいRackアプリケーションを返します。
+
+マッチャーのエンドポイントとしてRackアプリを指定する場合、受け取るアプリのルーティングは変更されない点にご留意ください。以下のルーティングでは、Rackアプリは`/admin`へのルーティングを期待するべきです。
+
+```ruby
+ match '/admin', to: AdminApp, via: :all
+ ```
+
+Rackアプリがルートパスでリクエストを受け取れるようにしたい場合は、`mount`を使います。
+
+```ruby
+ mount AdminApp, at: '/admin'
+ ```
 
 ### `root`を使用する
 
@@ -1000,7 +1008,7 @@ TIP: アプリケーションでRESTfulルーティングが多数使用され�
 
 ### パスを変更する
 
-`scope`メソッドを使用することで、`resource`によって生成されるデフォルトのパス名を変更できます。
+`scope`メソッドを使用することで、`resources`によって生成されるデフォルトのパス名を変更できます。
 
 ```ruby
 scope(path_names: { new: 'neu', edit: 'bearbeiten' }) do
@@ -1081,16 +1089,16 @@ Railsには、ルーティングを調べる機能とテストする機能が備
 
 ### 既存のルールを一覧表示する
 
-現在のアプリケーションで利用可能なルーティングをすべて表示するには、サーバーが **development** 環境で動作している状態で`http://localhost:3000/rails/info/routes`をブラウザで開きます。ターミナルで`rake routes`コマンドを実行しても同じ結果を得られます。
+現在のアプリケーションで利用可能なルーティングをすべて表示するには、サーバーが **development** 環境で動作している状態で`http://localhost:3000/rails/info/routes`をブラウザで開きます。ターミナルで`rails routes`コマンドを実行しても同じ結果を得られます。
 
-どちらの方法を使用した場合でも、`routes.rb`ファイルに記載された順にルーティングが表示されます。1つのルーティングについて以下の情報が表示されます。
+どちらの方法を使用した場合でも、`config/routes.rb`ファイルに記載された順にルーティングが表示されます。1つのルーティングについて以下の情報が表示されます。
 
 * ルーティング名 (あれば)
 * 使用されているHTTP動詞 (そのルーティングがすべてのHTTP動詞に応答するのでない場合)
 * マッチするURLパターン
 * そのルーティングで使用するパラメータ
 
-以下は、あるRESTfulルーティングに対して`rake routes`を実行した結果から抜粋したものです。
+以下は、あるRESTfulルーティングに対して`rails routes`を実行した結果から抜粋したものです。
 
 ```
     users GET    /users(.:format)          users#index
@@ -1099,13 +1107,25 @@ new_user GET    /users/new(.:format)      users#new
 edit_user GET    /users/:id/edit(.:format) users#edit
 ```
 
-`CONTROLLER`環境変数を設定することで、ルーティング一覧の表示を特定のコントローラにマップされたものに制限することもできます。
+`-g`（grepオプション）を使ってルーティングを検索できます。URLヘルパー名、HTTP動詞、URLパスのいずれかに部分マッチするルーティングが出力されます。
 
-```bash
-$ CONTROLLER=users rake routes
+```
+$ bin/rails routes -g new_comment
+$ bin/rails routes -g POST
+$ bin/rails routes -g admin
 ```
 
-TIP: 折り返しが発生しないぐらいに十分大きなサイズのターミナルを使用できるのであれば、`rake routes`コマンドの出力の方がおそらく読みやすいでしょう。
+特定のコントローラに対応するルーティングだけを表示したい場合は、`-c`オプションを使います。
+
+
+```
+$ bin/rails routes -c users
+$ bin/rails routes -c admin/users
+$ bin/rails routes -c Comments
+$ bin/rails routes -c Articles::CommentsController
+```
+
+TIP: 折り返しが発生しないぐらいに十分大きなサイズのターミナルを使用できるのであれば、`rails routes`コマンドの出力の方がおそらく読みやすいでしょう。
 
 ### ルーティングをテストする
 
