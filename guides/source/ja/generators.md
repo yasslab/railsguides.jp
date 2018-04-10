@@ -1,4 +1,4 @@
-﻿
+
 Rails ジェネレータとテンプレート入門
 =====================================================
 
@@ -212,10 +212,15 @@ $ bin/rails generate scaffold User name:string
 
 この出力結果から、Rails 3.0以降のジェネレータの動作を容易に理解できます。実はscaffoldジェネレータ自身は何も生成していません。生成に必要なメソッドを順に呼び出しているだけです。このような仕組みになっているので、呼び出しを自由に追加/置換/削除できます。たとえば、scaffoldジェネレータはscaffold_controllerというジェネレータを呼び出しています。これはerbのジェネレータ、test_unitのジェネレータ、そしてヘルパーのジェネレータを呼び出します。ジェネレータごとに役割がひとつずつ割り当てられているので、コードを再利用しやすく、コードの重複も防げます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094626
--->
-最初のカスタマイズとして、ワークフローでスタイルシートとJavaScriptとテストフィクスチャファイルをscaffoldで生成しないようにしてみましょう。これは、以下のように設定を変更することで行うことができます。
+scaffoldでのリソース生成時にデフォルトの`app/assets/stylesheets/scaffolds.scss`ファイルの生成を回避したい場合は、`scaffold_stylesheet`で無効にできます。
+
+```ruby
+  config.generators do |g|
+    g.scaffold_stylesheet false
+  end
+```
+
+これでワークフローの次回のカスタマイズでスタイルシートの生成が行われなくなります。JavaScriptファイルやテストのfixtureファイルのscaffoldについても同様で、設定ファイルを以下のように変更することで無効にできます。
 
 ```ruby
 config.generators do |g|
@@ -459,9 +464,25 @@ $ rails new thud -m https://gist.github.com/radar/722911/raw/
 
 本章の最後のセクションでは、テンプレートで自由に使えるメソッドを多数紹介していますので、これを使用して自分好みのテンプレートを開発することができます。よく知られた素晴らしいアプリケーションテンプレートの数々を実際に生成する方法までは紹介しきれませんでしたが、何とぞご了承ください。これらのメソッドはジェネレータでも同じように使用できます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094692
--->
+コマンドライン引数を追加する
+-----------------------------
+Railsのジェネレータは、カスタムのコマンドライン引数を与えることで簡単に挙動を変更できます。この機能は[Thor](http://www.rubydoc.info/github/erikhuda/thor/master/Thor/Base/ClassMethods#class_option-instance_method)を利用しています。
+
+```
+class_option :scope, type: :string, default: 'read_products'
+```
+
+これで、ジェネレータを以下のように呼び出せます。
+
+```bash
+rails generate initializer --scope write_products
+```
+
+このコマンドライン引数は、ジェネレータクラス内では`options`メソッドでアクセスできます。
+
+```ruby
+@scope = options['scope']
+```
 
 ジェネレータメソッド
 -----------------
@@ -515,9 +536,13 @@ end
 add_source "http://gems.github.com"
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/c4e8f58f47fc31dd5479cc0f2a30be5209e1cb86#r27094728
--->
+このメソッドもブロックを1つ取ります。
+
+```ruby
+add_source "http://gems.github.com" do
+  gem "rspec-rails"
+end
+```
 
 ### `inject_into_file`
 
