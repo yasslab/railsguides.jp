@@ -1,4 +1,4 @@
-﻿
+
 レイアウトとレンダリング
 ==============================
 
@@ -219,10 +219,7 @@ render plain: "OK"
 
 TIP: 平文テキストの出力は、AjaxやWebサービスリクエストに応答するときに最も有用です。これらではHTML以外の応答を期待しています。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172058
--->
-NOTE: デフォルトでは、`:plain`オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、`layout: true`オプションを追加する必要があります。
+NOTE: デフォルトでは、`:plain`オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、`layout: true`オプションを追加して`.text.erb`を使う必要があります。
 
 #### HTMLを出力する
 
@@ -235,10 +232,9 @@ render html: helpers.tag.strong('Not Found')
 TIP: この手法は、HTMLコードのごく小規模なスニペットを出力したい場合に便利です。
 スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172064
--->
-NOTE: このオプションを使用すると、文字列が「HTML safe」でない場合にHTML要素をエスケープします。
+
+
+NOTE: `html:`オプションを使用すると、`html_safe`を理解できるAPIで文字列が組み立てられていない場合にHTMLエンティティがエスケープされます。
 
 #### JSONを出力する
 
@@ -397,9 +393,20 @@ render status: :forbidden
 |                     | 510              | :not_extended                    |
 |                     | 511              | :network_authentication_required |
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172106
--->
+NOTE: 「non-content」ステータスコード （100-199、204、205、 304のいずれか）でレンダリングしようとすると、レスポンスから削除されます。
+
+##### `:formats`オプション
+
+Railsは、リクエストで指定されたフォーマットを使います（またはデフォルトの`html`）。`:formats`に渡すオプションは、シンボルや配列で変更できます。
+
+```ruby
+render formats: :xml
+render formats: [:json, :xml]
+```
+
+指定されたフォーマットのテンプレートが存在しない場合は、`ActionView::MissingTemplate`エラーになります。
+
+
 #### レイアウトの探索順序
 
 Railsは現在のレイアウトを探索する場合、最初に現在のコントローラと同じ基本名を持つレイアウトが`app/views/layouts`ディレクトリにあるかどうかを調べます。たとえば、`PhotosController`クラスのアクションから出力するのであれば、`app/views/layouts/photos.html.erb`または`app/views/layouts/photos.builder`を探します。該当のコントローラに属するレイアウトがない場合、`app/views/layouts/application.html.erb`または`app/views/layouts/application.builder`を使用します。`.erb`レイアウトがない場合、`.builder`レイアウトがあればそれを使用します。Railsには、各コントローラやアクションに割り当てる特定のレイアウトをもっと正確に指定する方法がいくつも用意されています。
@@ -523,9 +530,42 @@ class ApplicationController < ActionController::Base
 * `OldPostsController#show`ではレイアウトが適用されません。
 * `OldPostsController#index`では`old`レイアウトが使用されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27172111
--->
+##### テンプレートの継承
+
+レイアウト継承のロジックと同様に、テンプレートやパーシャルが通常のパスで見つからない場合、コントローラーは継承パスを探索してレンダリングするテンプレートやパーシャルを見つけようとします。次の例をご覧ください。
+
+```ruby
+# app/controllers/application_controller
+class ApplicationController < ActionController::Base
+end
+
+# app/controllers/admin_controller
+class AdminController < ApplicationController
+end
+
+# app/controllers/admin/products_controller
+class Admin::ProductsController < AdminController
+  def index
+  end
+end
+```
+
+このときの`admin/products#index`アクションの探索順序は次のようになります。
+
+* `app/views/admin/products/`
+* `app/views/admin/`
+* `app/views/application/`
+
+つまり、`app/views/application/`は共有パーシャルの置き場所として手頃です。これらはERBで次のようにレンダリングされます。
+
+```erb
+<%# app/views/admin/products/index.html.erb %>
+<%= render @products || "empty_list" %>
+
+<%# app/views/application/_empty_list.html.erb %>
+There are no items in this list <em>yet</em>.
+```
+
 #### 二重レンダリングエラーを避ける
 
 Rails開発をやっていれば、一度は "Can only render or redirect once per action" エラーに遭遇したことがあるでしょう。いまいましいエラーですが、修正は比較的簡単です。このエラーはほとんどの場合、開発者が`render`メソッドの基本的な動作を誤って理解していることが原因です。
@@ -579,13 +619,12 @@ redirect_to photos_url
 
 `redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻る場所は`HTTP_REFERER`ヘッダを利用していますが、これはブラウザが必ず設定しているとは限りません。そのため、`fallback_location`は必ず設定しなければなりません。
 
+`redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻り先の場所は`HTTP_REFERER`ヘッダーから取り出されますが、これがブラウザ側で設定される保証はありません。したがって、ここでは`fallback_location`を指定する必要があります。
+
 ```ruby
 redirect_back(fallback_location: root_path)
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173271
--->
 NOTE: `redirect_to`や`redirect_back`はメソッドの実行を即座に中断したりはしません。これらは単にHTTPのレスポンスを設定するだけです。もしこれらの後にメソッドがあった場合そのメソッドは実行されてしまいます。必要であれば、明示的な`return`もしくは他の中断用の手法を使うことで中断可能です。
 
 #### リダイレクトのステータスコードを変更する
@@ -1006,10 +1045,43 @@ WARNING: 画像ファイルの拡張子は省略できません。
 <%= render "shared/footer" %>
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173435
--->
 上のコードの`_ad_banner.html.erb`パーシャルと`_footer.html.erb`パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。
+
+本ガイドの直前のセクションで説明したように、`yield`はレイアウトを簡潔に保つ上で極めて強力なツールです。これは純粋なRubyなのでほぼどこでも利用できることを頭に置いておきましょう。たとえば`yield`を用いると、多くの類似リソース向けのフォームレイアウト定義をDRYに書けます。
+
+* `users/index.html.erb`
+
+    ```html+erb
+    <%= render "shared/search_filters", search: @q do |f| %>
+      <p>
+        Name contains: <%= f.text_field :name_contains %>
+      </p>
+    <% end %>
+    ```
+
+* `roles/index.html.erb`
+
+    ```html+erb
+    <%= render "shared/search_filters", search: @q do |f| %>
+      <p>
+        Title contains: <%= f.text_field :title_contains %>
+      </p>
+    <% end %>
+    ```
+
+* `shared/_search_filters.html.erb`
+
+    ```html+erb
+    <%= form_for(search) do |f| %>
+      <h1>Search form:</h1>
+    <fieldset>
+        <%= yield f %>
+      </fieldset>
+      <p>
+        <%= f.submit "Search" %>
+      </p>
+    <% end %>
+    ```
 
 TIP: すべてのページで共有されているコンテンツであれば、パーシャルをレイアウトで使用することができます。
 
@@ -1059,10 +1131,37 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の2つのビューでは同じパーシャルがレンダリングされますが、Action Viewのsubmitヘルパーはnewアクションの場合には"Create Zone"を返し、editアクションの場合は"Update Zone"を返します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173458
--->
 どのパーシャルにも、パーシャル名からアンダースコアを取り除いた名前を持つローカル変数が与えられます。`:object`オプションを使用することで、このローカル変数にオブジェクトを渡すことができます。
+
+ローカル変数を特定の状況に限ってパーシャルに渡すには、`local_assigns`を使います。
+
+* `index.html.erb`
+
+  ```erb
+  <%= render user.articles %>
+  ```
+
+* `show.html.erb`
+
+  ```erb
+  <%= render article, full: true %>
+  ```
+
+* `_article.html.erb`
+
+  ```erb
+  <h2><%= article.title %></h2>
+
+  <% if local_assigns[:full] %>
+    <%= simple_format article.body %>
+  <% else %>
+    <%= truncate article.body %>
+  <% end %>
+  ```
+
+このようにして、ローカル変数をすべて宣言する必要なしにパーシャルを使えるようになります。
+
+どのパーシャルにも、パーシャル名と同じ名前（冒頭のアンダースコアの有無だけ異なる）のローカル変数が1つずつあります。`object`オプションを使うと、このローカル変数にオブジェクトを1つ渡せます。
 
 ```erb
 <%= render partial: "customer", object: @new_customer %>
@@ -1153,10 +1252,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998
 
 上の場合、`title`という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/af71866016cdb4780bd037998380d89f57bdad84#r27173485
--->
-TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、コレクション名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングした回数を`product_counter`変数で参照できます。ただし、このオプションは`as: :value`オプションと併用できません。
+TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、パーシャルのタイトル名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングすると、`_product.html.erb`から`product_counter`変数を参照できます。`product_counter`変数は、それを囲むビュー内でレンダリングされた回数を示します。
 
 `:spacer_template`オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。
 
