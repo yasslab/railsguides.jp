@@ -1,95 +1,73 @@
-Threading and Code Execution in Rails
+Railsのスレッディングとコード実行
 =====================================
 
-After reading this guide, you will know:
+このガイドの内容:
 
-* What code Rails will automatically execute concurrently
-* How to integrate manual concurrency with Rails internals
-* How to wrap all application code
-* How to affect application reloading
+* Railsが自動的にコンカレント実行するコードの種類
+* Rails内部で手動のコンカレンシーを統合する
+* アプリのコード全体をラップする方法
+* アプリの再読み込みに反映する方法
 
 --------------------------------------------------------------------------------
 
-Automatic Concurrency
+自動コンカレンシー
 ---------------------
 
-Rails automatically allows various operations to be performed at the same time.
+railsは、さまざまな操作を自動的に同時に実行できます。
 
-When using a threaded web server, such as the default Puma, multiple HTTP
-requests will be served simultaneously, with each request provided its own
-controller instance.
+Pumaなどのスレッド化されたWebサーバーを使えば、複数のHTTPリクエストを同時に処理し、各リクエストに独自のコントローラインスタンスを割り当てることができます。
 
-Threaded Active Job adapters, including the built-in Async, will likewise
-execute several jobs at the same time. Action Cable channels are managed this
-way too.
+スレッド化されたActive Jobアダプター（組み込みのAsyncを含む）も、これと同様に複数のジョブを同時に実行できます。Action Cableのチャンネルも同様に管理されます。
 
-These mechanisms all involve multiple threads, each managing work for a unique
-instance of some object (controller, job, channel), while sharing the global
-process space (such as classes and their configurations, and global variables).
-As long as your code doesn't modify any of those shared things, it can mostly
-ignore that other threads exist.
+これらのメカニズムはいずれもマルチスレッド（multiple thread）に関連しており、グローバルプロセス空間（クラスとその設定、グローバルなど）を共有しながら、個別の処理を何らかのオブジェクト（コントローラやジョブやチャンネルなど）の唯一のインスタンスで管理します。共有されている部分をコードで変更しない限り、他のスレッドの存在をほとんど無視できます。
 
-The rest of this guide describes the mechanisms Rails uses to make it "mostly
-ignorable", and how extensions and applications with special needs can use them.
+本ガイドの後半では、Railsが他のスレッドを「ほとんど無視できる」ようにするためのメカニズムや、特殊なニーズのある拡張やアプリがこのメカニズムを利用するしくみについて解説します。
 
-Executor
+エグゼキューター
 --------
 
-The Rails Executor separates application code from framework code: any time the
-framework invokes code you've written in your application, it will be wrapped by
-the Executor.
+Railsエグゼキューターは、アプリのコードをフレームワークのコードから分離し、自分で書いたアプリのコードがフレームワークから呼び出されるたびにそのコードをラップします。
 
-The Executor consists of two callbacks: `to_run` and `to_complete`. The Run
-callback is called before the application code, and the Complete callback is
-called after.
+エグゼキューターは`to_run`および`to_complete`という2つのコールバックで構成されます。`to_run`コールバックはアプリコードの実行前に呼び出され、`to_complete`コールバックはアプリコードの実行後に呼び出されます。
 
-### Default callbacks
+### デフォルトのコールバック
 
-In a default Rails application, the Executor callbacks are used to:
+エグゼキューターのコールバックは、デフォルトのRailsアプリで次の目的に使われます。
 
-* track which threads are in safe positions for autoloading and reloading
-* enable and disable the Active Record query cache
-* return acquired Active Record connections to the pool
-* constrain internal cache lifetimes
+* 自動読み込み/再読み込み時にどのスレッドが安全な位置にあるかをトラッキングする
+* Active Recordクエリキャッシュを有効または無効にする
+* 獲得したActive Recordコネクションをプールに返す
+* 内部キャッシュの生存期間（lifetime）に制限をかける
 
-Prior to Rails 5.0, some of these were handled by separate Rack middleware
-classes (such as `ActiveRecord::ConnectionAdapters::ConnectionManagement`), or
-directly wrapping code with methods like
-`ActiveRecord::Base.connection_pool.with_connection`. The Executor replaces
-these with a single more abstract interface.
+Rails 5.0より前の場合、上の一部は個別のRackミドルウェアクラス（`ActiveRecord::ConnectionAdapters::ConnectionManagement`など）や、メソッドを直接ラップするコード（`ActiveRecord::Base.connection_pool.with_connection`など）によって扱われていました。エグゼキューターは、これらをより抽象度の高い単一インターフェイスに置き換えるものです。
 
-### Wrapping application code
+### アプリのコードをラップする
 
-If you're writing a library or component that will invoke application code, you
-should wrap it with a call to the executor:
+アプリのコードを呼び出すライブラリやコンポーネントを書くときには、次のようにエグゼキューター呼び出しでラップすべきです。
 
 ```ruby
 Rails.application.executor.wrap do
-  # call application code here
+  # ここでアプリのコードを呼ぶ
 end
 ```
 
-TIP: If you repeatedly invoke application code from a long-running process, you
-may want to wrap using the Reloader instead.
+TIP: 長期間動き続けるプロセスからアプリのコードを繰り返し呼び出す場合は、代わりにリローダーでラップしましょう。
 
-Each thread should be wrapped before it runs application code, so if your
-application manually delegates work to other threads, such as via `Thread.new`
-or Concurrent Ruby features that use thread pools, you should immediately wrap
-the block:
+各スレッドは、スレッドがアプリのコードを実行する前にラップされるべきです。したがって、アプリが処理を別のスレッドに手動で委譲する場合（`Thread.new`や、スレッドプールを用いるConcurrent Ruby機能などを利用して）は、次のようにそのブロックを直ちにラップすべきです。
 
 ```ruby
 Thread.new do
   Rails.application.executor.wrap do
-    # your code here
+    # ここに自分のコードを書く
   end
 end
 ```
 
-NOTE: Concurrent Ruby uses a `ThreadPoolExecutor`, which it sometimes configures
-with an `executor` option. Despite the name, it is unrelated.
+NOTE: Concurrent Rubyで使われる`ThreadPoolExecutor`は、`executor`オプションで設定されることがあります。名前は似ていますが、これはエグゼキューターとは無関係です。
 
-The Executor is safely re-entrant; if it is already active on the current
-thread, `wrap` is a no-op.
+エグゼキューターは安全に再入可能（re-entrant）です。現在のスレッドでエグゼキューターが既にアクティブになっている場合は、`wrap`は何も行いません。
+
+アプリのコードをブロックでラップすると実用上困る場合（ラップするとRack APIで問題が生じる場合など）は、`run!`と`complete!`をペアで使うこともできます。
 
 If it's impractical to wrap the application code in a block (for
 example, the Rack API makes this problematic), you can also use the `run!` /
@@ -98,197 +76,129 @@ example, the Rack API makes this problematic), you can also use the `run!` /
 ```ruby
 Thread.new do
   execution_context = Rails.application.executor.run!
-  # your code here
+  # ここに自分のコードを書く
 ensure
   execution_context.complete! if execution_context
 end
 ```
 
-### Concurrency
+### コンカレンシー
 
-The Executor will put the current thread into `running` mode in the Load
-Interlock. This operation will block temporarily if another thread is currently
-either autoloading a constant or unloading/reloading the application.
+エグゼキューターは、現在のスレッドをLoad Interlockで`running`モードにします。この操作は、別のスレッドが定数を自動読み込みしているかアプリをunload/リロードしている場合に一時的にブロッキングされます。
 
-Reloader
+
+リローダー
 --------
 
-Like the Executor, the Reloader also wraps application code. If the Executor is
-not already active on the current thread, the Reloader will invoke it for you,
-so you only need to call one. This also guarantees that everything the Reloader
-does, including all its callback invocations, occurs wrapped inside the
-Executor.
+リローダーも、エグゼキューターと同様にアプリのコードをラップします。エグゼキューターが現在のスレッドで既にアクティブではなくなった場合、リローダーが代わりに呼び出しを行うので、コードを呼び出すだけで済みます。これにより、リローダーが行うあらゆる処理（あらゆるコールバック呼び出しを含む）がエグゼキューターの内部でラップされることが保証されます。
 
 ```ruby
 Rails.application.reloader.wrap do
-  # call application code here
+  # ここでアプリのコードを読む
 end
 ```
 
-The Reloader is only suitable where a long-running framework-level process
-repeatedly calls into application code, such as for a web server or job queue.
-Rails automatically wraps web requests and Active Job workers, so you'll rarely
-need to invoke the Reloader for yourself. Always consider whether the Executor
-is a better fit for your use case.
+リローダーは、長期間動くフレームワークレベルのプロセス（Webサーバーやジョブキューなど）からアプリのコードを繰り返し呼び出す場合にのみ適しています。RailsはWebリクエストやActive Jobワーカーを自動的にラップするので、リローダーをコード自身のために呼び出す必要性はめったにありません。常に、エグゼキューターが自分のユースケースに合うかを最初に検討してください。
 
-### Callbacks
+### コールバック
 
-Before entering the wrapped block, the Reloader will check whether the running
-application needs to be reloaded -- for example, because a model's source file has
-been modified. If it determines a reload is required, it will wait until it's
-safe, and then do so, before continuing. When the application is configured to
-always reload regardless of whether any changes are detected, the reload is
-instead performed at the end of the block.
+ラップされたブロックが実行される前に、実行中のアプリを再読み込みするかどうかをリローダーがチェックします（モデルのソースファイルが変更された場合など）。再読み込みが必要であることが検出されると、安全になるまで待ってから再読み込みを行い、それから処理を続行します。変更が検出されるかどうかにかかわらず常に再読み込みを行うようにアプリが設定されている場合は、代わりにブロックの末尾で再読み込みを実行します。
 
-The Reloader also provides `to_run` and `to_complete` callbacks; they are
-invoked at the same points as those of the Executor, but only when the current
-execution has initiated an application reload. When no reload is deemed
-necessary, the Reloader will invoke the wrapped block with no other callbacks.
+リローダーも`to_run`および`to_complete`コールバックを提供しています。これらコールバックが呼び出される箇所はエグゼキューターの場合と同じですが、現在の実行がアプリの再読み込みを開始した場合にのみ呼び出される点が異なります。再読み込みが必要でないと判断されると、リローダーはラップされたブロックを他のコールバックなしで呼び出します。
 
 ### Class Unload
 
-The most significant part of the reloading process is the Class Unload, where
-all autoloaded classes are removed, ready to be loaded again. This will occur
-immediately before either the Run or Complete callback, depending on the
-`reload_classes_only_on_change` setting.
+プロセスの再読み込みでもっとも重要なのはClass Unloadです。自動読込されたクラスはここで削除されて、再読み込み可能な状態になります。この処理は、`reload_classes_only_on_change`設定に応じて、RunコールバックかCompleteコールバックの直前で直ちに行われます。
 
-Often, additional reloading actions need to be performed either just before or
-just after the Class Unload, so the Reloader also provides `before_class_unload`
-and `after_class_unload` callbacks.
+Class Unloadの直前または直後に別の再読み込み操作を追加する必要が生じることがしばしばあるため、リローダーには`before_class_unload`コールバックや`after_class_unload`コールバックも提供されています。
 
-### Concurrency
+### コンカレンシー
 
-Only long-running "top level" processes should invoke the Reloader, because if
-it determines a reload is needed, it will block until all other threads have
-completed any Executor invocations.
+リローダーを呼び出すのは、長期間動作する「トップレベルの」プロセスに限るべきです。というのも、再読み込みが必要と判断された場合に、他のすべてのスレッドでエグゼキューター呼び出しが完全に終わるまでプロセスがブロッキングされてしまうからです。
 
-If this were to occur in a "child" thread, with a waiting parent inside the
-Executor, it would cause an unavoidable deadlock: the reload must occur before
-the child thread is executed, but it cannot be safely performed while the parent
-thread is mid-execution. Child threads should use the Executor instead.
+仮に「子」スレッドでこれが発生し、しかも待機中の親がエグゼキューター内部にある場合、回避不可能なデッドロックが発生するでしょう。再読み込みは必ず子スレッド実行前に行われなければなりませんが、親スレッドが実行中だと再読み込みを安全に実行できなくなってしまいます。子スレッドではエグゼキューターを使うべきです。
 
-Framework Behavior
+フレームワークの振る舞い
 ------------------
 
-The Rails framework components use these tools to manage their own concurrency
-needs too.
+Railsフレームワークのコンポーネントも、上述のツールを用いてコンポーネント自身のコンカレンシーの必要性を管理します。
 
-`ActionDispatch::Executor` and `ActionDispatch::Reloader` are Rack middlewares
-that wraps the request with a supplied Executor or Reloader, respectively. They
-are automatically included in the default application stack. The Reloader will
-ensure any arriving HTTP request is served with a freshly-loaded copy of the
-application if any code changes have occurred.
+`ActionDispatch::Executor`および`ActionDispatch::Reloader`は、提供されるエグゼキューターまたはリローダーでそれぞれリクエストをラップするRackミドルウェアです。どちらもデフォルトのアプリケーションスタックに自動で含まれます。アプリのコードで変更が生じると、リローダーはすべてのHTTPリクエストが新しく読み込まれたアプリで処理されるようにします。
 
-Active Job also wraps its job executions with the Reloader, loading the latest
-code to execute each job as it comes off the queue.
+Active Jobもジョブ実行をリローダーでラップします。キューが発生したときに最新のコードを読み込んで各ジョブを実行します。
 
-Action Cable uses the Executor instead: because a Cable connection is linked to
-a specific instance of a class, it's not possible to reload for every arriving
-websocket message. Only the message handler is wrapped, though; a long-running
-Cable connection does not prevent a reload that's triggered by a new incoming
-request or job. Instead, Action Cable uses the Reloader's `before_class_unload`
-callback to disconnect all its connections. When the client automatically
-reconnects, it will be speaking to the new version of the code.
+Action Cableではリローダーではなくエグゼキューターを用います。Action Cableコネクションは、あるクラスの特定のインスタンスとつながるため、Websocketメッセージを受け取るたびに再読み込みするのは不可能です。ラップされるのはメッセージハンドラのみですが、長期間動作するAction Cableコネクションでは、新しいリクエストやジョブを受け取ったときに再読み込みのトリガーを抑制しません。その代わり、Action Cableではリローダーの`before_class_unload`コールバックを用いて全コネクションを切断します。クライアントが自動的に再接続すると、新しいコードが使われるようになります。
 
-The above are the entry points to the framework, so they are responsible for
-ensuring their respective threads are protected, and deciding whether a reload
-is necessary. Other components only need to use the Executor when they spawn
-additional threads.
+上述したのはフレームワークのエントリポイントであり、対応するスレッドを保護する責務と、再読み込みが必要かどうかを決定する責務を担います。これら以外のコンポーネントでは、追加のスレッドを生成するときにエグゼキューターのみを用います。
 
-### Configuration
+### 設定
 
-The Reloader only checks for file changes when `cache_classes` is false and
-`reload_classes_only_on_change` is true (which is the default in the
-`development` environment).
+リローダーは、`cache_classes`がfalseかつ`reload_classes_only_on_change`がtrue（`development`環境ではこれがデフォルト）の場合にのみ、ファイルが変更されたかどうかをチェックします。
 
-When `cache_classes` is true (in `production`, by default), the Reloader is only
-a pass-through to the Executor.
+`cache_classes`がtrue（`production`ではこれがデフォルト）の場合、リローダーは処理を単にエグゼキューターにパススルーします。
 
-The Executor always has important work to do, like database connection
-management. When `cache_classes` and `eager_load` are both true (`production`),
-no autoloading or class reloading will occur, so it does not need the Load
-Interlock. If either of those are false (`development`), then the Executor will
-use the Load Interlock to ensure constants are only loaded when it is safe.
+エグゼキューターは常に、データベース接続の管理によく似た重要な役割を担っています。`cache_classes`と`eager_load`がどちらもtrue（`production`）の場合、自動読み込みもクラス再読み込みも行われないため、Load Interlockは不要になります。いずれかがfalse（`development`）の場合、エグゼキューターはLoad Interlockを用いて、安全な場合にのみ定数が読み込まれるようにします。
 
 Load Interlock
 --------------
 
-The Load Interlock allows autoloading and reloading to be enabled in a
-multi-threaded runtime environment.
+Load Interlockは、マルチスレッドのランタイム環境で自動読み込みや再読み込みを実現します。
 
-When one thread is performing an autoload by evaluating the class definition
-from the appropriate file, it is important no other thread encounters a
-reference to the partially-defined constant.
+適切なファイルにあるクラス定義を評価したことによって、あるスレッドで自動読み込みが実行されるときは、定義が完了していない定数を他のスレッドが参照しないようにすることが重要です。
 
-Similarly, it is only safe to perform an unload/reload when no application code
-is in mid-execution: after the reload, the `User` constant, for example, may
-point to a different class. Without this rule, a poorly-timed reload would mean
-`User.new.class == User`, or even `User == User`, could be false.
+同様に、unloadや再読み込みを安全に行えるタイミングは、実行中のアプリコードが1つもない場合しかありません。さもないと、再読み込み後にたとえば`User`定数が別のクラスを指してしまうかもしれません。このルールに従わないと、再読み込みがまずいタイミングで発生したときに`User.new.class == User`がfalseになったり、下手をすると`User == User`すらfalseになってしまうかもしれません。
 
-Both of these constraints are addressed by the Load Interlock. It keeps track of
-which threads are currently running application code, loading a class, or
-unloading autoloaded constants.
+こうした制限を是正するのがLoad Interlockです。アプリのコードを現在実行しているのがどのスレッドであるか、クラスを現在読み込んでいるのがどのスレッドであるか、自動読み込みされた定数を現在unloadしているのはどのスレッドであるかをトラッキングします。
 
-Only one thread may load or unload at a time, and to do either, it must wait
-until no other threads are running application code. If a thread is waiting to
-perform a load, it doesn't prevent other threads from loading (in fact, they'll
-cooperate, and each perform their queued load in turn, before all resuming
-running together).
-
+読み込みやunloadを行えるのは1度に1つのスレッドだけです。これらを実現するには、他のどのスレッドもアプリのコードを実行しなくなるまでスレッドが待たなければなりません。読み込み実行に備えて待機しているスレッドは、他のスレッドが読み込みを実行することを阻止しません（実際にはスレッド同士は協調動作しており、各スレッドの待機中の読み込みは、すべてのスレッドが一斉に動き出す前に実行されます）。
+``
 ### `permit_concurrent_loads`
 
-The Executor automatically acquires a `running` lock for the duration of its
-block, and autoload knows when to upgrade to a `load` lock, and switch back to
-`running` again afterwards.
+エグゼキューターは、ブロッキングが継続する間`running`ロックを自動的に取得します。自動読み込み機能は、これを`load`ロックに昇格しその後`running`ロックに戻すタイミングを認識します。
 
-Other blocking operations performed inside the Executor block (which includes
-all application code), however, can needlessly retain the `running` lock. If
-another thread encounters a constant it must autoload, this can cause a
-deadlock.
+この他のブロッキング操作については、エグゼキューターブロック（アプリの全コードが含まれます）の内部で実行されますが、`running`ロックが不必要に保持される可能性もあります。自動読み込みされなければならない定数に別のスレッドがアクセスすると、デッドロックする可能性があります。
 
-For example, assuming `User` is not yet loaded, the following will deadlock:
+たとえば、`User`が読み込まれていない状態では、以下でデッドロックします。
 
 ```ruby
 Rails.application.executor.wrap do
   th = Thread.new do
     Rails.application.executor.wrap do
-      User # inner thread waits here; it cannot load
-           # User while another thread is running
+      User # 内側のスレッドはここで待機する
+           # 別のスレッドが実行中はUserを読み込めない
     end
   end
 
-  th.join # outer thread waits here, holding 'running' lock
+  th.join # 外側のスレッドは`running`ロックを握ったままここで待機する
 end
 ```
 
-To prevent this deadlock, the outer thread can `permit_concurrent_loads`. By
-calling this method, the thread guarantees it will not dereference any
-possibly-autoloaded constant inside the supplied block. The safest way to meet
-that promise is to put it as close as possible to the blocking call:
+このデッドロックを防ぐには、外側のスレッドで`permit_concurrent_loads`を実行する方法があります。このメソッドを呼び出すと、渡されたブロック内で自動読み込みされる可能性のある定数への参照をスレッドが解除しないよう保証します。これを保証する最も安全な方法は、ブロッキング呼び出しのできるだけ近くにこのメソッドを配置することです。
+
 
 ```ruby
 Rails.application.executor.wrap do
   th = Thread.new do
     Rails.application.executor.wrap do
-      User # inner thread can acquire the 'load' lock,
-           # load User, and continue
+      User # 内側のスレッドは`load`ロックの取得と
+           # Userの読み込みを行って続行できる
     end
   end
 
   ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
-    th.join # outer thread waits here, but has no lock
+    th.join # 外側のスレッドはここで待機するがロックはかけない
   end
 end
 ```
 
-Another example, using Concurrent Ruby:
+次の例ではConcurrent Rubyを用います。
 
 ```ruby
 Rails.application.executor.wrap do
   futures = 3.times.collect do |i|
     Concurrent::Future.execute do
       Rails.application.executor.wrap do
-        # do work here
+        # ここで何かする
       end
     end
   end
@@ -300,23 +210,16 @@ end
 ```
 
 
-### ActionDispatch::DebugLocks
+### `ActionDispatch::DebugLocks`
 
-If your application is deadlocking and you think the Load Interlock may be
-involved, you can temporarily add the ActionDispatch::DebugLocks middleware to
-`config/application.rb`:
+アプリのデッドロックがLoad Interlockと何か関わり合いがありそうだと思える場合、`ActionDispatch::DebugLocks`ミドルウェアを一時的に`config/application.rb`に追加できます。
 
 ```ruby
 config.middleware.insert_before Rack::Sendfile,
                                   ActionDispatch::DebugLocks
 ```
 
-If you then restart the application and re-trigger the deadlock condition,
-`/rails/locks` will show a summary of all threads currently known to the
-interlock, which lock level they are holding or awaiting, and their current
-backtrace.
+次にアプリを再起動してデッドロック条件をトリガすると、Load Interlockで把握している現在の全スレッドの概要が`/rails/locks`に出力されます。現在保持または待機中のロックのレベルと、それらの現在のバックトレースが含まれます。
 
-Generally a deadlock will be caused by the interlock conflicting with some other
-external lock or blocking I/O call. Once you find it, you can wrap it with
-`permit_concurrent_loads`.
+デッドロックは一般に、Load Interlockが何らかの外部ロックやブロッキングI/O呼び出しとコンフリクトするときに発生します。このコンフリクトに気づいたら、`permit_concurrent_loads`でラップしましょう。
 
