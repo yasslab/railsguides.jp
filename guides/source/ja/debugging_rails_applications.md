@@ -1,4 +1,4 @@
-﻿
+
 
 
 Rails アプリケーションのデバッグ
@@ -55,9 +55,8 @@ Title: Rails debugging guide
 
 ### `to_yaml`
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088471
--->
+他の方法として、任意のオブジェクトに対して`to_yaml`を呼び出すことでYAMLに変換できます。変換したこのオブジェクトは、`simple_format`ヘルパーメソッドに渡して出力を整形できます。これは`debug`のマジックです。
+
 インスタンス変数や、その他のあらゆるオブジェクトやメソッドをYAML形式で表示します。以下のような感じで使用します。
 
 ```html+erb
