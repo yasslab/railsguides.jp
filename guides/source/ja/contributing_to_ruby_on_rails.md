@@ -1,4 +1,4 @@
-﻿
+
 
 
 Ruby on Rails に貢献する方法
@@ -15,9 +15,9 @@ Ruby on Rails に貢献する方法
 * Ruby on Railsのコードに貢献する方法
 
 Ruby on Railsは、「どこかで誰かがうまくやってくれているフレームワーク」ではありません。Ruby on Railsには、長年に渡って数百人もの人々が貴重な貢献を行ってくださいました。その内容は、わずか1文字の修正から、大規模なアーキテクチャ変更、重要なドキュメント作成まで多岐に渡ります。それらの努力は、いずれもRuby on Railsをすべての人々にとってよりよいものにすることを目標に置いています。コードを書いたりドキュメントを作成したりするまでには至らなくても、issueのレポートやパッチのテストなど、さまざまな方法で貢献することができます (訳注: **サンプルの文章も日本語に翻訳されていますが、実際には必ず英語を使うようにしてください** )。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175306
--->
+
+[RailsのREADME](https://github.com/rails/rails/blob/master/README.md)にも記載されているように、Railsのコードベースやサブプロジェクトのコードベースについて、issueトラッカーやチャットルームやメーリングリストでやり取りする方は誰であっても、Railsの[行動規範](http://rubyonrails.org/conduct/)に従うことが期待されます。
+
 --------------------------------------------------------------------------------
 
 issueのレポート
@@ -72,10 +72,8 @@ issueのレポートに続く貢献方法として、コアチームが既存の
 初歩的な貢献として、バグレポートを確認する作業も大変役に立ちます。issueを自分のコンピュータで再現できるかどうかを試してみましょう。問題をうまく再現できたら、そのことをissueのコメントに追加しましょう。
 
 再現手順などにあいまいな点があるなら、どこがわかりにくいかを指摘しましょう。バグを再現するために有用な情報を追加したり、不要な手順を削除したりするのも重要な貢献です。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175629
--->
-テストが添えられていないバグレポートを見かけたら、貢献のチャンスです。バグが原因で失敗するテストを作成して貢献できます。テストの書き方は、既存のテストファイルを詳しく読むことで学べます。これは、Railsのソースコードをみっちり探索するためのよいきっかけにもなります。作成するテストは「パッチ」の形式にしてもらえるとベストです。詳しくは「Railsのコードに貢献する」で後述します。
+
+テストが添えられていないバグレポートを見かけたら、貢献のチャンスです。ソースコードを追いかける絶好の機会にもなります。バグが原因で失敗するテストを作成して貢献できます。テストの書き方は、既存のテストファイルを詳しく読むことで学べます。これは、Railsのソースコードをみっちり探索するためのよいきっかけにもなります。作成するテストは「パッチ」の形式にしてもらえるとベストです。詳しくは[Railsのコードに貢献する](#Railsのコードに貢献する)で後述します。
 
 バグレポートは、とにかく簡潔でわかりやすく、そしてなるべく簡単に現象を再現できるように書いてください。バグを修正する開発者にとって何よりありがたいのは、このような「よいバグレポート」です。たとえバグレポートを作成するあなたが最終的にコードを書かなくても、よいバグレポートは大きな貢献となります。
 
@@ -112,28 +110,52 @@ Railsのドキュメントに貢献する
 
 Ruby on Railsには2種類のドキュメントがあります。ひとつはこのガイドであり、Ruby on Railsを学ぶためのものです。もうひとつはAPIドキュメントであり、こちらはリファレンス用です。
 
-どなたでもRailsガイドの改善に貢献することができます。Railsガイドに求められる改善とは、「一貫していること」「矛盾がないこと」「読みやすいこと」「情報の追加」「事実と異なっている部分の修正」「タイポの修正」「最新のedge Railsに追い付くこと」などです。Railsガイドの翻訳に参加したい方は[Railsガイドの翻訳について](https://github.com/yasslab/railsguides.jp/wiki/translating-rails-guides) (英語)を参照してください (訳注: docrailsのprivateレポジトリ化に伴い、原著のwikiは見れなくなっております)。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175895
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175915
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175907
-https://github.com/rails/rails/blob/master/guides/source/contributing_to_ruby_on_rails.md#contributing-to-the-rails-documentation を参考にしてください。
--->
-[Rails](http://github.com/rails/rails)にプルリクエストを送ることができます。自分で書いた変更への意見が欲しい場合は、[Rails](http://github.com/rails/rails)の方でお願いします。
+どなたでもRailsガイドの改善に貢献することができます。Railsガイドに求められる改善とは、「一貫していること」「矛盾がないこと」「読みやすいこと」「情報の追加」「事実と異なっている部分の修正」「タイポの修正」「最新のedge Railsに追い付くこと」などです。
 
-
-ドキュメントの変更内容について不明な点がある場合は、GitHubの[Rails](https://github.com/rails/rails/issues) issueトラッカーでissueを作成してください。
+貢献したい方は、GitHubの[Railsリポジトリ](http://github.com/rails/rails)にプルリクエストを送ってください。
 
 ドキュメント関連で貢献したい場合は、[API ドキュメント作成のガイドライン](api_documentation_guidelines.html) と[Rails ガイドのガイドライン](ruby_on_rails_guides_guidelines.html) をよく読んでからにしてください。
 
 NOTE: RailsのCI (継続的インテグレーション: Continuous Integration) サーバーの負荷を減らすために、ドキュメント関連のコミットメッセージには[ci skip]と記入してください。こうすることで、コミット時のビルドはスキップされます。[ci skip] は「ドキュメントのみの変更」以外では使用できません。コードの変更には絶対使用しないでください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175988
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27257504
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175982
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27175977
--->
+Railsガイドの翻訳に貢献する
+------------------------
+
+> 訳注: Railsガイドの日本語翻訳に貢献したい方は、Railsガイドの「[日本語訳について](https://github.com/yasslab/railsguides.jp#readme)」をご覧ください。以下は原著に沿って訳しています。
+
+We are happy to have people volunteer to translate the Rails guides. Just follow these steps:
+
+* Fork https://github.com/rails/rails.
+* Add a source folder for your own language, for example: *guides/source/it-IT* for Italian.
+* Copy the contents of *guides/source* into your own language directory and translate them.
+* Do NOT translate the HTML files, as they are automatically generated.
+
+Note that translations are not submitted to the Rails repository. As detailed above, your work happens in a fork. This is so because in practice documentation maintenance via patches is only sustainable in English.
+
+To generate the guides in HTML format cd into the *guides* directory then run (eg. for it-IT):
+
+```bash
+$ bundle install
+$ bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
+```
+
+This will generate the guides in an *output* directory.
+
+NOTE: The instructions are for Rails > 4. The Redcarpet Gem doesn't work with JRuby.
+
+Translation efforts we know about (various versions):
+
+* **Italian**: [https://github.com/rixlabs/docrails](https://github.com/rixlabs/docrails)
+* **Spanish**: [https://github.com/gramos/docrails/wiki](https://github.com/gramos/docrails/wiki)
+* **Polish**: [https://github.com/apohllo/docrails](https://github.com/apohllo/docrails)
+* **French** : [https://github.com/railsfrance/docrails](https://github.com/railsfrance/docrails)
+* **Czech** : [https://github.com/rubyonrails-cz/docrails/tree/czech](https://github.com/rubyonrails-cz/docrails/tree/czech)
+* **Turkish** : [https://github.com/ujk/docrails](https://github.com/ujk/docrails)
+* **Korean** : [https://github.com/rorlakr/rails-guides](https://github.com/rorlakr/rails-guides)
+* **Simplified Chinese** : [https://github.com/ruby-china/guides](https://github.com/ruby-china/guides)
+* **Traditional Chinese** : [https://github.com/docrails-tw/guides](https://github.com/docrails-tw/guides)
+* **Russian** : [https://github.com/morsbox/rusrails](https://github.com/morsbox/rusrails)
+* **Japanese** : [https://github.com/yasslab/railsguides.jp](https://github.com/yasslab/railsguides.jp)
 
 Railsのコードに貢献する
 ------------------------------
