@@ -67,11 +67,6 @@ Title: Rails debugging guide
 </p>
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088486
--->
-`to_yaml`メソッドは、メソッドをYAML形式に変換して読みやすくし、`simple_format`ヘルパーは出力結果をコンソールのように行ごとに改行します。これが`debug`メソッドのマジックです。
-
 これにより、以下のような結果がビューに表示されます。
 
 ```yaml
@@ -217,10 +212,8 @@ logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "
 ```
 
 ### ログがパフォーマンスに与える影響
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088720
--->
-ログ出力がRailsアプリのパフォーマンスに与える影響は常にわずかです。ログをディスクに保存する場合は特にそうです。ただし、場合によってはそうとは言い切れないことがあります。
+
+ログ出力がRailsアプリのパフォーマンスに与える影響は常にわずかです。ログをディスクに保存する場合は特にそうです。さらに、場合によってはそうとは言い切れないことがあります。
 
 ログレベル`:debug`は、`:fatal`と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。
 
@@ -322,10 +315,7 @@ Processing by ArticlesController#index as HTML
 (byebug)
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27088834
--->
-それではアプリケーションの奥深くにダイブしてみましょう。まずはデバッガーのヘルプを表示してみるのがよいでしょう。`help`と入力します。
+それではアプリをもっと詳しく見てみましょう。まずはデバッガーのヘルプを表示してみるのがよいでしょう。`help`と入力します。
 
 ``` 
 (byebug) help
@@ -413,10 +403,7 @@ TIP: 個別のコマンドのヘルプを表示するには、デバッガーの
 
 アプリケーションのデバッグ中は、通常と異なる「コンテキスト」に置かれます。具体的には、スタックの別の部分を通って進むコンテキストです。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27089010
--->
-デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を使用して、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行います。また、デバッグ中のプログラムが停止している位置の情報もコンテキストに含まれます。
+デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を使用して、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行い、デバッグ中のプログラムが停止している位置の情報を認識します。
 
 `backtrace`コマンド (またはそのエイリアスである`where`コマンド) を使用すれば、いつでもアプリケーションのバックトレースを出力できます。これは、コードのその位置に至るまでの経過を知るうえで非常に便利です。コードのある行にたどりついたとき、その経緯を知りたければ`backtrace`でわかります。
 
@@ -466,10 +453,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 * `thread resume n`はスレッド _n_ を再開します。
 * `thread switch n`は現在のスレッドコンテキストを _n_ に切り替えます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27090891
--->
-このコマンドは他の場合にも非常に便利です。同時実行スレッドのデバッグ中に、競合状態が発生していないかどうかを確認する必要がある場合にも使えます。
+This command is very helpful when you are debugging concurrent threads and need to verify that there are no race conditions in your code.
+
+このコマンドは、同時実行（コンカレント）スレッドのデバッグ中に、コードで競合状態が発生していないかどうかの確認が必要な場合にも非常に便利です。
 
 ### 変数の検査
 
@@ -528,11 +514,8 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 
 定義行が実行されたことによって、今度は`@articles`もインスタンス変数に表示されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27090991
--->
 TIP: `irb`コマンドを使用することで、**irb**モードで実行できます。
-これにより、呼び出し中のコンテキスト内でirbセッションが開始されます。ただし、この機能はまだ実験中の段階です。
+これにより、呼び出し中のコンテキスト内でirbセッションが開始されます。
 
 変数と値のリストを表示するのに便利なのは何と言っても`var`メソッドでしょう。
 `byebug`でこのメソッドを使ってみましょう。
@@ -589,16 +572,7 @@ TIP: `irb`コマンドを使用することで、**irb**モードで実行でき
 
 これで、トレース実行中に現在の実行位置を確認し、利用可能な変数をいつでも確認できるようになりました。アプリケーションの実行について引き続き学んでみましょう。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091107
--->
-`step`コマンド (短縮形は`s`) を使用すると、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。
-
-`step`とよく似た`next`を使用することももちろんできますが、`next`はそのコードの行に関数やメソッドがあっても止まらずにそれらの関数やメソッドを実行してしまう点が異なります。
-
-TIP: `step n`や`next n`と入力することで、`n`ステップずつ進めることもできます。
-
-`next`と`step`の違いは次のとおりです。`step`は次のコード行を実行したらそこで止まるので、常に一度に1行だけを実行します。`next`はメソッドがあってもその中に潜らずに次の行に進みます。
+`step`コマンド (短縮形は`s`) を使用すると、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。`next`は`step`と似ていますが、`step`がコードを1ステップだけ実行して次の行で停止するのに対し、`next`は次の行に進む際にメソッド内の呼び出し先に移動しない点が異なります。
 
 たとえば、次のような状況を考えてみましょう
 
@@ -617,10 +591,9 @@ Processing by ArticlesController#index as HTML
 (byebug)
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091168
--->
-`next`を使用していて、メソッド呼び出しに潜ってみたいとしましょう。しかしbyebugは、潜る代わりに単に同じコンテキストの次の行に進みます。この例の場合、次の行とはそのメソッドの最終行になります。従って、`byebug`は前のフレームにある次の次の行にジャンプします。
+If we use `next`, we won't go deep inside method calls. Instead, `byebug` will go to the next line within the same context. In this case, it is the last line of the current method, so `byebug` will return to the next line of the caller method.
+
+`next`を使うと、メソッドの呼び出し先は表示されません。byebugはその代わりに、単に同じコンテキストの次の行に進みます。この例の場合、次の行とは現在のメソッドの最終行になります。つまり、`byebug`は呼び出し元メソッドの次の行に戻ります。
 
 ```
 (byebug) next
@@ -639,10 +612,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 (byebug)
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091188
--->
-同じ状況で`step`を使用すると、文字通り「Rubyコードの、実行すべき次の行」に進みます。ここではactivesupportの`week`メソッドに潜って進むことになります。
+同じ状況で`step`を使用すると、`byebug`は文字通り「Rubyコードの、次に実行すべき行」に進みます。ここではActive Supportの`week`メソッドにジャンプして進むことになります。
 
 ```
 (byebug) step
@@ -661,10 +631,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 (byebug)
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091222
--->
-これは自分のコードの、ひいてはRuby on Railsのバグを見つけ出す方法として非常に優れています。
+これは自分のコードのバグを見つけ出す方法として非常に優れています。
+
+TIP: `n`ステップ進めたい場合は、`step n`や`next n`でステップ数を指定できます。
 
 ### ブレークポイント
 
@@ -673,12 +642,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 `break` (または`b`) コマンドを使用してブレークポイントを動的に追加できます。
 手動でブレークポイントを追加する方法は次の 3 とおりです。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091240
--->
-* `break line`: 現在のソースファイルの _line_ で示した行にブレークポイントを設定します。
-* `break file:line [if expression]`: _file_の_line_行目にブレークポイントを設定します。_expression_ が与えられた場合、デバッガを起動するにはこの式が _true_ と評価される必要があります。
-* `break class(.|\#)method [if expression]`: _class_ に定義されている _method_ にブレークポイントを設定します (「.」と「\#」はそれぞれクラスとインスタンスメソッドを指す)。_expression_の動作はfile:lineの場合と同じです。
+* `break n`: 現在のソースファイルの_n_行目に示された行にブレークポイントを設定します。
+* `break ファイル名:n [if 式]`: _ファイル名_の_n_行目にブレークポイントを設定します。_式_ を指定すると、この式が _true_ と評価された場合にのみデバッガが起動します。
+* `break class(.|\#)method [if 式]`: _class_ に定義されている _method_ にブレークポイントを設定します (「.」と「\#」はそれぞれクラスとインスタンスメソッドを指す)。_式_の動作は`ファイル名:n`の場合と同じです。
 
 
 さっきと同じ状況を例に説明します。
@@ -719,11 +685,8 @@ No breakpoints.
 
 ブレークポイントを有効にしたり、無効にしたりすることもできます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091314
--->
-* `enable breakpoints`: _breakpoints_で指定したブレークポイントのリスト (無指定の場合はすべてのブレークポイント) でのプログラムの停止を有効にします。ブレークポイントを作成するとデフォルトでこの状態になります。
-* `disable breakpoints`: _breakpoints_で指定したブレークポイントのリストで停止しなくなります。
+* `enable ブレークポイント [n [m [...]]]`: 指定したブレークポイントのリスト (無指定の場合はすべてのブレークポイント) でのプログラムの停止を有効にします。ブレークポイントを作成するとデフォルトでこの状態になります。
+* `disable breakpoints [n [m [...]]]`: 指定した（指定しない場合はすべての）ブレークポイントのリストで停止しなくなります。
 
 ### 例外のキャッチ
 
@@ -735,11 +698,8 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 
 デバッガーで停止したアプリケーションの再開方法は2種類あります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091335
--->
-* `continue` [line-specification] \(または`c`): スクリプトが直前に停止していたアドレスからプログラムの実行を再開します。このとき、それまで設定されていたブレークポイントはすべて無視されます。オプションとして、特定の行番号をワンタイムブレークポイントとして[line-specification]で指定できます。このワンタイムブレークポイントに達するとブレークポイントは削除されます。
-* `finish` [frame-number] \(or `fin`): 指定のスタックフレームが返るまで実行を続けます。frame-numberが指定されていない場合は、現在選択しているフレームが返るまで実行を続けます。フレーム位置が指定されていない (upやdownやフレーム番号指定が行われていない) 場合は、現在の位置から最も近いフレームまたは0フレームから開始します。フレーム番号を指定すると、そのフレームが返るまで実行を続けます。
+* `continue [n]`: スクリプトが直前に停止していたアドレスからプログラムの実行を再開します。このとき、そのアドレスに設定されていたブレークポイントはすべて無視されます。オプションとして、特定の行番号`n`をワンタイムブレークポイントとして指定できます。このブレークポイントは、ワンタイムブレークポイントに達すると削除されます。
+* `finish [n]`: 指定のスタックフレームが返るまで実行を続けます。フレーム番号が指定されていない場合は、現在選択しているフレームが返るまで実行を続けます。現在選択しているフレームは直近のフレームから開始され、フレーム位置の指定操作(upやdownやフレーム番号指定など)が行われていない場合は0から開始されます。フレーム番号を指定すると、そのフレームが返るまで実行を続けます。
 
 ### 編集
 
@@ -749,12 +709,9 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3f
 
 ### 終了
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091367
--->
-デバッガーを終了するには、`quit`コマンド (短縮形は `q`) または別名の`exit`を使用します。
+デバッガーを終了するには、`quit`コマンド (短縮形は `q`) を使います。`q!`と入力すると、「Really quit? (y/n)」というプロンプトをスキップして無条件に終了します。
 
-quitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。
+単にquitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。
 
 ### 設定
 
@@ -871,9 +828,7 @@ Valgrindのインストール方法とRuby内での使用方法については�
 * [Better Errors](https://github.com/charliesome/better_errors): Rails標準のエラーページを新しい表示に置き換えて、ソースコードや変数検査などのコンテキスト情報を見やすくしてくれます。
 * [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
 db時間、レンダリング時間、トータル時間、パラメータリスト、出力したビューなども表示されます。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/e70a8d2cd10b21894109a4d3fb5258e99f276a25#r27091660
--->
+* [Pry](https://github.com/pry/pry): もうひとつのIRBであり、開発用の実行時コンソールです。
 
 参考資料
 ----------
