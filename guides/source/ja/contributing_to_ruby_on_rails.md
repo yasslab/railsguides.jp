@@ -121,41 +121,39 @@ NOTE: RailsのCI (継続的インテグレーション: Continuous Integration) 
 Railsガイドの翻訳に貢献する
 ------------------------
 
-> 訳注: Railsガイドの日本語翻訳に貢献したい方は、Railsガイドの「[日本語訳について](https://github.com/yasslab/railsguides.jp#readme)」をご覧ください。以下は原著に沿って訳しています。
+Railsガイドを翻訳してくださるボランティアも歓迎いたします。次の手順に沿ってください。
 
-We are happy to have people volunteer to translate the Rails guides. Just follow these steps:
+* https://github.com/rails/railsをforkします。
+* 翻訳先の言語名に対応するフォルダをsourceフォルダの下に追加します。たとえば、イタリア語であればguides/source/it-ITフォルダを追加します。
+* *guides/source*に置かれているコンテンツファイルをそのフォルダ内にコピーして翻訳します。
+* HTMLファイルは**翻訳しないでください**（自動生成されます）。
 
-* Fork https://github.com/rails/rails.
-* Add a source folder for your own language, for example: *guides/source/it-IT* for Italian.
-* Copy the contents of *guides/source* into your own language directory and translate them.
-* Do NOT translate the HTML files, as they are automatically generated.
+翻訳の送り先はRailsリポジトリではないことにご注意ください。上述したように、翻訳はforkしたリポジトリで行います。ドキュメントのメンテナンスをパッチベースで行う場合、英語のみに統一しておかないと維持できないためです。
 
-Note that translations are not submitted to the Rails repository. As detailed above, your work happens in a fork. This is so because in practice documentation maintenance via patches is only sustainable in English.
-
-To generate the guides in HTML format cd into the *guides* directory then run (eg. for it-IT):
+ガイドをHTML形式で生成するには、guidesディレクトリに`cd`して以下を実行します（言語がit-ITの場合）。
 
 ```bash
 $ bundle install
 $ bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
 ```
 
-This will generate the guides in an *output* directory.
+これにより、outputディレクトリにガイドが生成されます。
 
-NOTE: The instructions are for Rails > 4. The Redcarpet Gem doesn't work with JRuby.
+NOTE: 上述の手順はRails 5以降が対象です。redcarpet gemはJRubyでは動きません。
 
-Translation efforts we know about (various versions):
+現在把握されている翻訳プロジェクトは以下のとおりです（バージョンはそれぞれ異なっています）。
 
-* **Italian**: [https://github.com/rixlabs/docrails](https://github.com/rixlabs/docrails)
-* **Spanish**: [https://github.com/gramos/docrails/wiki](https://github.com/gramos/docrails/wiki)
-* **Polish**: [https://github.com/apohllo/docrails](https://github.com/apohllo/docrails)
-* **French** : [https://github.com/railsfrance/docrails](https://github.com/railsfrance/docrails)
-* **Czech** : [https://github.com/rubyonrails-cz/docrails/tree/czech](https://github.com/rubyonrails-cz/docrails/tree/czech)
-* **Turkish** : [https://github.com/ujk/docrails](https://github.com/ujk/docrails)
-* **Korean** : [https://github.com/rorlakr/rails-guides](https://github.com/rorlakr/rails-guides)
-* **Simplified Chinese** : [https://github.com/ruby-china/guides](https://github.com/ruby-china/guides)
-* **Traditional Chinese** : [https://github.com/docrails-tw/guides](https://github.com/docrails-tw/guides)
-* **Russian** : [https://github.com/morsbox/rusrails](https://github.com/morsbox/rusrails)
-* **Japanese** : [https://github.com/yasslab/railsguides.jp](https://github.com/yasslab/railsguides.jp)
+* **イタリア語**: [https://github.com/rixlabs/docrails](https://github.com/rixlabs/docrails)
+* **スペイン語**: [https://github.com/gramos/docrails/wiki](https://github.com/gramos/docrails/wiki)
+* **ポーランド語**: [https://github.com/apohllo/docrails](https://github.com/apohllo/docrails)
+* **フランス語** : [https://github.com/railsfrance/docrails](https://github.com/railsfrance/docrails)
+* **チェコ語** : [https://github.com/rubyonrails-cz/docrails/tree/czech](https://github.com/rubyonrails-cz/docrails/tree/czech)
+* **トルコ語** : [https://github.com/ujk/docrails](https://github.com/ujk/docrails)
+* **韓国語** : [https://github.com/rorlakr/rails-guides](https://github.com/rorlakr/rails-guides)
+* **中国語（簡体字）** : [https://github.com/ruby-china/guides](https://github.com/ruby-china/guides)
+* **中国語（繁体字）** : [https://github.com/docrails-tw/guides](https://github.com/docrails-tw/guides)
+* **ロシア語** : [https://github.com/morsbox/rusrails](https://github.com/morsbox/rusrails)
+* **日本語** : [https://github.com/yasslab/railsguides.jp](https://github.com/yasslab/railsguides.jp)
 
 Railsのコードに貢献する
 ------------------------------
@@ -239,34 +237,12 @@ Railsのコーディングを行う場合は、以下のシンプルなスタイ
 上はあくまでガイドラインであり、最適な使用方法については各自でご判断ください。
 
 ### ベンチマークを行う
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/5af4c1906ec28732e3d0ab263c2a99705099e805#r27176205
--->
-自分の書いたコードによってRailsのパフォーマンスが低下するのであれば、比較のために[benchmark-ips](https://github.com/evanphx/benchmark-ips) gemを使用してベンチマークの結果も添えてください。
 
-benchmark-ipsの実行例を以下に示します。
+パフォーマンスに影響する可能性のある変更をかけるばあいは、コードのベンチマークを取って影響の大きさを測定するようお願いします。その際、使ったベンチマークスクリプトも結果に添えてください。コミットメッセージにもその旨を明記し、今後別のコントリビューターが必要に応じてその結果をすぐ見つけて検証したり決定を下したりできるようにしましょう（たとえば、今後Ruby VMの最適化が行われれば、現在の最適化の一部が不要になるということも考えられます）。
 
-```ruby
-require 'benchmark/ips'
+特定の状況に限ってパフォーマンスを改善するなら非常に簡単に最適化できますが、他の多くの状況ではパフォーマンス低下が再発するでしょう。したがって、代表的な状況を網羅したリストに対して変更をテストすべきです。理想的には、productionアプリから得た現実的なシナリオに基づくべきです。
 
-Benchmark.ips do |x|
-  x.report('addition') { 1 + 2 }
-  x.report('addition with send') { 1.send(:+, 2) }
-end
-```
-
-このコードによって以下の情報を含むレポートが生成されます。
-
-```
-Calculating -------------------------------------
-            addition   132.013k i/100ms
-  addition with send   125.413k i/100ms
--------------------------------------------------
-            addition      9.677M (± 1.7%) i/s -     48.449M
-  addition with send      6.794M (± 1.1%) i/s -     33.987M
-```
-
-詳細については、benchmark/ips の [README](https://github.com/evanphx/benchmark-ips/blob/master/README.md)を参照してください。
+[ベンチマーク用のテンプレート](https://github.com/rails/rails/blob/master/guides/bug_report_templates/benchmark.rb)を元にするとよいでしょう。このテンプレートには、[benchmark-ips](https://github.com/evanphx/benchmark-ips) gemを用いてベンチマークを設定するコードテンプレートが含まれており、スクリプト内にインライン記述できるような比較的自己完結的なテストを念頭に設計されています。
 
 ### テストを実行する
 
