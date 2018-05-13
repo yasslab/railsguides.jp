@@ -1,4 +1,4 @@
-﻿
+
 
 
 Rails コア開発環境の構築方法
@@ -162,9 +162,9 @@ $ cd actionpack
 $ bundle exec ruby -Itest path/to/test.rb -n test_name
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/1c85afdff9f24b3b4281149282fd5b95a93db3b1#r27091860
--->
+### Railtiesをセットアップする
+
+Railtiesテストの一部はJavaScriptランタイム環境に依存しています（[Node.js](https://nodejs.org/)をインストールする前提など）。
 
 ### Active Recordをセットアップする
 
@@ -289,6 +289,78 @@ NOTE: PostgreSQL 9.1.x 以前のHStore拡張機能を有効にしようとする
 
 他のデータベースを採用する場合は、`activerecord/test/config.yml`や`activerecord/test/config.example.yml`にデフォルトの接続情報があることをチェックしてください。必要であれば`activerecord/test/config.yml`を編集して、認証情報を別のものに変更することもできます。ただし、この臨時の認証情報をRailsのリポジトリに反映しないよう気を付けてください。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/1c85afdff9f24b3b4281149282fd5b95a93db3b1#r27091904
--->
+### Action Cableのセットアップ
+
+Action CableではデフォルトのサブスクリプションアダプタとしてRedisを用います（[詳細](action_cable_overview.html#ブロードキャスト)）。このため、Action CableのテストがパスするにはRedisをインストールして実行中にしておく必要があります。
+
+#### Redisをソースからインストールする
+
+Redisのドキュメントに記載されている、パッケージマネージャによるインストール方法は古いものが多い点が残念です。ソースからインストールしてサーバーを立ち上げる方式の方が単純明快であり、[Redisのドキュメント](https://redis.io/download#installation)にも詳しく記載されています。
+
+#### Redisをパッケージマネージャでインストールする
+
+macOSの場合は以下を実行できます。
+
+```bash
+$ brew install redis
+```
+
+後はHomebrewが表示する指示に従って進めます。
+
+Ubuntuの場合は以下を実行するだけで完了します。
+
+```bash
+$ sudo apt-get install redis-server
+```
+
+FedoraまたはCentOSの場合は以下を実行します（EPELを有効にする必要があります）。
+
+```bash
+$ sudo yum install redis
+```
+
+Arch Linuxを実行している場合は、以下を実行します。
+
+```bash
+$ sudo pacman -S redis
+$ sudo systemctl start redis
+```
+
+FreeBSDユーザーは以下を実行しなければなりません。
+
+```bash
+# portmaster databases/redis
+```
+
+### Active Storageのセットアップ
+
+Active Storageを使う場合、コードベースのセクションで使われているJavaScript依存関係のインストールが必要である点を押さえておくことが重要です。依存関係をインストールするには、YarnというNode.jsパッケージマネージャをシステムで使えるようにしておく必要があります。このパッケージをインストールするには、あらかじめ[Node.js](https://nodejs.org)をインストールしておく必要があります。
+
+macOSでは以下を実行できます。
+
+```bash
+brew install yarn
+```
+
+Ubuntuでは以下を実行できます。
+
+```bash
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update && sudo apt-get install yarn
+```
+
+FedoraまたはCentOSの場合は以下を実行します。
+
+```bash
+sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+
+sudo yum install yarn
+```
+
+Yarnのインストールが終わったら、`activestorage`ディレクトリの下で以下のコマンドを実行して、依存関係をインストールする必要があります。
+
+```bash
+yarn install
+```
