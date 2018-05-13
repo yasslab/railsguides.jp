@@ -1,4 +1,4 @@
-﻿
+
 Rails プラグイン作成入門
 ====================================
 
@@ -64,7 +64,7 @@ $ bin/rails plugin new --help
 
 この例では、`to_squawk`(ガーガー鳴くの意)という名前のメソッドをStringクラスに追加します。最初に、テストファイルをひとつ作成してそこにアサーションをいくつか追加しましょう。
 
-  ```ruby
+```ruby
 # yaffle/test/core_ext_test.rb
 
 require "test_helper"
