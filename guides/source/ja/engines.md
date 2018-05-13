@@ -5,14 +5,12 @@ Rails エンジン入門
 
 このガイドの内容:
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/a9e6632d185dd7436d8c4eca38ca52e047d1eacc#r27092201
--->
 * エンジンの役割
 * エンジンの生成方法
-* エンジンのビルド機能
-* エンジンをアプリケーションにフックする
-* アプリケーションのエンジン機能を上書きする
+* エンジンのビルド方法
+* エンジンをアプリにフックする
+* エンジン機能をアプリで上書きする
+* 読み込み/設定フックでRailsフレームワークが読み込まれないようにする方法
 
 --------------------------------------------------------------------------------
 
@@ -149,7 +147,7 @@ NOTE: `Engine`クラスの定義に含まれる`isolate_namespace`の行を変�
 
 NOTE: あるエンジンに含まれる`ApplicationController`というクラスの名前は、アプリケーションそのものが持つクラスと同じ名前になっています。これは、アプリケーションをエンジンに変換しやすくするためです。
 
-NOTE: Rubyが定数を探索する方法のせいで、エンジンのコントローラがエンジンのアプロケーションコントローラを継承するのではなく、メインアプリケーションコントローラを継承する場合があります。これはRubyはすでに`ApplicationController`定数を知っているので自動読み込みが動作されないためです。[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)と[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)に詳しい説明があります。この問題を解決する一番良い方法は`require_dependency`を使いエンジンのアプリケーションコントローラがロードされるのを保証することです。例を見ましょう。
+NOTE: Rubyの定数探索方法が原因で、エンジンのコントローラがエンジンのアプリケーションコントローラではなくメインアプリケーションのコントローラを継承してしまう場合があります。Rubyが`ApplicationController`定数を解決できる状態になっていると、自動読み込みがトリガされなくなります。詳しくは、[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)や[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)をご覧ください。この問題を防止するには、`require_dependency`を用いてエンジンのアプリケーションコントローラを確実に読み込むのが最善の方法です。次の例をご覧ください。
 
 ``` ruby
 # app/controllers/blorgh/articles_controller.rb:
@@ -162,7 +160,7 @@ module Blorgh
 end
 ```
 
-WARNING: `require`は開発環境でのクラス自動読み込みで誤作動を起こすので使わないでください。`require_dependency`を使ってクラスが読み込まれるかどうかを保証するのが正しい使い方です。
+WARNING: `require`は使わないでください。開発環境でのクラス自動読み込みで誤作動の原因になります。`require_dependency`を用いることで、クラスの読み込みやunloadを正しい方法で行えるようになります。
 
 最後に、`app/views`ディレクトリの下には`layouts`フォルダがあります。ここには`blorgh/application.html.erb`というファイルが置かれます。このファイルは、エンジンで使用するレイアウトを指定するためのものです。エンジンが単体のエンジンとして使用されるのであれば、このファイルを使用していくらでも好きなようにレイアウトをカスタマイズできます。そのためにアプリケーション自身の`app/views/layouts/application.html.erb`ファイルを変更する必要はありません。
 
@@ -487,7 +485,7 @@ NOTE: Deviseなどの他のエンジンではこの点が若干異なり、ル�
 <!--
 TODO: https://github.com/yasslab/railsguides.jp/commit/a9e6632d185dd7436d8c4eca38ca52e047d1eacc#r27092493
 -->
-作成したエンジンには`blorgh_articles`テーブルと`blorgh_comments`テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、以下のコマンドを実行します。
+作成したエンジンには`blorgh_articles`テーブルと`blorgh_comments`テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、自分のRailsエンジンの`test/dummy`ディレクトリで以下のコマンドを実行します。
 
 ```bash
 $ bin/rails blorgh:install:migrations
@@ -1015,84 +1013,87 @@ module MyEngine
 end
 ```
 
-ロードフック上のActive Support
+Active Supportの`on_load`フック
 ----------------------------
 
-Active SupportはRuby言語の拡張、ユーティリティとそれ以外の巡回用ユーティリティを提供する役割を担っているRuby on Railsのコンポーネントです。
+Ruby on RailsのActive Supportは、Ruby言語の拡張やユーティリティといったシステム横断的なユーティリティを提供するコンポーネントです。
 
-Railsのコードは、アプリケーション読み込みの時点でよく参照されます。Railsはこれらのフレームワークの読み込み順番に関与しているため、例えば`ActiveRecord::Base`フレームワークを途中で読み込んで、アプリケーションがRailsと交わした暗黙的な約束に違反してしまう可能性があります。`ActiveRecord::Base`のコードをアプリケーション起動時に読み込んだ場合はそれだけでなく、全体のフレームワークを再度読み込むことになってしまうので、起動時間が長くなったり読み込み順序に衝突が起きる可能性もあります。
+Railsのコードは、アプリ読み込みの段階で参照されることがよくあります。Railsはこれらのフレームワークの読み込み順序について責任を持つため、途中で`ActiveRecord::Base`といったフレームワークを読み込んでしまうと、Railsがアプリに期待する暗黙の規約に違反してしまう可能性があります。さらに、`ActiveRecord::Base`のコードをアプリ起動時に読み込んでしまうと、そうしたフレームワーク全体が再読み込みされるため、起動に時間がかかったり読み込み順序で競合が発生したりする可能性も生じます。
 
-ロードフックはRailsの読み込み規約に違反することなく初期化プロセスに介入できるAPIで、起動時間の問題を軽減したり、衝突問題を回避できるようになります。
+`on_load`フックは、Railsの読み込み規約に違反しない形で初期化プロセスにフックをかけるAPIです。起動が遅くなる問題の軽減や、競合問題の回避にも利用できます。
 
 ## `on_load`フックとは何か
 
-Rubyは動的言語なので、あるコードが別のコードを読み込むことがあります。次のコードを見てください。
+Rubyは動的言語であるため、あるコードが別のコードを読み込むことがあります。次のコードをご覧ください。
 
 ```ruby
 ActiveRecord::Base.include(MyActiveRecordHelper)
 ```
 
-上のスニペットでは、このファイルが読み込まれた時に`ActiveRecord::Base`を見つけてくることになります。すなわちRubyが定数の定義を探し、それをrequireするようになります。これは起動時に、全てのActive Recordフレームワークが読み込まれることを意味します。
+上のスニペットでは、このファイルの読み込み時に`ActiveRecord::Base`行にさしかかります。Rubyはこのタイミングで定数の定義を探索し、それから`require`します。すなわち、Active Recordフレームワーク全体が起動時に読み込まれます。
 
-`ActiveSupport.on_load`はあるコードを読み込むとき、それが実際に必要になる時まで遅延することができるメカニズムです。上のスニペットは次のように変更できます。
+`ActiveSupport.on_load`は、あるコードの読み込みを、実際に必要になる時点まで遅延できるメカニズムです。上のスニペットは次のように書き換えられます。
 
 ```ruby
 ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper }
 ```
 
-この新しいスニペットは`ActiveRecord::Base`が読み込まれるとき、`MyActiveRecordHelper`だけをincludeしてくれます。
+新しいスニペットは、`ActiveRecord::Base`の読み込み時に`MyActiveRecordHelper`だけを`include`するようになります。
 
-## どうやって動くのか
+## しくみ
 
-Railsフレームワークでは、特定のライブラリが読み込まれる時にフックが呼び出されます。たとえば`ActionController::Base`が読み込まれるときは、`:action_controller_base`フックが呼び出されます。つまり`:action_controller_base`フックでまとめられたすべての`ActiveSupport.on_load`呼び出しが、`ActionController::Base`のコンテキストで呼び出されるということです。言い換えると、`self`が`ActionController::Base`として評価されるという意味になります。
+Railsフレームワークにおけるこれらのフックは、特定のライブラリの読み込み時に呼び出されます。たとえば、`ActionController::Base`が読み込まれると`:action_controller_base`フックが呼び出されます。すなわち、`:action_controller_base`フックでまとめられたすべての`ActiveSupport.on_load`呼び出しは、`ActionController::Base`のコンテキストで呼び出される（ここでは`self`が`ActionController::Base`として評価される）ということです。
 
-## `on_load`フックを使用してコードを変更する方法
+## `on_load`フックでコードを変更する
 
-コードを変更することは一般的に難しくありません。例えば、もし`ActiveRecord::Base`を参照するコードがあるとしたら、これを`on_load`フックで囲むだけで実現できます。
+一般に、（フックによる）コードの変更方法は単純です。たとえば、`ActiveRecord::Base`を参照するコードを`on_load`フックで囲むことができます。
 
-### 例題1
+### 例1
 
 ```ruby
 ActiveRecord::Base.include(MyActiveRecordHelper)
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } # ブselfはActiveRecord::Baseを指すので、簡潔に`#include`を呼び出せます。
+ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } 
+# selfがActiveRecord::Baseを指すので`#include`呼び出しが簡潔になる
 ```
 
-### 例題2
+### 例2
 
 ```ruby
 ActionController::Base.prepend(MyActionControllerHelper)
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:action_controller_base) { prepend MyActionControllerHelper } # selfはActiveRecord::Baseを指すので、簡潔に`#prepend`を呼び出せます。
+ActiveSupport.on_load(:action_controller_base) { prepend MyActionControllerHelper }
+# selfがActiveRecord::Baseを指すので`#prepend`呼び出しが簡潔になる
 ```
 
-### 例題3
+### 例3
 
 ```ruby
 ActiveRecord::Base.include_root_in_json = true
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # selfはActiveRecord::Baseを指します
+ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } 
+# selfはActiveRecord::Baseを指す
 ```
 
 ## 利用可能なフック
 
-利用可能なフックは次のとおりです。
+利用可能なフックは以下のとおりです。
 
-各クラスの初期化プロセスをフックしたい場合は、次のコードが利用できます。
+クラスの初期化プロセスをフックしたい場合は、以下のクラスに対応するフックを使います。
 
-| クラス                             | 利用可能なフック                      |
+| クラス                             | 対応するフック                      |
 | --------------------------------- | ------------------------------------ |
 | `ActionCable`                     | `action_cable`                       |
 | `ActionController::API`           | `action_controller_api`              |
@@ -1111,9 +1112,9 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # sel
 | `ActiveSupport::TestCase`         | `active_support_test_case`           |
 | `i18n`                            | `i18n`                               |
 
-## 設定フック
+## 設定用フック
 
-次は利用可能な設定用のフックです。特定のフレームワークでフックするのではなく、代わりにアプリケーション全体のコンテキストで実行されます。
+設定用のフックは以下のとおりです。設定用フックは特定のフレームワークにフックするのではなく、アプリケーション全体のコンテキストで実行されます。
 
 | フック                   | ユースケース                                                                              |
 | ---------------------- | ------------------------------------------------------------------------------------- |
@@ -1122,6 +1123,6 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # sel
 | `before_eager_load`    | 初期化後に実行される設定フックです。`config.cache_classes`がfalseの場合は実行されません。 |
 | `after_initialize`     | 最後に実行される設定フックです。 フレームワークの初期化後に呼び出しされます。                   |
 
-### 例題
+### 例
 
 `config.before_configuration { puts 'I am called before any initializers' }`
