@@ -1,4 +1,4 @@
-﻿
+
 
 
 Rails のアプリケーションテンプレート
@@ -89,9 +89,14 @@ end
 add_source "http://code.whytheluckystiff.net"
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/001f5a070e278a3f4175c4d57fa4f8b4d5d506c1#r27174359
--->
+ブロックを1つ渡すと、ブロック内のgemエントリがそのソースのグロープにラップされます。
+
+```ruby
+add_source "http://gems.github.com/" do
+  gem "rspec-rails"
+end
+```
+
 ### environment/application(data=nil, options={}, &block)
 
 `config/application.rb`ファイルの`Application`クラスの内側に指定の行を追加します。
@@ -171,21 +176,25 @@ generate(:scaffold, "person", "name:string", "address:text", "age:number")
 run "rm README.rdoc"
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/001f5a070e278a3f4175c4d57fa4f8b4d5d506c1#r27174385
--->
-### rake(command, options = {})
+### rails_command(command, options = {})
 
-Railsアプリケーション内にあるrakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。
+指定のタスクをRailsアプリで実行します。たとえばデータベースのマイグレーションを行いたい場合は次のようにします。
+
 
 ```ruby
-rake "db:migrate"
+rails_command "db:migrate"
 ```
 
 Railsの環境を指定してrakeタスクを実行することもできます。
 
 ```ruby
-rake "db:migrate", env: 'production'
+rails_command "db:migrate", env: 'production'
+```
+
+スーパーユーザーとしてタスクを実行することもできます。
+
+```ruby
+rails_command "log:clear", sudo: true
 ```
 
 ### route(routing_code)
