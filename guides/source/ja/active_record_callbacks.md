@@ -1,4 +1,4 @@
-﻿
+
 Active Record コールバック
 =======================
 
@@ -112,9 +112,7 @@ Active Recordで利用可能なコールバックの一覧を以下に示しま�
 
 WARNING: `after_save`は作成と更新の両方で呼び出されますが、コールバックマクロの呼び出し順にかかわらず、必ず、より具体的な`after_create`および`after_update`より _後_ に呼び出されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26928618
--->
+NOTE: `before_destroy`コールバックは、`dependent: :destroy`よりも前に配置する（または`prepend: true`オプションを用いる）べきです。これは、そのレコードが`dependent: :destroy`によって削除されるよりも前に`before_destroy`コールバックが実行されるようにするためです。
 
 ### `after_initialize`と`after_find`
 
@@ -241,7 +239,6 @@ NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自
 * `increment`
 * `increment_counter`
 * `toggle`
-* `touch`
 * `update_column`
 * `update_columns`
 * `update_all`
@@ -254,9 +251,13 @@ NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自
 
 モデルに新しくコールバックを登録すると、コールバックは実行キューに入ります。このキューには、あらゆるモデルに対する検証、登録済みコールバック、実行待ちのデータベース操作が置かれます。
 
-コールバックの連鎖の全体は、1つのトランザクションに含まれます。_before_ コールバックの1つが`false`を返すか例外を発生するという動作をする場合、実行の連鎖全体が停止してロールバックが発行されます。_after_ コールバックの場合は例外を発生することによってのみ、コールバック連鎖の停止とトランザクションのロールバックを実行させることができます。
+コールバックチェイン全体は、1つのトランザクションにラップされます。`before_`系コールバックの1つで例外が発生すると、実行チェイン全体が停止してロールバックが発行されます。チェインを意図的に停止するには次のようにします。
 
-WARNING: `ActiveRecord::Rollback`以外の例外は、その例外によってコールバック連鎖が停止した後で、Railsによって再び発生させられます。このため、ActiveRecord::Rollback以外の例外を発生させると、saveやupdate_attributesのようなメソッド (つまり通常trueかfalseを返そうとするメソッド) が、例外を起こすことを想定していないコードを破壊する恐れがあります。
+```ruby
+throw :abort
+```
+
+WARNING: `ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`を除く例外は、その例外によってコールバックチェインが停止した後も、Railsによって再び発生します。このため、`ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`以外の例外を発生させると、`save`や`update_attributes`のようなメソッド (つまり通常`true`か`false`を返そうとするメソッド) が例外を発生させることを想定していないコードが中断する恐れがあります。
 
 リレーションシップのコールバック
 --------------------
@@ -287,9 +288,7 @@ Post destroyed
 
 条件付きコールバック
 ---------------------
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26932997
--->
+
 検証と同様、与えられた述語による条件を満たす場合に実行されるコールバックメソッドの呼び出しを作成することもできます。これを行なうには、コールバックで`:if`オプションまたは`:unless`オプションを使用します。このオプションはシンボル、`Proc`、または`Array`を引数に取ります。特定の状況でのみコールバックが呼び出される必要がある場合は、`:if`オプションを使用します。特定の状況ではコールバックを呼び出してはならない場合は、`:unless`オプションを使用します。
 
 ### `:if`および`:unless`オプションでシンボルを使用する
@@ -386,9 +385,7 @@ end
 ```
 
 `after_commit`コールバックを使用することで、このような場合に対応することができます。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26933260
--->
+
 ```ruby
 class PictureFile < ApplicationRecord
   after_commit :delete_picture_file_from_disk, on: [:destroy]
@@ -420,7 +417,52 @@ class PictureFile < ApplicationRecord
   end
 end
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/da266672565fc5d8c4ecde348ea61dfb524dd9fc#r26933271
--->
-WARNING: `after_commit`コールバックおよび`after_rollback`コールバックは、1つのトランザクションブロック内におけるあらゆるモデルの作成/更新/destroy時に呼び出されます。これらのコールバックのいずれかで何らかの例外が発生すると、例外は無視されるため、他のコールバックに干渉しません。従って、もし自作のコールバックが例外を発生する可能性がある場合は、自分のコールバック内でrescueし、適切にエラー処理を行なう必要があります。
+
+`after_commit`コールバックは作成/更新/削除でのみ用いるのが普通であるため、それぞれのエイリアスも用意されています。
+
+* `after_create_commit`
+* `after_update_commit`
+* `after_destroy_commit`
+
+```ruby
+class PictureFile < ApplicationRecord
+  after_destroy_commit :delete_picture_file_from_disk
+
+  def delete_picture_file_from_disk
+    if File.exist?(filepath)
+      File.delete(filepath)
+    end
+  end
+end
+```
+
+WARNING: `after_commit`コールバックおよび`after_rollback`コールバックは、1つのトランザクションブロック内におけるあらゆるモデルの作成/更新/destroy時に呼び出されます。これらのコールバックのいずれかで何らかの例外が発生すると、その例外のせいで以後の`after_commit`コールバックや`after_rollback`コールバックのメソッドは**実行されなくなります**。このため、もし自作のコールバックが例外を発生する可能性がある場合は、自分のコールバック内で`rescue`して適切にエラー処理を行い、他のコールバックが停止しないようにする必要があります。
+
+WARNING: 同一のモデル内で`after_create_commit`と`after_update_commit`を両方用いると、最後に定義された方のコールバックだけが有効になり、その他はすべてオーバライドされます。
+
+```ruby
+class User < ApplicationRecord
+  after_create_commit :log_user_saved_to_db
+  after_update_commit :log_user_saved_to_db
+
+  private
+  def log_user_saved_to_db
+    puts 'User was saved to database'
+  end
+end
+
+# 何も出力されない
+>> @user = User.create
+
+# @userを更新する
+>> @user.save
+=> User was saved to database
+```
+
+`create`アクションのコールバックと`update`アクションのコールバックを両方とも登録するには、代わりに`after_commit`を使います。
+
+```ruby
+class User < ApplicationRecord
+  after_commit :log_user_saved_to_db, on: [:create, :update]
+end
+```
