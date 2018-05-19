@@ -1,4 +1,4 @@
-﻿
+
 Rails ガイドのガイドライン
 ===============================
 
@@ -49,9 +49,48 @@ Rails ガイドのガイドライン
 ##### `:content_type`オプション
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176609
--->
+APIにリンクする
+------------------
+
+APIサイト（`api.rubyonrails.org`）へのリンクは、以下の方法を用いてガイドのジェネレータで処理されます。
+
+リリース番号（`v5.0.1`など）タグを含むリンクに対しては何も処理を行いません（例↓）。
+
+```
+http://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Attributes/ClassMethods.html
+```
+
+上は変更されません。
+
+リリースノートではこの書式でリンクを書いてください。今後どんな対象が生成されても、リリースノートに対応したバージョンを指すようにすべきです。
+
+リンクにリリース番号タグが含まれていない場合やedgeガイドが生成される場合は、ドメイン名の部分が`edgeapi.rubyonrails.org`に置き換えられます（例↓）。
+
+
+```
+http://api.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+上は以下に置き換えられます。
+
+```
+http://edgeapi.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+リンクにリリース番号タグが含まれていない場合や、正規版のガイドが生成される場合は、Railsのバージョン番号が挿入されます。たとえば、Rails 5.1.0向けのガイドを生成すると以下のようなリンクになります。
+
+```
+http://api.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+上は以下に置き換えられます。
+
+```
+http://api.rubyonrails.org/v5.1.0/classes/ActionDispatch/Response.html
+```
+
+`edgeapi.rubyonrails.org`には手動でリンクしないでください。
+
 
 APIドキュメントの書き方
 ----------------------------
@@ -68,10 +107,7 @@ APIドキュメントの書き方
 HTMLガイド
 -----------
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176620
--->
-ガイドを生成する前に、システムに最新のBundlerがインストールされていることを確認してください。現時点であれば、Bundler 1.3.5がインストールされている必要があります。
+ガイドを生成する前に、システムに最新のBundlerがインストールされていることを確認してください。現時点であれば、Bundler 1.3.5以降がインストールされている必要があります。
 
 最新のBundlerをインストールするには`gem install bundler`コマンドを実行してください。
 
@@ -89,9 +125,7 @@ bundle exec rake guides:generate
 bundle exec rake guides:generate:html
 ```
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/f1358bde637528612973c09be4c797100d808bfb#r27176623
--->
+生成されたHTMLファイルは、`./output`ディレクトリに配置されます。
 
 `my_guide.md`ファイルだけを生成したい場合は環境変数`ONLY`に設定します。
 
