@@ -1,4 +1,4 @@
-﻿
+
 Rails のコマンドラインツール
 ======================
 
@@ -164,7 +164,7 @@ $ bin/rails generate controller Greetings hello
 
 コントローラ(`app/controllers/greetings_controller.rb`)を確認し、少し編集してみましょう。
 
-  ```ruby
+```ruby
 class GreetingsController < ApplicationController
   def hello
     @message = "Hello, how are you today?"
@@ -208,10 +208,8 @@ Active Record options:
 Description:
     Create rails files for model generator.
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122676
--->
-NOTE: 利用可能なフィールドタイプ(field types)については[API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column)に記載されている、`TableDefinition`のcolumnメソッドの説明を参照してください。
+
+NOTE: `type`パラメータで利用可能なフィールドの種類については[API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column)に記載されている、`SchemaStatements`モジュールの`add_column`メソッドの説明を参照してください。`index`パラメータを指定すると、カラムに対応するインデックスが生成されます。
 
 ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて**scaffold**とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。
 
@@ -265,10 +263,9 @@ $ bin/rails db:migrate
    -> 0.0017s
 ==  CreateHighScores: migrated (0.0019s) ======================================
 ```
-<!-- 
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122766
--->
-INFO: 単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。
+
+INFO: 単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、入力と出力をテストします。単体テストはあなたの友人も同然です。単体テストを書くことで幸せな人生が送れることに気づくのが早ければ早いほど、確実によい結果を得られます。このことは間違いありません。単体テストについて詳しくは、[the testing guide](https://railsguides.jp/testing.html)を参照してください。
+
 
 Railsが作ったインターフェースをみてみましょう。
 
@@ -345,9 +342,12 @@ INFO: ランナーコマンドを実行する際には`rails r`のように"r"�
 ```bash
 $ bin/rails runner -e staging "Model.long_running_method"
 ```
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122817
--->
+
+ファイル内のRubyコードを`runner`で実行することもできます。
+
+```bash
+$ bin/rails runner lib/code_to_be_run.rb
+```
 
 ### `rails destroy`
 
@@ -364,6 +364,7 @@ $ bin/rails generate model Oops
       create      test/models/oops_test.rb
       create      test/fixtures/oops.yml
 ```
+
 ```bash
 $ bin/rails destroy model Oops
       invoke  active_record
@@ -376,16 +377,11 @@ $ bin/rails destroy model Oops
 
 bin/rails
 ---------
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122861
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27122870
--->
-RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と`.rake`ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。
 
-`rake --tasks`とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。
+`rake`コマンドは、Rails 5.0以降Railsの実行ファイルに組み込まれました。コマンドを実行する新しいデフォルトは`bin/rails`です。
 
-```--trace```を使うことで、タスクを実行する際のバックトレースをすべて表示することができます (訳注: バックトレースには、依存するタスクの呼び出しと実行順序が表示されます)。
-例えば ```rake db:create --trace``` のようにしてタスクを実行します。
+
+`bin/rails --tasks`とタイプすると、実行可能な`rails`コマンドの一覧が表示されます。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。
 
 ```bash
 $ bin/rails --help
@@ -473,7 +469,7 @@ app/models/school.rb:
 
 検索するファイルの拡張子を追加するには、`config.annotations.register_extensions`オプションを使います。このオプションは拡張子の一覧と、マッチするべき行 を表す正規表現を引数にとります。
 
-  ```ruby
+```ruby
 config.annotations.register_extensions("scss", "sass", "less") { |annotation| /\/\/\s*(#{annotation}):?\s*(.*)$/ }
 ```
 
@@ -500,10 +496,14 @@ app/models/article.rb:
 
 NOTE: 特定のアノテーションのみを表示するときや、独自のアノテーションを表示する際には、FIXMEやBUGといったアノテーション名は表示されません。
 
-`rails notes`タスクはデフォルトでは`app`、`config`、`lib`、`bin`、`test`ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、`SOURCE_ANNOTATION_DIRECTORIES`環境変数にディレクトリ名をカンマ区切りで与えてください。
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27123066
--->
+`rails notes`タスクはデフォルトでは`app`、`config`、`lib`、`bin`、`test`ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、`SOURCE_ANNOTATION_DIRECTORIES`環境変数にディレクトリ名をカンマ区切りで指定します。
+
+```ruby
+config.annotations.register_directories("spec", "vendor")
+```
+
+`SOURCE_ANNOTATION_DIRECTORIES`環境変数でカンマ区切りのディレクトリ名を指定することもできます。
+
 ```bash
 $ export SOURCE_ANNOTATION_DIRECTORIES='spec,vendor'
 $ bin/rails notes
@@ -525,10 +525,8 @@ INFO: Railsでの単体テストについては[Railsアプリケーションを
 RailsにはMinitestと呼ばれるテストスイートが付属しています。Railsではテストを書くことで、安定したアプリケーションを開発します。`test:`という名前空間の中で定義されたタスクは、あなたがこれから(期待を持って)書く様々なテストを実行するときに役立ちます。
 
 ### `tmp`
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e318f3cd39e613e3#r27123084
--->
-`Rails.root/tmp`ディレクトリは、(*nix系でいう/tmpディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、(ファイルを利用してセッションの管理を行っている場合) セッションのためのファイルやプロセスIDのファイル、アクションキャッシュのためのファイルなどがあります (訳注: 最近のRailsではセッションをファイルで管理することは稀です)。
+
+`Rails.root/tmp`ディレクトリは、(*nix系でいう`/tmp`ディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、プロセスIDのファイル、アクションキャッシュのためのファイルなどがあります。
 
 `tmp:`という名前空間には、`Rails.root/tmp`ディレクトリを作成、削除するためのタスクが入っています。
 
@@ -550,7 +548,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/8b5e95c7b8f875f624604430e
 `Rails.root/lib/tasks`配下に保存します。また、独自のタスクを作成することができる
 `bin/rails generate task`というコマンドもあります。
 
-  ```ruby
+```ruby
 desc "I am short, but comprehensive description for my cool task"
 task task_name: [:prerequisite_task, :another_task_we_depend_on] do
   # All your magic here
@@ -560,7 +558,7 @@ end
 
 タスクに引数を渡すには以下のようにします。
 
-  ```ruby
+```ruby
 task :task_name, [:arg_1] => [:prerequisite_1, :prerequisite_2] do |task, args|
   argument_1 = args.arg_1
 end
@@ -568,11 +566,11 @@ end
 
 名前空間内でタスクを定義することで、タスクをグルーピングできます。
 
-  ```ruby
+```ruby
 namespace :db do 
-  desc "This task does nothing"
+  desc "何もしないたすく"
   task :nothing do
-    # Seriously, nothing
+    # マジ何もしない
   end 
 end 
 ```
