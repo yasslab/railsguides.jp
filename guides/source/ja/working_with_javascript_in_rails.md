@@ -287,7 +287,7 @@ document.body.addEventListener('ajax:success', function(event) {
 
 NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`data, status, xhr`パラメータは`event.detail`に組み込まれました。Rails 5およびそれ以前で利用されていた`jquery-ujs`について詳しくは、[`jquery-ujs` wiki](https://github.com/rails/jquery-ujs/wiki/ajax)をお読みください。
 
-### 停止してもよいイベント
+### 停止可能なイベント
 
 ハンドラメソッドから`false`を返すことで`ajax:before`や`ajax:beforeSend`を停止すると、以後のAjaxリクエストがまったく発生しなくなります。`ajax:before`イベントがフォームのデータを操作できるのはシリアライズ前なので、独自のリクエストヘッダを追加するには`ajax:beforeSend`が便利です。
 
