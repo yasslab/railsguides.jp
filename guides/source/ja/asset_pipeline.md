@@ -857,7 +857,7 @@ TIP: 詳細については、production環境用Webサーバーのドキュメ�
 アセットのキャッシュストア
 ------------------
 
-Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットをキャッシュを使用します。キャッシュストアの設定は`config.assets.cache_store`で変更できます。
+Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットのキャッシュを使用します。キャッシュストアの設定は`config.assets.cache_store`で変更できます。
 
 ```ruby
 config.assets.cache_store = :memory_store
