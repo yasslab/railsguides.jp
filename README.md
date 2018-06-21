@@ -123,7 +123,7 @@ https://railstutorial.jp/
 Ruby/Rails の開発支援サービス - YassLab 株式会社  
 [https://yasslab.jp/ja/agile](https://yasslab.jp/ja/agile)
 
-[![Logo of YassLab Inc.](https://yasslab.jp/img/logo_800x200.png)](https://yasslab.jp/ja/)
+[![Logo of YassLab Inc.](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/logo_800x200.png)](https://yasslab.jp/ja/)
 
 ### 協力者
 
