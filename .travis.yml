@@ -1,8 +1,8 @@
 language: ruby
-install: bundle install --jobs=3 --retry=3 --no-deployment
+install: BUNDLE_GEMFILE=yasslab/Gemfile bundle install --jobs=3 --retry=3 --no-deployment
 script:
-- bundle exec rake assets:precompile
-- bundle exec rspec spec/features/
+- BUNDLE_GEMFILE=yasslab/Gemfile bundle exec rake assets:precompile
+- BUNDLE_GEMFILE=yasslab/Gemfile bundle exec rspec spec/features/
 deploy:
   provider: heroku
   api_key:
