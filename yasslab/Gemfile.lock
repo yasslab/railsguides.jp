@@ -18,6 +18,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     acme_challenge (0.1.0)
+    actionpack (1.4.0)
     activesupport (5.2.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
@@ -202,6 +203,8 @@ PLATFORMS
 
 DEPENDENCIES
   acme_challenge
+  actionpack
+  activesupport
   docset
   gtt-downloader
   html-proofer
@@ -209,12 +212,14 @@ DEPENDENCIES
   kindlerb (~> 1.2.0)
   kramdown
   newrelic_rpm
+  nokogiri
   pry-byebug
   puma
   rack-cache (~> 1.2)
   rack-contrib!
   rack-jekyll
   rack-rewrite (~> 1.5.0)
+  rake
   rb-readline
   redcarpet (~> 3.2.3)
   rspec
