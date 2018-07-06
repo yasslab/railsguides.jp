@@ -142,7 +142,7 @@ get 'profile', to: 'users#show'
 `get`の引数に`文字列`を渡す場合は`コントローラ#アクション`形式であることが前提ですが、`get`の引数に`シンボル`を渡すとアクションに直接割り当てられます。その場合は `controller:` を指定する必要があります。
 
 ```ruby
-get 'profile', to: :show, controller: 'users'
+get 'profile', action: :show, controller: 'users'
 ```
 
 以下に記述するリソースフルなルーティングは
