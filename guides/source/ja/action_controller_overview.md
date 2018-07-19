@@ -395,7 +395,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-セッションを使用して何かを行なうのであれば、ハッシュに似たキーにセッションを割り当てます。
+セッションに何かを保存したければ、ハッシュのようにキーにそれを割り当てます。
 
 ```ruby
 class LoginsController < ApplicationController
