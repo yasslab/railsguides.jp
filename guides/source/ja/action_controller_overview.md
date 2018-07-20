@@ -395,7 +395,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-セッションを使用して何かを行なうのであれば、ハッシュに似たキーにセッションを割り当てます。
+セッションに何かを保存したければ、ハッシュのようにキーにそれを割り当てます。
 
 ```ruby
 class LoginsController < ApplicationController
@@ -792,7 +792,7 @@ responseオブジェクトはアクションが実行されるときに構築さ
 
 #### カスタムヘッダーの設定
 
-レスポンスでカスタムヘッダーを使用したいのであれば、`response.headers`が利用できます。このヘッダー属性はハッシュであり、ヘッダ名と値がその中でマップされています。一分の値はRailsによって自動的に設定されます。ヘッダに追加・変更を行いたい場合は以下のように`response.headers`に割り当てます。
+レスポンスでカスタムヘッダーを使用したいのであれば、`response.headers`が利用できます。このヘッダー属性はハッシュであり、ヘッダ名と値がその中でマップされています。一部の値はRailsによって自動的に設定されます。ヘッダに追加・変更を行いたい場合は以下のように`response.headers`に割り当てます。
 
 ```ruby
 response.headers["Content-Type"] = "application/pdf"
