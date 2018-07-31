@@ -433,7 +433,7 @@ end
 
 ここで`render`メソッドは非常に単純なハッシュを引数に取ります。ハッシュのキーは`:plain`、ハッシュの値は`params[:article].inspect`です。`params`メソッドは、フォームから送信されてきたパラメータ (つまりフォームのフィールド) を表すオブジェクトです。`params`メソッドは`ActionController::Parameters`オブジェクトを返します。文字列またはシンボルを使用して、このオブジェクトのハッシュのキーを指定できます。今回の場合、必要なのはフォームの値のうちの1つだけです。
 
-TIP: `params`メソッドは今後多用することになりますので、しっかり理解しておいてください。**http://www.example.com/?username=dhh&email=dhh@email.com**というURLで説明すると、`params[:username]`の値が「dhh」、`params[:email]`の値が「dhh@email.com」となります。
+TIP: `params`メソッドは今後多用することになりますので、しっかり理解しておいてください。**http://www.example.com/?username=dhh&email=dhh@email.com**というURLで説明すると、`params[:username]`の値が「dhh」、`params[:email]`の値が「dhh&#64;email.com」となります。
 
 フォームを再送信してみると、今度は以下が表示されました。
 
