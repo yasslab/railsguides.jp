@@ -1034,7 +1034,7 @@ config.action_dispatch.default_headers.clear
 
 ### カスタムcredential
 
-Railsは、第三者のcreentialをリポジトリに保存するための`config/credentials.yml.enc`を生成します。生成したマスターキーをこのファイルに含めてRailsが暗号化し、`config/master.key`を除外したバージョンコントロールシステムに登録することで初めて意味があります。Railsは`ENV["RAILS_MASTER_KEY"]`にマスターキーがあるかどうかもチェックします。またRailsはproduction環境での起動時にcredentialを読み出すためにこのマスターキーを必要とします。
+Railsは、第三者のcredentialをリポジトリに保存するための`config/credentials.yml.enc`を生成します。生成したマスターキーをこのファイルに含めてRailsが暗号化し、`config/master.key`を除外したバージョンコントロールシステムに登録することで初めて意味があります。Railsは`ENV["RAILS_MASTER_KEY"]`にマスターキーがあるかどうかもチェックします。またRailsはproduction環境での起動時にcredentialを読み出すためにこのマスターキーを必要とします。
 
 保存したcredentialを編集するには`bin/rails credentials:edit`を実行します。
 
