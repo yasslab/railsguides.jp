@@ -1,4 +1,4 @@
-﻿
+
 Action Cable の概要
 =====================
 
@@ -22,14 +22,14 @@ Action Cableは、
 Pub/Subについて
 ---------------
 
-[Pub/Sub](https://ja.wikipedia.org/wiki/%E5%87%BA%E7%89%88-%E8%B3%BC%E8%AA%AD%E5%9E%8B%E3%83%A2%E3%83%87%E3%83%AB)は出版-購読型モデルとも呼ばれる、メッセージキューのパラダイムです。出版側（Publisher）が、購読側（Subscriber）の抽象クラスに情報を送信します。
-このとき、個別の受信者を指定しません。Action Cableでは、このアプローチを採用してサーバーと多数のクライアント間で通信を行います。
+[Pub/Sub](https://ja.wikipedia.org/wiki/%E5%87%BA%E7%89%88-%E8%B3%BC%E8%AA%AD%E5%9E%8B%E3%83%A2%E3%83%87%E3%83%AB)はパブリッシャ-サブスクライバ（pub/sub）型モデルとも呼ばれる、メッセージキューのパラダイムです。パブリッシャ側（Publisher）が、サブスクライバ側（Subscriber）の抽象クラスに情報を送信します。
+このとき、個別の受信者を指定しません。Action Cableは、サーバーと多数のクライアント間の通信にこのアプローチを採用しています。
 
 ## サーバー側のコンポーネント
 
 ### 接続
 
-*接続*（connection）は、クライアントとサーバー間の関係を成立させる基礎となります。サーバーでWebSocketを受け付けるたびに、接続オブジェクトがインスタンス化します。このオブジェクトは、今後作成されるすべての*チャネル購読*の親となります。この接続自体は、認証や承認の後、特定のアプリケーションロジックを扱いません。WebSocket接続のクライアントは*コンシューマー*と呼ばれます。各ユーザーが開くブラウザタブ、ウィンドウ、デバイスごとに、コンシューマー接続ペアが1つずつ作成されます。
+*接続*（connection）は、クライアントとサーバー間の関係を成立させる基礎となります。サーバーでWebSocketを受け付けるたびに、接続オブジェクトがインスタンス化します。このオブジェクトは、今後作成されるすべての*チャネルサブスクライバ*の親となります。この接続自体は、認証や承認の後、特定のアプリケーションロジックを扱いません。WebSocket接続のクライアントは*コンシューマー*と呼ばれます。各ユーザーが開くブラウザタブ、ウィンドウ、デバイスごとに、コンシューマー接続ペアが1つずつ作成されます。
 
 接続は、`ApplicationCable::Connection`のインスタンスです。このクラスでは、着信接続を承認し、ユーザーを特定できた場合に接続を確立します。
 
@@ -45,10 +45,10 @@ module ApplicationCable
       self.current_user = find_verified_user
     end
 
-    protected
+    private
       def find_verified_user
-        if current_user = User.find_by(id: cookies.signed[:user_id])
-          current_user
+        if verified_user = User.find_by(id: cookies.encrypted[:user_id])
+          verified_user
         else
           reject_unauthorized_connection
         end
@@ -90,16 +90,16 @@ class AppearanceChannel < ApplicationCable::Channel
 end
 ```
 
-これで、コンシューマーはこうしたチャネルを購読できるようになります。
+これで、コンシューマーはこうしたチャネルをサブスクライブできるようになります。
 
 #### サブスクリプション
 
-コンシューマーは、チャネルを購読する*購読側（Subscriber）*の役割を果たします。そして、コンシューマーの接続は*サブスクリプション（Subscription: 購読）*と呼ばれます。生成されたメッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネル購読側にルーティングされます。
+コンシューマーは、チャネルを購読するする*サブスクライバ側（Subscriber）*の役割を果たします。そして、コンシューマーの接続は*サブスクリプション（Subscription: 購読）*と呼ばれます。生成されたメッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネルサブスクライバ側にルーティングされます。
 
 ```ruby
 # app/channels/chat_channel.rb
 class ChatChannel < ApplicationCable::Channel
-  # コンシューマーがこのチャネルの購読側になると
+  # コンシューマーがこのチャネルのサブスクライバ側になると
   # このコードが呼び出される
   def subscribed
   end
@@ -127,11 +127,12 @@ end
 }).call(this);
 ```
 
-これにより、サーバーの`/cable`にデフォルトで接続するコンシューマーが準備されます。利用したいサブスクリプションが指定されていない場合、接続は確立しません。
 
-#### 購読側
+これにより、サーバーの`/cable`にデフォルトで接続するコンシューマーが準備されます。利用したいサブスクリプションを1つ以上指定しなければ接続は確立しません。
 
-指定のチャネルにサブスクリプションを作成することで、コンシューマーが購読側になります。
+#### サブスクライバ側
+
+指定のチャネルにサブスクリプションを作成することで、コンシューマーがサブスクライバ側になります。
 
 ```coffeescript
 # app/assets/javascripts/cable/subscriptions/chat.coffee
@@ -143,7 +144,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel" }
 
 サブスクリプションは上のコードで作成されます。受信したデータに応答する機能については後述します。
 
-コンシューマーは、指定のチャネルに対する購読側として振る舞うことができます。回数の制限はありません。たとえば、コンシューマーはチャットルームを同時にいくつでも購読できます。
+コンシューマーは、指定のチャネルに対するサブスクライバ側として振る舞うことができます。回数の制限はありません。たとえば、コンシューマーはチャットルームを同時にいくつでもサブスクライブできます。
 
 ```coffeescript
 App.cable.subscriptions.create { channel: "ChatChannel", room: "1st Room" }
@@ -154,7 +155,7 @@ App.cable.subscriptions.create { channel: "ChatChannel", room: "2nd Room" }
 
 ### ストリーム
 
-*ストリーム*は、ブロードキャストでパブリッシュするコンテンツを購読側にルーティングする機能をチャネルに提供します。
+*ストリーム*は、ブロードキャストでパブリッシュするコンテンツをサブスクライバ側にルーティングする機能をチャネルに提供します。
 
 ```ruby
 # app/channels/chat_channel.rb
@@ -165,7 +166,7 @@ class ChatChannel < ApplicationCable::Channel
 end
 ```
 
-あるモデルに関連するストリームを作成すると、利用するブロードキャストがそのモデルとチャネルから生成されます。次の例 では、`comments:Z2lkOi8vVGVzdEFwcC9Qb3N0LzE`のような形式のブロードキャストで購読します。
+あるモデルに関連するストリームを作成すると、利用するブロードキャストがそのモデルとチャネルから生成されます。次の例 では、`comments:Z2lkOi8vVGVzdEFwcC9Qb3N0LzE`のような形式のブロードキャストでサブスクライブします。
 
 ```ruby
 class CommentsChannel < ApplicationCable::Channel
@@ -184,9 +185,9 @@ CommentsChannel.broadcast_to(@post, @comment)
 
 ### ブロードキャスト
 
-*ブロードキャスト*（broadcasting）は、pub/subのリンクです。出版側からの送信内容はすべてブロードキャスト経由を経由し、その名前のブロードキャストをストリーミングするチャネル購読側に直接ルーティングされます。各チャネルは、0個以上のブロードキャストをストリーミングできます。
+*ブロードキャスト*（broadcasting）は、pub/subのリンクです。パブリッシャ側からの送信内容はすべてブロードキャスト経由を経由し、その名前のブロードキャストをストリーミングするチャネルサブスクライバ側に直接ルーティングされます。各チャネルは、0個以上のブロードキャストをストリーミングできます。
 
-ブロードキャストは純粋なオンラインキューであり、時間に依存します。ストリーミング（指定のチャネルへの購読）を行っていないコンシューマーは、後で接続するときにブロードキャストを取得できません。
+ブロードキャストは純粋なオンラインキューであり、時間に依存します。ストリーミング（指定のチャネルへのサブスクライバ）を行っていないコンシューマーは、後で接続するときにブロードキャストを取得できません。
 
 ブロードキャストは、Railsアプリケーションの別の場所で呼び出されます。
 
@@ -198,13 +199,13 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、メッセージを現在のサブスクリプションアダプタ（production環境のデフォルトはRedis、development/test環境のデフォルトは`async`）のpubsubキューに設定します。ブロードキャスト名はユーザーごとに異なります。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
+このチャネルは、`web_notifications:1`に着信するものすべてを`received`コールバック呼び出しによってクライアントに直接ストリーミングするようになります。
 
 ### サブスクリプション
 
-チャネルを購読したコンシューマーは、購読側として振る舞います。この接続もサブスクリプション (Subscription: 購読) と呼ばれます。着信メッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネル購読側にルーティングされます。
+チャネルをサブスクライブしたコンシューマーは、サブスクライバ側として振る舞います。この接続もサブスクリプション (Subscription: サブスクライバ) と呼ばれます。着信メッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネルサブスクライバ側にルーティングされます。
 
 ```coffeescript
 # app/assets/javascripts/cable/subscriptions/chat.coffee
@@ -296,7 +297,7 @@ App.chatChannel = App.cable.subscriptions.create { channel: "ChatChannel", room:
 App.chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
 ```
 
-再ブロードキャストは、接続しているすべてのクライアントで受信されます。送信元クライアント自身も再ブロードキャストを受信します。利用するparamsは、チャネルを購読するときと同じです。
+再ブロードキャストは、接続しているすべてのクライアントで受信されます。送信元クライアント自身も再ブロードキャストを受信します。利用するparamsは、チャネルをサブスクライブするときと同じです。
 
 ## フルスタックの例
 
@@ -337,6 +338,7 @@ end
 
 クライアント側のアピアランスチャネルを作成します。
 
+
 ```coffeescript
 # app/assets/javascripts/cable/subscriptions/appearance.coffee
 App.cable.subscriptions.create "AppearanceChannel",
@@ -365,7 +367,7 @@ App.cable.subscriptions.create "AppearanceChannel",
   buttonSelector = "[data-behavior~=appear_away]"
 
   install: ->
-    $(document).on "page:change.appearance", =>
+    $(document).on "turbolinks:load.appearance", =>
       @appear()
 
     $(document).on "click.appearance", buttonSelector, =>
@@ -420,7 +422,7 @@ App.cable.subscriptions.create "WebNotificationsChannel",
     new Notification data["title"], body: data["body"]
 ```
 
-アプリケーションのどこからでも、web通知チャネルのインスタンスにコンテンツを送信できます。
+アプリケーションのどこからでも、web通知チャネルのインスタンスにコンテンツをブロードキャストできます。
 
 ```ruby
 # このコードはアプリのどこか（NewCommentJob あたり）で呼び出される
@@ -431,9 +433,9 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在のサブスクリプションアダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
+このチャネルは、`web_notifications:1`に着信するものすべてを`received`コールバック呼び出しによってクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
 
 ### より詳しい例
 
@@ -441,9 +443,9 @@ RailsアプリにAction Cableを設定する方法やチャネルの追加方法
 
 ## 設定
 
-Action Cableで必須となる設定は、「購読用アダプタ」と「許可されたリクエスト送信元」の2つです。
+Action Cableで必須となる設定は、「サブスクリプションアダプタ」と「許可されたリクエスト送信元」の2つです。
 
-### 購読用アダプタ
+### サブスクリプションアダプタ
 
 Action Cableは、デフォルトで`config/cable.yml`の設定ファイルを利用します。Railsの環境ごとに、アダプタとURLを1つずつ指定する必要があります。アダプタについて詳しくは、[依存関係](#依存関係) の節をご覧ください。
 
@@ -457,11 +459,29 @@ test:
 production:
   adapter: redis
   url: redis://10.10.3.153:6381
+  channel_prefix: appname_production
 ```
+
+#### 利用できるアダプタ設定
+
+以下は、エンドユーザー向けに利用できるサブスクリプションアダプタの一覧です。
+
+##### Asyncアダプタ
+
+`async`アダプタはdevelopment環境やtest環境での利用を意図したものであり、production環境で使うべきではありません。
+
+##### Redisアダプタ
+
+Redisアダプタでは、Redisサーバーを指すURLを指定する必要があります。
+また、複数のアプリが同一のRedisサーバーを用いる場合は、チャンネル名衝突を避けるために`channel_prefix`の指定が必要になることもあります。詳しくは[Redis PubSubドキュメント](https://redis.io/topics/pubsub#database-amp-scoping)を参照してください。
+
+##### PostgreSQLアダプタ
+
+PostgreSQLアダプタはActive Recordコネクションプールを用いるため、アプリの`config/database.yml`データベース設定を接続に使います。将来変更される可能性があります。[#27214](https://github.com/rails/rails/issues/27214)
 
 ### 許可されたリクエスト送信元
 
-Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストのインスタンスでは、文字列を利用することも、正規表現で一致をチェックすることもできます。
+Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストには文字列のインスタンスや正規表現を利用でき、これに対して一致するかどうかがチェックされます。
 
 ```ruby
 config.action_cable.allowed_request_origins = ['http://rubyonrails.com', %r{http://ruby.*}]
@@ -539,7 +559,7 @@ WebSocketサーバーからはセッションにアクセスできませんが�
 
 ## 依存関係
 
-Action Cableは、自身のpubsub内部のプロセスへの購読用アダプタインターフェイスを提供します。非同期、インライン、PostgreSQL、イベント化Redis、非イベント化Redisなどのアダプタをデフォルトで利用できます。新規Railsアプリケーションのデフォルトアダプタは非同期（`async`）アダプタです。
+Action Cableは、自身のpubsub内部のプロセスへのサブスクリプションアダプタインターフェイスを提供します。非同期、インライン、PostgreSQL、Redisなどのアダプタをデフォルトで利用できます。新規Railsアプリケーションのデフォルトアダプタは非同期（`async`）アダプタです。
 
 Ruby側では、[websocket-driver](https://github.com/faye/websocket-driver-ruby)、
 [nio4r](https://github.com/celluloid/nio4r)、[concurrent-ruby](https://github.com/ruby-concurrency/concurrent-ruby)の上に構築されています。
