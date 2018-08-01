@@ -1,4 +1,4 @@
-﻿
+
 Rails のコマンドラインツール
 ======================
 
@@ -20,7 +20,7 @@ Railsを使用する際に、きわめて重要なコマンドがいくつかあ
 
 * `rails console`
 * `rails server`
-* `rake`
+* `bin/rails`
 * `rails generate`
 * `rails dbconsole`
 * `rails new app_name`
@@ -38,8 +38,8 @@ INFO: まだRailsをインストールしていない場合、`gem install rails
 ```bash
 $ rails new commandsapp
     create
-    create README.rdoc
-    create Rakefile
+    create README.md
+    create Rakefile
     create config.ru
     create .gitignore
     create Gemfile
@@ -54,20 +54,22 @@ $ rails new commandsapp
 
 ### `rails server`
 
-`rails server`コマンドを実行すると、WEBrickという小規模のwebサーバーが起動します(WEBrickはRubyに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。
+`rails server`コマンドを実行すると、Pumaというwebサーバーが起動します(PumaはRailsに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。
 
 `rails server`を実行することで、新しいRailsアプリケーションを作成後すぐにRailsアプリケーションを起動することができます。
 
 ```bash
 $ cd commandsapp
 $ bin/rails server
-=> Booting WEBrick
-=> Rails 4.2.0 application starting in development on http://0.0.0.0:3000
-=> Call with -d to detach
-=> Ctrl-C to shutdown server
-[2013-08-07 02:00:01] INFO  WEBrick 1.3.1
-[2013-08-07 02:00:01] INFO  ruby 2.0.0 (2013-06-27) [x86_64-darwin11.2.0]
-[2013-08-07 02:00:01] INFO  WEBrick::HTTPServer#start: pid=69680 port=3000
+=> Booting Puma
+=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.0.2 (ruby 2.3.0-p0), codename: Plethora of Penguin Pinatas
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://localhost:3000
+Use Ctrl-C to stop
 ```
 
 ちょうど3つのコマンドで、Railsサーバーを3000番ポートで起動しました。ブラウザを立ち上げて、[http://localhost:3000](http://localhost:3000)を開いてみてください。Railsアプリケーションが動作していることが分かります。
@@ -99,6 +101,7 @@ Please choose a generator below.
 
 Rails:
   assets
+  channel
   controller
   generator
   ...
@@ -152,16 +155,16 @@ $ bin/rails generate controller Greetings hello
      create    app/helpers/greetings_helper.rb
      invoke  assets
      invoke    coffee
-     create      app/assets/javascripts/greetings.js.coffee
+     create      app/assets/javascripts/greetings.coffee
      invoke    scss
-     create      app/assets/stylesheets/greetings.css.scss
+     create      app/assets/stylesheets/greetings.scss
 ```
 
 どのようなものが作成されたのでしょう？いくつかのディレクトリがアプリケーションに存在することを確認し、コントローラファイル、ビューファイル、機能テストのファイル、ビューのヘルパー、JavaScriptファイルそしてスタイルシートファイルを作成しました。
 
 コントローラ(`app/controllers/greetings_controller.rb`)を確認し、少し編集してみましょう。
 
-  ```ruby
+```ruby
 class GreetingsController < ApplicationController
   def hello
     @message = "Hello, how are you today?"
@@ -180,7 +183,7 @@ end
 
 ```bash
 $ bin/rails server
-=> Booting WEBrick...
+=> Booting Puma...
 ```
 
 URLは[http://localhost:3000/greetings/hello](http://localhost:3000/greetings/hello)です。
@@ -206,7 +209,7 @@ Description:
     Create rails files for model generator.
 ```
 
-NOTE: 利用可能なフィールドタイプ(field types)については[API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column)に記載されている、`TableDefinition`のcolumnメソッドの説明を参照してください。
+NOTE: `type`パラメータで利用可能なフィールドの種類については[API documentation](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column)に記載されている、`SchemaStatements`モジュールの`add_column`メソッドの説明を参照してください。`index`パラメータを指定すると、カラムに対応するインデックスが生成されます。
 
 ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて**scaffold**とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。
 
@@ -238,18 +241,20 @@ $ bin/rails generate scaffold HighScore game:string score:integer
     invoke    jbuilder
     create      app/views/high_scores/index.json.jbuilder
     create      app/views/high_scores/show.json.jbuilder
+    invoke    test_unit
+    create      test/system/high_scores_test.rb
     invoke  assets
     invoke    coffee
-    create      app/assets/javascripts/high_scores.js.coffee
+    create      app/assets/javascripts/high_scores.coffee
     invoke    scss
-    create      app/assets/stylesheets/high_scores.css.scss
+    create      app/assets/stylesheets/high_scores.scss
     invoke    scss
-   identical    app/assets/stylesheets/scaffolds.css.scss
+   identical    app/assets/stylesheets/scaffolds.scss
 ```
 
 ジェネレータはモデル、コントローラ、ヘルパー、レイアウト、機能テスト、ユニットテスト、スタイルシート用のディレクトリが存在することをチェックし、ビュー、コントローラ、モデル、マイグレーション(`high_scores`テーブルとフィールドを作成する)を生成し、この**resource**のためのルーティングを用意します。またこれらのためのテストも作成します。
 
-**migrate**を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは`20130717151933_create_high_scores.rb`に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？`rake db:migrate`コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。Rakeについては後ほど詳しく説明します。
+**migrate**を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは`20130717151933_create_high_scores.rb`に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？`bin/rails db:migrate`コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。bin/railsについては後ほど詳しく説明します。
 
 ```bash
 $ bin/rails db:migrate
@@ -259,7 +264,8 @@ $ bin/rails db:migrate
 ==  CreateHighScores: migrated (0.0019s) ======================================
 ```
 
-INFO: 単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。
+INFO: 単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、入力と出力をテストします。単体テストはあなたの友人も同然です。単体テストを書くことで幸せな人生が送れることに気づくのが早ければ早いほど、確実によい結果を得られます。このことは間違いありません。単体テストについて詳しくは、[the testing guide](https://railsguides.jp/testing.html)を参照してください。
+
 
 Railsが作ったインターフェースをみてみましょう。
 
@@ -278,14 +284,14 @@ INFO: コンソールコマンドを実行する際には`rails c`のように"c
 `console`コマンドを実行する環境を指定することができます。
 
 ```bash
-$ bin/rails console staging
+$ bin/rails console -e staging
 ```
 
 データを変更することなくコードをテストしたいときは、`rails console --sandbox`を実行します。
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 4.2.0)
+Loading development environment in sandbox (Rails 5.1.0)
 Any modifications you make will be rolled back on exit
 irb(main):001:0>
 ```
@@ -317,7 +323,7 @@ Started GET "/" for 127.0.0.1 at 2014-06-19 10:41:57 -0300
 
 ### `rails dbconsole`
 
-`rails dbconsole`コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL、PostgreSQL、SQLite、そしてSQLite3をサポートしています。
+`rails dbconsole`コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL (MariaDB含む)、PostgreSQL、SQLite、そしてSQLite3をサポートしています。
 
 INFO: DBコンソールコマンドを実行する際には`rails db`のように"db"というエイリアスが使用できます。
 
@@ -337,6 +343,12 @@ INFO: ランナーコマンドを実行する際には`rails r`のように"r"�
 $ bin/rails runner -e staging "Model.long_running_method"
 ```
 
+ファイル内のRubyコードを`runner`で実行することもできます。
+
+```bash
+$ bin/rails runner lib/code_to_be_run.rb
+```
+
 ### `rails destroy`
 
 `destroy`は`generate`の反対と言えます。ジェネレータコマンドが何をしたか把握し、それを取り消します。
@@ -352,6 +364,7 @@ $ bin/rails generate model Oops
       create      test/models/oops_test.rb
       create      test/fixtures/oops.yml
 ```
+
 ```bash
 $ bin/rails destroy model Oops
       invoke  active_record
@@ -362,50 +375,64 @@ $ bin/rails destroy model Oops
       remove      test/fixtures/oops.yml
 ```
 
-Rake
-----
+bin/rails
+---------
 
-RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と`.rake`ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。
+`rake`コマンドは、Rails 5.0以降Railsの実行ファイルに組み込まれました。コマンドを実行する新しいデフォルトは`bin/rails`です。
 
-`rake --tasks`とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。
 
-```--trace```を使うことで、タスクを実行する際のバックトレースをすべて表示することができます (訳注: バックトレースには、依存するタスクの呼び出しと実行順序が表示されます)。
-例えば ```rake db:create --trace``` のようにしてタスクを実行します。
+`bin/rails --tasks`とタイプすると、実行可能な`rails`コマンドの一覧が表示されます。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。
 
 ```bash
-$ bin/rails --tasks
-rake about              # List versions of all Rails frameworks and the environment
-rake assets:clean       # Remove old compiled assets
-rake assets:clobber     # Remove compiled assets
-rake assets:precompile  # Compile all the assets named in config.assets.precompile
-rake db:create          # Create the database from config/database.yml for the current Rails.env
+$ bin/rails --help
+Usage: rails COMMAND [ARGS]
+
+The most common rails commands are:
+generate    Generate new code (short-cut alias: "g")
+console     Start the Rails console (short-cut alias: "c")
+server      Start the Rails server (short-cut alias: "s")
 ...
-rake log:clear          # Truncates all *.log files in log/ to zero bytes (specify which logs with LOGS=test,development)
-rake middleware         # Prints out your Rack middleware stack
+
+All commands can be run with -h (or --help) for more information.
+
+In addition to those commands, there are:
+about                               List versions of all Rails ...
+assets:clean[keep]                  Remove old compiled assets
+assets:clobber                      Remove compiled assets
+assets:environment                  Load asset compile environment
+assets:precompile                   Compile all the assets ...
 ...
-rake tmp:clear          # Clear session, cache, and socket files from tmp/ (narrow w/ tmp:sessions:clear, tmp:cache:clear, tmp:sockets:clear)
-rake tmp:create         # Creates tmp directories for sessions, cache, sockets, and pids
+db:fixtures:load                    Loads fixtures into the ...
+db:migrate                          Migrate the database ...
+db:migrate:status                   Display status of migrations
+db:rollback                         Rolls the schema back to ...
+db:schema:cache:clear               Clears a db/schema_cache.yml file
+db:schema:cache:dump                Creates a db/schema_cache.yml file
+db:schema:dump                      Creates a db/schema.rb file ...
+db:schema:load                      Loads a schema.rb file ...
+db:seed                             Loads the seed data ...
+db:structure:dump                   Dumps the database structure ...
+db:structure:load                   Recreates the databases ...
+db:version                          Retrieves the current schema ...
+...
+restart                             Restart app by touching ...
+tmp:create                          Creates tmp directories ...
 ```
-INFO: ```rake -T```でもタスクの一覧を表示することができます。
+INFO: `bin/rails -T`でもタスクの一覧を表示することができます。
 
 ### `about`
 
-`rake about`を実行すると、Ruby、RubyGems、Rails、Railsのサブコンポーネント (訳注: Active RecordやAction Packなど) のバージョン、Railsアプリケーションのフォルダー名、現在のRailsの環境名とデータベースアダプター、そして、スキーマのバージョンが表示されます。誰かに質問をしたいときや、セキュリティパッチが自分のアプリケーションに影響するか確認したいときなど、現在使用しているRailsに関する情報が必要なときに役立ちます。
+`bin/rails about`を実行すると、Ruby、RubyGems、Rails、Railsのサブコンポーネント (訳注: Active RecordやAction Packなど) のバージョン、Railsアプリケーションのフォルダー名、現在のRailsの環境名とデータベースアダプター、そして、スキーマのバージョンが表示されます。誰かに質問をしたいときや、セキュリティパッチが自分のアプリケーションに影響するか確認したいときなど、現在使用しているRailsに関する情報が必要なときに役立ちます。
 
 ```bash
 $ bin/rails about
 About your application's environment
-Ruby version              1.9.3 (x86_64-linux)
-RubyGems version          1.3.6
-Rack version              1.3
-Rails version             4.2.0
+Rails version             5.1.0
+Ruby version              2.2.2 (x86_64-linux)
+RubyGems version          2.4.6
+Rack version              2.0.1
 JavaScript Runtime        Node.js (V8)
-Active Record version     4.2.0
-Action Pack version       4.2.0
-Action View version       4.2.0
-Action Mailer version     4.2.0
-Active Support version    4.2.0
-Middleware                Rack::Sendfile, ActionDispatch::Static, Rack::Lock, #<ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x007ffd131a7c88>, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, Rails::Rack::Logger, ActionDispatch::ShowExceptions, ActionDispatch::DebugExceptions, ActionDispatch::RemoteIp, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActiveRecord::ConnectionAdapters::ConnectionManagement, ActiveRecord::QueryCache, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, ActionDispatch::ParamsParser, Rack::Head, Rack::ConditionalGet, Rack::ETag
+Middleware:               Rack::Sendfile, ActionDispatch::Static, ActionDispatch::Executor, ActiveSupport::Cache::Strategy::LocalCache::Middleware, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, ActionDispatch::RemoteIp, Sprockets::Rails::QuietAssets, Rails::Rack::Logger, ActionDispatch::ShowExceptions, WebConsole::Middleware, ActionDispatch::DebugExceptions, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, Rack::Head, Rack::ConditionalGet, Rack::ETag
 Application root          /home/foobar/commandsapp
 Environment               development
 Database adapter          sqlite3
@@ -414,27 +441,19 @@ Database schema version   20110805173523
 
 ### `assets`
 
-`rake assets:precompile`を実行すると、`app/assets`配下のファイルをプレコンパイルすることができます。また`rake assets:clean`を実行すると、古くなったコンパイル済みのファイルを削除できます。`assets:clean`は、新しいassetsのビルドをしながらも古いassetsへのリンクを残す「ローリングデプロイ (rolling deploy)」というやり方を実現しています。
+`bin/rails assets:precompile`を実行すると、`app/assets`配下のファイルをプレコンパイルすることができます。また`bin/rails assets:clean`を実行すると、古くなったコンパイル済みのファイルを削除できます。`assets:clean`は、新しいassetsのビルドをしながらも古いassetsへのリンクを残す「ローリングデプロイ (rolling deploy)」というやり方を実現しています。
 
-`public/assets`配下を完全に消去するには`rake assets:clobber`を実行します。
+`public/assets`配下を完全に消去するには`bin/rails assets:clobber`を実行します。
 
 ### `db`
 
-Rakeの`db:`という名前空間に属するタスクのうち、最もよく使われるのは`migrate`と`create`です。マイグレーションに関するタスク(`up`, `down`, `redo`, `reset`)はいずれも一度試してみることをおすすめします。`rake db:version`を使えばデータベースの状況が分かるので、トラブルシューティングの際に役立ちます。
+bin/railsの`db:`という名前空間に属するタスクのうち、最もよく使われるのは`migrate`と`create`です。マイグレーションに関するタスク(`up`, `down`, `redo`, `reset`)はいずれも一度試してみることをおすすめします。`bin/rails db:version`を使えばデータベースの状況が分かるので、トラブルシューティングの際に役立ちます。
 
 マイグレーションについては、[Active Recordマイグレーション](active_record_migrations.html)でより詳しく扱っています。
 
-### `doc`
-
-`doc:`という名前空間にはアプリケーションやAPI、Railsガイドのドキュメントをつくるためのタスクが入っています。ドキュメントを別で管理することができるので、コードベースの肥大化を防ぐことができます (まるで組込み系の開発をしているかのようです)。
-
-* `rake doc:app`で、`doc/app`配下に開発しているアプリケーションのドキュメントを作成します。
-* `rake doc:guides`で、`doc/guides`配下にRailsガイドを作成します。
-* `rake doc:rails`で、`doc/api`配下にRailsのAPIドキュメントを作成します。
-
 ### `notes`
 
-`rake notes`は、コードのコメントからFIXME、OPTIMIZE、TODOで始まる行を探し出して表示します (訳注: [FIXME]のように[から始まるものはヒットしません)。検索対象となるファイルの拡張子は`.builder`、`.rb`、`.rake`、`.yml`、`.yaml`、`.ruby`、`.css`、`.js`、`.erb`で、デフォルトのアノテーション以外に独自のアノテーションも使用できます。
+`bin/rails notes`は、コードのコメントからFIXME、OPTIMIZE、TODOで始まる行を探し出して表示します (訳注: [FIXME]のように[から始まるものはヒットしません)。検索対象となるファイルの拡張子は`.builder`、`.rb`、`.rake`、`.yml`、`.yaml`、`.ruby`、`.css`、`.js`、`.erb`で、デフォルトのアノテーション以外に独自のアノテーションも使用できます。
 
 ```bash
 $ bin/rails notes
@@ -450,11 +469,11 @@ app/models/school.rb:
 
 検索するファイルの拡張子を追加するには、`config.annotations.register_extensions`オプションを使います。このオプションは拡張子の一覧と、マッチするべき行 を表す正規表現を引数にとります。
 
-  ```ruby
+```ruby
 config.annotations.register_extensions("scss", "sass", "less") { |annotation| /\/\/\s*(#{annotation}):?\s*(.*)$/ }
 ```
 
-特定のアノテーションのみを表示したいとき(例えばFIXMEのみを表示したいとき)は`rake notes:fixme`のように実行します。このとき、アノテーションは小文字で書くことに注意してください。
+特定のアノテーションのみを表示したいとき(例えばFIXMEのみを表示したいとき)は`bin/rails notes:fixme`のように実行します。このとき、アノテーションは小文字で書くことに注意してください。
 
 ```bash
 $ bin/rails notes:fixme
@@ -466,7 +485,7 @@ app/models/school.rb:
   * [ 17]
 ```
 
-独自のアノテーションを使う際には、`rake notes:custom`と書いて、`ANNOTATION`環境変数を使ってアノテーション名を指定します。
+独自のアノテーションを使う際には、`bin/rails notes:custom`と書いて、`ANNOTATION`環境変数を使ってアノテーション名を指定します。
 
 ```bash
 $ bin/rails notes:custom ANNOTATION=BUG
@@ -477,7 +496,13 @@ app/models/article.rb:
 
 NOTE: 特定のアノテーションのみを表示するときや、独自のアノテーションを表示する際には、FIXMEやBUGといったアノテーション名は表示されません。
 
-`rake notes`タスクはデフォルトでは`app`、`config`、`lib`、`bin`、`test`ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、`SOURCE_ANNOTATION_DIRECTORIES`環境変数にディレクトリ名をカンマ区切りで与えてください。
+`rails notes`タスクはデフォルトでは`app`、`config`、`lib`、`bin`、`test`ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、`SOURCE_ANNOTATION_DIRECTORIES`環境変数にディレクトリ名をカンマ区切りで指定します。
+
+```ruby
+config.annotations.register_directories("spec", "vendor")
+```
+
+`SOURCE_ANNOTATION_DIRECTORIES`環境変数でカンマ区切りのディレクトリ名を指定することもできます。
 
 ```bash
 $ export SOURCE_ANNOTATION_DIRECTORIES='spec,vendor'
@@ -491,7 +516,7 @@ spec/models/user_spec.rb:
 
 ### `routes`
 
-`rake routes`を使うと、定義されている全ルーティングをみることができます。これはルーティングの問題を解くときや、アプリケーションのルーティング全体を理解するのに役立ちます。
+`rails routes`を使うと、定義されている全ルーティングをみることができます。これはルーティングの問題を解くときや、アプリケーションのルーティング全体を理解するのに役立ちます。
 
 ### `test`
 
@@ -501,21 +526,21 @@ RailsにはMinitestと呼ばれるテストスイートが付属しています�
 
 ### `tmp`
 
-`Rails.root/tmp`ディレクトリは、(*nix系でいう/tmpディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、(ファイルを利用してセッションの管理を行っている場合) セッションのためのファイルやプロセスIDのファイル、アクションキャッシュのためのファイルなどがあります (訳注: 最近のRailsではセッションをファイルで管理することは稀です)。
+`Rails.root/tmp`ディレクトリは、(*nix系でいう`/tmp`ディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、プロセスIDのファイル、アクションキャッシュのためのファイルなどがあります。
 
 `tmp:`という名前空間には、`Rails.root/tmp`ディレクトリを作成、削除するためのタスクが入っています。
 
-* `rake tmp:cache:clear`で、`tmp/cache`を空にします。
-* `rake tmp:sessions:clear`で、`tmp/sessions`を空にします。
-* `rake tmp:sockets:clear`で、`tmp/sockets`を空にします。
-* `rake tmp:clear`で、cache、sessions、socketsディレクトリを空にします。
-* `rake tmp:create`で、sessions、cache、sockets、pidsのtmpディレクトリを作成します。
+* `rails tmp:cache:clear`で、`tmp/cache`を空にします。
+* `rails tmp:sockets:clear`で、`tmp/sockets`を空にします。
+* `rails tmp:screenshots:clear`で、`tmp/screenshots`を空にします。
+* `rails tmp:clear`で、cache、sockets、screenshotディレクトリを空にします。
+* `rails tmp:create`で、cache、sockets、pidsのtmpディレクトリを作成します。
 
 ### その他のタスク
 
-* `rake stats`で、コードに対するテストの比率やKLOCs(コードの行数)といった、コードに関する統計値を表示します。
-* `rake secret`で、セッションシークレット用に擬似乱数を生成します。
-* `rake time:zones:all`で、Railsが扱える全タイムゾーンを表示します。
+* `rails stats`で、コードに対するテストの比率やKLOCs(コードの行数)といった、コードに関する統計値を表示します。
+* `rails secret`で、セッションシークレット用に擬似乱数を生成します。
+* `rails time:zones:all`で、Railsが扱える全タイムゾーンを表示します。
 
 ### カスタムRakeタスク
 
@@ -523,7 +548,7 @@ RailsにはMinitestと呼ばれるテストスイートが付属しています�
 `Rails.root/lib/tasks`配下に保存します。また、独自のタスクを作成することができる
 `bin/rails generate task`というコマンドもあります。
 
-  ```ruby
+```ruby
 desc "I am short, but comprehensive description for my cool task"
 task task_name: [:prerequisite_task, :another_task_we_depend_on] do
   # All your magic here
@@ -533,19 +558,19 @@ end
 
 タスクに引数を渡すには以下のようにします。
 
-  ```ruby
-task :task_name, [:arg_1] => [:pre_1, :pre_2] do |t, args|
-  # You can use args from here
-end 
+```ruby
+task :task_name, [:arg_1] => [:prerequisite_1, :prerequisite_2] do |task, args|
+  argument_1 = args.arg_1
+end
 ```
 
 名前空間内でタスクを定義することで、タスクをグルーピングできます。
 
-  ```ruby
+```ruby
 namespace :db do 
-  desc "This task does nothing"
+  desc "何もしないたすく"
   task :nothing do
-    # Seriously, nothing
+    # マジ何もしない
   end 
 end 
 ```
@@ -586,8 +611,8 @@ $ rails new . --git --database=postgresql
       create  tmp/pids
       create Rakefile
       add 'Rakefile'
-      create README.rdoc
-      add 'README.rdoc'
+      create README.md
+      add 'README.md'
       create app/controllers/application_controller.rb
       add 'app/controllers/application_controller.rb'
       create app/helpers/application_helper.rb
@@ -600,7 +625,7 @@ Railsがgitのリポジトリ内にファイルを作成する前に、**gitapp*
 
 ```bash
 $ cat config/database.yml
-# PostgreSQL. Versions 8.2 and up are supported.
+# PostgreSQL. Versions 9.1 and up are supported.
 #
 # Install the pg driver:
 #   gem install pg
@@ -616,17 +641,20 @@ $ cat config/database.yml
 # Configure Using Gemfile
 # gem 'pg'
 #
-development:
+default: &default
   adapter: postgresql
   encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
   database: gitapp_development
-  pool: 5
-  username: gitapp
-  password:
 ...
 ...
 ```
 
-選択したデータベース(PostgreSQL)に対応するように、Railsはdatabase.ymlを作成します。
+選択したデータベース(PostgreSQL)に対応するように、Railsは`database.yml`を作成します。
 
 NOTE: ソースコード管理システムに関するオプションを使う際には、まずアプリケーション用のディレクトリを作り、ソースコード管理システムの初期化を行ってから、`rails new`コマンドを実行する点に注意してください。
