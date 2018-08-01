@@ -1,4 +1,4 @@
-﻿
+
 
 
 Active Record クエリインターフェイス
@@ -12,7 +12,7 @@ Active Record クエリインターフェイス
 * 検索されたレコードのソート順、取り出したい属性、グループ化の有無などを指定する
 * 一括読み込み (eager loading) を使用して、データ取り出しに必要なクエリの実行回数を減らす
 * 動的検索メソッドを使用する
-* メソッドチェーンで複数のActive Recordメソッドを同時に利用する
+* 複数のActive Recordメソッドをメソッドチェインで同時に利用する
 * 特定のレコードが存在するかどうかをチェックする
 * Active Recordモデルでさまざまな計算を行う
 * リレーションでEXPLAINを実行する
@@ -51,7 +51,7 @@ class Role < ApplicationRecord
 end
 ```
 
-Active Recordは、ユーザーに代わってデータベースにクエリを発行します。発行されるクエリは多くのデータベースシステム (MySQL、PostgreSQL、SQLiteなど) と互換性があります。Active Recordを使用していれば、利用しているデータベースシステムの種類にかかわらず、同じ表記を使用できます。
+Active Recordは、ユーザーに代わってデータベースにクエリを発行します。発行されるクエリは多くのデータベースシステム (MySQL、MariaDB、PostgreSQL、SQLiteなど) と互換性があります。Active Recordを使用していれば、利用しているデータベースシステムの種類にかかわらず、同じ表記を使用できます。
 
 データベースからオブジェクトを取り出す
 ------------------------------------
@@ -102,8 +102,8 @@ Active Recordには、単一のオブジェクトを取り出すためのさま�
 `find`メソッドを使用すると、与えられたどのオプションにもマッチする _主キー_ に対応するオブジェクトを取り出すことができます。以下に例を示します。
 
 ```ruby
-# Find the client with primary key (id) 10.
-client = Client.find(10)
+# 主キー（id）が10のクライアントを検索
+clients = Client.find(10)
 # => #<Client id: 10, first_name: "Ryan">
 ```
 
@@ -118,9 +118,12 @@ SELECT * FROM clients WHERE (clients.id = 10) LIMIT 1
 このメソッドを使用して、複数のオブジェクトへのクエリを作成することもできます。これを行うには、`find`メソッドの呼び出し時に主キーの配列を渡します。これにより、与えられた _主キー_ にマッチするレコードをすべて含む配列が返されます。以下に例を示します。
 
 ```ruby
-# Find the clients with primary keys 1 and 10.
-clients = Client.find([1, 10]) # Or even Client.find(1, 10)
-# => [#<Client id: 1, first_name: "Lifo">, #<Client id: 10, first_name: "Ryan">]
+# 主キー（id）が1と10のクライアントを検索
+clients = Client.find([1, 10]) # Client.find(1, 10)も可
+# => [
+# <Client id: 1, first_name: "Lifo">, 
+# <Client id: 10, first_name: "Ryan">
+# ]
 ```
 
 これと同等のSQLは以下のようになります。
@@ -173,7 +176,7 @@ TIP: このメソッドで取り出されるレコードは、使用するデー
 `first`メソッドは、デフォルトでは主キー順の最初のレコードを取り出します。以下に例を示します。
 
 ```ruby
-client = Client.first
+clients = Client.first
 # => #<Client id: 1, first_name: "Lifo">
 ```
 
@@ -185,7 +188,7 @@ SELECT * FROM clients ORDER BY clients.id ASC LIMIT 1
 
 `first`メソッドは、モデルにレコードが1つもない場合に`nil`を返します。このとき例外は発生しません。
 
-もし[デフォルトスコープ](active_record_querying.html#デフォルトスコープを適用する)が順序に関するメソッドを含んでいる場合、`first`メソッドはその順序に従って最初のレコードを返します。
+[デフォルトスコープ](active_record_querying.html#デフォルトスコープを適用する)が順序に関するメソッドを含んでいる場合、`first`メソッドはその順序に従って最初のレコードを返します。
 
 `first`メソッドで返すレコードの最大数を数値の引数で指定することもできます。例:
 
@@ -314,7 +317,7 @@ Client.where(first_name: 'does not exist').take!
 このような処理をそのまま実装すると以下のようになるでしょう。
 
 ```ruby
-# このコードはテーブルが大きい場合、メモリを大量に消費します
+# このコードはテーブルが大きい場合、メモリを大量に消費する可能性あり
 User.all.each do |user|
   NewsMailer.weekly(user).deliver_now
 end
@@ -328,7 +331,7 @@ TIP: `find_each`メソッドと`find_in_batches`メソッドは、一度にメ�
 
 #### `find_each`
 
-`find_each`メソッドは、レコードのバッチを1つ取り出し、続いて _各_ レコードを1つのブロックにyieldします。以下の例では、`find_each`でバッチから1000件のレコードを取り出し、各レコードをブロックにyieldします。
+`find_each`メソッドは、複数のレコードを一括で取り出し、続いて _各_ レコードを1つのブロックにyieldします。以下の例では、`find_each`でバッチから1000件のレコードを一括で取り出し、各レコードをブロックにyieldします。
 
 ```ruby
 User.find_each do |user|
@@ -336,9 +339,9 @@ User.find_each do |user|
 end
 ```
 
-この処理は、すべてのレコードが処理されるまで繰り返されます。
+この処理は、必要に応じてさらにレコードのまとまりをフェッチし、すべてのレコードが処理されるまで繰り返されます。
 
-上記からもわかるように、`find_each`メソッドはモデルクラスで動きます。内部でイテレートするための順序制約を持っていないため、順序に関する制約がない限り、リレーションについても同様です。
+`find_each`メソッドは上述のようにモデルのクラスに対して機能します。対象がリレーションの場合も同様です。
 
 ```ruby
 User.where(weekly_subscriber: true).find_each do |user|
@@ -346,10 +349,9 @@ User.where(weekly_subscriber: true).find_each do |user|
 end
 ```
 
+ただしこれは順序指定がない場合に限ります。`find_each`メソッドでイテレートするには内部で順序を強制する必要があるためです。
 
-
-
-もしレシーバー側に順序制約がある場合、`config.active_record.error_on_ignored_order`フラグの状態によって振る舞いが変わります。例えばtrueの場合は`ArgumentError`が発生し、falseの場合は順序が無視され警告が発生します。デフォルトはfalseです。このフラグを上書きしたい場合は`:error_on_ignore`オプションを使います。詳細は次の項目を参照してください。
+レシーバー側に順序制約がある場合、`config.active_record.error_on_ignored_order`フラグの状態によって振る舞いが変わります。たとえば`true`の場合は`ArgumentError`が発生し、falseの場合は順序が無視され警告が発生します。デフォルトは`false`です。このフラグを上書きしたい場合は`:error_on_ignore`オプション（後述）を使います。
 
 ##### `find_each`のオプション
 
@@ -367,7 +369,7 @@ end
 
 デフォルトでは、レコードは主キーの昇順に取り出されます。主キーは整数でなければなりません。並び順冒頭のIDが不要な場合、`:start`オプションを使用してシーケンスの開始IDを指定します。これは、たとえば中断したバッチ処理を再開する場合などに便利です (最後に実行された処理のIDがチェックポイントとして保存済みであることが前提です)。
 
-例えば主キーが2000番以降のユーザーに対してニュースレターを配信する場合は、以下のようになります。
+たとえば主キーが2000番以降のユーザーに対してニュースレターを配信する場合は、以下のようになります。
 
 ```ruby
 User.find_each(start: 2000) do |user|
@@ -377,9 +379,9 @@ end
 
 **`:finish`**
 
-`:start`オプションと同様に、シーケンスの最後のIDを指定したい場合は、`:finish`オプションを使って最後のIDを設定することができます。 `:start`と`:finish`でレコードのサブセットを指定し、その中でバッチプロセスを走らせたい時に便利です。
+`:start`オプションと同様に、シーケンスの末尾のIDを指定したい場合は、`:finish`オプションで末尾のIDを設定できます。 `:start`と`:finish`でレコードのサブセットを指定し、その中でバッチプロセスを走らせたい時に便利です。
 
-例えば主キーが2000番〜10000番のユーザーに対してニュースレターを配信したい場合は、以下のようになります。
+たとえば主キーが2000番〜10000番のユーザーに対してニュースレターを配信したい場合は、以下のようになります。
 
 ```ruby
 User.find_each(start: 2000, finish: 10000) do |user|
@@ -387,12 +389,11 @@ User.find_each(start: 2000, finish: 10000) do |user|
 end
 ```
 
-他にも、同じ処理キューを複数の作業者で手分けする場合が考えられます。例えば各ワーカーに10000レコードずつ処理して欲しい場合も、`:start`と`:finish`オプションにそれぞれ適切な値を設定して実現することができます。
+他にも、同じ処理キューを複数の作業者で手分けする場合が考えられます。たとえば各ワーカーに10000レコードずつ処理して欲しい場合も、`:start`と`:finish`オプションにそれぞれ適切な値を設定することで実現できます。
 
 **`:error_on_ignore`**
 
-リレーション内に順序制約があれば例外を発生させたい、という場合は、このオプションを使ってアプリケーションの設定を上書きしてください。
-
+リレーション内に順序制約があれば例外を発生させたい場合は、このオプションを使ってアプリケーションの設定を上書きしてください。
 
 #### `find_in_batches`
 
@@ -405,19 +406,19 @@ Invoice.find_in_batches do |invoices|
 end
 ```
 
-`find_in_batches`はモデルクラスの上で動きます。これまでと同様に、リレーションについても同様です。
+`find_in_batches`メソッドは上述のようにモデルのクラスに対して機能します。対象がリレーションの場合も同様です。
 
 ```ruby
-Invoice.pending.find_in_batches do |invoice|
+Invoice.pending.find_in_batches do |invoices|
   pending_invoices_export.add_invoices(invoices)
 end
 ```
 
-ただし内部でイテレートするための順序制約を持っていないため、順序に関する制約がない場合に限ります。
+ただしこれは順序指定がない場合に限ります。`find_in_batches`メソッドでイテレートするには内部で順序を強制する必要があるためです。
 
 ##### `find_in_batches`のオプション
 
-`find_in_batches`メソッドでは、`find_each`メソッドと同様のオプションを使用できます。
+`find_in_batches`メソッドでは、`find_each`メソッドと同様のオプションを使えます。
 
 条件
 ----------
@@ -438,7 +439,7 @@ WARNING: 条件を文字列だけで構成すると、SQLインジェクショ�
 Client.where("orders_count = ?", params[:orders])
 ```
 
-Active Recordは最初の引数を、文字列で表された条件として受け取ります。文字列内にある疑問符 `?` には、その後に続く引数が置き換えられます。
+Active Recordは最初の引数を、文字列で表された条件として受け取ります。その後に続く引数は、文字列内にある疑問符 `?` と置き換えられます。
 
 複数の条件を指定したい場合は次のようにします。
 
@@ -506,8 +507,6 @@ Article.where(author: author)
 Author.joins(:articles).where(articles: { author: author })
 ```
 
-NOTE: この値はシンボルにすることはできません。たとえば`Client.where(status: :active)`のような書き方はできません。
-
 #### 範囲条件
 
 ```ruby
@@ -544,7 +543,7 @@ SQLの`NOT`クエリは、`where.not`で表せます。
 Client.where.not(locked: true)
 ```
 
-言い換えれば、このクエリは`where`に引数を付けずに呼び出し、直後に`where`条件に`not`を渡して連鎖させることによって生成されています。これは以下のようなSQLを出力します。
+言い換えれば、このクエリは`where`に引数を付けずに呼び出し、直後に`where`条件に`not`を渡してチェインすることで生成されています。これは以下のようなSQLを出力します。
 
 ```sql
 SELECT * FROM clients WHERE (clients.locked != 1)
@@ -607,7 +606,7 @@ Client.order("orders_count ASC").order("created_at DESC")
 # SELECT * FROM clients ORDER BY orders_count ASC, created_at DESC
 ```
 
-WARNING: もし **MySQL 5.7.5** 以上のバージョンを使っていて、 `select`や`pluck`、`ids`メソッドを使ってフィールドを選択している場合、`order`メソッドは`ActiveRecord::StatementInvalid`という例外を発生させます。`order`句を使ったフィールドが選択しているリストに含まれている場合は、この限りではありません。結果から特定のフィールドだけを取り出す方法については、次のセクションを参照してください。
+WARNING: **MySQL 5.7.5**以上のバージョンで `select`や`pluck`、`ids`メソッドを使ってフィールドを選択し、かつ、選択しているリストに`order`句を使ったフィールドが含まれていないと、`order`メソッドで`ActiveRecord::StatementInvalid`例外が発生します。結果から特定のフィールドだけを取り出す方法については、次のセクションを参照してください。
 
 特定のフィールドだけを取り出す
 -------------------------
@@ -746,7 +745,7 @@ GROUP BY date(created_at)
 HAVING sum(price) > 100
 ```
 
-これは各orderオブジェクトの注文日と合計金額を返します。具体的には、priceが$100を超えているものが、date毎にまとめられて返されます。
+これは各orderオブジェクトの注文日と合計金額を返します。具体的には、priceが$100を超えているものが、dateごとにまとめられて返されます。
 
 条件を上書きする
 ---------------------
@@ -766,7 +765,6 @@ SELECT * FROM articles WHERE id > 10 LIMIT 20
 
 # `unscope`する前のオリジナルのクエリ
 SELECT * FROM articles WHERE id > 10 ORDER BY id asc LIMIT 20
-
 ```
 
 特定の`where`句で`unscope`を指定することもできます。以下に例を示します。
@@ -884,7 +882,7 @@ SELECT * FROM articles WHERE `trashed` = 1 AND `trashed` = 0
 Nullリレーション
 -------------
 
-`none`メソッドは、連鎖 (chain) 可能なリレーションを返します (レコードは返しません)。このメソッドから返されたリレーションにどのような条件を連鎖させても、常に空のリレーションが生成されます。これは、メソッドまたはスコープへの連鎖可能な応答が必要で、しかも結果を一切返したくない場合に便利です。
+`none`メソッドは、チェイン (chain) 可能なリレーションを返します (レコードは返しません)。このメソッドから返されたリレーションにどのような条件をチェインさせても、常に空のリレーションが生成されます。これは、メソッドまたはスコープへのチェイン可能な応答が必要で、しかも結果を一切返したくない場合に便利です。
 
 ```ruby
 Article.none # 空のリレーションを返し、クエリを生成しない。
@@ -1144,7 +1142,7 @@ Client.joins(:orders).where(orders: { created_at: time_range })
 
 ### `left_outer_joins`
 
-もし関連レコードがあるかどうかにかかわらずレコードのセットを取得したい場合は、`left_outer_joins`メソッドを使います。
+関連レコードがあるかどうかにかかわらずレコードのセットを取得したい場合は、`left_outer_joins`メソッドを使います。
 
 ```ruby
 Author.left_outer_joins(:posts).distinct.select('authors.*, COUNT(posts.*) AS posts_count').group('authors.id')
@@ -1272,7 +1270,7 @@ class Article < ApplicationRecord
 end
 ```
 
-スコープをスコープ内で連鎖 (chain) させることもできます。
+スコープをスコープ内でチェイン (chain) させることもできます。
 
 ```ruby
 class Article < ApplicationRecord
@@ -1346,7 +1344,7 @@ class Article < ApplicationRecord
 end
 ```
 
-ただし１つ注意点があります。それは条件文を評価した結果が`false`になった場合であっても、スコープは常に`ActiveRecord::Relation`オブジェクトを返すという点です。クラスメソッドの場合は`nil`を返すので、この振る舞いが異なります。したがって、条件文を使ってクラスメソッドを連鎖させていて、かつ、条件文のいずれかが`false`を返す場合、`NoMethodError`を発生することがあります。
+ただし１つ注意点があります。それは条件文を評価した結果が`false`になった場合であっても、スコープは常に`ActiveRecord::Relation`オブジェクトを返すという点です。クラスメソッドの場合は`nil`を返すので、この振る舞いが異なります。したがって、条件文を使ってクラスメソッドをチェインさせていて、かつ、条件文のいずれかが`false`を返す場合、`NoMethodError`を発生することがあります。
 
 ### デフォルトスコープを適用する
 
@@ -1416,7 +1414,7 @@ User.active.where(state: 'finished')
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'active' AND "users"."state" = 'finished'
 ```
 
-末尾のwhere句をどうしてもスコープより優先したい場合は、`Relation#merge`を使用できます。
+末尾の`where`句をどうしてもスコープより優先したい場合は、`Relation#merge`を使用できます。
 
 ```ruby
 User.active.merge(User.inactive)
@@ -1507,12 +1505,12 @@ book.available?   # => false
 enumの詳細な仕様については、
 [Rails API](http://api.rubyonrails.org/classes/ActiveRecord/Enum.html)を参照してください。
 
-メソッドチェーンを理解する
+メソッドチェインを理解する
 ---------------------------------
 
-Active Record パターンには [メソッドチェーン (Method chaining - Wikipedia)](http://en.wikipedia.org/wiki/Method_chaining) が実装されています。これにより、複数のActive Recordメソッドをシンプルな方法で次々に適用することができます。
+Active Record パターンには [メソッドチェイン (Method chaining - Wikipedia)](http://en.wikipedia.org/wiki/Method_chaining) が実装されています。これにより、複数のActive Recordメソッドをシンプルな方法で次々に適用することができます。
 
-文中でメソッドチェーンができるのは、その前のメソッドが`ActiveRecord::Relation` (`all`、`where`、`joins`など) をひとつ返す場合です。文の末尾には、単一のオブジェクトを返すメソッド ([単一のオブジェクトを取り出す](#%E5%8D%98%E4%B8%80%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99)を参照) をひとつ置かなければなりません。
+文中でメソッドチェインができるのは、その前のメソッドが`ActiveRecord::Relation` (`all`、`where`、`joins`など) をひとつ返す場合です。文の末尾には、単一のオブジェクトを返すメソッド ([単一のオブジェクトを取り出す](#%E5%8D%98%E4%B8%80%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99)を参照) をひとつ置かなければなりません。
 
 いくつか例をご紹介します。本ガイドでは一部の例のみをご紹介し、すべての例を網羅することはしません。Active Recordメソッドが呼び出されると、クエリはその時点ではすぐに生成されず、データベースに送信されます。クエリは、データが実際に必要になった時点で初めて生成されます。以下の例では、いずれも単一のクエリを生成します。
 
@@ -1667,10 +1665,10 @@ Client.find_by_sql("SELECT * FROM clients
 
 ### `select_all`
 
-`find_by_sql`は`connection#select_all`と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを使用してデータベースからオブジェクトを取り出しますが、取り出したオブジェクトのインスタンス化を行わない点が異なります。代りに、ハッシュの配列を返します。1つのハッシュが1レコードを表します。
+`find_by_sql`は`connection#select_all`と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを使用してデータベースからオブジェクトを取り出しますが、取り出したオブジェクトのインスタンス化を行わない点が異なります。このメソッドは`ActiveRecord::Result`クラスのインスタンスを1つ返します。このオブジェクトで`to_hash`を呼ぶと、各レコードに対応するハッシュを含む配列を1つ返します。
 
 ```ruby
-Client.connection.select_all("SELECT first_name, created_at FROM clients WHERE id = '1'")
+Client.connection.select_all("SELECT first_name, created_at FROM clients WHERE id = '1'").to_hash
 # => [
 #   {"first_name"=>"Rafael", "created_at"=>"2012-11-10 23:23:45.281189"},
 #   {"first_name"=>"Eileen", "created_at"=>"2013-12-09 11:22:35.221282"}
@@ -1729,7 +1727,7 @@ Client.pluck(:name)
 # => ["David", "Jeremy", "Jose"]
 ```
 
-さらに`pluck`は、`select`などの`Relation`スコープと異なり、クエリを直接トリガするので、その後ろに他のスコープを連鎖することはできません。ただし、構成済みのスコープを`pluck`の前に置くことはできます。
+さらに`pluck`は、`select`などの`Relation`スコープと異なり、クエリを直接トリガするので、その後ろに他のスコープをチェインすることはできません。ただし、構成済みのスコープを`pluck`の前に置くことはできます。
 
 ```ruby
 Client.pluck(:name).limit(1)
@@ -1984,8 +1982,8 @@ EXPLAINの出力を解釈することは、本ガイドの範疇を超えます�
 
 * SQLite3: [EXPLAIN QUERY PLAN](http://www.sqlite.org/eqp.html)
 
-* MySQL: [EXPLAIN Output Format](http://dev.mysql.com/doc/refman/5.7/en/explain-output.html)
+* MySQL: [EXPLAIN Output Format](https://dev.mysql.com/doc/refman/5.6/ja/explain-output.html) （v5.6日本語）
 
 * MariaDB: [EXPLAIN](https://mariadb.com/kb/en/mariadb/explain/)
 
-* PostgreSQL: [Using EXPLAIN](http://www.postgresql.org/docs/current/static/using-explain.html)
+* PostgreSQL: [Using EXPLAIN](https://www.postgresql.jp/document/10/html/using-explain.html) （v10日本語）

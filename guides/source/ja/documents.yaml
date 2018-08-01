@@ -169,6 +169,11 @@
       url: engines.html
       description: マウント可能なエンジンの作成方法について解説します。
       work_in_progress: false
+    -
+      name: Threading and Code Execution in Rails [未訳]
+      url: threading_and_code_execution.html
+      description: Railsアプリケーションの並行性について考慮すべきことや利用可能なツールについて解説します。
+      work_in_progress: true
 -
   name: Ruby on Rails に貢献する
   documents:
@@ -203,6 +208,10 @@
       url: upgrading_ruby_on_rails.html
       description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
     -
+      name: Ruby on Rails 5.2 リリースノート
+      url: 5_2_release_notes.html
+      description: Rails 5.2のリリースノートです。
+    -
       name: Ruby on Rails 5.1 リリースノート
       url: 5_1_release_notes.html
       description: Rails 5.1のリリースノートです。
@@ -223,22 +232,22 @@
       url: 4_0_release_notes.html
       description: Rails 4.0のリリースノートです。
     -
-      name: Ruby on Rails 3.2 Release Notes [未着手]
+      name: Ruby on Rails 3.2 Release Notes [未訳]
       url: 3_2_release_notes.html
       description: Rails 3.2のリリースノートです。
     -
-      name: Ruby on Rails 3.1 Release Notes [未着手]
+      name: Ruby on Rails 3.1 Release Notes [未訳]
       url: 3_1_release_notes.html
       description: Rails 3.1のリリースノートです。
     -
-      name: Ruby on Rails 3.0 Release Notes [未着手]
+      name: Ruby on Rails 3.0 Release Notes [未訳]
       url: 3_0_release_notes.html
       description: Rails 3.0のリリースノートです。
     -
-      name: Ruby on Rails 2.3 Release Notes [未着手]
+      name: Ruby on Rails 2.3 Release Notes [未訳]
       url: 2_3_release_notes.html
       description: Rails 2.3のリリースノートです。
     -
-      name: Ruby on Rails 2.2 Release Notes [未着手]
+      name: Ruby on Rails 2.2 Release Notes [未訳]
       url: 2_2_release_notes.html
       description: Rails 2.2のリリースノートです。

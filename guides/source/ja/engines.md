@@ -7,9 +7,10 @@ Rails エンジン入門
 
 * エンジンの役割
 * エンジンの生成方法
-* エンジンのビルド機能
-* エンジンをアプリケーションにフックする
-* アプリケーションのエンジン機能を上書きする
+* エンジンのビルド方法
+* エンジンをアプリにフックする
+* エンジン機能をアプリで上書きする
+* 読み込み/設定フックでRailsフレームワークが読み込まれないようにする方法
 
 --------------------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ Railsにおけるエンジンの役割
 
 ここが重要です。アプリケーションは **いかなる場合も** エンジンよりも優先されます。ある環境において、最終的な決定権を持つのはアプリケーション自身です。エンジンはアプリケーションの動作を大幅に変更するものではなく、アプリケーションを単に拡張するものです。
 
-その他のエンジンに関するドキュメントについては、[Devise](https://github.com/plataformatec/devise) (親アプリケーションに認証機能を提供するエンジン) や [Forem](https://github.com/radar/forem) (フォーラム機能を提供するエンジン) を参照してください。この他に、[Spree](https://github.com/spree/spree) (eコマースプラットフォーム) や[RefineryCMS](https://github.com/refinery/refinerycms) (CMSエンジン) などもあります。
+その他のエンジンに関するドキュメントについては、[Devise](https://github.com/plataformatec/devise) (親アプリケーションに認証機能を提供するエンジン) や [Thredded](https://github.com/thredded/thredded) (フォーラム機能を提供するエンジン) を参照してください。この他に、[Spree](https://github.com/spree/spree) (eコマースプラットフォーム) や[Refinery CMS](https://github.com/refinery/refinerycms) (CMSエンジン) などもあります。
 
 追伸。エンジン機能はJames Adam、Piotr Sarnacki、Railsコアチーム、そして多くの人々の助けなしではできあがらなかったでしょう。彼らに会うことがあったら、ぜひお礼を述べてやってください。
 
@@ -66,7 +67,7 @@ $ bin/rails plugin --help
     end
     ```
 
-`--mountable`オプションを使用すると、`--full`オプションに以下が追加されます。
+`--mountable`オプションを使用すると、`--full`オプションによって以下が追加されます。
 
   * アセットマニフェストファイル (`application.js`および`application.css`)
   * 名前空間化された`ApplicationController`スタブ
@@ -144,7 +145,9 @@ NOTE: `Engine`クラスの定義に含まれる`isolate_namespace`の行を変�
 
 `app/controllers`ディレクトリの下には`blorgh`ディレクトリが置かれます。この中には`application_controller.rb`というファイルが1つ置かれます。このファイルはエンジンのコントローラ共通の機能を提供するためのものです。この`blorgh`ディレクトリには、エンジンで使用するその他のコントローラを置きます。これらのファイルを名前空間化されたディレクトリに配置することで、他のエンジンやアプリケーションに同じ名前のコントローラがあっても名前の衝突を避ける事ができます。
 
-NOTE: Rubyが定数を探索する方法のせいで、エンジンのコントローラがエンジンのアプロケーションコントローラを継承するのではなく、メインアプリケーションコントローラを継承する場合があります。これはRubyはすでに`ApplicationController`定数を知っているので自動読み込みが動作されないためです。[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)と[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)に詳しい説明があります。この問題を解決する一番良い方法は`require_dependency`を使いエンジンのアプリケーションコントローラがロードされるのを保証することです。例を見ましょう。
+NOTE: あるエンジンに含まれる`ApplicationController`というクラスの名前は、アプリケーションそのものが持つクラスと同じ名前になっています。これは、アプリケーションをエンジンに変換しやすくするためです。
+
+NOTE: Rubyの定数探索方法が原因で、エンジンのコントローラがエンジンのアプリケーションコントローラではなくメインアプリケーションのコントローラを継承してしまう場合があります。Rubyが`ApplicationController`定数を解決できる状態になっていると、自動読み込みがトリガされなくなります。詳しくは、[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)や[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)をご覧ください。この問題を防止するには、`require_dependency`を用いてエンジンのアプリケーションコントローラを確実に読み込むのが最善の方法です。次の例をご覧ください。
 
 ``` ruby
 # app/controllers/blorgh/articles_controller.rb:
@@ -157,9 +160,7 @@ module Blorgh
 end
 ```
 
-WARNING: `require`は開発環境でのクラス自動読み込みで誤作動を起こすので使わないでください。`require_dependency`を使ってクラスが読み込まれるかどうかを保証するのが正しい使い方です。
-
-NOTE: あるエンジンに含まれる`ApplicationController`というクラスの名前は、アプリケーションそのものが持つクラスと同じ名前になっています。これは、アプリケーションをエンジンに変換しやすくするためです。
+WARNING: `require`は使わないでください。開発環境でのクラス自動読み込みで誤作動の原因になります。`require_dependency`を用いることで、クラスの読み込みやunloadを正しい方法で行えるようになります。
 
 最後に、`app/views`ディレクトリの下には`layouts`フォルダがあります。ここには`blorgh/application.html.erb`というファイルが置かれます。このファイルは、エンジンで使用するレイアウトを指定するためのものです。エンジンが単体のエンジンとして使用されるのであれば、このファイルを使用していくらでも好きなようにレイアウトをカスタマイズできます。そのためにアプリケーション自身の`app/views/layouts/application.html.erb`ファイルを変更する必要はありません。
 
@@ -226,6 +227,9 @@ invoke  test_unit
 create      test/controllers/blorgh/articles_controller_test.rb
 invoke    helper
 create      app/helpers/blorgh/articles_helper.rb
+invoke  test_unit
+create    test/application_system_test_case.rb
+create    test/system/articles_test.rb
 invoke  assets
 invoke    js
 create      app/assets/javascripts/blorgh/articles.js
@@ -249,7 +253,7 @@ end
 
 このルーティングは、`YourApp::Application`クラスではなく`Blorgh::Engine`オブジェクトにもとづいていることにご注目ください。これにより、エンジンのルーティングがエンジン自身に制限され、[testディレクトリ](#testディレクトリ)セクションで説明したように特定の位置にマウントできるようになります。ここでは、エンジンのルーティングがアプリケーション内のルーティングから分離されていることにもご注目ください。詳細については本ガイドの[ルーティング](#ルーティング)セクションで解説します。
 
-続いて`scaffold_controller`ジェネレータが呼ばれ、`Blorgh::ArticlesController`という名前のコントローラを生成します (生成場所は`app/controllers/blorgh/articles_controller.rb`です)。このコントローラに関連するビューは`app/views/blorgh/articles`となります。このジェネレータは、コントローラ用のテスト (`test/controllers/blorgh/articles_controller_test.rb`) とヘルパー (`app/helpers/blorgh/articles_controller.rb`) も同時に生成します。
+続いて`scaffold_controller`ジェネレータが呼ばれ、`Blorgh::ArticlesController`という名前のコントローラを生成します (生成場所は`app/controllers/blorgh/articles_controller.rb`です)。このコントローラに関連するビューは`app/views/blorgh/articles`となります。このジェネレータは、コントローラ用のテスト (`test/controllers/blorgh/articles_controller_test.rb`) とヘルパー (`app/helpers/blorgh/articles_helper.rb`) も同時に生成します。
 
 このジェネレータによって生成されるものはすべて正しく名前空間化されます。このコントローラのクラスは、以下のように`Blorgh`モジュール内で定義されます。
 
@@ -261,7 +265,7 @@ module Blorgh
 end
 ```
 
-NOTE: このクラスで継承されている`ApplicationController`クラスは、実際には`ApplicationController`ではなく、`Blorgh::ApplicationController`です。
+NOTE: このクラスで継承されている`ArticlesController`クラスは、実際には`ApplicationController`ではなく、`Blorgh::ApplicationController`です。
 
 `app/helpers/blorgh/articles_helper.rb`のヘルパーも同様に名前空間化されます。
 
@@ -358,12 +362,12 @@ NOTE: この`has_many`は`Blorgh`モジュールの中にあるクラスの中�
 
 ```html+erb
 <h3>New comment</h3>
-<%= form_for [@article, @article.comments.build] do |f| %>
+<%= form_with(model: [@article, @article.comments.build], local: true) do |form| %>
   <p>
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
   </p>
-  <%= f.submit %>
+  <%= form.submit %>
 <% end %>
 ```
 
@@ -450,7 +454,7 @@ Missing partial blorgh/comments/comment with {:handlers=>[:erb, :builder],
 $ rails new unicorn
 ```
 
-基本的には、Gemfileでエンジンを指定する方法は他のgemの指定方法と変わりません。
+基本的には、`Gemfile`でエンジンを指定する方法は他のgemの指定方法と変わりません。
 
 ```ruby
 gem 'devise'
@@ -459,7 +463,7 @@ gem 'devise'
 ただし、この`blorgh`エンジンはローカルPCで開発中でgemリポジトリには存在しないので、`Gemfile`でエンジンgemへのパスを`:path`オプションで指定する必要があります。
 
 ```ruby
-gem 'blorgh', path: "/path/to/blorgh"
+gem 'blorgh', path: 'engines/blorgh'
 ```
 
 続いて`bundle`コマンドを実行し、gemをインストールします。
@@ -472,13 +476,16 @@ gem 'blorgh', path: "/path/to/blorgh"
 mount Blorgh::Engine, at: "/blog"
 ```
 
-この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すること、`http://localhost:3000/blog`にアクセスできるようになります。
+この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すると、`http://localhost:3000/blog`にアクセスできるようになります。
 
 NOTE: Deviseなどの他のエンジンではこの点が若干異なり、ルーティングで (`devise_for`などの) カスタムヘルパーを指定するものがあります。これらのヘルパーの動作は完全に同じです。事前に定義されたカスタマイズ可能なパスにエンジンの機能の一部をマウントします。
 
 ### エンジンの設定
 
-作成したエンジンには`blorgh_articles`テーブルと`blorgh_comments`テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、以下のコマンドを実行します。
+<!--
+TODO: https://github.com/yasslab/railsguides.jp/commit/a9e6632d185dd7436d8c4eca38ca52e047d1eacc#r27092493
+-->
+作成したエンジンには`blorgh_articles`テーブルと`blorgh_comments`テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、自分のRailsエンジンの`test/dummy`ディレクトリで以下のコマンドを実行します。
 
 ```bash
 $ bin/rails blorgh:install:migrations
@@ -535,8 +542,8 @@ rails g model user name:string
 
 ```html+erb
 <div class="field">
-  <%= f.label :author_name %><br>
-  <%= f.text_field :author_name %>
+  <%= form.label :author_name %><br>
+  <%= form.text_field :author_name %>
 </div>
 ```
 
@@ -851,7 +858,7 @@ end
 ```
 
 ```ruby
-# Blorgh/lib/concerns/models/article
+# Blorgh/lib/concerns/models/article.rb
 
 module Blorgh::Concerns::Models::Article
   extend ActiveSupport::Concern
@@ -942,7 +949,7 @@ end
 
 ### アセット
 
-エンジンのアセットは、通常のアプリケーションで使用されるアセットとまったく同じように機能します。エンジンのクラスは`Rails::Engine`を継承しているので、アプリケーションはエンジンの'app/assets'ディレクトリと'lib/assets'ディレクトリを探索対象として認識します。
+エンジンのアセットは、通常のアプリケーションで使用されるアセットとまったく同じように機能します。エンジンのクラスは`Rails::Engine`を継承しているので、アプリケーションはエンジンの`app/assets`ディレクトリと`lib/assets`ディレクトリを探索対象として認識します。
 
 エンジン内の他のコンポーネントと同様、アセットも名前空間化される必要があります。たとえば、`style.css`というアセットは、`app/assets/stylesheets/style.css`ではなく`app/assets/stylesheets/[エンジン名]/style.css`に置かれる必要があります。アセットが名前空間化されないと、ホストアプリケーションに同じ名前のアセットが存在する場合にアプリケーションのアセットが使用されてエンジンのアセットが使用されないということが発生する可能性があります。
 
@@ -964,13 +971,13 @@ INFO: SassやCoffeeScriptなどの言語を使用する場合は、必要なラ�
 
 ### アセットとプリコンパイルを分離する
 
-エンジンが持つアセットは、ホスト側のアプリケーションでは必ずしも必要ではないことがあります。たとえば、エンジンでしか使用しない管理機能を作成したとしましょう。この場合、ホストアプリケーションでは`admin.css`や`admin.js`は不要です。これらのアセットを必要とするのは、gemのadminレイアウトしかないからです。ホストアプリケーションから見れば、自分が持つスタイルシートに`"blorgh/admin.css"`を追加する意味はありません。このような場合、これらのアセットを明示的にプリコンパイルする必要があります。それにより、`bin/rails assets:precompile`が実行されたときにエンジンのアセットを追加するようsprocketsに指示されます。
+エンジンが持つアセットは、ホスト側のアプリケーションでは必ずしも必要ではないことがあります。たとえば、エンジンでしか使用しない管理機能を作成したとしましょう。この場合、ホストアプリケーションでは`admin.css`や`admin.js`は不要です。これらのアセットを必要とするのは、gemのadminレイアウトしかないからです。ホストアプリケーションから見れば、自分が持つスタイルシートに`"blorgh/admin.css"`を追加する意味はありません。このような場合、これらのアセットを明示的にプリコンパイルする必要があります。それにより、`bin/rails assets:precompile`が実行されたときにエンジンのアセットを追加するようSprocketsに指示されます。
 
 プリコンパイルの対象となるアセットは`engine.rb`で定義できます。
 
 ```ruby
 initializer "blorgh.assets.precompile" do |app|
-  app.config.assets.precompile += %w(admin.css admin.js)
+  app.config.assets.precompile += %w( admin.js admin.css )
 end
 ```
 
@@ -1006,84 +1013,87 @@ module MyEngine
 end
 ```
 
-ロードフック上のActive Support
+Active Supportの`on_load`フック
 ----------------------------
 
-Active SupportはRuby言語の拡張、ユーティリティとそれ以外の巡回用ユーティリティを提供する役割を担っているRuby on Railsのコンポーネントです。
+Ruby on RailsのActive Supportは、Ruby言語の拡張やユーティリティといったシステム横断的なユーティリティを提供するコンポーネントです。
 
-Railsのコードは、アプリケーション読み込みの時点でよく参照されます。Railsはこれらのフレームワークの読み込み順番に関与しているため、例えば`ActiveRecord::Base`フレームワークを途中で読み込んで、アプリケーションがRailsと交わした暗黙的な約束に違反してしまう可能性があります。`ActiveRecord::Base`のコードをアプリケーション起動時に読み込んだ場合はそれだけでなく、全体のフレームワークを再度読み込むことになってしまうので、起動時間が長くなったり読み込み順序に衝突が起きる可能性もあります。
+Railsのコードは、アプリ読み込みの段階で参照されることがよくあります。Railsはこれらのフレームワークの読み込み順序について責任を持つため、途中で`ActiveRecord::Base`といったフレームワークを読み込んでしまうと、Railsがアプリに期待する暗黙の規約に違反してしまう可能性があります。さらに、`ActiveRecord::Base`のコードをアプリ起動時に読み込んでしまうと、そうしたフレームワーク全体が再読み込みされるため、起動に時間がかかったり読み込み順序で競合が発生したりする可能性も生じます。
 
-ロードフックはRailsの読み込み規約に違反することなく初期化プロセスに介入できるAPIで、起動時間の問題を軽減したり、衝突問題を回避できるようになります。
+`on_load`フックは、Railsの読み込み規約に違反しない形で初期化プロセスにフックをかけるAPIです。起動が遅くなる問題の軽減や、競合問題の回避にも利用できます。
 
 ## `on_load`フックとは何か
 
-Rubyは動的言語なので、あるコードが別のコードを読み込むことがあります。次のコードを見てください。
+Rubyは動的言語であるため、あるコードが別のコードを読み込むことがあります。次のコードをご覧ください。
 
 ```ruby
 ActiveRecord::Base.include(MyActiveRecordHelper)
 ```
 
-上のスニペットでは、このファイルが読み込まれた時に`ActiveRecord::Base`を見つけてくることになります。すなわちRubyが定数の定義を探し、それをrequireするようになります。これは起動時に、全てのActive Recordフレームワークが読み込まれることを意味します。
+上のスニペットでは、このファイルの読み込み時に`ActiveRecord::Base`行にさしかかります。Rubyはこのタイミングで定数の定義を探索し、それから`require`します。すなわち、Active Recordフレームワーク全体が起動時に読み込まれます。
 
-`ActiveSupport.on_load`はあるコードを読み込むとき、それが実際に必要になる時まで遅延することができるメカニズムです。上のスニペットは次のように変更できます。
+`ActiveSupport.on_load`は、あるコードの読み込みを、実際に必要になる時点まで遅延できるメカニズムです。上のスニペットは次のように書き換えられます。
 
 ```ruby
 ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper }
 ```
 
-この新しいスニペットは`ActiveRecord::Base`が読み込まれるとき、`MyActiveRecordHelper`だけをincludeしてくれます。
+新しいスニペットは、`ActiveRecord::Base`の読み込み時に`MyActiveRecordHelper`だけを`include`するようになります。
 
-## どうやって動くのか
+## しくみ
 
-Railsフレームワークでは、特定のライブラリが読み込まれる時にフックが呼び出されます。たとえば`ActionController::Base`が読み込まれるときは、`:action_controller_base`フックが呼び出されます。つまり`:action_controller_base`フックでまとめられたすべての`ActiveSupport.on_load`呼び出しが、`ActionController::Base`のコンテキストで呼び出されるということです。言い換えると、`self`が`ActionController::Base`として評価されるという意味になります。
+Railsフレームワークにおけるこれらのフックは、特定のライブラリの読み込み時に呼び出されます。たとえば、`ActionController::Base`が読み込まれると`:action_controller_base`フックが呼び出されます。すなわち、`:action_controller_base`フックでまとめられたすべての`ActiveSupport.on_load`呼び出しは、`ActionController::Base`のコンテキストで呼び出される（ここでは`self`が`ActionController::Base`として評価される）ということです。
 
-## `on_load`フックを使用してコードを変更する方法
+## `on_load`フックでコードを変更する
 
-コードを変更することは一般的に難しくありません。例えば、もし`ActiveRecord::Base`を参照するコードがあるとしたら、これを`on_load`フックで囲むだけで実現できます。
+一般に、（フックによる）コードの変更方法は単純です。たとえば、`ActiveRecord::Base`を参照するコードを`on_load`フックで囲むことができます。
 
-### 例題1
+### 例1
 
 ```ruby
 ActiveRecord::Base.include(MyActiveRecordHelper)
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } # ブselfはActiveRecord::Baseを指すので、簡潔に`#include`を呼び出せます。
+ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } 
+# selfがActiveRecord::Baseを指すので`#include`呼び出しが簡潔になる
 ```
 
-### 例題2
+### 例2
 
 ```ruby
 ActionController::Base.prepend(MyActionControllerHelper)
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:action_controller_base) { prepend MyActionControllerHelper } # selfはActiveRecord::Baseを指すので、簡潔に`#prepend`を呼び出せます。
+ActiveSupport.on_load(:action_controller_base) { prepend MyActionControllerHelper }
+# selfがActiveRecord::Baseを指すので`#prepend`呼び出しが簡潔になる
 ```
 
-### 例題3
+### 例3
 
 ```ruby
 ActiveRecord::Base.include_root_in_json = true
 ```
 
-これは次のように書けます。
+上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # selfはActiveRecord::Baseを指します
+ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } 
+# selfはActiveRecord::Baseを指す
 ```
 
 ## 利用可能なフック
 
-利用可能なフックは次のとおりです。
+利用可能なフックは以下のとおりです。
 
-各クラスの初期化プロセスをフックしたい場合は、次のコードが利用できます。
+クラスの初期化プロセスをフックしたい場合は、以下のクラスに対応するフックを使います。
 
-| クラス                             | 利用可能なフック                      |
+| クラス                             | 対応するフック                      |
 | --------------------------------- | ------------------------------------ |
 | `ActionCable`                     | `action_cable`                       |
 | `ActionController::API`           | `action_controller_api`              |
@@ -1102,9 +1112,9 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # sel
 | `ActiveSupport::TestCase`         | `active_support_test_case`           |
 | `i18n`                            | `i18n`                               |
 
-## 設定フック
+## 設定用フック
 
-次は利用可能な設定用のフックです。特定のフレームワークでフックするのではなく、代わりにアプリケーション全体のコンテキストで実行されます。
+設定用のフックは以下のとおりです。設定用フックは特定のフレームワークにフックするのではなく、アプリケーション全体のコンテキストで実行されます。
 
 | フック                   | ユースケース                                                                              |
 | ---------------------- | ------------------------------------------------------------------------------------- |
@@ -1113,6 +1123,6 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } # sel
 | `before_eager_load`    | 初期化後に実行される設定フックです。`config.cache_classes`がfalseの場合は実行されません。 |
 | `after_initialize`     | 最後に実行される設定フックです。 フレームワークの初期化後に呼び出しされます。                   |
 
-### 例題
+### 例
 
 `config.before_configuration { puts 'I am called before any initializers' }`

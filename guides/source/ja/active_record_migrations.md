@@ -541,7 +541,7 @@ class ExampleMigration < ActiveRecord::Migration [5.0]
 end
 ```
 
-マイグレーションが逆転不可能な場合、`down`メソッド内に`ActiveRecord::IrreversibleMigration`を記述しておく必要があります。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。
+マイグレーションが逆転不可能な場合、`down`メソッド内に`ActiveRecord::IrreversibleMigration`エラーを発生させる必要があります。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。
 
 ### 以前のマイグレーションを逆転する
 
