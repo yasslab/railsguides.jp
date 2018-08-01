@@ -67,7 +67,7 @@ $ bin/rails plugin --help
     end
     ```
 
-`--mountable`オプションを使用すると、`--full`オプションに以下が追加されます。
+`--mountable`オプションを使用すると、`--full`オプションによって以下が追加されます。
 
   * アセットマニフェストファイル (`application.js`および`application.css`)
   * 名前空間化された`ApplicationController`スタブ
@@ -476,7 +476,7 @@ gem 'blorgh', path: 'engines/blorgh'
 mount Blorgh::Engine, at: "/blog"
 ```
 
-この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すること、`http://localhost:3000/blog`にアクセスできるようになります。
+この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すると、`http://localhost:3000/blog`にアクセスできるようになります。
 
 NOTE: Deviseなどの他のエンジンではこの点が若干異なり、ルーティングで (`devise_for`などの) カスタムヘルパーを指定するものがあります。これらのヘルパーの動作は完全に同じです。事前に定義されたカスタマイズ可能なパスにエンジンの機能の一部をマウントします。
 

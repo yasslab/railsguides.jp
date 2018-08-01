@@ -1,4 +1,4 @@
-﻿
+
 Rails ガイドのガイドライン
 ===============================
 
@@ -49,6 +49,49 @@ Rails ガイドのガイドライン
 ##### `:content_type`オプション
 ```
 
+APIにリンクする
+------------------
+
+APIサイト（`api.rubyonrails.org`）へのリンクは、以下の方法を用いてガイドのジェネレータで処理されます。
+
+リリース番号（`v5.0.1`など）タグを含むリンクに対しては何も処理を行いません（例↓）。
+
+```
+http://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Attributes/ClassMethods.html
+```
+
+上は変更されません。
+
+リリースノートではこの書式でリンクを書いてください。今後どんな対象が生成されても、リリースノートに対応したバージョンを指すようにすべきです。
+
+リンクにリリース番号タグが含まれていない場合やedgeガイドが生成される場合は、ドメイン名の部分が`edgeapi.rubyonrails.org`に置き換えられます（例↓）。
+
+
+```
+http://api.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+上は以下に置き換えられます。
+
+```
+http://edgeapi.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+リンクにリリース番号タグが含まれていない場合や、正規版のガイドが生成される場合は、Railsのバージョン番号が挿入されます。たとえば、Rails 5.1.0向けのガイドを生成すると以下のようなリンクになります。
+
+```
+http://api.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+上は以下に置き換えられます。
+
+```
+http://api.rubyonrails.org/v5.1.0/classes/ActionDispatch/Response.html
+```
+
+`edgeapi.rubyonrails.org`には手動でリンクしないでください。
+
+
 APIドキュメントの書き方
 ----------------------------
 
@@ -64,7 +107,7 @@ APIドキュメントの書き方
 HTMLガイド
 -----------
 
-ガイドを生成する前に、システムに最新のBundlerがインストールされていることを確認してください。現時点であれば、Bundler 1.3.5がインストールされている必要があります。
+ガイドを生成する前に、システムに最新のBundlerがインストールされていることを確認してください。現時点であれば、Bundler 1.3.5以降がインストールされている必要があります。
 
 最新のBundlerをインストールするには`gem install bundler`コマンドを実行してください。
 
@@ -82,6 +125,8 @@ bundle exec rake guides:generate
 bundle exec rake guides:generate:html
 ```
 
+生成されたHTMLファイルは、`./output`ディレクトリに配置されます。
+
 `my_guide.md`ファイルだけを生成したい場合は環境変数`ONLY`に設定します。
 
 ```
@@ -92,8 +137,6 @@ bundle exec rake guides:generate ONLY=my_guide
 デフォルトでは、変更のないガイドは生成がスキップされるので、`ONLY`を使用する機会はそうないと思われます。
 
 すべてのガイドを強制的に生成するには`ALL=1`を指定します。
-
-生成の際には`WARNINGS=1`を指定しておくことをお勧めします。これにより、重複したIDが検出され、内部リンクが切れている場合に警告が出力されます。
 
 英語以外の言語向けに生成を行いたい場合は、`source`ディレクトリの下にたとえば`source/es`のようにその言語用のディレクトリを作成し、`GUIDES_LANGUAGE`環境変数を設定します。
 

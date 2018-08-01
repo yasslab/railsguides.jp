@@ -198,9 +198,9 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタ（デフォルトはRedis）のpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。
 
 ### サブスクリプション
 
@@ -263,7 +263,7 @@ App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
 ```ruby
 # このコードはアプリのどこかで呼び出される
 # おそらくNewCommentJobなどのあたりで
-ChatChannel.broadcast_to(
+ActionCable.server.broadcast(
   "chat_#{room}",
   sent_by: 'Paul',
   body: 'This is a cool chat app. '
@@ -282,7 +282,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    ChatChannel.broadcast_to("chat_#{params[:room]}", data)
+    ActionCable.server.broadcast("chat_#{params[:room]}", data)
   end
 end
 ```
@@ -431,9 +431,9 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications_1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、現在の購読用アダプタのpubsubキューにメッセージを設定します。ユーザーごとに異なるブロードキャスト名が使用されます。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
-`received`コールバックを呼び出すことで、このチャネルは`web_notifications_1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
+`received`コールバックを呼び出すことで、このチャネルは`web_notifications:1`に着信するものをすべてクライアントに直接ストリーミングするようになります。引数として渡されたデータは、サーバー側のブロードキャスト呼び出しに2番目のパラメータとして渡されたハッシュです。このハッシュはJSONでエンコードされ、`received`で受信したときにデータ引数から取り出されます。
 
 ### より詳しい例
 

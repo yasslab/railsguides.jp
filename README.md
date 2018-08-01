@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/yasslab/railsguides.jp.svg?branch=master)](https://travis-ci.org/yasslab/railsguides.jp)
 
-## 日本語訳について 
+## 日本語訳について
 
 本リポジトリは[Ruby on Rails Guides](http://guides.rubyonrails.org/)を日本語に訳したものです。   
 Railsガイドでは、Railsの各機能の仕組みや最新の機能、リリース情報などがまとまっています。
@@ -22,6 +22,19 @@ https://railstutorial.jp/
 もし原著の間違いを見つけましたら、本ガイドの[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B) を参考にしてください。
 
 本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+
+### ブラウザでRailsガイドの修正を提案する
+
+多分これが一番簡単だと思います。
+
+1. ブラウザ上で [guides/source/ja](https://github.com/yasslab/railsguides.jp/tree/master/guides/source/ja) を開く
+2. 直したいファイルを開く (例: [upgrading_ruby_on_rails.md](https://github.com/yasslab/railsguides.jp/blob/master/guides/source/ja/upgrading_ruby_on_rails.md))
+3. 画面右にある ✎ アイコン (Fork this project and edit this file) をクリックする
+4. 気になる箇所を修正し、修正内容にタイトルと説明文を付け、Propose file change をクリックする
+5. 修正内容を確認し、問題なければ Create pull request をクリックする
+
+以上で完了です。提案されたRailsガイドの修正はコミッターによって再確認され、問題なければ提案された内容が反映されます。もし問題があってもコミッター側で気付いて修正することができるので、まずはお気軽に提案してみてください ;)
+
 
 ## Railsガイドの生成方法
 
@@ -50,7 +63,7 @@ https://railstutorial.jp/
 - CIが通らなかった場合は、該当箇所を修正してください。
 - マージされない限り本番環境 (Heroku) には反映されないので、気軽にPRを送っていただいて大丈夫です。
 
-## 翻訳に関する細かなアレコレ
+## 翻訳方法の変遷
 
 以下は原著へのフィードバックや、翻訳に関するより詳細な情報です。必要に応じてご参照ください ;)
 
@@ -101,7 +114,18 @@ https://railstutorial.jp/
 
 </details>
 
-## 協力者
+## 運営チーム
+
+本リポジトリは、Ruby/Railsの開発を支援する [YassLab](https://yasslab.jp/ja/) 社によってメンテナンスされております。
+
+公式ドキュメントを支えるチームで、御社のプロジェクトを支援します。お気軽にお問い合わせください。
+
+Ruby/Rails の開発支援サービス - YassLab 株式会社  
+[https://yasslab.jp/ja/agile](https://yasslab.jp/ja/agile)
+
+[![Logo of YassLab Inc.](https://yasslab.jp/img/logo_rect.png)](https://yasslab.jp/ja/)
+
+### 協力者
 
 - [@hachi8833](https://github.com/hachi8833) (共同発起人)
 - [@yasulab](https://github.com/yasulab) (共同発起人)
@@ -110,18 +134,7 @@ https://railstutorial.jp/
 - [@willnet](https://github.com/willnet) (コミッター)
 - 他，[Issues](https://github.com/yasslab/railsguides.jp/issues?q=) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors)  を送ってくださった多くの方々。
 
-### 運営者・スポンサー
-
-本リポジトリは、Ruby/Railsの開発を支援する [YassLab](https://yasslab.jp/ja/) 社によってメンテナンスされております。
-
-公式ドキュメントを支えるチームで、御社のプロジェクトを支援します。お気軽にお問い合わせください。
-
-Ruby/Rails の開発支援サービス - YassLab  
-[https://yasslab.jp/ja/agile](https://yasslab.jp/ja/agile)
-
-[![YassLab Logo](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/logo_800x200.png)](https://yasslab.jp/ja/)
-
-### 協力者の相談部屋
+### 相談部屋
 
 [idobata.io](https://idobata.io) の [yasslab/railsguides.jp](https://idobata.io/#/organization/yasslab/room/railsguides) 部屋にて、Rails ガイドに関する情報交換しています。   
 覗いてみるだけの方も歓迎なので、是非お気軽に立ち寄ってみてください :D
@@ -137,4 +150,9 @@ Ruby/Rails の開発支援サービス - YassLab
 「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。
 
 [Ruby on Rails](http://rubyonrails.org/)は[MITライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
+
+### クレジット
+
+- 原著: http://guides.rubyonrails.org/credits.html
+- 本書: [@hachi8833](https://github.com/hachi8833), [@yasulab](https://github.com/yasulab)
 

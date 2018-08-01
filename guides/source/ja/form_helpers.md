@@ -101,7 +101,7 @@ form_tag({controller: "people", action: "search"}, method: "get", class: "nifty_
 
 ### フォーム要素生成に使用するヘルパー
 
-Railsには、チェックボックス/テキストフィールド/ラジオボタンなどのフォーム要素を生成するためのヘルパーが多数用意されています。これらの基本的なヘルパーは名前が`_tag`で終わっており (`text_field_tag`や`check_box_tag`など)、それぞれただ1つの`<input>`要素を生成します。これらのヘルパーの1番目のパラメータは、inputの名前と決まっています。フォームが送信されると、この名前がフォームデータに含まれて渡され、ユーザーが入力した値とともに、コントローラ内で`params`ハッシュとなってアクセス可能になります。たとえば、フォームに`<%= text_field_tag(:query) %>`というコードが含まれていたとすると、コントローラで`params[:query]`と指定することによってこのフィールドの値にアクセスできます。
+Railsには、チェックボックス/テキストフィールド/ラジオボタンなどのフォーム要素を生成するためのヘルパーが多数用意されています。これらの基本的なヘルパーは名前が`_tag`で終わっており (`text_field_tag`や`check_box_tag`など)、それぞれただ1つの`<input>`要素を生成します。これらのヘルパーの1番目のパラメータは、inputの名前と決まっています。フォームが送信されると、この名前がフォームデータに含まれて渡され、ユーザーが入力した値とともに、コントローラ内で`params`となってアクセス可能になります。たとえば、フォームに`<%= text_field_tag(:query) %>`というコードが含まれていたとすると、コントローラで`params[:query]`と指定することによってこのフィールドの値にアクセスできます。
 
 Railsは、inputに名前を与えるときに一定のルールに従っています。これにより、配列やハッシュのような「非スカラー値」のパラメータをフォームから送信できるようになり、その結果`params`としてコントローラでアクセスできるようになるのです。詳細については[本ガイドの7章](#パラメータの命名ルールを理解する)を参照してください。これらのヘルパーの正確な使用法については[APIドキュメント](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html)を参照してください。
 
@@ -153,7 +153,7 @@ NOTE: チェックボックスとラジオボタンには必ずラベルを表�
 
 ### その他のヘルパー
 
-これまで紹介した他にも、次のようなフィールドがあります: テキストエリア、パスワード、隠しフィールド、検索フィールド、電話番号フィールド、日付フィールド、時刻フィールド、色フィールド、日時フィールド、ローカル日時フィールド、月フィールド、週フィールド、URLフィールド、メールアドレスフィールド、数値フィールド、範囲フィールド。
+これまで紹介した他にも、次のようなフィールドがあります: テキストエリア、パスワード、隠しフィールド、検索フィールド、電話番号フィールド、日付フィールド、時刻フィールド、色フィールド、ローカル日時フィールド、月フィールド、週フィールド、URLフィールド、メールアドレスフィールド、数値フィールド、範囲フィールド。
 
 ```erb
 <%= text_area_tag(:message, "Hi, nice site", size: "24x6") %>
@@ -162,7 +162,6 @@ NOTE: チェックボックスとラジオボタンには必ずラベルを表�
 <%= search_field(:user, :name) %>
 <%= telephone_field(:user, :phone) %>
 <%= date_field(:user, :born_on) %>
-<%= datetime_field(:user, :meeting_time) %>
 <%= datetime_local_field(:user, :graduation_day) %>
 <%= month_field(:user, :birthday_month) %>
 <%= week_field(:user, :birthday_week) %>
@@ -183,7 +182,6 @@ NOTE: チェックボックスとラジオボタンには必ずラベルを表�
 <input id="user_name" name="user[name]" type="search" />
 <input id="user_phone" name="user[phone]" type="tel" />
 <input id="user_born_on" name="user[born_on]" type="date" />
-<input id="user_meeting_time" name="user[meeting_time]" type="datetime" />
 <input id="user_graduation_day" name="user[graduation_day]" type="datetime-local" />
 <input id="user_birthday_month" name="user[birthday_month]" type="month" />
 <input id="user_birthday_week" name="user[birthday_week]" type="week" />
@@ -199,7 +197,7 @@ NOTE: チェックボックスとラジオボタンには必ずラベルを表�
 
 IMPORTANT: 「検索、電話、日付、時刻、色、日時、ローカル日時、月、週、URL、メールアドレス、数値、範囲」フィールドはHTML5から利用できるようになったコントロールです。
 これらのフィールドを古いブラウザでも同じように扱いたいのであれば、CSSやJavaScriptを使用したHTML5ポリフィルが必要になるでしょう。
-古いブラウザでHTML5に対応する方法は[山ほどあります](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills)が、現時点で代表的なものは[Modernizr](http://www.modernizr.com/)と[yepnope](http://yepnopejs.com/)でしょう(訳注: yepnopeについては[非推奨宣言](https://github.com/SlexAxton/yepnope.js#deprecation-notice)が出されています)。これらは、HTML5の新機能が使用されていることが検出された場合に、機能を追加するためのシンプルな方法を提供します。
+古いブラウザでHTML5に対応する方法は[山ほどあります](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills)が、現時点で代表的なものは[Modernizr](http://www.modernizr.com/)でしょう。これらは、HTML5の新機能が使用されていることが検出された場合に、機能を追加するためのシンプルな方法を提供します。
 
 TIP: パスワード入力フィールドを使用しているのであれば、入力されたパスワードをRailsのログに残さないようにしたいと思うことでしょう。その方法については[セキュリティガイド](security.html#ログ出力)を参照してください。
 
@@ -226,7 +224,7 @@ TIP: パスワード入力フィールドを使用しているのであれば、
 
 WARNING: ヘルパーに渡すのはインスタンス変数の「名前」でなければなりません (シンボル`:person`や文字列`"person"`など)。渡すのはモデルオブジェクトのインスタンスそのものではありません。
 
-Railsのヘルパーには、モデルオブジェクトに関連する検証 (バリデーション) エラーを自動的に表示する機能もあります。詳細については本ガイドの[Active Record検証 (バリデーション)](./active_record_validations.html#バリデーションエラーをビューで表示する)を参照してください。
+Railsのヘルパーには、モデルオブジェクトに関連する検証 (バリデーション) エラーを自動的に表示する機能もあります。詳細については本ガイドの[Active Record検証 (バリデーション)](active_record_validations.html#バリデーションエラーをビューで表示する)を参照してください。
 
 ### フォームとオブジェクトを結び付ける
 
@@ -260,10 +258,12 @@ end
 これにより、以下のHTMLが生成されます。
 
 ```html
-<form accept-charset="UTF-8" action="/articles/create" method="post" class="nifty_form">
-  <input id="article_title" name="article[title]" type="text" />
-  <textarea id="article_body" name="article[body]" cols="60" rows="12"></textarea>
-  <input name="commit" type="submit" value="Create" />
+<form class="nifty_form" id="new_article" action="/articles" accept-charset="UTF-8" method="post">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input type="hidden" name="authenticity_token" value="NRkFyRWxdYNfUg7vYxLOp2SLf93lvnl+QwDWorR42Dp6yZXPhHEb6arhDOIWcqGit8jfnrPwL781/xlrzj63TA==" />
+  <input type="text" name="article[title]" id="article_title" />
+  <textarea name="article[body]" id="article_body" cols="60" rows="12"></textarea>
+  <input type="submit" name="commit" value="Create" data-disable-with="Create" />
 </form>
 ```
 
@@ -276,8 +276,8 @@ end
 ```erb
 <%= form_for @person, url: {action: "create"} do |person_form| %>
   <%= person_form.text_field :name %>
-  <%= fields_for @person.contact_detail do |contact_details_form| %>
-    <%= contact_details_form.text_field :phone_number %>
+  <%= fields_for @person.contact_detail do |contact_detail_form| %>
+    <%= contact_detail_form.text_field :phone_number %>
   <% end %>
 <% end %>
 ```
@@ -285,9 +285,11 @@ end
 上のコードから以下の出力が得られます。
 
 ```html
-<form accept-charset="UTF-8" action="/people/create" class="new_person" id="new_person" method="post">
-  <input id="person_name" name="person[name]" type="text" />
-  <input id="contact_detail_phone_number" name="contact_detail[phone_number]" type="text" />
+<form class="new_person" id="new_person" action="/people" accept-charset="UTF-8" method="post">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input type="hidden" name="authenticity_token" value="bL13x72pldyDD8bgtkjKQakJCpd4A8JdXGbfksxBDHdf1uC0kCMqe2tvVdUYfidJt0fj3ihC4NxiVHv8GVYxJA==" />
+  <input type="text" name="person[name]" id="person_name" />
+  <input type="text" name="contact_detail[phone_number]" id="contact_detail_phone_number" />
 </form>
 ```
 
@@ -426,8 +428,6 @@ HTMLマークアップは通常であれば以下のような感じになりま�
 
 生成されるオプション内部の値がこの値とマッチすると、Railsは`selected`属性を自動的にそのオプションに追加します。
 
-TIP: `options_for_select`の2番目の引数は、必要となる内部の値と正確に一致しなければなりません。特に、値が整数の2である場合、文字列の"2"を`options_for_select`に渡すことはできません。あくまで整数の2を渡す必要があります。`params`ハッシュから取り出される値はすべて文字列になるので、注意が必要です。
-
 WARNING: `:include_blank`や`:prompt`が指定されていなくても、選択属性`required`がtrue`になっていると、`:include_blank`は強制的にtrueに設定され、表示の`size`は`1になり、`multiple`はtrueになりません。
 
 ハッシュを使用して任意の値を追加することができます。
@@ -510,7 +510,7 @@ Railsでタイムゾーンをサポートするために、ユーザーが今ど
 <%= time_zone_select(:person, :time_zone) %>
 ```
 
-`time_zone_options_for_select`という類似のヘルパーもあり、こちらではより細かい設定を行なうことができます。これら2つのメソッドに渡せる引数の詳細については、APIドキュメントを参照してください。
+`time_zone_options_for_select`という類似のヘルパーもあり、こちらではより細かい設定を行なうことができます。これら2つのメソッドに渡せる引数の詳細については、[APIドキュメント](http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-time_zone_options_for_select)を参照してください。
 
 以前のRailsでは、`country_select`ヘルパーを使用して国を選択して _いました_ が、この機能は[country_selectプラグイン](https://github.com/stefanpenner/country_select)に書き出されました。この機能を使用する場合、どの国名をリストに含め、どの国を含めないかを決める際に政治的な議論に関わらざるをえない点に留意してください(この機能がプラグイン化された理由も実はそれです)。
 
@@ -665,6 +665,13 @@ end
 
 このクラスを頻繁に再利用するのであれば、`labeled_form_for`ヘルパーを定義して`builder: LabellingFormBuilder`オプションを自動的に適用するようにしてもよいでしょう。
 
+```ruby
+def labeled_form_for(record, options = {}, &block)
+  options.merge! builder: LabellingFormBuilder
+  form_for record, options, &block
+end
+```
+
 ここで使用されるフォームビルダーは、以下のコードが実行された時の動作も決定します。
 
 ```erb
@@ -680,13 +687,6 @@ end
 
 原則として、HTMLフォームはいかなる構造化データについても関知しません。フォームが生成するのはすべて名前と値のペアであり、これらは単なる文字列です。これらのデータをアプリケーション側で参照した時に配列やハッシュになっているのは、Railsで使用されている命名ルールのパラメータのおかげです。
 
-TIP: Rackのパラメータパーサーをコンソールから直接呼び出すことで、この節に記載されている例を即座に確認することができます。例えば、
-
-```ruby
-Rack::Utils.parse_query "name=fred&phone=0123456789"
-# => {"name"=>"fred", "phone"=>"0123456789"}
-```
-
 ### 基本構造
 
 配列とハッシュは、基本となる2大構造です。ハッシュは、`params`の値にアクセスする時に使用される文法に反映されています。たとえば、フォームに以下が含まれているとします。
@@ -697,7 +697,7 @@ Rack::Utils.parse_query "name=fred&phone=0123456789"
 
 このとき、`params`ハッシュの内容は以下のようになります。
 
-```erb
+```ruby
 {'person' => {'name' => 'Henry'}}
 ```
 
@@ -847,12 +847,12 @@ Railsの一般的なルールとして、最終的な入力名は、`fields_for`
 Active Recordは`accepts_nested_attributes_for`メソッドによってモデルレベルのサポートを行っています。
 
 ```ruby
-class Person < ActiveRecord::Base
-  has_many :addresses
+class Person < ApplicationRecord
+  has_many :addresses, inverse_of: :person
   accepts_nested_attributes_for :addresses
 end
 
-class Address < ActiveRecord::Base
+class Address < ApplicationRecord
   belongs_to :person
 end
 ```
@@ -936,7 +936,7 @@ private
 `accepts_nested_attributes_for`に`allow_destroy: true`を渡すことで、関連付けられたオブジェクトをユーザーが削除することを許可できるようになります。
 
 ```ruby
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   has_many :addresses
   accepts_nested_attributes_for :addresses, allow_destroy: true
 end
@@ -974,7 +974,7 @@ end
 ユーザーが何も入力しなかったフィールドは無視するようにしておく方がやはり便利です。これは、`:reject_if` procを`accepts_nested_attributes_for`に渡すことで制御できます。このprocは、フォームから送信された属性のハッシュ1つ1つについて呼び出されます。このprocが`false`を返す場合、Active Recordはそのハッシュに関連付けられたオブジェクトを作成しません。以下の例では、`kind`属性が設定されている場合にのみ住所オブジェクトを生成します。
 
 ```ruby
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   has_many :addresses
   accepts_nested_attributes_for :addresses, reject_if: lambda {|attributes| attributes['kind'].blank?}
 end
