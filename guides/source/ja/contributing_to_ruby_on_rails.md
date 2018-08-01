@@ -1,4 +1,4 @@
-﻿
+
 
 
 Ruby on Rails に貢献する方法
@@ -15,6 +15,8 @@ Ruby on Rails に貢献する方法
 * Ruby on Railsのコードに貢献する方法
 
 Ruby on Railsは、「どこかで誰かがうまくやってくれているフレームワーク」ではありません。Ruby on Railsには、長年に渡って数百人もの人々が貴重な貢献を行ってくださいました。その内容は、わずか1文字の修正から、大規模なアーキテクチャ変更、重要なドキュメント作成まで多岐に渡ります。それらの努力は、いずれもRuby on Railsをすべての人々にとってよりよいものにすることを目標に置いています。コードを書いたりドキュメントを作成したりするまでには至らなくても、issueのレポートやパッチのテストなど、さまざまな方法で貢献することができます (訳注: **サンプルの文章も日本語に翻訳されていますが、実際には必ず英語を使うようにしてください** )。
+
+[RailsのREADME](https://github.com/rails/rails/blob/master/README.md)にも記載されているように、Railsのコードベースやサブプロジェクトのコードベースについて、issueトラッカーやチャットルームやメーリングリストでやり取りする方は誰であっても、Railsの[行動規範](http://rubyonrails.org/conduct/)に従うことが期待されます。
 
 --------------------------------------------------------------------------------
 
@@ -63,7 +65,7 @@ GitHubのIssueには「機能リクエスト」を記入しないでください
 既存のissueの解決を手伝う
 ----------------------------------
 
-issueのレポートに続く貢献方法として、コアチームが既存のissueを解決するのを手伝うこともできます。Githubのissueにあがっている[皆からのissue](https://github.com/rails/rails/issues)を見てみると、注目を集めているissueがたくさん見つかります。自分も何かissueに貢献できる方法はあるでしょうか。もちろんあります。それもいろんな方法があります。
+issueのレポートに続く貢献方法として、コアチームが既存のissueを解決するのを手伝うこともできます。Githubのissueにあがっている[issueのリスト] (https://github.com/rails/rails/issues)を見てみると、注目を集めているissueがたくさん見つかります。自分も何かissueに貢献できる方法はあるでしょうか。もちろんあります。それもいろんな方法があります。
 
 ### バグレポートの確認
 
@@ -71,7 +73,7 @@ issueのレポートに続く貢献方法として、コアチームが既存の
 
 再現手順などにあいまいな点があるなら、どこがわかりにくいかを指摘しましょう。バグを再現するために有用な情報を追加したり、不要な手順を削除したりするのも重要な貢献です。
 
-テストが添えられていないバグレポートを見かけたら、貢献のチャンスです。バグが原因で失敗するテストを作成して貢献できます。テストの書き方は、既存のテストファイルを詳しく読むことで学べます。これは、Railsのソースコードをみっちり探索するためのよいきっかけにもなります。作成するテストは「パッチ」の形式にしてもらえるとベストです。詳しくは「Railsのコードに貢献する」で後述します。
+テストが添えられていないバグレポートを見かけたら、貢献のチャンスです。ソースコードを追いかける絶好の機会にもなります。バグが原因で失敗するテストを作成して貢献できます。テストの書き方は、既存のテストファイルを詳しく読むことで学べます。これは、Railsのソースコードをみっちり探索するためのよいきっかけにもなります。作成するテストは「パッチ」の形式にしてもらえるとベストです。詳しくは[Railsのコードに貢献する](/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B)で後述します。
 
 バグレポートは、とにかく簡潔でわかりやすく、そしてなるべく簡単に現象を再現できるように書いてください。バグを修正する開発者にとって何よりありがたいのは、このような「よいバグレポート」です。たとえバグレポートを作成するあなたが最終的にコードを書かなくても、よいバグレポートは大きな貢献となります。
 
@@ -86,7 +88,7 @@ $ git checkout -b testing_branch
 続いて、このリモートブランチを使用してローカルのコードベースを更新します。たとえばGitHubユーザーであるJohnSmithが、forkして https://github.com/JohnSmith/rails の"orange"というトピックブランチにpushしたとします。
 
 ```bash
-$ git remote add JohnSmith git://github.com/JohnSmith/rails.git
+$ git remote add JohnSmith https://github.com/JohnSmith/rails.git
 $ git pull JohnSmith orange
 ```
 
@@ -108,22 +110,50 @@ Railsのドキュメントに貢献する
 
 Ruby on Railsには2種類のドキュメントがあります。ひとつはこのガイドであり、Ruby on Railsを学ぶためのものです。もうひとつはAPIドキュメントであり、こちらはリファレンス用です。
 
-どなたでもRailsガイドの改善に貢献することができます。Railsガイドに求められる改善とは、「一貫していること」「矛盾がないこと」「読みやすいこと」「情報の追加」「事実と異なっている部分の修正」「タイポの修正」「最新のedge Railsに追い付くこと」などです。Railsガイドの翻訳に参加したい方は[Railsガイドの翻訳について](https://github.com/yasslab/railsguides.jp/wiki/translating-rails-guides) (英語)を参照してください (訳注: docrailsのprivateレポジトリ化に伴い、原著のwikiは見れなくなっております)。
+どなたでもRailsガイドの改善に貢献することができます。Railsガイドに求められる改善とは、「一貫していること」「矛盾がないこと」「読みやすいこと」「情報の追加」「事実と異なっている部分の修正」「タイポの修正」「最新のedge Railsに追い付くこと」などです。
 
-[Rails](http://github.com/rails/rails)にプルリクエストを送ることができます。常連貢献者になったら、[Railsコアチーム](http://rubyonrails.org/core)に
-docrailsへのコミットアクセス権をリクエストしてもよいでしょう。ただし、docrailsにはプルリクエストを送信しないでください。自分で書いた変更への意見が欲しい場合は、[Rails](http://github.com/rails/rails)の方でお願いします。
-
-docrailsは定期的にmasterにマージされますので、Ruby on Railsドキュメントの編集を効率よく行えます。
-
-ドキュメントの変更内容について不明な点がある場合は、GitHubの[Rails](https://github.com/rails/rails/issues) issueトラッカーでissueを作成してください。
+貢献したい方は、GitHubの[Railsリポジトリ](http://github.com/rails/rails)にプルリクエストを送ってください。
 
 ドキュメント関連で貢献したい場合は、[API ドキュメント作成のガイドライン](api_documentation_guidelines.html) と[Rails ガイドのガイドライン](ruby_on_rails_guides_guidelines.html) をよく読んでからにしてください。
 
-NOTE: 前述のとおり、コードにパッチを当てる際には、ドキュメントもそれに対応して適切に書かれる必要があります。docrailsは、コーディングから独立したドキュメンテーションのみを目的としています。
-
 NOTE: RailsのCI (継続的インテグレーション: Continuous Integration) サーバーの負荷を減らすために、ドキュメント関連のコミットメッセージには[ci skip]と記入してください。こうすることで、コミット時のビルドはスキップされます。[ci skip] は「ドキュメントのみの変更」以外では使用できません。コードの変更には絶対使用しないでください。
 
-WARNING: docrailsには次の厳格なポリシーが制定されていることを理解しておく必要があります: 「docrailsのコードは1文字たりとも絶対に変更しないこと」「docrailsで変更してよいのはRDocとガイドのみ」「docrailsのchangelogも絶対に変更しないこと」
+Railsガイドの翻訳に貢献する
+------------------------
+
+Railsガイドを翻訳してくださるボランティアも歓迎いたします。次の手順に沿ってください。
+
+* https://github.com/rails/railsをforkします。
+* 翻訳先の言語名に対応するフォルダをsourceフォルダの下に追加します。たとえば、イタリア語であればguides/source/it-ITフォルダを追加します。
+* *guides/source*に置かれているコンテンツファイルをそのフォルダ内にコピーして翻訳します。
+* HTMLファイルは**翻訳しないでください**（自動生成されます）。
+
+翻訳の送り先はRailsリポジトリではないことにご注意ください。上述したように、翻訳はforkしたリポジトリで行います。ドキュメントのメンテナンスをパッチベースで行う場合、英語のみに統一しておかないと維持できないためです。
+
+ガイドをHTML形式で生成するには、guidesディレクトリに`cd`して以下を実行します（言語がit-ITの場合）。
+
+```bash
+$ bundle install
+$ bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
+```
+
+これにより、outputディレクトリにガイドが生成されます。
+
+NOTE: 上述の手順はRails 5以降が対象です。redcarpet gemはJRubyでは動きません。
+
+現在把握されている翻訳プロジェクトは以下のとおりです（バージョンはそれぞれ異なっています）。
+
+* **イタリア語**: [https://github.com/rixlabs/docrails](https://github.com/rixlabs/docrails)
+* **スペイン語**: [https://github.com/gramos/docrails/wiki](https://github.com/gramos/docrails/wiki)
+* **ポーランド語**: [https://github.com/apohllo/docrails](https://github.com/apohllo/docrails)
+* **フランス語** : [https://github.com/railsfrance/docrails](https://github.com/railsfrance/docrails)
+* **チェコ語** : [https://github.com/rubyonrails-cz/docrails/tree/czech](https://github.com/rubyonrails-cz/docrails/tree/czech)
+* **トルコ語** : [https://github.com/ujk/docrails](https://github.com/ujk/docrails)
+* **韓国語** : [https://github.com/rorlakr/rails-guides](https://github.com/rorlakr/rails-guides)
+* **中国語（簡体字）** : [https://github.com/ruby-china/guides](https://github.com/ruby-china/guides)
+* **中国語（繁体字）** : [https://github.com/docrails-tw/guides](https://github.com/docrails-tw/guides)
+* **ロシア語** : [https://github.com/morsbox/rusrails](https://github.com/morsbox/rusrails)
+* **日本語** : [https://github.com/yasslab/railsguides.jp](https://github.com/yasslab/railsguides.jp)
 
 Railsのコードに貢献する
 ------------------------------
@@ -134,7 +164,7 @@ Railsのコードに貢献する
 
 #### おすすめの方法
 
-[Rails development box](https://github.com/rails/rails-dev-box)にあるできあいのdevelopment環境を入手するのがおすすめです。
+[rails-dev-box](https://github.com/rails/rails-dev-box)にあるできあいのdevelopment環境を入手するのがおすすめです。
 
 #### 面倒な方法
 
@@ -145,7 +175,7 @@ Rails development boxを利用できない事情がある場合は、Railsガイ
 コードに貢献するには、まずRailsリポジトリをクローンするところから始める必要があります。
 
 ```bash
-$ git clone git://github.com/rails/rails.git
+$ git clone https://github.com/rails/rails.git
 ```
 
 続いて、専用のブランチを作成します。
@@ -208,31 +238,11 @@ Railsのコーディングを行う場合は、以下のシンプルなスタイ
 
 ### ベンチマークを行う
 
-自分の書いたコードによってRailsのパフォーマンスが低下するのであれば、比較のために[benchmark-ips](https://github.com/evanphx/benchmark-ips) gemを使用してベンチマークの結果も添えてください。
+パフォーマンスに影響する可能性のある変更をかけるばあいは、コードのベンチマークを取って影響の大きさを測定するようお願いします。その際、使ったベンチマークスクリプトも結果に添えてください。コミットメッセージにもその旨を明記し、今後別のコントリビューターが必要に応じてその結果をすぐ見つけて検証したり決定を下したりできるようにしましょう（たとえば、今後Ruby VMの最適化が行われれば、現在の最適化の一部が不要になるということも考えられます）。
 
-benchmark-ipsの実行例を以下に示します。
+特定の状況に限ってパフォーマンスを改善するなら非常に簡単に最適化できますが、他の多くの状況ではパフォーマンス低下が再発するでしょう。したがって、代表的な状況を網羅したリストに対して変更をテストすべきです。理想的には、productionアプリから得た現実的なシナリオに基づくべきです。
 
-```ruby
-require 'benchmark/ips'
-
-Benchmark.ips do |x|
-  x.report('addition') { 1 + 2 }
-  x.report('addition with send') { 1.send(:+, 2) }
-end
-```
-
-このコードによって以下の情報を含むレポートが生成されます。
-
-```
-Calculating -------------------------------------
-            addition   132.013k i/100ms
-  addition with send   125.413k i/100ms
--------------------------------------------------
-            addition      9.677M (± 1.7%) i/s -     48.449M
-  addition with send      6.794M (± 1.1%) i/s -     33.987M
-```
-
-詳細については、benchmark/ips の [README](https://github.com/evanphx/benchmark-ips/blob/master/README.md)を参照してください。
+[ベンチマーク用のテンプレート](https://github.com/rails/rails/blob/master/guides/bug_report_templates/benchmark.rb)を元にするとよいでしょう。このテンプレートには、[benchmark-ips](https://github.com/evanphx/benchmark-ips) gemを用いてベンチマークを設定するコードテンプレートが含まれており、スクリプト内にインライン記述できるような比較的自己完結的なテストを念頭に設計されています。
 
 ### テストを実行する
 
@@ -284,7 +294,6 @@ $ bundle exec rake test:sqlite3
 `sqlite3`のときと同様に、以下の手順で各アダプターを対象にテストを実行することができます。タスクはそれぞれ以下のようになります。
 
 ```bash
-test:mysql
 test:mysql2
 test:postgresql
 ```
@@ -295,12 +304,12 @@ test:postgresql
 $ bundle exec rake test
 ```
 
-これで4つが順に実行されます。
+これで3つが順に実行されます。
 
 単一のテストを個別に実行することもできます。
 
 ```bash
-$ ARCONN=sqlite3 ruby -Itest test/cases/associations/has_many_associations_test.rb
+$ ARCONN=sqlite3 bundle exec ruby -Itest test/cases/associations/has_many_associations_test.rb
 ```
 
 ひとつのテストをすべてのアダプターに対して実行するには以下のようにします。
@@ -350,10 +359,6 @@ CHANGELOGのエントリには変更内容を的確に要約したものを記�
 
 変更内容によっては、依存関係もアップグレードしなければならないことがあります。そのような場合は、`bundle update` を実行して正しい依存関係バージョンを反映し、変更の`Gemfile.lock`ファイルにコミットしてください。
 
-### 健全性チェック
-
-コードに目を通したのが自分以外にいない状態でコードを送信するのはよくありません。身近にRails使いがいる場合は、送信前にコードを詳しくチェックしてもらいましょう。身近にRails使いがいない場合は、IRCルームやrails-coreメーリングリストでお問い合わせください。パッチをプッシュする前に内輪でコードをチェックすることを、そのパッチの「スモークテスト」と呼びます。書いたコードを他の開発者が見て美しいと思ってもらえないのであれば、Railsコアチームもおそらく同じ感想を持つでしょう。
-
 ### 変更をコミットする
 
 自分のPC上のコードに満足がいくようになったら、変更をGitにコミットします。
@@ -389,7 +394,7 @@ $ git commit -a
  アスタリスク (*) で始めます
 
 - 行は72文字目で折り返し、読みやすさのために
-  追加行の冒頭にスペース2つを置いてインデントします
+  追加行の冒頭にスペース2つを置いてインデントします
 ```
 
 TIP: コミットが複数にわたっている場合は、必ず 1 つのコミットにスカッシュ(squash)しておいてください。これにより、今後のcherry pickがやりやすくなり、Gitのログも煩雑にならずに済みます。
@@ -419,7 +424,7 @@ Rails [GitHubリポジトリ](https://github.com/rails/rails) を開いて、右
 ローカルPC上のローカルリポジトリに新しいリモートを追加します。
 
 ```bash
-$ git remote add mine git@github.com:<自分のユーザー名>/rails.git
+$ git remote add mine https://github.com/<自分のユーザー名>/rails.git
 ```
 
 リモートにプッシュします。
@@ -433,7 +438,7 @@ $ git push mine my_new_branch
 フォークのクローンを保存したディレクトリで以下を実行します。
 
 ```bash
-$ git remote add rails git://github.com/rails/rails.git
+$ git remote add rails https://github.com/rails/rails.git
 ```
 
 Railsの公式リポジトリから新しいコミットとブランチをダウンロードします。
@@ -503,8 +508,7 @@ $ git remote add upstream https://github.com/rails/rails.git
 ```bash
 $ git fetch upstream
 $ git checkout my_pull_request
-$ git rebase upstream/master
-$ git rebase -i
+$ git rebase -i upstream/master
 
 < 最初のひとつを除くすべてのコミットに対して'squash'を選択する >
 < コミットメッセージを編集して、すべての変更をわかりやすく記述する >
@@ -557,7 +561,7 @@ $ git format-patch master --stdout > ~/my_changes.patch
 対象ブランチに切り替えて変更を適用します。
 
 ```bash
-$ git checkout -b my_backport_branch 3-2-stable
+$ git checkout -b my_backport_branch 4-2-stable
 $ git apply ~/my_changes.patch
 ```
 
@@ -570,4 +574,4 @@ $ git apply ~/my_changes.patch
 Railsコントリビュータ
 ------------------
 
-masterやdocrailsへの貢献が認められた方々は[Railsコントリビュータ](http://contributors.rubyonrails.org)にその名を連ねています。
+貢献が認められた方々は[Railsコントリビュータ](http://contributors.rubyonrails.org)にその名を連ねています。

@@ -1,4 +1,4 @@
-﻿
+
 
 
 Rails コア開発環境の構築方法
@@ -10,7 +10,7 @@ Rails コア開発環境の構築方法
 
 * 自分のPCをRails開発用にセットアップする方法
 * Railsのテストスイートの中から特定のグループを実行する方法
-* RailsテストスイートのうちActiveRecordに関する部分の動作
+* RailsテストスイートのうちActive Recordに関する部分の動作
 
 --------------------------------------------------------------------------------
 
@@ -26,13 +26,12 @@ Rails development boxを利用できない事情がある場合は、この先�
 
 ### Gitをインストールする
 
-Ruby on Railsではソースコード管理にGitを使用しています。インストール方法については[Gitホームページ](http://git-scm.com/)に記載されています。Gitを学ぶための資料はネット上に山ほどあります (特記ないものは英語)。
+Ruby on Railsではソースコード管理にGitを使用しています。インストール方法については[Gitホームページ](https://git-scm.com/)に記載されています。Gitを学ぶための資料はネット上に山ほどあります (特記ないものは英語)。
 
-* [Try Git course](http://try.github.io/)は、対話的な操作のできるコースで基礎を学べます。
-* [Git公式ドキュメント](http://git-scm.com/documentation)には多くの情報がまとめられており、Gitの基礎を学べる動画もあります。
-* [Everyday Git](http://schacon.github.io/git/everyday.html)は最小限必要なGitの知識を学ぶのに向いています。
-* [PeepCode screencast](https://peepcode.com/products/git)のGitのページは学びやすいスクリーンキャストです。
-* [GitHub](http://help.github.com)にはさまざまなGit関連リソースへのリンクがあります。
+* [Try Git course](https://try.github.io/)は、対話的な操作のできるコースで基礎を学べます。
+* [Git公式ドキュメント](https://git-scm.com/documentation)には多くの情報がまとめられており、Gitの基礎を学べる動画もあります。
+* [Everyday Git](https://schacon.github.io/git/everyday.html)は最小限必要なGitの知識を学ぶのに向いています。
+* [GitHub](https://help.github.com)にはさまざまなGit関連リソースへのリンクがあります。
 * [Pro Git日本語版](https://progit-ja.github.io/)ではGitについてすべてをカバーした書籍がさまざまな形式で翻訳されており、クリエイティブ・コモンズ・ライセンスで公開されています。
 
 ### Ruby on Railsリポジトリをクローンする
@@ -40,7 +39,7 @@ Ruby on Railsではソースコード管理にGitを使用しています。イ�
 Ruby on Railsのソースコードを置きたいディレクトリ (そこに`rails`ディレクトリが作成されます) で以下を実行します。
 
 ```bash
-$ git clone git://github.com/rails/rails.git
+$ git clone https://github.com/rails/rails.git
 $ cd rails
 ```
 
@@ -48,7 +47,7 @@ $ cd rails
 
 リポジトリに送信されるコードは、テストスイートにパスしなければなりません。自分でパッチを書いた場合や、他の人が書いたパッチを詳しく評価する場合にも、テストを実行できるようにしておく必要があります。
 
-最初にSQLite3をインストールし、`sqlite3` gem用のSQLite3開発ファイルもインストールします。Mac OS Xの場合は以下を実行します。
+最初にSQLite3をインストールし、`sqlite3` gem用のSQLite3開発ファイルもインストールします。macOSの場合は以下を実行します。
 
 ```bash
 $ brew install sqlite3
@@ -57,7 +56,7 @@ $ brew install sqlite3
 Ubuntuなら以下で行えます。
 
 ```bash
-$ sudo apt-get install sqlite3 libsqlite3-dev
+$ sudo apt-get install libsqlite3x libsqlite3x-devel
 ```
 
 FedoraやCentOSの場合は以下を実行します。
@@ -80,7 +79,7 @@ FreeBSDの場合は以下を実行します。
 
 あるいは`databases/sqlite3`のportsをコンパイルします。
 
-[Bundler](http://bundler.io/)の最新バージョンを入手します。
+[Bundler](https://bundler.io/)の最新バージョンを入手します。
 
 ```bash
 $ gem install bundler
@@ -97,7 +96,7 @@ $ bundle install --without db
 
 NOTE: memcachedを使用するテストを実行したい場合は、memcachedがインストールされ、実行可能であることを確認する必要があります。
 
-OS Xの場合、[Homebrew](http://brew.sh/)を使用してmemcachedをインストールできます。
+macOSの場合、[Homebrew](https://brew.sh/)を使用してmemcachedをインストールできます。
 
 ```bash
 $ brew install memcached
@@ -163,6 +162,10 @@ $ cd actionpack
 $ bundle exec ruby -Itest path/to/test.rb -n test_name
 ```
 
+### Railtiesをセットアップする
+
+Railtiesテストの一部はJavaScriptランタイム環境に依存しています（[Node.js](https://nodejs.org/)をインストールする前提など）。
+
 ### Active Recordをセットアップする
 
 Active Recordのテストスイートの実行は4回試みられます。SQLite3で1回、MySQLの2つのgem(`mysql`と`mysql2`)でそれぞれ1回、PostgreSQLで1回です。それぞれについて環境構築方法を解説します。
@@ -177,7 +180,7 @@ Active Recordテストスイートでは、`activerecord/test/config.yml`とい�
 
 MySQLとPostgreSQLに対してテストスイートを実行できるようにするには、そのためのgemも必要です。最初にサーバーをインストールし、次にクライアントライブラリをインストール、そして開発用ファイルをインストールします。
 
-OS Xの場合、以下を実行できます。
+macOSの場合、以下を実行できます。
 
 ```bash
 $ brew install mysql
@@ -189,7 +192,7 @@ $ brew install postgresql
 Ubuntuの場合は以下を実行します。
 
 ```bash
-$ sudo apt-get install mysql-server libmysqlclient15-dev
+$ sudo apt-get install mysql-server libmysqlclient-dev
 $ sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
 ```
 
@@ -197,7 +200,7 @@ FedoraやCentOSの場合は以下を実行します。
 
 ```bash
 $ sudo yum install mysql-server mysql-devel
-$ sudo yum install postgresql-server postgresql-devel
+$ sudo yum install postgresql94-server postgresql94-devel
 ```
 
 Arch LinuxではMySQLがサポート対象外になったため、MariaDBを代わりに使用します (詳細は[MariaDB replaces MySQL in repositories](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)を参照)。
@@ -253,7 +256,7 @@ PostgreSQLでは認証方法が異なります。LinuxやBSDでdevelop環境にd
 $ sudo -u postgres createuser --superuser $USER
 ```
 
-OS Xの場合は以下を実行します。
+macOSの場合は以下を実行します。
 
 ```bash
 $ createuser --superuser $USER
@@ -280,8 +283,84 @@ $ cd activerecord
 $ bundle exec rake db:drop
 ```
 
-NOTE: testデータベースの作成にはrake タスクを使用してください。これにより、文字セットと照合順序が正しく設定されます。
+NOTE: testデータベースの作成にはRake タスクを使用してください。これにより、文字セットと照合順序が正しく設定されます。
 
 NOTE: PostgreSQL 9.1.x 以前のHStore拡張機能を有効にしようとすると次のような警告 (メッセージはローカライズされることもあります) が表示されます: 「WARNING: => is deprecated as an operator」
 
 他のデータベースを採用する場合は、`activerecord/test/config.yml`や`activerecord/test/config.example.yml`にデフォルトの接続情報があることをチェックしてください。必要であれば`activerecord/test/config.yml`を編集して、認証情報を別のものに変更することもできます。ただし、この臨時の認証情報をRailsのリポジトリに反映しないよう気を付けてください。
+
+### Action Cableのセットアップ
+
+Action CableではデフォルトのサブスクリプションアダプタとしてRedisを用います（[詳細](action_cable_overview.html#ブロードキャスト)）。このため、Action CableのテストがパスするにはRedisをインストールして実行中にしておく必要があります。
+
+#### Redisをソースからインストールする
+
+Redisのドキュメントに記載されている、パッケージマネージャによるインストール方法は古いものが多い点が残念です。ソースからインストールしてサーバーを立ち上げる方式の方が単純明快であり、[Redisのドキュメント](https://redis.io/download#installation)にも詳しく記載されています。
+
+#### Redisをパッケージマネージャでインストールする
+
+macOSの場合は以下を実行できます。
+
+```bash
+$ brew install redis
+```
+
+後はHomebrewが表示する指示に従って進めます。
+
+Ubuntuの場合は以下を実行するだけで完了します。
+
+```bash
+$ sudo apt-get install redis-server
+```
+
+FedoraまたはCentOSの場合は以下を実行します（EPELを有効にする必要があります）。
+
+```bash
+$ sudo yum install redis
+```
+
+Arch Linuxを実行している場合は、以下を実行します。
+
+```bash
+$ sudo pacman -S redis
+$ sudo systemctl start redis
+```
+
+FreeBSDユーザーは以下を実行しなければなりません。
+
+```bash
+# portmaster databases/redis
+```
+
+### Active Storageのセットアップ
+
+Active Storageを使う場合、コードベースのセクションで使われているJavaScript依存関係のインストールが必要である点を押さえておくことが重要です。依存関係をインストールするには、YarnというNode.jsパッケージマネージャをシステムで使えるようにしておく必要があります。このパッケージをインストールするには、あらかじめ[Node.js](https://nodejs.org)をインストールしておく必要があります。
+
+macOSでは以下を実行できます。
+
+```bash
+brew install yarn
+```
+
+Ubuntuでは以下を実行できます。
+
+```bash
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update && sudo apt-get install yarn
+```
+
+FedoraまたはCentOSの場合は以下を実行します。
+
+```bash
+sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+
+sudo yum install yarn
+```
+
+Yarnのインストールが終わったら、`activestorage`ディレクトリの下で以下のコマンドを実行して、依存関係をインストールする必要があります。
+
+```bash
+yarn install
+```

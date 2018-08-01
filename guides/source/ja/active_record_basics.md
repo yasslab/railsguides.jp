@@ -1,4 +1,4 @@
-﻿
+
 Active Record の基礎
 ====================
 
@@ -73,7 +73,8 @@ Active Recordでは、データベースのテーブルで使用されるカラ�
 * `lock_version` - モデルに[optimistic locking](http://api.rubyonrails.org/classes/ActiveRecord/Locking.html)を追加します
 * `type` - モデルで[Single Table Inheritance](http://api.rubyonrails.org/classes/ActiveRecord/Base.html#class-ActiveRecord::Base-label-Single+table+inheritance)を使用する場合に指定します
 * `関連付け名_type` - [ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)の種類を保存します
-* `テーブル名_count` - 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使用されます。たとえば、`Post`クラスに`comments_count`というカラムがあり、そこに`Comment`のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。
+
+* `テーブル名_count` - 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使用されます。たとえば、`Article`クラスに`comments_count`というカラムがあり、そこに`Comment`のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。
 
 NOTE: これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、`type`という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。
 
@@ -108,7 +109,7 @@ puts p.name # "Some Book"
 命名ルールを上書きする
 ---------------------------------
 
-Railsアプリケーションで別の命名ルールを使用しなければならない、レガシデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。
+Railsアプリケーションで別の命名ルールを使用しなければならない、レガシーデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。
 
 `ApplicationRecord`は、いくつかの便利なメソッドが定義された`ActiveRecord::Base`を継承しています。このため、例えば`ActiveRecord::Base.table_name=`メソッドを使用して、使用すべきテーブル名を明示的に指定することができます。
 
@@ -226,6 +227,16 @@ User.update_all "max_login_attempts = 3, must_change_password = 'true'"
 ```ruby
 user = User.find_by(name: 'David')
 user.destroy
+```
+
+複数レコードを一括削除したい場合は、`destroy_all`を使えます。
+
+```ruby
+# Davidという名前のユーザーを検索してすべて削除
+User.where(name: 'David').destroy_all
+
+# 全ユーザーを削除
+User.destroy_all
 ```
 
 検証(validation)

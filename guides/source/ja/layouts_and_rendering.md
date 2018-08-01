@@ -1,4 +1,4 @@
-﻿
+
 レイアウトとレンダリング
 ==============================
 
@@ -70,23 +70,25 @@ end
 <h1>Listing Books</h1>
 
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Summary</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
-<% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.content %></td>
-    <td><%= link_to "Show", book %></td>
-    <td><%= link_to "Edit", edit_book_path(book) %></td>
-    <td><%= link_to "Remove", book, method: :delete, data: { confirm: "Are you sure?" } %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.content %></td>
+        <td><%= link_to "Show", book %></td>
+        <td><%= link_to "Edit", edit_book_path(book) %></td>
+        <td><%= link_to "Destroy", book, method: :delete, data: { confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br>
@@ -217,20 +219,22 @@ render plain: "OK"
 
 TIP: 平文テキストの出力は、AjaxやWebサービスリクエストに応答するときに最も有用です。これらではHTML以外の応答を期待しています。
 
-NOTE: デフォルトでは、`:plain`オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、`layout: true`オプションを追加する必要があります。
+NOTE: デフォルトでは、`:plain`オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、`layout: true`オプションを追加して`.text.erb`を使う必要があります。
 
 #### HTMLを出力する
 
 `render`で`:html`オプションを使用すると、HTML文字列を直接ブラウザに送信することができます。
 
 ```ruby
-render html: "<strong>Not Found</strong>".html_safe
+render html: helpers.tag.strong('Not Found')
 ```
 
 TIP: この手法は、HTMLコードのごく小規模なスニペットを出力したい場合に便利です。
 スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。
 
-NOTE: このオプションを使用すると、文字列が「HTML safe」でない場合にHTML要素をエスケープします。
+
+
+NOTE: `html:`オプションを使用すると、`html_safe`を理解できるAPIで文字列が組み立てられていない場合にHTMLエンティティがエスケープされます。
 
 #### JSONを出力する
 
@@ -272,16 +276,17 @@ render body: "raw"
 
 TIP: このオプションを使用するのは、レスポンスのcontent typeがどんなものであってもよい場合のみにしてください。ほとんどの場合、`:plain`や`:html`などを使用する方が適切です。
 
-NOTE: このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り`text/html`が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。
+NOTE: このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り`text/plain`が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。
 
 #### `render`のオプション
 
-`render`メソッドに対する呼び出しでは、一般に以下の4つのオプションが使用できます。
+`render`メソッドに対する呼び出しでは、一般に以下の5つのオプションが使用できます。
 
 * `:content_type`
 * `:layout`
 * `:location`
 * `:status`
+* `:formats`
 
 ##### `:content_type`オプション
 
@@ -347,7 +352,6 @@ render status: :forbidden
 |                     | 303              | :see_other                       |
 |                     | 304              | :not_modified                    |
 |                     | 305              | :use_proxy                       |
-|                     | 306              | :reserved                        |
 |                     | 307              | :temporary_redirect              |
 |                     | 308              | :permanent_redirect              |
 | **Client Error**    | 400              | :bad_request                     |
@@ -363,11 +367,12 @@ render status: :forbidden
 |                     | 410              | :gone                            |
 |                     | 411              | :length_required                 |
 |                     | 412              | :precondition_failed             |
-|                     | 413              | :request_entity_too_large        |
-|                     | 414              | :request_uri_too_long            |
+|                     | 413              | :payload_too_large               |
+|                     | 414              | :uri_too_long                    |
 |                     | 415              | :unsupported_media_type          |
-|                     | 416              | :requested_range_not_satisfiable |
+|                     | 416              | :range_not_satisfiable           |
 |                     | 417              | :expectation_failed              |
+|                     | 421              | :misdirected_request             |
 |                     | 422              | :unprocessable_entity            |
 |                     | 423              | :locked                          |
 |                     | 424              | :failed_dependency               |
@@ -375,6 +380,7 @@ render status: :forbidden
 |                     | 428              | :precondition_required           |
 |                     | 429              | :too_many_requests               |
 |                     | 431              | :request_header_fields_too_large |
+|                     | 451              | :unavailable_for_legal_reasons   |
 | **Server Error**    | 500              | :internal_server_error           |
 |                     | 501              | :not_implemented                 |
 |                     | 502              | :bad_gateway                     |
@@ -386,6 +392,20 @@ render status: :forbidden
 |                     | 508              | :loop_detected                   |
 |                     | 510              | :not_extended                    |
 |                     | 511              | :network_authentication_required |
+
+NOTE: 「non-content」ステータスコード （100-199、204、205、 304のいずれか）でレンダリングしようとすると、レスポンスから削除されます。
+
+##### `:formats`オプション
+
+Railsは、リクエストで指定されたフォーマットを使います（またはデフォルトの`html`）。`:formats`に渡すオプションは、シンボルや配列で変更できます。
+
+```ruby
+render formats: :xml
+render formats: [:json, :xml]
+```
+
+指定されたフォーマットのテンプレートが存在しない場合は、`ActionView::MissingTemplate`エラーになります。
+
 
 #### レイアウトの探索順序
 
@@ -510,6 +530,42 @@ class ApplicationController < ActionController::Base
 * `OldPostsController#show`ではレイアウトが適用されません。
 * `OldPostsController#index`では`old`レイアウトが使用されます。
 
+##### テンプレートの継承
+
+レイアウト継承のロジックと同様に、テンプレートやパーシャルが通常のパスで見つからない場合、コントローラーは継承パスを探索してレンダリングするテンプレートやパーシャルを見つけようとします。次の例をご覧ください。
+
+```ruby
+# app/controllers/application_controller
+class ApplicationController < ActionController::Base
+end
+
+# app/controllers/admin_controller
+class AdminController < ApplicationController
+end
+
+# app/controllers/admin/products_controller
+class Admin::ProductsController < AdminController
+  def index
+  end
+end
+```
+
+このときの`admin/products#index`アクションの探索順序は次のようになります。
+
+* `app/views/admin/products/`
+* `app/views/admin/`
+* `app/views/application/`
+
+つまり、`app/views/application/`は共有パーシャルの置き場所として手頃です。これらはERBで次のようにレンダリングされます。
+
+```erb
+<%# app/views/admin/products/index.html.erb %>
+<%= render @products || "empty_list" %>
+
+<%# app/views/application/_empty_list.html.erb %>
+There are no items in this list <em>yet</em>.
+```
+
 #### 二重レンダリングエラーを避ける
 
 Rails開発をやっていれば、一度は "Can only render or redirect once per action" エラーに遭遇したことがあるでしょう。いまいましいエラーですが、修正は比較的簡単です。このエラーはほとんどの場合、開発者が`render`メソッドの基本的な動作を誤って理解していることが原因です。
@@ -562,6 +618,8 @@ redirect_to photos_url
 ```
 
 `redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻る場所は`HTTP_REFERER`ヘッダを利用していますが、これはブラウザが必ず設定しているとは限りません。そのため、`fallback_location`は必ず設定しなければなりません。
+
+`redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻り先の場所は`HTTP_REFERER`ヘッダーから取り出されますが、これがブラウザ側で設定される保証はありません。したがって、ここでは`fallback_location`を指定する必要があります。
 
 ```ruby
 redirect_back(fallback_location: root_path)
@@ -638,7 +696,7 @@ end
 
 ### `head`でヘッダのみのレスポンスを生成する
 
-`head`メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。このメソッド名は`render :nothing`よりも動作を明確に表しています。`head`メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます ([参照テーブル](#statusオプション) 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。
+`head`メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。`head`メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます ([参照テーブル](#statusオプション) 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。
 
 ```ruby
 head :bad_request
@@ -703,7 +761,7 @@ WARNING: これらのアセットタグヘルパーは、指定の場所にア�
 
 #### `auto_discovery_link_tag`を使用してフィードにリンクする
 
-`auto_discovery_link_tag`ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (`:rss`または`:atom`)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。
+`auto_discovery_link_tag`ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィード、JSONフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (`:rss`または`:atom`、`:json`)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。
 
 ```erb
 <%= auto_discovery_link_tag(:rss, {action: "feed"},
@@ -868,7 +926,10 @@ WARNING: 画像ファイルの拡張子は省略できません。
 上のコードによって以下が生成されます。
 
 ```erb
-<video><source src="trailer.ogg" /><source src="movie.ogg" /></video>
+<video>
+  <source src="/videos/trailer.ogg">
+  <source src="/videos/movie.ogg">
+</video>
 ```
 
 #### `audio_tag`を使用して音声ファイルにリンクする
@@ -986,6 +1047,42 @@ WARNING: 画像ファイルの拡張子は省略できません。
 
 上のコードの`_ad_banner.html.erb`パーシャルと`_footer.html.erb`パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。
 
+本ガイドの直前のセクションで説明したように、`yield`はレイアウトを簡潔に保つ上で極めて強力なツールです。これは純粋なRubyなのでほぼどこでも利用できることを頭に置いておきましょう。たとえば`yield`を用いると、多くの類似リソース向けのフォームレイアウト定義をDRYに書けます。
+
+* `users/index.html.erb`
+
+    ```html+erb
+    <%= render "shared/search_filters", search: @q do |f| %>
+      <p>
+        Name contains: <%= f.text_field :name_contains %>
+      </p>
+    <% end %>
+    ```
+
+* `roles/index.html.erb`
+
+    ```html+erb
+    <%= render "shared/search_filters", search: @q do |f| %>
+      <p>
+        Title contains: <%= f.text_field :title_contains %>
+      </p>
+    <% end %>
+    ```
+
+* `shared/_search_filters.html.erb`
+
+    ```html+erb
+    <%= form_for(search) do |f| %>
+      <h1>Search form:</h1>
+    <fieldset>
+        <%= yield f %>
+      </fieldset>
+      <p>
+        <%= f.submit "Search" %>
+      </p>
+    <% end %>
+    ```
+
 TIP: すべてのページで共有されているコンテンツであれば、パーシャルをレイアウトで使用することができます。
 
 #### パーシャルレイアウト
@@ -1035,6 +1132,36 @@ TIP: すべてのページで共有されているコンテンツであれば、
 上の2つのビューでは同じパーシャルがレンダリングされますが、Action Viewのsubmitヘルパーはnewアクションの場合には"Create Zone"を返し、editアクションの場合は"Update Zone"を返します。
 
 どのパーシャルにも、パーシャル名からアンダースコアを取り除いた名前を持つローカル変数が与えられます。`:object`オプションを使用することで、このローカル変数にオブジェクトを渡すことができます。
+
+ローカル変数を特定の状況に限ってパーシャルに渡すには、`local_assigns`を使います。
+
+* `index.html.erb`
+
+  ```erb
+  <%= render user.articles %>
+  ```
+
+* `show.html.erb`
+
+  ```erb
+  <%= render article, full: true %>
+  ```
+
+* `_article.html.erb`
+
+  ```erb
+  <h2><%= article.title %></h2>
+
+  <% if local_assigns[:full] %>
+    <%= simple_format article.body %>
+  <% else %>
+    <%= truncate article.body %>
+  <% end %>
+  ```
+
+このようにして、ローカル変数をすべて宣言する必要なしにパーシャルを使えるようになります。
+
+どのパーシャルにも、パーシャル名と同じ名前（冒頭のアンダースコアの有無だけ異なる）のローカル変数が1つずつあります。`object`オプションを使うと、このローカル変数にオブジェクトを1つ渡せます。
 
 ```erb
 <%= render partial: "customer", object: @new_customer %>
@@ -1125,7 +1252,7 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の場合、`title`という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。
 
-TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、コレクション名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングした回数を`product_counter`変数で参照できます。ただし、このオプションは`as: :value`オプションと併用できません。
+TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、パーシャルのタイトル名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングすると、`_product.html.erb`から`product_counter`変数を参照できます。`product_counter`変数は、それを囲むビュー内でレンダリングされた回数を示します。
 
 `:spacer_template`オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。
 

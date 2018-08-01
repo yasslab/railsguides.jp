@@ -1,4 +1,4 @@
-﻿
+
 
 
 定数の自動読み込みと再読み込み
@@ -146,14 +146,14 @@ Rubyは`Object`に`C`という定数を作成し、その定数にクラスオ�
 すなわち、
 
 ```ruby
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
 end
 ```
 
 上のコードは定数代入 (constant assignment) を行います。これは以下のコードと同等です。
 
 ```ruby
-Project = Class.new(ActiveRecord::Base)
+Project = Class.new(ApplicationRecord)
 ```
 
 このとき、以下のようにクラスの名前は副作用として設定されます。
@@ -257,9 +257,10 @@ INFO: `::Billing::Invoice`のように先頭にコロンを2つ置くことで�
 
 2番目の`Invoice`定数の方は`Billing`で修飾されています。この定数の解決方法についてはこの後で説明します。ここで、修飾する側のクラスやモジュールオブジェクト (上の例で言う`Billing`) を*親(parent)*と定義します。修飾済み定数を解決するアルゴリズムは以下のようになります。
 
-1. この定数はその親と先祖の中から探索される。
-
+1. この定数はその親と先祖の中から探索される。Ruby 2.5以降では、先祖オブジェクトに挟まれている`Object`はスキップされる。`Kernel`や`BasicObject`は従来どおりチェックされる。
 2. 探索の結果何も見つからない場合、親の`const_missing`が呼び出される。`const_missing`のデフォルトの実装は`NameError`を発生するが、これはオーバーライド可能。
+
+INFO: Ruby 2.5より前のバージョンでは、`String::Hash`は`Hash`と評価されてインタプリタが「toplevel constant Hash referenced by String::Hash」というwarningを出力します。Ruby 2.5以降では`Object`がスキップされるため、`String::Hash`で`NameError`がraiseされる。
 
 見てのとおり、この探索アルゴリズムは相対定数の場合よりもシンプルです。特に、ネストが何の影響も与えていない点にご注意ください。また、モジュールは特別扱いされておらず、モジュール自身またはモジュールの先祖のどちらにも定数がない場合には`Object`は**チェックされない**点にもご注意ください。
 
@@ -349,17 +350,28 @@ require 'erb'
 config.autoload_paths << "#{Rails.root}/lib"
 ```
 
+config.autoload_paths`は環境固有の設定ファイルからは変更できません。
+
 `autoload_paths`の値を検査することもできます。生成したRailsアプリケーションでは以下のようになります (ただし編集済み)。
 
 ```
 $ bin/rails r 'puts ActiveSupport::Dependencies.autoload_paths'
 .../app/assets
+.../app/channels
 .../app/controllers
+.../app/controllers/concerns
 .../app/helpers
+.../app/jobs
 .../app/mailers
 .../app/models
-.../app/controllers/concerns
 .../app/models/concerns
+.../activestorage/app/assets
+.../activestorage/app/controllers
+.../activestorage/app/javascript
+.../activestorage/app/jobs
+.../activestorage/app/models
+.../actioncable/app/assets
+.../actionview/app/assets
 .../test/mailers/previews
 ```
 
@@ -531,7 +543,7 @@ end
 
 相対参照は、それらがヒットしたcrefからは見つからないと報告されます。修飾済み参照はその親からは見つからないと報告されます。(*cref*の定義については本章の[相対定数を解決するアルゴリズム](#相対定数を解決するアルゴリズム)を、*parent*の定義については同じく[修飾済み定数を解決するアルゴリズム](#修飾済み定数を解決するアルゴリズム)を参照してください)
 
-定数`C`を任意の状況で自動読み込みする手順を擬似言語で表現すると以下のようになります。 
+定数`C`を任意の状況で自動読み込みする手順を擬似言語で表現すると以下のようになります。
 
 ```
 if「定数Cが見つからないクラスまたはモジュール」がオブジェクトである
@@ -694,7 +706,7 @@ end
 
 ```ruby
 # app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+class Polygon < ApplicationRecord
 end
 
 # app/models/triangle.rb
@@ -753,10 +765,12 @@ WHERE "polygons"."type" IN ("Rectangle")
 
 ```ruby
 # app/models/polygon.rb
-class Polygon < ActiveRecord::Base
+class Polygon < ApplicationRecord
 end
 require_dependency ‘square’
 ```
+
+これはあらゆる中間クラス（ルートクラスでも末端のleafクラスでもないクラス）で発生する必要があります。ルートクラスは型によるクエリのスコープを行わないので、すべての子孫についての知識を持たなければならないとは限りません。
 
 この方法で明示的に読み込む必要があるのは、**孫またはそれ以下**のleafだけで十分です。直下のサブクラスである子については事前読み込みは不要です。階層構造が子よりも深い場合、階層の途中にあるクラスの定義で定数がスーパークラスとして記述されているので、途中のクラスは再帰的に自動読み込みされます。
 
@@ -909,6 +923,8 @@ end
 
 #### 修飾済み参照
 
+WARNING: この現象はRuby 2.5より以前のバージョンにしか該当しません。
+
 以下の例について考察します。
 
 ```ruby
@@ -952,7 +968,7 @@ warning: toplevel constant Image referenced by Hotel::Image
 => Array
 ```
 
-WARNING: この落とし穴を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。`Object`はモジュールの先祖ではないからです。
+WARNING: この現象を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。`Object`はモジュールの先祖ではないからです。
 
 ### 特異クラス内で自動読み込みを行う
 

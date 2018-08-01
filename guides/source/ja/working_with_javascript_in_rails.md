@@ -1,4 +1,4 @@
-﻿
+
 Rails で JavaScript を使用する
 ================================
 
@@ -39,7 +39,7 @@ Railsには、この種の技法をWebページ作成で使用するためのサ
 「控えめなJavaScript」
 -------------------------------------
 
-Railsでは、JavaScriptをDOMに追加する際の手法を「控えめな (unobtrusive) JavaScript」と呼んでいます。これは一般にフロントエンド開発者コミュニティでベストプラクティスであると見なされていますが、ここではもう少し違う角度から説明したいと思います。
+Railsでは、JavaScriptをDOMに追加する際の手法を「UJS: Unobtrusive（控えめな）JavaScript」と呼んでいます。これは一般にフロントエンド開発者コミュニティでベストプラクティスであると見なされていますが、ここではもう少し違う角度から説明したいと思います。
 
 最もシンプルなJavaScriptを例にとって考えてみましょう。以下のような書き方は'インラインJavaScript'と呼ばれています。
 
@@ -55,7 +55,7 @@ Railsでは、JavaScriptをDOMに追加する際の手法を「控えめな (uno
 だいぶ乱雑になってきました。ではここで関数定義をclickハンドラの外に追い出し、CoffeeScriptで書き換えてみましょう。
 
 ```coffeescript
-paintIt = (element, backgroundColor, textColor) ->
+@paintIt = (element, backgroundColor, textColor) ->
   element.style.backgroundColor = backgroundColor
   if textColor?
     element.style.color = textColor
@@ -78,7 +78,7 @@ paintIt = (element, backgroundColor, textColor) ->
 これではDRYとは言えません。今度はイベントを活用して改良してみましょう。最初に`data-*`属性をリンクに追加しておきます。続いて、この属性を持つすべてのリンクで発生するクリックイベントにハンドラをバインドします。
 
 ```coffeescript
-paintIt = (element, backgroundColor, textColor) ->
+@paintIt = (element, backgroundColor, textColor) ->
   element.style.backgroundColor = backgroundColor
   if textColor?
     element.style.color = textColor
@@ -97,7 +97,7 @@ $ ->
 <a href="#" data-background-color="#000099" data-text-color="#FFFFFF">Paint it blue</a>
 ```
 
-私たちはこの手法を「控えめなJavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離することができたので、今後の変更が容易になりました。今後は、この`data-*`属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした最小化と連結を使用することで、あらゆるJavaScriptを実行できます。JavaScriptコードはRailsのあらゆるWebページでまるごとバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。
+私たちはこの手法を「UJS: Unobtrusive（控えめな）JavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離することができたので、今後の変更が容易になりました。今後は、この`data-*`属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした最小化と連結を使用することで、あらゆるJavaScriptを実行できます。JavaScriptコードはRailsのあらゆるWebページでまるごとバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。
 
 Railsチームは、本ガイドでご紹介した方法でCoffeeScriptとJavaScriptを使用することを強く推奨いたします。多くのJavaScriptライブラリもこの方法で利用できることが期待できます。
 
@@ -108,14 +108,16 @@ HTML生成を行い易くするために、Rubyで記述されたさまざまな
 
 RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptによる要素とRubyによる要素の2つの要素で構成されています。
 
-JavaScriptによる要素は[rails.js](https://github.com/rails/jquery-ujs/blob/master/src/rails.js)であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。これによりrails.jsに含まれるCoffeeScriptがDOMの属性をリッスンするようになり、それらの属性に適切なハンドラが与えられます。
+JavaScriptによる要素は[rails-ujs](https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts)であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。
 
-### form_for
+アプリ内の`remote`要素を扱うその他の発火イベントについては以下をご覧ください。
 
-[`form_for`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for) はフォーム作成を支援するヘルパーです。`form_for`は、JavaScriptを利用するための`:remote`オプションを引数に取ることができます。この動作は次のようになります。
+#### form_with
+
+[`form_with`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with) はフォーム作成を支援するヘルパーです。`form_with`では、デフォルトでAjaxをフォームで使えることが前提になっています。`form_with`に`:local`オプションを渡すことでこの振る舞いを変更できます。
 
 ```erb
-<%= form_for(@article, remote: true) do |f| %>
+<%= form_with(model: @article) do |f| %>
   ...
 <% end %>
 ```
@@ -134,79 +136,162 @@ formタグに`data-remote="true"`という属性が追加されていること�
 
 ```coffeescript
 $(document).ready ->
-  $("#new_article").on("ajax:success", (e, data, status, xhr) ->
-    $("#new_article").append xhr.responseText
-  ).on "ajax:error", (e, xhr, status, error) ->
+  $("#new_article").on("ajax:success", (event) ->
+    [data, status, xhr] = event.detail
+  ).on "ajax:error", (event) ->
     $("#new_article").append "<p>ERROR</p>"
 ```
 
-明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。詳細については、[jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki/ajax)に掲載されているイベントを参照してください。
+明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。
 
-### form_tag
+NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`data, status, xhr`パラメータは`event.detail`に組み込まれました。Rails 5およびそれ以前で利用されていた`jquery-ujs`について詳しくは、[`jquery-ujs` wiki](https://github.com/rails/jquery-ujs/wiki/ajax)をお読みください。
 
-[`form_tag`](http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag) は`form_for`とよく似ています。このメソッドには`:remote`オプションがあり、以下のように使用できます。
-
-```erb
-<%= form_tag('/articles', remote: true) do %>
-  ...
-<% end %>
-```
-
-上のコードから以下のHTMLが生成されます。
-
-```html
-<form accept-charset="UTF-8" action="/articles" data-remote="true" method="post">
-  ...
-</form>
-```
-
-その他の点は`form_for`と同じです。詳細についてはドキュメントを参照してください。
-
-### link_to
+#### link_to
 
 [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) はリンクの生成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
 
 ```erb
-<%= link_to "an article", @article, remote: true %>
+<%= link_to "記事", @article, remote: true %>
 ```
 
 上のコードによって以下が生成されます。
 
 ```html
-<a href="/articles/1" data-remote="true">an article</a>
+<a href="/articles/1" data-remote="true">記事</a>
 ```
 
-`form_for`の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。
+`form_with`の場合と同様、同じAjaxイベントをバインドできます。例を以下に示します。1クリックで削除できる記事の一覧があるとします。このHTMLは以下のような感じになります。
 
 ```erb
-<%= link_to "Delete article", @article, remote: true, method: :delete %>
+<%= link_to "記事を削除", @article, remote: true, method: :delete %>
 ```
 
 上に加え、以下の様なCoffeeScriptを作成します。
 
 ```coffeescript
 $ ->
-  $("a[data-remote]").on "ajax:success", (e, data, status, xhr) ->
-    alert "The article was deleted."
+  $("a[data-remote]").on "ajax:success", (event) ->
+    alert "この記事を削除しました"
 ```
 
-### button_to
+#### button_to
 
 [`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to)はボタン作成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
 
 ```erb
-<%= button_to "An article", @article, remote: true %>
+<%= button_to "記事", @article, remote: true %>
 ```
 
 上のコードによって以下が生成されます。
 
 ```html
 <form action="/articles/1" class="button_to" data-remote="true" method="post">
-  <div><input type="submit" value="An article"></div>
+  <input type="submit" value="記事" />
 </form>
 ```
 
-作成されるのは通常の`<form>`なので、`form_for`に関する情報はすべて`button_to`にも適用できます。
+作成されるのは通常の`<form>`なので、`form_with`に関する情報はすべて`button_to`にも適用できます。
+
+### `remote`要素をカスタマイズする
+
+`data-remote`属性を用いることで、JavaScriptを一行も書かずに要素の振る舞いをカスタマイズできます。`data-`属性を他にも指定することでこれを行うこともできます。
+
+#### `data-method`
+
+ハイパーリンクをクリックすると、常にHTTP `GET`リクエストが発生します。しかし実際には、[RESTful](https://en.wikipedia.org/wiki/Representational_State_Transfer)なアプリのリンクの中には、クリックするとサーバーのデータを変更するものもあり、そうした操作は`GET`以外のリクエストで行わなければなりません。この`data-method`属性は、そうしたリンクのHTTPメソッドに`POST`や`PUT`や`DELETE`を明示的に指定できます。
+
+この方法を用いると、リンクをクリックしたときにドキュメント内に隠しフォームが作成されます。そこにはリンクの`href`値に対応する`action`属性や`data-method`値に対応するHTTPメソッドを含まれており、そのフォームが送信されます。
+
+NOTE: `GET`や`POST`以外のHTTPメソッドによるフォーム送信をサポートするブラウザは多くないため、実際にはそうした他のHTTPメソッドは`_method`パラメータで指定する形で`POST`メソッドとして送信されます。Railsはこうした点を自動検出してカバーします。
+
+#### `data-url`と`data-params`
+
+ページの特定の要素が実際にはURLを参照していなくても、これを用いてAjax呼び出しをトリガしたいことがあります。`data-remote`で`data-url`属性を指定すると、そこで指定されたURLを用いてAjax呼び出しをトリガできます。`data-params`属性を介してこの他にもパラメータを指定できます。
+
+たとえば、チェックボックスを操作したときに何らかの操作をトリガできると便利な場合があります。
+
+```html
+<input type="checkbox" data-remote="true"
+    data-url="/update" data-params="id=10" data-method="put">
+```
+
+#### `data-type`
+
+`data-type`属性を用いることで、`data-remote`を用いるリクエストを実行する際にAjaxの`dataType`属性を明示的に定義することもできます。
+
+### 確認ダイアログ
+
+リンクやフォームに`data-confirm`属性を追加することで、確認ダイアログをさらに表示できます。ユーザーに表示されるのはJavaScriptの`confirm()`ダイアログで、この属性のテキストがダイアログに表示されます。ユーザーがダイアログをキャンセルすると、その操作は実行されません。
+
+`data-confirm`属性をリンクに追加した場合は、クリック時にダイアログがトリガされます。フォームに追加した場合は、送信時にトリガされます。次の例をご覧ください。
+
+```erb
+<%= link_to "Dangerous zone", dangerous_zone_path,
+  data: { confirm: 'よろしいですか？' } %>
+```
+
+上のコードから以下が生成されます。
+
+```html
+<a href="..." data-confirm="よろしいですか？">Dangerous zone</a>
+```
+
+`data-confirm`属性はフォームの送信ボタンにも使えます。これを使うと、クリックしたボタンに応じて警告メッセージを変更できます。ただし、この場合はフォームそのものに`data-confirm`属性を追加しては**いけません**。
+
+デフォルトの確認ダイアログではJavaScriptの確認ダイアログが使われますが、`confirm`イベントをリッスンすればこの振る舞いをカスタマイズできます。`confirm`イベントは確認ウィンドウがユーザーに表示される直前に発火します。このデフォルトの確認ダイアログをキャンセルするには、確認ハンドラで`false`を返してください。
+
+### 入力を自動で無効にする
+
+`data-disable-with`属性を用いて、フォームを送信するときに入力フィールドを自動で無効にすることもできます。これは、ユーザーの「2回クリック」誤操作を防止するためのものです。2回クリックされてしまうとHTTPリクエストが重複してしまい、バックエンド側で検出できなくなる可能性があります。`data-disable-with`属性の値は、無効状態になったボタンテキストの新しい値になります。
+
+`data-disable-with`属性は、`data-method`属性を持つリンクでも使えます。
+
+次の例をご覧ください。
+
+```erb
+<%= form_with(model: @article.new) do |f| %>
+  <%= f.submit data: { "disable-with": "保存しています..." } %>
+<%= end %>
+```
+
+上のコードから以下のフォームが生成されます。
+
+```html
+<input data-disable-with="保存しています..." type="submit">
+```
+
+### rails-ujsのイベントハンドラ
+
+Rails 5.1ではrails-ujsが導入され、jQueryに依存しなくなりました。この結果、UJS（Unobtrusive JavaScript）ドライバが書き直されてjQueryなしで使えるようになりました。rails-ujsが導入されたことによって、リクエスト中に発火する`custom events`に若干変更が生じます。
+
+NOTE: UJSイベントハンドラ呼び出しのシグネチャは変更されました。jQueryの場合と異なり、あらゆるカスタムイベントは`event`パラメータだけを返します。このパラメータには`detail`という属性が追加されており、追加パラメータの配列がその中に1つ含まれています。
+
+| イベント名          | 追加のパラメータ（`event.detail`） | 発火のタイミング                                                       |
+|---------------------|---------------------------------|-------------------------------------------------------------|
+| `ajax:before`       |                                 | Ajax全体が作動する前                             |
+| `ajax:beforeSend`   | [xhr, options]                  | リクエストが送信される前                                 |
+| `ajax:send`         | [xhr]                           | リクエストの送信時                                   |
+| `ajax:stopped`      |                                 | リクエストの停止時                                |
+| `ajax:success`      | [response, status, xhr]         | 完了後、レスポンス成功時            |
+| `ajax:error`        | [response, status, xhr]         | 完了後、レスポンスエラー時             |
+| `ajax:complete`     | [xhr, status]                   | リクエスト完了時（結果にかかわらず）|
+
+利用例は次のとおりです。
+
+```html
+document.body.addEventListener('ajax:success', function(event) {
+  var detail = event.detail;
+  var data = detail[0], status = detail[1],  xhr = detail[2];
+})
+```
+
+NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`data, status, xhr`パラメータは`event.detail`に組み込まれました。Rails 5およびそれ以前で利用されていた`jquery-ujs`について詳しくは、[`jquery-ujs` wiki](https://github.com/rails/jquery-ujs/wiki/ajax)をお読みください。
+
+### 停止可能なイベント
+
+ハンドラメソッドから`false`を返すことで`ajax:before`や`ajax:beforeSend`を停止すると、以後のAjaxリクエストがまったく発生しなくなります。`ajax:before`イベントがフォームのデータを操作できるのはシリアライズ前なので、独自のリクエストヘッダを追加するには`ajax:beforeSend`が便利です。
+
+`ajax:aborted:file`イベントを停止すると、ブラウザがフォームを通常の方法（Ajaxを用いない送信など）で送信するときのデフォルトの振る舞いがキャンセルされ、以後そのフォームは送信されなくなります。この動作は、独自のAjaxでファイルアップロードを実装するときの回避方法として便利です。
 
 サーバー側で考慮すべき点
 --------------------
@@ -237,7 +322,7 @@ indexビュー (`app/views/users/index.html.erb`) の内容は以下のように
 
 <br>
 
-<%= form_for(@user, remote: true) do |f| %>
+<%= form_with(model: @user) do |f| %>
   <%= f.label :name %><br>
   <%= f.text_field :name %>
   <%= f.submit %>
@@ -263,7 +348,7 @@ indexページの上部にはユーザーの一覧が表示されます。下部
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.js   {}
+        format.js
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
@@ -273,7 +358,7 @@ indexページの上部にはユーザーの一覧が表示されます。下部
   end
 ```
 
-format.jsが`respond_to`ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
+`format.js`が`respond_to`ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
 
 ```erb
 $("<%= escape_javascript(render @user) %>").appendTo("#users");
@@ -282,7 +367,7 @@ $("<%= escape_javascript(render @user) %>").appendTo("#users");
 Turbolinks
 ----------
 
-Railsには[Turbolinksライブラリ](https://github.com/rails/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
+Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
 
 ### Turbolinksの動作原理
 
@@ -312,7 +397,7 @@ $(document).on "turbolinks:load", ->
   alert "page has loaded!"
 ```
 
-この他にバインド可能なイベントなどの詳細については、[Turbolinks README](https://github.com/rails/turbolinks/blob/master/README.md)を参照してください。
+この他にバインド可能なイベントなどの詳細については、[Turbolinks README](https://github.com/turbolinks/turbolinks/blob/master/README.md)を参照してください。
 
 その他の情報源
 ---------------

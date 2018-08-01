@@ -66,7 +66,7 @@ $ bin/rails plugin --help
     end
     ```
 
-`--mountable`オプションを使用すると、`--full`オプションに以下が追加されます。
+`--mountable`オプションを使用すると、`--full`オプションによって以下が追加されます。
 
   * アセットマニフェストファイル (`application.js`および`application.css`)
   * 名前空間化された`ApplicationController`スタブ
@@ -144,7 +144,7 @@ NOTE: `Engine`クラスの定義に含まれる`isolate_namespace`の行を変�
 
 `app/controllers`ディレクトリの下には`blorgh`ディレクトリが置かれます。この中には`application_controller.rb`というファイルが1つ置かれます。このファイルはエンジンのコントローラ共通の機能を提供するためのものです。この`blorgh`ディレクトリには、エンジンで使用するその他のコントローラを置きます。これらのファイルを名前空間化されたディレクトリに配置することで、他のエンジンやアプリケーションに同じ名前のコントローラがあっても名前の衝突を避ける事ができます。
 
-NOTE: Rubyが定数を探索する方法のせいで、エンジンのコントローラがエンジンのアプロケーションコントローラを継承するのではなく、メインアプリケーションコントローラを継承する場合があります。これはRubyはすでに`ApplicationController`定数を知っているので自動読み込みが動作されないためです。[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)と[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)に詳しい説明があります。この問題を解決する一番良い方法は`require_dependency`を使いエンジンのアプリケーションコントローラがロードされるのを保証することです。例を見ましょう。
+NOTE: Rubyが定数を探索する方法のせいで、エンジンのコントローラがエンジンのアプリケーションコントローラを継承するのではなく、メインアプリケーションコントローラを継承する場合があります。これはRubyはすでに`ApplicationController`定数を知っているので自動読み込みが動作されないためです。[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)の[定数がトリガーされない場合](autoloading_and_reloading_constants.html#定数がトリガーされない場合)に詳しい説明があります。この問題を解決する一番良い方法は`require_dependency`を使いエンジンのアプリケーションコントローラがロードされるのを保証することです。例を見ましょう。
 
 ``` ruby
 # app/controllers/blorgh/articles_controller.rb:
@@ -472,7 +472,7 @@ gem 'blorgh', path: "/path/to/blorgh"
 mount Blorgh::Engine, at: "/blog"
 ```
 
-この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すること、`http://localhost:3000/blog`にアクセスできるようになります。
+この行を記述することで、エンジンがアプリケーションの`/blog`パスにマウントされます。`rails server`を実行してRailsを起動すると、`http://localhost:3000/blog`にアクセスできるようになります。
 
 NOTE: Deviseなどの他のエンジンではこの点が若干異なり、ルーティングで (`devise_for`などの) カスタムヘルパーを指定するものがあります。これらのヘルパーの動作は完全に同じです。事前に定義されたカスタマイズ可能なパスにエンジンの機能の一部をマウントします。
 
@@ -1050,7 +1050,7 @@ ActiveRecord::Base.include(MyActiveRecordHelper)
 これは次のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } # ブselfはActiveRecord::Baseを指すので、簡潔に`#include`を呼び出せます。
+ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } # selfはActiveRecord::Baseを指すので、簡潔に`#include`を呼び出せます。
 ```
 
 ### 例題2

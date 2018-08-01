@@ -264,7 +264,7 @@ App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
 ```ruby
 # このコードはアプリのどこかで呼び出される
 # おそらくNewCommentJobなどのあたりで
-ChatChannel.broadcast_to(
+ActionCable.server.broadcast(
   "chat_#{room}",
   sent_by: 'Paul',
   body: 'This is a cool chat app. '
@@ -283,7 +283,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    ChatChannel.broadcast_to("chat_#{params[:room]}", data)
+    ActionCable.server.broadcast("chat_#{params[:room]}", data)
   end
 end
 ```
