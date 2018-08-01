@@ -1,8 +1,8 @@
-﻿
+
 Rails の初期化プロセス
 ================================
 
-本章は、Rails 4におけるRails初期化プロセスの内部について解説します。上級Rails開発者向けに推奨される、きわめて高度な内容を扱っています。
+本章は、Rails初期化プロセスの内部について解説します。上級Rails開発者向けに推奨される、きわめて高度な内容を扱っています。
 
 このガイドの内容:
 
@@ -13,7 +13,7 @@ Rails の初期化プロセス
 
 --------------------------------------------------------------------------------
 
-本章では、デフォルトのRails 4アプリケーション向けにRuby on Railsスタックの起動時に必要となるすべてのメソッド呼び出しについて、詳細な解説を行います。具体的には、`rails server`を実行してアプリケーションを起動したときにどのようなことが行われているかに注目して解説します。
+本章では、デフォルトのRailsアプリケーション向けにRuby on Railsスタックの起動時に必要となるすべてのメソッド呼び出しについて、詳細な解説を行います。具体的には、`rails server`を実行してアプリケーションを起動したときにどのようなことが行われているかに注目して解説します。
 
 NOTE: 文中に記載されるRuby on Railsアプリケーションへのパスは、特に記載のない限り相対パスを使用します。
 
@@ -24,7 +24,7 @@ TIP: Railsの[ソースコード](https://github.com/rails/rails)を参照しな
 
 それではアプリケーションを起動して初期化を開始しましょう。Railsアプリケーションの起動は`rails console`または`rails server`を実行して行うのが普通です。
 
-### `railties/bin/rails`
+### `railties/exe/rails`
 
 `rails server`のうち、`rails`コマンドの部分はRubyで記述された実行ファイルであり、読み込みパス上に置かれています。この実行ファイルには以下の行が含まれています。
 
@@ -33,17 +33,17 @@ version = ">= 0"
 load Gem.bin_path('railties', 'rails', version)
 ```
 
-このコマンドをRailsコンソールで実行すると、`railties/bin/rails`が読み込まれるのがわかります。`railties/bin/rails.rb`ファイルには以下のコードが含まれています。
+このコマンドをRailsコンソールで実行すると、`railties/exe/rails`が読み込まれるのがわかります。`railties/exe/rails.rb`ファイルには以下のコードが含まれています。
 
 ```ruby
 require "rails/cli"
 ```
 
-今度は`railties/lib/rails/cli`ファイルが`Rails::AppRailsLoader.exec_app_rails`を呼び出します。
+今度は`railties/lib/rails/cli`ファイルが`Rails::AppLoader.exec_app`を呼び出します。
 
-### `railties/lib/rails/app_rails_loader.rb`
+### `railties/lib/rails/app_loader.rb`
 
-`exec_app_rails`の主要な目的は、Railsアプリケーションにある`bin/rails`を実行することです。カレントディレクトリに`bin/rails`がない場合、`bin/rails`が見つかるまでディレクトリを上に向って探索します。これにより、Railsアプリケーション内のどのディレクトリからでも`rails`コマンドを実行できるようになります。
+`exec_app`の主要な目的は、Railsアプリケーションにある`bin/rails`を実行することです。カレントディレクトリに`bin/rails`がない場合、`bin/rails`が見つかるまでディレクトリを上に向って探索します。これにより、Railsアプリケーション内のどのディレクトリからでも`rails`コマンドを実行できるようになります。
 
 `rails server`については、以下の同等のコマンドが実行されます。
 
@@ -57,7 +57,7 @@ $ exec ruby bin/rails server
 
 ```ruby
 #!/usr/bin/env ruby
-APP_PATH = File.expand_path('../../config/application', __FILE__)
+APP_PATH = File.expand_path('../config/application', __dir__)
 require_relative '../config/boot'
 require 'rails/commands'
 ```
@@ -69,32 +69,32 @@ require 'rails/commands'
 `config/boot.rb`には以下の行が含まれています。
 
 ```ruby
-# Set up gems listed in the Gemfile.
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+require 'bundler/setup' # Set up gems listed in the Gemfile.
 ```
 
 標準的なRailsアプリケーションにはGemfileというファイルがあり、アプリケーション内のすべての依存関係がそのファイル内で宣言されています。`config/boot.rb`はGemfileの位置を`ENV['BUNDLE_GEMFILE']`に設定します。Gemfileが存在する場合、`bundler/setup`をrequireします。このrequireは、Gemfileの依存ファイルが置かれている読み込みパスをBundlerで設定する際に使用されます。
 
 標準的なRailsアプリケーションは多くのgemに依存しますが、特に以下のgemに依存しています。
 
+* actioncable
 * actionmailer
 * actionpack
 * actionview
+* activejob
 * activemodel
 * activerecord
+* activestorage
 * activesupport
 * arel
 * builder
 * bundler
-* erubis
+* erubi
 * i18n
 * mail
 * mime-types
 * rack
-* rack-cache
-* rack-mount
 * rack-test
 * rails
 * railties
@@ -108,7 +108,7 @@ rake
 `config/boot.rb`の設定が完了すると、次にrequireするのはコマンドの別名を拡張する`rails/commands`です。この状況で`ARGV`配列には`server`だけが含まれており、以下のように受け渡しされます。
 
 ```ruby
-ARGV << '--help' if ARGV.empty?
+require_relative "command"
 
 aliases = {
   "g"  => "generate",
@@ -116,34 +116,40 @@ aliases = {
   "c"  => "console"
   "s"  => "server",
   "db" => "dbconsole"
-  "r"  => "runner"
+  "r"  => "runner",
+  "t"  => "test"
 }
 
 command = ARGV.shift
 command = aliases[command] || command
 
-require 'rails/commands/commands_tasks'
-
-Rails::CommandsTasks.new(ARGV).run_command!(command)
+Rails::Command.invoke command, ARGV
 ```
-
-TIP: 実際にやってみるとわかるとおり、空のARGVリストが渡されると、使用法のスニペットが表示されます。
 
 `server`の代わりに`s`が渡されると、ここで定義されている`aliases`の中からマッチするコマンドを探します。
 
-### `rails/commands/command_tasks.rb`
+### `rails/command.rb`
 
-`run_command`は、間違ったRailsコマンドが入力された時にエラーメッセージを表示する役割も担います。正しいコマンドの場合は同じ名前のメソッドが呼び出されます。
+何らかのRailsコマンドを1つ入力すると、`invoke`がコマンドを指定の名前空間内にコマンドがあるかどうか探索を試み、見つかった場合はそのコマンドを実行します。
+
+コマンドがRailsによって認識されない場合はRakeに引き継いで同じ名前で実行します。
+
+以下のソースにあるように、`Rails::Command`は`args`が空の場合に自動的にヘルプを出力します。
 
 ```ruby
-COMMAND_WHITELIST = %(plugin generate destroy console server dbconsole application runner new version help)
-
-def run_command!(command)
-  command = parse_command(command)
-  if COMMAND_WHITELIST.include?(command)
-    send(command)
-  else
-    write_error_message(command)
+module Rails::Command
+  class << self
+    def invoke(namespace, args = [], **config)
+      namespace = namespace.to_s
+      namespace = "help" if namespace.blank? || HELP_MAPPINGS.include?(namespace)
+      namespace = "version" if %w( -v --version ).include? namespace
+  		  
+      if command = find_by_namespace(namespace)
+        command.perform(namespace, args, config)
+      else
+        find_by_namespace("rake").perform(namespace, args, config)
+      end
+    end
   end
 end
 ```
@@ -151,47 +157,32 @@ end
 `server`コマンドが指定されると、Railsはさらに以下のコードを実行します。
 
 ```ruby
-def set_application_directory!
-  Dir.chdir(File.expand_path('../../', APP_PATH)) unless File.exist?(File.expand_path("config.ru"))
-end
+module Rails
+  module Command
+    class ServerCommand < Base # :nodoc:
+      def perform
+        set_application_directory!
 
-def server
-  set_application_directory!
-  require_command!("server")
-
-  Rails::Server.new.tap do |server|
-    # サーバーが環境を設定してからアプリケーションをrequireする必要がある
-    # そうしないとサーバーに与えられた環境オプションを展開できない
-    require APP_PATH
-    Dir.chdir(Rails.application.root)
-    server.start
+        Rails::Server.new.tap do |server|
+          # Require application after server sets environment to propagate
+          # the --environment option.
+          require APP_PATH
+          Dir.chdir(Rails.application.root)
+          server.start
+        end
+      end
+    end
   end
-end
-
-def require_command!(command)
-  require "rails/commands/#{command}"
 end
 ```
 
 上のファイルは、`config.ru`ファイルが見つからない場合に限り、Railsのルートディレクトリ (`config/application.rb`を指す`APP_PATH`から2階層上のディレクトリ) に置かれます。このコードは続いて`rails/commands/server`を実行します。これは`Rails::Server`クラスを設定するものです。
 
-```ruby
-require 'fileutils'
-require 'optparse'
-require 'action_dispatch'
-require 'rails'
-
-module Rails
-  class Server < ::Rack::Server
-```
-
-`fileutils`および`optparse`は標準のRubyライブラリであり、それぞれファイル操作や解析オプションを使用できるヘルパー関数を提供します。
-
 ### `actionpack/lib/action_dispatch.rb`
 
 Action DispatchはRailsフレームワークのルーティングを司るコンポーネントです。ルーティング、セッションおよび共通のミドルウェアなどの機能を提供します。
 
-### `rails/commands/server.rb`
+### `rails/commands/server_command.rb`
 
 `Rails::Server`クラスはこのファイル内で定義されており、`Rack::Server`を継承しています。`Rails::Server.new`を呼び出すと、`rails/commands/server.rb`の`initialize`メソッドが呼び出されます。
 
@@ -219,7 +210,7 @@ end
 
 この場合`options`の値は`nil`になるので、このメソッドでは何も実行されません。
 
-`super`が`Rack::Server`の中で完了すると、`rails/commands/server.rb`に制御が戻ります。この時点で、`set_environment`が`Rails::Server`オブジェクトのコンテキスト内で呼び出されますが、一見したところ大した処理を行なっていないように見えます。
+`super`が`Rack::Server`の中で完了すると、`rails/commands/server_command.rb`に制御が戻ります。この時点で、`set_environment`が`Rails::Server`オブジェクトのコンテキスト内で呼び出されますが、一見したところ大した処理を行なっていないように見えます。
 
 ```ruby
 def set_environment
@@ -239,16 +230,15 @@ end
 
 ```ruby
 def parse_options(args)
-  options = default_options
-
-  # CGI ISINDEXパラメータをevaluateしないこと
-  # http://www.meb.uni-bonn.de/docs/cgi/cl.html
-  args.clear if ENV.include?("REQUEST_METHOD")
-
-  options.merge! opt_parser.parse!(args)
-  options[:config] = ::File.expand_path(options[:config])
-  ENV["RACK_ENV"] = options[:environment]
-  options
+  super.merge(
+    Port:               ENV.fetch("PORT", 3000).to_i,
+    Host:               ENV.fetch("HOST", "localhost").dup,
+    DoNotReverseLookup: true,
+    environment:        (ENV["RAILS_ENV"] || ENV["RACK_ENV"] || "development").dup,
+    daemonize:          false,
+    caching:            nil,
+    pid:                Options::DEFAULT_PID_PATH,
+    restart_cmd:        restart_command)
 end
 ```
 
@@ -284,14 +274,15 @@ end
 def parse!(args)
   args, options = args.dup, {}
 
-  opt_parser = OptionParser.new do |opts|
-    opts.banner = "Usage: rails server [mongrel, thin, etc] [options]"
-    opts.on("-p", "--port=port", Integer,
-            "Runs Rails on the specified port.", "Default: 3000") { |v| options[:Port] = v }
-  ...
+  option_parser(options).parse! args
+
+  options[:log_stdout] = options[:daemonize].blank? && (options[:environment] || Rails.env) == "development"
+  options[:server]     = args.shift
+  options
+end
 ```
 
-このメソッドは`options`のキーを設定します。Railsはこれを使用して、どのようにサーバーを実行するかを決定します。`initialize`が完了すると、`rails/server`に戻ります。ここでは先ほど設定された`APP_PATH`がrequireされます。
+このメソッドは`options`のキーを設定します。Railsはこれを使用して、どのようにサーバーを実行するかを決定します。`initialize`が完了すると、先ほど設定した`APP_PATH`がrequireされたサーバーコマンドに制御が戻ります。
 
 ### `config/application`
 
@@ -306,6 +297,7 @@ def start
   print_boot_information
   trap(:INT) { exit }
   create_tmp_directories
+  setup_dev_caching
   log_to_stdout if options[:log_stdout]
 
   super
@@ -313,32 +305,38 @@ def start
 end
 
 private
-
   def print_boot_information
     ...
     puts "=> Run `rails server -h` for more startup options"
-    ...
-    puts "=> Ctrl-C to shutdown server" unless options[:daemonize]
   end
 
   def create_tmp_directories
-    %w(cache pids sessions sockets).each do |dir_to_make|
+    %w(cache pids sockets).each do |dir_to_make|
       FileUtils.mkdir_p(File.join(Rails.root, 'tmp', dir_to_make))
+    end
+  end
+
+  def setup_dev_caching
+    if options[:environment] == "development"
+      Rails::DevCaching.enable_by_argument(options[:caching])
     end
   end
 
   def log_to_stdout
     wrapped_app # アプリにタッチしてロガーを設定
 
-    console = ActiveSupport::Logger.new($stdout)
+    console = ActiveSupport::Logger.new(STDOUT)
     console.formatter = Rails.logger.formatter
     console.level = Rails.logger.level
 
-    Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+   unless ActiveSupport::Logger.logger_outputs_to?(Rails.logger, STDOUT)
+      Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+    end
   end
 ```
 
-Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。続いて`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。
+
+Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。`rails server`に`--dev-caching`オプションを指定して呼び出した場合は、development環境でのキャッシュをオンにします。最後に`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。
 
 `super`メソッドは`Rack::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
 
@@ -420,7 +418,7 @@ private
 ```ruby
 # このファイルはRackベースのサーバーでアプリケーションの起動に使用される
 
-require ::File.expand_path('../config/environment', __FILE__)
+require_relative 'config/environment'
 run <%= app_const %>
 ```
 
@@ -441,7 +439,7 @@ end
 `Rack::Builder`の`initialize`メソッドはこのブロックを受け取り、`Rack::Builder`のインスタンスの中で実行します。Railsの初期化プロセスの大半がこの場所で実行されます。`config.ru`の`config/environment.rb`の`require`行が最初に実行されます。
 
 ```ruby
-require ::File.expand_path('../config/environment', __FILE__)
+require_relative 'config/environment'
 ```
 
 ### `config/environment.rb`
@@ -451,7 +449,7 @@ require ::File.expand_path('../config/environment', __FILE__)
 このファイルの冒頭部分では`config/application.rb`がrequireされます。
 
 ```ruby
-require File.expand_path('../application', __FILE__)
+require_relative 'application'
 ```
 
 ### `config/application.rb`
@@ -459,7 +457,7 @@ require File.expand_path('../application', __FILE__)
 このファイルでは`config/boot.rb`がrequireされます。
 
 ```ruby
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 ```
 
 それまでにboot.rbがrequireされていなかった場合に限り、`rails server`の場合にはboot.rbがrequireされます。ただしPassengerを使用する場合にはboot.rbがrequire**されません**。
@@ -483,15 +481,18 @@ require 'rails/all'
 require "rails"
 
 %w(
-  active_record
-  action_controller
-  action_view
-  action_mailer
-  rails/test_unit
-  sprockets
-).each do |framework|
+  active_record/railtie
+  action_controller/railtie
+  action_view/railtie
+  action_mailer/railtie
+  active_job/railtie
+  action_cable/engine
+  active_storage/engine
+  rails/test_unit/railtie
+  sprockets/railtie
+).each do |railtie|
   begin
-    require "#{framework}/railtie"
+    require railtie
   rescue LoadError
   end
 end
@@ -503,7 +504,8 @@ end
 
 ### `config/environment.rb`に戻る
 
-`config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここではアプリケーションの初期化が行われます。たとえばアプリケーションの名前が`Blog`であれば、environment.rbに`Rails.application.initialize!`という行があります。これは`rails/application.rb`で定義されています。
+
+`config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここでは`Rails.application.initialize!`によるアプリケーションの初期化が行われます。これは`rails/application.rb`で定義されています。
 
 ### `railties/lib/rails/application.rb`
 
@@ -594,7 +596,7 @@ DEFAULT_OPTIONS = {
 }
 
 def self.run(app, options = {})
-  options  = DEFAULT_OPTIONS.merge(options)
+  options = DEFAULT_OPTIONS.merge(options)
 
   if options[:Verbose]
     app = Rack::CommonLogger.new(app, STDOUT)

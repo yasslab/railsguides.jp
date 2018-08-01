@@ -1,4 +1,4 @@
-﻿
+
 
 
 Ruby on Rails 5.1リリースノート
@@ -476,7 +476,7 @@ Active Model
 
 ### 削除されたもの
 
-*   非推奨の`ActiveModel::Errors`を削除
+*   `ActiveModel::Errors`の非推奨のメソッドを削除
     ([commit](https://github.com/rails/rails/commit/9de6457ab0767ebab7f2c8bc583420fda072e2bd))
 
 *   lengthバリデータから非推奨の`:tokenizer`オプションを削除

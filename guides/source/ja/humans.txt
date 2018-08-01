@@ -14,8 +14,8 @@ __END__
 Contributors to Japanese RailsGuides
 https://github.com/yasslab/railsguides.jp/graphs/contributors
 
-Maintained by YassLab
+Maintained by YassLab Inc.
 https://github.com/orgs/yasslab/people
 
-YassLab - Having a Good Life with OpenSource ;)
-http://yasslab.jp/
+YassLab Inc. - Having a Good Life with OpenSource ;)
+https://yasslab.jp/

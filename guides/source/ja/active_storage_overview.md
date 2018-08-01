@@ -72,7 +72,7 @@ config.active_storage.service = :amazon
 
 ### Disk Service
 
-`config/environments/production.rb`にDiskサービスを宣言してください。
+`config/storage.yml`にDiskサービスを宣言してください。
 
 ``` yaml
 local:
