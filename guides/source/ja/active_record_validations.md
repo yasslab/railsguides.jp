@@ -962,9 +962,6 @@ person.errors.details[:name]
 
 個別の属性に関連するエラーメッセージを追加する代りに、オブジェクトの状態全体に関連するエラーメッセージを追加することもできます。属性の値がどのようなものであってもオブジェクトが無効であることを通知したい場合にこのメソッドを使用できます。`errors[:base]`は配列なので、これに文字列を単に追加するだけでエラーメッセージとして使用できるようになります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013244
--->
 ```ruby
 class Person < ApplicationRecord
   def a_method_used_for_validation_purposes
@@ -977,10 +974,6 @@ end
 
 `clear`メソッドは、`errors`コレクションに含まれるメッセージをすべてクリアしたい場合に使用できます。無効なオブジェクトに対して`errors.clear`メソッドを呼び出しても、それだけでオブジェクトが有効になるわけではありませんのでご注意ください。`errors`は空になりますが、`valid?`やオブジェクトをデータベースに保存しようとするメソッドが次回呼び出されたときに、バリデーションが再実行されます。そしていずれかのバリデーションが失敗すると、`errors`コレクションに再びメッセージが格納されます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013248
-TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013252
--->
 ```ruby
 class Person < ApplicationRecord
   validates :name, presence: true, length: { minimum: 3 }
@@ -1004,9 +997,6 @@ person.errors[:name]
 
 `size`メソッドは、そのオブジェクトのエラーメッセージの総数を返します。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/78c92275164cd4ea7c567fbc7ed831e44e3bdd56#r27013270
--->
 ```ruby
 class Person < ApplicationRecord
   validates :name, presence: true, length: { minimum: 3 }
