@@ -453,8 +453,6 @@ TIP: 個別のコマンドのヘルプを表示するには、デバッガーの
 * `thread resume n`はスレッド _n_ を再開します。
 * `thread switch n`は現在のスレッドコンテキストを _n_ に切り替えます。
 
-This command is very helpful when you are debugging concurrent threads and need to verify that there are no race conditions in your code.
-
 このコマンドは、同時実行（コンカレント）スレッドのデバッグ中に、コードで競合状態が発生していないかどうかの確認が必要な場合にも非常に便利です。
 
 ### 変数の検査
@@ -590,8 +588,6 @@ Processing by ArticlesController#index as HTML
 
 (byebug)
 ```
-
-If we use `next`, we won't go deep inside method calls. Instead, `byebug` will go to the next line within the same context. In this case, it is the last line of the current method, so `byebug` will return to the next line of the caller method.
 
 `next`を使うと、メソッドの呼び出し先は表示されません。byebugはその代わりに、単に同じコンテキストの次の行に進みます。この例の場合、次の行とは現在のメソッドの最終行になります。つまり、`byebug`は呼び出し元メソッドの次の行に戻ります。
 
