@@ -170,7 +170,7 @@ class GuestsCleanupJob < ApplicationJob
 end
 
 # 以上で、production環境ではproduction_low_priorityというキューでジョブが
-# 実行されるようになり、staging環境ではstaging.low_priorityというキューでジョブが実行されるようになります
+# 実行されるようになり、staging環境ではstaging_low_priorityというキューでジョブが実行されるようになります
 ```
 
 キュー名のプレフィックスのデフォルト区切り文字は'\_'です。`application.rb`の`config.active_job.queue_name_delimiter`を設定することでこの区切り文字を変更できます。
@@ -190,7 +190,7 @@ class GuestsCleanupJob < ApplicationJob
   #....
 end
 
-# 以上で、production環境ではproduction_low_priorityというキューでジョブが
+# 以上で、production環境ではproduction.low_priorityというキューでジョブが
 # 実行されるようになり、staging環境ではstaging.low_priorityというキューでジョブが実行されるようになります
 ```
 
