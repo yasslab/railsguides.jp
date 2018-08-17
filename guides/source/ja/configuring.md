@@ -58,7 +58,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.asset_host`はアセットを置くホストを設定します。この設定は、アセットの置き場所がCDN (Contents Delivery Network) の場合や、別のドメインエイリアスを使用するとブラウザの同時実行制限にひっかかるのを避けたい場合に便利です。このメソッドは`config.action_controller.asset_host`を短縮したものです。
 
-* `config.autoload_once_paths`は、サーバーへのリクエストごとにクリアされない定数を自動読込するパスの配列を引数に取ります。この設定は`config.cache_classes`が`false`の場合に影響を受けます。`config.cache_classes`はdevelopmentモードでは`config.cache_classes`はデフォルトでオフです。`config.cache_classes`がtrueの場合、すべての`config.autoload_once_paths`自動読み込みは一度しか行われません。`config.autoload_once_paths`の配列に含まれる要素は、次で説明する`autoload_paths`にもまったく同じように含めておく必要があります。`config.autoload_once_paths`のデフォルト値は、空の配列です。
+* `config.autoload_once_paths`は、サーバーへのリクエストごとにクリアされない定数を自動読込するパスの配列を引数に取ります。この設定は`config.cache_classes`が`false`の場合に影響を受けます。`config.cache_classes`はdevelopmentモードではデフォルトでオフです。`config.cache_classes`がtrueの場合、すべての`config.autoload_once_paths`自動読み込みは一度しか行われません。`config.autoload_once_paths`の配列に含まれる要素は、次で説明する`autoload_paths`にもまったく同じように含めておく必要があります。`config.autoload_once_paths`のデフォルト値は、空の配列です。
 
 * `config.autoload_paths`はRailsが定数を自動読込するパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです(訳注: Rails3からはautoload_pathの設定はデフォルトでは無効です)。
 
