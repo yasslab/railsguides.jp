@@ -526,7 +526,7 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 * `config.action_view.form_with_generates_remote_forms`は、`form_with`でリモートフォームを生成するかどうかを指定します。デフォルトは`true`です。
 
-* `config.action_view.form_with_generates_ids`は、`form_with`でidを生成するかどうかを指定します。デフォルトは`trueです。
+* `config.action_view.form_with_generates_ids`は、`form_with`でidを生成するかどうかを指定します。デフォルトは`true`です。
 
 ### Action Mailerを設定する
 
