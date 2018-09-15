@@ -80,7 +80,7 @@ Action Dispatcherのミドルウェアスタック
 
 Action Dispatcher内部のコンポーネントの多くは、Rackのミドルウェアとして実装されています。Rails内外の様々なミドルウェアを結合して、完全なRailsのRackアプリケーションを作るために、`Rails::Application`は`ActionDispatch::MiddlewareStack`を使用しています。
 
-NOTE: `ActionDispatch::MiddlewareStack`は`Rack::Builder`のRails版ですが、Railsアプリケーションの要求を満たすために、より柔軟性があり、多機能なクラスになっています。
+NOTE: `ActionDispatch::MiddlewareStack`は`Rack::Builder`のRails版ですが、Railsアプリケーションの要求を満たすために、より柔軟性が高く、多機能なクラスになっています。
 
 ### ミドルウェアスタックを調べる
 
@@ -116,7 +116,8 @@ use ActionDispatch::ContentSecurityPolicy::Middleware
 use Rack::Head
 use Rack::ConditionalGet
 use Rack::ETag
-run Rails.application.routes
+use Rack::TempfileReaper
+run MyApp::Application.routes
 ```
 
 デフォルトのミドルウェア(とその他のうちいくつか)については[ミドルウェアスタックの内容](#ミドルウェアスタックの内容) を参照してください。
@@ -241,13 +242,9 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 * IPスプーフィング攻撃をチェックします。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f4da93be616df2b3#r27174670
--->
-
 **`Rails::Rack::Logger`**
 
-* リクエストの処理を開始したことを、ログに書き出します。リクエストが完了すると、すべてのログをフラッシュします。
+* リクエストの処理が開始されたことをログに出力します。リクエストが完了すると、すべてのログをフラッシュします。
 
 **`ActionDispatch::ShowExceptions`**
 
@@ -281,6 +278,10 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f
 
 * flash機能を提供します(flashとは連続するリクエスト間で値を共有する機能です)。これは、`config.action_controller.session_store`に値が設定されている場合にのみ有効です。
 
+**`ActionDispatch::ContentSecurityPolicy::Middleware`**
+
+* Content-Security-Policyヘッダー設定用のDLSを提供します
+
 **`ActionDispatch::Head`**
 
 * HEADリクエストを`GET`に変換して処理します。その上でbodyを空にしたレスポンスを返します(訳注: Rails4.0からはRack::Headを使うように変更されています)。
@@ -292,6 +293,10 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/191714ea977bb6c5c6f19fb2f
 **`Rack::ETag`**
 
 * bodyが文字列のみのレスポンスに対して、ETagヘッダを追加します。 ETagはキャッシュの有効性を検証するのに使用されます。
+
+**`Rack::TempfileReaper`**
+
+* マルチパートリクエストのバッファに使われた一時ファイルをクリーンアップします。
 
 TIP: これらのミドルウェアはいずれも、Rackのミドルウェアスタックに利用できます。
 
