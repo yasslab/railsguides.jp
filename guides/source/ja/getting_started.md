@@ -1,4 +1,4 @@
-﻿
+
 Rails をはじめよう
 ==========================
 
@@ -22,7 +22,7 @@ Railsとは、Rubyプログラミング言語の上で動作するWebアプリ�
 Rubyの経験がまったくない場合、Railsを学ぶのはかなり大変な作業になるでしょう。Rubyを学ぶための精選されたオンラインリソース一覧はたくさんありますので、その中から以下をご紹介します。
 
 * [Rubyプログラミング言語公式Webサイトの情報](https://www.ruby-lang.org/ja/documentation/)
-* [無料のプログラミング学習用書籍一覧 (英語)]((https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#ruby)
+* [無料のプログラミング学習用書籍一覧 (英語)](https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#ruby)
 
 これらはいずれもよくできていますが、中にはRubyのバージョンが1.6など古いものもありますのでご注意ください。また、バージョン1.8を対象にしているものが多く、Railsでの日常的な開発に使用されている新しい文法が含まれていないこともあります。
 
@@ -68,9 +68,7 @@ TIP: RubyやRuby on Railsを自分のシステムに簡単にインストール�
 
 Windowsで作業する場合は、[Ruby Installer Development Kit](http://rubyinstaller.org/downloads/)もインストールすべきです。
 
-また、SQLite3データベースのインストールも必要です。
-
-多くのUnix系OSには実用的なバージョンのSQLite3が同梱されています。 Windowsで上述のRails InstalerでRailsをインストールすると、SQLite3もインストールされます。その他の環境の方は[SQLite3](http://www.sqlite.org)のインストール方法を参照してください。
+また、SQLite3データベースのインストールも必要です。多くのUnix系OSには実用的なバージョンのSQLite3が同梱されています。 Windowsで上述のRails InstalerでRailsをインストールすると、SQLite3もインストールされます。その他の環境の方は[SQLite3](http://www.sqlite.org)のインストール方法を参照してください。
 
 ```bash
 $ sqlite3 --version
@@ -149,9 +147,11 @@ Hello, Rails!
 $ rails server
 ```
 
+TIP: Windowsを使っている場合は、`ruby bin\rails server`などのように`bin/フォルダの下にあるスクリプトをRubyインタプリタに直接渡す必要があります。
+
 TIP: CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。Mac OS XやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`therubyracer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムの詳細については[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
 
-Railsで起動されるWebサーバーは、Railsにデフォルトで付属している[Puma](http://puma.io/)です。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <http://localhost:3000> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
+これで[Puma](http://puma.io/)が起動します。Pumaは、Railsにデフォルトで付属しているWebサーバーです。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <http://localhost:3000> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
 
 ![Welcome画面のスクリーンショット](images/getting_started/rails_welcome.png)
 
@@ -165,7 +165,7 @@ Railsに"Hello"と表示するには、最低でも**コントローラ**と**�
 
 コントローラは、アプリケーションに対する特定のリクエストを受け取って処理するのが役割です。_ルーティング_ は、リクエストをどのコントローラに割り振るかを決定するためのものです。1つのコントローラに対して複数のルーティングがあるのはよくあることです。そしてコントローラにはいくつかの _アクション_ があります。いくつかの異なるルーティングに対して、それぞれ異なるアクションを割り当てることができます。それぞれのアクションは、情報を集めてビューに送り出すのが役割です。
 
-ビューの役割は、この情報をユーザーが読める形式で表示することです。ここで気を付けていただきたい重要な違いは、表示する情報を集めるのは _コントローラ_ であって、ビューではないということです。ビューは、コントローラが作成した情報に対して余計なことをせずに表示する必要があります。ビューテンプレートで使用できる言語は、デフォルトではeRuby (ERBとも、Embedded Rubyとも呼ばれます) が使用されます (訳注: 近年はhamlテンプレートがよく使われます)。ERBで書かれたコードは、ユーザーに表示される前のリクエストサイクルでRailsによって処理されます。
+ビューの役割は、この情報をユーザーが読める形式で表示することです。ここで気を付けていただきたい重要な違いは、表示する情報を集めるのは _コントローラ_ であって、ビューではないということです。ビューは、コントローラが作成した情報に対して余計なことをせずに表示する必要があります。ビューテンプレートで使用できる言語は、デフォルトではeRuby (ERBとも、Embedded Rubyとも呼ばれます) が使用されます (訳注: 近年はhamlテンプレートもよく使われます)。ERBで書かれたコードは、ユーザーに表示される前のリクエストサイクルでRailsによって処理されます。
 
 コントローラを新規作成するには、コントローラ用のジェネレータを実行します。ここでは以下のように、Welcomeという名前のコントローラの中にindexというアクションを作成するよう指定します。
 
@@ -217,7 +217,7 @@ Rails.application.routes.draw do
 end
 ```
 
-上はアプリケーションの _ルーティングファイル_ の内容です。外部からのリクエストをどのようにコントローラとアクションに振り分けるかを、DSL (ドメイン特化言語: domain-specific language) という特殊な言語を使用してこのファイル内に記述します。デフォルトのconfig/routes.rbには多数のルーティングサンプルがコメント行に記載されており、そのうちの1つに、サイトのルートにアクセスがあったときに接続するコントローラとアクションを指定する方法が書かれています。`root`で始まっている行を見つけ、コメント記号を外してください。以下のようになるはずです。
+上はアプリケーションの**ルーティングファイル**の内容です。外部からのリクエストをどのようにコントローラとアクションに振り分けるかを、DSL (ドメイン固有言語: domain-specific language) という特殊な言語を使用してこのファイル内に記述します。デフォルトのconfig/routes.rbには多数のルーティングサンプルがコメント行に記載されており、そのうちの1つに、サイトのルートにアクセスがあったときに接続するコントローラとアクションを指定する方法が書かれています。`root`で始まっている行を見つけ、コメント記号を外してください。以下のようになるはずです。
 
 ```ruby
 Rails.application.routes.draw do
@@ -305,7 +305,7 @@ NOTE: Rubyのメソッドは`public`、`private`、`protected`に分けられま
 
 生成した`ArticlesController`コントローラに`new`アクションが見つからないというエラーです。これは、Railsでアクションを指定せずに生成したコントローラは中身が空のままになるためです。
 
-コントローラ内にアクションを手作りするには、単にコントローラ内でメソッドを定義すればよいのです。`app/controllers/articles_controller.rb`をエディタで開き、`ArticlesController`クラスの内側に以下のように`new`メソッドを作成します。
+コントローラ内にアクションを手作りするには、単にコントローラ内でメソッドを定義します。`app/controllers/articles_controller.rb`をエディタで開き、`ArticlesController`クラスの内側に以下のように`new`メソッドを作成します。
 
 ```ruby
 def new
@@ -345,7 +345,7 @@ ArticlesController#new is missing a template for this request format and variant
 
 ### 最初のフォーム
 
-このテンプレート内にフォームを作成するために、<em>form builder</em> を使用します。Railsには`form_with `というヘルパーメソッドがあり、主にこれを使用してフォームを作成します。以下のコードを`app/views/articles/new.html.erb`に追加して、`form_with`メソッドを使用できるようにしましょう。
+このテンプレート内にフォームを作成するために、**フォームビルダー**を使います。Railsには`form_with `というヘルパーメソッドがあり、フォームの作成では主にこれを使います。以下のコードを`app/views/articles/new.html.erb`に追加して、`form_with`メソッドを使えるようにしましょう。
 
 ```html+erb
 <%= form_with scope: :article, local: true do |form| %>
@@ -407,10 +407,6 @@ welcome_index GET    /welcome/index(.:format)     welcome#index
 
 NOTE: `form_with`はデフォルトではAjaxを用いてフォームを送信するため、完全なページリダイレクトはスキップされます。本ガイドでは説明を簡単にするため`local: true`を無効にしてあります。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27118871
--->
-
 ### 記事を作成する
 
 "Unknown action"エラーを解消するには、`app/controllers/articles_controller.rb`ファイル内の`ArticlesController`クラス内の`new`アクションの下に`create`アクションを追加します。
@@ -427,7 +423,7 @@ end
 
 修正後のフォームを再送信すると、おそらくページには何の変更も表示されないでしょう。しかし心配は無用です。Railsのアクションは、レスポンスの種類を指定しない場合は`204 No Content`をデフォルトで返します。ここでは`create`アクションを追加しただけで、レスポンスの振る舞いについて何も指定していませんので、新しい記事は`create`アクションによってデータベースに保存されているはずです。
 
-フォームを送信すると、フォームに含まれるフィールドは _パラメータ_ としてRailsに送信されます。これらのパラメータは、受け取ったコントローラ内のアクションで参照可能になっており、これを使用して特定のタスクを実行します。実際のパラメータがどのようになっているかを確認するために、`create`アクションに以下の変更を加えてみましょう。
+フォームを送信すると、フォームに含まれるフィールドは**パラメータ**（訳注: しばしばparamsと略されます）としてRailsに送信されます。これらのパラメータは、受け取ったコントローラ内のアクションで参照可能になっており、これを使用して特定のタスクを実行します。実際のパラメータがどのようになっているかを確認するために、`create`アクションに以下の変更を加えてみましょう。
 
 ```ruby
 def create
@@ -449,7 +445,7 @@ TIP: `params`メソッドは今後多用することになりますので、し�
 
 ### Articleモデルを作成する
 
-Railsのモデルは、単数形の名前を持ち、対応するデータベーステーブル名は複数形で表されるというルールがあります。Railsにはモデル作成用のジェネレータもあり、多くのRails開発者がモデル作成の際に使用しています。モデルを作成するにはターミナルで以下のコマンドを実行します。
+Railsのモデル名は単数形、対応するデータベーステーブル名は複数形で表すというルールがあります。Railsにはモデル作成用のジェネレータもあり、多くのRails開発者がモデル作成の際に使用しています。モデルを作成するにはターミナルで以下のコマンドを実行します。
 
 ```bash
 $ rails generate model Article title:string text:text
@@ -463,7 +459,7 @@ TIP: Active Recordは、データベースのカラム名とモデルの属性�
 
 ### マイグレーションを実行する
 
-既に見たように`rails generate model`を実行すると _データベースマイグレーション_ ファイルが`db/migrate`の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。
+既に見たように`rails generate model`を実行すると **データベースマイグレーション**ファイルが`db/migrate`の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。
 
 ここで`db/migrate/YYYYMMDDHHMMSS_create_articles.rb` ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。
 
@@ -524,7 +520,7 @@ TIP: 後に解説しますが、`@article.save`は保存に成功したかどう
 
 ![Forbidden attributes for new article](images/getting_started/forbidden_attributes_for_new_article.png)
 
-Railsにはセキュリティの高いアプリケーションを開発するのに便利な機能が多数あり、ここではその機能に引っかかったのです。これは[`strong_parameters`](/action_controller_overview.html#strong-parameters)と呼ばれるもので、コントローラのアクションで本当に使用してよいパラメータだけを厳密に指定することを強制するものです。
+Railsにはセキュアなアプリケーションを開発するのに便利なセキュリティ機能が多数あり、ここではその機能に引っかかったのです。これは[`strong_parameters`](/action_controller_overview.html#strong-parameters)と呼ばれるもので、コントローラのアクションで本当に使用してよいパラメータだけを厳密に指定することを強制するものです。
 
 なぜそんな面倒なことをしないといけないのでしょうか。コントローラが受け取ったパラメータをノーチェックでまるごと自動的にモデルに渡せるようにする方が確かに開発は楽なのですが、パラメータの渡し方をこのように便利にしてしまうと、パラメータがチェックされていない点を攻撃者に悪用される可能性があります。たとえば、サーバーへのリクエストに含まれる新規投稿送信フォームに、もともとフォームになかったフィールドが攻撃者によって密かに追加され、それがアプリケーションの整合性を脅かす可能性が考えられます。チェックされていないパラメータをまるごとモデルに保存する行為は、モデルに対する「マスアサインメント」と呼ばれています。これが発生すると、正常なデータの中に悪意のあるデータが含まれてしまう可能性があります。
 
@@ -580,7 +576,7 @@ class ArticlesController < ApplicationController
   def new
   end
 
-  # snippet for brevity
+  # 以下省略
 ```
 
 ここでいくつか注意すべき点があります。ここでは`Article.find`を使用して、取り出したい記事をデータベースから探しています。このとき、リクエストの`:id`パラメータを取り出すために`params[:id]`を引数としてfindに渡しています。そして、取り出した記事オブジェクトへの参照を保持するために、通常の変数ではなく、インスタンス変数 (`@`が頭に付いているのが印です) が使用されている点にもご注目ください。これは、Railsではコントローラのインスタンス変数はすべてビューに渡されるようになっているからです (訳注: Railsはそのために背後でインスタンス変数をコントローラからビューに絶え間なくコピーし続けています)。
@@ -613,12 +609,22 @@ class ArticlesController < ApplicationController
 articles GET    /articles(.:format)          articles#index
 ```
 
-以下のように、このルーティングに対応する`index`アクションを、`app/controllers/articles_controller.rb`の`ArticlesController`の中に作成します。
+以下のように、このルーティングに対応する`index`アクションを、`app/controllers/articles_controller.rb`の`ArticlesController`の中に作成します。`index`アクションは、コントローラの最初のメソッドとして書くのが習わしです。それでは作ってみましょう。
 
 ```ruby
-def index
-  @articles = Article.all
-end
+class ArticlesController < ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+  end
+
+  # 以下省略
 ```
 
 最後に、このアクションに対応するビューを`app/views/articles/index.html.erb`に追加します。
@@ -658,15 +664,15 @@ end
 
 `link_to`メソッドは、Railsのビルトインヘルパーの1つです。このメソッドは、指定されたテキストに基いたリンクを作成し、ジャンプ先を表示します。ここでは各記事へのパスを指定します。
 
-他のビューへのリンクも作成してみましょう。"New Article"リンクを`app/views/articles/index.html.erb`に追加し、`<table>`タグの上に置きます。
+他のビューへのリンクも作成してみましょう。「New Article」リンクを`app/views/articles/index.html.erb`に追加し、`<table>`タグの上に置きます。
 
 ```erb
 <%= link_to 'New article', new_article_path %>
 ```
 
-このリンクをクリックするとフォームが表示され、そこで新しい記事を作成することができるようになります。
+このリンクをクリックするとフォームが表示され、そこで新しい記事を作成できるようになります。
 
-`app/views/articles/new.html.erb`のフォームの下に、記事を作成せずに元の`index`アクションに戻るリンクも作成しましょう。
+今度は、`app/views/articles/new.html.erb`のフォームの下に、記事を作成せずに元の`index`アクションに戻るリンクも作成しましょう。
 
 ```erb
 <%= form_with scope: :article, url: articles_path, local: true do |form| %>
@@ -705,7 +711,7 @@ class Article < ApplicationRecord
 end
 ```
 
-ファイルにはこれしか書かれていませんが、この`Article`クラスが`ApplicationRecord`クラスを継承していることにご注目ください。その`ApplicationRecord`はさらに`ActiveRecord::Base`を継承しており、これによって基本的なデータベースCRUD (Create、Read、Update、Destroy) 操作やデータの検証 (バリデーション)のほか、洗練された検索機能や複数のモデルを互いに関連付ける機能(リレーションシップ) など、きわめて多くの機能をRailsモデルに無償で提供しています。
+ファイルにはこれしか書かれていませんが、この`Article`クラスが`ApplicationRecord`クラスを継承していることにご注目ください。実際にはその`ApplicationRecord`がさらに`ActiveRecord::Base`を継承しており、これによって基本的なデータベースCRUD (Create、Read、Update、Destroy) 操作やデータの検証 (バリデーション)のほか、洗練された検索機能や複数のモデルを互いに関連付ける機能(リレーションシップ) など、きわめて多くの機能をRailsモデルに無償で提供しています。
 
 Railsには、モデルに渡したデータを検証する機能もあります。`app/models/article.rb`ファイルをエディタで開き、以下のように変更します。
 
@@ -716,7 +722,7 @@ class Article < ApplicationRecord
 end
 ```
 
-このように変更されると、すべての記事にタイトルが存在し、その長さが5文字以上であることが保証されます。そうでない場合には記事はデータベースに保存されません。Railsには豊富な検証機能があり、存在確認、カラムでの重複確認、フォーマット確認、関連付けられたオブジェクトがあるかどうかの確認などが行えます。検証について詳しくは[Active Record バリデーション](active_record_validations.html)を参照してください。
+このように変更されると、すべての記事にタイトルが配置され、その長さが5文字以上であることが保証されます。そうでない記事はデータベースに保存されません。Railsには豊富な検証機能があり、存在確認、カラムでの重複確認、フォーマット確認、関連付けられたオブジェクトがあるかどうかの確認などが行えます。検証について詳しくは[Active Record バリデーション](active_record_validations.html)を参照してください。
 
 検証機能が追加されたので、検証が通らない内容を持つ@articleに対して`@article.save`を実行すると`false`が返されるようになりました。さて、`app/controllers/articles_controller.rb`を再度開いてみると、残念なことにまだ`create`アクションで`@article.save`の結果を利用するようになっていません。`@article.save`が失敗したらそのことをユーザーに表示してあげないと不親切です。そのためには、`app/controllers/articles_controller.rb`の`new`アクション`と`create`アクションを以下のように変更してください。
 
@@ -749,17 +755,21 @@ private
 
 ```html+erb
 <%= form_with scope: :article, url: articles_path, local: true do |form| %>
+
   <% if @article.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@article.errors.count, "error") %> prohibited
-      this article from being saved:</h2>
-    <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
+
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -773,18 +783,19 @@ private
   <p>
     <%= form.submit %>
   </p>
+
 <% end %>
 
 <%= link_to 'Back', articles_path %>
 ```
 
-何やら目新しいコードが追加されています。ここでは、`@article.errors.any?`でエラーが発生しているかどうかをチェックしています。そしてエラーの場合は`@article.errors.full_messages`でエラーメッセージを全文表示します。
+いくつか目新しいコードが追加されています。ここでは、`@article.errors.any?`でエラーが発生しているかどうかをチェックしています。そしてエラーの場合は`@article.errors.full_messages`でエラーメッセージを全文表示します。
 
 `pluralize`は、数値を受け取ってそれに応じて英語の「単数形/複数形」活用を行ってくれるRailsのヘルパーメソッドです。数値が1より大きい場合は、引数の文字列を自動的に複数形に変更します(訳注:`pluralize`はたいていの不規則活用にも対応しています)。
 
 `ArticlesController`に`@article = Article.new`を追加した理由は、そうしないとビューで受け取る`@article`が`nil`になってしまい、`@article.errors.any?`を呼び出すところでエラーになってしまうためです。Articleのインスタンス作成に成功したときは@articleが`nil`にならないようにしておきたいわけです。
 
-TIP: Railsでは、エラーメッセージを含むフィールドは自動的に`field_with_errors`クラスを持つdivタグで囲まれます。これを利用して、エラーメッセージをもっと目立たせるようにcssルールを定義しても構いません。
+TIP: Railsでは、エラーメッセージを含むフィールドは自動的に`field_with_errors`クラスを持つ`<div>`タグで囲まれます。これを利用して、エラーメッセージをもっと目立たせるようにcssルールを定義しても構いません。
 
 これで、<http://localhost:3000/articles/new>のフォームで新しい記事を保存する時にタイトルがなかった場合に、適切なエラーメッセージが表示されるようになりました。
 
@@ -794,11 +805,25 @@ TIP: Railsでは、エラーメッセージを含むフィールドは自動的�
 
 ここまでで、CRUDのうちCとRを実現しました。今度はUの部分、つまり記事の更新を実装してみましょう。
 
-最初に、`ArticlesController`に`edit`アクションを追加しましょう。
+最初に、`ArticlesController`に`edit`アクションを追加しましょう。`edit`アクションは、以下のように`new`と`create`の間に書くのが通例です。
 
 ```ruby
+def new
+  @article = Article.new
+end
+
 def edit
   @article = Article.find(params[:id])
+end
+
+def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
 end
 ```
 
@@ -808,17 +833,21 @@ end
 <h1>Edit article</h1>
 
 <%= form_with(model: @article, local: true) do |form| %>
+
   <% if @article.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@article.errors.count, "error") %> prohibited
-      this article from being saved:</h2>
-    <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
+
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -832,6 +861,7 @@ end
   <p>
     <%= form.submit %>
   </p>
+
 <% end %>
 
 <%= link_to 'Back', articles_path %>
@@ -839,14 +869,23 @@ end
 
 このフォームの送信先は`update`アクションになります。今の時点では未定義ですが、この後すぐ定義します。
 
-`article`オブジェクトをこのメソッドに渡すと、編集済みの記事を送信するときに使うURLが魔法のように自動作成されます。
-Railsはこのオプションによって、`PATCH`というHTTPメソッドをでこのフォームを送信しようとしていることを認識します。`PATCH`メソッドは、RESTプロトコルに基いてリソースを**更新**する場合に使います。
+`article`オブジェクトをこのメソッドに渡すと、編集済みの記事を送信するときに使うURLが魔法のように自動作成されます。Railsはこのオプションによって、`PATCH`というHTTPメソッドをでこのフォームを送信しようとしていることを認識します。`PATCH`メソッドは、RESTプロトコルに基いてリソースを**更新**する場合に使います。
 
 `form_with`メソッドの引数にはモデルオブジェクトを渡せます（`model: @article`など）。このときヘルパーはこのオブジェクトに含まれているフィールドでフォームの項目を埋めます。`scope: :article`のようにスコープにシンボルを指定すると、フィールドが空の状態で作成されます。詳しくは[form_withに関するAPIドキュメント](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with) (英語) を参照してください。
 
-続いて、`app/controllers/articles_controller.rb`に`update`アクションを作成しましょう。
+続いて、`app/controllers/articles_controller.rb`に`update`アクションを作成しましょう。`update`メソッドを`create`と`private`の間に追加します。
 
 ```ruby
+def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
+end
+
 def update
   @article = Article.find(params[:id])
 
@@ -863,7 +902,7 @@ private
   end
 ```
 
-既存のレコードを更新したいときには新たに`update`アクションを使用します。このアクションには、更新後の属性を含むハッシュを渡すことができます。createのときに既に行ったように、記事の更新に失敗してエラーが発生した場合、そのことをユーザーに伝えるようにしましょう。
+既存のレコードを更新したいときは、この新しい`update`アクションを使用します。このアクションには、更新後の属性を含むハッシュを渡すことができます。`create`のときに既に行ったように、記事の更新に失敗してエラーが発生した場合、そのことをユーザーに伝えるようにしましょう。
 
 createアクションで使用した`article_params`メソッドをここでも使うことにします。
 
@@ -879,14 +918,14 @@ TIP: `update`にすべての属性をもれなく渡す必要はありません�
     <th colspan="2"></th>
   </tr>
 
-<% @articles.each do |article| %>
-  <tr>
-    <td><%= article.title %></td>
-    <td><%= article.text %></td>
-    <td><%= link_to 'Show', article_path(article) %></td>
-    <td><%= link_to 'Edit', edit_article_path(article) %></td>
-  </tr>
-<% end %>
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.text %></td>
+      <td><%= link_to 'Show', article_path(article) %></td>
+      <td><%= link_to 'Edit', edit_article_path(article) %></td>
+    </tr>
+  <% end %>
 </table>
 ```
 
@@ -913,17 +952,21 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
 
 ```html+erb
 <%= form_with model: @article, local: true do |form| %>
+
   <% if @article.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@article.errors.count, "error") %> prohibited
-      this article from being saved:</h2>
-    <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
+
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -937,6 +980,7 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
   <p>
     <%= form.submit %>
   </p>
+
 <% end %>
 ```
 
@@ -971,13 +1015,13 @@ TIP: パーシャルについての詳細は本ガイドの[レイアウトと�
 DELETE /articles/:id(.:format)      articles#destroy
 ```
 
-ルーティングメソッドである`delete`は、リソースを削除するときに使用する必要があります。なお、この削除用ルーティングに通常の`get`ルーティングが使用されていると、以下のような危険なURLを送信できてしまいます。
+ルーティングメソッドである`delete`は、リソースを削除するときに使う必要があります。なお、この削除用ルーティングに通常の`get`ルーティングが使われると、以下のような危険なURLを送信できてしまいます。
 
 ```html
-<a href='http://example.com/articles/1/destroy'>look at this cat!</a>
+<a href='http://example.com/articles/1/destroy'>このネコ見て見て！</a>
 ```
 
-リソースの削除に`delete`メソッドが使用され、このルーティングが`destroy`アクションに割り当てられる流れになります。この`destroy`アクションはまだ作成してなかったのでここで以下の内容で作成しましょう。
+`delete`メソッドはリソースの削除のために使い、そのルーティングが`app/controllers/articles_controller.rb`の`destroy`アクションに割り当てられる流れになります。この`destroy`アクションはまだ作成していません。`destroy`メソッドは、コントローラのCRUDアクションの末尾に配置するのが一般的です。また、他のCRUDアクションと同様、`private`メソッドや`protected`メソッドよりも前に配置する必要があります。それでは`destroy`を追加してみましょう。
 
 ```ruby
 def destroy
@@ -988,9 +1032,63 @@ def destroy
 end
 ```
 
+`app/controllers/articles_controller.rb`ファイルの`ArticlesController`が完成すると、以下のようになるはずです。
+
+```ruby
+class ArticlesController < ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+
+  def new
+    @article = Article.new
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def create
+    @article = Article.new(article_params)
+
+    if @article.save
+      redirect_to @article
+    else
+      render 'new'
+    end
+  end
+
+  def update
+    @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to articles_path
+  end
+
+  private
+    def article_params
+      params.require(:article).permit(:title, :text)
+    end
+end
+```
+
 データベースのレコードを削除したい場合には、Active Recordの`destroy`メソッドを呼びます。なお、レコードの削除の場合、それ専用のビューテンプレートは不要です。その代わりに削除後に`index`アクションにリダイレクトします。
 
-最後に、 `index`アクションのテンプレート(`app/views/articles/index.html.erb`)に'Destroy'リンクを追加し、機能を完成させましょう。
+最後に、`index`アクションのテンプレート(`app/views/articles/index.html.erb`)に'Destroy'リンクを追加し、機能を完成させましょう。
 
 ```html+erb
 <h1>Listing Articles</h1>
@@ -1002,20 +1100,21 @@ end
     <th colspan="3"></th>
   </tr>
 
-<% @articles.each do |article| %>
-  <tr>
-    <td><%= article.title %></td>
-    <td><%= article.text %></td>
-    <td><%= link_to 'Show', article_path(article) %></td>
-    <td><%= link_to 'Edit', edit_article_path(article) %></td>
-    <td><%= link_to 'Destroy', article_path(article),
-                    method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.text %></td>
+      <td><%= link_to 'Show', article_path(article) %></td>
+      <td><%= link_to 'Edit', edit_article_path(article) %></td>
+      <td><%= link_to 'Destroy', article_path(article),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
 </table>
 ```
 
-上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`:method`オプションと`:'data-confirm'`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`jquery_ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。
+上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`method: :delete`オプションと`data: { confirm: 'Are you sure?' }`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを（HTML5の機能で）表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`rails-ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。
 
 ![Confirm Dialog](images/getting_started/confirm_dialog.png)
 
@@ -1026,7 +1125,7 @@ TIP: Unobtrusive JavaScript（UJS）について詳しくは[Rails で JavaScrip
 TIP: Railsでは、ルーティングを1つずつ手作りするよりもresourcesオブジェクトを使用してルーティングを設定することが推奨されています。
 ルーティングについて詳しくは、本ガイドの[Railsのルーティング](routing.html)を参照してください。
 
-2番目のモデルを追加する
+第2のモデルを追加する
 ---------------------
 
 今度はアプリケーションに第2のモデルを追加しましょう。この第2のモデルでは、記事へのコメントを扱います。
@@ -1061,10 +1160,6 @@ Commentモデルの内容は、これまでに見た`Article`モデルと非常�
 bashコマンドで使われている`:references`キーワードは、モデルの特殊なデータ型を表します。
 これは、指定されたモデル名の後ろに`_id`を追加した名前を持つ新しいカラムをデータベーステーブルに作成します。マイグレーションの実行後に`db/schema.rb`ファイルを調べてみると理解が進みます。
 
-<!--
-TODO: https://github.com/yasslab/railsguides.jp/commit/6b81f397560a02995119d707a6c2d43d1f231c24#r27119358
--->
-
 モデルのファイルの他にマイグレーションファイルも生成されています。マイグレーションファイルは、モデルに対応するデータベーステーブルを生成するために使用されます。
 
 ```ruby
@@ -1073,8 +1168,6 @@ class CreateComments < ActiveRecord::Migration[5.0]
     create_table :comments do |t|
       t.string :commenter
       t.text :body
-
-      # 以下の行によって`article_id`という整数カラムが追加される
       t.references :article, foreign_key: true
 
       t.timestamps
@@ -1137,7 +1230,7 @@ resources :articles do
 end
 ```
 
-この設定により、`article`の内側に _ネストされたリソース_ として`comments`が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものであると言えます。
+この設定により、`article`の内側に**ネストしたリソース**として`comments`が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものであると言えます。
 
 TIP: ルーティングについて詳しくは[Railsのルーティング](routing.html)を参照してください。
 
@@ -1191,8 +1284,8 @@ $ rails generate controller Comments
   </p>
 <% end %>
 
+<%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>
-| <%= link_to 'Edit', edit_article_path(@article) %>
 ```
 
 上のコードでは、`Article`のshowページにフォームが1つ追加されています。このフォームは`CommentsController`の`create`アクションを呼び出すことでコメントを新規作成します。`form_with`呼び出しでは配列を1つ渡しています。これは`/articles/1/comments`のような「ネストしたルーティング (nested route)」を生成します。
@@ -1207,14 +1300,14 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article)
   end
 
-    private
+  private
     def comment_params
       params.require(:comment).permit(:commenter, :body)
     end
 end
 ```
 
-上のコードは、Articleコントローラのコードを書いていたときよりも何だか複雑に見えます。これはネスティングを使用したことによって複雑さが増したのです。コメント関連のリクエストでは、コメントが追加される先の記事がどれであったかを忘れないようにしておく必要があります。そこで、`Article`モデルの`find`メソッドを最初に呼び出し、リクエストで言及されている記事(のオブジェクト)を取得して@articleに保存しています。
+上のコードは、Articleコントローラのコードを書いていたときよりも少々複雑に見えます。これはネスティングを使ったことによって複雑さが増したのです。コメント関連のリクエストでは、コメントが追加される先の記事がどれであったかを忘れないようにしておく必要があります。そこで、`Article`モデルの`find`メソッドを最初に呼び出し、リクエストで言及されている記事(のオブジェクト)を取得して@articleに保存しています。
 
 さらにこのコードでは、関連付けによって使用できるようになったメソッドをいくつも利用しています。`@article.comments`に対して`create`メソッドを実行することで、コメントの作成と保存を同時に行っています(訳注: `build`メソッドにすれば作成のみで保存は行いません)。この方法でコメントを作成すると、コメントと記事が自動的にリンクされ、指定された記事に対してコメントが従属するようになります。
 
@@ -1259,8 +1352,8 @@ end
   </p>
 <% end %>
 
-<%= link_to 'Edit Article', edit_article_path(@article) %> |
-<%= link_to 'Back to Articles', articles_path %>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
 ```
 
 以上で、ブログに記事やコメントを自由に追加して、それらを正しい場所に表示できるようになりました。
@@ -1272,7 +1365,7 @@ end
 
 さて、ブログの記事とコメントが動作するようになったので、ここで`app/views/articles/show.html.erb`テンプレートを見てみましょう。何やらコードがたくさん書かれていて読みにくいように思えます。ここでもパーシャルを使用してコードをきれいにしましょう。
 
-### パーシャルコレクションを描画する
+### パーシャルのコレクションを出力する
 
 最初に、特定記事のコメントをすべて表示する部分を切り出してコメントパーシャルを作成しましょう。`app/views/comments/_comment.html.erb`というファイルを作成し、以下のコードを入力します。
 
@@ -1319,13 +1412,13 @@ end
   </p>
 <% end %>
 
-<%= link_to 'Edit Article', edit_article_path(@article) %> |
-<%= link_to 'Back to Articles', articles_path %>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
 ```
 
 これにより、`app/views/comments/_comment.html.erb`パーシャルが、`@article.comments`コレクションに含まれているコメントをすべて出力するようになりました。`render`メソッドが`@article.comments`コレクションに含まれる要素を1つ1つ列挙するときに、各コメントをパーシャルと同じ名前のローカル変数に自動的に割り当てます。この場合は`comment`というローカル変数が使用され、これはパーシャルでの表示に使用されます。
 
-### パーシャルのフォームを描画する
+### パーシャルのフォームを出力する
 
 今度はコメント作成部分もパーシャルに追い出してみましょう。`app/views/comments/_form.html.erb`ファイルを作成し、以下のように入力します。
 
@@ -1362,20 +1455,20 @@ end
 <%= render @article.comments %>
 
 <h2>Add a comment:</h2>
-<%= render "comments/form" %>
+<%= render 'comments/form' %>
 
-<%= link_to 'Edit Article', edit_article_path(@article) %> |
-<%= link_to 'Back to Articles', articles_path %>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
 ```
 
-2番目のrenderは、描画したいパーシャルテンプレートである`comments/form`を単純に定義しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字に気付き、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルを描画すればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
+2番目のrenderは、出力したいパーシャルテンプレートである`comments/form`を単純に定義しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字に気付き、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルを出力すればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
 
 `@article`オブジェクトはインスタンス変数なので、ビューで出力されるどのパーシャルからもアクセスできます。
 
 コメントを削除する
 -----------------
 
-スパムコメントを削除できるようにするのも、このブログでは重要な機能です。そのためのビューを作成し、`CommentsController`に`destroy`アクションを作成する必要があります。
+スパムコメントを削除できるようにするのも、このブログの重要な機能です。そのためのビューを作成し、`CommentsController`に`destroy`アクションを作成する必要があります。
 
 最初に`app/views/comments/_comment.html.erb`パーシャルに削除用のリンクを追加しましょう。
 
@@ -1421,7 +1514,7 @@ class CommentsController < ApplicationController
 end
 ```
 
-`destroy`アクションでは、まずどの記事が対象であるかを検索して@articleに保存し、続いて`@article.comments`コレクションの中のどのコメントが対象であるかを特定して@commentに保存します。そしてそのコメントをデータベースから削除し、終わったら記事の`show`アクションに戻ります。
+`destroy`アクションは、どの記事が対象であるかを`find`し、対応するコメントを`@article.comments`コレクションの中から見つけられたら、そのコメントをデータベースから削除し、終わったら記事の`show`アクションに戻ります。
 
 
 ### 関連付けられたオブジェクトも削除する
@@ -1454,7 +1547,7 @@ class ArticlesController < ApplicationController
 
   http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
 
-def index
+  def index
     @articles = Article.all
   end
 
@@ -1470,7 +1563,7 @@ class CommentsController < ApplicationController
 
   def create
     @article = Article.find(params[:article_id])
-    ...
+    # ...
   end
 
   # (以下省略)
@@ -1505,9 +1598,10 @@ class CommentsController < ApplicationController
 
 Railsでの無用なトラブルを避けるための最も初歩的な方法は、外部データを常にUTF-8で保存することです。このとおりにしないと、RubyライブラリやRailsはネイティブデータをたびたびUTF-8に変換しなければならず、しかもときに失敗することがあります。外部データを常にUTF-8にしておくことをぜひお勧めします。
 
-外部データのエンコードが不統一な場合によく起きる症状としては、たとえば画面に黒い菱型◆と疑問符が表示されるというものがあります。他にも、"ü"という文字のはずが"Ã¼"という文字に変わっている、などの症状もあります。Railsではこうした問題を緩和するため、問題の原因を自動的に検出して修正するために内部で多くの手順を行っています。しかし、UTF-8で保存されていない外部データがあると、Railsによる自動検出/修正が効かずに文字化けが発生することがあります。
+外部データのエンコードが不統一な場合によく起きる症状としては、たとえば画面に黒い菱型◆と疑問符が表示されるというものがあります。他にも、「ü」という文字のはずが「Ã¼」という文字に変わっている、などの症状もあります。Railsではこうした問題を緩和するため、問題の原因を自動的に検出して修正するために内部で多くの手順を行っています。しかし、UTF-8で保存されていない外部データがあると、Railsによる自動検出/修正が効かずに文字化けが発生することがあります。
 
 UTF-8でないデータの主な原因は以下の2つです。
 
 * テキストエディタ: TextMateを含む多くのテキストエディタは、デフォルトでUTF-8エンコードでテキストを保存してくれます。使用しているテキストエディタがこのようになっていない場合、テンプレートを表示する時にéなどの特殊文字が◆?のような感じでブラウザで表示されることがあります。これはi18n(国際化)用の翻訳ファイルで発生することもあります。一部のDreamweaverのようにUTF-8保存がデフォルトでないエディタであっても、デフォルトをUTF-8に変更する方法は用意されているはずです。エンコードはUTF-8に変えてください。
+
 * データベース: Railsはデータベースから読みだしたデータを境界上でUTF-8に変換します。しかし、使用しているデータベースの内部エンコード設定がUTF-8になっていない場合、UTF-8の文字の一部をデータベースにそのまま保存できないことがあります。たとえばデータベースの内部エンコードがLatin-1になっていると、ロシア語・ヘブライ語・日本語などの文字をデータベースに保存したときにこれらの情報は永久に失われてしまいます。できるかぎり、データベースの内部エンコードはUTF-8にしておいてください。
