@@ -20,7 +20,7 @@ Active Modelは多くのモジュールを含むライブラリであり、そ�
 
 ### AttributeMethodsモジュール
 
-AttributeMethodsモジュールは、クラスのメソッドにカスタムのプレフィックスやサフィックスを追加できます。このモジュールを使用するには、プレフィックスまたはサフィックスを定義し、オブジェクト内にあるプレフィックス/サフィックスの追加対象となるメソッドを指定します。
+`ActiveModel::AttributeMethods`モジュールは、クラスのメソッドにカスタムのプレフィックスやサフィックスを追加できます。このモジュールを使用するには、プレフィックスまたはサフィックスを定義し、オブジェクト内にあるプレフィックス/サフィックスの追加対象となるメソッドを指定します。
 
 ```ruby
 class Person
@@ -51,7 +51,7 @@ person.age_highest?  # false
 
 ### Callbacksモジュール
 
-Callbacksを使用することで、Active Recordスタイルのコールバックを使用できます。これにより、必要なタイミングで実行されるコールバックを定義することができるようになります。コールバックの定義後、それらをカスタムメソッドの実行前(before)、実行後(after)、あるいは実行中(around)にラップすることができます。
+`ActiveModel::Callbacks`は、Active Recordスタイルのコールバックを提供します。これにより、必要なタイミングで実行されるコールバックを定義することができるようになります。コールバックの定義後、それらをカスタムメソッドの実行前(before)、実行後(after)、あるいは実行中(around: beforeとafterの両方)にラップすることができます。
 
 ```ruby
 class Person
@@ -75,7 +75,7 @@ end
 
 ### Conversionモジュール
 
-クラスで`persisted?`メソッドと`id`メソッドが定義されていれば、この`Conversion`モジュールをインクルードしてRailsの変換メソッドをそのクラスのオブジェクトに対して呼び出すことができます。
+クラスで`persisted?`メソッドと`id`メソッドが定義されていれば、この`ActiveModel::Conversion`モジュールをインクルードしてRailsの変換メソッドをそのクラスのオブジェクトに対して呼び出すことができます。
 
 ```ruby
 class Person
@@ -98,7 +98,7 @@ person.to_param            # => nil
 
 ### Dirtyモジュール
 
-あるオブジェクトが数度にわたって変更され、保存されていない状態は、「汚れた (dirty)」状態です。このモジュールを使用して、オブジェクトで変更が生じたかどうかを検出できます。属性名に基づいたアクセサメソッドも使用できます。`first_name`属性と`last_name`を持つPersonというクラスを例に考えてみましょう。
+あるオブジェクトが数度にわたって変更され、保存されていない状態は、「汚れた (dirty)」状態です。`ActiveModel::Dirty`モジュールを使うと、オブジェクトで変更が生じたかどうかを検出できます。属性名に基づいたアクセサメソッドも使えます。`first_name`属性と`last_name`を持つPersonというクラスを例に考えてみましょう。
 
 ```ruby
 require 'active_model'
@@ -181,7 +181,7 @@ person.last_name_change # => nil
 
 ### `Validations`モジュール
 
-`ActiveModel::Validations`モジュールを使用することで、クラスオブジェクトをActive Recordスタイルで検証することができます。
+`ActiveModel::Validations`モジュールを追加すると、クラスオブジェクトをActive Recordスタイルで検証できます。
 
 ```ruby
 class Person
@@ -228,7 +228,7 @@ Person.model_name.singular_route_key  # => "person"
 
 ### `Model`モジュール
 
-`ActiveModel::Model`は、Action PackやAction Viewと連携する機能をクラスに追加してすぐに使えるようにします。
+`ActiveModel::Model`を追加すると、Action PackやAction Viewと連携する機能をすぐに使えるようになります。
 
 ```ruby
 class EmailContact
@@ -245,7 +245,7 @@ class EmailContact
 end
 ```
 
-`ActiveModel::Model`を`include`すると、以下のような機能が使えるようになります。
+`ActiveModel::Model`を`include`すると、以下のような機能を使えるようになります。
 
 - モデル名の調査
 - 変換
@@ -265,7 +265,7 @@ email_contact.valid?     # => true
 email_contact.persisted? # => false
 ```
 
-`ActiveModel::Model`を`include`するクラスでは、Active Recordの場合と同様に`form_for`や`render`などのAction Viewヘルパーメソッドを使えるようになります。
+`ActiveModel::Model`を`include`するクラスでは、Active Recordの場合と同様に`form_for`や`render`などのAction Viewヘルパーメソッドを使えるようになりま。
 
 ### シリアライズ
 
@@ -427,7 +427,7 @@ Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
 
 1. パスワードが存在すること
 2. パスワードが（`password_confirmation`で渡された）パスワード確認入力と等しいこと
-3. パスワードの最大長が72文字以下であること（`ActiveModel::SecurePassword`が依存している`bcrypt`による要求）
+3. パスワードの最大長が72文字であること（`ActiveModel::SecurePassword`が依存している`bcrypt`による要求）
 
 #### 例
 
