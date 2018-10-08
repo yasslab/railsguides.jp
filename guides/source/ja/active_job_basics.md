@@ -17,13 +17,13 @@ Active Job の基礎
 はじめに
 ------------
 
-Active Jobは、ジョブを宣言し、それによってバックエンドでさまざまな方法によるキュー操作を実行するためのフレームワークです。これらのジョブでは、定期的なクリーンアップを始めとして、請求書発行やメール配信など、どんなことでも実行できます。これらのジョブをより細かな作業単位に分割して並列実行することもできます。
+Active Jobは、ジョブを宣言し、それによってバックエンドでさまざまな方法によるキュー操作を実行するためのフレームワークです。ジョブには、定期的なクリーンアップを始めとして、請求書発行やメール配信など、あらゆる処理がジョブになります。これらのジョブをより細かな作業単位に分割して並列実行することもできます。
 
 
 Active Jobの目的
 -----------------------------
 
-Active Jobの主要な目的は、ジョブ管理インフラを設置することです。これにより、Delayed JobとResqueなどのように、さまざまなジョブ実行機能のAPIの違いを気にせずにジョブフレームワーク機能やその他のgemを搭載することができるようになります。バックエンドでのキューイング作業では、操作方法以外のことを気にせずに済みます。さらに、ジョブ管理フレームワークを切り替える際にジョブを書き直さずに済みます。
+Active Jobの主要な目的は、あらゆるRailsアプリにジョブ管理インフラを配置することです。これにより、Delayed JobとResqueなどのように、さまざまなジョブ実行機能のAPIの違いを気にせずにジョブフレームワーク機能やその他のgemを搭載することができるようになります。バックエンドでのキューイング作業では、操作方法以外のことを気にせずに済みます。さらに、ジョブ管理フレームワークを切り替える際にジョブを書き直さずに済みます。
 
 NOTE: デフォルトのRailsは非同期キューを実装します。これは、インプロセスのスレッドプールでジョブを実行します。ジョブは非同期に実行されますが、再起動するとすべてのジョブは失われます。
 
@@ -39,6 +39,8 @@ Active Jobは、ジョブ作成用のRailsジェネレータを提供してい�
 
 ```bash
 $ bin/rails generate job guests_cleanup
+invoke  test_unit
+create    test/jobs/guests_cleanup_job_test.rb
 create  app/jobs/guests_cleanup_job.rb
 ```
 
@@ -46,12 +48,9 @@ create  app/jobs/guests_cleanup_job.rb
 
 ```bash
 $ bin/rails generate job guests_cleanup --queue urgent
-create  app/jobs/guests_cleanup_job.rb
 ```
 
-上のように、Railsで他のジェネレータを使用するときとまったく同じ方法でジョブを作成できます。
-
-ジェネレータを使用したくないのであれば、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
+ジェネレータを使いたくない場合は、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
 
 作成されたジョブは以下のようになります。
 
@@ -90,30 +89,34 @@ GuestsCleanupJob.set(wait: 1.week).perform_later(guest)
 GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
 ```
 
-以上で終わりです。
+以上でジョブ登録は完了です。
 
 
 ジョブを実行する
 -------------
 
-production環境でのジョブのキュー登録と実行では、キューイングのバックエンドを設定しておく必要があります。具体的には、Railsで使うべきサードパーティのキューイングライブラリを決める必要があります。
+production環境でのジョブのキュー登録と実行では、キューイングのバックエンドを用意しておく必要があります。具体的には、Railsで使うべきサードパーティのキューイングライブラリを決める必要があります。
 Rails自身が提供するのは、ジョブをメモリに保持するインプロセスのキューイングシステムだけです。
 プロセスがクラッシュしたりコンピュータをリセットしたりすると、デフォルトの非同期バックエンドの振る舞いによって主要なジョブが失われてしまいます。アプリが小規模な場合やミッションクリティカルでないジョブであればこれでも構いませんが、多くのproductionアプリでは永続的なバックエンドを選ぶ必要があります。
-
-アダプタが設定されていない場合、ジョブは直ちに実行されます。
 
 ### バックエンド
 
 Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキューイングバックエンドに接続できるアダプタがビルトインで用意されています。利用可能な最新のアダプタのリストについては、APIドキュメントの[ActiveJob::QueueAdapters](http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html) を参照してください。
 
-### バックエンドを変更する
+### バックエンドを設定する
 
-キューイングバックエンドは自由に取り替えることができます。
+キューイングバックエンドの設定は簡単です。
 
 ```ruby
-# 必ずアダプタgemをGemfileに追加し、アダプタごとに必要な
-# インストールとデプロイ指示に従ってください
-Rails.application.config.active_job.queue_adapter = :sidekiq
+# config/application.rb
+module YourApp
+  class Application < Rails::Application
+    # 必ずGemfileにアダプタのgemを追加し、
+    # アダプタ固有のインストール方法や
+    # デプロイ方法に従うこと。
+    config.active_job.queue_adapter = :sidekiq
+  end
+end
 ```
 
 次のように、ジョブごとにバックエンドを設定することもできます。
@@ -133,7 +136,7 @@ end
 
 ジョブはRailsアプリに対して並列で実行されるので、多くのキューイングライブラリでは、ジョブを処理するためにライブラリ固有のキューイングサービスを（Railsアプリの起動とは別に）起動しておくことが求められます。キューのバックエンドの起動方法については、ライブラリのドキュメントを参照してください。
 
-以下はドキュメントのリストの一部です。
+以下はドキュメントのリストの一部です（すべてを網羅しているわけではありません）。
 
 - [Sidekiq](https://github.com/mperham/sidekiq/wiki/Active-Job)
 - [Resque](https://github.com/resque/resque/wiki/ActiveJob)
@@ -144,7 +147,7 @@ end
 キュー
 ------
 
-多くのアダプタでは複数のキューを扱うことができます。Active Jobを使用することで、特定のキューに入っているジョブをスケジューリングすることができます。
+多くのアダプタでは複数のキューを扱えます。Active Jobを使って、特定のキューに入っているジョブをスケジューリングできます。
 
 ```ruby
 class GuestsCleanupJob < ApplicationJob
@@ -194,13 +197,13 @@ end
 # 実行されるようになり、staging環境ではstaging.low_priorityというキューでジョブが実行されるようになります
 ```
 
-ジョブを実行するキューをさらに細かく制御したい場合は、`:queue`オプションを`#set`に追加することもできます。
+ジョブを実行するキューをさらに細かく制御したい場合は、`#set`に`:queue`オプションを追加できます。
 
 ```ruby
 MyJob.set(queue: :another_queue).perform_later(record)
 ```
 
-そのジョブレベルにあるキューを制御するために、queue_asにブロックを渡すこともできます。与えられたブロックは、そのジョブのコンテキストで実行されます (従ってself.argumentsにアクセスできます)。そしてキュー名を返さなくてはなりません。
+`#queue_as`にブロックを渡すと、キューをそのジョブレベルで制御できます。与えられたブロックは、そのジョブのコンテキストで実行されます (これにより`self.arguments`にアクセスできるようになります)。そしてキュー名を返さなくてはなりません。
 
 ```ruby
 class ProcessVideoJob < ApplicationJob
@@ -214,7 +217,7 @@ class ProcessVideoJob < ApplicationJob
   end
 
   def perform(video)
-    # Do process video
+    # 動画を処理する
   end
 end
 
@@ -268,10 +271,10 @@ end
 * `around_perform`
 * `after_perform`
 
-ActionMailer
+Action Mailer
 ------------
 
-最近のWebアプリケーションでよく実行されるジョブといえば、リクエスト-レスポンスのサイクルの外でメールを送信することでしょう。これにより、ユーザーが送信を待つ必要がなくなります。Active JobはAction Mailerと統合されているので、非同期メール送信を簡単に行えます。
+最近のWebアプリでよく実行されるジョブといえば、リクエスト-レスポンスのサイクルの外でメールを送信することでしょう。これにより、ユーザーが送信を待つ必要がなくなります。Active JobはAction Mailerと統合されているので、非同期メール送信を簡単に行えます。
 
 ```ruby
 # すぐにメール送信したい場合は#deliver_nowを使用
@@ -321,7 +324,7 @@ end
 上のコードは、`ActiveModel::GlobalIdentification`をミックスインするすべてのクラスで動作します。このモジュールはActive Recordクラスにデフォルトでミックスインされます。
 
 
-例外
+例外処理
 ----------
 
 Active Jobでは、ジョブ実行時に発生する例外をキャッチする方法が1つ提供されています。
