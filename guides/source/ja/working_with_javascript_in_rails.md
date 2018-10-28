@@ -2,7 +2,7 @@
 Rails で JavaScript を使用する
 ================================
 
-本ガイドでは、RailsにビルトインされているAjax/JavaScript機能などについて解説します。これらを活用して、リッチな動的Ajaxアプリケーションをお手軽に作ることができます。
+本ガイドでは、RailsにビルトインされているAjax/JavaScript機能などについて解説します。これらを活用して、リッチな動的Ajaxアプリをお手軽に作ることができます。
 
 このガイドの内容:
 
@@ -25,23 +25,23 @@ JavaScriptも、上と同様にサーバーにリクエストを送信し、レ�
 
 Railsには、JavaScriptをさらに使いやすくしたCoffeeScriptがデフォルトで組み込まれています。以後、本ガイドではすべての例をCoffeeScriptで記述します。もちろん、これらのレッスンはすべて通常のJavaScriptにも適用できます。
 
-例として、jQueryライブラリを使用してAjaxリクエストを送信するCoffeeScriptコードを以下に示します。
+以下は、jQueryライブラリを用いてAjaxリクエストを送信するCoffeeScriptコード例です。
 
 ```coffeescript
 $.ajax(url: "/test").done (html) ->
   $("#results").append html
 ```
 
-上のコードは "/test" からデータを取得し、結果をWebページ上の`results`というidを持つ`div`タグに押し込みます。
+上のコードは「/test」からデータを取得し、結果をWebページ上の`results`というidを持つ`div`タグに`append`します。
 
-Railsには、この種の技法をWebページ作成で使用するためのサポートが多数ビルトインされています。従って、こうしたコードをすべて自分で作成する必要はほとんどありません。この後、このような手法でRails Webサイトを作成する方法をご紹介します。これらの手法は、いずれもシンプルな基本テクニックのうえに成り立っています。
+Railsには、この種の技法をWebページ作成で使うためのサポートが多数ビルトインされています。したがって、こうしたコードをすべて自分で作成する必要はほとんどありません。この後、このような手法でRails Webサイトを作成する方法をご紹介します。これらの手法は、いずれもシンプルな基本テクニックのうえに成り立っています。
 
 「控えめなJavaScript」
 -------------------------------------
 
 Railsでは、JavaScriptをDOMに追加する際の手法を「UJS: Unobtrusive（控えめな）JavaScript」と呼んでいます。これは一般にフロントエンド開発者コミュニティでベストプラクティスであると見なされていますが、ここではもう少し違う角度から説明したいと思います。
 
-最もシンプルなJavaScriptを例にとって考えてみましょう。以下のような書き方は'インラインJavaScript'と呼ばれています。
+最もシンプルなJavaScriptを例にとって考えてみましょう。以下のような書き方は「インラインJavaScript」と呼ばれています。
 
 ```html
 <a href="#" onclick="this.style.backgroundColor='#990000'">Paint it red</a>
@@ -67,7 +67,7 @@ Railsでは、JavaScriptをDOMに追加する際の手法を「UJS: Unobtrusive�
 <a href="#" onclick="paintIt(this, '#990000')">Paint it red</a>
 ```
 
-これでコードがだいぶ良くなりました。しかし、同じ効果を複数のリンクに与えるとどうなるでしょうか。
+これでコードが少し改善されました。しかし、同じ効果を複数のリンクに与えるとどうなるでしょうか。
 
 ```html
 <a href="#" onclick="paintIt(this, '#990000')">Paint it red</a>
@@ -97,18 +97,18 @@ $ ->
 <a href="#" data-background-color="#000099" data-text-color="#FFFFFF">Paint it blue</a>
 ```
 
-私たちはこの手法を「UJS: Unobtrusive（控えめな）JavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離することができたので、今後の変更が容易になりました。今後は、この`data-*`属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした最小化と連結を使用することで、あらゆるJavaScriptを実行できます。JavaScriptコードはRailsのあらゆるWebページでまるごとバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。
+私たちはこの手法を「UJS: Unobtrusive（控えめな）JavaScript」と呼んでいます。この名称は、HTMLの中にJavaScriptを混入させないという意図に由来しています。JavaScriptを正しく分離できたので、今後の変更が楽になります。以後は、この`data-*`属性をリンクタグに追加するだけでこの動作を簡単に追加できます。Railsでは、こうした「最小化」と「連結」によって、あらゆるJavaScriptを実行できます。作成したJavaScriptコード全体はRailsのあらゆるWebページにバンドルされます。つまり、ページが最初にブラウザに読み込まれるときにダウンロードされ、以後はブラウザでキャッシュされます。これにより多くの利点が得られます。
 
-Railsチームは、本ガイドでご紹介した方法でCoffeeScriptとJavaScriptを使用することを強く推奨いたします。多くのJavaScriptライブラリもこの方法で利用できることが期待できます。
+Railsチームは、本ガイドでご紹介した方法でCoffeeScriptやJavaScriptを用いることを強く推奨します。多くのJavaScriptライブラリもこの方法で利用できることが期待できます。
 
 組み込みヘルパー
 ----------------------
 
-HTML生成を行い易くするために、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。
+HTMLを簡単に生成できるようにするため、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。
 
-RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptによる要素とRubyによる要素の2つの要素で構成されています。
+RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptとRubyという2つの要素で構成されています。
 
-JavaScriptによる要素は[rails-ujs](https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts)であり、Rubyによる要素である正規のビューヘルパーによってDOMに適切なタグが追加されます。
+アセットパイプラインを無効にしていない場合、[rails-ujs](https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts)はJavaScriptの他にRubyの正規ビューヘルパーも提供して、DOMに適切なタグを追加します。
 
 アプリ内の`remote`要素を扱うその他の発火イベントについては以下をご覧ください。
 
@@ -125,14 +125,14 @@ JavaScriptによる要素は[rails-ujs](https://github.com/rails/rails/tree/mast
 上のコードから以下のHTMLが生成されます。
 
 ```html
-<form accept-charset="UTF-8" action="/articles" class="new_article" data-remote="true" id="new_article" method="post">
+<form action="/articles" accept-charset="UTF-8" method="post" data-remote="true">
   ...
 </form>
 ```
 
 formタグに`data-remote="true"`という属性が追加されていることにご注目ください。これにより、フォームの送信がブラウザによる通常の送信メカニズムではなくAjaxによって送信されるようになります。
 
-記入済みの`<form>`を得られただけでは何か物足りません。フォーム送信が成功した場合に何らかの表示を行いたいものです。これを行なうには、`ajax:success`イベントをバインドします。送信に失敗した場合は`ajax:error`を使用します。実際に見てみましょう。
+記入済みの`<form>`を得られただけでは何か物足りません。フォーム送信が成功した場合に何らかの表示を行いたいものです。これを行なうには、`ajax:success`イベントをバインドします。送信に失敗した場合は`ajax:error`を使います。実際に見てみましょう。
 
 ```coffeescript
 $(document).ready ->
@@ -142,13 +142,13 @@ $(document).ready ->
     $("#new_article").append "<p>ERROR</p>"
 ```
 
-明らかに、従来の書き方よりも洗練されています。しかしこれはほんのさわりです。
+もちろん実際にはもっと洗練された表示にしたいと思うことでしょう。上はあくまで出発点です。
 
 NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`data, status, xhr`パラメータは`event.detail`に組み込まれました。Rails 5およびそれ以前で利用されていた`jquery-ujs`について詳しくは、[`jquery-ujs` wiki](https://github.com/rails/jquery-ujs/wiki/ajax)をお読みください。
 
 #### link_to
 
-[`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) はリンクの生成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
+[`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to) はリンクの生成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使えます。
 
 ```erb
 <%= link_to "記事", @article, remote: true %>
@@ -166,7 +166,7 @@ NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`da
 <%= link_to "記事を削除", @article, remote: true, method: :delete %>
 ```
 
-上に加え、以下の様なCoffeeScriptを作成します。
+上の他に、以下のようなCoffeeScriptも作成します。
 
 ```coffeescript
 $ ->
@@ -176,7 +176,7 @@ $ ->
 
 #### button_to
 
-[`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to)はボタン作成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使用できます。
+[`button_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to)はボタン作成を支援するヘルパーです。このメソッドには`:remote`オプションがあり、以下のように使えます。
 
 ```erb
 <%= button_to "記事", @article, remote: true %>
@@ -194,13 +194,13 @@ $ ->
 
 ### `remote`要素をカスタマイズする
 
-`data-remote`属性を用いることで、JavaScriptを一行も書かずに要素の振る舞いをカスタマイズできます。`data-`属性を他にも指定することでこれを行うこともできます。
+`data-remote`属性を用いることで、JavaScriptを1行も書かずに要素の振る舞いをカスタマイズできます。他の`data-`属性を指定する方法も使えます。
 
 #### `data-method`
 
 ハイパーリンクをクリックすると、常にHTTP `GET`リクエストが発生します。しかし実際には、[RESTful](https://en.wikipedia.org/wiki/Representational_State_Transfer)なアプリのリンクの中には、クリックするとサーバーのデータを変更するものもあり、そうした操作は`GET`以外のリクエストで行わなければなりません。この`data-method`属性は、そうしたリンクのHTTPメソッドに`POST`や`PUT`や`DELETE`を明示的に指定できます。
 
-この方法を用いると、リンクをクリックしたときにドキュメント内に隠しフォームが作成されます。そこにはリンクの`href`値に対応する`action`属性や`data-method`値に対応するHTTPメソッドを含まれており、そのフォームが送信されます。
+この方法を用いると、リンクをクリックしたときにドキュメント内に「隠しフォーム」が1つ作成されます。隠しフォームにはリンクの`href`値に対応する「action」属性や`data-method`値に対応するHTTPメソッドを含まれており、そのフォームが送信されます。
 
 NOTE: `GET`や`POST`以外のHTTPメソッドによるフォーム送信をサポートするブラウザは多くないため、実際にはそうした他のHTTPメソッドは`_method`パラメータで指定する形で`POST`メソッドとして送信されます。Railsはこうした点を自動検出してカバーします。
 
@@ -223,7 +223,7 @@ NOTE: `GET`や`POST`以外のHTTPメソッドによるフォーム送信をサ�
 
 リンクやフォームに`data-confirm`属性を追加することで、確認ダイアログをさらに表示できます。ユーザーに表示されるのはJavaScriptの`confirm()`ダイアログで、この属性のテキストがダイアログに表示されます。ユーザーがダイアログをキャンセルすると、その操作は実行されません。
 
-`data-confirm`属性をリンクに追加した場合は、クリック時にダイアログがトリガされます。フォームに追加した場合は、送信時にトリガされます。次の例をご覧ください。
+`data-confirm`属性をリンクに追加すると、クリック時にダイアログがトリガされます。フォームに追加すると、フォームの送信時にトリガされます。次の例をご覧ください。
 
 ```erb
 <%= link_to "Dangerous zone", dangerous_zone_path,
@@ -262,7 +262,7 @@ NOTE: `GET`や`POST`以外のHTTPメソッドによるフォーム送信をサ�
 
 ### rails-ujsのイベントハンドラ
 
-Rails 5.1ではrails-ujsが導入され、jQueryに依存しなくなりました。この結果、UJS（Unobtrusive JavaScript）ドライバが書き直されてjQueryなしで使えるようになりました。rails-ujsが導入されたことによって、リクエスト中に発火する`custom events`に若干変更が生じます。
+Rails 5.1ではrails-ujsが導入され、jQueryに依存しなくなりました。この結果、UJSドライバが書き直されてjQueryなしで使えるようになりました。rails-ujsが導入されたことによって、リクエスト中に発火する`custom events`に若干変更が生じます。
 
 NOTE: UJSイベントハンドラ呼び出しのシグネチャは変更されました。jQueryの場合と異なり、あらゆるカスタムイベントは`event`パラメータだけを返します。このパラメータには`detail`という属性が追加されており、追加パラメータの配列がその中に1つ含まれています。
 
@@ -296,7 +296,7 @@ NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`da
 サーバー側で考慮すべき点
 --------------------
 
-Ajaxはクライアント側だけでなく、ある程度サーバー側でのサポートも必要です。Ajaxリクエストに対してレスポンスを返す際の形式は、HTMLよりもJSONを使用することが好まれるようです。それでは、必要となるものについて解説します。
+Ajaxはクライアント側だけでなく、ある程度サーバー側でのサポートも必要です。Ajaxリクエストに対してレスポンスを返す際の形式は、HTMLよりもJSONを使うことが好まれるようです。必要なものについて解説します。
 
 ### シンプルな例
 
@@ -337,7 +337,7 @@ indexビュー (`app/views/users/index.html.erb`) の内容は以下のように
 
 indexページの上部にはユーザーの一覧が表示されます。下部にはユーザー作成用のフォームが表示されます。
 
-下部のフォームは`UsersController`の`create`アクションを呼び出します。フォームのremoteオプションがオンになっているので、リクエストはAjaxリクエストとして`UsersController`に渡され、JavaScriptを探します。コントローラ内でリクエストに応答する`create`アクションは以下のようになります。
+下部のフォームは`UsersController`の`create`アクションを呼び出します。フォームの`remote`オプションがオンになっているので、リクエストはAjaxリクエストとして`UsersController`に渡され、JavaScriptコードを探します。コントローラ内でリクエストに応答する`create`アクションは以下のようになります。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -358,7 +358,7 @@ indexページの上部にはユーザーの一覧が表示されます。下部
   end
 ```
 
-`format.js`が`respond_to`ブロックの中にある点にご注目ください。これによって、 コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
+`format.js`が`respond_to`ブロックの中にある点にご注目ください。これによって、コントローラがAjaxリクエストに応答できるようになります。続いて、対応する`app/views/users/create.js.erb`ビューファイルを作成します。実際のJavaScriptはこのビューで生成され、クライアントに送信されてそこで実行されます。
 
 ```erb
 $("<%= escape_javascript(render @user) %>").appendTo("#users");
@@ -367,13 +367,13 @@ $("<%= escape_javascript(render @user) %>").appendTo("#users");
 Turbolinks
 ----------
 
-Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
+Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリでページのレンダリングを高速化しています。
 
 ### Turbolinksの動作原理
 
-Turbolinksは、ページにあるすべての`<a>`にクリックハンドラを1つずつ追加します。ブラウザで[PushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState\(\).C2.A0method)がサポートされている場合、Turbolinksはそのページ用のAjaxリクエストを生成し、サーバーからのレスポンスを解析し、そのページの`<body>`全体をレスポンスの`<body>`で置き換えます。続いて、TurbolinksはPushStateを使用してURLを正しいものに書き換え、リフレッシュのセマンティクスを維持しながらプリティURLを与えます。
+Turbolinksは、ページにあるすべての`<a>`タグにクリックハンドラを1つずつ追加します。ブラウザで[PushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#The_pushState\(\).C2.A0method)がサポートされている場合、Turbolinksはそのページ用のAjaxリクエストを生成し、サーバーからのレスポンスを解析し、そのページの`<body>`全体をレスポンスの`<body>`で置き換えます。続いて、TurbolinksはPushStateを使ってURLを正しいものに書き換え、リフレッシュのセマンティクスを維持しながらプリティURLを与えます。
 
-Turbolinksを有効にするには、TurbolinksをGemfileに追加し、JavaScriptのマニフェスト (通常は`app/assets/javascripts/application.js`) に`//= require turbolinks`を追加します。
+Turbolinksを有効にするには、Turbolinksを`Gemfile`に追加し、JavaScriptのマニフェスト (通常は`app/assets/javascripts/application.js`) に`//= require turbolinks`を追加します。
 
 Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに`data-turbolinks="false"`属性を追加します。
 
@@ -383,7 +383,7 @@ Turbolinksを特定のリンクでのみ無効にしたい場合は、タグに`
 
 ### ページ変更イベント
 
-CoffeeScriptコードを開発中、ページ読み込みに関連する処理を追加したくなることがよくあります。jQueryを使用するのであれば、たとえば以下のようなコードを書くことがあるでしょう。
+CoffeeScriptコードを開発中、ページ読み込みに関連する処理を追加したくなることがよくあります。jQueryを使う場合、たとえば以下のようなCoffeeScriptコードを書くことがあるでしょう。
 
 ```coffeescript
 $(document).ready ->
@@ -402,7 +402,7 @@ $(document).on "turbolinks:load", ->
 その他の情報源
 ---------------
 
-詳細の学習に役立つリンクをいくつか紹介します。
+詳細な学習に役立つリンクをいくつか紹介します。
 
 * [jquery-ujs wiki](https://github.com/rails/jquery-ujs/wiki)
 * [jquery-ujsに関する外部記事のリスト](https://github.com/rails/jquery-ujs/wiki/External-articles)
