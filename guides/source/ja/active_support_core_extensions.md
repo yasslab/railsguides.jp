@@ -10,7 +10,7 @@ Active Supportは言語レベルで基本部分を底上げして豊かなもの
 
 このガイドの内容:
 
-* コア拡張機能について
+* コア拡張機能（Core Extensions）について
 * すべての拡張機能を読み込む方法
 * 必要な拡張機能だけを利用する方法
 * Active Supportが提供する拡張機能一覧
@@ -22,25 +22,25 @@ Active Supportは言語レベルで基本部分を底上げして豊かなもの
 
 ### 単体のActive Support
 
-足跡をほぼ残さないようにするため、Active Supportはデフォルトでは何も読み込みません。Active Supportは細かく分割され、必要な拡張機能だけが読み込まれるようになっています。また、関連する拡張機能(場合によってはすべての拡張機能)も同時に読み込むのに便利なエントリポイントもあります。
+フットプリントをほぼ残さないようにするため、Active Supportはデフォルトでは何も読み込みません。Active Supportは細かく分割され、必要な拡張機能だけが読み込まれるようになっています。また、関連する拡張機能(場合によってはすべての拡張機能)も同時に読み込むのに便利なエントリポイントもあります。
 
-従って、以下のようなrequire文を実行しただけでは
+したがって、以下のような`require`文を実行しただけでは、オブジェクトは`blank?`にすら応答してくれません。
 
 ```ruby
 require 'active_support'
 ```
 
-オブジェクトは`blank?`にすら応答してくれません。この定義がどのように読み込まれるかを見てみましょう。
+この定義がどのように読み込まれるかを見てみましょう。
 
 #### 必要な定義だけを選ぶ
 
-`blank?`メソッドを使えるようにする最も「軽量な」方法は、そのメソッドが定義されているファイルだけを選んで読み込むことです。
+`blank?`メソッドを使えるようにする最も「軽量な」方法は、そのメソッドが定義されているファイルだけを指定して読み込むことです。
 
 本ガイドでは、コア拡張機能として定義されているすべてのメソッドについて、その定義ファイルの置き場所も示してあります。たとえば`blank?`の場合、以下のようなメモを追加してあります。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/blank.rb`です。
 
-つまり、以下のようにピンポイントでrequireを実行することができます。
+つまり、以下のようにピンポイントでrequireを実行できます。
 
 ```ruby
 require 'active_support'
@@ -62,7 +62,7 @@ require 'active_support/core_ext/object'
 
 #### すべてのコア拡張機能を読み込む
 
-すべてのコア拡張機能を単に読み込んでおきたいのであれば、以下のようにrequireします。
+すべてのコア拡張機能を単に読み込みたい場合は、以下のように`require`します。
 
 ```ruby
 require 'active_support'
@@ -79,11 +79,11 @@ require 'active_support/all'
 
 ただし、これを実行してもActive Support全体がメモリに読み込まれるわけではないことにご注意ください。一部は`autoload`として設定されており、実際に使うまで読み込まれません。
 
-### Ruby on RailsアプリケーションでActive Supportを使用する
+### Ruby on RailsアプリケーションでActive Supportを使う
 
-Ruby on Railsアプリケーションでは、基本的にすべてのActive Supportを読み込みます。例外は`config.active_support.bare`をtrueに設定した場合です。このオプションをtrueにすると、フレームワーク自体が必要とするまでアプリケーションは拡張機能を読み込みません。また、読み込まれる拡張機能の選択は、上で解説したように、あらゆる粒度で行われます。
+Ruby on Railsアプリケーションでは、基本的にすべてのActive Supportを読み込みます。例外は`config.active_support.bare`を`true`に設定した場合です。このオプションを`true`にすると、フレームワーク自体が必要とするまでアプリケーションは拡張機能を読み込みません。また上で解説したように、読み込まれる拡張機能はあらゆる粒度で選択されます。
 
-すべてのオブジェクトで使用できる拡張機能
+すべてのオブジェクトで使える拡張機能
 -------------------------
 
 ### `blank?`と`present?`
@@ -92,17 +92,17 @@ Railsアプリケーションは以下の値を空白(blank)とみなします�
 
 * `nil`と`false`
 
-* 空白文字 (whitespace) だけで構成された文字列 (以下の注釈参照)
+* 空白文字 (whitespace) だけで構成された文字列 (以下の注釈を参照)
 
 * 空欄の配列とハッシュ
 
 * その他、`empty?`メソッドに応答するオブジェクトはすべて空白として扱われます。
 
-INFO: 文字列を判定する述語として、Unicode対応した文字クラスである`[:space:]`が使用されています。そのため、たとえばU+2029 (段落区切り文字)は空白文字と判断されます。
+INFO: 文字列を判定する述語として、Unicode対応した文字クラスである`[:space:]`が使われています。そのため、たとえばU+2029 (段落区切り文字)は空白文字と判断されます。
 
 WARNING: 数字については空白であるかどうかは判断されません。特に0および0.0は**空白ではありません**のでご注意ください。
 
-たとえば、`ActionController::HttpAuthentication::Token::ControllerMethods`にある以下のメソッドでは`blank?`を使用してトークンが存在しているかどうかをチェックしています。
+たとえば、`ActionController::HttpAuthentication::Token::ControllerMethods`にある以下のメソッドではトークンが存在しているかどうかを`blank?`でチェックしています。
 
 ```ruby
 def authenticate(controller, &login_procedure)
@@ -126,7 +126,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/blank.rb`で
 
 ### `presence`
 
-`presence`メソッドは、`present?`がtrueの場合は自身のレシーバを返し、falseの場合は`nil`を返します。このメソッドは以下のような定番の用法において便利です。
+`presence`メソッドは、`present?`が`true`の場合は自身のレシーバを返し、falseの場合は`nil`を返します。このメソッドは以下のような便利な定番の用法があります。
 
 ```ruby
 host = config[:host].presence || 'localhost'
@@ -137,8 +137,6 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/blank.rb`で
 ### `duplicable?`
 
 Ruby 2.4では、メソッドや特定の数値を除くほとんどのオブジェクトが`dup`や`clone`で複製できます。Ruby 2.2や2.3では、`nil`, `false`, `true`、シンボル、`Float`/`Fixnum`/`Bignum`のインスタンスは複製できません。
-
-Rubyにおける基本的なオブジェクトの一部はsingletonオブジェクトです。たとえば、プログラムのライフサイクルが続く間、整数の1は常に同じインスタンスを参照します。
 
 ```ruby
 "foo".dup           # => "foo"
@@ -184,13 +182,13 @@ nil.duplicable?         # => false
 
 デフォルトでは、`nil`、`false`、`true`、シンボル、数値、クラス、モジュール、メソッドオブジェクトを除くすべてのオブジェクトが`duplicable?` #=> trueです。
 
-WARNING: どんなクラスでも、`dup`メソッドと`clone`メソッドを除去することでこれらのメソッドを無効にしてしまうことができます。このとき、これらのメソッドが実行されると例外が発生します。このような状態では、どんなオブジェクトについてもそれが複製可能かどうかを確認するには`rescue`を使用する以外に方法はありません。`duplicable?`メソッドは、上のハードコードされたリストに依存しますが、その代わり`rescue`よりずっと高速です。実際のユースケースでハードコードされたリストで十分であることがわかっている場合には、`duplicable?`をお使いください。
+WARNING: どんなクラスでも、`dup`メソッドと`clone`メソッドを除去することでこれらのメソッドを無効にできます。このとき、これらのメソッドが実行されると例外が発生します。このような状態では、どんなオブジェクトについてもそれが複製可能かどうかを確認するには`rescue`を使う以外に方法はありません。`duplicable?`メソッドは、上のハードコードされたリストに依存しますが、その代わり`rescue`よりずっと高速です。実際のユースケースでハードコードされたリストで十分であることがわかっている場合には、`duplicable?`をお使いください。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/duplicable.rb`です。
 
 ### `deep_dup`
 
-`deep_dup`メソッドは、与えられたオブジェクトの「ディープコピー」を返します。Rubyは通常の場合、他のオブジェクトを含むオブジェクトを`dup`しても、他のオブジェクトについては複製しません。このようなコピーは「浅いコピー (shallow copy)」と呼ばれます。たとえば、以下のように文字列を含む配列があるとします。
+`deep_dup`メソッドは、与えられたオブジェクトの「ディープコピー」を返します。Rubyは通常の場合、他のオブジェクトを含むオブジェクトを`dup`しても、含まれている他のオブジェクトを複製しません。このようなコピーは「浅いコピー (shallow copy)」と呼ばれます。たとえば、以下のように文字列を含む配列があるとします。
 
 ```ruby
 array     = ['string']
@@ -211,7 +209,7 @@ duplicate # => ['foo', 'another-string']
 
 上で見たとおり、`Array`のインスタンスを複製して別のオブジェクトができたことにより、一方を変更しても他方は変更されないようになりました。ただし、配列は複製されましたが、配列の要素はそうではありません。`dup`メソッドはディープコピーを行わないので、配列の中にある文字列は複製後も同一オブジェクトのままです。
 
-オブジェクトをディープコピーする必要がある場合は`deep_dup`をお使いください。例:
+オブジェクトをディープコピーする必要がある場合は次のように`deep_dup`をお使いください。
 
 ```ruby
 array     = ['string']
@@ -223,7 +221,7 @@ array     # => ['string']
 duplicate # => ['foo']
 ```
 
-オブジェクトが複製不可能な場合、`deep_dup`は単にそのオブジェクトを返します。
+オブジェクトが複製可能でない場合、`deep_dup`は単にそのオブジェクトを返します。
 
 ```ruby
 number = 1
@@ -240,16 +238,16 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/deep_dup.rb`
 例:
 
 ```ruby
-# tryメソッドを使用しない場合
+# tryメソッドを使わない場合
 unless @number.nil?
   @number.next
 end
 
-# tryメソッドを使用した場合
+# tryメソッドを使った場合
 @number.try(:next)
 ```
 
-`ActiveRecord::ConnectionAdapters::AbstractAdapter`から別の例として以下をご紹介します。ここでは`@logger`が`nil`になることがあります。このコードでは`try`を使用したことで余分なチェックを行わずに済んでいます。
+`ActiveRecord::ConnectionAdapters::AbstractAdapter`から別の例として以下をご紹介します。ここでは`@logger`が`nil`になることがあります。このコードでは`try`を使ったことで余分なチェックを行わずに済んでいます。
 
 ```ruby
 def log_info(sql, name, ms)
@@ -277,7 +275,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/try.rb`で�
 
 ### `class_eval(*args, &block)`
 
-`class_eval`メソッドを使用することで、あらゆるオブジェクトのsingletonクラスのコンテキストでコードを評価することができます。
+`class_eval`メソッドを使って、あらゆるオブジェクトのsingletonクラスのコンテキストでコードを評価できます。
 
 ```ruby
 class Proc
@@ -298,26 +296,26 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/kernel/singleton_cl
 
 ### `acts_like?(duck)`
 
-`acts_like?`メソッドは、一部のクラスがその他のクラスと同様に振る舞うかどうかのチェックを、ある慣例に則って実行します。`String`クラスと同じインターフェイスを提供するクラスがあり、その中で以下のメソッドを定義しておくとします。
+`acts_like?`メソッドは、一部のクラスがその他のクラスと同様に振る舞うかどうかを、ある慣例に沿ってチェックします。`String`クラスと同じインターフェイスを提供するクラスがあり、その中で以下のメソッドを定義しておくとします。
 
 ```ruby
 def acts_like_string?
 end
 ```
 
-このメソッドは単なる目印であり、メソッドの本体と戻り値の間には関連はありません。これにより、クライアントコードで以下のようなダックタイピングチェックを行なうことができます。
+このメソッドは単なる目印であり、メソッドの本体と戻り値の間に関連はありません。これにより、クライアントコードで以下のようなダックタイピングチェックを行えます。
 
 ```ruby
 some_klass.acts_like?(:string)
 ```
 
-Railsには`Date`クラスや`Time`クラスと同様に振る舞うクラスがいくつかあり、この手法を使用できます。
+Railsには`Date`クラスや`Time`クラスと同様に振る舞うクラスがいくつかあり、この手法を使えます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/acts_like.rb`です。
 
 ### `to_param`
 
-Railsのあらゆるオブジェクトは`to_param`メソッドに応答します。これは、オブジェクトを値として表現するものを返すということです。返された値はクエリ文字列やURLの一部で使用できます。
+Railsのあらゆるオブジェクトは`to_param`メソッドに応答します。これは、オブジェクトを値として表現するものを返すということです。返された値はクエリ文字列やURLの一部で利用できます。
 
 デフォルトでは、`to_param`メソッドは単に`to_s`メソッドを呼び出します。
 
@@ -333,13 +331,13 @@ Railsのあらゆるオブジェクトは`to_param`メソッドに応答しま�
 
 このメソッドは、Railsの多くのクラスで上書きされています。
 
-たとえば、`nil`、`true`、`false`の場合は自分自身を返します。`Array#to_param`を実行すると、`to_param`が配列内の各要素に対して実行され、結果が"/"でjoinされます。
+たとえば、`nil`、`true`、`false`の場合は自分自身を返します。`Array#to_param`を実行すると、`to_param`が配列内の各要素に対して実行され、結果が「/」でjoinされます。
 
 ```ruby
 [0, true, String].to_param # => "0/true/String"
 ```
 
-特に、Railsのルーティングシステムはモデルに対して`to_param`メソッドを実行することで、`:id`プレースホルダの値を取得しています。`ActiveRecord::Base#to_param`はモデルの`id`を返しますが、このメソッドをモデル内で再定義することもできます。たとえば
+特に、Railsのルーティングシステムはモデルに対して`to_param`メソッドを実行することで、`:id`プレースホルダの値を取得しています。`ActiveRecord::Base#to_param`はモデルの`id`を返しますが、このメソッドをモデル内で再定義することもできます。以下のコード例があるとします。
 
 ```ruby
 class User
@@ -349,19 +347,19 @@ class User
 end
 ```
 
-以下の結果を得ます。
+上のコードから以下の結果を得られます。
 
 ```ruby
 user_path(@user) # => "/users/357-john-smith"
 ```
 
-WARNING: コントローラ側では、`to_param`メソッドがモデル側で再定義されている可能性があることに常に注意しておく必要があります。上のようなリクエストを受信した場合、`params[:id]`の値が"357-john-smith"になるからです。
+WARNING: コントローラ側では、`to_param`メソッドがモデル側で再定義されている可能性があることに常に注意しておく必要があります。上のようなリクエストを受信した場合、`params[:id]`の値が「357-john-smith」になるからです。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/to_param.rb`です。
 
 ### `to_query`
 
-このメソッドは、エスケープされていない`key`を受け取ると、そのキーを`to_param`が返す値に対応させるクエリ文字列の一部を生成します。ただしハッシュは例外です(後述)。たとえば以下の場合、
+このメソッドは、エスケープされていない`key`を受け取ると、そのキーを`to_param`が返す値に対応させるクエリ文字列の一部を生成します。ただしハッシュは例外です(後述)。以下のコード例があるとします。
 
 ```ruby
 class User
@@ -371,7 +369,7 @@ class User
 end
 ```
 
-以下の結果を得ます。
+上のコードから以下の結果を得られます。
 
 ```ruby
 current_user.to_query('user') # => "user=357-john-smith"
@@ -384,16 +382,16 @@ account.to_query('company[name]')
 # => "company%5Bname%5D=Johnson+%26+Johnson"
 ```
 
-従って、この結果はそのままクエリ文字列として使用できます。
+これにより、この結果をそのままクエリ文字列として利用できます。
 
-配列に`to_query`メソッドを適用した場合、`to_query`を配列の各要素に適用して`key[]`をキーとして追加し、それらを"&"で連結したものを返します。
+配列に`to_query`メソッドを適用した場合、`to_query`を配列の各要素に適用して`key[]`をキーとして追加し、それらを「&」で連結したものを返します。
 
 ```ruby
 [3.4, -45.6].to_query('sample')
 # => "sample%5B%5D=3.4&sample%5B%5D=-45.6"
 ```
 
-ハッシュも`to_query`に応答しますが、異なるシグネチャを使用します。メソッドに引数が渡されない場合、このメソッド呼び出しは、一連のキー/値ペアをソート済みの形で生成し、それぞれの値に対して`to_query(key)`を呼び出します。続いて結果を"&"で連結します。
+ハッシュも`to_query`に応答しますが、使われるシグネチャが異なります。メソッドに引数が渡されない場合、このメソッド呼び出しは、一連のキー/値ペアをソート済みの形で生成し、それぞれの値に対して`to_query(key)`を呼び出し、結果を「&」で連結します。
 
 ```ruby
 {c: 3, b: 2, a: 1}.to_query # => "a=1&b=2&c=3"
@@ -423,7 +421,7 @@ class Account < ApplicationRecord
 end
 ```
 
-上は以下のようにできます。
+上のコードを以下のように書けます。
 
 ```ruby
 class Account < ApplicationRecord
@@ -436,7 +434,7 @@ class Account < ApplicationRecord
 end
 ```
 
-この手法を使用することで、たとえばニュースレターの読者を言語ごとに _グループ化_ することができます。読者が話す言語に応じて異なるニュースレターを送信したいとします。メール送信用のコードのどこかで、以下のような感じでロケール依存ビットをグループ化することができます。
+この手法を使って、たとえばニュースレターの読者を言語ごとに「グループ化」できます。読者が話す言語に応じて異なるニュースレターを送信したいとします。メール送信用のコードのどこかで、以下のような感じでロケール依存ビットをグループ化できます。
 
 ```ruby
 I18n.with_options locale: user.locale, scope: "newsletter" do |i18n|
@@ -449,7 +447,7 @@ TIP: `with_options`はメソッドをレシーバに転送しているので、�
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/with_options.rb`です。
 
-### JSON support
+### JSONのサポート
 
 Active Supportが提供する`to_json`メソッドの実装は、通常`json` gemがRubyオブジェクトに対して提供している`to_json`よりも優れています。その理由は、`Hash`や`OrderedHash`、`Process::Status`などのクラスでは、正しいJSON表現を提供するために特別な処理が必要になるためです。
 
@@ -461,7 +459,7 @@ Active Supportは、インスタンス変数に簡単にアクセスするため
 
 #### `instance_values`
 
-`instance_values`メソッドはハッシュを返します。インスタンス変数名から"@"を除いたものがハッシュのキーに、インスタンス変数の値がハッシュの値にマップされます。キーは文字列です。
+`instance_values`メソッドはハッシュを返します。インスタンス変数名から「@」を除いたものがハッシュのキーに、インスタンス変数の値がハッシュの値にマップされます。キーは文字列です。
 
 ```ruby
 class C
@@ -477,7 +475,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/instance_var
 
 #### `instance_variable_names`
 
-`instance_variable_names`メソッドは配列を返します。配列のインスタンス名には"@"記号が含まれます。
+`instance_variable_names`メソッドは配列を返します。配列のインスタンス名には「@」記号が含まれます。
 
 ```ruby
 class C
@@ -491,7 +489,7 @@ C.new(0, 1).instance_variable_names # => ["@x", "@y"]
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/object/instance_variables.rb`です。
 
-### 警告・例外の抑制
+### 警告や例外の抑制
 
 `silence_warnings`メソッドと`enable_warnings`メソッドは、ブロックが継続する間`$VERBOSE`の値を変更し、その後リセットします。
 
@@ -499,7 +497,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/instance_var
 silence_warnings { Object.const_set "RAILS_DEFAULT_LOGGER", logger }
 ```
 
-`suppress`メソッドを使用すると例外の発生を止めることもできます。このメソッドは、例外クラスを表す任意の数値を受け取ります。`suppress`は、あるブロックの実行時に例外が発生し、その例外が(`kind_of?`による判定で)いずれかの引数に一致する場合、それをキャプチャして例外を発生せずに戻ります。一致しない場合、例外はキャプチャされません。
+`suppress`メソッドを使って例外の発生を止めることもできます。このメソッドは、例外クラスを表す任意の数値を受け取ります。`suppress`は、あるブロックの実行時に例外が発生し、その例外が(`kind_of?`による判定で)いずれかの引数に一致する場合、それをキャプチャして例外を発生せずに戻ります。一致しない場合、例外はキャプチャされません。
 
 ```ruby
 # ユーザーがロックされていればインクリメントは失われるが、重要ではない
@@ -532,7 +530,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/inclusion.rb
 
 #### `alias_attribute`
 
-モデルの属性には、リーダー (reader)、ライター (writer)、述語 (predicate) があります。上に対応する3つのメソッドを持つ、モデルの属性の別名 (alias) を一度に作成することができます。他の別名作成メソッドと同様、1つ目の引数には新しい名前、2つ目の引数には元の名前を指定します (変数に代入するときと同じ順序、と覚えておく手もあります)。
+モデルの属性には、リーダー (reader)、ライター (writer)、述語 (predicate) があります。これらに対応する3つのメソッドを持つ、モデルの属性の別名 (alias) を一度に作成できます。他の別名作成メソッドと同様、1つ目の引数には新しい名前、2つ目の引数には元の名前を指定します (変数に代入するときと同じ順序、と覚えておく手もあります)。
 
 ```ruby
 class User < ApplicationRecord
@@ -546,7 +544,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/aliasing.rb`
 
 #### 内部属性
 
-あるクラスで属性を定義すると、後にそのクラスのサブクラスが作成されるときに名前が衝突するリスクが生じます。これはライブラリにおいては特に重要な問題です。
+あるクラスで属性を定義すると、後でそのクラスのサブクラスが作成されるときに名前が衝突するリスクが生じます。これはライブラリにおいては特に重要な問題です。
 
 Active Supportでは、`attr_internal_reader`、`attr_internal_writer`、`attr_internal_accessor`というマクロが定義されています。これらのマクロは、Rubyにビルトインされている`attr_*`と同様に振る舞いますが、内部のインスタンス変数の名前が衝突しにくいように配慮される点が異なります。
 
@@ -564,11 +562,11 @@ class MyCrawler < ThirdPartyLibrary::Crawler
 end
 ```
 
-先の例では、`:log_level`はライブラリのパブリックインターフェイスに属さず、開発用途にのみ使用されます。クライアント側のコードでは衝突の可能性について考慮せずに独自に`:log_level`をサブクラスで定義しています。ライブラリ側で`attr_internal`を使用しているおかげで衝突が生じずに済んでいます。
+先の例では、`:log_level`はライブラリのパブリックインターフェイスに属さず、開発中以外は使われまsん。クライアント側のコードでは衝突の可能性について考慮せずに独自に`:log_level`をサブクラスで定義しています。ライブラリ側で`attr_internal`を使っているおかげで衝突が生じずに済んでいます。
 
-このとき、内部インスタンス変数の名前にはデフォルトで冒頭にアンダースコアが追加されます。上の例であれば`@_log_level`となります。この動作は`Module.attr_internal_naming_format`を使用して変更することもできます。`sprintf`と同様のフォーマット文字列を与え、冒頭に`@`を置き、それ以外の名前を置きたい場所に`%s`を置きます。デフォルト値は`"@_%s"`です。
+このとき、内部インスタンス変数の名前にはデフォルトで冒頭にアンダースコアが追加されます。上の例であれば`@_log_level`となります。この動作は`Module.attr_internal_naming_format`で変更することもできます。`sprintf`と同様のフォーマット文字列を与え、冒頭に`@`を置き、それ以外の名前を置きたい場所に`%s`を置きます。デフォルト値は`"@_%s"`です。
 
-Railsではこの内部属性を他の場所でも若干使用しています。たとえばビューでは以下のように使用しています。
+Railsではこの内部属性を他の場所でも若干使っています。たとえばビューでは以下のように使われています。
 
 ```ruby
 module ActionView
@@ -586,7 +584,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/attr_interna
 
 `mattr_reader`、`mattr_writer`、`mattr_accessor`という3つのマクロは、クラス用に定義される`cattr_*`マクロと同じです。実際、`cattr_*`マクロは単なる`mattr_*`マクロの別名です。[クラス属性](#class属性)も参照してください。
 
-たとえば、これらのマクロは以下のDependenciesモジュールで使用されています。
+たとえば、これらのマクロは以下のDependenciesモジュールで使われています。
 
 ```ruby
 module ActiveSupport
@@ -634,7 +632,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/introspectio
 
 #### `parent_name`
 
-`parent_name`メソッドは、名前がネストしたモジュールに対して実行でき、対応する定数を持つモジュールを返します。
+名前がネストしたモジュールに対して`parent_name`メソッドを実行すると、対応する定数を持つモジュールを返します。
 
 ```ruby
 module X
@@ -676,7 +674,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/introspectio
 
 ### 無名モジュール
 
-モジュールは名前を持つことも、無名でいることもできます。
+モジュールには名前がある場合とない場合があります。
 
 ```ruby
 module M
@@ -689,7 +687,7 @@ N.name # => "N"
 Module.new.name # => nil
 ```
 
-述語`anonymous?`を使用して、モジュールに名前があるかどうかをチェックできます。
+モジュールに名前があるかどうかを述語メソッド`anonymous?`でチェックできます。
 
 ```ruby
 module M
@@ -699,7 +697,7 @@ M.anonymous? # => false
 Module.new.anonymous? # => true
 ```
 
-到達不能 (unreachable) であっても、必ずしも無名 (anonymous) になるとは限りません。
+到達不能な（unreachable）モジュールが必ずしも無名（anonymous）とは限りません。
 
 ```ruby
 module M
@@ -714,11 +712,11 @@ m.anonymous? # => false
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/module/anonymous.rb`です。
 
-### メソッド委譲
+### メソッドの委譲
 
 #### `delegate`
 
-`delegate`マクロを使用すると、メソッドを簡単に委譲できます。
+`delegate`マクロを使って、メソッドを簡単に委譲できます。
 
 あるアプリケーションの`User`モデルにログイン情報があり、それに関連する名前などの情報は`Profile`モデルにあるとします。
 
@@ -728,7 +726,7 @@ class User < ApplicationRecord
 end
 ```
 
-この構成では、`user.profile.name`のようにプロファイル越しにユーザー名を取得することになります。これらの属性に直接アクセスできたらもっと便利になることでしょう。
+この構成では、`user.profile.name`のようにプロファイル越しにユーザー名を取得することになります。これらの属性に直接アクセスできたらもっと便利になるでしょう。
 
 ```ruby
 class User < ApplicationRecord
@@ -740,7 +738,7 @@ class User < ApplicationRecord
 end
 ```
 
-`delegate`を使用すればできるようになります。
+これは`delegate`でできます。
 
 ```ruby
 class User < ApplicationRecord
@@ -750,9 +748,9 @@ class User < ApplicationRecord
 end
 ```
 
-この方法なら記述が短くて済み、意味もはっきりします。
+この方法なら記述が短くて済み、意味も明快です。
 
-使用するメソッドは対象クラス内でpublicである必要があります。
+委譲するメソッドは対象クラス内でpublicでなければなりません。
 
 `delegate`マクロには複数のメソッドを指定できます。
 
@@ -772,7 +770,7 @@ delegate :table_name, to: :class
 
 WARNING: `:prefix`オプションが`true`の場合、一般性が低下します (後述)。
 
-委譲時に`NoMethodError`が発生して対象が`nil`の場合、例外が発生します。`:allow_nil`オプションを使用すると、例外の代りに`nil`を返すようにすることができます。
+委譲時に`NoMethodError`が発生して対象が`nil`の場合、例外が発生します。`:allow_nil`オプションを使うと、例外の代りに`nil`を返すようにすることができます。
 
 ```ruby
 delegate :name, to: :profile, allow_nil: true
@@ -788,7 +786,7 @@ delegate :street, to: :address, prefix: true
 
 上の例では、`street`ではなく`address_street`が生成されます。
 
-WARNING: この場合、生成されるメソッドの名前では、対象となるオブジェクト名とメソッド名が使用されます。`:to`オプションで指定するのはメソッド名でなければなりません。
+WARNING: この場合、生成されるメソッドの名前では、対象となるオブジェクト名とメソッド名が使われます。`:to`オプションで指定するのはメソッド名でなければなりません。
 
 プレフィックスをカスタマイズすることもできます。
 
@@ -818,9 +816,9 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/module/delegation.r
 
 ### メソッドの再定義
 
-`define_method`を使用してメソッドを再定義する必要があるが、その名前が既にあるかどうかがわからないとことがあります。有効な名前が既にあれば警告が表示されます。警告が表示されても大したことはありませんが、邪魔に思えることもあります。
+メソッドを`define_method`で再定義する必要があるが、その名前が既にあるかどうかがわからないとことがあります。有効な名前が既にあれば警告が表示されます。警告が表示されても大したことはありませんが、邪魔に思えることもあります。
 
-`redefine_method`メソッドを使用すれば、必要に応じて既存のメソッドが削除されるので、このような警告表示を抑制できます。
+`redefine_method`メソッドを使うと、必要に応じて既存のメソッドが削除されるので、このような警告表示を抑制できます。
 
 （`delegate`を使っているなどの理由で）メソッド自身の置き換えを定義する必要がある場合は、`silence_redefinition_of_method`を使うこともできます。
 
@@ -924,7 +922,7 @@ class MysqlAdapter < AbstractAdapter
 end
 ```
 
-利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス属性の単なるプロキシです。従って、インスタンスからクラス属性を変更することはできますが、`class_attribute`で行われるように上書きすることはできません(上記参照)。たとえば以下の場合、
+利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス属性の単なるプロキシです。このため、インスタンスからクラス属性を変更することはできますが、`class_attribute`で行われるように上書きすることはできません(上記参照)。たとえば以下の場合、
 
 ```ruby
 module ActionView
@@ -1017,7 +1015,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/class/subclasses.rb
 
 #### 開発の動機
 
-HTMLテンプレートにデータを挿入する方法は、きわめて慎重に設計する必要があります。たとえば、`@review.title`を何の工夫もなくそのままHTMLに式展開するようなことは絶対にすべきではありません。もしこのレビューのタイトルが仮に"Flanagan & Matz rules!"だとしたら、出力はwell-formedになりません。well-formedにするには、"&amp;amp;"のようにエスケープしなければなりません。さらに、ユーザーがレビューのタイトルに細工をして、悪意のあるHTMLをタイトルに含めれば、巨大なセキュリティホールになることすらあります。このリスクの詳細については、[セキュリティガイド](security.html#クロスサイトスクリプティング-xss)のクロスサイトスクリプティングの節を参照してください。
+HTMLテンプレートにデータを挿入する方法は、きわめて慎重に設計する必要があります。たとえば、`@review.title`を何の工夫もなくそのままHTMLに式展開するようなことは絶対にすべきではありません。もしこのレビューのタイトルが仮に「Flanagan & Matz rules!」だとしたら、出力はwell-formedになりません。well-formedにするには、"&amp;amp;"のようにエスケープしなければなりません。さらに、ユーザーがレビューのタイトルに細工をして、悪意のあるHTMLをタイトルに含めれば、巨大なセキュリティホールになることすらあります。このリスクの詳細については、[セキュリティガイド](security.html#クロスサイトスクリプティング-xss)のクロスサイトスクリプティングの節を参照してください。
 
 #### 安全な文字列
 
@@ -1044,9 +1042,9 @@ s.html_safe? # => true
 s            # => "<script>...</script>"
 ```
 
-従って、特定の文字列に対して`html_safe`メソッドを呼び出す際には、その文字列が本当に安全であることを確認する義務があります。
+すなわち、特定の文字列に対して`html_safe`メソッドを呼び出す際には、その文字列が本当に安全であることを確認する義務があります。
 
-安全であると宣言された文字列に対し、安全でない文字列を`concat`/`<<`または`+`を使用して破壊的に追加すると、結果は安全な文字列になります。安全でない引数は追加時にエスケープされます。
+安全であると宣言された文字列に対し、安全でない文字列を`concat`/`<<`や`+`で破壊的に追加すると、結果は安全な文字列になります。安全でない引数は追加時にエスケープされます。
 
 ```ruby
 "".html_safe + "<" # => "&lt;"
@@ -1058,19 +1056,19 @@ s            # => "<script>...</script>"
 "".html_safe + "<".html_safe # => "<"
 ```
 
-基本的にこれらのメソッドは、通常のビューでは使用しないでください。現在のRailsのビューでは、安全でない値は自動的にエスケープされるためです。
+基本的にこれらのメソッドは、通常のビューでは使わないでください。現在のRailsのビューでは、安全でない値は自動的にエスケープされるためです。
 
 ```erb
 <%= @review.title %> <%# 必要に応じてエスケープされるので問題なし %>
 ```
 
-何らかの理由で、エスケープされていない文字列を挿入したい場合は、`html_safe`を呼ぶのではなく、`raw`ヘルパーを使用するようにしてください。
+何らかの理由で、エスケープされていない文字列を挿入したい場合は、`html_safe`を呼ぶのではなく、`raw`ヘルパーをお使いください。
 
 ```erb
 <%= raw @cms.current_template %> <%# @cms.current_templateをそのまま挿入 %>
 ```
 
-あるいは、`raw`と同等の`<%==`を使用します。
+あるいは、`raw`と同等の`<%==`を使います。
 
 ```erb
 <%== @cms.current_template %> <%# @cms.current_templateをそのまま挿入 %>
@@ -1088,9 +1086,9 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/output_safet
 
 #### 各種変換
 
-経験上、上で説明したような連結 (concatenation) 操作を除き、どんなメソッドでも潜在的には文字列を安全でないものに変換してしまう可能性があることに常に注意を払う必要があります。そのようなメソッドには`downcase`、`gsub`、`strip`、`chomp`、`underscore`などがあります。
+経験上、上で説明したような連結 (concatenation) 操作を除き、どんなメソッドでも潜在的には文字列を安全でないものに変換してしまう可能性があることに常に注意を払う必要があります。`downcase`、`gsub`、`strip`、`chomp`、`underscore`などの変換メソッドがこれに該当します。
 
-`gsub!`のような破壊的な変換を行なうメソッドを使用すると、レシーバ自体が安全でなくなります。
+`gsub!`のような破壊的な変換を行なうメソッドを使うと、レシーバ自体が安全でなくなってしまいます。
 
 INFO: こうしたメソッドを実行すると、実際に変換が行われたかどうかにかかわらず、安全を表すビットは常にオフになります。
 
@@ -1155,7 +1153,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/filters.rb`�
 # => "Oh dear! Oh..."
 ```
 
-`:separator`オプションで正規表現を使用することもできます。
+`:separator`オプションでは正規表現も使えます。
 
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate(18, separator: /\s/)
@@ -1168,7 +1166,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/filters.rb`�
 
 ### `truncate_words`
 
-`truncate_words`メソッドは、指定されたワード数から後ろをきりおとしたレシーバのコピーを返します。
+`truncate_words`メソッドは、指定されたワード数から後ろを切り落としたレシーバのコピーを返します。
 
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate_words(4)
@@ -1189,7 +1187,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/filters.rb`�
 # => "Oh dear! Oh dear! I shall be late..."
 ```
 
-`:separator`オプションで正規表現を使用することもできます。
+`:separator`オプションでは正規表現も使えます。
 
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate_words(4, separator: /\s/)
@@ -1200,7 +1198,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/filters.rb`�
 
 ### `inquiry`
 
-`inquiry`は、文字列を`StringInquirer`オブジェクトに変換します。このオブジェクトを使用すると、等しいかどうかをよりスマートにチェックできます。
+`inquiry`は、文字列を`StringInquirer`オブジェクトに変換します。このオブジェクトを使うと、等しいかどうかをよりスマートにチェックできます。
 
 ```ruby
 "production".inquiry.production? # => true
@@ -1209,7 +1207,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/filters.rb`�
 
 ### `starts_with?`と`ends_with?`
 
-Active Supportでは、`String#start_with?`と`String#end_with?`を英語的に自然な三人称(starts、ends)にした別名も定義してあります。
+Active Supportでは、`String#start_with?`と`String#end_with?`を英語的に自然な三人称(starts、ends)にした別名も定義されています。
 
 ```ruby
 "foo".starts_with?("f") # => true
@@ -1258,7 +1256,7 @@ EOS
   end
 ```
 
-2つめの引数`indent_string`は、インデントに使用する文字列を指定します。デフォルトは`nil`であり、この場合最初にインデントされている行のインデント文字を参照してそこからインデント文字を推測します。インデントがまったくない場合はスペース1つを使用します。
+2つめの引数`indent_string`は、インデントに使う文字列を指定します。デフォルトは`nil`であり、この場合最初にインデントされている行のインデント文字を参照してそこからインデント文字を推測します。インデントがまったくない場合はスペース1つを使います。
 
 ```ruby
 "  foo".indent(2)        # => "    foo"
@@ -1266,9 +1264,9 @@ EOS
 "foo".indent(2, "\t")    # => "\t\tfoo"
 ```
 
-`indent_string`には1文字のスペースまたはタブを使用するのが普通ですが、どんな文字でも使用できます。
+`indent_string`には1文字のスペースまたはタブを使うのが普通ですが、どんな文字でも使えます。
 
-3つ目の引数`indent_empty_lines`は、空行もインデントするかどうかを指定するフラグです。デフォルトはfalseです。
+3つ目の引数`indent_empty_lines`は、空行もインデントするかどうかを指定するフラグです。デフォルトは`false`です。
 
 ```ruby
 "foo\n\nbar".indent(2)            # => "  foo\n\n  bar"
@@ -1322,13 +1320,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`�
 
 #### `first(limit = 1)`
 
-`str.first(n)`という呼び出しは、`n` > 0 のとき`str.to(n-1)`と等価です。`n` == 0の場合は空文字列を返します。
+`str.first(n)`という呼び出しは、`n` > 0の場合は`str.to(n-1)`と等価です。`n` == 0の場合は空文字列を返します。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`です。
 
 #### `last(limit = 1)`
 
-`str.last(n)` という呼び出しは、`n` > 0 のとき`str.from(-n)`と等価です。`n` == 0 の場合は空文字列を返します。
+`str.last(n)` という呼び出しは、`n` > 0の場合は`str.from(-n)`と等価です。`n` == 0の場合は空文字列を返します。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`です。
 
@@ -1344,9 +1342,9 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`�
 "equipment".pluralize # => "equipment"
 ```
 
-上の例でも示したように、Active Supportは不規則な複数形や非可算名詞についてある程度知っています。`config/initializers/inflections.rb`にあるビルトインのルールは拡張可能です。このファイルは`rails`コマンドで拡張可能であり、方法はコメントに示されています。
+上の例でも示したように、Active Supportは不規則な複数形や非可算名詞をある程度扱えます。`config/initializers/inflections.rb`にあるビルトインのルールは拡張可能です。このファイルは`rails`コマンドで拡張可能であり、方法はコメントに示されています。
 
-`pluralize`メソッドではオプションで`count`パラメータを使用できます。もし`count == 1`を指定すると単数形が返されます。`count`がそれ以外の値の場合は複数形を返します(訳注: 英語では個数がゼロや小数の場合は複数形で表されます)。
+`pluralize`メソッドではオプションで`count`パラメータを使えます。もし`count == 1`を指定すると単数形が返されます。`count`がそれ以外の値の場合は複数形を返します(訳注: 英語では個数がゼロや小数の場合は複数形で表されます)。
 
 ```ruby
 "dude".pluralize(0) # => "dudes"
@@ -1354,7 +1352,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`�
 "dude".pluralize(2) # => "dudes"
 ```
 
-Active Recordでは、モデル名に対応するデフォルトのテーブル名を求めるときにこのメソッドを使用しています。
+Active Recordでは、モデル名に対応するデフォルトのテーブル名を求めるときにこのメソッドを使います。
 
 ```ruby
 # active_record/model_schema.rb
@@ -1376,7 +1374,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "equipment".singularize # => "equipment"
 ```
 
-Railsの関連付け (association) では、関連付けられたクラスにデフォルトで対応する名前を求める時にこのメソッドが使用されます。
+Railsの関連付け (association) では、関連付けられたクラスにデフォルトで対応する名前を求める時にこのメソッドを使います。
 
 ```ruby
 # active_record/reflection.rb
@@ -1398,13 +1396,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "admin_user".camelize # => "AdminUser"
 ```
 
-このメソッドは、パスをRubyのクラスに変換するときにもよく使用されます。スラッシュで区切られているパスは「::」で区切られます。
+このメソッドは、パスをRubyのクラスに変換するときにもよく使われます。スラッシュで区切られているパスは「::」で区切られます。
 
 ```ruby
 "backoffice/session".camelize # => "Backoffice::Session"
 ```
 
-たとえばAction Packでは、特定のセッションストアを提供するクラスを読み込むのにこのメソッドを使用しています。
+たとえばAction Packでは、特定のセッションストアを提供するクラスを読み込むのにこのメソッドを使います。
 
 ```ruby
 # action_controller/metal/session_management.rb
@@ -1415,15 +1413,15 @@ def session_store=(store)
 end
 ```
 
-`camelize`メソッドはオプションの引数を受け付けます。使用できるのは`:upper` (デフォルト) または`:lower`です。後者を指定すると、冒頭が小文字になります。
+`camelize`メソッドはオプションの引数を受け付けます。`:upper`（デフォルト）または`:lower`を指定できます。後者を指定すると、冒頭が小文字になります。
 
 ```ruby
 "visual_effect".camelize(:lower) # => "visualEffect"
 ```
 
-このメソッドは、そのような命名慣習に従っている言語 (JavaScriptなど) で使用される名前を求めるのに便利です。
+このメソッドは、そのような命名慣習に沿う言語（JavaScriptなど）で使う名前を求めるのに便利です。
 
-INFO: `camerize`メソッドの動作は、`underscore`メソッドと逆の動作と考えるとわかりやすいでしょう。ただし完全に逆の動作ではありません。たとえば、`"SSLError".underscore.camelize`を実行した結果は`"SslError"`になり、元に戻りません。このような場合をサポートするために、Active Supportでは`config/initializers/inflections.rb`の頭字語を指定することができます。
+INFO: `camerize`メソッドの動作は、`underscore`メソッドと逆の動作と考えるとわかりやすいでしょう。ただし完全に逆の動作ではありません。たとえば、`"SSLError".underscore.camelize`を実行した結果は`"SslError"`になり、元に戻りません。このような場合をサポートするために、Active Supportでは`config/initializers/inflections.rb`の頭字語（acronym）を次のように指定できます。
 
 ```ruby
 ActiveSupport::Inflector.inflections do |inflect|
@@ -1460,7 +1458,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
 ただし`underscore`は引数を取りません。
 
-Railsで自動的に読み込まれるクラスとモジュールは、`underscore`メソッドを使用してファイルの拡張子を除いた相対パスを推測し、指定された定数が失われている場合にそれを定義するのに役立てます。
+Railsで自動的に読み込まれるクラスとモジュールは、ファイルの拡張子を`underscore`メソッドで除いた相対パスを推測し、指定された定数が失われている場合にそれを定義するのにこのメソッドを利用します。
 
 ```ruby
 # active_support/dependencies.rb
@@ -1498,7 +1496,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "contact_data".dasherize # => "contact-data"
 ```
 
-モデルのXMLシリアライザではこのメソッドを使用してノード名をダッシュ化しています。
+モデルのXMLシリアライザではノード名をこのメソッドでダッシュ化しています。
 
 ```ruby
 # active_model/serializers/xml.rb
@@ -1523,7 +1521,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
 ```
 
-以下のActive Recordの例では、このメソッドを使用してcounter_cacheカラムの名前を求めています。
+以下のActive Recordの例では、`counter_cache_column `の名前をこのメソッドで求めています。
 
 ```ruby
 # active_record/reflection.rb
@@ -1552,14 +1550,14 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
 #### `parameterize`
 
-`parameterize`メソッドは、レシーバを正しいURLで使用可能な形式に正規化します。
+`parameterize`メソッドは、レシーバを正しいURLで利用可能な形式に正規化します。
 
 ```ruby
 "John Smith".parameterize # => "john-smith"
 "Kurt Gödel".parameterize # => "kurt-godel"
 ```
 
-文字列の大文字小文字が変わらないようにするには、`preserve_case`引数に`true`を指定します。`preserve_case`はデフォルトでは`false`になります。
+文字列の大文字小文字が変わらないようにするには、`preserve_case`引数に`true`を指定します。`preserve_case`はデフォルトでは`false`です。
 
 ```ruby
 "John Smith".parameterize(preserve_case: true) # => "John-Smith"
@@ -1587,13 +1585,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "InvoiceLine".tableize # => "invoice_lines"
 ```
 
-単純な場合であれば、モデル名に`tableize`を使用するとモデルのテーブル名を得られます。実際のActive Recordの実装は、単に`tableize`を実行する場合よりも複雑です。Active Recordではクラス名に対して`demodulize`も行っており、返される文字列に影響する可能性のあるオプションもいくつかチェックしています。
+単純な場合であれば、モデル名に`tableize`を使うとモデルのテーブル名を得られます。実際のActive Recordの実装は、単に`tableize`を実行する場合よりも複雑です。Active Recordではクラス名に対して`demodulize`も行っており、返される文字列に影響する可能性のあるオプションもいくつかチェックしています。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.rb`です。
 
 #### `classify`
 
-`classify`メソッドは、`tableize`と逆の動作です。与えられたテーブル名に対応するクラス名を返します。
+`classify`メソッドは`tableize`と逆の動作で、与えられたテーブル名に対応するクラス名を返します。
 
 ```ruby
 "people".classify        # => "Person"
@@ -1626,7 +1624,7 @@ end
 
 与えられた文字列を`constantize`メソッドで評価しても既知の定数とマッチしない、または指定された定数名が正しくない場合は`NameError`が発生します。
 
-`constantize`メソッドによる定数名解決は、常にトップレベルの`Object`から開始されます。これは上位に"::"がない場合でも同じです。
+`constantize`メソッドによる定数名解決は、常にトップレベルの`Object`から開始されます。これは冒頭に「::」がない場合でも同じです。
 
 ```ruby
 X = :in_Object
@@ -1639,9 +1637,9 @@ module M
 end
 ```
 
-従って、このメソッドは、同じ場所でRubyが定数を評価したときの値と必ずしも等価ではありません。
+このため、このメソッドは、同じ場所でRubyが定数を評価したときの値と必ずしも等価ではありません。
 
-メイラー (mailer) のテストケースでは、テストするクラスの名前からテスト対象のメイラーを取得するのに`constantize`メソッドを使用します。
+メイラー (mailer) のテストケースでは、テストするクラスの名前からテスト対象のメイラーを取得するのに`constantize`メソッドを使います。
 
 ```ruby
 # action_mailer/test_case.rb
@@ -1662,12 +1660,12 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
   * 引数に (英語の) 活用ルールを適用します(inflection)。
   * 冒頭にアンダースコアがある場合は削除します。
-  * 末尾に"_id"がある場合は削除します。
+  * 末尾に「_id」がある場合は削除します。
   * アンダースコアが他にもある場合はスペースに置き換えます。
   * 略語を除いてすべての単語を小文字にします(downcase)。
   * 最初の単語だけ冒頭の文字を大文字にします(capitalize)。
 
-`:capitalize`オプションをfalseにすると、冒頭の文字は大文字にされません(デフォルトはtrue)。
+`:capitalize`オプションをfalseにすると、冒頭の文字は大文字にされません(デフォルトは`true`)。
 
 ```ruby
 "name".humanize                         # => "Name"
@@ -1683,7 +1681,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 'ssl_error'.humanize # => "SSL error"
 ```
 
-ヘルパーメソッド`full_messages`では、属性名をメッセージに含めるときに`humanize`を使用しています。
+ヘルパーメソッド`full_messages`では、属性名をメッセージに含めるときに`humanize`を使います。
 
 
 ```ruby
@@ -1703,7 +1701,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
 #### `foreign_key`
 
-`foreign_key`メソッドは、クラス名から外部キーカラム名を求める時に使用します。具体的には、`demodulize`、`underscore`を実行し、末尾に "_id" を追加します。
+`foreign_key`メソッドは、クラス名から外部キーカラム名を求めるのに用いられます。具体的には、`demodulize`、`underscore`を実行し、末尾に「_id」を追加します。
 
 ```ruby
 "User".foreign_key           # => "user_id"
@@ -1711,13 +1709,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "Admin::Session".foreign_key # => "session_id"
 ```
 
-末尾の "_id" のアンダースコアが不要な場合は引数に`false`を指定します。
+末尾の「_id」のアンダースコアが不要な場合は、引数に`false`を指定します。
 
 ```ruby
 "User".foreign_key(false) # => "userid"
 ```
 
-関連付け (association) では、外部キーの名前を推測するときにこのメソッドを使用します。たとえば`has_one`と`has_many`では以下を行っています。
+関連付け (association) では、外部キーの名前を推測するときにこのメソッドを使います。たとえば`has_one`と`has_many`では以下を行っています。
 
 ```ruby
 # active_record/associations.rb
@@ -1738,7 +1736,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "2010-07-27 23:37:00".to_datetime # => Tue, 27 Jul 2010 23:37:00 +0000
 ```
 
-`to_time`はオプションで`:utc`や`:local`を引数に取り、タイムゾーンを指定することができます。
+`to_time`はオプションで`:utc`や`:local`を引数に取り、タイムゾーンを指定できます。
 
 ```ruby
 "2010-07-27 23:42:00".to_time(:utc)   # => 2010-07-27 23:42:00 UTC
@@ -1747,7 +1745,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 
 デフォルトは`:local`です。
 
-詳細については`Date._parse`のドキュメントを参照してください。
+詳しくは`Date._parse`のドキュメントを参照してください。
 
 INFO: 3つのメソッドはいずれも、レシーバが空の場合は`nil`を返します。
 
@@ -1770,7 +1768,7 @@ petabytes
 exabytes
 ```
 
-これらのメソッドは、対応するバイト数を返すときに1024の倍数を使用します。
+これらのメソッドは、対応するバイト数を返すときに1024の倍数を使います。
 
 ```ruby
 2.kilobytes   # => 2048
@@ -1789,9 +1787,9 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/numeric/bytes.rb`�
 
 ### Time
 
-たとえば`45.minutes + 2.hours + 4.weeks`のように時間の計算や宣言を行なうことができます。
+たとえば`45.minutes + 2.hours + 4.weeks`のように時間の計算や宣言を行なえます。
 
-これらのメソッドでは、from_nowやagoなどを使用したり、またはTimeオブジェクトから得た結果の加減算を行なう際に、Time#advanceを使用して正確な日付計算を行っています。以下に例を示します。
+これらのメソッドでは正確な日付計算のために`Time#advance`を利用しています。`Time#advance`は、`from_now`や`ago`などの他に、`Time`オブジェクトから得た結果の加減算でも使われています。以下に例を示します。
 
 ```ruby
 # Time.current.advance(months: 1) と等価
@@ -1804,11 +1802,11 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/numeric/bytes.rb`�
 (4.months + 5.weeks).from_now
 ```
 
-WARNING. 上記以外の期間については、`Integer`の`Time`拡張を参照してください。
+WARNING: 上記以外の期間については、`Integer`の`Time`拡張を参照してください。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/numeric/time.rb`です。
 
-### フォーマッティング
+### 書式設定
 
 数値はさまざまな方法でフォーマットできます。
 
@@ -1928,7 +1926,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/integer/inflections
 
 ### `ordinalize`
 
-`ordinalize`メソッドは、レシーバの整数に、対応する序数文字列を追加したものをかえします。先に紹介した`ordinal`メソッドは、序数文字列 **だけ** を返す点が異なることにご注意ください。
+`ordinalize`メソッドは、レシーバの整数に、対応する序数文字列を追加したものをかえします。先に紹介した`ordinal`メソッドは、序数文字列**だけ**を返す点が異なることにご注意ください。
 
 ```ruby
 1.ordinalize    # => "1st"
@@ -1945,7 +1943,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/integer/inflections
 
 `4.months + 5.years`のような形式での時間の計算や宣言を行えるようにします。
 
-これらのメソッドでは、`from_now`/`ago`などや、`Time`オブジェクトから得た結果の加減算を使うときに`Time#advance`を用いて正確な日付計算を行います。次の例をご覧ください。
+これらのメソッドでは正確な日付計算のために`Time#advance`を利用しています。`Time#advance`は、`from_now`や`ago`などの他に、`Time`オブジェクトから得た結果の加減算でも使われています。以下に例を示します。
 
 ```ruby
 # Time.current.advance(months: 1)と同等
@@ -1958,7 +1956,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/integer/inflections
 (4.months + 5.years).from_now
 ```
 
-WARNING. 上記以外の期間については、`Numeric`の`Time`拡張を参照してください。
+WARNING: 上記以外の期間については、`Numeric`の`Time`拡張を参照してください。
 
 NOTE: 定義ファイルの場所は `active_support/core_ext/integer/time.rb`です。
 
@@ -1966,22 +1964,22 @@ NOTE: 定義ファイルの場所は `active_support/core_ext/integer/time.rb`�
 --------------------------
 ### `to_s`
 
-`to_s`メソッドは「F」のデフォルトの記法を提供します。これは、`to_s`を単に呼び出すと、エンジニアリング向け記法ではなく浮動小数点を得られるということです。
+`to_s`メソッドは「F」のデフォルトの記法を提供します。これは、`to_s`を単に呼び出すと、エンジニアリング記法ではなく浮動小数点を得られるということです。
 
 ```ruby
-BigDecimal.new(5.00, 6).to_s(:db)  # => "5.0"
+BigDecimal(5.00, 6).to_s       # => "5.0"
 ```
 
-また、シンボルを使用した指定部もサポートされます。
+また、シンボルによる指定もサポートされます。
 
 ```ruby
-BigDecimal.new(5.00, 6).to_s("e")  # => "0.5E1"
+BigDecimal(5.00, 6).to_s(:db)  # => "5.0"
 ```
 
 エンジニアリング記法も従来通りサポートされます。
 
 ```ruby
-BigDecimal.new(5.00, 6).to_formatted_s("e")  # => "0.5E1"
+BigDecimal(5.00, 6).to_s("e")  # => "0.5E1"
 ```
 
 `Enumerable`の拡張
@@ -2011,7 +2009,7 @@ BigDecimal.new(5.00, 6).to_formatted_s("e")  # => "0.5E1"
 [].sum(1) # => 1
 ```
 
-ブロックが与えられた場合、`sum`はイテレータになってコレクションの要素をyieldし、そこから返された値を合計します。
+ブロックが与えられると、`sum`はイテレータになってコレクションの要素を`yield`し、そこから返された値を合計します。
 
 ```ruby
 (1..5).sum {|n| n * 2 } # => 30
@@ -2037,7 +2035,7 @@ invoices.index_by(&:number)
 # => {'2009-032' => <Invoice ...>, '2009-008' => <Invoice ...>, ...}
 ```
 
-WARNING: キーは通常はユニークでなければなりません。異なる要素から同じ値が返されると、そのキーのコレクションは作成されません。返された項目のうち、最後の項目だけが使用されます。
+WARNING: キーは通常は一意でなければなりません。異なる要素から同じ値が返されると、そのキーのコレクションは作成されません。返された項目のうち、最後の項目だけが使われます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`です
 
@@ -2051,7 +2049,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`で�
 <% end %>
 ```
 
-`many?`は、ブロックがオプションとして与えられると、trueを返す要素だけを扱います。
+`many?`は、ブロックがオプションとして与えられると、`true`を返す要素だけを扱います。
 
 ```ruby
 @see_more = videos.many? {|video| video.category == params[:category]}
@@ -2061,7 +2059,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`で�
 
 ### `exclude?`
 
-`exclude?`述語は、与えられたオブジェクトがそのコレクションに属して **いない** かどうかをテストします。`include?`の逆の動作です。
+`exclude?`述語メソッドは、与えられたオブジェクトがそのコレクションに属して**いない**かどうかをテストします。`include?`の逆の動作です。
 
 ```ruby
 to_visit << node if visited.exclude?(node)
@@ -2093,7 +2091,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/enumerable.rb`で�
 `Array`の拡張
 ---------------------
 
-### Accessing
+### 配列へのアクセス
 
 Active Supportには配列のAPIが多数追加されており、配列に容易にアクセスできるようになっています。たとえば`to`メソッドは、配列の冒頭から、渡されたインデックスが示す箇所までの範囲を返します。
 
@@ -2110,7 +2108,7 @@ Active Supportには配列のAPIが多数追加されており、配列に容易
 [].from(0)           # => []
 ```
 
-`second`、`third`、`fourth`、`fifth`は、`second_to_last`や`third_to_last`と同様に、対応する位置の要素を返します (`first`と`last`は元からビルトインされています)。社会の智慧と建設的な姿勢のおかげで、今では`forty_two`も使用できます (訳注: [Rails 2.2 以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください)。
+`second`、`third`、`fourth`、`fifth`は、`second_to_last`や`third_to_last`と同様に、対応する位置の要素を返します (`first`と`last`は元からビルトインされています)。社会の智慧と建設的な姿勢のおかげで、今では`forty_two`も使えます (訳注: [Rails 2.2 以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください)。
 
 ```ruby
 %w(a b c d).third # => "c"
@@ -2145,15 +2143,15 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/prepend_and_a
 
 ### オプションの展開
 
-Rubyでは、メソッドに与えられた最後の引数がハッシュの場合、それが`&block`引数である場合を除いて、ハッシュの波括弧を省略できます。
+Rubyでは、メソッドに与えられた最後の引数がハッシュの場合、ハッシュの波かっこ`{}`を省略できます（引数が`&block`引数である場合を除く）。
 
 ```ruby
 User.exists?(email: params[:email])
 ```
 
-このようなシンタックスシュガーは、多数ある引数が順序に依存することを避け、名前付きパラメータをエミュレートするインターフェイスを提供するためにRailsで多用されています。特に、末尾にオプションのハッシュを置くというのは定番中の定番です。
+このようなシンタックスシュガーは、多数の引数が順序に依存することを避け、名前付きパラメータをエミュレートするインターフェイスを提供するためにRailsで多用されています。特に、末尾にオプションのハッシュを置くというのは定番中の定番です。
 
-しかし、あるメソッドが受け取る引数の数が固定されておらず、メソッド宣言で`*`が使用されていると、そのような波括弧なしのオプションハッシュは、引数の配列の末尾の要素になってしまい、ハッシュとして認識されなくなってしまいます。
+しかし、あるメソッドが受け取る引数の数が固定されておらず、メソッド宣言で`*`が使われていると、そのような波かっこなしのオプションハッシュは引数の配列の末尾の要素になってしまい、ハッシュとして認識されなくなってしまいます。
 
 このような場合、`extract_options!`メソッドは、配列の最後の項目の型をチェックします。それがハッシュの場合、そのハッシュを取り出して返し、それ以外の場合は空のハッシュを返します。
 
@@ -2167,7 +2165,7 @@ def caches_action(*actions)
 end
 ```
 
-このメソッドは、任意の数のアクション名を引数に取ることができ、引数の末尾項目でオプションハッシュを使用できます。`extract_options!`メソッドを使用すると、このオプションハッシュを取り出し、`actions`から取り除くことが簡単かつ明示的に行えます。
+このメソッドは、任意の数のアクション名を引数に取ることができ、引数の末尾項目でオプションハッシュを使えます。`extract_options!`メソッドを使うと、このオプションハッシュの取得と`actions`からの除去を簡単かつ明示的に行えます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/array/extract_options.rb`です。
 
@@ -2186,11 +2184,11 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/extract_optio
 
 このメソッドは3つのオプションを受け付けます。
 
-* `:two_words_connector`: 項目数が2つの場合の接続詞を指定します。デフォルトは" and "です。
-* `:words_connector`: 3つ以上の要素を接続する場合、最後の2つの間以外で使われる接続詞を指定します。デフォルトは", "です。
-* `:last_word_connector`: 3つ以上の要素を接続する場合、最後の2つの要素で使用する接続詞を指定します。デフォルトは", and "です。
+* `:two_words_connector`: 項目数が2つの場合の接続詞を指定します。デフォルトはスペースを含む「 and 」です。
+* `:words_connector`: 3つ以上の要素を接続する場合、最後の2つの間以外で使われる接続詞を指定します。デフォルトはスペースを含む「, 」です。
+* `:last_word_connector`: 3つ以上の要素を接続する場合、最後の2つの要素で使われる接続詞を指定します。デフォルトはスペースを含む「, and 」です。
 
-これらのオプションは標準の方法でローカライズできます。使用するキーは以下のとおりです。
+これらのオプションは標準の方法でローカライズできます。使えるキーは以下のとおりです。
 
 | オプション                 | I18n キー                            |
 | ---------------------- | ----------------------------------- |
@@ -2212,7 +2210,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/conversions.r
 invoice.lines.to_formatted_s(:db) # => "23,567,556,12"
 ```
 
-上の例の整数は、`id`への呼び出しによって取り出されたものと考えられます。
+上の例の整数は、`id`への呼び出しによって取り出されたものとみなされます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/array/conversions.rb`です。
 
@@ -2242,9 +2240,9 @@ Contributor.limit(2).order(:rank).to_xml
 
 実際には、`to_xml`をすべての要素に送り、結果をルートノードの下に集めます。すべての要素が`to_xml`に応答する必要があります。そうでない場合は例外が発生します。
 
-デフォルトでは、ルート要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化(underscored)とダッシュ化(dasherize)を行います。残りの要素も最初の要素と同じ型 (`is_a?`でチェックされます) に属し、ハッシュでないことが前提となっています。上の例で言うと、"contributors"です。
+デフォルトでは、ルート要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化（underscored）とダッシュ化（dasherize）を行います。残りの要素も最初の要素と同じ型 (`is_a?`でチェックされます) に属し、ハッシュでないことが前提となっています。上の例で言うと「contributors」です。
 
-最初の要素と同じ型に属さない要素が1つでもある場合、ルートノードには`objects`が使用されます。
+最初の要素と同じ型に属さない要素が1つでもある場合、ルートノードには`objects`が使われます。
 
 ```ruby
 [Contributor.first, Commit.first].to_xml
@@ -2289,11 +2287,11 @@ Contributor.limit(2).order(:rank).to_xml
 # </objects>
 ```
 
-WARNING: コレクションが空の場合、ルート要素はデフォルトで"nilクラス"になります。ここからわかるように、たとえば上の例でのcontributorsのリストのルート要素は、コレクションがもし空であれば "contributors" ではなく "nilクラス" になってしまうということです。`:root`オプションを使用することで一貫したルート要素を使用することもできます。
+WARNING: コレクションが空の場合、ルート要素はデフォルトで「nilクラス」になります。ここからわかるように、たとえば上の例でのcontributorsのリストのルート要素は、コレクションがもし空であれば「contributors」ではなく「nilクラス」になってしまうということです。`:root`オプションを使って、ルート要素を統一することもできます。
 
-子ノードの名前は、デフォルトではルートノードを単数形にしたものが使用されます。上の例で言うと"contributor"や"object"です。`:children`オプションを使用すると、これらをノード名として設定できます。
+子ノードの名前は、デフォルトではルートノードを単数形にしたものが使われます。上の例で言うと「contributor」や「object」です。`:children`オプションを使うと、これらをノード名として設定できます。
 
-デフォルトのXMLビルダは、`Builder::XmlMarkup`から直接生成されたインスタンスです。`:builder`オブションを使用することで、独自のビルダを構成できます。このメソッドでは`:dasherize`とその同族と同様のオプションが使用できます。それらのオプションはビルダに転送されます。
+デフォルトのXMLビルダは、`Builder::XmlMarkup`から直接生成されたインスタンスです。`:builder`オブションを使って独自のビルダを構成できます。このメソッドでは`:dasherize`やその同族と同様のオプションが利用でき、指定したオプションはビルダに転送されます。
 
 ```ruby
 Contributor.limit(2).order(:rank).to_xml(skip_types: true)
@@ -2319,7 +2317,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/conversions.r
 
 ### ラッピング
 
-`Array.wrap`メソッドは、配列の中にある引数が配列 (または配列のようなもの) になっていない場合に、それらを配列の中にラップします。
+`Array.wrap`メソッドは、配列の中にある引数が配列 (または配列的なもの) になっていない場合に、それらを配列の中にラップします。
 
 特徴:
 
@@ -2346,21 +2344,21 @@ Array.wrap(foo: :bar) # => [{:foo=>:bar}]
 Array(foo: :bar)      # => [[:foo, :bar]]
 ```
 
-この動作は、スプラット演算子を使用する手法にも関連します。
+この動作は、スプラット演算子を用いる手法にも関連します。
 
 ```ruby
 [*object]
 ```
 
-上はRuby 1.8の場合、`nil`に対して`[nil]`を返し、それ以外の場合には`Array(object)`を呼び出します(1.9のcontact機能の正確な動作を理解していることが前提です)。
+上はRuby 1.8の場合、`nil`に対して`[nil]`を返し、それ以外の場合には`Array(object)`を呼び出します（1.9のcontact機能の正確な動作を理解していることが前提です）。
 
-従って、この場合`nil`に対する動作は異なり、上で説明されている`Kernel#Array`についてもこの異なる動作が残りの`object`に適用されます。
+そのため、この場合`nil`に対する動作は異なり、上で説明されている`Kernel#Array`についてもこの異なる動作が残りの`object`に適用されます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/array/wrap.rb`です。
 
 ### 複製
 
-`Array#deep_dup`メソッドは、自分自身を複製すると同時に、その中のすべてのオブジェクトをActive Supportの`Object#deep_dup`メソッドによって再帰的に複製します。この動作は、`Array#map`を使用して`deep_dup`メソッドを内部の各オブジェクトに適用するのと似ています。
+`Array#deep_dup`メソッドは、自分自身を複製すると同時に、その中のすべてのオブジェクトをActive Supportの`Object#deep_dup`メソッドによって再帰的に複製します。この動作は、`Array#map`を用いて`deep_dup`メソッドを内部の各オブジェクトに適用するのと似ています。
 
 ```ruby
 array = [1, [2, 3]]
@@ -2375,13 +2373,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/deep_dup.rb`
 
 #### `in_groups_of(number, fill_with = nil)`
 
-`in_groups_of`メソッドは、指定のサイズで配列を連続したグループに分割します。分割されたグループを内包する配列を1つ返します。
+`in_groups_of`メソッドは、指定のサイズで配列を連続したグループに分割し、分割されたグループを含む配列を1つ返します。
 
 ```ruby
 [1, 2, 3].in_groups_of(2) # => [[1, 2], [3, nil]]
 ```
 
-ブロックが渡された場合はyieldします。
+ブロックが渡された場合は`yield`します。
 
 ```html+erb
 <% sample.in_groups_of(3) do |a, b, c| %>
@@ -2405,20 +2403,20 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/deep_dup.rb`
 [1, 2, 3].in_groups_of(2, false) # => [[1, 2], [3]]
 ```
 
-従って、`false`は空きを埋める値としては使用できません。
+このため、`false`は空きを埋める値としては利用できません。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/array/grouping.rb`です。
 
 #### `in_groups(number, fill_with = nil)`
 
-`in_groups`は、配列を指定の個数のグループに分割します。分割されたグループを内包する配列を1つ返します。
+`in_groups`は、配列を指定の個数のグループに分割し、分割されたグループを含む配列を1つ返します。
 
 ```ruby
 %w(1 2 3 4 5 6 7).in_groups(3)
 # => [["1", "2", "3"], ["4", "5", nil], ["6", "7", nil]]
 ```
 
-ブロックが渡された場合はyieldします。
+ブロックが渡された場合は`yield`します。
 
 ```ruby
 %w(1 2 3 4 5 6 7).in_groups(3) {|group| p group}
@@ -2443,7 +2441,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/grouping.rb`�
 # => [["1", "2", "3"], ["4", "5"], ["6", "7"]]
 ```
 
-従って、`false`は空きを埋める値としては使用できません。
+このため、`false`は空きを埋める値としては利用できません。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/array/grouping.rb`です。
 
@@ -2451,14 +2449,14 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/grouping.rb`�
 
 `split`メソッドは、指定のセパレータで配列を分割し、分割されたチャンクを返します。
 
-ブロックを渡した場合、配列の要素のうちブロックがtrueを返す要素がセパレータとして使用されます。
+ブロックを渡した場合、配列の要素のうち「ブロックが`true`を返す要素」がセパレータとして使われます。
 
 ```ruby
 (-5..5).to_a.split { |i| i.multiple_of?(4) }
 # => [[-5], [-3, -2, -1], [1, 2, 3], [5]]
 ```
 
-ブロックを渡さない場合、引数として受け取った値がセパレータとして使用されます。デフォルトのセパレータは`nil`です。
+ブロックを渡さない場合、引数として受け取った値がセパレータとして使われます。デフォルトのセパレータは`nil`です。
 
 ```ruby
 [0, 1, -5, 1, 1, "foo", "bar"].split(1)
@@ -2488,17 +2486,17 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/array/grouping.rb`�
 # </hash>
 ```
 
-具体的には、このメソッドは与えられたペアから _値_ に応じてノードを作成します。キーと値のペアが与えられたとき、以下のように動作します。
+具体的には、このメソッドは与えられたペアから**値**に応じてノードを作成します。キーと値のペアが与えられたとき、以下のように動作します。
 
 * 値がハッシュのとき、キーを`:root`として再帰的な呼び出しを行います。
 
-* 値が配列の場合、キーを`:root`に、キーを単数形化 (singularize) したものを`:children`に指定して再帰的な呼び出しを行います。
+* 値が配列の場合、キーを`:root`に、キーを単数形化（singularize）したものを`:children`に指定して再帰的な呼び出しを行います。
 
-* 値が呼び出し可能な (callable) オブジェクトの場合、引数が1つまたは2つ必要です。引数の数に応じて (arityメソッドで確認)、呼び出し可能オブジェクトを呼び出します。第1引数には`:root`にキーを指定したもの、第2引数にはキーを単数形化したものが使用されます。戻り値は新しいノードです。
+* 値が呼び出し可能な（callable）オブジェクトの場合、引数が1つまたは2つ必要です。引数の数に応じて (arityメソッドで確認)、呼び出し可能オブジェクトを呼び出します。第1引数には`:root`にキーを指定したもの、第2引数にはキーを単数形化したものが使われます。戻り値は新しいノードです。
 
 * `value`が`to_xml`メソッドに応答する場合、`:root`にキーが指定されます。
 
-* その他の場合、`key`を持ち、ノードがタグとして作成されます。そのノードには`value`を文字列形式にしたものがテキストノードとして追加されます。`value`が`nil`の場合、"nil"属性が"true"に設定されたものが追加されます。`:skip_types`オプションがtrueでない (または`:skip_types`オプションがない) 場合、以下のようなマッピングで"type"属性も追加されます。
+* その他の場合、`key`を持ち、ノードがタグとして作成されます。そのノードには`value`を文字列形式にしたものがテキストノードとして追加されます。`value`が`nil`の場合、"nil"属性が"true"に設定されたものが追加されます。`:skip_types`オプションが`true`でない (または`:skip_types`オプションがない) 場合、「type」属性も以下のマッピングで追加されます。
 
 ```ruby
 XML_TYPE_NAMES = {
@@ -2515,9 +2513,9 @@ XML_TYPE_NAMES = {
 }
 ```
 
-デフォルトではルートノードは"hash"ですが、`:root`オプションを使用してカスタマイズできます。
+ルートノードはデフォルトでは「hash」ですが、`:root`オプションでカスタマイズできます。
 
-デフォルトのXMLビルダは、`Builder::XmlMarkup`から直接生成されたインスタンスです。`:builder`オブションを使用することで、独自のビルダを構成できます。このメソッドでは`:dasherize`とその同族と同様のオプションが使用できます。それらのオプションはビルダに転送されます。
+デフォルトのXMLビルダは、`Builder::XmlMarkup`から直接生成されたインスタンスです。`:builder`オブションで独自のビルダを構成できます。このメソッドでは`:dasherize`とその同族と同様のオプションが利用でき、指定したオプションはビルダに転送されます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/hash/conversions.rb`です。
 
@@ -2534,7 +2532,7 @@ Active Supportでは、この他にも便利なハッシュのマージをいく
 
 #### `reverse_merge`と`reverse_merge!`
 
-キーが衝突した場合、引数のハッシュのキーが`merge`では優先されます。以下のような定形の手法を使用することで、デフォルト値を持つオプションハッシュをコンパクトにサポートできます。
+`merge`でキーが衝突した場合、引数のハッシュのキーが優先されます。以下のような定形の手法を利用すれば、デフォルト値付きオプションハッシュを簡潔に書けます。
 
 ```ruby
 options = {length: 30, omission: "..."}.merge(options)
@@ -2568,7 +2566,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/reverse_merge.
 
 先の例で説明したとおり、キーがレシーバと引数で重複している場合、引数の側の値が優先されます。
 
-Active Supportでは`Hash#deep_merge`が定義されています。ディープマージでは、レシーバと引数の両方に同じキーが出現し、さらにどちらも値がハッシュである場合に、その下位のハッシュを _マージ_ したものが、最終的なハッシュで値として使用されます。
+Active Supportでは`Hash#deep_merge`が定義されています。ディープマージでは、レシーバと引数の両方に同じキーが出現し、さらにどちらも値がハッシュである場合に、その下位のハッシュを**マージ**したものが、最終的なハッシュの値として使われます。
 
 ```ruby
 {a: {b: 1}}.deep_merge(a: {c: 2})
@@ -2581,7 +2579,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/deep_merge.rb`
 
 ### ディープ複製
 
-`Hash#deep_dup`メソッドは、自分自身の複製に加えて その中のすべてのキーと値を再帰的に複製します。複製にはActive Supportの`Object#deep_dup`メソッドを使用しています。この動作は、`Enumerator#each_with_object`を使用して下位のすべてのオブジェクトに`deep_dup`を送信するのと似ています。
+`Hash#deep_dup`メソッドは、自分自身の複製に加えて その中のすべてのキーと値を再帰的に複製します。複製にはActive Supportの`Object#deep_dup`メソッドが使われます。この動作は、`Enumerator#each_with_object`を用いて`deep_dup`を内部の各キーバリューペアに送信するのと似ています。
 
 ```ruby
 hash = { a: 1, b: { c: 2, d: [3, 4] } }
@@ -2606,7 +2604,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/object/deep_dup.rb`
 {a: 1, b: 2}.except(:a) # => {:b=>2}
 ```
 
-レシーバが`convert_key`に応答する場合、このメソッドはすべての引数に対して呼び出されます。そのおかげで、`except`メソッドはたとえばwith_indifferent_accessなどで期待どおりに動作します。
+レシーバが`convert_key`に応答する場合、このメソッドはすべての引数に対して呼び出されます。そのおかげで、たとえばハッシュの`with_indifferent_access`で`except`メソッドが期待どおりに動作します。
 
 ```ruby
 {a: 1}.with_indifferent_access.except(:a)  # => {}
@@ -2636,7 +2634,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/except.rb`で�
 # => {"A"=>1}
 ```
 
-このメソッドは、特殊な変換を行いたい場合に便利なことがあります。たとえば、`stringify_keys`と`symbolize_keys`では、キーの変換に`transform_keys`を使用しています。
+このメソッドは、特殊な変換を行いたい場合に便利なことがあります。たとえば、`stringify_keys`と`symbolize_keys`では、キーの変換に`transform_keys`を利用しています。
 
 ```ruby
 def stringify_keys
@@ -2650,7 +2648,7 @@ end
 
 レシーバ自体のキーに対して破壊的なブロック操作を適用する`transform_keys!`メソッドもあります。
 
-また、`deep_transform_keys`や`deep_transform_keys!`を使用して、与えられたハッシュのすべてのキーと、その中にネストされているすべてのハッシュに対してブロック操作を適用することもできます。以下に例を示します。
+また、`deep_transform_keys`や`deep_transform_keys!`を使って、与えられたハッシュのすべてのキーと、その中にネストされているすべてのハッシュに対してブロック操作を適用することもできます。以下に例を示します。
 
 ```ruby
 {nil => nil, 1 => 1, nested: {a: 3, 5 => 5}}.deep_transform_keys { |key| key.to_s.upcase }
@@ -2688,11 +2686,11 @@ def to_check_box_tag(options = {}, checked_value = "1", unchecked_value = "0")
 end
 ```
 
-stringify_keysメソッドのおかげで、2行目で"type"キーに安全にアクセスできます。メソッドの利用者は、`:type`のようなシンボルと"type"のような文字列のどちらでも使用できます。
+`stringify_keys`メソッドのおかげで、2行目で「type」キーに安全にアクセスできます。`:type`のようなシンボルでも「"type"」のような文字列でも指定できます。
 
 レシーバーのキーを直接文字列化する破壊的な`stringify_keys!`もあります。
 
-また、`deep_stringify_keys`や`deep_stringify_keys!`を使用して、与えられたハッシュのすべてのキーを文字列化し、その中にネストされているすべてのハッシュのキーも文字列化することもできます。以下に例を示します。
+また、`deep_stringify_keys`や`deep_stringify_keys!`を使うと、与えられたハッシュのすべてのキーを文字列化し、その中にネストされているすべてのハッシュのキーを文字列化することもできます。以下に例を示します。
 
 ```ruby
 {nil => nil, 1 => 1, nested: {a: 3, 5 => 5}}.deep_stringify_keys
@@ -2710,7 +2708,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/keys.rb`です
 # => {nil=>nil, 1=>1, :a=>"a"}
 ```
 
-WARNING: 上の例では、3つのキーのうち最後の1つしかシンボルに変換されていないことにご注意ください。数字とnilはシンボルになりません。
+WARNING: 上の例では、3つのキーのうち最後の1つしかシンボルに変換されていないことにご注意ください。数字や`nil`はシンボルに変換されません。
 
 キーが重複している場合、いずれかの値が優先されます。優先される値は、同じハッシュが与えられた場合であっても一定する保証はありません。
 
@@ -2732,11 +2730,11 @@ def rewrite_path(options)
 end
 ```
 
-symbolize_keysメソッドのおかげで、2行目で`:params`キーに安全にアクセスできています。メソッドの利用者は、`:params`のようなシンボルと"params"のような文字列のどちらでも使用できます。
+`symbolize_keys`メソッドのおかげで、2行目で`:params`キーに安全にアクセスできています。`:params`のようなシンボルでも「"params"」のような文字列でも指定できます。
 
 レシーバーのキーを直接シンボルに変換する破壊的な`symbolize_keys!`もあります。
 
-また、`deep_symbolize_keys`や`deep_symbolize_keys!`を使用して、与えられたハッシュのすべてのキーと、その中にネストされているすべてのハッシュのキーをシンボルに変換することもできます。以下に例を示します。
+また、`deep_symbolize_keys`や`deep_symbolize_keys!`を使うと、与えられたハッシュのすべてのキーと、その中にネストされているすべてのハッシュのキーをシンボルに変換することもできます。以下に例を示します。
 
 ```ruby
 {nil => nil, 1 => 1, "nested" => {"a" => 3, 5 => 5}}.deep_symbolize_keys
@@ -2760,7 +2758,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/keys.rb`です
 {a: 1}.assert_valid_keys("a") # ArgumentError
 ```
 
-Active Recordは、たとえば関連付けが行われている場合に未知のオプションを受け付けません。このメソッドでは、`assert_valid_keys`を使用した制御を実装しています。
+たとえばActive Recordは、関連付けをビルドするときに未知のオプションを受け付けません。Active Recordは`assert_valid_keys`による制御を実装しています。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/hash/keys.rb`です。
 
@@ -2780,7 +2778,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/transform_valu
 
 ### スライス
 
-Rubyには、文字列や配列をスライスして一部を取り出すビルトインのメソッドをサポートしています。Active Supportでは、スライス操作をハッシュに対して拡張しています。
+Rubyは、文字列や配列をスライスして一部を取り出す組み込みメソッドをサポートしています。Active Supportでは、スライス操作をハッシュに対して拡張しています。
 
 ```ruby
 {a: 1, b: 2, c: 3}.slice(:a, :c)
@@ -2797,7 +2795,7 @@ Rubyには、文字列や配列をスライスして一部を取り出すビル�
 # => {:a=>1}
 ```
 
-NOTE: スライス処理は、キーのホワイトリストを使用してオプションハッシュをサニタイズするのに便利です。
+NOTE: スライス処理は、キーのホワイトリストを用いてオプションハッシュをサニタイズするのに便利です。
 
 破壊的なスライス操作を行なう`slice!`メソッドもあります。戻り値は、取り除かれた要素です。
 
@@ -2829,7 +2827,7 @@ rest = hash.extract!(:a).class
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/hash/slice.rb`です。
 
-### ハッシュキーがシンボルでも文字列でも同様に扱う (indifferent access)
+### ハッシュキーがシンボルでも文字列でも同様に扱う（indifferent access）
 
 `with_indifferent_access`メソッドは、レシーバに対して`ActiveSupport::HashWithIndifferentAccess`を実行した結果を返します。
 
@@ -2854,17 +2852,17 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/hash/compact.rb`で
 
 ### `multiline?`
 
-`multiline?`メソッドは、正規表現に`/m`フラグが設定されているかどうかをチェックします。このフラグが設定されていると、ドット (.) が改行にマッチし、複数行を扱えるようになります。
+`multiline?`メソッドは、正規表現に`/m`フラグが設定されているかどうかをチェックします。このフラグが設定されていると、ドット（`.`）が改行にマッチし、複数行を扱えるようになります。
 
 ```ruby
-%r{.}.multiline? # => false
+%r{.}.multiline?  # => false
 %r{.}m.multiline? # => true
 
 Regexp.new('.').multiline?                    # => false
 Regexp.new('.', Regexp::MULTILINE).multiline? # => true
 ```
 
-Railsはこのメソッドをある場所で使用しており、ルーティングコードでも使用しています。ルーティングでは正規表現で複数行を扱うことを許していないので、このフラグを使用して制限を加えています。
+Railsはこのメソッドをある場所で利用しており、ルーティングコードでも利用しています。ルーティングでは正規表現で複数行を扱うことを許していないので、このフラグで制限を加えています。
 
 ```ruby
 def assign_route_options(segments, defaults, requirements)
@@ -2907,7 +2905,7 @@ Active Supportは`Range#to_s`メソッドを拡張してフォーマット引数
 # => "BETWEEN '2009-10-25' AND '2009-10-26'"
 ```
 
-上の例でもわかるように、フォーマットに`:db`を指定するとSQLの`BETWEEN`句が生成されます。このフォーマットは、Active Recordで条件の値の範囲をサポートするときに使用されています。
+上の例でもわかるように、フォーマットに`:db`を指定するとSQLの`BETWEEN`句が生成されます。このフォーマットは、Active Recordで条件の値の範囲をサポートするときに使われます。
 
 NOTE: 定義ファイルの場所は`active_support/core_ext/range/conversions.rb`です。
 
@@ -2937,7 +2935,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/range/include_range
 
 ### `overlaps?`
 
-`Range#overlaps?`メソッドは、与えられた2つの範囲に(空白でない)重なりがあるかどうかをチェックします。
+`Range#overlaps?`メソッドは、与えられた2つの範囲に（空白でない）重なりがあるかどうかをチェックします。
 
 ```ruby
 (1..10).overlaps?(7..11)  # => true
@@ -2980,13 +2978,13 @@ on_weekday?
 on_weekend?
 ```
 
-INFO: 以下の計算方法の一部では1582年10月を極端な例として使用しています。この月にユリウス暦からグレゴリオ暦への切り替えが行われたため、10月5日から10月14日までが存在しません。本ガイドはこの特殊な月について長々と解説することはしませんが、メソッドがこの月でも期待どおりに動作することについては説明しておきたいと思います。具体的には、たとえば`Date.new(1582, 10, 4).tomorrow`を実行すると`Date.new(1582, 10, 15)`が返されます。期待どおりに動作することは、Active Supportの`test/core_ext/date_ext_test.rb`用のテストスイートで確認できます。
+INFO: 以下の計算方法の一部では1582年10月をエッジケースとして用いています。この月にユリウス暦からグレゴリオ暦への切り替えが行われたため、10月5日から10月14日までが存在しません。本ガイドはこの「特殊な月」について長々と解説することはしませんが、メソッドがこの月でも期待どおりに動作することについては説明しておきたいと思います。具体的には、たとえば`Date.new(1582, 10, 4).tomorrow`を実行すると`Date.new(1582, 10, 15)`が返されます。期待どおりに動作することは、Active Supportの`test/core_ext/date_ext_test.rb`用のテストスイートで確認できます。
 
 #### `Date.current`
 
-Active Supportでは、`Date.current`を定義して現在のタイムゾーンにおける「今日」を定めています。このメソッドは`Date.today`と似ていますが、ユーザー定義のタイムゾーンがある場合にそれを考慮する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`、`today?`、`future?`、`on_weekday?`、`on_weekend?`を使用でき、これらはすべて`Date.current`を起点として導かれます。
+Active Supportでは、`Date.current`を定義して現在のタイムゾーンにおける「今日」を定めています。このメソッドは`Date.today`と似ていますが、ユーザー定義のタイムゾーンがある場合にそれを考慮する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`、`today?`、`future?`、`on_weekday?`、`on_weekend?`を利用でき、これらはすべて`Date.current`を起点として導かれます。
 
-ユーザー定義のタイムゾーンを考慮するメソッドを使用して日付を比較したい場合、`Date.today`ではなく必ず`Date.current`を使用してください。将来、ユーザー定義のタイムゾーンがシステムのタイムゾーンと比較されることがありえます。システムのタイムゾーンではデフォルトで`Date.today`が使用されます。つまり、`Date.today`が`Date.yesterday`と等しくなることがありえるということです。
+ユーザー定義のタイムゾーンを考慮するメソッドを用いて日付を比較したい場合、`Date.today`ではなく必ず`Date.current`を使ってください。将来、ユーザー定義のタイムゾーンがシステムのタイムゾーンと比較されることがありえます。システムのタイムゾーンではデフォルトで`Date.today`が使われます。つまり、`Date.today`が`Date.yesterday`と等しくなることがありえるということです。
 
 #### 名前付き日付
 
@@ -3006,7 +3004,7 @@ d.end_of_week(:sunday)       # => Sat, 08 May 2010
 
 ##### `monday`、`sunday`
 
-`monday`メソッドと`sunday`メソッドは、それぞれ前の月曜、次の日曜をそれぞれ返します。
+`monday`メソッドはその日の「前の月曜（の日付）」を、`sunday`メソッドはその日の「次の日曜（の日付）」をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 8)     # => Sat, 08 May 2010
@@ -3044,7 +3042,7 @@ d.prev_week(:friday)     # => Fri, 30 Apr 2010
 
 ##### `beginning_of_month`、`end_of_month`
 
-`beginning_of_month`メソッドと`end_of_month`メソッドは、それぞれ月の最初の日付と月の最後の日付を返します。
+`beginning_of_month`メソッドはその月の「最初の日」、`end_of_month`メソッドはその月の「最後の日」をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 9) # => Sun, 09 May 2010
@@ -3056,7 +3054,7 @@ d.end_of_month           # => Mon, 31 May 2010
 
 ##### `beginning_of_quarter`、`end_of_quarter`
 
-`beginning_of_quarter`メソッドと`end_of_quarter`メソッドは、レシーバのカレンダーの年における四半期の最初の日と最後の日をそれぞれ返します。
+`beginning_of_quarter`メソッドと`end_of_quarter`メソッドは、レシーバのカレンダーの年における四半期の「最初の日」と「最後の日」をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 9) # => Sun, 09 May 2010
@@ -3068,7 +3066,7 @@ d.end_of_quarter         # => Wed, 30 Jun 2010
 
 ##### `beginning_of_year`、`end_of_year`
 
-`beginning_of_year`メソッドと`end_of_year`メソッドは、その年の最初の日と最後の日をそれぞれ返します。
+`beginning_of_year`メソッドと`end_of_year`メソッドは、その年の「最初の日」と「最後の日」をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 9) # => Sun, 09 May 2010
@@ -3114,7 +3112,7 @@ Date.new(2010, 4, 30).months_ago(2)   # => Sun, 28 Feb 2010
 Date.new(2010, 4, 30).months_since(2) # => Wed, 30 Jun 2010
 ```
 
-同じ日が行き先の月にない場合、その月の最後の日が返されます。
+対象の月に同じ日がない場合は、その月の最後の日が返されます。
 
 ```ruby
 Date.new(2010, 4, 30).months_ago(2)    # => Sun, 28 Feb 2010
@@ -3134,7 +3132,7 @@ Date.new(2010, 5, 24).weeks_ago(2)    # => Mon, 10 May 2010
 
 ##### `advance`
 
-日付を移動する最も一般的な方法は`advance`メソッドを使用することです。このメソッドは`:years`、`:months`、`:weeks`、`:days`をキーに持つハッシュを受け取り、日付をできるだけ詳細な形式で、現在のキーで示されるとおりに返します。
+`advance`メソッドは、日付を移動する最も一般的な方法です。このメソッドは`:years`、`:months`、`:weeks`、`:days`をキーに持つハッシュを受け取り、日付をできるだけ詳細な形式で、現在のキーで示されるとおりに返します。
 
 ```ruby
 date = Date.new(2010, 6, 6)
@@ -3176,7 +3174,7 @@ Date.new(2010, 1, 31).change(month: 2)
 # => ArgumentError: invalid date
 ```
 
-#### 期間
+#### 期間（duration）
 
 日付に対して期間を加減算できます。
 
@@ -3198,7 +3196,7 @@ Date.new(1582, 10, 4) + 1.day
 
 #### タイムスタンプ
 
-INFO: 以下のメソッドは可能であれば`Time`オブジェクトを返し、それ以外の場合は`DateTime`を返します。ユーザーのタイムゾーンを設定しておけば配慮されます。
+INFO: 以下のメソッドは可能であれば`Time`オブジェクトを返し、それ以外の場合は`DateTime`を返します。ユーザーのタイムゾーンが設定されていればそれも加味されます。
 
 ##### `beginning_of_day`、`end_of_day`
 
@@ -3287,7 +3285,7 @@ NOTE: これらはすべて同じ定義ファイル`active_support/core_ext/date
 
 `DateTime`クラスは`Date`のサブクラスであり、`active_support/core_ext/date/calculations.rb`を読み込むことでこれらのメソッドと別名を継承することができます。ただしこれらは常にdatetimesを返す点が異なります。
 
-以下のメソッドはすべて再実装されるため、これらを使用するために`active_support/core_ext/date/calculations.rb`を読み込む必要は **ありません** 。
+以下のメソッドはすべて再実装されるため、これらを用いるために`active_support/core_ext/date/calculations.rb`を読み込む必要は **ありません** 。
 
 ```ruby
 beginning_of_day (midnight, at_midnight, at_beginning_of_day)
@@ -3296,9 +3294,9 @@ ago
 since (in)
 ```
 
-他方、`advance`と`change`も定義されていますがこれらはさらに多くのオプションをサポートしています。これらについては後述します。
+他方、`advance`と`change`も定義されていて、さらに多くのオプションをサポートしています。これらについては後述します。
 
-以下のメソッドは`active_support/core_ext/date_time/calculations.rb`にのみ実装されています。これらは`DateTime`インスタンスに対して使用しないと意味がないためです。
+以下のメソッドは`active_support/core_ext/date_time/calculations.rb`にのみ実装されています。これらは`DateTime`インスタンスに対して使わないと意味がないためです。
 
 ```ruby
 beginning_of_hour (at_beginning_of_hour)
@@ -3309,7 +3307,7 @@ end_of_hour
 
 ##### `DateTime.current`
 
-Active Supportでは、`DateTime.current`を`Time.now.to_datetime`と同様に定義しています。ただし、`DateTime.current`はユーザータイムゾーンが定義されている場合に対応する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`と`future?`を使用でき、これらは`Date.current`を起点として導かれます。
+Active Supportでは、`DateTime.current`を`Time.now.to_datetime`と同様に定義しています。ただし、`DateTime.current`はユーザータイムゾーンが定義されている場合に対応する点が異なります。Active Supportでは`Date.yesterday`メソッドと`Date.tomorrow`も定義しています。インスタンスでは`past?`と`future?`を利用でき、これらは`Date.current`を起点として導かれます。
 
 #### その他の拡張
 
@@ -3335,7 +3333,7 @@ now.utc                # => Mon, 07 Jun 2010 23:27:52 +0000
 
 ##### `utc?`
 
-`utc?`述語は、レシーバがそのタイムゾーンに合ったUTC時刻を持っているかどうかをチェックします。
+`utc?`述語メソッドは、レシーバがそのタイムゾーンに合ったUTC時刻を持っているかどうかをチェックします。
 
 ```ruby
 now = DateTime.now # => Mon, 07 Jun 2010 19:30:47 -0400
@@ -3345,7 +3343,7 @@ now.utc.utc?      # => true
 
 ##### `advance`
 
-日時を移動する最も一般的な方法は`advance`メソッドを使用することです。このメソッドは`:years`、`:months`、`:weeks`、`:days`、`:hours`、`:minutes`および`:seconds`をキーに持つハッシュを受け取り、日時をできるだけ詳細な形式で、現在のキーで示されるとおりに返します。
+`advance`メソッドは、日時を移動する最も一般的な方法です。このメソッドは`:years`、`:months`、`:weeks`、`:days`、`:hours`、`:minutes`および`:seconds`をキーに持つハッシュを受け取り、日時をできるだけ詳細な形式で、現在のキーで示されるとおりに返します。
 
 ```ruby
 d = DateTime.current
@@ -3376,7 +3374,7 @@ WARNING: `DateTime`は夏時間 (DST) を考慮しません。算出された時
 
 #### 要素の変更
 
-`change`メソッドを使用して、レシーバの日時の一部の要素だけを更新した新しい日時を得ることができます。変更する要素としては、`:year`、`:month`、`:day`、`:hour`、`:min`、`:sec`、`:offset`、`:start`などが指定できます。
+`change`メソッドを使うと、レシーバの日時の一部の要素だけを更新した新しい日時を得られます。変更する要素として、`:year`、`:month`、`:day`、`:hour`、`:min`、`:sec`、`:offset`、`:start`などを指定できます。
 
 ```ruby
 now = DateTime.current
@@ -3406,7 +3404,7 @@ DateTime.current.change(month: 2, day: 30)
 # => ArgumentError: invalid date
 ```
 
-#### 期間
+#### 期間（duration）
 
 日時に対して期間を加減算できます。
 
@@ -3463,7 +3461,7 @@ beginning_of_month (at_beginning_of_month)
 end_of_month (at_end_of_month)
 prev_month
 next_month
-last_manth
+last_month
 beginning_of_quarter (at_beginning_of_quarter)
 end_of_quarter (at_end_of_quarter)
 beginning_of_year (at_beginning_of_year)
@@ -3499,11 +3497,11 @@ t.advance(seconds: 1)
 
 Active Supportでは、`Time.current`を定義して現在のタイムゾーンにおける「今日」を定めています。このメソッドは`Time.now`と似ていますが、ユーザー定義のタイムゾーンがある場合にそれを考慮する点が異なります。Active Supportでは`past?`、`today?`、`future?`を示すインスタンス述語も定義されており、これらはすべてこの`Time.current`を起点にしています。
 
-ユーザー定義のタイムゾーンを考慮するメソッドを使用して日付を比較したい場合、`Time.now`ではなく必ず`Time.current`を使用してください。将来、ユーザー定義のタイムゾーンがシステムのタイムゾーンと比較されることがありえます。システムのタイムゾーンではデフォルトで`Time#now`が使用されます。つまり、`Time.now`が`Time.currentyesterday`と等しくなることがありえるということです。
+ユーザー定義のタイムゾーンを考慮するメソッドを用いて日付を比較したい場合、`Time.now`ではなく必ず`Time.current`を使ってください。将来、ユーザー定義のタイムゾーンがシステムのタイムゾーンと比較されることがありえます。システムのタイムゾーンではデフォルトで`Time#now`が使われます。つまり、`Time.now`が`Time.currentyesterday`と等しくなることがありえるということです。
 
 #### `all_day`、`all_week`、`all_month`、`all_quarter`、`all_year`
 
-`all_day`メソッドは、現在時刻を含むその日一日を表す範囲を返します。
+`all_day`メソッドは、現在時刻を含む「その日一日」を表す範囲を返します。
 
 ```ruby
 now = Time.current
@@ -3529,9 +3527,9 @@ now.all_year
 # => Fri, 01 Jan 2010 00:00:00 UTC +00:00..Fri, 31 Dec 2010 23:59:59 UTC +00:00
 ```
 
-#### `prev_day`, `next_day`
+#### `prev_day`、`next_day`
 
-Ruby 1.9の`prev_day`や`next_day`は、前日または翌日の日付を返します。
+Ruby 1.9の`prev_day`や`next_day`は、その日の「前日」または「翌日」の日付をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
@@ -3539,9 +3537,9 @@ d.prev_day               # => Fri, 07 May 2010
 d.next_day               # => Sun, 09 May 2010
 ```
 
-#### `prev_month`, `next_month`
+#### `prev_month`、`next_month`
 
-Ruby 1.9の`prev_month`や`next_month`は、前月または翌月の同じ日の日付を返します。
+Ruby 1.9の`prev_month`や`next_month`は、「前月」または「翌月」の同じ日の日付をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
@@ -3558,9 +3556,9 @@ Date.new(2000, 5, 31).next_month # => Fri, 30 Jun 2000
 Date.new(2000, 1, 31).next_month # => Tue, 29 Feb 2000
 ```
 
-#### `prev_year`, `next_year`
+#### `prev_year`、`next_year`
 
-Ruby 1.9の`prev_year`や`next_year`は、前年または翌年の同じ月日の日付を返します。
+Ruby 1.9の`prev_year`や`next_year`は、「前年」または「翌年」の同じ月日の日付をそれぞれ返します。
 
 ```ruby
 d = Date.new(2010, 5, 8) # => Sat, 08 May 2010
@@ -3576,9 +3574,9 @@ d.prev_year               # => Sun, 28 Feb 1999
 d.next_year               # => Wed, 28 Feb 2001
 ```
 
-#### `prev_quarter`, `next_quarter`
+#### `prev_quarter`、`next_quarter`
 
-`prev_quarter`や`next_quarter`は、前四半期または翌四半期の同じ日の日付を返します。
+`prev_quarter`や`next_quarter`は、「前四半期」または「翌四半期」の同じ日の日付をそれぞれ返します。
 
 ```ruby
 t = Time.local(2010, 5, 8) # => 2010-05-08 00:00:00 +0300
@@ -3612,7 +3610,7 @@ Time.current
 
 構成される時間が、実行プラットフォームの`Time`でサポートされる範囲を超えている場合は、usecは破棄され、`DateTime`オブジェクトが代りに返されます。
 
-#### 期間
+#### 期間（duration）
 
 Timeオブジェクトに対して期間を加減算できます。
 
@@ -3637,11 +3635,11 @@ Time.utc(1582, 10, 3) + 5.days
 
 ### `atomic_write`
 
-`File.atomic_write`クラスメソッドを使用すると、書きかけの文章を誰にも読まれないようにファイルを保存することができます。
+`File.atomic_write`クラスメソッドを使うと、書きかけの文章を誰にも読まれないようにファイルを保存できます。
 
 このメソッドにファイル名を引数として渡すと、書き込み用にオープンされたファイルハンドルを生成します。ブロックが完了すると、`atomic_write`はファイルハンドルをクローズして処理を完了します。
 
-Action Packは、このメソッドを利用して`all.css`などのキャッシュファイルへの書き込みを行ったりしています。
+Action Packは、このメソッドを利用して`all.css`などのキャッシュファイルへの書き込みを行ないます。
 
 ```ruby
 File.atomic_write(joined_asset_path) do |cache|
@@ -3649,7 +3647,7 @@ File.atomic_write(joined_asset_path) do |cache|
 end
 ```
 
-`atomic_write`は、処理を完了するために一時的なファイルを作成します。ブロック内のコードが実際に書き込むのはこのファイルです。完了時にはこの一時ファイルはリネームされます。リネームは、POSIXシステムのアトミック操作に基いて行われます。書き込み対象ファイルが既に存在する場合、`atomic_write`はそれを上書きしてオーナーとパーミッションを保持します。ただし、`atomic_write`メソッドがファイルのオーナーシップとパーミッションを変更できないケースがまれにあります。このエラーはキャッチされ、そのファイルがそれを必要とするプロセスからアクセスできるようにするために、ユーザーのファイルシステムへの信頼をスキップします。
+`atomic_write`は、処理を完了するために一時的なファイルを作成します。ブロック内のコードが実際に書き込むのはこのファイルです。この一時ファイルは完了時にリネームされます。リネームは、POSIXシステムのアトミック操作に基いて行われます。書き込み対象ファイルが既に存在する場合、`atomic_write`はそれを上書きしてオーナーとパーミッションを保持します。ただし、`atomic_write`メソッドがファイルのオーナーシップとパーミッションを変更できないケースがまれにあります。このエラーはキャッチされ、そのファイルがそれを必要とするプロセスからアクセスできるようにするために、ユーザーのファイルシステムへの信頼をスキップします。
 
 NOTE: `atomic_write`が行なうchmod操作が原因で、書き込み対象ファイルがACLセットを持っているときにそのACLが再計算/変更されます。
 
@@ -3666,13 +3664,13 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/file/atomic.rb`で�
 
 Active Supportは、`load`に一定の自動読み込みサポートを追加します。
 
-たとえば、ファイルキャッシュストアでは以下のように非直列化 (deserialize) します。
+たとえば、ファイルキャッシュストアでは以下のようにデシリアライズ (deserialize) します。
 
 ```ruby
 File.open(file_name) { |f| Marshal.load(f) }
 ```
 
-キャッシュデータが不明な定数を参照している場合、自動読み込みがトリガされます。読み込みに成功した場合は非直列化を透過的に再試行します。
+キャッシュデータが不明な定数を参照している場合、自動読み込みがトリガされます。読み込みに成功した場合はシリアライズを透過的に再試行します。
 
 WARNING: 引数が`IO`の場合、再試行を可能にするために`rewind`に応答する必要があります。通常のファイルは`rewind`に応答します。
 
@@ -3685,9 +3683,9 @@ Active Supportは`NameError`に`missing_name?`メソッドを追加します。�
 
 渡される名前はシンボルまたは文字列です。シンボルを渡した場合は単なる定数名をテストし、文字列を渡した場合はフルパス (fully-qualified) の定数名をテストします。
 
-TIP: シンボルは`:"ActiveRecord::Base"`で行なっているのと同じようにフルパスの定数として表すことができます。シンボルがそのように動作するのはそれが便利だからであり、技術的にそうしなければならないというものではありません。
+TIP: シンボルは、`:"ActiveRecord::Base"`で行なっているのと同じようにフルパスの定数として表せます。シンボルがそのように動作するのはそれが便利だからであり、技術的にそうしなければならないというものではありません。
 
-たとえば、`ArticlesController`のアクションが呼び出されると、Railsはその名前からすぐに推測できる`ArticleHelper`を使用しようとします。ここではこのヘルパーモジュールが存在していなくても問題はないので、この定数名で例外が発生しても例外として扱わずに黙殺する必要があります。しかし、実際に不明な定数が原因で`articles_helper.rb`が`NameError`エラーを発生するという場合が考えられます。そのような場合は、改めて例外を発生させなくてはなりません。`missing_name?`メソッドは、この2つの場合を区別するために使用されます。
+たとえば、`ArticlesController`のアクションが呼び出されると、Railsはその名前からすぐに推測できる`ArticleHelper`を使おうとします。ここではこのヘルパーモジュールが存在していなくても問題はないので、この定数名で例外が発生しても例外として扱わずに黙殺する必要があります。しかし、実際に不明な定数が原因で`articles_helper.rb`が`NameError`エラーを発生するという場合が考えられます。そのような場合は、改めて例外を発生させなくてはなりません。`missing_name?`メソッドは、この2つの場合を区別するために使われます。
 
 ```ruby
 def default_helper_module!
@@ -3710,7 +3708,7 @@ Active Supportは`is_missing?`を`LoadError`に追加します。
 
 `is_missing?`は、パス名を引数に取り、特定のファイルが原因で例外が発生するかどうかをテストします (".rb"拡張子が原因と思われる場合を除きます)。
 
-たとえば、`ArticlesController`のアクションが呼び出されると、Railsは`articles_helper.rb`を読み込もうとしますが、このファイルは存在しないことがあります。ヘルパーモジュールは必須ではないので、Railsは読み込みエラーを例外扱いせずに黙殺します。しかし、ヘルパーモジュールが存在しないために別のライブラリが必要になり、それがさらに見つからないという場合が考えられます。Railsはそのような場合には例外を再発生させなければなりません。`is_missing?`メソッドは、この2つの場合を区別するために使用されます。
+たとえば、`ArticlesController`のアクションが呼び出されると、Railsは`articles_helper.rb`を読み込もうとしますが、このファイルは存在しないことがあります。ヘルパーモジュールは必須ではないので、Railsは読み込みエラーを例外扱いせずに黙殺します。しかし、ヘルパーモジュールが存在しないために別のライブラリが必要になり、それがさらに見つからないという場合が考えられます。Railsはそのような場合には例外を再発生させなければなりません。`is_missing?`メソッドは、この2つの場合を区別するために使われます。
 
 ```ruby
 def default_helper_module!
