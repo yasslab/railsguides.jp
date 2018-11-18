@@ -1,7 +1,7 @@
 
 
 
-Active Support の Instrumentation 機能
+Active SupportのInstrumentation機能
 ==============================
 
 Active SupportはRailsのコア機能のひとつであり、Ruby言語の拡張、ユーティリティなどを提供するものです。Active Supportに含まれているInstrumentation APIは、Rubyコードで発生する特定の動作の計測に利用できます。Railsアプリケーション内部やフレームワーク自身も計測できますが、必要であればRails以外のRubyスクリプトなども測定できます。
@@ -29,7 +29,7 @@ Active Supportが提供するInstrumentation APIを使ってフックを開発�
 Railsフレームワーク用フック
 ---------------------
 
-Ruby on Railsでは、フレームワーク内の主なイベント向けのフックが多数提供されています詳しくは次をご覧ください。
+Ruby on Railsでは、フレームワーク内の主なイベント向けのフックが多数提供されています。詳しくは次をご覧ください。
 
 Action Controller
 -----------------
@@ -227,7 +227,7 @@ Action View
 
 | キー         | 値              |
 | ------------- | --------------------- |
-| `:identifier` | テンプレートへの完全なパス |
+| `:identifier` | テンプレートへのフルパス |
 
 ```ruby
 {
@@ -371,17 +371,17 @@ Active Support
 | ------------------ | ------------------------------------------------- |
 | `:key`             | ストアで使われるキー                             |
 | `:hit`             | ヒットしたかどうか                             |
-| `:super_operation` | 読み出しで`#fetch`が指定されている場合に:fetch を追加 |
+| `:super_operation` | 読み出しで`#fetch`が指定されている場合に`:fetch`を追加 |
 
 ### cache_generate.active_support
 
-このイベントは、`#fetch`をブロック付きで使用した場合にのみ使われます。
+このイベントは、`#fetch`をブロック付きで用いた場合にのみ使われます。
 
 | キー         | 値              |
 | ------ | --------------------- |
 | `:key`             | ストアで使われるキー                             |
 
-INFO. fetchに渡されたオプションは、ストアへの書き込み時にペイロードとマージされます。
+INFO. `#fetch`に渡されたオプションは、ストアへの書き込み時にペイロードとマージされます。
 
 ```ruby
 {
@@ -392,7 +392,7 @@ INFO. fetchに渡されたオプションは、ストアへの書き込み時に
 
 ### cache_fetch_hit.active_support
 
-このイベントは、`#fetch`をブロック付きで使用した場合にのみ使われます。
+このイベントは、`#fetch`をブロック付きで用いた場合にのみ使われます。
 
 | キー         | 値              |
 | ------ | --------------------- |
@@ -546,13 +546,20 @@ Active Storage
 | `:key`       | セキュアトークン             |
 | `:service`   | サービス名                   |
 
+### service_delete_prefixed.active_storage
+
+| キー          | 値               |
+| ------------ | ------------------- |
+| `:key`       | キーのプレフィックス             |
+| `:service`   | サービス名                   |
+
 ### service_exist.active_storage
 
 | キー          | 値                       |
 | ------------ | --------------------------- |
 | `:key`       | セキュアトークン             |
 | `:service`   | サービス名                   |
-| `:exist`     | ファイルかblogが存在するかどうか |
+| `:exist`     | ファイルやblogが存在するかどうか |
 
 ### service_url.active_storage
 
