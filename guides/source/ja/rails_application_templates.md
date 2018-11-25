@@ -8,22 +8,22 @@ Railsのアプリケーションテンプレートは単純なRubyファイル�
 
 このガイドの内容:
 
-* テンプレートを使用してRailsアプリケーションの生成/カスタマイズを行う方法
-* RailsテンプレートAPIを使用して再利用可能なアプリケーションテンプレートを開発する方法
+* テンプレートを使ってRailsアプリケーションの生成/カスタマイズを行う方法
+* RailsテンプレートAPIを使って再利用可能なアプリケーションテンプレートを開発する方法
 
 --------------------------------------------------------------------------------
 
-### 使用法
+### 利用法
 -----
 
-アプリケーションテンプレートを適用するためには、`-m`オプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。
+アプリケーションテンプレートを適用するためには、`-m`オプションを使ってテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使えます。
 
 ```bash
 $ rails new blog -m ~/template.rb
 $ rails new blog -m http://example.com/template.rb
 ```
 
-rakeタスク`app:template`を使用して、既存のRailsアプリケーションにテンプレートを適用することもできます。テンプレートの場所はLOCATION環境変数を使用して渡す必要があります。ここでも、ファイルパスまたはURLのどちらを使用してもかまいません。
+rakeタスク`app:template`を使って、既存のRailsアプリケーションにテンプレートを適用することもできます。テンプレートの場所はLOCATION環境変数で渡す必要があります。ここでも、ファイルパスまたはURLのどちらを使ってもかまいません。
 
 ```bash
 $ bin/rails app:template LOCATION=~/template.rb
@@ -50,7 +50,7 @@ end
 
 以下のセクションで、APIで提供される主なメソッドの概要を解説します。
 
-### gem(*args)
+### `gem(*args)`
 
 生成された`Gemfile`ファイルに、指定された`gem`のエントリを追加します。
 
@@ -67,7 +67,7 @@ Gemfileでgemを指定しただけではインストールされないのでご�
 bundle install
 ```
 
-### gem_group(*names, &block)
+### `gem_group(*names, &block)`
 
 gemのエントリを指定のグループに含めます。
 
@@ -79,11 +79,11 @@ gem_group :development, :test do
 end
 ```
 
-### add_source(source, options={}, &block)
+### `add_source(source, options={}, &block)`
 
 生成された`Gemfile`ファイルに、指定されたソースを追加します。
 
-たとえば、`"http://code.whytheluckystiff.net"`にあるgemをソースとして使用したい場合は以下のようにします。
+たとえば、`"http://code.whytheluckystiff.net"`にあるgemをソースとして使いたい場合は以下のようにします。
 
 ```ruby
 add_source "http://code.whytheluckystiff.net"
@@ -97,7 +97,7 @@ add_source "http://gems.github.com/" do
 end
 ```
 
-### environment/application(data=nil, options={}, &block)
+### `environment/application(data=nil, options={}, &block)`
 
 `config/application.rb`ファイルの`Application`クラスの内側に指定の行を追加します。
 
@@ -109,11 +109,11 @@ environment 'config.action_mailer.default_url_options = {host: "http://yourwebsi
 
 `data`引数の代わりにブロックをひとつ渡すこともできます。
 
-### vendor/lib/file/initializer(filename, data = nil, &block)
+### `vendor/lib/file/initializer(filename, data = nil, &block)`
 
 生成されたRailsアプリケーションの`config/initializers`ディレクトリにイニシャライザをひとつ追加します。
 
-たとえば、`Object#not_nil?`と`Object#not_blank?`というメソッドを使用したい場合は以下のようにします。
+たとえば、`Object#not_nil?`と`Object#not_blank?`というメソッドを使いたい場合は以下のようにします。
 
 ```ruby
 initializer 'bloatlol.rb', <<-CODE
@@ -131,7 +131,7 @@ CODE
 
 同様に、`lib()`は`lib/`ディレクトリに、`vendor()`は`vendor/`ディレクトリにそれぞれファイルをひとつ作成します。
 
-`file()`メソッドを使用すれば、`Rails.root`からの相対パスを渡してディレクトリやファイルを自在に作成することもできます。
+`file()`メソッドを使えば、`Rails.root`からの相対パスを渡してディレクトリやファイルを自在に作成することもできます。
 
 ```ruby
 file 'app/components/foo.rb', <<-CODE
@@ -142,7 +142,7 @@ CODE
 
 上のコードは`app/components`ディレクトリを作成し、その中に`foo.rb`ファイルを置きます。
 
-### rakefile(filename, data = nil, &block)
+### `rakefile(filename, data = nil, &block)`
 
 指定されたタスクを含むrakeファイルを`lib/tasks`の下に作成します。
 
@@ -160,7 +160,7 @@ end
 
 上のコードは`lib/tasks/bootstrap.rake`ファイルを作成し、その中に`boot:strap` rakeタスクを置きます。
 
-### generate(what, *args)
+### `generate(what, *args)`
 
 引数を渡してRailsジェネレータを実行します。
 
@@ -168,7 +168,7 @@ end
 generate(:scaffold, "person", "name:string", "address:text", "age:number")
 ```
 
-### run(command)
+### `run(command)`
 
 任意のコマンドを実行します。いわゆるバッククォートと同等です。たとえば`README.rdoc`ファイルを削除する場合は以下のようにします。
 
@@ -176,7 +176,7 @@ generate(:scaffold, "person", "name:string", "address:text", "age:number")
 run "rm README.rdoc"
 ```
 
-### rails_command(command, options = {})
+### `rails_command(command, options = {})`
 
 指定のタスクをRailsアプリで実行します。たとえばデータベースのマイグレーションを行いたい場合は次のようにします。
 
@@ -197,7 +197,7 @@ rails_command "db:migrate", env: 'production'
 rails_command "log:clear", sudo: true
 ```
 
-### route(routing_code)
+### `route(routing_code)`
 
 ルーティングエントリを`config/routes.rb`ファイルにひとつ追加します。上の手順では、scaffoldでpersonを生成し、続けて`README.rdoc`を削除しました。今度は以下のようにして`PeopleController#index`をアプリケーションのデフォルトページにします。
 
@@ -205,7 +205,7 @@ rails_command "log:clear", sudo: true
 route "root to: 'person#index'"
 ```
 
-### inside(dir)
+### `inside(dir)`
 
 ディレクトリを指定してコマンドをひとつ実行します。たとえば、edge railsのコピーがあり、アプリケーションからそこにシンボリックリンクを張るには以下のようにします。
 
@@ -215,9 +215,9 @@ inside('vendor') do
 end
 ```
 
-### ask(question)
+### `ask(question)`
 
-`ask()`はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使用します。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。
+`ask()`はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使います。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。
 
 ```ruby
 lib_name = ask("ライブラリに付ける名前を入力してください")
@@ -229,16 +229,16 @@ lib lib_name, <<-CODE
 CODE
 ```
 
-### yes?(question) or no?(question)
+### `yes?(question)`または`no?(question)`
 
-テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみRailsをFreezeしたい場合は以下のようにします。
+テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使います。たとえば、指定があった場合にのみRailsをFreezeしたい場合は以下のようにします。
 
 ```ruby
 rails_command("rails:freeze:gems") if yes?("Freeze rails gems?")
 # no?(question) はyes?と逆の動作
 ```
 
-### git(:command)
+### `git(:command)`
 
 Railsテンプレートで任意のgitコマンドを実行します。
 
@@ -248,7 +248,7 @@ git add: "."
 git commit: "-a -m 'Initial commit'"
 ```
 
-### after_bundle(&block)
+### `after_bundle(&block)`
 
 gemのバンドルとbinstub生成の完了後に実行したいコールバックを登録します。生成したファイルをバージョン管理するところまで自動化したい場合に便利です。
 
@@ -265,7 +265,7 @@ end
 高度な利用法
 --------------
 
-アプリケーションテンプレートは、`Rails::Generators::AppGenerator`インスタンスのコンテキストで評価されます。ここで使用される`apply`アクションは[Thor](https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207)が提供しています。
+アプリケーションテンプレートは、`Rails::Generators::AppGenerator`インスタンスのコンテキストで評価されます。ここで使われる`apply`アクションは[Thor](https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207)が提供しています。
 これにより、このインスタンスを必要に応じて拡張したり変更したりできます。
 
 たとえば、`source_paths`メソッドを上書きしてテンプレートの位置を指定することができます。これにより、`copy_file`などのメソッドでテンプレートの位置からの相対パスを指定できるようになります。
