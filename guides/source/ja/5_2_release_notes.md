@@ -67,7 +67,7 @@ Railties
 * ジェネレーターとテンプレートでの`capify!`を非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/29493))
 
-* `rails dbconsole`や`rails console`に環境変数名を通常の引数として渡すことを非推奨に指定。`-e`オプションを明示的に使用すべき。
+* `rails dbconsole`や`rails console`に環境変数名を通常の引数として渡すことを非推奨に指定。`-e`オプションを明示的に利用すべき。
     ([Commit](https://github.com/rails/rails/commit/48b249927375465a7102acc71c2dfb8d49af8309))
 
 * `Rails::Application`のサブクラスを用いてRailsサーバーを起動することを非推奨に指定。
@@ -86,11 +86,11 @@ Railties
 * `tmp:clear`タスクでスクリーンショットファイルを削除する機能。
     ([Pull Request](https://github.com/rails/rails/pull/29534))
 
-* `bin/rails app:update`実行時に未使用のコンポーネントをスキップ。
+* `bin/rails app:update`実行時に未利用のコンポーネントをスキップ。
   最初のアプリ生成でAction CableやActive Recordがスキップされると、これらに関連する更新もスキップされる。
     ([Pull Request](https://github.com/rails/rails/pull/29645))
 
-* 3-levelデータベース設定使用時にカスタムコネクション名を`rails dbconsole`に渡せるようになった。
+* 3-levelデータベース設定利用時にカスタムコネクション名を`rails dbconsole`に渡せるようになった。
   例: `bin/rails dbconsole -c replica`.
     ([Commit](https://github.com/rails/rails/commit/1acd9a6464668d4d54ab30d016829f60b70dbbeb))
 
@@ -112,7 +112,7 @@ Railties
 * `Gemfile`に`git_source`オプションを追加（プラグインジェネレータ用）。
     ([Pull Request](https://github.com/rails/rails/pull/30110))
 
-* Railsプラグインで`bin/rails`を実行するときに未使用コンポーネントをスキップ。
+* Railsプラグインで`bin/rails`を実行するときに未利用コンポーネントをスキップ。
     ([Commit](https://github.com/rails/rails/commit/62499cb6e088c3bc32a9396322c7473a17a28640))
 
 * ジェネレーターのアクションのインデントを最適化。
@@ -152,7 +152,7 @@ Action Cable
 * cable.ymlに`host`、`port`、`db`、`password`オプションのサポートを追加。
     ([Pull Request](https://github.com/rails/rails/pull/29528))
 
-* PostgreSQLアダプタ使用時のlong stream IDのハッシュを修正。
+* PostgreSQLアダプタ利用時のlong stream IDのハッシュを修正。
     ([Pull Request](https://github.com/rails/rails/pull/29297))
 
 Action Pack
@@ -443,7 +443,7 @@ Active Record
     ([Pull Request](https://github.com/rails/rails/pull/30970))
 
 * `bin/rails db:migrate`で`VERSION`を指定した場合の動作を修正。VERSIONが空の`bin/rails db:migrate`の振る舞いは、`VERSION`を指定していない場合の動作と同じになった。
-    `VERSION`の形式をチェックし、マイグレーションファイルのバージョン番号または名前であればそれを使用する。`VERSION`の形式が無効な場合はエラーをraiseする。対象となるマイグレーションが存在しない場合もエラーをraiseする。
+    `VERSION`の形式をチェックし、マイグレーションファイルのバージョン番号または名前であればそれを利用する。`VERSION`の形式が無効な場合はエラーをraiseする。対象となるマイグレーションが存在しない場合もエラーをraiseする。
     ([Pull Request](https://github.com/rails/rails/pull/30714))
 
 * ステートメントタイムアウト設定を超えた場合にraiseされるエラークラス`StatementTimeout`を新しく追加。
@@ -596,7 +596,7 @@ Active Support
 *   Cacheに`write_multi`を追加。
     ([Pull Request](https://github.com/rails/rails/pull/29366))
 
-*   `ActiveSupport::MessageEncryptor`でAES 256 GCMをデフォルトで使用。
+*   `ActiveSupport::MessageEncryptor`でAES 256 GCMをデフォルトで利用。
     ([Pull Request](https://github.com/rails/rails/pull/29263))
 
 * テスト時の`Time.now`の時間をfreezeする`freeze_time`ヘルパーを追加。
