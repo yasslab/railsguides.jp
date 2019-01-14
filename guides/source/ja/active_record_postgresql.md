@@ -44,7 +44,7 @@ data = File.read(Rails.root + "tmp/output.pdf")
 Document.create payload: data
 ```
 
-### 配列
+### 配列（array）
 
 * [型の定義](https://www.postgresql.jp/document/current/html/arrays.html)
 * [関数と演算子](https://www.postgresql.jp/document/current/html/functions-array.html)
