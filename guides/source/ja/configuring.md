@@ -33,7 +33,7 @@ Railsコンポーネントを構成する
 たとえば、`config/application.rb`ファイルには以下の設定が含まれています。
 
 ```ruby
-config.autoload_paths += %W(#{config.root}/extras)
+config.time_zone = 'Central Time (US & Canada)'
 ```
 
 これはRails自身のための設定です。設定をすべてのRailsコンポーネントに渡したい場合は、`config/application.rb`内の同じ`config`オブジェクトを用いて行なうことができます。
@@ -60,7 +60,9 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.autoload_once_paths`は、サーバーへのリクエストごとにクリアされない定数を自動読込するパスの配列を引数に取ります。この設定は`config.cache_classes`が`false`の場合に影響を受けます。`config.cache_classes`はdevelopmentモードではデフォルトでオフです。`config.cache_classes`がtrueの場合、すべての`config.autoload_once_paths`自動読み込みは一度しか行われません。`config.autoload_once_paths`の配列に含まれる要素は、次で説明する`autoload_paths`にもまったく同じように含めておく必要があります。`config.autoload_once_paths`のデフォルト値は、空の配列です。
 
-* `config.autoload_paths`はRailsが定数を自動読込するパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです(訳注: Rails3からはautoload_pathの設定はデフォルトでは無効です)。
+* `config.autoload_paths`はRailsが定数を自動読み込みするパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです。この設定の変更は非推奨です。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-paths-and-eager-load-paths)を参照してください。
+
+It is no longer recommended to adjust this. See [定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-paths-and-eager-load-paths)
 
 * `config.cache_classes`は、アプリのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードでは`true`なので動作が高速になります。同時に`threadsafe!`をオンにすることもできます。
 
