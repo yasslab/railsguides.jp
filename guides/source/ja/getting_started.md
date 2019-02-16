@@ -542,7 +542,6 @@ def create
 end
 
 private
-
   def article_params
     params.require(:article).permit(:title, :text)
   end
@@ -1201,9 +1200,9 @@ class CommentsController < ApplicationController
   end
 
   private
-   def comment_params
-    params.require(:comment).permit(:commenter, :body)
-   end
+    def comment_params
+      params.require(:comment).permit(:commenter, :body)
+    end
 end
 ```
 
