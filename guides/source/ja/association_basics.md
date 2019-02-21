@@ -832,7 +832,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 このオブジェクトに関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。この振る舞いをオーバーライドする（キャッシュを読み出さずにデータベースから直接読み込む）には、親オブジェクトが持つ`#reload_association`メソッドを呼び出します。
 
 ```ruby
-@author = @book.reload.author
+@author = @book.reload_author
 ```
 
 ##### `association=(associate)`
