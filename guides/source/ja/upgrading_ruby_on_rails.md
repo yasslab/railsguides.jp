@@ -241,6 +241,16 @@ Rails 5 では、rakeに代わって`bin/rails`でタスクやテストを実行
 <% # Template Dependency: recordings/threads/events/* %>
 ```
 
+### `ActionView::Helpers::RecordTagHelper` は、外部のgemに移動（`record_tag_helper`）
+
+`content_tag_for` と `div_for` が削除され、 `content_tag` のみの利用が推奨されます。これらの古いメソッドを使い続けたい場合、 `record_tag_helper` gemをGemfileに追加してください。
+
+```ruby
+gem 'record_tag_helper', '~> 1.0'
+```
+
+詳細については[#18411](https://github.com/rails/rails/pull/18411)を参照してください。
+
 ### `protected_attributes` gem のサポートを終了
 
 `protected_attributes` gemのサポートは Rails 5 で終了しました。

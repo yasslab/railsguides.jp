@@ -2,6 +2,10 @@
 電子書籍 (検索対応) | Rails ガイド
 <% end %>
 
+<% content_for :hide_feedback do %>
+yes
+<% end %>
+
 <% content_for :header_section do %>
 <h2>電子書籍 (検索対応)</h2>
 <p>
@@ -24,10 +28,6 @@
     </script>
   </li>
 </ol>
-<% end %>
-
-<% content_for :not_need_feedback do %>
-yes
 <% end %>
 
 <h3 id="ebook" class="section">Railsガイド 電子書籍版 (EPUB/PDF)</h3>
@@ -83,7 +83,7 @@ yes
     </tr>
     <tr>
       <th>お問い合わせ</th>
-      <td>電子メールにて <i>yohei@yasslab.jp</i> または<br/>
+      <td>電子メールにて <i>info@yasslab.jp</i> または<br/>
 	下記フォームからお問い合わせください。</td>
     </tr>
   </table>
@@ -91,6 +91,10 @@ yes
 
 <div class="gumroad-button">
   <a href="https://gumroad.com/l/railsguidesjp_ebook"
+     style="color:#fff;">電子書籍の詳細を見る (5.1対応版)</a>
+</div>
+<div class="gumroad-button">
+  <a href="https://gum.co/railsguidesjp_ebook_50"
      style="color:#fff;">電子書籍の詳細を見る (5.0対応版)</a>
 </div>
 <div class="gumroad-button">
@@ -110,10 +114,13 @@ yes
 
 本書による売り上げは、本書の翻訳・編集に協力して頂いた方々への謝礼金や、ウェブサイトの維持・管理費、および、Railsガイドの継続的な更新費用に使わせて頂きます。Railsガイドの質を高く維持し、継続的に最新の情報にアップデートしていくことで、 全国のRuby/Railsコミュニティの活動に貢献できれば幸いです。ご協力の程、よろしくお願い致します。
 <br />
-<h4>法人向け販売について</h4>
+<h4>法人・チーム向け販売について</h4>
 
-転送・回し読み可能な法人向け販売にも対応しています。内容は上記の販売コンテンツと全く同じですが、<b>運営チームの同意の上で社内に転送・配送できる</b>という点が異なります。ご購入を検討されている方は<a href="#contact">お問い合わせ</a>フォームよりお気軽にご連絡ください :)
-<br />
+転送・回し読み可能な法人・チーム向け販売にも対応しています。内容は上記の販売コンテンツと全く同じですが、<b>運営会社の同意の上で社内に転送・配送できる</b>という点が異なります。詳細は次のとおりです。ご購入を検討されている方はお気軽に<a href="#contact">お問い合わせ</a>ください :)
+
+<p><a href="https://www.dropbox.com/s/4bsf9nunx21gsip/Rails%E3%82%AC%E3%82%A4%E3%83%89%E3%81%BE%E3%81%A8%E3%82%81%E8%B2%B7%E3%81%84.pdf?dl=0">
+  <img src="/images/team-plan.jpg"
+       alt="Rails技術者認定試験" width="100%" /></a></p>
 
 <h4>Rails技術者認定シルバー試験を検討されている方へ</h4>
 Railsガイドは<a href="http://www.railscp.com/">Rails技術者認定シルバー試験</a>の推奨教材として認定されています。
@@ -124,6 +131,17 @@ Railsガイドは<a href="http://www.railscp.com/">Rails技術者認定シルバ
   <img src="/images/railscp_logo.png"
        alt="Rails技術者認定試験" width="320px" /></a>
 
+<h3 id="contact" class="section">お問い合わせ</h3>
+<p>電子書籍や広告出稿、法人向け販売などのお問い合わせについては <i>info@yasslab.jp</i> までご連絡ください。</p>
+<p>
+YassLab 株式会社<br>
+<a href="https://yasslab.jp/">https://yasslab.jp/</a><br>
+<br>
+<a href="https://yasslab.jp/" target="_blank">
+<img src="/images/logos/YassLab.png"
+alt="YassLab 株式会社" width="320px" /></a><br>
+</p>
+  
 <!-- jQuery library (served from Google) -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <!-- bxSlider Javascript file -->

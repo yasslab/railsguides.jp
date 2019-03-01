@@ -1,4 +1,4 @@
-﻿
+
 
 
 Active Record の関連付け (アソシエーション)
@@ -17,7 +17,7 @@ Active Record の関連付け (アソシエーション)
 関連付けを使用する理由
 -----------------
 
-Railsでは、「関連付け(アソシエーション: association)」とは2つのActive Recordモデル同士のつながりを指します。モデルとモデルの間には関連付けを行なう必要がありますが、その理由を御存じでしょうか。関連付けを行なうのは、それによってコード内で一般的に行われる操作をはるかに簡単にできるからです。簡単なRailsアプリケーションを例にとって説明しましょう。このアプリケーションには著者用のモデル(Author)と書籍用のモデル(Book)があります。一人の著者は、複数の書籍を持っています。関連付けを設定していない状態では、モデルの宣言は以下のようになります。    
+Railsでは、「関連付け(アソシエーション: association)」とは2つのActive Recordモデル同士のつながりを指します。モデルとモデルの間には関連付けを行なう必要がありますが、その理由を御存じでしょうか。それは、関連付けを行う事であなたのコードでの共通操作をよりシンプルで簡単にするからです。簡単なRailsアプリケーションを例にとって説明しましょう。このアプリケーションには著者用のモデル(Author)と書籍用のモデル(Book)があります。一人の著者は、複数の書籍を持っています。関連付けを設定していない状態では、モデルの宣言は以下のようになります。    
 
 ```ruby
 class Author < ApplicationRecord
@@ -97,7 +97,7 @@ end
 
 ![belongs_to 関連付けの図](images/belongs_to.png)
 
-NOTE: `belongs_to`関連付けで指定するモデル名は必ず「単数形」にしなければなりません。上記の例で、`Author`モデルに関連付けられた`Book`を複数形にしてしまうと、"uninitialized constant Book::Authors" エラーが発生します。Railsは、関連付けの名前から自動的にモデルのクラス名を推測します。従って、関連付け名が誤って複数形になってしまっていると、そこから推測されるクラス名も誤って複数形になってしまいます。
+NOTE: `belongs_to`関連付けで指定するモデル名は必ず「単数形」にしなければなりません。上記の例で、`Book`モデルの`author`関連付けを複数形（`authors`）にしてしまうと、「uninitialized constant Book::Authors」エラーが発生します。Railsは、関連付けの名前から自動的にモデルのクラス名を推測します。従って、関連付け名が誤って複数形になってしまっていると、そこから推測されるクラス名も誤った形の複数形になってしまいます。
 
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
@@ -160,7 +160,7 @@ end
 
 ### `has_many`関連付け
 
-`has_many`関連付けは、他のモデルとの間に「1対多」のつながりがあることを示します。`has_many`関連付けが使用されている場合、「反対側」のモデルでは`belongs_to`が使用されることが多くあります。`has_many`関連付けが使用されている場合、そのモデルのインスタンスは、反対側のモデルの「0個以上の」インスタンスを所有します。たとえば、著者(Author)と書籍(Book)を含むRailsアプリケーションでは、著者のモデルを以下のように宣言することができます。
+`has_many`関連付けは、他のモデルとの間に「1対多」のつながりがあることを示します。`has_many`関連付けが使用されている場合、「反対側」のモデルでは`belongs_to`が使用されることが多くあります。`has_many`関連付けが使用されている場合、そのモデルのインスタンスは、反対側のモデルのインスタンスを「0個以上」所有します。たとえば、著者(Author)と書籍(Book)を含むRailsアプリケーションでは、著者のモデルを以下のように宣言することができます。
 
 ```ruby
 class Author < ApplicationRecord
@@ -396,7 +396,7 @@ class CreateSuppliers < ActiveRecord::Migration[5.0]
 end
 ```
 
-NOTE: マイグレーションで`t.integer :supplier_id`のように「小文字のモデル名_id」と書くと、外部キーを明示的に指定できます。新しいバージョンのRailsでは、同じことを`t.references :supplier`という方法で記述できます。こちらの方が実装の詳細が抽象化され、隠蔽されます。
+NOTE: マイグレーションで`t.integer :supplier_id`のように「小文字のモデル名_id」と書くと、外部キーを明示的に指定できます。現在のバージョンのRailsでは、同じことを`t.references :supplier`という方法で記述できます。こちらの方が実装の詳細が抽象化され、隠蔽されます。
 
 ### `has_many :through`と`has_and_belongs_to_many`のどちらを選ぶか
 
@@ -601,7 +601,7 @@ end
 
 #### `has_and_belongs_to_many`関連付けに対応する結合テーブルを作成する
 
-`has_and_belongs_to_many`関連付けを作成した場合は、それに対応する結合(join)テーブルを明示的に作成する必要があります。`:join_table`オプションを使用して明示的に結合テーブルの名前が指定されていない場合、Active Recordは2つのクラス名を辞書の並び順に連結して、適当に結合テーブル名をこしらえます。たとえばAuthorモデルとBookモデルを連結する場合、'a' は 'b' より辞書で先に出現するので "authors_books" というデフォルトの結合テーブル名が使用されます。
+`has_and_belongs_to_many`関連付けを作成した場合は、それに対応する結合(join)テーブルを明示的に作成する必要があります。`:join_table`オプションを使用して明示的に結合テーブルの名前が指定されていない場合、Active Recordは2つのクラス名を辞書の並び順に連結して、結合テーブル名を作成します。たとえばAuthorモデルとBookモデルを連結する場合、'a' は 'b' より辞書で先に出現するので "authors_books" というデフォルトの結合テーブル名が使用されます。
 
 WARNING: モデル名の並び順は`String`クラスの`<=>`演算子を使用して計算されます。これは、2つの文字列の長さが異なり、短い方が長い方の途中まで完全に一致しているような場合、長い方の文字列は短い方よりも辞書上の並び順が前として扱われるということです。たとえば、"paper\_boxes" テーブルと "papers" テーブルがある場合、これらを結合すれば "papers\_paper\_boxes" となると推測されます。 "paper\_boxes" の方が長いので、常識的には並び順が後ろになると予測できるからです。しかし実際の結合テーブル名は "paper\_boxes\_papers" になってしまいます。これはアンダースコア '\_' の方が 's' よりも並びが前になっているためです。
 
@@ -736,7 +736,7 @@ Active Recordでは標準的な名前同士の関連付けのほとんどをサ�
 * `:class_name`
 * `:foreign_key`
 
-例えば、次のようなモデルを宣言したケースを考えてみましょう。
+たとえば、次のようなモデルを宣言したケースを考えてみましょう。
 
 ```ruby
 class Author < ApplicationRecord
@@ -798,6 +798,7 @@ a.first_name == b.writer.first_name # => true
 * `build_association(attributes = {})`
 * `create_association(attributes = {})`
 * `create_association!(attributes = {})`
+* `reload_association`
 
 これらのメソッドのうち、`association`の部分はプレースホルダであり、`belongs_to`の最初の引数である関連付け名をシンボルにしたものに置き換えられます。例えば次のように宣言をした場合
 
@@ -815,6 +816,7 @@ author=
 build_author
 create_author
 create_author!
+reload_author
 ```
 
 NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付けを初期化するには、`build_`で始まるメソッドを使用する必要があります。この場合`has_many`関連付けや`has_and_belongs_to_many`関連付けで使用される`association.build`メソッドは使用しないでください。作成するには、`create_`で始まるメソッドを使用してください。
@@ -827,10 +829,10 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 @author = @book.author
 ```
 
-関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。キャッシュを読み出さずにデータベースから直接読み込ませたい場合は、親オブジェクトが持つ`#reload`メソッドを呼び出します。
+このオブジェクトに関連付けられたオブジェクトがデータベースから検索されたことがある場合は、キャッシュされたものを返します。この振る舞いをオーバーライドする（キャッシュを読み出さずにデータベースから直接読み込む）には、親オブジェクトが持つ`#reload_association`メソッドを呼び出します。
 
 ```ruby
-@author = @book.reload.author
+@author = @book.reload_author
 ```
 
 ##### `association=(associate)`
@@ -891,7 +893,7 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべての関連付けメンバを保存し、destroyフラグが立っているメンバを破棄します。`:autosave`を`false`に設定することと、`:autosave`オプションを未設定のままにしておくことは同じではありません。`:autosave`が存在しない場合、関連付けられたオブジェクトのうち、新しいオブジェクトは保存されますが、更新されたオブジェクトは保存されません。
 
 ##### `:class_name`
 
@@ -929,9 +931,9 @@ end
 
 上のように宣言すると、キャッシュ値が最新の状態に保たれ、次に`size`メソッドが呼び出されたときにその値が返されます。
 
-ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言で指定しますが、実際に数を数えたいカラムは、相手のモデル(関連付けられているモデル)の方に追加する必要があります。上の場合には、`Author`モデルの方に`books_count`カラムを追加する必要があります。
+ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言で指定しますが、実際に数を数えたいカラムは、相手のモデル(関連付けられている`has_many`モデル)の方に追加する必要があります。上の場合には、`Author`モデルの方に`books_count`カラムを追加する必要があります。
 
-必要であれば、`counter_cache`オプションに`true`ではなく任意のカラム名を設定することで、デフォルトのカラム名をオーバーライドすることができます。以下は、`books_count`の代わりに`count_of_books`を設定した場合の例です。
+`counter_cache`オプションで`true`の代わりに任意のカラム名を設定すると、デフォルトのカラム名をオーバーライドできます。以下は、`books_count`の代わりに`count_of_books`を設定した場合の例です。
 
 ```ruby
 class Book < ApplicationRecord
@@ -972,7 +974,7 @@ TIP: Railsは外部キーのカラムを自動的に作ることはありませ�
 
 Railsでは慣習として、`id`カラムはそのテーブルの主キーとして使われます。`:primary_key`オプションを指定すると、指定された別のカラムを主キーとして設定することができます
 
-例えば、 `users`テーブルには`guid`という主キーを持っているとしましょう。 `todos`テーブルの外部キーである `user_id`カラムを、その`guid`カラムと結びつけたい時は、次のように`primary_key`を設定します。
+たとえば、 `users`テーブルに`guid`という主キーがあるとします。 `todos`テーブルの外部キーである`user_id`カラムをその`guid`カラムと紐づけたい場合は、次のように`primary_key`を設定します。
 
 ```ruby
 class User < ApplicationRecord
@@ -1006,7 +1008,7 @@ end
 
 ##### `:touch`
 
-`:touch`オプションを`:true`に設定すると、関連付けられているオブジェクトが保存またはdestroyされるたびに、そのオブジェクトの`updated_at`または`updated_on`タイムスタンプが現在時刻に設定されます。
+`:touch`オプションを`true`に設定すると、関連付けられているオブジェクトが保存またはdestroyされるたびに、そのオブジェクトの`updated_at`または`updated_on`タイムスタンプが現在時刻に設定されます。
 
 ```ruby
 class Book < ApplicationRecord
@@ -1081,7 +1083,7 @@ class Author < ApplicationRecord
 end
 ```
 
-LineItemから著者名(Author)を`@line_item.book.author`のように直接取り出す機会が頻繁にあるのであれば、LineItemとBookの関連付けを行なう時にAuthorをあらかじめincludeしておくことで無駄なクエリを減らし、効率を高めることができます。
+LineItemから著者名(Author)を`@line_item.book.author`のように直接取り出す機会が頻繁にある場合は、LineItemとBookの関連付けを行なう時にAuthorをあらかじめincludeしておくことで無駄なクエリを減らし、効率を高めることができます。
 
 ```ruby
 class LineItem < ApplicationRecord
@@ -1230,7 +1232,7 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。`:autosave`を`false`に設定することと、`:autosave`オプションを未設定のままにしておくことは同じではありません。`:autosave`が存在しない場合、関連付けられたオブジェクトのうち、新しいオブジェクトは保存されますが、更新されたオブジェクトは保存されません。
 
 ##### `:class_name`
 
@@ -1415,6 +1417,7 @@ end
 * `collection.build(attributes = {}, ...)`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
+* `collection.reload`
 
 上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
 
@@ -1443,11 +1446,12 @@ books.exists?(...)
 books.build(attributes = {}, ...)
 books.create(attributes = {})
 books.create!(attributes = {})
+books.reload
 ```
 
 ##### `collection`
 
-`collection`メソッドは、関連付けられたすべてのオブジェクトの配列を返します。関連付けられたオブジェクトがない場合は、空の配列を1つ返します。
+`collection`メソッドは、関連付けられたすべてのオブジェクトのリレーションを返します。関連付けられたオブジェクトがない場合は、空のリレーションを1つ返します。
 
 ```ruby
 @books = @author.books
@@ -1495,7 +1499,7 @@ WARNING: この場合オブジェクトは_無条件で_データベースから
 
 ##### `collection_singular_ids=(ids)`
 
-`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベースの中で存続します。
+`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベースで永続化されます。
 
 ##### `collection.clear`
 
@@ -1548,7 +1552,7 @@ WARNING: `dependent: :delete_all`の場合と同様に、オブジェクトが`d
 
 ##### `collection.build(attributes = {}, ...)`
 
-`collection.build`メソッドは、関連付けが行われたオブジェクトを1つまたは複数返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、外部キーを経由するリンクが作成されます。関連付けられたオブジェクトは、値が返された時点ではまだ保存されて_いない_ことにご注意ください。
+`collection.build`メソッドは、関連付けが行われた1つのオブジェクトまたはオブジェクトの配列を返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、外部キーを経由するリンクが作成されます。関連付けられたオブジェクトは、値が返された時点ではまだ保存されて_いない_ことにご注意ください。
 
 ```ruby
 @book = @author.books.build(published_at: Time.now,
@@ -1562,7 +1566,7 @@ WARNING: `dependent: :delete_all`の場合と同様に、オブジェクトが`d
 
 ##### `collection.create(attributes = {})`
 
-`collection.create`メソッドは、関連付けされた新しいオブジェクトを1つまたは複数返します。このオブジェクトは、渡された属性を使用してインスタンス化され、そのオブジェクトの外部キーを介してリンクが作成されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
+`collection.create`メソッドは、関連付けが行われた新しい1つのオブジェクトまたは新しいオブジェクトの配列を返します。このオブジェクトは、渡された属性を使用してインスタンス化され、そのオブジェクトの外部キーを介してリンクが作成されます。そして、関連付けられたモデルで指定されている検証がすべてパスすると、この関連付けられたオブジェクトは保存されます。
 
 ```ruby
 @book = @author.books.create(published_at: Time.now,
@@ -1577,6 +1581,14 @@ WARNING: `dependent: :delete_all`の場合と同様に、オブジェクトが`d
 ##### `collection.create!(attributes = {})`
 
 上の`collection.create`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
+
+##### `collection.reload`
+
+`collection.reload`は、関連付けられたすべてのオブジェクトのリレーションを返し、データベースから強制的に読み込みます。関連付けられたオブジェクトがない場合は、空のリレーションを1つ返します。
+
+```ruby
+@books = @author.books.reload
+```
 
 #### `has_many`のオプション
 
@@ -1609,7 +1621,7 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。`:autosave`を`false`に設定することと、`:autosave`オプションを未設定のままにしておくことは同じではありません。`:autosave`が存在しない場合、関連付けられたオブジェクトのうち、新しいオブジェクトは保存されますが、更新されたオブジェクトは保存されません。
 
 ##### `:class_name`
 
@@ -1623,7 +1635,7 @@ end
 
 ##### `:counter_cache`
 
-このオプションは、`:counter_cache`オプションを任意の名前に変更したい場合に使います。このオプションは、[belongs_toの関連付け](#belongs-to%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3)で`:counter_cache`の名前を変更したときに必要になります。
+このオプションは、`:counter_cache`オプションを任意の名前に変更したい場合に使います。このオプションは、[belongs_toの関連付け](#belongs-to%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3)で`:counter_cache`の名前を変更したときにのみ必要になります。
 
 ##### `:dependent`
 
@@ -1863,7 +1875,7 @@ Reading.all.inspect     # => [#<Reading id: 16, person_id: 7, article_id: 7>, #<
 
 上の例でもreadingは2つあって重複しています。一方で、`person.articles`を実行すると、１つのarticleのみを表示します。これはコレクションが一意のレコードのみを読み出しているからです。
 
-挿入時にも同様に、現在残っているすべてのレコードが一意であるようにする(関連付けを検査したときに重複レコードが決して発生しないようにする)には、テーブル自体に一意のインデックスを追加する必要があります。たとえば、`readings`というテーブルがあり、すべての記事が一意であるようにしたいのであれば、マイグレーションに以下を追加します。
+挿入時にも同様に、現在残っているすべてのレコードが一意であるようにする(関連付けを検査したときに重複レコードが決して発生しないようにする)には、テーブル自体に一意のインデックスを追加する必要があります。たとえば、`readings`というテーブルがあり、その記事を1人の人物（person）にのみ追加できるようにしたい場合、マイグレーションに以下を追加します。
 
 ```ruby
 add_index :readings, [:person_id, :article_id], unique: true
@@ -1919,6 +1931,7 @@ person.articles << article unless person.articles.include?(article)
 * `collection.build(attributes = {})`
 * `collection.create(attributes = {})`
 * `collection.create!(attributes = {})`
+* `collection.reload`
 
 上のメソッドの`collection`の部分はプレースホルダであり、実際には`has_and_belongs_to_many`への1番目の引数として渡されたシンボルに置き換えられます。また、`collection_singular`の部分はシンボルの単数形に置き換えられます。たとえば以下の宣言を見てみましょう。
 
@@ -1947,6 +1960,7 @@ assemblies.exists?(...)
 assemblies.build(attributes = {}, ...)
 assemblies.create(attributes = {})
 assemblies.create!(attributes = {})
+assemblies.reload
 ```
 
 ##### 追加のカラムメソッド
@@ -1958,7 +1972,7 @@ WARNING: `has_and_belongs_to_many`関連付けで使用する結合テーブル�
 
 ##### `collection`
 
-`collection`メソッドは、関連付けられたすべてのオブジェクトの配列を返します。関連付けられたオブジェクトがない場合は、空の配列を1つ返します。
+`collection`メソッドは、関連付けられたすべてのオブジェクトのリレーションを返します。関連付けられたオブジェクトがない場合は、空のリレーションを1つ返します。
 
 ```ruby
 @assemblies = @part.assemblies
@@ -1984,7 +1998,7 @@ NOTE: このメソッドは`collection.concat`および`collection.push`のエ�
 
 ##### `collection.destroy(object, ...)`
 
-`collection.destroy`メソッドは、結合テーブル上のレコードを削除し、それによって1つまたは複数のオブジェクトをコレクションから削除します。このメソッドを実行してもオブジェクトはdestroyされません。
+`collection.destroy`メソッドは、結合テーブル上のレコードを削除することで、1つまたは複数のオブジェクトをコレクションから削除します。このメソッドを実行してもオブジェクトはdestroyされません。
 
 ```ruby
 @part.assemblies.destroy(@assembly1)
@@ -1992,7 +2006,7 @@ NOTE: このメソッドは`collection.concat`および`collection.push`のエ�
 
 ##### `collection=(objects)`
 
-`collection=`メソッドは、指定したオブジェクトでそのコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベース上に保持されます。
+`collection=`メソッドは、指定したオブジェクトでそのコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベースで永続化されます。
 
 ##### `collection_singular_ids`
 
@@ -2004,7 +2018,7 @@ NOTE: このメソッドは`collection.concat`および`collection.push`のエ�
 
 ##### `collection_singular_ids=(ids)`
 
-`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベース上に保持されます。
+`collection_singular_ids=`メソッドは、指定された主キーidを持つオブジェクトの集まりでコレクションの内容を置き換えます。元からあったオブジェクトは削除されます。この変更はデータベースで永続化されます。
 
 ##### `collection.clear`
 
@@ -2068,6 +2082,14 @@ NOTE: このメソッドは`collection.concat`および`collection.push`のエ�
 
 上の`collection.create`と同じですが、レコードがinvalidの場合に`ActiveRecord::RecordInvalid`がraiseされる点が異なります。
 
+##### `collection.reload`
+
+`collection.reload`は、関連付けられたすべてのオブジェクトのリレーションを返し、データベースから強制的に読み込みます。関連付けられたオブジェクトがない場合は、空のリレーションを1つ返します。
+
+ ```ruby
+@assemblies = @part.assemblies.reload
+```
+
 #### `has_and_belongs_to_many`のオプション
 
 Railsのデフォルトの`has_and_belongs_to_many`関連付けは、ほとんどの場合カスタマイズ不要ですが、時には関連付けの動作をカスタマイズしたくなることもあると思います。これは、作成するときにオプションを渡すことで簡単にカスタマイズできます。たとえば、以下のようなオプションを関連付けに追加できます。
@@ -2105,7 +2127,7 @@ end
 
 ##### `:autosave`
 
-`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべてのメンバを保存し、destroyフラグが立っているメンバを破棄します。
+`:autosave`オプションを`true`に設定すると、親オブジェクトが保存されるたびに、読み込まれているすべての関連付けられたメンバを保存し、destroyフラグが立っているメンバを破棄します。`:autosave`を`false`に設定することと、`:autosave`オプションを未設定のままにしておくことは同じではありません。`:autosave`が存在しない場合、関連付けられたオブジェクトのうち、新しいオブジェクトは保存されますが、更新されたオブジェクトは保存されません。
 
 ##### `:class_name`
 
@@ -2334,19 +2356,19 @@ end
 シングルテーブル継承
 ------------------------
 
-ときには、異なるモデル間でフィールドや振る舞いを共有したいときがあります。Carモデル、Motorcycleモデル、Bicycleモデルを持っていた場合を考えてみましょう。このとき`color`や`price`といったフィールド、そしていくつかの関連メソッドを共有したい場合が考えられます。 しかし各モデルはそれぞれ別の振る舞い、別のコントローラーも持っています。
+異なるモデル間でフィールドや振る舞いを共有したい場合があります。`Car`モデル、`Motorcycle`モデル、`Bicycle`モデルを持っていた場合を考えてみましょう。このとき`color`や`price`といったフィールド、そしていくつかの関連メソッドを共有したい場合が考えられます。しかし、モデルごとに振る舞いやコントローラーが異なります。
 
-Railsではこのような状況にも簡単に対応できます。まず、各モデルのベースとなるVehicleモデルを生成します。
+Railsではこのような状況にも簡単に対応できます。まず、各モデルのベースとなる`Vehicle`モデルを生成します。
 
 ```bash
 $ rails generate model vehicle type:string color:string price:decimal{10.2}
 ```
 
-"type"フィールドを追加している点に注目してください。すべてのモデルはデータベース上のテーブルに保存されるため、Railsはこのカラムに該当するモデル名を保存します。この例では、カラムには "Car"、"Motorcycle"、もしくは"Bicycle"が保存されます。今回のシングルテーブル継承 (STI: Single Table Inheritance) ではテーブルにこの"type"フィールドがないとうまく動きません。
+"type"フィールドを追加している点にご注目ください。すべてのモデルはデータベース上のテーブルに保存されるため、Railsはこのカラムに該当するモデル名を保存します。この例では、カラムには "Car"、"Motorcycle"、もしくは"Bicycle"が保存されます。今回のシングルテーブル継承（STI: Single Table Inheritance）ではテーブルにこの"type"フィールドがないとうまく動きません。
 
-次に、Vehicleモデルを継承して３つの各モデルを生成します。このとき、`--parent=PARENT`オプションを使って特定の親モデルを継承している点に注目してください。このオプションを使うと、(該当するテーブルは既に存在しているため) マイグレーションファイルが生成されずに済みます。
+次に、`Vehicle`モデルを継承して３つの各モデルを生成します。このとき、`--parent=PARENT`オプションを使って特定の親モデルを継承している点にご注目ください。このオプションを使うと（該当するテーブルが既に存在しているため）マイグレーションファイルを生成せずに済みます。
 
-たとえばCarモデルの場合は以下のようになります。
+たとえば`Car`モデルの場合は以下のようになります。
 
 ```bash
 $ rails generate model car --parent=Vehicle
@@ -2359,9 +2381,9 @@ class Car < Vehicle
 end
 ```
 
-これによってVehicleに追加されたすべての振る舞いがCarモデルでも追加されるようになります。関連付けやpublicメソッドなども同様に追加されます。
+これによって`Vehicle`モデルに追加されたすべての振る舞いが`Car`モデルにも追加されるようになります。関連付けやpublicメソッドなども同様に追加されます。
 
-この状態で新しく作成したCarを保存すると、`type`フィールドに"Car"が代入されたデータが`vehicles`テーブルに追加されます。
+この状態で新しく作成した`Car`を保存すると、`type`フィールドに"Car"が代入されたデータが`vehicles`テーブルに追加されます。
 
 ```ruby
 Car.create(color: 'Red', price: 10000)
@@ -2373,7 +2395,7 @@ Car.create(color: 'Red', price: 10000)
 INSERT INTO "vehicles" ("type", "color", "price") VALUES ('Car', 'Red', 10000)
 ```
 
-Carのレコードを取得するクエリを投げると、vehiclesテーブル中のCarが検索されるようになります。
+`Car`のレコードを取得するクエリを送信すると、vehiclesテーブル中の`Car`が検索されるようになります。
 
 ```ruby
 Car.all

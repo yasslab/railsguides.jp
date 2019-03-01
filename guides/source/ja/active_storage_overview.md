@@ -30,8 +30,8 @@ PDFやビデオなどの非画像アップロードの画像表現を生成し�
 ## セットアップ
 
 Active Storageは、アプリケーションのデータベースで `active_storage_blobs`と`active_storage_attachments`という名前の2つのテーブルを使用します。
-新規アプリケーション作成後または既存のアプリケーションをRails 5.2にアップグレードした後に、`rails active_storage:install`を実行して、これらのテーブルを作成する移行を生成します。 
-移行を実行するには`rails db:migrate`を使用してください。
+新規アプリケーション作成後または既存のアプリケーションをRails 5.2にアップグレードした後に、`rails active_storage:install`を実行して、これらのテーブルを作成するmigrationファイルを作成します。 
+migrationファイルを実行するには`rails db:migrate`を使用してください。
 
 Active Storageのサービスを`config/storage.yml`で宣言してください。 アプリケーションが使用するサービスごとに、名前と必要な構成を指定します。 
 次の例では、`local`、`test`、`amazon`という3つのサービスを宣言しています。

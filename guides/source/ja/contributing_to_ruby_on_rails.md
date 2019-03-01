@@ -123,7 +123,7 @@ Railsガイドの翻訳に貢献する
 
 Railsガイドを翻訳してくださるボランティアも歓迎いたします。次の手順に沿ってください。
 
-* https://github.com/rails/railsをforkします。
+* https://github.com/rails/rails をforkします。
 * 翻訳先の言語名に対応するフォルダをsourceフォルダの下に追加します。たとえば、イタリア語であればguides/source/it-ITフォルダを追加します。
 * *guides/source*に置かれているコンテンツファイルをそのフォルダ内にコピーして翻訳します。
 * HTMLファイルは**翻訳しないでください**（自動生成されます）。

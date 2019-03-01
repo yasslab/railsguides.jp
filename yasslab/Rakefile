@@ -17,19 +17,30 @@ namespace :assets do
   end
 end
 
-# Test if generated HTML files include dead links
-# cf. http://joenyland.me/blog/how_to_test_a_jekyll_site/
+# Test if HTML files lack of tags, attributes, etc.
+# cf. https://github.com/gjtorikian/html-proofer
 require 'html-proofer'
 task test: [:build] do
-  HTML::Proofer.new('./_site', {
-                      check_opengraph: true,
-                      check_favicon: true,
-                      check_html: true,
-                      disable_external: true,
-                      file_ignore: %w(),
-                      url_ignore:  %w(),
-                      http_status_ignore: [0, 500, 999],
-                    }).run
+  sh "bundle exec rake assets:precompile" unless ENV['SKIP_BUILD'] == '1'
+  options = {
+    alt_ignore: [/.*\.(png|gif)/],  # TODO: Set empty, run tests, and fix errors
+    allow_hash_href:  true,
+    check_opengraph:  true,
+    check_favicon:    true,
+    check_html:       true,
+    disable_external: true,
+    file_ignore: [
+      /.*\.xml/,
+      /.*\.json/,
+      "./_site/2_2_release_notes.html", # TODO: Delete this line when translated
+      "./_site/5_2_release_notes.html", # TODO: Delete this line when #763 fixed
+      # https://github.com/yasslab/railsguides.jp/issues/763
+      "./_site/humanx.txt"
+    ],
+    url_ignore:  %w(),
+    http_status_ignore: [0, 500, 999]
+  }
+  HTMLProofer.check_directory('./_site', options).run
 end
 
 task build: [:clean] do
@@ -151,11 +162,13 @@ HELP
     system 'rm -rf output/ja'
   end
 
-  desc "Add missing files to deploy to Heroku"
+  desc "Tweak files for deploying to Heroku"
   task :tanpopo do
+    system 'echo "Tanpopo: Tweaking files for deploying to Heroku ..."'
     system 'cp ./source/ja/favicon.ico ./output/ja'
-    system 'cp ./source/ja/404.html    ./output/ja'
     system 'cp ./source/ja/humans.txt  ./output/ja'
+    system 'rm ./output/ja/layout.html'
+    system 'echo "Tanpopo: Done."'
   end
 end
 

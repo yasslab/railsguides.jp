@@ -303,9 +303,9 @@ App.chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
 
 以下の設定手順は、2つの例で共通です。
 
-  1. [接続を設定](#connection-setup).
-  2. [親チャネルを設定](#parent-channel-setup).
-  3. [コンシューマーを接続](#connect-consumer).
+  1. [接続を設定](#コンシューマーの設定)
+  2. [親チャネルを設定](#親チャネルの設定
+  3. [コンシューマーを接続](#コンシューマーとの接続)
 
 ### 例1: ユーザーアピアランスの表示
 

@@ -8,7 +8,7 @@
 --------------------------------------- */
 
 .announce {
-    margin: -20px 0px 20px 0px;
+    margin: 0px 0px 20px 0px;
     padding: 0.001em 10px 0.001em 10px;
 //    height: 18px;
     width: auto;
@@ -46,11 +46,13 @@
 .snsb li {
     float: left;
     margin-right: 4px;
+    line-height:  0;
     list-style-type: none;
 }
 .snsb iframe {
     margin: 0 !important;
 }
+
 .sitemap{
   margin-left: 13px;
 }
@@ -69,6 +71,18 @@
 .sitemap dl dt {
   margin-top: 10px;
 }
+
+.trademark {
+    overflow: hidden;
+    clear: left;
+    margin-left: 13px;
+}
+.trademark li {
+    float: left;
+    margin-right: 4px;
+    list-style-type: none;
+}
+
 
 .left {float: left; margin-right: 1em;}
 .right {float: right; margin-left: 1em;}
@@ -157,7 +171,7 @@ body {
   text-align: center;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 87.5%;
-  line-height: 1.5em;
+  line-height: 1.8em; // Changed for better reading in Japanese
   background: #fff;
   color: #999;
 }
@@ -277,7 +291,7 @@ body {
     width: 100%;
     height: 100%;
     text-decoration: none;
-    text-transform: uppercase;
+    //text-transform: uppercase; // Changes for Japanese characters
   }
 }
 

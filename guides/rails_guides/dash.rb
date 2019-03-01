@@ -2,6 +2,7 @@
 require 'nokogiri'
 require 'cgi'
 require 'docset'
+require 'digest/md5'
 
 class Dash < Struct.new(:output_dir, :docset_filename)
   class << self

@@ -333,7 +333,7 @@ class Comment < ApplicationRecord
 end
 ```
 
-UUIDについて詳しくは、[UUID主キー](#UUID主キー)のセクションを参照してください。
+UUIDについて詳しくは、[UUID主キー](#uuid主キー)のセクションを参照してください。
 
 ### ビット列（bit string）データ型
 

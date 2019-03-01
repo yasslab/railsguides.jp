@@ -2,11 +2,16 @@ language: ruby
 install: bundle install --jobs=3 --retry=3 --no-deployment
 script:
 - bundle exec rake assets:precompile
-- bundle exec rspec spec/features/
+- bundle exec rake test SKIP_BUILD=1
+
+# `rake test` covers the following tests.
+# Use RSpec if needed to cover more in CI.
+#- bundle exec rspec spec/features/
+
 deploy:
   provider: heroku
   api_key:
-    secure: WUiFdccJVdR3kJ4+s24xfezASvNTB7Co9Lcrg4gL/lEBXyJKnPApFsk9oR9e3Hn9VsfVJddv6I85auNGKaoqSBjf5GQToj7giBYfFMNktQkgWagXaV4ZVLaOgfCau0PdWBtmN2FCn67aTz1+RcEHXrgz++R72BtRqoE2s6WRlU4=
+    secure: bwUZT5EFoq5CDcrgZeu7iy7tAlSUv4SVtxyPuZtVdQklT93zZ8QQXZFeWZicyVCxRTanAYvIKKY4viSJXRn4Hxb6+PonbexuRuyhT9dkbPgNnpPPxW0QcuiyCD2qpHrEp8wUMeYfr+SxPr6PJluq9ENwzCQyACwXMxJ6+dxHzS0=
   on:
     branch: master
   app: railsguides-jp

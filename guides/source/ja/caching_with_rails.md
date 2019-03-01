@@ -357,7 +357,7 @@ config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.c
 
 Redisキャッシュストアは、Redisがサポートするメモリ最大値到達時のLRU（least-recently-used: 最も最近使われたキャッシュ）やLFU（least-frequently-used: 最も使用頻度の少ないキャッシュ）に基づくキーのエビクション（喪失）を利用して、Memcachedキャッシュサーバーのように振る舞います。
 
-デプロイに関するメモ: Redisのキーはデフォルトでは無期限なので、専用のRedisキャッシュサーバーを使うときはご注意ください。常設のRedisサーバーに期限付きのキャッシュデータを保存しないこと。詳しくは[Redis cache server setup guide](https://redis.io/topics/lru-cache)（英語）をご覧ください。
+デプロイに関するメモ: Redisのキーはデフォルトでは無期限なので、専用のRedisキャッシュサーバーを使うようにご注意ください。永続化用のRedisサーバーに期限付きのキャッシュデータを保存しないこと。詳しくは[Redis cache server setup guide](https://redis.io/topics/lru-cache)（英語）をご覧ください。
 
 Redisサーバーを「オールキャッシュ」で使う場合は、`maxmemory-policy`に`allkeys`ポリシーを設定します。Redis 4以降ではLFUエビクション（`allkeys-lfu`）がサポートされており、これはデフォルトの選択肢として非常によいものです。Redis 3以前では`allkeys-lru`を用いてLRUにすべきです。
 

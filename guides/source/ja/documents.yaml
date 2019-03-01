@@ -175,7 +175,7 @@
       description: マウント可能なエンジンの作成方法について解説します。
       work_in_progress: false
     -
-      name: Threading and Code Execution in Rails [未訳]
+      name: Rails のスレッドとコード実行
       url: threading_and_code_execution.html
       description: Railsアプリケーションの並行性について考慮すべきことや利用可能なツールについて解説します。
       work_in_progress: true

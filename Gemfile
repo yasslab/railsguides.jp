@@ -1,8 +1,14 @@
+# Use required gems for building yasslab/railsguides.jp,
+# and not use gems required by rails/rails development.
+railsguides_jp_gemfile = File.expand_path("yasslab/Gemfile", __dir__)
+if File.exist? railsguides_jp_gemfile
+  instance_eval File.read railsguides_jp_gemfile
+  return
+end
+
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-
-ruby '2.5.1'
 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -109,10 +115,6 @@ end
 local_gemfile = File.dirname(__FILE__) + "/.Gemfile"
 instance_eval File.read local_gemfile if File.exist? local_gemfile
 
-# Add railsguides.jp required gems.
-railsguides_jp_gemfile = File.expand_path("yasslab/Gemfile", __dir__)
-instance_eval File.read railsguides_jp_gemfile if File.exist? railsguides_jp_gemfile
-
 group :test do
   gem "minitest", "~> 5.10.0"
   gem "minitest-bisect"
@@ -175,8 +177,3 @@ end
 gem "ibm_db" if ENV["IBM_DB"]
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "wdm", ">= 0.1.0", platforms: [:mingw, :mswin, :x64_mingw, :mswin64]
-
-# FIXME: Remove this comment after Heroku support ruby_25 platforms.
-# platforms :ruby_25 do
-#   gem "mathn"
-# end

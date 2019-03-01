@@ -1677,7 +1677,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/inflections.
 "_id".humanize                          # => "Id"
 ```
 
-"SSL"が頭字語と定義されている場合は以下のようにエラーになります。
+"SSL"が頭字語と定義されている場合は以下のようになります。
 
 ```ruby
 'ssl_error'.humanize # => "SSL error"

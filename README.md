@@ -117,14 +117,26 @@ Railsガイドの品質向上に向けて、皆さまのご協力が得られれ
 
 ## 運営チーム
 
-本リポジトリは Ruby/Rails の開発を支援する [YassLab](https://yasslab.jp/ja/) 株式会社によって制作・運用されております。
+本リポジトリは Ruby/Rails の開発を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
 📣 【PR】YassLab 社では開発支援も承っております。もし興味あればお気軽にご相談ください ;)
 
-Ruby/Rails の開発支援サービス
-[https://yasslab.jp/ja/agile](https://yasslab.jp/ja/agile)
+<div >
+  <a href="https://yasslab.jp/ja/agile">
+    <img width="60%" src="https://yasslab.jp/img/join_image.png"
+         alt="YassLab Images" />
+  </a>
+  <a href="https://yasslab.jp/ja/agile">
+    <img width="60%" src="https://yasslab.jp/img/skills.png"
+         alt="YassLab Skills" />
+  </a>
+  <p>【PR END】詳細：<a href="https://yasslab.jp/ja/agile">Ruby/Rails の開発支援サービス - YassLab 株式会社</a></p>
+</div>
 
-[![Logo of YassLab Inc.](https://yasslab.jp/img/logo_rect.png)](https://yasslab.jp/ja/)
+　
+
+YassLab 社以外にも、次の方々が協力してくれました! 🤝✨    
+様々なご意見・フィードバックありがとうございます! (＞人＜ )✨
 
 ### 協力者
 
@@ -137,10 +149,10 @@ Ruby/Rails の開発支援サービス
 
 ### 相談部屋
 
-[idobata.io](https://idobata.io) の [yasslab/railsguides.jp](https://idobata.io/#/organization/yasslab/room/railsguides) 部屋にて、Rails ガイドに関する情報交換しています。   
+[idobata.io](https://idobata.io) の [yasslab/railsguides-public](https://idobata.io/#/organization/yasslab/room/railsguides-public) 部屋にて、Rails ガイドに関する情報交換しています。   
 覗いてみるだけの方も歓迎なので、是非お気軽に立ち寄ってみてください :D
 
-[![井戸端会議の風景](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/idobata-ss.png)](https://idobata.io/#/organization/yasslab/room/railsguides)
+[![井戸端会議の風景](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/idobata-ss.png)](https://idobata.io/#/organization/yasslab/room/railsguides-public)
 
 ## ライセンス
 
@@ -155,5 +167,6 @@ Ruby/Rails の開発支援サービス
 ### クレジット
 
 - 原著: http://guides.rubyonrails.org/credits.html
-- 本書: [@hachi8833](https://github.com/hachi8833), [@yasulab](https://github.com/yasulab)
+- 本書: [YassLab 株式会社](https://yasslab.jp/)
 
+[![YassLab Inc.](https://yasslab.jp/img/logo_800x200.png)](https://yasslab.jp/ja/)

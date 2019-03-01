@@ -168,7 +168,7 @@ person.first_name_changed? # => true
 
 ```ruby
 # attr_name_was accessor
-person.first_name_was # => "First Name"
+person.first_name_was # => nil
 ```
 
 変更された属性の、直前の値と現在の値を両方返します。変更があった場合は配列を返し、変更がなかった場合はnilを返します。
@@ -364,7 +364,7 @@ end
 
 * config/locales/app.pt-BR.yml
 
-```yml
+```
 pt-BR:
   activemodel:
     attributes:

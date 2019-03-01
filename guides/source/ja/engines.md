@@ -1001,7 +1001,7 @@ s.add_development_dependency "moo"
 
 どちらの依存gemも、アプリケーションで`bundle install`を実行するときにインストールされます。開発時にのみ必要となるgemは、エンジンのテスト実行中にのみ使用されます。
 
-エンジンがrequireされるときに依存gemもすぐにrequireしたい場合は、以下のようエンジンが初期化されるより前にrequireする必要があることにご注意ください。たとえば次のようになります。
+エンジンがrequireされるときに依存gemもすぐにrequireしたい場合は、以下のようにエンジンが初期化されるより前にrequireする必要があることにご注意ください。たとえば次のようになります。
 
 ```ruby
 require 'other_engine/engine'

@@ -1,46 +1,57 @@
 source 'https://rubygems.org'
-ruby "2.5.1"
+ruby "2.6.0"
 
+# Required gems to build Rails Guides (same as rails/rails)
+gem "rake"
+gem 'rails-html-sanitizer'
+gem 'rack-test'
+gem 'erubi'
+group :doc do
+  gem "sdoc"
+  gem "redcarpet" #, "~> 3.2.3", platforms: :ruby
+  gem "w3c_validators"
+  gem "kindlerb" #, "~> 1.2.0"
+end
+
+# Required gems to host yasslab/railsguides.jp
 gem "jekyll"
 gem "rack-jekyll"
 gem "kramdown"
-gem "puma"
 
-# Gems to generate RailsGuides HTML from MD
-gem "rack-cache", "~> 1.2"
-
-# Monitoring tools
-gem "newrelic_rpm"
-
-# SSL in Production
-gem "acme_challenge"
-gem "rack-rewrite", "~> 1.5.0"
-# FIXME: Remove this fork after https://github.com/rack/rack-contrib/pull/129 is merged.
-gem "rack-contrib", github: "bigcartel/rack-contrib", branch: "master"
-
-# Testing links by hand
+# Test HTML files by: `bundle exec rake test`
+# Required as well in production to check deployment
 gem "html-proofer"
 
-group :doc do
-  gem "sdoc", github: "robin850/sdoc", branch: "upgrade"
-  gem "redcarpet", "~> 3.2.3", platforms: :ruby
-  gem "w3c_validators"
-  gem "kindlerb", "~> 1.2.0"
-end
-
 group :development do
-  # Generate docset
-  gem "docset"
-  gem "gtt-downloader"
+  gem "docset" # For generating docset (Dash)
+
+  # TODO: We don't use GTT now. Delete this line
+  #       with other GTT-associated codes.
+  #gem "gtt-downloader"
 end
 
 group :development, :test do
-  gem "rb-readline"
-  gem "pry-byebug"
+  gem "pry-byebug"  # For debugging codes
 end
 
 group :test do
+
+  # Required to exec: `bundle exec rspec spec/features/`
   gem "rspec"
+  gem "capybara"
   gem "turnip"
-  gem "wraith"
+end
+
+group :production do
+  # Enable HTTP caching for Rack-based applications
+  gem "rack-cache" #, "~> 1.2"
+
+  # Monitoring tools
+  gem "newrelic_rpm"
+
+  # SSL in Production
+  gem "puma"
+  gem "acme_challenge"
+  gem "rack-rewrite" #, "~> 1.5.0"
+  gem "rack-contrib"
 end
