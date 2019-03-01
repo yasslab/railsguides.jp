@@ -2,7 +2,7 @@
 Rails で JavaScript を使用する
 ================================
 
-本ガイドでは、RailsにビルトインされているAjax/JavaScript機能などについて解説します。これらを活用して、リッチな動的Ajaxアプリをお手軽に作ることができます。
+本ガイドでは、RailsにビルトインされているAjax/JavaScript機能などについて解説します。これらを活用して、リッチな動的Ajaxアプリケーションをお手軽に作ることができます。
 
 このガイドの内容:
 
@@ -110,7 +110,7 @@ RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScr
 
 アセットパイプラインを無効にしていない場合、[rails-ujs](https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts)はJavaScriptの他にRubyの正規ビューヘルパーも提供して、DOMに適切なタグを追加します。
 
-アプリ内の`remote`要素を扱うその他の発火イベントについては以下をご覧ください。
+アプリケーション内の`remote`要素を扱うその他の発火イベントについては以下をご覧ください。
 
 #### form_with
 
@@ -198,7 +198,7 @@ $ ->
 
 #### `data-method`
 
-ハイパーリンクをクリックすると、常にHTTP `GET`リクエストが発生します。しかし実際には、[RESTful](https://en.wikipedia.org/wiki/Representational_State_Transfer)なアプリのリンクの中には、クリックするとサーバーのデータを変更するものもあり、そうした操作は`GET`以外のリクエストで行わなければなりません。この`data-method`属性は、そうしたリンクのHTTPメソッドに`POST`や`PUT`や`DELETE`を明示的に指定できます。
+ハイパーリンクをクリックすると、常にHTTP `GET`リクエストが発生します。しかし実際には、[RESTful](https://en.wikipedia.org/wiki/Representational_State_Transfer)なアプリケーションのリンクの中には、クリックするとサーバーのデータを変更するものもあり、そうした操作は`GET`以外のリクエストで行わなければなりません。この`data-method`属性は、そうしたリンクのHTTPメソッドに`POST`や`PUT`や`DELETE`を明示的に指定できます。
 
 この方法を用いると、リンクをクリックしたときにドキュメント内に「隠しフォーム」が1つ作成されます。隠しフォームにはリンクの`href`値に対応する「action」属性や`data-method`値に対応するHTTPメソッドを含まれており、そのフォームが送信されます。
 
@@ -367,7 +367,7 @@ $("<%= escape_javascript(render @user) %>").appendTo("#users");
 Turbolinks
 ----------
 
-Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリでページのレンダリングを高速化しています。
+Railsには[Turbolinksライブラリ](https://github.com/turbolinks/turbolinks)が同梱されており、Ajaxを利用して多くのアプリケーションでページのレンダリングを高速化しています。
 
 ### Turbolinksの動作原理
 
