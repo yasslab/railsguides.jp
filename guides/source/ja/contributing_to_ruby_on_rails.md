@@ -114,7 +114,7 @@ Ruby on Railsには2種類のドキュメントがあります。ひとつはこ
 
 どなたでもRailsガイドの改善に貢献することができます。Railsガイドに求められる改善とは、「一貫していること」「矛盾がないこと」「読みやすいこと」「情報の追加」「事実と異なっている部分の修正」「タイポの修正」「最新のedge Railsに追い付くこと」などです。
 
-英語ドキュメントに貢献したい方は、Railsガイドの英語ソースファイル（GitHubの[ここ](https://github.com/rails/rails/tree/master/guides/source)にあるます）を変更し、プルリクを送信してmasterブランチに変更の反映を依頼してください。
+英語ドキュメントに貢献したい方は、Railsガイドの[英語ソースファイル](https://github.com/rails/rails/tree/master/guides/source)から変更し、プルリクエストを通してmasterブランチに変更の反映を依頼してください。
 
 ドキュメント関連で貢献したい場合は、[API ドキュメント作成のガイドライン](api_documentation_guidelines.html) と[Rails ガイドのガイドライン](ruby_on_rails_guides_guidelines.html) をよく読んでからにしてください。
 
