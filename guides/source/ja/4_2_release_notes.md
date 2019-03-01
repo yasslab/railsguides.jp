@@ -263,7 +263,7 @@ Railties
 
 ### 主な変更点
 
-*   `web-console`がデフォルトのアプリケーション`Gemfile`に導入されました。
+*   `web-console`がデフォルトのアプリケーションの`Gemfile`に導入されました。
     ([Pull Request](https://github.com/rails/rails/pull/11667))
 
 *   モデル関連付けをおこなうジェネレータに`required`オプションが追加されました。
