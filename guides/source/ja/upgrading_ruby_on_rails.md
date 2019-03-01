@@ -84,7 +84,7 @@ Rails 5.1 の変更点の詳細は[リリースノート](5_1_release_notes.html
 
 ### トップレベルの`HashWithIndifferentAccess`が弱く非推奨化された
 
-アプリでトップレベルの`HashWithIndifferentAccess`クラスを使っている場合、すぐでなくてもよいので`ActiveSupport::HashWithIndifferentAccess`に置き換えてください。
+アプリケーションでトップレベルの`HashWithIndifferentAccess`クラスを使っている場合、すぐでなくてもよいので`ActiveSupport::HashWithIndifferentAccess`に置き換えてください。
 
 これは「弱い非推奨化」であり、しばらくは正常に動作し、非推奨警告も表示されません。ただし、この定数は将来削除されます。
 
@@ -92,7 +92,7 @@ Rails 5.1 の変更点の詳細は[リリースノート](5_1_release_notes.html
 
 ### `application.secrets`ですべてのキーをシンボルとして読み込むようになった
 
-`config/secrets.yml`に保存されているアプリの設定がネストしている場合、すべてのキーがシンボルとして読み込まれます。このため、文字列による設定へのアクセス方法を以下のように変更する必要があります。
+`config/secrets.yml`に保存されているアプリケーションの設定がネストしている場合、すべてのキーがシンボルとして読み込まれます。このため、文字列による設定へのアクセス方法を以下のように変更する必要があります。
 
 変更前:
 
@@ -120,7 +120,7 @@ Rubyのバージョンが2.2.2以降であることを確認してから手順�
 
 Rails 4.2のActive Recordモデルは`ActiveRecord::Base`を継承していました。Rails 5.0では、すべてのモデルが`ApplicationRecord`を継承するようになりました。
 
-アプリのコントローラーが`ActionController::Base`に代わって`ApplicationController`を継承するように、アプリのすべてのモデルが`ApplicationRecord`をスーパークラスとして使うようになりました。この変更により、アプリ全体のモデルの動作を1か所で変更できるようになりました。
+アプリケーションのコントローラーが`ActionController::Base`に代わって`ApplicationController`を継承するように、アプリケーションのすべてのモデルが`ApplicationRecord`をスーパークラスとして使うようになりました。この変更により、アプリケーション全体のモデルの動作を1か所で変更できるようになりました。
 
 Rails 4.2をRails 5.0にアップグレードする場合、`app/models/`ディレクトリに`application_record.rb`ファイルを追加し、このファイルに以下の設定を追加する必要があります。
 
