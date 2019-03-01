@@ -381,7 +381,7 @@ class ApplicationController < ActionController::Base
   private
 
   # キー付きのセッションに保存されたidでユーザーを検索する
-  # :current_user_id はRailsアプリでユーザーログインを扱う際の定番の方法。
+  # :current_user_id はRailsアプリケーションでユーザーログインを扱う際の定番の方法。
   # ログインするとセッション値が設定され、
   # ログアウトするとセッション値が削除される。
   def current_user
