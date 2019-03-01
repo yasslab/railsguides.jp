@@ -1076,7 +1076,7 @@ WARNING: 画像ファイルの拡張子は省略できません。
     ```html+erb
     <%= form_for(search) do |f| %>
       <h1>Search form:</h1>
-    <fieldset>
+      <fieldset>
         <%= yield f %>
       </fieldset>
       <p>
