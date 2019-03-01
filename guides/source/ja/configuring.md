@@ -1,12 +1,12 @@
-Railsアプリを設定する
+Railsアプリケーションを設定する
 ==============================
 
-このガイドではRailsアプリケーション（アプリ）で利用可能な設定と初期化機能について説明いたします。
+このガイドではRailsアプリケーションで利用可能な設定と初期化機能について説明いたします。
 
 このガイドの内容:
 
-* Railsアプリの動作を調整する方法
-* アプリ開始時に実行したいコードを追加する方法
+* Railsアプリケーションの動作を調整する方法
+* アプリケーション開始時に実行したいコードを追加する方法
 
 --------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ Railsには初期化コードの置き場所が4箇所あります。
 Rails実行前にコードを実行する
 -------------------------
 
-アプリでRails自体が読み込まれる前に何らかのコードを実行する必要が生じることがまれにあります。その場合は、実行したいコードを`config/application.rb`ファイルの`require 'rails/all'`行より前に書いてください。
+アプリケーションでRails自体が読み込まれる前に何らかのコードを実行する必要が生じることがまれにあります。その場合は、実行したいコードを`config/application.rb`ファイルの`require 'rails/all'`行より前に書いてください。
 
 Railsコンポーネントを構成する
 ----------------------------
@@ -48,7 +48,7 @@ config.active_record.schema_format = :ruby
 
 Rails全般に対する設定を行うには、`Rails::Railtie`オブジェクトを呼び出すか、`Rails::Engine`や`Rails::Application`のサブクラスを呼び出します。
 
-* `config.after_initialize`: この設定にはブロックを渡せます。このブロックは、Railsによるアプリの初期化が完了した**直後**に実行されます。アプリの初期化作業には、フレームワーク自体の初期化、エンジンの初期化、そして`config/initializers`に記述されたすべてのアプリイニシャライザの実行が含まれます。ここで渡すブロックは**rakeタスクとして実行される**ことにご注意ください。このブロックは、他のイニシャライザによって設定される値を設定するのに便利です。
+* `config.after_initialize`: この設定にはブロックを渡せます。このブロックは、Railsによるアプリケーションの初期化が完了した**直後**に実行されます。アプリケーションの初期化作業には、フレームワーク自体の初期化、エンジンの初期化、そして`config/initializers`に記述されたすべてのアプリケーション初期化処理の実行が含まれます。ここで渡すブロックは**rakeタスクとして実行される**ことにご注意ください。このブロックは、他のイニシャライザによって設定される値を設定するのに便利です。
 
     ```ruby
     config.after_initialize do
@@ -62,15 +62,15 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.autoload_paths`: Railsが定数を自動読み込みするパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです。この設定の変更は既に非推奨になりました。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-paths-and-eager-load-paths)を参照してください。
 
-* `config.cache_classes`: アプリのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードの場合は`true`なので動作が高速になります。
+* `config.cache_classes`: アプリケーションのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードの場合は`true`なので動作が高速になります。
 
-* `config.beginning_of_week`: アプリにおける週の初日を設定します。引数には、曜日を表す有効なシンボルを渡します(`:monday`など)。
+* `config.beginning_of_week`: アプリケーションにおける週の初日を設定します。引数には、曜日を表す有効なシンボルを渡します(`:monday`など)。
 
 * `config.cache_store`: Railsでのキャッシュ処理に使われるキャッシュストアを設定します。指定できるオプションは次のシンボル`:memory_store`、`:file_store`、`:mem_cache_store`、`:null_store`のいずれか、またはキャッシュAPIを実装するオブジェクトです。デフォルトは`:file_store`に設定されます。
 
 * `config.colorize_logging`: 出力するログ情報にANSI色情報を与えるかどうかを指定します。デフォルトは`true`です。
 
-* `config.consider_all_requests_local`: このフラグが`true`の場合、どのような種類のエラーが発生した場合にも詳細なデバッグ情報がHTTPレスポンスに出力され、アプリの実行時コンテキストが`Rails::Info`コントローラによって`/rails/info/properties`に出力されます。このフラグはdevelopmentモードとtestモードでは`true`、productionモードでは`false`に設定されます。もっと細かく制御したい場合は、このフラグを`false`に設定してから、コントローラで`local_request?`メソッドを実装し、エラー時にデバッグ情報を出力したいリクエストをそこで指定してください。
+* `config.consider_all_requests_local`: このフラグが`true`の場合、どのような種類のエラーが発生した場合にも詳細なデバッグ情報がHTTPレスポンスに出力され、アプリケーションの実行時コンテキストが`Rails::Info`コントローラによって`/rails/info/properties`に出力されます。このフラグはdevelopmentモードとtestモードでは`true`、productionモードでは`false`に設定されます。もっと細かく制御したい場合は、このフラグを`false`に設定してから、コントローラで`local_request?`メソッドを実装し、エラー時にデバッグ情報を出力したいリクエストをそこで指定してください。
 
 * `config.console`: これを用いて、コンソールで`rails console`を実行する時に使われるクラスをカスタマイズできます。このメソッドは`console`ブロックで使うのが最適です。
 
@@ -83,19 +83,19 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
     end
     ```
 
-* `config.eager_load`: `true`にすると、`config.eager_load_namespaces`に登録された事前一括読み込み(eager loading)用の名前空間をすべて読み込みます。ここにはアプリ、エンジン、Railsフレームワークを含むあらゆる登録済み名前空間が含まれます。
+* `config.eager_load`: `true`にすると、`config.eager_load_namespaces`に登録された事前一括読み込み(eager loading)用の名前空間をすべて読み込みます。ここにはアプリケーション、エンジン、Railsフレームワークを含むあらゆる登録済み名前空間が含まれます。
 
 * `config.eager_load_namespaces`: ここに登録した名前は、`config.eager_load`が`true`のときに読み込まれます。登録された名前空間は、必ず`eager_load!`メソッドに応答しなければなりません。
 
-* `config.eager_load_paths`: パスの配列を引数に取ります。起動時のRailsは、cache_classesがオンの場合にこのパスからeager loading(事前一括読み込み)します。デフォルトではアプリの`app`ディレクトリ以下のすべてのディレクトリが対象です。
+* `config.eager_load_paths`: パスの配列を引数に取ります。起動時のRailsは、cache_classesがオンの場合にこのパスからeager loading(事前一括読み込み)します。デフォルトではアプリケーションの`app`ディレクトリ以下のすべてのディレクトリが対象です。
 
-* `config.enable_dependency_loading`: `true`の場合、アプリが事前に読み込まれ、`config.cache_classes`がtrueに設定されていても、自動読み込みを有効にします。 デフォルトは`false`です。
+* `config.enable_dependency_loading`: `true`の場合、アプリケーションが事前に読み込まれ、`config.cache_classes`がtrueに設定されていても、自動読み込みを有効にします。 デフォルトは`false`です。
 
-* `config.encoding`: アプリ全体のエンコーディングを指定します。デフォルトはUTF-8です。
+* `config.encoding`: アプリケーション全体のエンコーディングを指定します。デフォルトはUTF-8です。
 
-* `config.exceptions_app`: 例外が発生したときにShowExceptionミドルウェアによって呼び出されるアプリ例外を設定します。デフォルトは`ActionDispatch::PublicExceptions.new(Rails.public_path)`です。
+* `config.exceptions_app`: 例外が発生したときにShowExceptionミドルウェアによって呼び出されるアプリケーションの例外を設定します。デフォルトは`ActionDispatch::PublicExceptions.new(Rails.public_path)`です。
 
-* `config.debug_exception_response_format`: developmentモードで発生したエラーのレスポンスで用いられるフォーマットを設定します。通常のアプリの場合は`:default`が、APIのみの場合は`:api`がデフォルトで設定されます。
+* `config.debug_exception_response_format`: developmentモードで発生したエラーのレスポンスで用いられるフォーマットを設定します。通常のアプリケーションの場合は`:default`が、APIのみの場合は`:api`がデフォルトで設定されます。
 
 * `config.file_watcher`: `config.reload_classes_only_on_change`が`true`の場合にファイルシステム上のファイル更新検出に使われるクラスを指定します。デフォルトのRailsでは`ActiveSupport::FileUpdateChecker`、および`ActiveSupport::EventedFileUpdateChecker`（これは[listen](https://github.com/guard/listen)に依存します）が指定されます。カスタムクラスはこの`ActiveSupport::FileUpdateChecker` APIに従わなければなりません。
 
@@ -107,7 +107,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.log_level`: Railsのログ出力をどのぐらい詳細にするかを指定します。デフォルトではすべての環境で`:debug`が指定されます。指定可能な出力レベルは`:debug`、`:info`、`:warn`、`:error`、`:fatal`、`:unknown`です。
 
-* `config.log_tags`: 次のリストを引数に取ります（`request`オブジェクトが応答するメソッド、`request`オブジェクトを受け取る`Proc`、または`to_s`に応答できるオブジェクト）。これは、ログの行にデバッグ情報をタグ付けする場合に便利です。たとえばサブドメインやリクエストidを指定することができ、これらはマルチユーザーのproductionモードアプリをデバッグするのに便利です。
+* `config.log_tags`: 次のリストを引数に取ります（`request`オブジェクトが応答するメソッド、`request`オブジェクトを受け取る`Proc`、または`to_s`に応答できるオブジェクト）。これは、ログの行にデバッグ情報をタグ付けする場合に便利です。たとえばサブドメインやリクエストidを指定することができ、これらはマルチユーザーのproductionアプリケーションをデバッグするのに便利です。
 
 * `config.logger`: `Rails.logger`で使われるロガーやRails関連のあらゆるログ出力（`ActiveRecord::Base.logger`など）を指定します。デフォルトでは、`ActiveSupport::Logger`のインスタンスをラップする`ActiveSupport::TaggedLogging`のインスタンスが指定されます。なお`ActiveSupport::Logger`はログを`log/`ディレクトリに出力します。ここにカスタムロガーを指定できますが、互換性を完全にするには以下のガイドラインに従わなければなりません。
 
@@ -125,15 +125,15 @@ mylogger.formatter = config.log_formatter
 config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 ```
 
-* `config.middleware`: アプリで使うミドルウェアをカスタマイズできます。詳細については[ミドルウェアを設定する](#ミドルウェアを設定する)の節を参照してください。
+* `config.middleware`: アプリケーションで使うミドルウェアをカスタマイズできます。詳細については[ミドルウェアを設定する](#ミドルウェアを設定する)の節を参照してください。
 
 * `config.reload_classes_only_on_change`: 監視しているファイルが変更された場合にのみクラスを再読み込みするかどうかを指定します。デフォルトでは、`autoload_path`で指定されたすべてのファイルが監視対象となり、デフォルトで`true`が設定されます。`config.cache_classes`が`true`の場合、このオプションは無視されます。
 
-* `secret_key_base`: このメソッドは、改竄防止のためにアプリのセッションを既知の秘密キーと照合するためのキーを指定するときに使います。test環境とdevelopment環境の場合、`secrets.secret_key_base`でランダムに生成されたキーを使います。その他の環境ではキーを`config/credentials.yml.enc`に設定すべきです。
+* `secret_key_base`: このメソッドは、改竄防止のためにアプリケーションのセッションを既知の秘密キーと照合するためのキーを指定するときに使います。test環境とdevelopment環境の場合、`secrets.secret_key_base`でランダムに生成されたキーを使います。その他の環境ではキーを`config/credentials.yml.enc`に設定すべきです。
 
-* `config.public_file_server.enabled`: `public/`ディレクトリ内の静的アセットを扱うかどうかを指定します。デフォルトでは`true`が設定されますが、production環境ではアプリを実行するNginxやApacheなどのサーバーが静的アセットを扱う必要があるので、`false`になります。デフォルトの設定とは異なり、WEBrickをでアプリをproductionモードで実行したり(WEBrickをproductionで使うことは推奨されません)テストしたりする場合は`true`に設定します。そうしないとページキャッシュが利用できなくなり、`public/`ディレクトリ以下に常駐する静的ファイルへのリクエストも有効になりません。
+* `config.public_file_server.enabled`: `public/`ディレクトリ内の静的アセットを扱うかどうかを指定します。デフォルトでは`true`が設定されますが、production環境ではアプリケーションを実行するNginxやApacheなどのサーバーが静的アセットを扱う必要があるので、`false`になります。デフォルトの設定とは異なり、WEBrickをでアプリケーションをproductionモードで実行したり(WEBrickをproductionで使うことは推奨されません)テストしたりする場合は`true`に設定します。そうしないとページキャッシュが利用できなくなり、`public/`ディレクトリ以下に常駐する静的ファイルへのリクエストも有効になりません。
 
-* `config.session_store`: セッションの保存に使うクラスを指定します。指定できる値は`:cookie_store`(デフォルト)、`:mem_cache_store`、`:disabled`です。`:disabled`を指定すると、Railsでセッションが扱われなくなります。デフォルトでは、アプリ名と同じ名前のcookieストアがセッションキーとして使われます。カスタムセッションストアを指定することもできます。
+* `config.session_store`: セッションの保存に使うクラスを指定します。指定できる値は`:cookie_store`(デフォルト)、`:mem_cache_store`、`:disabled`です。`:disabled`を指定すると、Railsでセッションが扱われなくなります。デフォルトでは、アプリケーション名と同じ名前のcookieストアがセッションキーとして使われます。カスタムセッションストアを指定することもできます。
 
     ```ruby
     config.session_store :my_custom_store
@@ -141,7 +141,7 @@ config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 
 カスタムストアは`ActionDispatch::Session::MyCustomStore`として定義する必要があります。
 
-* `config.time_zone`: アプリのデフォルトタイムゾーンを設定し、Active Recordで認識できるようにします。
+* `config.time_zone`: アプリケーションのデフォルトタイムゾーンを設定し、Active Recordで認識できるようにします。
 
 ### アセットを設定する
 
@@ -207,15 +207,15 @@ end
 
 ### ミドルウェアを設定する
 
-どのRailsアプリの背後にも、いくつかの標準的なミドルウェアが配置されています。development環境では、以下の順序でミドルウェアを使います。
+どのRailsアプリケーションの背後にも、いくつかの標準的なミドルウェアが配置されています。development環境では、以下の順序でミドルウェアを使います。
 
 * `ActionDispatch::SSL`: すべてのリクエストにHTTPSプロトコルを強制します。これは`config.force_ssl`を`true`にすると有効になります。渡すオプションは`config.ssl_options`で設定できます。
 * `ActionDispatch::Static`: 静的アセットを扱うために使います。`config.public_file_server.enabled`が`false`の場合は無効に設定されます。静的ディレクトリのインデックスファイルが`index`でない場合には、`config.public_file_server.index_name`を設定します。たとえば、ディレクトリへのリクエストを`index.html`ではなく`main.html`と扱うには、`config.public_file_server.index_name`を`"main"`に設定します。
-* `ActionDispatch::Executor`: スレッドセーフなコード再読み込みに使います。これは`config.allow_concurrency`が`false`の場合に無効になり、`Rack::Lock`が読み込まれるようになります。`Rack::Lock`はアプリのミューテックスをラップするので、同時に1つのスレッドでしか呼び出されなくなります。
+* `ActionDispatch::Executor`: スレッドセーフなコード再読み込みに使います。これは`config.allow_concurrency`が`false`の場合に無効になり、`Rack::Lock`が読み込まれるようになります。`Rack::Lock`はアプリケーションのミューテックスをラップするので、同時に1つのスレッドでしか呼び出されなくなります。
 * `ActiveSupport::Cache::Strategy::LocalCache`: 基本的なメモリバックアップ式キャッシュとして機能します。このキャッシュはスレッドセーフではなく、単一スレッド用の一時メモリキャッシュとして機能することのみを意図していることにご注意ください。
 * `Rack::Runtime`: `X-Runtime`ヘッダーを設定します。このヘッダーには、リクエストの実行にかかる時間(秒)が含まれます。
 * `Rails::Rack::Logger`: リクエストが開始されたことをログに通知します。リクエストが完了すると、すべてのログをフラッシュします。
-* `ActionDispatch::ShowExceptions`: アプリから返されるすべての例外をrescueし、リクエストがローカルであるか`config.consider_all_requests_local`が`true`に設定されている場合に適切な例外ページを出力します。`config.action_dispatch.show_exceptions`が`false`に設定されていると、常に例外が出力されます。
+* `ActionDispatch::ShowExceptions`: アプリケーションから返されるすべての例外をrescueし、リクエストがローカルであるか`config.consider_all_requests_local`が`true`に設定されている場合に適切な例外ページを出力します。`config.action_dispatch.show_exceptions`が`false`に設定されていると、常に例外が出力されます。
 * `ActionDispatch::RequestId`: レスポンスで利用できる独自のX-Request-Idヘッダーを作成し、`ActionDispatch::Request#uuid`メソッドを有効にします。
 * `ActionDispatch::RemoteIp`: IPスプーフィング攻撃が行われていないかどうかをチェックし、リクエストヘッダーから正しい`client_ip`を取得します。この設定は`config.action_dispatch.ip_spoofing_check`オプションと`config.action_dispatch.trusted_proxies`オプションで変更可能です。
 * `Rack::Sendfile`: bodyが1つのファイルから作成されているレスポンスをキャッチし、サーバー固有のX-Sendfileヘッダーに差し替えてから送信します。この動作は`config.action_dispatch.x_sendfile_header`で設定可能です。
@@ -266,9 +266,9 @@ config.middleware.delete Rack::MethodOverride
 
 以下のオプションはすべて`i18n`(internationalization: 国際化)ライブラリ用のオプションです。
 
-* `config.i18n.available_locales`: アプリで利用できるロケールをホワイトリスト化します。デフォルトでは、ロケールファイルにあるロケールキーはすべて有効になりますが、新しいアプリの場合、通常は`:en`だけです。
+* `config.i18n.available_locales`: アプリケーションで利用できるロケールをホワイトリスト化します。デフォルトでは、ロケールファイルにあるロケールキーはすべて有効になりますが、新しいアプリケーションの場合、通常は`:en`だけです。
 
-* `config.i18n.default_locale`: アプリのi18nで使われるデフォルトのロケールを設定します。デフォルトは`:en`です。
+* `config.i18n.default_locale`: アプリケーションのi18nで使われるデフォルトのロケールを設定します。デフォルトは`:en`です。
 
 * `config.i18n.enforce_available_locales`: これをオンにすると、`available_locales`リストで宣言されていないロケールはi18nに渡せなくなります。利用できないロケールがある場合は`i18n::InvalidLocale`例外が発生します。デフォルトは`true`です。このオプションは、ユーザー入力のロケールが不正である場合のセキュリティ対策であるため、特別な理由がない限り無効にしないでください。
 
@@ -376,9 +376,9 @@ ExampleModel.where("boolean_column = 'f'").update_all(boolean_column: 0)
 
 `config.action_controller`には多数の設定が含まれています。
 
-* `config.action_controller.asset_host`: アセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリサーバーの代りにCDN(コンテンツ配信ネットワーク)を使いたい場合に便利です。
+* `config.action_controller.asset_host`: アセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使いたい場合に便利です。
 
-* `config.action_controller.perform_caching`: Action Controllerコンポーネントが提供するキャッシュ機能をアプリで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。
+* `config.action_controller.perform_caching`: Action Controllerコンポーネントが提供するキャッシュ機能をアプリケーションで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。
 
 * `config.action_controller.default_static_extension`: キャッシュされたページに与える拡張子を指定します。デフォルトは`.html`です。
 
@@ -439,7 +439,7 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 * `config.action_dispatch.default_charset`: すべてのレンダリングで使うデフォルトの文字セットを指定します。デフォルトは`nil`です。
 
-* `config.action_dispatch.tld_length`: アプリで使うトップレベルドメイン(TLD) の長さを指定します。デフォルトは`1`です。
+* `config.action_dispatch.tld_length`: アプリケーションで使うトップレベルドメイン(TLD) の長さを指定します。デフォルトは`1`です。
 
 * `config.action_dispatch.ignore_accept_header`: リクエストのヘッダーを受け付けるかどうかを指定します。デフォルトは`false`です。
 
@@ -729,7 +729,7 @@ text/javascript image/svg+xml application/postscript application/x-shockwave-fla
 
 ### データベースを設定する
 
-ほぼすべてのRailsアプリは、何らかの形でデータベースにアクセスします。データベースへの接続は、環境変数`ENV['DATABASE_URL']`を設定するか、`config/database.yml`というファイルを設定することで行えます。
+ほぼすべてのRailsアプリケーションは、何らかの形でデータベースにアクセスします。データベースへの接続は、環境変数`ENV['DATABASE_URL']`を設定するか、`config/database.yml`というファイルを設定することで行えます。
 
 `config/database.yml`ファイルを使うことで、データベース接続に必要なすべての情報を指定できます。
 
@@ -749,9 +749,9 @@ postgresql://localhost/blog_development?pool=5
 
 `config/database.yml`ファイルには、Railsがデフォルトで実行できる以下の3つの異なる環境を記述するセクションが含まれています。
 
-* `development`環境は、ローカルの開発環境でアプリと手動でやりとりを行うために使われます。
+* `development`環境は、ローカルの開発環境でアプリケーションと手動でやりとりを行うために使われます。
 * `test`環境は、自動化されたテストを実行するために使われます。
-* `production`環境は、アプリを世界中に公開する本番で使われます。
+* `production`環境は、アプリケーションを世界中に公開する本番で使われます。
 
 必要であれば、`config/database.yml`の内部でURLを直接指定することもできます。
 
@@ -762,7 +762,7 @@ development:
 
 `config/database.yml`ファイルにはERBタグ`<%= %>`を含めることができます。タグ内に記載されたものはすべてRubyのコードとして評価されます。このタグを用いて、環境変数から接続情報を取り出したり、接続情報の生成に必要な計算を行なうこともできます。
 
-TIP: データベースの接続設定を手動で更新する必要はありません。アプリのジェネレータのオプションを表示してみると、`--database`というオプションがあるのがわかります。このオプションでは、リレーショナルデータベースで最もよく使われるアダプタをリストから選択できます。さらに、`cd .. && rails new blog --database=mysql`のようにするとジェネレータを繰り返し実行することもできます。`config/database.yml`ファイルが上書きされることを確認すると、アプリの設定はSQLite用からMySQL用に変更されます。よく使われるデータベース接続方法の詳細な例については後述します。
+TIP: データベースの接続設定を手動で更新する必要はありません。アプリケーションのジェネレータのオプションを表示してみると、`--database`というオプションがあるのがわかります。このオプションでは、リレーショナルデータベースで最もよく使われるアダプタをリストから選択できます。さらに、`cd .. && rails new blog --database=mysql`のようにするとジェネレータを繰り返し実行することもできます。`config/database.yml`ファイルが上書きされることを確認すると、アプリケーションの設定はSQLite用からMySQL用に変更されます。よく使われるデータベース接続方法の詳細な例については後述します。
 
 ### 接続設定
 
@@ -963,9 +963,9 @@ Railsにデフォルトで備わっている環境は、"development"、"test"�
 
 ### サブディレクトリにデプロイする (相対URLルートの利用)
 
-Railsアプリの実行は、アプリのルートディレクトリ(`/`など)で行なうことが前提となっています。この節では、アプリをディレクトリの下で実行する方法について説明します。
+Railsアプリケーションの実行は、アプリケーションのルートディレクトリ (`/`など) で行なうことが前提となっています。この節では、アプリケーションをディレクトリの下で実行する方法について説明します。
 
-ここでは、アプリを"/app1"ディレクトリにデプロイしたいとします。これを行なうには、適切なルーティングを生成できるディレクトリをRailsに指示する必要があります。
+ここでは、アプリケーションを"/app1"ディレクトリにデプロイしたいとします。これを行なうには、適切なルーティングを生成できるディレクトリをRailsに指示する必要があります。
 
 ```ruby
 config.relative_url_root = "/app1"
@@ -977,11 +977,11 @@ config.relative_url_root = "/app1"
 
 #### Passengerを使う
 
-Passengerを使うと、アプリをサブディレクトリで実行しやすくなります。設定方法の詳細については、[passengerマニュアル](https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/#deploying-an-app-to-a-sub-uri-or-subdirectory)を参照してください。
+Passengerを使うと、アプリケーションをサブディレクトリで実行しやすくなります。設定方法の詳細については、[passengerマニュアル](https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/#deploying-an-app-to-a-sub-uri-or-subdirectory)を参照してください。
 
 #### リバースプロキシを使う
 
-リバースプロキシを用いるアプリをデプロイすることで、従来のデプロイと比べて確実なメリットが得られます。アプリで必要なコンポーネントの層が追加され、サーバーを制御しやすくなります。
+リバースプロキシを用いるアプリケーションをデプロイすることで、従来のデプロイと比べて確実なメリットが得られます。アプリケーションで必要なコンポーネントの層が追加され、サーバーを制御しやすくなります。
 
 現代的なWebサーバーの多くは、キャッシュサーバーやアプリケーションサーバーなどのロードバランシングにプロキシサーバーを用いています。
 
@@ -1027,33 +1027,33 @@ Rails環境の設定
 
 * `ENV["RAILS_ENV"]`: Railsが実行される環境 (production、development、testなど) を定義します。
 
-* `ENV["RAILS_RELATIVE_URL_ROOT"]`: [アプリをサブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする-相対urlルートの利用)ときにルーティングシステムがURLを認識するために使われます。
+* `ENV["RAILS_RELATIVE_URL_ROOT"]`: [アプリケーションをサブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする-相対urlルートの利用)ときにルーティングシステムがURLを認識するために使われます。
 
-* `ENV["RAILS_CACHE_ID"]`と`ENV["RAILS_APP_VERSION"]`: Railsのキャッシュを扱うコードで拡張キャッシュを生成するために使われます。これにより、ひとつのアプリの中で複数の独立したキャッシュを扱うことができるようになります。
+* `ENV["RAILS_CACHE_ID"]`と`ENV["RAILS_APP_VERSION"]`: Railsのキャッシュを扱うコードで拡張キャッシュを生成するために使われます。これにより、ひとつのアプリケーションの中で複数の独立したキャッシュを扱うことができるようになります。
 
 イニシャライザファイルを使う
 -----------------------
 
-Railsは、フレームワークの読み込みとすべてのgemの読み込みが完了してから、イニシャライザの読み込みを開始します。イニシャライザとは、アプリの`config/initializers`ディレクトリに保存されるRubyファイルのことです。たとえば各部分のオプション設定をイニシャライザに保存しておき、フレームワークとgemがすべて読み込まれた後に適用することができます。
+Railsは、フレームワークの読み込みとすべてのgemの読み込みが完了してから、イニシャライザの読み込みを開始します。イニシャライザとは、アプリケーションの`config/initializers`ディレクトリに保存されるRubyファイルのことです。たとえば各部分のオプション設定をイニシャライザに保存しておき、フレームワークとgemがすべて読み込まれた後に適用することができます。
 
 NOTE: イニシャライザを置くディレクトリにサブフォルダを作ってイニシャライザを整理することもできます。Railsはイニシャライザ用のディレクトリの下のすべての階層を探して実行してくれます。
 
-TIP: Railsではイニシャライザの複数のファイル名に番号を付けて読み込み順を制御するサポートがありますが、よりよい方法は同一ファイル内に記述するコードの順序で読み込み順を制御することです。この方がファイル名が散らからずに済みますし、依存関係も明確になり、アプリ内の新しい概念が見えやすくなります。
+TIP: Railsではイニシャライザの複数のファイル名に番号を付けて読み込み順を制御するサポートがありますが、よりよい方法は同一ファイル内に記述するコードの順序で読み込み順を制御することです。この方がファイル名が散らからずに済みますし、依存関係も明確になり、アプリケーション内の新しい概念が見えやすくなります。
 
 初期化イベント
 ---------------------
 
 Railsにはフック可能な初期化イベントが5つあります。以下に紹介するこれらのイベントは、実際に実行される順序で掲載しています。
 
-* `before_configuration`: これは`Rails::Application`からアプリのアプリ定数を継承した直後に実行されます。`config`呼び出しは、このイベントより前に評価されますので注意してください。
+* `before_configuration`: これは`Rails::Application`から定数を継承した直後に実行されます。`config`呼び出しは、このイベントより前に評価されますので注意してください。
 
-* `before_initialize`: これは、`:bootstrap_hook`イニシャライザを含む初期化プロセスの直前に、直接実行されます。`:bootstrap_hook`は、Railsアプリ初期化プロセスのうち比較的最初の方にあります。
+* `before_initialize`: これは、`:bootstrap_hook`イニシャライザを含む初期化プロセスの直前に、直接実行されます。`:bootstrap_hook`は、Railsアプリケーション初期化プロセスのうち比較的最初の方にあります。
 
-* `to_prepare`: これは、Railties用のイニシャライザとアプリ自身用のイニシャライザがすべて実行された後、かつ事前一括読み込み(eager loading)の実行とミドルウェアスタックの構築が行われる前に実行されます(訳注: RailtiesはRailsのコアライブラリの1つで、線路の犬釘を表すrail tieのもじりです)。さらに重要な点は、これは`development`モードではサーバーへのリクエストのたびに必ず実行されますが、`production`モードと`test`モードでは起動時に1度だけしか実行されないことです。
+* `to_prepare`: これは、Railtiesの初期化処理とアプリケーション自身の初期化処理がすべて実行された後、かつ事前一括読み込み (eager loading) の実行とミドルウェアスタックの構築が行われる前に実行されます(訳注: RailtiesはRailsのコアライブラリの1つで、線路の犬釘を表すrail tieのもじりです)。さらに重要な点は、これは`development`モードではサーバーへのリクエストのたびに必ず実行されますが、`production`モードと`test`モードでは起動時に1度だけしか実行されないことです。
 
 * `before_eager_load`: これは、事前一括読み込みが行われる前に直接実行されます。これは`production`環境ではデフォルトの動作ですが、`development`環境では異なります。
 
-* `after_initialize`: これは、アプリの初期化が終わり、かつ`config/initializers`以下のイニシャライザが実行された後に実行されます。
+* `after_initialize`: これは、アプリケーションの初期化が終わり、かつ`config/initializers`以下のイニシャライザが実行された後に実行されます。
 
 これらのフックのイベントを定義するには、`Rails::Application`、`Rails::Railtie`、または`Rails::Engine`サブクラス内でブロック記法を使います。
 
@@ -1075,7 +1075,7 @@ Rails.application.config.before_initialize do
 end
 ```
 
-WARNING: アプリの一部、特にルーティング周りでは、`after_initialize`ブロックが呼び出された時点で設定が完了しないものがあります。
+WARNING: アプリケーションの一部、特にルーティング周りでは、`after_initialize`ブロックが呼び出された時点で設定が完了しないものがあります。
 
 ### `Rails::Railtie#initializer`
 
@@ -1093,9 +1093,9 @@ end
 
 WARNING: イニシャライザが起動される順序は、論理的に矛盾が生じない限りにおいて、beforeやafterでいかなる順序に変更することもできます。たとえば、"one"から"four"までの4つのイニシャライザがあり、かつこの順序で定義されたとします。ここで"four"を"four"より**前**かつ"three"よりも**後**になるように定義すると論理矛盾が発生し、イニシャライザの実行順を決定できなくなってしまいます。
 
-`initializer`メソッドのブロック引数は、アプリ自身のインスタンスです。そのおかげで、上の例で示したように、`config`メソッドを使ってアプリの設定にアクセスできます。
+`initializer`メソッドのブロック引数は、アプリケーション自身のインスタンスです。そのおかげで、上の例で示したように、`config`メソッドを使ってアプリケーションの設定にアクセスできます。
 
-実は`Rails::Application`は`Rails::Railtie`を間接的に継承しています。そのおかげで、`config/application.rb`で`initializer`メソッドを使ってアプリ用のイニシャライザを定義できるのです。
+実は`Rails::Application`は`Rails::Railtie`を間接的に継承しています。そのおかげで、`config/application.rb`で`initializer`メソッドを使ってアプリケーションの初期化処理を定義できるのです。
 
 ### イニシャライザ
 
@@ -1105,7 +1105,7 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 
 * `load_active_support`: Active Supportの基本部分を設定する`active_support/dependencies`が必要です。デフォルトの`config.active_support.bare`が信用できない場合には`active_support/all`も必要です。
 
-* `initialize_logger`: ここより前の位置で`Rails.logger`を定義するイニシャライザがない場合、アプリのロガー(`ActiveSupport::Logger`オブジェクト)を初期化し、`Rails.logger`にアクセスできるようにします。
+* `initialize_logger`: ここより前の位置で`Rails.logger`を定義するイニシャライザがない場合、アプリケーションのロガー(`ActiveSupport::Logger`オブジェクト)を初期化し、`Rails.logger`にアクセスできるようにします。
 
 * `initialize_cache`: `Rails.cache`が未設定の場合、`config.cache_store`の値を参照してキャッシュを初期化し、その結果を`Rails.cache`として保存します。そのオブジェクトが`middleware`メソッドに応答する場合、そのミドルウェアをミドルウェアスタックの`Rack::Runtime`の前に挿入します。
 
@@ -1119,9 +1119,9 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 
 * `active_support.deprecation_behavior`: 環境に対する非推奨レポート出力を設定します。development環境ではデフォルトで`:log`、production環境ではデフォルトで`:notify`、test環境ではデフォルトで`:stderr`が指定されます。`config.active_support.deprecation`に値が設定されていない場合、このイニシャライザは、現在の環境に対応する`config/environments`ファイルに値を設定するよう促すメッセージを出力します。値の配列を設定することもできます。
 
-* `active_support.initialize_time_zone`: `config.time_zone`の設定に基いてアプリのデフォルトタイムゾーンを設定します。デフォルト値は"UTC"です。
+* `active_support.initialize_time_zone`: `config.time_zone`の設定に基いてアプリケーションのデフォルトタイムゾーンを設定します。デフォルト値は"UTC"です。
 
-* `active_support.initialize_beginning_of_week`: `config.beginning_of_week`の設定に基づいてアプリのデフォルトの週開始日を設定します。デフォルト値は`:monday`です。
+* `active_support.initialize_beginning_of_week`: `config.beginning_of_week`の設定に基づいてアプリケーションのデフォルトの週開始日を設定します。デフォルト値は`:monday`です。
 
 * `active_support.set_configs`: Active Supportをセットアップします。`config.active_support`内の設定を用い、メソッド名を`ActiveSupport`のセッターに`send`し、値を渡します。
 
@@ -1131,9 +1131,9 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 
 * `action_view.set_configs`: Action Viewをセットアップします。`config.action_view`内の設定を用い、メソッド名を`ActionView::Base`のセッターに`send`し、値を渡します。
 
-* `action_controller.assets_config`: 明示的に設定されていない場合は、`config.actions_controller.assets_dir`をアプリの`public/`ディレクトリに設定されます。
+* `action_controller.assets_config`: 明示的に設定されていない場合は、`config.actions_controller.assets_dir`をアプリケーションの`public/`ディレクトリに設定されます。
 
-* `action_controller.set_helpers_path`: Action Controllerの`helpers_path`をアプリの`helpers_path`に設定します。
+* `action_controller.set_helpers_path`: Action Controllerの`helpers_path`をアプリケーションの`helpers_path`に設定します。
 
 * `action_controller.parameters_config`: `ActionController::Parameters`で使うstrong parametersオプションを設定します。
 
@@ -1175,33 +1175,33 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 
 * `set_autoload_paths`: このイニシャライザは`bootstrap_hook`より前に実行されます。`app`以下のすべてのサブディレクトリと、`config.autoload_paths`、`config.eager_load_paths`、`config.autoload_once_paths`で指定したすべてのパスが`ActiveSupport::Dependencies.autoload_paths`に追加されます。
 
-* `add_routing_paths`: デフォルトですべての`config/routes.rb`ファイルを読み込み、アプリのルーティングを設定します。この`config/routes.rb`ファイルはアプリの他に、エンジンなどのrailtiesにもあります。
+* `add_routing_paths`: デフォルトですべての`config/routes.rb`ファイルを読み込み、アプリケーションのルーティングを設定します。この`config/routes.rb`ファイルはアプリケーションの他に、エンジンなどのrailtiesにもあります。
 
-* `add_locales`: `config/locales`にあるファイルを`I18n.load_path`に追加し、そのパスで指定された場所にある訳文にアクセスできるようにします。この`config/locales`は、アプリだけではなく、railtiesやエンジンにもあります。
+* `add_locales`: `config/locales`にあるファイルを`I18n.load_path`に追加し、そのパスで指定された場所にある訳文にアクセスできるようにします。この`config/locales`は、アプリケーションだけではなく、railtiesやエンジンにもあります。
 
-* `add_view_paths`: アプリやrailtiesやエンジンにある`app/views`へのパスをビューファイルへの探索パスに追加します。
+* `add_view_paths`: アプリケーションやrailtiesやエンジンにある`app/views`へのパスをビューファイルへの探索パスに追加します。
 
 * `load_environment_config`: 現在の環境に`config/environments`を読み込みます。
 
-* `prepend_helpers_path`: アプリやrailtiesやエンジンに含まれる`app/helpers`ディレクトリをヘルパーへの探索パスに追加します。
+* `prepend_helpers_path`: アプリケーションやrailtiesやエンジンに含まれる`app/helpers`ディレクトリをヘルパーへの探索パスに追加します。
 
-* `load_config_initializers`: アプリやrailtiesやエンジンに含まれる`config/initializers`にあるRubyファイルをすべて読み込みます。このディレクトリに置かれているファイルは、フレームワークの読み込みがすべて読み終わった後に行うべき設定の保存にも使えます。
+* `load_config_initializers`: アプリケーションやrailtiesやエンジンに含まれる`config/initializers`にあるRubyファイルをすべて読み込みます。このディレクトリに置かれているファイルは、フレームワークの読み込みがすべて読み終わった後に行うべき設定の保存にも使えます。
 
 * `engines_blank_point`: エンジンの読み込みが完了する前に行いたい処理に使う初期化ポイントへのフックを提供します。初期化処理がここまで進むと、railtiesやエンジンイニシャライザはすべて起動しています。
 
-* `add_generator_templates`: アプリやrailtiesやエンジンにある`lib/templates`ディレクトリにあるジェネレータ用のテンプレートを探し、それらを`config.generators.templates`設定に追加します。この設定によって、すべてのジェネレータからテンプレートを参照できるようになります。
+* `add_generator_templates`: アプリケーションやrailtiesやエンジンにある`lib/templates`ディレクトリにあるジェネレータ用のテンプレートを探し、それらを`config.generators.templates`設定に追加します。この設定によって、すべてのジェネレータからテンプレートを参照できるようになります。
 
 * `ensure_autoload_once_paths_as_subset`: `config.autoload_once_paths`に、`config.autoload_paths`以外のパスが含まれないようにします。それ以外のパスが含まれている場合は例外が発生します。
 
-* `add_to_prepare_blocks`: アプリやrailtiesやエンジンにあるすべての`config.to_prepare`呼び出しのブロックが、Action Dispatchの`to_prepare`に追加されます。Action Dispatchはdevelopmentモードではリクエストごとに実行され、productionモードでは最初のリクエストより前に実行されます。
+* `add_to_prepare_blocks`: アプリケーションやrailtiesやエンジンにあるすべての`config.to_prepare`呼び出しのブロックが、Action Dispatchの`to_prepare`に追加されます。Action Dispatchはdevelopmentモードではリクエストごとに実行され、productionモードでは最初のリクエストより前に実行されます。
 
-* `add_builtin_route`: アプリがdevelopment環境で動作している場合、`rails/info/properties`へのルーティングをアプリのルーティングに追加します。このルーティングにアクセスすると、デフォルトのRailsアプリで`public/index.html`に表示されるのと同様の詳細情報(RailsやRubyのバージョンなど)を取り出せます。
+* `add_builtin_route`: アプリケーションがdevelopment環境で動作している場合、`rails/info/properties`へのルーティングをアプリケーションのルーティングに追加します。このルーティングにアクセスすると、デフォルトのRailsアプリケーションで`public/index.html`に表示されるのと同様の詳細情報(RailsやRubyのバージョンなど)を取り出せます。
 
-* `build_middleware_stack`: アプリのミドルウェアスタックを構成し、`call`メソッドを持つオブジェクトを返します。この`call`メソッドは、リクエストに対するRack環境の1つのオブジェクトを引数に取ります。
+* `build_middleware_stack`: アプリケーションのミドルウェアスタックを構成し、`call`メソッドを持つオブジェクトを返します。この`call`メソッドは、リクエストに対するRack環境の1つのオブジェクトを引数に取ります。
 
 * `eager_load!`: `config.eager_load`がtrueに設定されている場合、`config.before_eager_load`フックを実行し、続いて`eager_load!`を呼び出します。この呼び出しにより、すべての`config.eager_load_namespaces`が呼び出されます。
 
-* `finisher_hook`: アプリの初期化プロセス完了後に実行されるフックを提供し、アプリやrailtiesやエンジンの`config.after_initialize`ブロックもすべて実行します。
+* `finisher_hook`: アプリケーションの初期化プロセス完了後に実行されるフックを提供し、アプリケーションやrailtiesやエンジンの`config.after_initialize`ブロックもすべて実行します。
 
 * `set_routes_reloader_hook`: ルーティングファイルを`ActiveSupport::Callbacks.to_run`で再読み込みするようAction Dispatchを構成します。
 
@@ -1232,7 +1232,7 @@ ActiveRecord::ConnectionTimeoutError - could not obtain a database connection wi
 
 上のエラーが発生するような場合は、`database.yml`の`pool`オプションの数値を増やして接続プールのサイズを増やすことで対応できます。
 
-NOTE: アプリをマルチスレッド環境で実行している場合、多くのスレッドが多くの接続に同時アクセスする可能性があります。その時点のリクエストの負荷によっては、限られた接続数を多数のスレッドが奪い合う可能性があります。
+NOTE: アプリケーションをマルチスレッド環境で実行している場合、多くのスレッドが多くの接続に同時アクセスする可能性があります。その時点のリクエストの負荷によっては、限られた接続数を多数のスレッドが奪い合う可能性があります。
 
 カスタム設定
 --------------------
@@ -1284,9 +1284,9 @@ Railsの設定オブジェクトをカスタマイズして独自のコードを
 検索エンジンのインデックス作成
 -----------------------
 
-場合によっては、アプリの一部のページをGoogleやBingやYahooやDuck Duck Goなどの検索サイトに知られないようにしたいことがあります。サイトのインデックスを作成するロボットは最初に`http://your-site.com/robots.txt`ファイルの内容を分析して、インデックス作成を許可されているページを調べます。
+場合によっては、アプリケーションの一部のページをGoogleやBingやYahooやDuck Duck Goなどの検索サイトに知られないようにしたいことがあります。サイトのインデックスを作成するロボットは最初に`http://your-site.com/robots.txt`ファイルの内容を分析して、インデックス作成を許可されているページを調べます。
 
-Railsはこのファイルを`/public`の下に作成します。デフォルトでは、検索エンジンにアプリのすべてのページのインデックス作成を許可する設定になります。アプリのすべてのページについてインデックス作成をブロックするには以下を使います。
+Railsはこのファイルを`/public`の下に作成します。デフォルトでは、検索エンジンにアプリケーションのすべてのページのインデックス作成を許可する設定になります。アプリケーションのすべてのページについてインデックス作成をブロックするには以下を使います。
 
 ```
 User-agent: *
@@ -1306,7 +1306,7 @@ group :development do
 end
 ```
 
-それ以外の場合、Railsはすべてのリクエストについてファイルの変更があるかをアプリのツリーを調べます。
+それ以外の場合、Railsはすべてのリクエストについてファイルの変更があるかをアプリケーションのツリーを調べます。
 
 LinuxやmacOSでは追加のgemは不要ですが、[*BSD](https://github.com/guard/listen#on-bsd)や[Windows](https://github.com/guard/listen#on-windows)では追加のソフトウェアが必要になることがあります。
 
