@@ -53,7 +53,7 @@ Spring is running:
 
 Springのすべての機能については[Spring README](https://github.com/rails/spring/blob/master/README.md)を参照してください。
 
-[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring)には、この機能を既存のアプリケーションと統合する方法について記載されています。
+[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring-gem)には、この機能を既存のアプリケーションと統合する方法について記載されています。
 
 ### `config/secrets.yml`
 
