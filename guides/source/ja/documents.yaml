@@ -140,7 +140,7 @@
       url: active_support_instrumentation.html
       description: RailsなどのRubyコード内のイベント測定に使う、Active Support内のInstrumentation APIについて解説します。
     -
-      name: Rails アプリケーションのプロファイリング
+      name: Rails アプリケーションを解析する
       work_in_progress: true
       url: profiling.html
       description: Railsのパフォーマンス向上に役立つプロファイリングの手法について解説します。
