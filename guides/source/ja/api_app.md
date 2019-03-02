@@ -145,7 +145,7 @@ APIアプリケーションでは、デフォルトで以下のミドルウェ�
 - `Rack::ETag`
 - `MyApi::Application::Routes`
 
-詳しくは、Rackガイドの「[Rails と Rack - ミドルウェアスタックの内容](rails_on_rack.html#ミドルウェアスタックの内容)」をご覧ください。
+詳しくは、Rackガイドの「[Rails と Rack - ミドルウェアスタックの内容](rails_on_rack.html#ミドルウェアスタックの内部)」をご覧ください。
 
 ミドルウェアは、Active Recordなど他のプラグインによって追加されることがあります。一般に、構築するアプリの種類とミドルウェアは関係ありませんが、API専用Railsアプリでは意味があります。
 

@@ -198,7 +198,7 @@ config.middleware.delete ActionDispatch::Flash
 config.middleware.delete Rack::MethodOverride
 ```
 
-### 内部ミドルウェアスタック
+### ミドルウェアスタックの内部
 
 Action Controllerの機能の多くはミドルウェアとして実装されています。それぞれの役割について以下のリストで説明します。
 
