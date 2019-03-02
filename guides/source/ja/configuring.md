@@ -689,7 +689,7 @@ Active Supportにもいくつかの設定オプションがあります。
 
 ### Action Cableを設定する
 
-* `config.action_cable.url`: Action CableサーバーがホストされているURLの文字列を指定します。Action Cableサーバーがメインのアプリと別になっている場合に使う可能性があります。
+* `config.action_cable.url`: Action CableサーバーがホストされているURLの文字列を指定します。Action Cableサーバーがメインのアプリケーションと別になっている場合に使う可能性があります。
 * `config.action_cable.mount_path`: Action Cableをメインサーバープロセスの一部としてマウントする場所を文字列で指定します。デフォルトは`/cable`です。`nil`を設定すると、Action Cableは通常のRailsサーバーの一部としてマウントされなくなります。
 
 ### Active Storageを設定する
@@ -854,7 +854,7 @@ production:
 
 #### SQLite3データベースを設定する
 
-Railsには[SQLite3](http://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリです。SQLiteは開発用・テスト用であれば問題なく使えますが、（訳注: 同時アクセスが多い）本番での利用には耐えられない可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
+Railsには[SQLite3](http://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは開発用・テスト用であれば問題なく使えますが、（訳注: 同時アクセスが多い）本番での利用には耐えられない可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
 
 以下はデフォルトの接続設定ファイル(`config/database.yml`)に含まれる、開発環境用の接続設定です。
 

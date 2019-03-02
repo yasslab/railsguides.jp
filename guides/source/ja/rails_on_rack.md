@@ -1,4 +1,3 @@
-
 Rails と Rack
 =============
 
@@ -164,7 +163,7 @@ config.middleware.swap ActionDispatch::ShowExceptions, Lifo::ShowExceptions
 
 #### ミドルウェアを削除する
 
-アプリの設定に下記のコードを追加します。
+アプリケーションの設定に下記のコードを追加します。
 
 ```ruby
 # config/application.rb

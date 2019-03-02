@@ -1,6 +1,3 @@
-
-
-
 Rails のキャッシュ: 概要
 ===============================
 
@@ -535,7 +532,7 @@ Railsでは、デフォルトで「弱い」ETagを使います。弱いETagで�
 development環境のキャッシュ
 ----------------------
 
-アプリのキャッシュ戦略をdevelopmentモードでテストしたいことはよくあります。Railsの`dev:cache` rakeタスクを使うと、developmentモードのキャッシュを簡単にオンオフできます。
+アプリケーションのキャッシュ戦略をdevelopmentモードでテストしたいことはよくあります。Railsの`dev:cache` rakeタスクを使うと、developmentモードのキャッシュを簡単にオンオフできます。
 
 ```bash
 $ bin/rails dev:cache

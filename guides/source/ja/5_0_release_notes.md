@@ -1,7 +1,4 @@
-﻿
-
-
-Ruby on Rails 5.0 リリースノート
+﻿Ruby on Rails 5.0 リリースノート
 ===============================
 
 Rails 5.0の注目ポイント
@@ -30,9 +27,9 @@ Rails 5.0へのアップグレード
 
 ### Action Cable
 
-Action Cable はRails 5 に新しく導入されたフレームワークであり、Rails アプリケーションで [WebSockets](https://ja.wikipedia.org/wiki/WebSocket) とその他の部分をシームレスに統合します。
+Action CableはRails 5に新しく導入されたフレームワークであり、Railsアプリケーションで [WebSockets](https://ja.wikipedia.org/wiki/WebSocket) とその他の部分をシームレスに統合します。
 
-Action Cable が導入されたことで、Rails アプリケーションの効率の良さとスケーラビリティを損なわずに、通常のRailsアプリケーションと同じスタイル・方法でリアルタイム機能をRubyで書くことができます。クライアント側のJavaScriptフレームワークとサーバー側のRubyフレームワークを同時に提供する、フルスタックのフレームワークです。Active RecordなどのORMで書かれたすべてのドメインモデルにアクセスできます。
+Action Cableが導入されたことで、Railsアプリケーションの効率の良さとスケーラビリティを損なわずに、通常のRailsアプリケーションと同じスタイル・方法でリアルタイム機能をRubyで書くことができます。クライアント側のJavaScriptフレームワークとサーバー側のRubyフレームワークを同時に提供する、フルスタックのフレームワークです。Active RecordなどのORMで書かれたすべてのドメインモデルにアクセスできます。
 
 詳しくは [Action Cableの概要](action_cable_overview.html) をご覧ください。
 
@@ -41,7 +38,7 @@ Action Cable が導入されたことで、Rails アプリケーションの効�
 APIのみを提供するシンプルなアプリケーションをRailsで簡単に作成できるようになりました。
 [Twitter](https://dev.twitter.com) APIや [GitHub](http://developer.github.com) APIのような一般公開APIサーバーはもちろん、カスタムアプリケーション用APIサーバーの作成・公開にも便利です。
 
-API Railsアプリの生成には次のコマンドを使います。
+API Railsアプリケーションの生成には次のコマンドを使います。
 
 ```bash
 $ rails new my_api --api
@@ -55,7 +52,7 @@ $ rails new my_api --api
 
 生成されたAPIアプリケーションはAPI提供の基礎となり、必要に応じて[機能を追加](api_app.html)できるようになります。
 
-詳しくは [RailsでAPI専用アプリを作る](api_app.html) をご覧ください。
+詳しくは [RailsによるAPI専用アプリケーション](api_app.html) をご覧ください。
 
 ### Active Record属性API
 
@@ -184,7 +181,7 @@ Railties
     ([commit](https://github.com/rails/rails/commit/89a12c931b1f00b90e74afffcdc2fc21f14ca663),
      [Pull Request](https://github.com/rails/rails/pull/22068))
 
-*   Railsアプリをtouch `tmp/restart.txt`で再起動する`bin/rails restart`タスクを追加。
+*   Railsアプリケーションをtouch `tmp/restart.txt`で再起動する`bin/rails restart`タスクを追加。
     ([Pull Request](https://github.com/rails/rails/pull/18965))
 
 *  すべての定義済みイニシャライザをRailsでの起動順に出力する`bin/rails initializers`タスクを追加。
@@ -327,7 +324,7 @@ Action Pack
 *   コントローラのデフォルトのフォームビルダーをオーバーライドする機能を追加。
     ([Pull Request](https://github.com/rails/rails/pull/19736))
 
-*   API専用アプリ向けのサポートを追加。API専用アプリでは`ActionController::Base`の代わりに`ActionController::API`が追加される。
+*   API専用アプリケーション向けのサポートを追加。API専用アプリケーションでは`ActionController::Base`の代わりに`ActionController::API`が追加される。
     ([Pull Request](https://github.com/rails/rails/pull/19832))
 
 *   `ActionController::Parameters` は今後 `HashWithIndifferentAccess` を継承しない。
@@ -625,7 +622,7 @@ Active Recordモデル（通常はテーブルやビュー）を支えるリレ�
 *  クラスのマイグレーションに出現するAPIのバージョンを管理し、既存のマイグレーションを損なわずにパラメータを変更したり、非推奨サイクルの間に書き換えるためにバージョンを強制適用したりできるようにした。
     ([Pull Request](https://github.com/rails/rails/pull/21538))
 
-* `ActionController::Base`に代わって`ApplicationController`を継承するように、`ApplicationRecord`がアプリのすべてのモデルのスーパークラスとして新設される。この変更により、アプリ全体のモデルの動作を1か所で変更できるようになった。
+* `ActionController::Base`に代わって`ApplicationController`を継承するように、`ApplicationRecord`がアプリケーションのすべてのモデルのスーパークラスとして新設される。この変更により、アプリケーション全体のモデルの動作を1か所で変更できるようになった。
     ([Pull Request](https://github.com/rails/rails/pull/22567))
 
 *  ActiveRecordに`#second_to_last`メソッドと`#third_to_last`メソッドを追加。

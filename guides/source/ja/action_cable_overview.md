@@ -1,4 +1,3 @@
-
 Action Cable の概要
 =====================
 
@@ -262,7 +261,7 @@ App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
 ```
 
 ```ruby
-# このコードはアプリのどこかで呼び出される
+# このコードはアプリケーションのどこかで呼び出される
 # おそらくNewCommentJobなどのあたりで
 ActionCable.server.broadcast(
   "chat_#{room}",
@@ -425,7 +424,7 @@ App.cable.subscriptions.create "WebNotificationsChannel",
 アプリケーションのどこからでも、web通知チャネルのインスタンスにコンテンツをブロードキャストできます。
 
 ```ruby
-# このコードはアプリのどこか（NewCommentJob あたり）で呼び出される
+# このコードはアプリケーションのどこか（NewCommentJob あたり）で呼び出される
 WebNotificationsChannel.broadcast_to(
   current_user,
   title: 'New things!',
@@ -439,7 +438,7 @@ WebNotificationsChannel.broadcast_to(
 
 ### より詳しい例
 
-RailsアプリにAction Cableを設定する方法やチャネルの追加方法については、[rails/actioncable-examples](https://github.com/rails/actioncable-examples) で完全な例をご覧いただけます。
+RailsアプリケーションにAction Cableを設定する方法やチャネルの追加方法については、[rails/actioncable-examples](https://github.com/rails/actioncable-examples) で完全な例をご覧いただけます。
 
 ## 設定
 
@@ -473,11 +472,11 @@ production:
 ##### Redisアダプタ
 
 Redisアダプタでは、Redisサーバーを指すURLを指定する必要があります。
-また、複数のアプリが同一のRedisサーバーを用いる場合は、チャンネル名衝突を避けるために`channel_prefix`の指定が必要になることもあります。詳しくは[Redis PubSubドキュメント](https://redis.io/topics/pubsub#database-amp-scoping)を参照してください。
+また、複数のアプリケーションが同一のRedisサーバーを用いる場合は、チャンネル名衝突を避けるために`channel_prefix`の指定が必要になることもあります。詳しくは[Redis PubSubドキュメント](https://redis.io/topics/pubsub#database-amp-scoping)を参照してください。
 
 ##### PostgreSQLアダプタ
 
-PostgreSQLアダプタはActive Recordコネクションプールを用いるため、アプリのデータベース設定ファイル (`config/database.yml`) でコネクションを設定します。将来変更される可能性があります。[#27214](https://github.com/rails/rails/issues/27214)
+PostgreSQLアダプタはActive Recordコネクションプールを用いるため、アプリケーションのデータベース設定ファイル (`config/database.yml`) でコネクションを設定します。将来変更される可能性があります。[#27214](https://github.com/rails/rails/issues/27214)
 
 ### 許可されたリクエスト送信元
 
@@ -517,7 +516,7 @@ config.action_cable.log_tags = [
 
 ## Action Cable専用サーバーを実行する
 
-### アプリで実行
+### アプリケーションで実行
 
 Action CableはRailsアプリケーションと一緒に実行できます。たとえば、`/websocket`でWebSocketリクエストをリッスンするには、`config.action_cable.mount_path`でパスを指定します。
 

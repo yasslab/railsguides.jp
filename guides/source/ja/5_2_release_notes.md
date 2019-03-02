@@ -46,7 +46,7 @@ Rails 5.2で[HTTP/2 Early Hints](https://tools.ietf.org/html/rfc8297)がサポ�
 
 [Pull Request](https://github.com/rails/rails/pull/30067)
 
-`config/credentials.yml.enc`ファイルが追加され、productionアプリの秘密情報（secret）をここに保存できるようになりました。これによって、外部サービスのあらゆる認証credentialを、`config/master.key`ファイルまたは`RAILS_MASTER_KEY`環境変数にあるキーで暗号化した形で直接リポジトリに保存できます。`Rails.application.secrets`やRails 5.1で導入された暗号化済み秘密情報は、最終的にこれによって置き換えられます。
+`config/credentials.yml.enc`ファイルが追加され、productionアプリケーションの秘密情報（secret）をここに保存できるようになりました。これによって、外部サービスのあらゆる認証credentialを、`config/master.key`ファイルまたは`RAILS_MASTER_KEY`環境変数にあるキーで暗号化した形で直接リポジトリに保存できます。`Rails.application.secrets`やRails 5.1で導入された暗号化済み秘密情報は、最終的にこれによって置き換えられます。
 さらに、Rails 5.2では[credentialを支えるAPIが用意され](https://github.com/rails/rails/pull/30940)、その他の暗号化済み設定/キー/ファイルも簡単に扱えます。
 詳しくは、[Rails セキュリティガイド](security.html#独自のcredential)を参照してください。
 
@@ -54,7 +54,7 @@ Rails 5.2で[HTTP/2 Early Hints](https://tools.ietf.org/html/rfc8297)がサポ�
 
 [Pull Request](https://github.com/rails/rails/pull/31162)
 
-Rails 5.2では、アプリの [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)（CSP）を設定する新しいDSLが使えるようになりました。グローバルなポリシーを1つ設定しておき、続いてリソースベースでポリシーをオーバーライドすることも、lambdaを使ってリクエストごとにヘッダーに値を注入することもできます（マルチテナントのアプリでアカウントのサブドメインを注入するなど）。
+Rails 5.2では、アプリケーションの [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)（CSP）を設定する新しいDSLが使えるようになりました。グローバルなポリシーを1つ設定しておき、続いてリソースベースでポリシーをオーバーライドすることも、lambdaを使ってリクエストごとにヘッダーに値を注入することもできます（マルチテナントのアプリでアカウントのサブドメインを注入するなど）。
 詳しくは、[Rails セキュリティガイド](security.html#content-security-policy)を参照してください。
 
 Railties
@@ -87,7 +87,7 @@ Railties
     ([Pull Request](https://github.com/rails/rails/pull/29534))
 
 * `bin/rails app:update`実行時に未利用のコンポーネントをスキップ。
-  最初のアプリ生成でAction CableやActive Recordがスキップされると、これらに関連する更新もスキップされる。
+  最初のアプリケーション生成でAction CableやActive Recordがスキップされると、これらに関連する更新もスキップされる。
     ([Pull Request](https://github.com/rails/rails/pull/29645))
 
 * 3-levelデータベース設定利用時にカスタムコネクション名を`rails dbconsole`に渡せるようになった。
@@ -103,7 +103,7 @@ Railties
 * `rails runner`でプラットフォームを問わずSTDINからのスクリプトを実行するための`-`をサポート
     ([Pull Request](https://github.com/rails/rails/pull/26343))
 
-* Railsアプリ新規作成時に`Gemfile`に`ruby x.x.x`を追加し、`.ruby-version`に現在のRubyバージョンを追加するようになった。
+* Railsアプリケーション新規作成時に`Gemfile`に`ruby x.x.x`を追加し、`.ruby-version`に現在のRubyバージョンを追加するようになった。
     ([Pull Request](https://github.com/rails/rails/pull/30016))
 
 * プラグインジェネレーターに`--skip-action-cable`オプションを追加。
@@ -127,7 +127,7 @@ Railties
 * ジェネレータの`gem`メソッドで引数のバージョンを複数取れるようサポート。
     ([Pull Request](https://github.com/rails/rails/pull/30323))
 
-* development/test環境でアプリ名を元に`secret_key_base`を生成。
+* development/test環境でアプリケーション名を元に`secret_key_base`を生成。
     ([Pull Request](https://github.com/rails/rails/pull/30067))
 
 * デフォルトの`Gemfile`に`mini_magick`をコメントアウトの形で追加。
@@ -618,7 +618,7 @@ Active Support
 *   `ActiveSupport::EncryptedFile`と`ActiveSupport::EncryptedConfiguration`を追加。
     ([Pull Request](https://github.com/rails/rails/pull/30067))
 
-*   productionアプリの秘密情報を保存する`config/credentials.yml.enc`を追加。
+*   productionアプリケーションの秘密情報を保存する`config/credentials.yml.enc`を追加。
     ([Pull Request](https://github.com/rails/rails/pull/30067))
 
 * `MessageEncryptor`と`MessageVerifier`でキーのローテーションをサポート。

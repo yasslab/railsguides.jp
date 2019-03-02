@@ -1,4 +1,3 @@
-
 アセットパイプライン
 ==================
 
@@ -18,9 +17,9 @@
 ---------------------------
 
 アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSASS、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。
-アセットパイプラインはアプリのアセットを自動的に他のgemのアセットと結合できます。たとえば、jquery-railsにはRailsでAJAXを使えるようにするjquery.jsが含まれています。
+アセットパイプラインはアプリケーションのアセットを自動的に他のgemのアセットと結合できます。たとえば、jquery-railsにはRailsでAJAXを使えるようにするjquery.jsが含まれています。
 
-アセットパイプラインは[sprockets-rails](https://github.com/rails/sprockets-rails)gemによって実装され、デフォルトで有効になっています。アプリの新規作成中にアセットパイプラインを無効にするには、`--skip-sprockets`オプションを渡します。
+アセットパイプラインは[sprockets-rails](https://github.com/rails/sprockets-rails)gemによって実装され、デフォルトで有効になっています。アプリケーションの新規作成中にアセットパイプラインを無効にするには、`--skip-sprockets`オプションを渡します。
 
 ```bash
 rails new appname --skip-sprockets

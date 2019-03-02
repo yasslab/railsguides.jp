@@ -1,10 +1,7 @@
-
-
-
-Ruby on Rails 5.1リリースノート
+Ruby on Rails 5.1 リリースノート
 ===============================
 
-Rails 5.1の注目ポイント
+Rails 5.1 の注目ポイント
 
 * Yarnのサポート
 * Webpackのサポート（オプション）
@@ -32,13 +29,13 @@ Rails 5.1へのアップグレード
 
 [Pull Request](https://github.com/rails/rails/pull/26836)
 
-Rails 5.1より、JavaScriptの依存管理をnpmからYarnに変更できるようになりました。ReactやVueJSをはじめ、あらゆるnpmライブラリを簡単に利用できます。Yarnサポートはアセットパイプラインに統合されるので、あらゆるライブラリ依存がRails 5.1アプリでシームレスに動作します。
+Rails 5.1より、JavaScriptの依存管理をnpmからYarnに変更できるようになりました。ReactやVueJSをはじめ、あらゆるnpmライブラリを簡単に利用できます。Yarnサポートはアセットパイプラインに統合されるので、あらゆるライブラリ依存がRails 5.1アプリケーションでシームレスに動作します。
 
 ### Webpackのサポート（オプション）
 
 [Pull Request](https://github.com/rails/rails/pull/27288)
 
-新しい[Webpacker](https://github.com/rails/webpacker) gemの導入によって、JavaScriptのアセット用bundlerとも言うべき[Webpack](https://webpack.js.org/)を簡単にRailsアプリに統合できるようになりました。Railsアプリを新規に生成するときに`--webpack`フラグを付けることで、Webpack統合が有効になります。
+新しい[Webpacker](https://github.com/rails/webpacker) gemの導入によって、JavaScriptのアセット用bundlerとも言うべき[Webpack](https://webpack.js.org/)を簡単にRailsアプリケーションに統合できるようになりました。Railsアプリケーションを新規に生成するときに`--webpack`フラグを付けることで、Webpack統合が有効になります。
 
 統合されたWebpackはアセットパイプラインとの完全互換が保たれます。画像・フォント・音声などのアセットも従来どおりアセットパイプラインで利用できます。また、一部のJavaScriptコードをアセットパイプラインで管理し、その他のJavaScriptコードをWebpack経由で処理する、といったこともできます。これらはすべて、デフォルトで有効なYarnで管理されます。
 
@@ -60,7 +57,7 @@ Rails 5.1でCapybaraが標準サポートされ、システムテストの形式
 
 [Pull Request](https://github.com/rails/rails/pull/28038)
 
-[sekrets](https://github.com/ahoward/sekrets) gemの手法にならい、Railsアプリの秘密情報を安全に管理できるようになりました。
+[sekrets](https://github.com/ahoward/sekrets) gemの手法にならい、Railsアプリケーションの秘密情報を安全に管理できるようになりました。
 
 暗号化済みの秘密情報ファイルを生成するには`bin/rails secrets:setup`を実行します。このコマンドを実行するとマスターキーも同時に生成されます（マスターキーはリポジトリには絶対保存しないでください）。これにより、暗号化された秘密情報ファイルをGitなどのリビジョンコントロールシステムに安全にチェックインできるようになります。
 
@@ -207,7 +204,7 @@ inputフィールド名にスコープをプレフィックスとして追加す
 
 ネストしたトランザクション内に入ったスレッドでは、独立性を保つために一時的に接続を専有します。
 
-アプリの現在のテストが、生成されたスレッド内で（トランザクションの外にある）接続を個別に取得することを前提としている場合は、接続を明示的に管理する必要があります。
+アプリケーションの現在のテストが、生成されたスレッド内で（トランザクションの外にある）接続を個別に取得することを前提としている場合は、接続を明示的に管理する必要があります。
 
 ただし、明示的なデータベーストランザクションを利用するようテストを変更すると、テストで生成されるスレッドが互いに関連して動作する場合にデッドロックが発生する可能性があります。
 
@@ -250,13 +247,13 @@ Railties
 *   デフォルトスタックからjquery-railsを削除: rails-ujsはAction Viewの一部としてリリースされ、デフォルトのUJSアダプタとしてインクルードされる
     ([Pull Request](https://github.com/rails/rails/pull/27113))
 
-*   新しいアプリでyarnをサポート: yarn binstubとpackage.jsonを追加
+*   新しいアプリケーションでyarnをサポート: yarn binstubとpackage.jsonを追加
     ([Pull Request](https://github.com/rails/rails/pull/26836))
 
-*   新しいアプリでWebpackをサポート: `--webpack`オプションを指定するとrails/webpacker gemに委譲される
+*   新しいアプリケーションでWebpackをサポート: `--webpack`オプションを指定するとrails/webpacker gemに委譲される
     ([Pull Request](https://github.com/rails/rails/pull/27288))
 
-*   新しいアプリにGitリポジトリを追加（`--skip-git`を指定しない場合）
+*   新しいアプリケーションにGitリポジトリを追加（`--skip-git`を指定しない場合）
     ([Pull Request](https://github.com/rails/rails/pull/27632))
 
 *   `config/secrets.yml.enc`に暗号化済み秘密情報を追加
@@ -272,7 +269,7 @@ Action Cable
 
 ### 主な変更点
 
-*   `cable.yml`のRadisアダプタとイベントベースRedisのアダプタで`channel_prefix`をサポート: 複数のRailsアプリで同じRedisサーバーが使われている場合の名前衝突回避のため
+*   `cable.yml`のRadisアダプタとイベントベースRedisのアダプタで`channel_prefix`をサポート: 複数のRailsアプリケーションで同じRedisサーバーが使われている場合の名前衝突回避のため
     ([Pull Request](https://github.com/rails/rails/pull/27425))
 
 *   データブロードキャスティング用の`ActiveSupport::Notifications`フックを追加
@@ -308,7 +305,7 @@ Action Pack
 *   ルーティングDSLに`direct`メソッドと`resolve`メソッドを追加
     ([Pull Request](https://github.com/rails/rails/pull/23138))
 
-*   アプリのシステムテスト作成用クラス `ActionDispatch::SystemTestCase`を追加
+*   アプリケーションのシステムテスト作成用クラス `ActionDispatch::SystemTestCase`を追加
     ([Pull Request](https://github.com/rails/rails/pull/26703))
 
 Action View

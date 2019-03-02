@@ -1,4 +1,3 @@
-
 Action Mailer の基礎
 ====================
 
@@ -344,7 +343,7 @@ end
 <% end %>
 ```
 
-この機能を使うには、アプリで次の設定が必要です。
+この機能を使うには、アプリケーションで次の設定が必要です。
 
 ```
   config.action_mailer.perform_caching = true
@@ -456,7 +455,7 @@ NOTE: `GET`以外のリンクが機能するには[rails-ujs](https://github.com
 
 コントローラの場合と異なり、メイラーのインスタンスには受け取ったリクエストのコンテキストが一切含まれません。このため、`:asset_host`パラメータを自分で指定する必要があります。
 
-`:asset_host`が（多くの場合）アプリ全体で一貫しているのと同様、`config/application.rb`でグローバルな設定を行えます。
+`:asset_host`が（多くの場合）アプリケーション全体で一貫しているのと同様、`config/application.rb`でグローバルな設定を行えます。
 
 ```ruby
 config.action_mailer.asset_host = 'http://example.com'
@@ -515,7 +514,7 @@ Action Mailerを使うメールの受信と解析は、メール送信に比べ�
 
 * メイラーに`receive`メソッドを実装する
 
-* `/(アプリのパス)/bin/rails runner 'UserMailer.receive(STDIN.read)'`でメールを受信するアプリケーションに、メールサーバーからメールを転送する。
+* `/(アプリケーションのパス)/bin/rails runner 'UserMailer.receive(STDIN.read)'`でメールを受信するアプリケーションに、メールサーバーからメールを転送する。
 
 いずれかのメイラーに`receive`メソッドを定義すると、受信した生のメールはAction Mailerによって解析され、emailオブジェクトに変換されてデコードされた後、メイラーが新たにインスタンス化され、そのメイラーの`receive`インスタンスメソッドに渡されます。以下に例を示します。
 
@@ -669,9 +668,9 @@ config.action_mailer.smtp_settings = {
   enable_starttls_auto: true }
 ```
 
-Note: Googleは2014年7月15日より[同社のセキュリティ対策を引き上げ](https://support.google.com/accounts/answer/6010255)、「安全性が低い」とみなされたアプリからの試行をブロックするようになりました。
+Note: Googleは2014年7月15日より[同社のセキュリティ対策を引き上げ](https://support.google.com/accounts/answer/6010255)、「安全性が低い」とみなされたアプリケーションからの試行をブロックするようになりました。
 
-Gmailの設定については、[ここ](https://www.google.com/settings/security/lesssecureapps)でこの試行を許可できます。利用するGmailアカウントで2要素認証が有効になっている場合は、[アプリのパスワード](https://myaccount.google.com/apppasswords)を設定して通常のパスワードの代わりに使う必要があります。または、メール送信をsmtp.gmail.comから、プロバイダが提供する別のESPに置き換える方法もあります。
+Gmailの設定については、[ここ](https://www.google.com/settings/security/lesssecureapps)でこの試行を許可できます。利用するGmailアカウントで2要素認証が有効になっている場合は、[アプリケーションのパスワード](https://myaccount.google.com/apppasswords)を設定して通常のパスワードの代わりに使う必要があります。または、メール送信をsmtp.gmail.comから、プロバイダが提供する別のESPに置き換える方法もあります。
 
 メイラーのテスト
 --------------
