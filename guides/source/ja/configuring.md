@@ -60,7 +60,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.autoload_once_paths`:、サーバーへのリクエストごとにクリアされない定数を自動読み込みするパスの配列を引数に取ります。この設定は`config.cache_classes`が`false`の場合に影響を受けます。`config.cache_classes`は、developmentモードではデフォルトでオフです。それ以外の場合、自動読み込みは1度しか行われません。この配列内にあるすべての要素は`autoload_paths`に存在しなければなりません。デフォルトは空の配列です。
 
-* `config.autoload_paths`: Railsが定数を自動読み込みするパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです。この設定の変更は既に非推奨になりました。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-paths-and-eager-load-paths)を参照してください。
+* `config.autoload_paths`: Railsが定数を自動読み込みするパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです。この設定の変更は既に非推奨になりました。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-pathsとeager-load-paths)を参照してください。
 
 * `config.cache_classes`: アプリケーションのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードの場合は`true`なので動作が高速になります。
 
