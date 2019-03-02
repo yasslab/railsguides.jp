@@ -810,7 +810,7 @@ Railsの一般的なルールとして、最終的な入力名は、「`fields_f
 外部リソースに何らかのデータを渡す必要がある場合も、Railsのフォームヘルパーを用いてフォームを作成する方がやはり便利です。しかし、その外部リソースに対して`authenticity_token`を設定しなければならない場合にはどうしたらよいでしょう。これは、`form_tag`オプションに`authenticity_token: 'your_external_token'`パラメータを渡すことで実現できます。
 
 ```erb
-<%= form_tag 'http://farfar.away/form', authenticity_token: 'external_token') do %>
+<%= form_tag 'http://farfar.away/form', authenticity_token: 'external_token' do %>
   Form contents
 <% end %>
 ```
