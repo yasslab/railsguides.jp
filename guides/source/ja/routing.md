@@ -706,7 +706,7 @@ end
 
 NOTE: リクエストベースの制限は、<a href="action_controller_overview.html#requestオブジェクト">Requestオブジェクト</a>に対してあるメソッドを呼び出すことで実行されます。メソッド呼び出し時にハッシュキーと同じ名前をメソッドに渡し、返された値をハッシュ値と比較します。従って、制限された値は、対応するRequestオブジェクトメソッドが返す型と一致する必要があります。たとえば、`constraints: { subdomain: 'api' }`という制限は`api`サブドメインに期待どおりマッチしますが、`constraints: { subdomain: :api }`のようにシンボルを使った場合は`api`サブドメインに一致しません。`request.subdomain`が返す`'api'`は文字列型であるためです。
 
-NOTE: `format`の制限には例外があります。これはRequestオブジェクトのメソッドですが、すべてのパスに含まれる暗黙的なオプションのパラメータでもあります。`format`の制限よりセグメント制限が優先されます。たとえば、`get 'foo'、constraints: {format： 'json'}`は`GET / foo`と一致します。これはデフォルトでformatがオプションであるためです。しかし、次のように[ラムダを使う](#高度な制限)ことができます。`get 'foo', constraints: lambda { |req| req.format == :json }` このルーティング指定は明示的なJSONリクエストにのみ一致します。
+NOTE: `format`の制限には例外があります。これはRequestオブジェクトのメソッドですが、すべてのパスに含まれる暗黙的なオプションのパラメータでもあります。`format`の制限よりセグメント制限が優先されます。たとえば、`get 'foo'、constraints: { format： 'json' }`は`GET /foo`と一致します。これはデフォルトでformatがオプションであるためです。しかし、次のように[ラムダを使う](#高度な制限)ことができます。`get 'foo', constraints: lambda { |req| req.format == :json }` このルーティング指定は明示的なJSONリクエストにのみ一致します。
 
 ### 高度な制限
 
