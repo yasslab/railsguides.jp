@@ -1342,7 +1342,7 @@ NOTE: 定義ファイルの場所は`active_support/core_ext/string/access.rb`�
 "equipment".pluralize # => "equipment"
 ```
 
-上の例でも示したように、Active Supportは不規則な複数形や非可算名詞をある程度扱えます。`config/initializers/inflections.rb`にあるビルトインのルールは拡張可能です。このファイルは`rails new`コマンドで生成され、コメントに説明が示されています。
+上の例でも示したように、Active Supportは不規則な複数形や非可算名詞をある程度扱えます。`config/initializers/inflections.rb`にあるビルトインのルールは拡張可能です。このファイルは`rails new`コマンド実行時にデフォルトで生成され、ファイルのコメントに説明が示されています。
 
 `pluralize`メソッドではオプションで`count`パラメータを使えます。もし`count == 1`を指定すると単数形が返されます。`count`がそれ以外の値の場合は複数形を返します(訳注: 英語では個数がゼロや小数の場合は複数形で表されます)。
 
