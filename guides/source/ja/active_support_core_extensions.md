@@ -2862,7 +2862,7 @@ Regexp.new('.').multiline?                    # => false
 Regexp.new('.', Regexp::MULTILINE).multiline? # => true
 ```
 
-Railsはこのメソッドをある場所で利用しており、ルーティングコードでも利用しています。ルーティングでは正規表現で複数行を扱うことを許していないので、このフラグで制限を加えています。
+Railsはこのメソッドをある一箇所、ルーティングコードで利用しています。ルーティングでは正規表現で複数行を扱うことを許していないので、このフラグで制限を加えています。
 
 ```ruby
 def assign_route_options(segments, defaults, requirements)
