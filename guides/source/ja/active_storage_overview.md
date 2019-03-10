@@ -288,6 +288,12 @@ url_for(user.avatar)
 rails_blob_path(user.avatar, disposition: "attachment")
 ```
 
+コントローラ/ビューのコンテキスト（バックグラウンドジョブ、Cronjobなど）の外部からリンクを作成する必要がある場合は、次のようにrails_blob_pathにアクセスできます。
+
+```
+Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)
+```
+
 画像を変換する
 ----------------
 
