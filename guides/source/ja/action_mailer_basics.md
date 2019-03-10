@@ -331,7 +331,7 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-上のコードは、HTMLの部分を'another_template.html.erb'テンプレートでレンダリングし、テキスト部分を`:text`でレンダリングしています。レンダリングのコマンドはAction Controllerで使われているものと同じなので、`:text`、`:inline`などのオプションもすべて同様に利用できます。
+上のコードは、HTMLの部分を'another_template.html.erb'テンプレートでレンダリングし、テキスト部分をプレーンテキストでレンダリングしています。レンダリングのコマンドはAction Controllerで使われているものと同じなので、`:text`、`:inline`などのオプションもすべて同様に利用できます。
 
 #### メイラービューをキャッシュする
 
