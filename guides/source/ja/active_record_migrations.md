@@ -368,7 +368,7 @@ change_column_default :products, :approved, from: true, to: false
 
 上のマイグレーションはproductsテーブルの`:name`フィールドに`NOT NULL`制約を設定し、`:approved`フィールドのデフォルト値を`true`から`false`に変更します。
 
-NOTE: 上の`change_column_default`マイグレーションは`change_column_default :products, :approved, false`と書くこともできます。この書き方なら先ほどの例と異なり、マイグレーションを可逆的にできます。
+NOTE: 上の`change_column_default`マイグレーションは`change_column_default :products, :approved, false`と書くこともできます。しかし先ほどの例と異なり、マイグレーションは不可逆的になります。
 
 ### カラム修飾子
 
