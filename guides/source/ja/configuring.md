@@ -171,7 +171,7 @@ config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 
 * `config.assets.compile`: production環境での動的なSprocketsコンパイルをオンにするかどうかをtrue/falseで指定します。
 
-* `config.assets.logger`: ロガーを引数に取ります。このロガーは、Log4のインターフェイスか、Rubyの`Logger`クラスに従います。デフォルトでは、`config.logger`と同じ設定が使われます。`config.assets.logger`を`false`に設定すると、アセットのログ出力がオフになります
+* `config.assets.logger`: ロガーを引数に取ります。このロガーは、Log4rのインターフェイスか、Rubyの`Logger`クラスに従います。デフォルトでは、`config.logger`と同じ設定が使われます。`config.assets.logger`を`false`に設定すると、アセットのログ出力がオフになります
 
 * `config.assets.quiet`: アセットへのリクエストのログ出力を無効にします。デフォルトでは`development.rb`で`true`に設定されます。
 
