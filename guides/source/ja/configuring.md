@@ -435,7 +435,7 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
       'X-Permitted-Cross-Domain-Policies' => 'none',
       'Referrer-Policy' => 'strict-origin-when-cross-origin'
     }
-    ```
+    ```
 
 * `config.action_dispatch.default_charset`: すべてのレンダリングで使うデフォルトの文字セットを指定します。デフォルトは`nil`です。
 
