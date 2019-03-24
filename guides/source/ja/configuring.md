@@ -526,7 +526,7 @@ config.action_dispatch.rescue_responses = {
 
 デフォルト設定は`true`で、その場合`/admin/posts/_post.erb`にあるパーシャルを使います。この値を`false`にすると、`/posts/_post.erb`がレンダリングされます。この動作は、`PostsController`などの名前空間化されていないコントローラでレンダリングした場合と同じです。
 
-* `config.action_view.raise_on_missing_translations`: i18nで訳文が見つからない場合にエラーを発生するかどうかを指定します。
+* `config.action_view.raise_on_missing_translations`: i18nで訳文が見つからない場合にエラーを発生するかどうかを指定します。デフォルトは`false`です。
 
 * `config.action_view.automatically_disable_submit_tag`: クリック時に`submit_tag`を自動的に無効にするべきかどうかを指定します。デフォルトは`true`です。
 
