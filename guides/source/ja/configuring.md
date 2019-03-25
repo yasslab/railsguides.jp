@@ -696,7 +696,7 @@ Active Supportにもいくつかの設定オプションがあります。
 
 `config.active_storage`では以下の設定オプションが提供されています。
 
-* `config.active_storage.analyzers`: Active Storageのblob（binary large object）で利用できるアナライザを指定するクラスの配列を受け取ります。デフォルトは`[ActiveStorage::Analyzer::ImageAnalyzer, ActiveStorage::Analyzer::VideoAnalyzer]`です。前者は画像blogの幅（width）や高さ（height）の取り出し、後者は動画blogの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、アスペクト比（aspect ratio）の取り出しに利用できます。
+* `config.active_storage.analyzers`: Active Storageのblob（binary large object）で利用できるアナライザを指定するクラスの配列を受け取ります。デフォルトは`[ActiveStorage::Analyzer::ImageAnalyzer, ActiveStorage::Analyzer::VideoAnalyzer]`です。前者は画像blobの幅（width）や高さ（height）の取り出し、後者は動画blobの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、アスペクト比（aspect ratio）の取り出しに利用できます。
 
 * `config.active_storage.previewers`: Active Storageのblobで利用できる画像プレビューアを指定するクラスの配列を受け取ります。デフォルトは`[ActiveStorage::Previewer::PDFPreviewer, ActiveStorage::Previewer::VideoPreviewer]`です。前者はPDF blobの最初のページのサムネイルを、後者は動画blobのフレームの中から内容を代表するフレームをそれぞれ生成できます。
 
