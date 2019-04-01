@@ -970,7 +970,7 @@ Image # これはHotel::Imageではない！
 warning: toplevel constant Image referenced by Hotel::Image
 ```
 
-この驚くべき定数解決方法は、実はあらゆる就職済みクラスで観察できます。
+この驚くべき定数解決方法は、実はあらゆる修飾済みクラスで観察できます。
 
 ```
 2.1.5 :001 > String::Array
