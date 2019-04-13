@@ -311,15 +311,21 @@ body {
   min-height: 340px;
 }
 
-#container {overflow: hidden;
+#container {
+  overflow: hidden;
   color: #333;
   padding: 0.5em 0 1.0em 0;
 }
 
-#mainCol {border : 1px solid #000;
+#mainCol {
   float:left;
   max-width: 630px;
   margin-left: 2em;
+}
+@media screen and (max-width: 800px) {
+  #mainCol {
+    clear:both;
+  }
 }
 
 #subCol {
@@ -348,13 +354,19 @@ body {
 
 #extraCol {display: none;}
 
-aside#toppage {border : 3px solid #000; 
+aside#toppage { 
   float:right;
   width:220px;
+  padding-top:20px;
 }
 @media screen and (max-width: 800px) {
-  aside {border : 1px solid blue; 
+  aside#toppage {
     width:100%;
+    clear:both;
+    text-align: center;
+  }
+  aside#toppage img{
+    max-width:300px;
   }
 }
 
