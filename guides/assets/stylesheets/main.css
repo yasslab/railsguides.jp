@@ -311,12 +311,13 @@ body {
   min-height: 340px;
 }
 
-#container {
+#container {overflow: hidden;
   color: #333;
   padding: 0.5em 0 1.0em 0;
 }
 
-#mainCol {
+#mainCol {border : 1px solid #000;
+  float:left;
   max-width: 630px;
   margin-left: 2em;
 }
@@ -347,6 +348,16 @@ body {
 
 #extraCol {display: none;}
 
+aside#toppage {border : 3px solid #000; 
+  float:right;
+  width:220px;
+}
+@media screen and (max-width: 800px) {
+  aside {border : 1px solid blue; 
+    width:100%;
+  }
+}
+
 #footer {
   padding: 2em 0;
   background: #222 url(../images/footer_tile.gif) repeat-x;
@@ -356,7 +367,9 @@ body {
   max-width: 960px;
 }
 
-#header .wrapper, #topNav .wrapper, #feature .wrapper {padding-left: 1em; max-width: 960px;}
+#header .wrapper, #topNav .wrapper, #feature .wrapper {
+  padding-left: 1em; max-width: 960px;
+}
 #feature .wrapper {max-width: 640px; padding-right: 23em; position: relative; z-index: 0;}
 
 @media screen and (max-width: 800px) {
