@@ -317,14 +317,15 @@ body {
   padding: 0.5em 0 1.0em 0;
 }
 
-#mainCol {
+#mainCol { 
   float:left;
-  max-width: 630px;
-  margin-left: 2em;
+  width: 630px;
+  /*margin-left: 2em;*/
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) { 
   #mainCol {
     clear:both;
+    width: 100%;
   }
 }
 
@@ -342,7 +343,7 @@ body {
 }
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol {
     position: static;
     width: inherit;
@@ -354,13 +355,13 @@ body {
 
 #extraCol {display: none;}
 
-aside#toppage { 
+aside#toppage {
   float:right;
   width:220px;
   padding-top:20px;
 }
-@media screen and (max-width: 800px) {
-  aside#toppage {
+@media screen and (max-width: 920px) { 
+  aside#toppage {border : 1px solid #000;
     width:100%;
     clear:both;
     text-align: center;
@@ -384,7 +385,7 @@ aside#toppage {
 }
 #feature .wrapper {max-width: 640px; padding-right: 23em; position: relative; z-index: 0;}
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #feature .wrapper { padding-right: 0; }
 }
 
@@ -821,7 +822,7 @@ div.code_container {
   -moz-border-radius: 1em;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   .top #subCol {
     min-height: 491px;
     margin-right: 6px;
@@ -840,7 +841,7 @@ div.code_container {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   .top #subCol dd.work-in-progress, #subCol dd.kindle {
     margin-left: 215px;
   }
@@ -881,7 +882,7 @@ div.code_container {
   cursor: pointer;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol .ebook {
     width: 100%;
     margin: 0px;
@@ -927,7 +928,7 @@ div.code_container {
   display:none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol .ebook img {
     width: 47%;
     float: left;
