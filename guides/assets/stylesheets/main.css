@@ -317,12 +317,12 @@ body {
   padding: 0.5em 0 1.0em 0;
 }
 
-#mainCol { 
+#mainCol {
   float:left;
   width: 630px;
   /*margin-left: 2em;*/
 }
-@media screen and (max-width: 920px) { 
+@media screen and (max-width: 920px) {
   #mainCol {
     clear:both;
     width: 100%;
@@ -342,6 +342,9 @@ body {
   margin-right: 1em;
 }
 
+#subCol.remove-bg-color {
+  background: unset;
+}
 
 @media screen and (max-width: 920px) {
   #subCol {
@@ -358,9 +361,8 @@ body {
 aside#toppage {
   float:right;
   width:220px;
-  padding-top:20px;
 }
-@media screen and (max-width: 920px) { 
+@media screen and (max-width: 920px) {
   aside#toppage {border : 1px solid #000;
     width:100%;
     clear:both;

@@ -58,6 +58,9 @@ module RailsGuides
           <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
             #{@index}
+            <aside id="toppage">
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" /></a>
+            </aside>
           </div>
           INDEX
         end
