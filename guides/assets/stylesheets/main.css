@@ -364,6 +364,7 @@ aside#toppage {
 }
 @media screen and (max-width: 920px) {
   aside#toppage {border : 1px solid #000;
+    float:unset;
     width:100%;
     clear:both;
     text-align: center;
