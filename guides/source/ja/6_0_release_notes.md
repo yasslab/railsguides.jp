@@ -150,9 +150,69 @@ Action Pack
 
 ### 削除されたもの
 
+*   非推奨化された`fragment_cache_key`ヘルパーを削除、今後は`combined_fragment_cache_key`を用いる
+    ([Commit](https://github.com/rails/rails/commit/e70d3df7c9b05c129b0fdcca57f66eca316c5cfc))
+
+*   `ActionDispatch::TestResponse`から非推奨化された次のメソッドを削除: `#success?`（今後は`#successful?`を使う）、`#missing?`（今後は`#not_found?`を使う）、`#error?`（今後は`#server_error?`を使う）
+    ([Commit](https://github.com/rails/rails/commit/13ddc92e079e59a0b894e31bf5bb4fdecbd235d1))
+
 ### 非推奨化
 
+*   `ActionDispatch::Http::ParameterFilter`を非推奨化、今後は`ActiveSupport::ParameterFilter`を用いる
+    ([Pull Request](https://github.com/rails/rails/pull/34039))
+
+*   コントローラレベルの`force_ssl`を非推奨化、今後は`config.force_ssl`を用いる
+    ([Pull Request](https://github.com/rails/rails/pull/32277))
+
 ### 主な変更
+
+*   リソースparamにコロンが含まれている場合は`ArgumentError`をraiseするようになった
+    ([Pull Request](https://github.com/rails/rails/pull/35236))
+
+*   `ActionDispatch::SystemTestCase.driven_by`をブロック付きで呼ぶことで特定のブラウザの機能を定義できるようになった
+    ([Pull Request](https://github.com/rails/rails/pull/35081))
+
+*   `ActionDispatch::HostAuthorization`ミドルウェアを追加（DNSリバインディング攻撃から保護する）
+    ([Pull Request](https://github.com/rails/rails/pull/33145))
+
+*   `parsed_body`を`ActionController::TestCase`内で利用できるようになった
+    ([Pull Request](https://github.com/rails/rails/pull/34717))
+
+*   複数のルートルーティングが同じコンテキストに存在し、`as:`による命名仕様がない場合は`ArgumentError`をraiseするようになった
+    ([Pull Request](https://github.com/rails/rails/pull/34494))
+
+*   パラメータのパースエラーを`#rescue_from`で扱えるようになった
+    ([Pull Request](https://github.com/rails/rails/pull/34341))
+
+*   `ActionController::Parameters#each_value`を追加（パラメータの列挙用）
+    ([Pull Request](https://github.com/rails/rails/pull/33979))
+
+*   `send_data`や`send_file`でContent-Dispositionファイル名をエンコードするようになった
+    ([Pull Request](https://github.com/rails/rails/pull/33829))
+
+*   `ActionController::Parameters#each_key`が公開された
+    ([Pull Request](https://github.com/rails/rails/pull/33758))
+
+*   purposeメタデータを署名済み/暗号化済みcookieに追加（cookie値を別のcookieにコピーされないようにする）
+    ([Pull Request](https://github.com/rails/rails/pull/32937))
+
+*   `respond_to`呼び出しが衝突した場合に`ActionController::RespondToMismatchError`をraiseするようになった
+    ([Pull Request](https://github.com/rails/rails/pull/33446))
+
+*   リクエストフォーマットでテンプレートが見つからない場合に使う明示的なエラーページを追加
+    ([Pull Request](https://github.com/rails/rails/pull/29286))
+
+*   `ActionDispatch::DebugExceptions.register_interceptor`を導入した（レンダリング開始前にDebugExceptionsにフックして例外を処理する手段のひとつ）
+    ([Pull Request](https://github.com/rails/rails/pull/23868))
+
+*   1リクエストに付きContent-Security-Policy（CSP）nonceヘッダー値を1つしか出力しないようになった
+    ([Pull Request](https://github.com/rails/rails/pull/32602))
+
+*   Railsのコントローラで明示的にincludeできるデフォルトのヘッダー設定で主に用いられるモジュールを追加
+    ([Pull Request](https://github.com/rails/rails/pull/32484))
+
+*   `#dig`を`ActionDispatch::Request::Session`に追加
+    ([Pull Request](https://github.com/rails/rails/pull/32446))
 
 Action View
 -----------
@@ -415,6 +475,9 @@ Active Storage
 ### 非推奨化
 
 ### 主な変更
+
+*   アタッチされるモデルを`update`や`update!`で更新すると（例: `@user.update!(images: [ … ])`）、単に追加するのではなく既存の画像を置き換えるようになった
+    ([Pull Request](https://github.com/rails/rails/pull/33303))
 
 Active Model
 ------------
