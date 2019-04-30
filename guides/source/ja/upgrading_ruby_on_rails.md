@@ -60,6 +60,59 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 
 予期しなかった変更が発生した場合は、必ず差分を十分にチェックしてください。
 
+### フレームワークのデフォルトを設定する
+
+新しいバージョンのRailsでは前のバージョンとデフォルトの設定が異なることがあります。しかし上述の手順に従うことで、アプリケーションを引き続き**従来**バージョンのRailsのデフォルト設定で動かせることもあります（`config/application.rb`の`config.load_defaults`の値が変更されていないため）。
+
+updateタスクでは、アプリケーションを新しいデフォルト設定に1つずつアップグレードできるように、`config/initializers/new_framework_defaults.rb`ファイルが作成されます。アプリケーションを新しいデフォルト設定で動かせる準備が整ったら、このファイルを削除して`config.load_defaults`の値を反転できます。
+
+Rails 5.2からRails 6.0へのアップグレード
+-------------------------------------
+
+Rails 6.0の変更点の詳細は[リリースノート](6_0_release_notes.html)を参照してください。
+
+### Force SSL
+
+コントローラの`force_ssl`メソッドは非推奨化され、Rails 6.1で削除される予定です。`config.force_ssl`を有効にしてアプリ全体でHTTPS接続を強制することをおすすめします。特定のエンドポイントのみをリダイレクトしないようにする必要がある場合は、`config.ssl_options`で振る舞いを変更できます。
+
+### 署名済みまたは暗号化済みcookieのpurpose情報がcookie内部に埋め込まれるようになった
+
+Railsではセキュリティ向上のため、暗号化済みまたは署名済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
+
+新たに埋め込まれるこのpurpose情報によって、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
+
+cookieを引き続きRails 5.2以前でも読み取れるようにする必要がある場合や、6.0のデプロイを検証中で前のバージョンに戻せるようにしたい場合は、`Rails.application.config.action_dispatch.use_cookies_with_metadata`に`false`を設定してください。
+
+### Action Cable JavaScript APIの変更
+
+Action Cable JavaScriptパッケージがCoffeeScriptからES2015に置き換えられ、ソースコードをnpmディストリビューションでパブリッシュできるようになりました。
+
+今回のリリースでは、Action Cable JavaScript APIの選択可能な部分に若干のbreaking changesが生じます。
+
+- WebSocketアダプタやロガーアダプタの設定が、`ActionCable`のプロパティから`ActionCable.adapters`のプロパティに移動しました。これらのアダプタを設定している場合は、以下の変更が必要です。
+
+  ```diff
+  -    ActionCable.WebSocket = MyWebSocket
+  +    ActionCable.adapters.WebSocket = MyWebSocket
+  ```
+  
+  ```diff
+  -    ActionCable.logger = myLogger
+  +    ActionCable.adapters.logger = myLogger
+  ```
+
+- `ActionCable.startDebugging()`メソッドと`ActionCable.stopDebugging()`メソッドが削除され、`ActionCable.logger.enabled`に置き換えられました。これらのメソッドを使っている場合は、以下の変更が必要です。
+
+  ```diff
+  -    ActionCable.startDebugging()
+  +    ActionCable.logger.enabled = true
+  ```
+
+  ```diff
+  -    ActionCable.stopDebugging()
+  +    ActionCable.logger.enabled = false
+  ```
+
 Rails 5.1からRails 5.2へのアップグレード
 -------------------------------------
 
