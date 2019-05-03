@@ -1,6 +1,4 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
-WIP: Ruby on Rails 6.0 リリースノート
+Ruby on Rails 6.0 リリースノート
 ===============================
 
 Rails 6.0の注目ポイント:
