@@ -1226,3 +1226,18 @@ table td, table th { padding: 9px 10px; text-align: left; }
   table.responsive th:first-child, table.responsive td:first-child, table.responsive td:first-child, table.responsive.pinned td { display: none; }
 
 }
+/* banner
+--------------------------------------- */
+.bnr-pro-team { 
+  display:flex;
+  justify-content:space-between; 
+}
+@media screen and (max-width: 630px) {
+.bnr-pro-team {
+  flex-direction:column; 
+  }
+}
+.bnr-pro-team img {
+  max-width: 100%;
+  border:5px solid #fff;
+}
