@@ -149,6 +149,8 @@
               <%= yield :references %>
 
 	      <% unless yield(:hide_feedback).present? %>
+	      <img alt="Proプラン" src="/images/bnr_pro.jpg"/>
+	      <img alt="Teamプラン" src="/images/bnr_team.jpg"/>
 		<h3 id="feedback" class="section" style="padding-top: 30px;"><a href="#feedback">フィードバックについて</a></h3>
 		<p>
 		  Railsガイドは GitHub の <%= link_to 'yasslab/railsguides.jp', 'https://github.com/yasslab/railsguides.jp' %> で管理・公開されております。本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <%= link_to 'Pull Request', 'https://github.com/yasslab/railsguides.jp/pulls' %> を出して頂けると嬉しいです。Pull Request の送り方については <%= link_to 'GitHub の README', 'https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C'%> をご参照ください。
