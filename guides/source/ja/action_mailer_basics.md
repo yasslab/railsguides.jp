@@ -627,7 +627,7 @@ Action Mailerを設定する
 |`deliveries`|`delivery_method :test`を用いてAction Mailerから送信されたメールの配列を保持します。単体テストおよび機能テストで最も便利です。|
 |`default_options`|`mail`メソッドオプション (`:from`、`:reply_to`など)のデフォルト値を設定します。|
 
-設定オプションの完全な説明については「Railsアプリケーションを設定する」ガイドの[Action Mailerを設定する](configuring.html#action-mailerを設定する)を参照してください。
+設定オプションの完全な説明については「Rails アプリケーションを設定する」ガイドの[Action Mailerを設定する](configuring.html#action-mailerを設定する)を参照してください。
 
 ### Action Mailerの設定例
 

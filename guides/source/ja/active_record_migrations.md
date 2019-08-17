@@ -7,7 +7,7 @@ Active Record マイグレーション
 
 * マイグレーション作成で利用できるジェネレータ
 * Active Recordが提供するデータベース操作用メソッド群の解説
-* マイグレーション実行とスキーマ更新用の`bin/rails`タスクの解説
+* マイグレーション実行とスキーマ更新用の`rails`タスクの解説
 * マイグレーションとスキーマファイル`schema.rb`の関係
 
 --------------------------------------------------------------------------------
@@ -85,10 +85,10 @@ end
 タイムスタンプを算出する作業は退屈です。Active Recordにはこれらを扱うためのジェネレータが用意されています。
 
 ```bash
-$ bin/rails generate migration AddPartNumberToProducts
+$ rails generate migration AddPartNumberToProducts
 ```
 
-これによって生成されるマイグレーションは中身が空ですが、適切な名前が付けられています。
+これによって、適切な名前の付いた空のマイグレーションが作成されます。
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -97,10 +97,12 @@ class AddPartNumberToProducts < ActiveRecord::Migration
 end
 ```
 
-マイグレーション名が"AddXXXToYYY"や"RemoveXXXFromYYY"の形式になっており、その後にカラム名と種類が続いていれば、マイグレーション内に適切な`add_column`文と`remove_column`文が作成されます。
+このジェネレータでは、ファイル名の末尾にタイムスタンプを追加する以外の操作もできます。命名規約や追加の（オプション）引数に基づいて、マイグレーションに肉付けすることもできます。
+
+マイグレーション名が"AddColumnToTable"や"RemoveColumnFromTable"で、かつその後ろにカラム名や型が続く形式になっていれば、適切な`add_column`文や`remove_column`文を含むマイグレーションが作成されます。
 
 ```bash
-$ bin/rails generate migration AddPartNumberToProducts part_number:string
+$ rails generate migration AddPartNumberToProducts part_number:string
 ```
 
 上を実行すると以下が生成されます。
@@ -116,7 +118,7 @@ end
 新しいカラムにインデックスを追加したい場合は以下のようにします。
 
 ```bash
-$ bin/rails generate migration AddPartNumberToProducts part_number:string:index
+$ rails generate migration AddPartNumberToProducts part_number:string:index
 ```
 
 上を実行すると以下が生成されます。
@@ -134,7 +136,7 @@ end
 同様に、カラムを削除するマイグレーションをコマンドラインで生成するには以下のようにします。
 
 ```bash
-$ bin/rails generate migration RemovePartNumberFromProducts part_number:string
+$ rails generate migration RemovePartNumberFromProducts part_number:string
 ```
 
 上を実行すると以下が生成されます。
@@ -150,7 +152,7 @@ end
 自動で生成できるカラムは1つだけではありません。たとえば次のようになります。
 
 ```bash
-$ bin/rails generate migration AddDetailsToProducts part_number:string price:decimal
+$ rails generate migration AddDetailsToProducts part_number:string price:decimal
 ```
 
 上を実行すると以下が生成されます。
@@ -167,7 +169,7 @@ end
 マイグレーション名が"CreateXXX"のような形式であり、その後にカラム名と種類が続く場合、XXXという名前のテーブルが作成され、指定の種類のカラム名がその中に生成されます。たとえば次のようになります。
 
 ```bash
-$ bin/rails generate migration CreateProducts name:string part_number:string
+$ rails generate migration CreateProducts name:string part_number:string
 ```
 
 上を実行すると以下が生成されます。
@@ -178,6 +180,8 @@ class CreateProducts < ActiveRecord::Migration
     create_table :products do |t|
       t.string :name
       t.string :part_number
+
+      t.timestamps
     end
   end
 end
@@ -188,7 +192,7 @@ end
 同様に、カラムの種類として`references` (`belongs_to` も可) を指定することができます。たとえば次のようになります。
 
 ```bash
-$ bin/rails generate migration AddUserRefToProducts user:references
+$ rails generate migration AddUserRefToProducts user:references
 ```
 
 上を実行すると以下が生成されます。
@@ -202,12 +206,12 @@ end
 ```
 
 このマイグレーションを実行すると、`user_id`が作成され、適切なインデックスが追加されます。
-`add_reference`オプションについて詳しくは、[APIドキュメント](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_reference)をご覧ください。
+`add_reference`オプションについて詳しくは、[APIドキュメント](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_reference)をご覧ください。
 
 名前の一部に`JoinTable`が含まれているとテーブル結合を生成するジェネレータもあります。
 
 ```bash
-$ bin/rails g migration CreateJoinTableCustomerProduct customer product
+$ rails g migration CreateJoinTableCustomerProduct customer product
 ```
 
 上によって以下のマイグレーションが生成されます。
@@ -228,7 +232,7 @@ end
 モデルのジェネレータとscaffoldジェネレータは、新しいモデルを追加するマイグレーションを生成します。このマイグレーションには、関連するテーブルを作成する命令が既に含まれています。必要なカラムを指定すると、それらのカラムを追加する命令も同時に生成されます。たとえば、以下を実行するとします。
 
 ```bash
-$ bin/rails generate model Product name:string description:text
+$ rails generate model Product name:string description:text
 ```
 
 このとき、以下のようなマイグレーションが作成されます。
@@ -255,7 +259,7 @@ end
 たとえば以下を実行したとします。
 
 ```bash
-$ bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
+$ rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
 ```
 
 これによって以下のようなマイグレーションが生成されます。
@@ -425,8 +429,8 @@ Product.connection.execute("UPDATE products SET price = 'free' WHERE 1=1")
 ```
 
 個別のメソッドの詳細については、APIドキュメントを確認してください。
-特に、[`ActiveRecord::ConnectionAdapters::SchemaStatements`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html)
-(`change`、`up`、`down`メソッドで利用可能なメソッドを提供)、[`ActiveRecord::ConnectionAdapters::TableDefinition`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html) (`create_table`で生成されるオブジェクトで利用可能なメソッドを提供)、および[`ActiveRecord::ConnectionAdapters::Table`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html) (`change_table`で生成されるオブジェクトで利用可能なメソッドを提供) を参照してください。
+特に、[`ActiveRecord::ConnectionAdapters::SchemaStatements`](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html)
+(`change`、`up`、`down`メソッドで利用可能なメソッドを提供)、[`ActiveRecord::ConnectionAdapters::TableDefinition`](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html) (`create_table`で生成されるオブジェクトで利用可能なメソッドを提供)、および[`ActiveRecord::ConnectionAdapters::Table`](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html) (`change_table`で生成されるオブジェクトで利用可能なメソッドを提供) を参照してください。
 
 ### `change`メソッドを使う
 
@@ -460,7 +464,7 @@ Product.connection.execute("UPDATE products SET price = 'free' WHERE 1=1")
 `remove_column`は、3番目の引数でカラムの型を指定すればロールバック可能になります。元々のカラムオプションも指定しておかないと、ロールバック時にRailsがカラムを再作成できなくなります。
 
 ```ruby
-remove_column :posts, :slug, :string, null: false, default: '', index: true
+remove_column :posts, :slug, :string, null: false, default: ''
 ```
 
 これ以外のメソッドを使う必要が生じた場合は、`change`メソッドではなく`reversible`メソッドを利用するか、`up`と`down`メソッドを明示的に書くようにしてください。
@@ -600,16 +604,16 @@ NOTE: 上のようなチェック制約を追加したい場合は、ダンプ�
 マイグレーションを実行する
 ------------------
 
-Railsにはマイグレーションを実行するための`bin/rails`タスクがいくつか用意されています。
+Railsにはマイグレーションを実行するための`rails`コマンドがいくつか用意されています。
 
-最も手っ取り早くマイグレーションを実行する`bin/rails`タスクは、ほとんどの場合`rails db:migrate`でしょう。このタスクは、基本的にこれまで実行されたことのない`change`または`up`メソッドを実行します。未実行のマイグレーションがない場合は何もせずに終了します。マイグレーションの実行順序は、マイグレーションの日付に基づきます。
+最も手っ取り早くマイグレーションを実行する`rails`コマンドは、ほとんどの場合`rails db:migrate`でしょう。このタスクは、基本的にこれまで実行されたことのない`change`または`up`メソッドを実行します。未実行のマイグレーションがない場合は何もせずに終了します。マイグレーションの実行順序は、マイグレーションの日付に基づきます。
 
-`db:migrate`タスクを実行すると、`db:schema:dump`タスクも同時に呼び出される点にご注意ください。このタスクは`db/schema.rb`スキーマファイルを更新し、スキーマがデータベースの構造に一致するようにします。
+`db:migrate`タスクを実行すると、`db:schema:dump`コマンドも同時に呼び出される点にご注意ください。このコマンドは`db/schema.rb`スキーマファイルを更新し、スキーマがデータベースの構造に一致するようにします。
 
 マイグレーションの特定のバージョンを指定すると、Active Recordは指定されたマイグレーションに達するまでマイグレーション (change/up/down) を実行します。マイグレーションのバージョンは、マイグレーションファイル名の冒頭に付いている数字で表されます。たとえば、20080906120000というバージョンまでマイグレーションしたい場合は、以下を実行します。
 
 ```bash
-$ bin/rails db:migrate VERSION=20080906120000
+$ rails db:migrate VERSION=20080906120000
 ```
 
 20080906120000というバージョンが現在のバージョンより大きい場合 (新しい方に進む通常のマイグレーションなど)、20080906120000に到達するまで (このマイグレーション自身も実行対象に含まれます) のすべてのマイグレーションの`change` (または`up`) メソッドを実行し、それより先のマイグレーションは行いません。過去に遡るマイグレーションの場合、20080906120000に到達するまでのすべてのマイグレーションの`down`メソッドを実行しますが、上と異なり、20080906120000自身は含まれない点にご注意ください。
@@ -619,52 +623,52 @@ $ bin/rails db:migrate VERSION=20080906120000
 直前に行ったマイグレーションをロールバックする作業はよく発生します。たとえば、マイグレーションに誤りがあって訂正したい場合などです。この場合、バージョン番号を調べて明示的にロールバックを実行しなくても、次を実行するだけで済みます。
 
 ```bash
-$ bin/rails db:rollback
+$ rails db:rollback
 ```
 
 これにより、直前のマイグレーションがロールバックされます。`change`メソッドを逆転実行するか`down`メソッドを実行します。マイグレーションを複数ロールバックしたい場合は、`STEP`パラメータを指定できます。
 
 ```bash
-$ bin/rails db:rollback STEP=3
+$ rails db:rollback STEP=3
 ```
 
 これにより、最後に行った3つのマイグレーションがロールバックされます。
 
-`db:migrate:redo`タスクは、ロールバックと再マイグレーションを一度に実行できるショートカットです。複数バージョンに対してこれを行いたい場合は、`db:rollback`タスクの場合と同様に`STEP`パラメータを指定することもできます。
+`db:migrate:redo`コマンドは、ロールバックと再マイグレーションを一度に実行できるショートカットです。複数バージョンに対してこれを行いたい場合は、`db:rollback`コマンドの場合と同様に`STEP`パラメータを指定することもできます。
 
 ```bash
-$ bin/rails db:migrate:redo STEP=3
+$ rails db:migrate:redo STEP=3
 ```
 
-ただし、`db:migrate`で実行できないタスクをこれらのタスクで実行することはできません。これらは単に、バージョンを明示的に指定しなくて済むように`db:migrate`タスクを使いやすくしたものに過ぎません。
+ただし、`db:migrate`で実行できないコマンドをこれらのコマンドで実行することはできません。これらは単に、バージョンを明示的に指定しなくて済むように`db:migrate`タスクを使いやすくしたものに過ぎません。
 
 ### データベースを設定する
 
-`bin/rails db:setup`タスクは、データベースの作成、スキーマの読み込み、シードデータを用いてデータベースの初期化を実行します。
+`bin/rails db:setup`コマンドは、データベースの作成、スキーマの読み込み、シードデータを用いてデータベースの初期化を実行します。
 
 ### データベースをリセットする
 
-`bin/rails db:reset`タスクは、データベースをdropして再度設定します。このタスクは、`bin/rails db:drop db:setup`と同等です。
+`bin/rails db:reset`コマンドは、データベースをdropして再度設定します。このコマンドは`rails db:drop db:setup`と同等です。
 
-NOTE: このタスクは、すべてのマイグレーションを実行することと等価ではありません。このタスクでは現在の`schema.rb`の内容をそのまま使い回しているためです。マイグレーションをロールバックできなくなった場合には、`bin/rails db:reset`を実行しても復旧できないことがあります。スキーマダンプの詳細については、[スキーマダンプの意義](#スキーマダンプの意義) セクションを参照してください。
+NOTE: このコマンドは、すべてのマイグレーションを実行することと等価ではありません。このコマンドでは現在の`schema.rb`の内容をそのまま使い回しているためです。マイグレーションをロールバックできなくなった場合には、`rails db:reset`を実行しても復旧できないことがあります。スキーマダンプの詳細については、[スキーマダンプの意義](#スキーマダンプの意義) セクションを参照してください。
 
 ### 特定のマイグレーションのみを実行する
 
 特定のマイグレーションをupまたはdown方向に実行する必要がある場合は、`db:migrate:up`または`db:migrate:down`タスクを使います。以下に示したように、適切なバージョン番号を指定するだけで、該当するマイグレーションに含まれる`change`、`up`、`down`メソッドのいずれかが呼び出されます。
 
 ```bash
-$ bin/rails db:migrate:up VERSION=20080906120000
+$ rails db:migrate:up VERSION=20080906120000
 ```
 
-上を実行すると、バージョン番号が20080906120000のマイグレーションに含まれる`change`メソッド (または`up`メソッド) が実行されます。このタスクは、最初にそのマイグレーションが実行済みであるかどうかをチェックし、Active Recordによって実行済みであると認定された場合は何も行いません。
+上を実行すると、バージョン番号が20080906120000のマイグレーションに含まれる`change`メソッド (または`up`メソッド) が実行されます。このコマンドは、最初にそのマイグレーションが実行済みであるかどうかをチェックし、Active Recordによって実行済みであると認定された場合は何も行いません。
 
 ### 異なる環境でマイグレーションを実行する
 
-デフォルトでは、`bin/rails db:migrate`は`development`環境で実行されます。
+デフォルトでは、`rails db:migrate`は`development`環境で実行されます。
 他の環境に対してマイグレーションを行いたい場合は、コマンド実行時に`RAILS_ENV`環境変数を指定します。たとえば、`test`環境でマイグレーションを実行する場合は以下のようにします。
 
 ```bash
-$ bin/rails db:migrate RAILS_ENV=test
+$ rails db:migrate RAILS_ENV=test
 ```
 
 ### マイグレーション実行結果の出力を変更する
@@ -693,10 +697,10 @@ $ bin/rails db:migrate RAILS_ENV=test
 class CreateProducts < ActiveRecord::Migration[5.0]
   def change
     suppress_messages do
-    create_table :products do |t|
-      t.string :name
-      t.text :description
-      t.timestamps
+      create_table :products do |t|
+        t.string :name
+        t.text :description
+        t.timestamps
       end
     end
 
@@ -730,7 +734,7 @@ Active Recordから何も出力したくない場合は、`bin/rails db:migrate 
 既存のマイグレーションを変更する
 ----------------------------
 
-マイグレーションを自作していると、ときにはミスしてしまうこともあります。いったんマイグレーションを実行してしまった後では、既存のマイグレーションを単に編集してもう一度マイグレーションをやり直しても意味がありません。Railsはマイグレーションが既に実行済みであると認識しているので、`bin/rails db:migrate`を実行しても何も変更されません。このような場合には、マイグレーションをいったんロールバック (`bin/rails db:rollback`など) してからマイグレーションを修正し、それから修正の完了したバージョンのマイグレーションを実行するために`bin/rails db:migrate`を実行する必要があります。
+マイグレーションを自作していると、ときにはミスしてしまうこともあります。いったんマイグレーションを実行してしまった後では、既存のマイグレーションを単に編集してもう一度マイグレーションをやり直しても意味がありません。Railsはマイグレーションが既に実行済みであると認識しているので、`rails db:migrate`を実行しても何も変更されません。このような場合には、マイグレーションをいったんロールバック (`rails db:rollback`など) してからマイグレーションを修正し、それから修正の完了したバージョンのマイグレーションを実行するために`bin/rails db:migrate`を実行する必要があります。
 
 そもそも、既存のマイグレーションを直接変更するのは一般的によくありません。既存のマイグレーションを変更すると、自分どころか共同作業者にまで余分な作業を強いることになります。さらに、既存のマイグレーションが本番環境で実行中の場合、ひどい頭痛の種になるでしょう。既存のマイグレーションを直接修正するのではなく、そのためのマイグレーションを新たに作成してそれを実行するのが正しい方法です。これまでコミットされてない (より一般的に言えば、これまでdevelopment環境以外に展開されたことのない) マイグレーションを新たに生成し、それを編集するのが害の少ない方法であると言えます。
 
@@ -741,22 +745,22 @@ Active Recordから何も出力したくない場合は、`bin/rails db:migrate 
 
 ### スキーマファイルの意味について
 
-Railsのマイグレーションは強力ではありますが、データベースのスキーマを作成するための信頼できる情報源とするには不適切です。スキーマ情報は、`db/schema.rb`か、Active Recordがデータベースを検査することによって生成されるSQLファイルのどちらかを元にすることになります。これらのファイルは単にデータベースの現在の状態を表すものであり、開発者が編集するように設計されていません。
+Railsのマイグレーションは強力ではありますが、データベースのスキーマを作成するための信頼できる情報源ではありません。信頼できる情報源は、やはりデータベースです。Railsは、デフォルトでデータベーススキーマの最新の状態のキャプチャを試みる`db/schema.rb`を生成します。
 
-アプリケーションの新しいインスタンスをデプロイするときに、膨大なマイグレーション履歴をすべて再実行する必要はありません。むしろ、そのようなことをすると逆にエラーが発生しやすくなるでしょう。単に現在のスキーマの記述をデータベースに読み込む方がはるかに簡潔かつ高速です。
+アプリケーションのデータベースの新しいインスタンスを作成する場合、マイグレーションの全履歴を一から繰り返すよりも、`rails db:schema:load`でスキーマファイルを読み込む方が、高速かつエラーが起きにくい傾向があります。
 
-例として、Railsでtest環境のデータベースを作成するときの方法を説明します。現在のdevelopmentデータベースからいったん`db/schema.rb`または`db/structure.sql`にダンプされ、続いてtest環境のデータベースに読み込まれます。
+[古いマイグレーション](#old-migrations)は、その中で外部への依存性が変更されたり、マイグレーションとは独自の進化を遂げたアプリケーションコードに依存していたりすると、正しく適用できなくなる可能性があります。
 
-スキーマファイルは、Active Recordのオブジェクトにどのような属性があるのかを概観するのにも便利です。スキーマ情報はモデルのコードの中にはありません。スキーマ情報は多くのマイグレーションに分かれて存在しており、そのままでは非常に探しにくいものですが、この情報はスキーマファイルにコンパクトに収まっています。なお、[annotate_models](https://github.com/ctran/annotate_models) gemを使うと、モデルファイルの冒頭にスキーマ情報の要約コメントが自動的に追加・更新されるようになるので便利です。
+スキーマファイルは、Active Recordのオブジェクトにどのような属性があるのかを概観するのにも便利です。スキーマ情報はモデルのコードの中にはありません。スキーマ情報は多くのマイグレーションに分かれて存在しており、そのままでは非常に探しにくいものですが、この情報はスキーマファイルにコンパクトに収まっています。
 
 ### スキーマダンプの種類
 
-スキーマのダンプ方法は2種類あります。ダンプ方法は`config/application.rb`の`config.active_record.schema_format`で設定します。`:sql`または`:ruby`を指定できます。
+Railsで生成されるスキーマダンプのフォーマットは、`config/application.rb`の`config.active_record.schema_format`設定で制御されます。デフォルトのフォーマットは`:ruby`ですが、`:sql`も指定できます。
 
 `:ruby`を指定すると、スキーマは`db/schema.rb`に保存されます。このファイルを開いてみると、1つの巨大なマイグレーションのように見えるはずです。
 
 ```ruby
-ActiveRecord::Schema.define(version: 20080906171750) do
+ActiveRecord::Schema.define(version: 2008_09_06_171750) do
   create_table "authors", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -775,11 +779,11 @@ end
 
 このスキーマ情報は、見てのとおりその内容を単刀直入に表しています。このファイルは、データベースを詳細に検査し、`create_table`や`add_index`などでその構造を表現することによって作成されています。このスキーマ情報はデータベースの種類に依存しないため、Active Recordがサポートしているデータベースであればどんなものにでも読み込むことができます。この特性は、複数の種類のデータベースを実行できるアプリケーションを展開する必要がある場合に特に有用です。
 
-NOTE: `db/schema.rb`では、トリガ/シーケンス/ストアドプロシージャ/チェック制約などのデータベース固有の項目を表現できません。マイグレーションでカスタムSQLステートメントを実行することは可能ですが、そうしたステートメントはスキーマダンプで再構成されない点にご注意ください。これらの機能が必要な場合は、スキーマのフォーマットを`:sql`にする必要があります。
+`db/schema.rb`では、トリガ/シーケンス/ストアドプロシージャ/チェック制約などのデータベース固有の項目を表現できません。マイグレーションで`execute`を用いれば、RubyマイグレーションDSLでサポートされないデータベース構造も作成できますが、そうしたステートメントはスキーマダンプで再構成されない点にご注意ください。これらの機能が必要な場合は、新しいデータベースインスタンスの作成に有用なスキーマファイルを正確に得るためにスキーマのフォーマットを`:sql`にする必要があります。
 
-この場合、Active Recordのスキーマダンプを使う代りに、データベース固有のツールを用いてデータベースの構造を`db/structure.sql`にダンプします (`db:structure:dump` railsタスクが使われます)。たとえばPostgreSQLの場合は`pg_dump`ユーティリティが使われます。MySQLやMariaDBの場合は、多くのテーブルにおいて`SHOW CREATE TABLE`の出力結果がファイルに含まれます。
+スキーマフォーマットを`:sql`にすると、データベース固有のツールを用いてデータベースの構造を`db/structure.sql`にダンプします。たとえばPostgreSQLの場合は`pg_dump`ユーティリティが使われます。MySQLやMariaDBの場合は、多くのテーブルにおいて`SHOW CREATE TABLE`の出力結果がファイルに含まれます。
 
-これらのスキーマの読み込みは、そこに含まれるSQL文を実行するだけの非常にシンプルなものです。定義上、これによってデータベース構造の完全なコピーが作成されます。その代わり、`:sql`スキーマフォーマットを使う場合は、そのスキーマを作成したRDBMS以外では読み込めないという制限が生じます。
+スキーマを`db/structure.sql`から読み込む場合、`rails db:structure:load`を実行します。これにより、含まれているSQL文が実行されてファイルが読み込まれます。定義上、これによって作成されるデータベース構造は元の完全なコピーとなります。
 
 ### スキーマダンプとソースコード管理
 
@@ -828,3 +832,13 @@ end
 ```
 
 この方法なら、マイグレーションよりもずっとクリーンに空のアプリケーションのデータベースを設定できます。
+
+
+古いマイグレーション
+--------------
+
+`db/schema.rb`や`db/structure.sql`は、使っているデータベースの最新ステートのスナップショットであり、そのデータベースを再構築するための情報源として信頼できます。このことを頼りにして、古いマイグレーションファイルを削除できます。
+
+`db/migrate/`ディレクトリ内のマイグレーションファイルを削除しても、マイグレーションファイルが存在していたときに`rails db:migrate`が実行されたあらゆる環境は、Rails内部の`schema_migrations`という名前のデータベース内に保存されている（マイグレーションファイル固有の）マイグレーションタイムスタンプへの参照を保持し続けます。このテーブルは、特定の環境でマイグレーションが実行されたことがあるかどうかをトラッキングするのに用いられます。
+
+マイグレーションファイルを削除した状態で`rails db:migrate:status`コマンド（本来マイグレーションのステータス（upまたはdown）を表示する）を実行すると、削除したマイグレーションファイルの後に`********** NO FILE **********`と表示されるでしょう。これは、そのマイグレーションファイルが特定の環境で一度実行されたが、`db/migrate/`ディレクトリの下に見当たらない場合に表示されます。

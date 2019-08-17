@@ -1,4 +1,4 @@
-Ruby on Rails 2.2 Release Notes
+Rails 2.2 - 2008/11 [未訳]
 ===============================
 
 Rails 2.2 delivers a number of new and improved features. This list covers the major upgrades, but doesn't include every little bug fix and change. If you want to see everything, check out the [list of commits](http://github.com/rails/rails/commits/master) in the main Rails repository on GitHub.

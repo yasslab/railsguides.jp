@@ -20,13 +20,13 @@ Active Recordとは、[MVC](https://ja.wikipedia.org/wiki/Model_View_Controller)
 
 ### Active Recordパターン
 
-パターン名としての[Active Record](http://www.martinfowler.com/eaaCatalog/activeRecord.html)はMartin Fowler『Patterns of Enterprise Application Architecture』という書籍で記述されました。Active Recordパターンにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordパターンは、データアクセスのロジックを常にオブジェクトに含めておくことで、そのオブジェクトの利用者にデータベースへの読み書き方法を指示できる、という立場に立っています。
+パターン名としての[Active Record](https://www.martinfowler.com/eaaCatalog/activeRecord.html)はMartin Fowler『Patterns of Enterprise Application Architecture』という書籍で記述されました。Active Recordパターンにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordパターンは、データアクセスのロジックを常にオブジェクトに含めておくことで、そのオブジェクトの利用者にデータベースへの読み書き方法を指示できる、という立場に立っています。
 
 ### O/Rマッピング
 
 [オブジェクト/リレーショナルマッピング](https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E9%96%A2%E4%BF%82%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0)(O/RマッピングやORMと略されることもあります)とは、アプリケーションが持つリッチなオブジェクトをリレーショナルデータベース(RDBMS)のテーブルに接続することです。ORMを用いると、SQL文を直接書く代りにわずかなアクセスコードを書くだけで、アプリケーションにおけるオブジェクトの属性やリレーションシップをデータベースに保存することもデータベースから読み出すこともできるようになります。
 
-NOTE: [RDBMS](https://ja.wikipedia.org/wiki/%E9%96%A2%E4%BF%82%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0)（リレーショナルデータベース管理システム）や[SQL](https://ja.wikipedia.org/wiki/SQL)についてまだよくわからない場合は、チュートリアル（[w3schools.com](https://www.w3schools.com/sql/default.asp)や[sqlcourse.com](http://www.sqlcourse.com/)など）やその他の方法でRDBMSやSQLを学んでからにしてください。一般に、Active RecordやRailsの理解にはリレーショナルデータベースの動作の理解が不可欠です。
+NOTE: Active Recordを完全に理解するには、リレーショナルデータベース管理システム（RDBMS）やSQL（構造化クエリ言語）についての知識が役に立ちます。これらについてもっと深く学びたい場合は、[このチュートリアル](https://www.w3schools.com/sql/default.asp)（[このチュートリアル](http://www.sqlcourse.com/)も可）を参照するか、他の方法で学習しましょう。
 
 ### ORMフレームワークとしてのActive Record
 
@@ -47,8 +47,8 @@ Active RecordにおけるCoC(Convention over Configuration)
 
 Active Recordには、モデルとデータベースのテーブルとのマッピング作成時に従うべきルールがいくつかあります。Railsでは、データベースのテーブル名を探索するときに、モデルのクラス名を複数形にした名前で探索します。つまり、`Book`というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の「**books**」になります。Railsの複数形化メカニズムは非常に強力で、不規則な語でも複数形/単数形に変換できます(person <-> peopleなど)。モデルのクラス名が2語以上の複合語である場合、Rubyの慣習であるキャメルケース(CamelCaseのように語頭を大文字にしてスペースなしでつなぐ)に従ってください。一方、テーブル名は(camel_caseなどのように)小文字かつアンダースコアで区切られなければなりません。以下の例を参照ください。
 
-* データベースのテーブル - 複数形、語はアンダースコアで区切られる (例: `book_clubs`)
 * モデルのクラス - 単数形、語頭を大文字にする (例: `BookClub`)
+* データベースのテーブル - 複数形、語はアンダースコアで区切られる (例: `book_clubs`)
 
 | モデル / クラス | テーブル / スキーマ |
 | ------------- | -------------- |
@@ -65,14 +65,14 @@ Active Recordでは、データベースのテーブルで使うカラム名に�
 
 * **外部キー** - このカラムは`テーブル名の単数形_id`にする必要があります（例: `item_id`、`order_id`）。これらのカラムは、Active Recordがモデル間の関連付けを作成するときに参照されます。
 
-* **主キー** - デフォルトでは `id` という名前の`integer`カラムがテーブルの主キーに使われます。[Active Recordマイグレーション](active_record_migrations.html)でテーブルを作成すると、このカラムが自動的に作成されます。
+* **主キー** - デフォルトでは `id` という名前の`integer`カラムがテーブルの主キーに使われます（PostgreSQLやMySQLでは`bigint`、SQLiteでは`integer`）。[Active Recordマイグレーション](active_record_migrations.html)でテーブルを作成すると、これらのカラムが自動的に作成されます。
 
 他にも、Active Recordインスタンスに機能を追加するカラム名がいくつかあります。
 
 * `created_at`: レコード作成時に現在の日付時刻が自動的に設定されます
-* `updated_at`: レコード更新時に現在の日付時刻が自動的に設定されます
-* `lock_version`: モデルに[optimistic locking](http://api.rubyonrails.org/classes/ActiveRecord/Locking.html)を追加します
-* `type`: モデルで[Single Table Inheritance](http://api.rubyonrails.org/classes/ActiveRecord/Base.html#class-ActiveRecord::Base-label-Single+table+inheritance)を使う場合に指定します
+* `updated_at`: レコード作成時や更新時に現在の日付時刻が自動的に設定されます
+* `lock_version`: モデルに[optimistic locking](https://api.rubyonrails.org/classes/ActiveRecord/Locking.html)を追加します
+* `type`: モデルで[Single Table Inheritance](https://api.rubyonrails.org/classes/ActiveRecord/Base.html#class-ActiveRecord::Base-label-Single+table+inheritance)を使う場合に指定します
 * `関連付け名_type`: [ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)の種類を保存します
 
 * `テーブル名_count`: 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使われます。たとえば、`Article`クラスに`comments_count`というカラムがあり、そこに`Comment`のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。
@@ -137,6 +137,8 @@ class Product < ApplicationRecord
   self.primary_key = "product_id"
 end
 ```
+
+NOTE: Active Recordでは、`id`という名前を主キー以外のカラムで用いることはサポートされていません。
 
 CRUD: データの読み書き
 ------------------------------
@@ -230,11 +232,11 @@ user = User.find_by(name: 'David')
 user.destroy
 ```
 
-複数レコードを一括削除したい場合は、`destroy_all`を使えます。
+複数レコードを一括削除したい場合は、`destroy_by `または`destroy_all`を使えます。
 
 ```ruby
 # Davidという名前のユーザーを検索してすべて削除
-User.where(name: 'David').destroy_all
+User.destroy_by(name: 'David')
 
 # 全ユーザーを削除
 User.destroy_all
@@ -257,7 +259,7 @@ user.save  # => false
 user.save! # => ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
 ```
 
-バリデーションについて詳しくは、[Active Recordバリデーションガイド](active_record_validations.html)を参照してください。
+バリデーションについて詳しくは、[Active Record バリデーションガイド](active_record_validations.html)を参照してください。
 
 コールバック
 ---------

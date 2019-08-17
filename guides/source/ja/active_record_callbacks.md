@@ -180,9 +180,9 @@ class Company < ApplicationRecord
   after_touch :log_when_employees_or_company_touched
 
   private
-  def log_when_employees_or_company_touched
-    puts 'Employee/Companyにtouchされました'
-  end
+    def log_when_employees_or_company_touched
+      puts 'Employee/Companyがtouchされました'
+    end
 end
 
 >> @employee = Employee.last
@@ -190,8 +190,8 @@ end
 
 # @employee.company.touchをトリガーする
 >> @employee.touch
-Employeeにtouchされました
-Employee/Companyにtouchされました
+Employee/Companyがtouchされました
+Employeeがtouchされました
 => true
 ```
 
@@ -235,13 +235,12 @@ NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自
 
 検証(validation)の場合と同様、以下のメソッドでコールバックをスキップできます。
 
-* `decrement`
+* `decrement!`
 * `decrement_counter`
 * `delete`
 * `delete_all`
-* `increment`
+* `increment!`
 * `increment_counter`
-* `toggle`
 * `update_column`
 * `update_columns`
 * `update_all`
@@ -260,7 +259,7 @@ NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自
 throw :abort
 ```
 
-WARNING: `ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`を除く例外は、その例外によってコールバックチェインが停止した後も、Railsによって再び発生します。このため、`ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`以外の例外を発生させると、`save`や`update_attributes`のようなメソッド (つまり通常`true`か`false`を返そうとするメソッド) が例外を発生させることを想定していないコードが中断する恐れがあります。
+WARNING: `ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`を除く例外は、その例外によってコールバックチェインが停止した後も、Railsによって再び発生します。このため、`ActiveRecord::Rollback`や`ActiveRecord::RecordInvalid`以外の例外を発生させると、`save`や`update`のようなメソッド (つまり通常`true`か`false`を返そうとするメソッド) が例外を発生させることを想定していないコードが中断する恐れがあります。
 
 リレーションシップのコールバック
 --------------------
@@ -315,6 +314,14 @@ class Order < ApplicationRecord
 end
 ```
 
+procはそのオブジェクトのコンテキストで評価されるので、以下のように書くこともできます。
+
+```ruby
+class Order < ApplicationRecord
+  before_save :normalize_card_number, if: Proc.new { paid_with_card? }
+end
+```
+
 ### コールバックで複数の条件を指定する
 
 1つの条件付きコールバック宣言内で、`:if`オプションと`:unless`オプションを同時に使えます。
@@ -325,6 +332,20 @@ class Comment < ApplicationRecord
     unless: Proc.new { |comment| comment.post.ignore_comments? }
 end
 ```
+
+### コールバックの条件を結合する
+
+コールバックが行われるべきかどうかを定義する条件が複数ある場合は、`Array`を使えます。同じコールバックで`:if`や`:unless`を両方適用することも可能です。
+
+```ruby
+class Comment < ApplicationRecord
+  after_create :send_email_to_author,
+    if: [Proc.new { |c| c.user.allow_send_email? }, :author_wants_emails?],
+    unless: Proc.new { |c| c.article.ignore_comments? }
+end
+```
+
+上のコールバックは、`:if`条件がすべて評価され、かつ`:unless`条件が1件も`true`と評価されない場合にのみ実行されます。
 
 コールバッククラス
 ----------------
@@ -421,7 +442,9 @@ class PictureFile < ApplicationRecord
 end
 ```
 
-WARNING: `after_commit`コールバックおよび`after_rollback`コールバックは、1つのトランザクションブロック内におけるあらゆるモデルの作成/更新/destroy時に呼び出されます。これらのコールバックのいずれかで何らかの例外が発生すると、その例外のせいで以後の`after_commit`コールバックや`after_rollback`コールバックのメソッドは**実行されなくなります**。このため、もし自作のコールバックが例外を発生する可能性がある場合は、自分のコールバック内で`rescue`して適切にエラー処理を行い、他のコールバックが停止しないようにする必要があります。
+WARNING: あるトランザクションが完了すると、`after_commit`コールバックおよび`after_rollback`コールバックは、1つのトランザクションブロック内で作成/更新/destroyされたすべてのモデルで呼び出されます。ただし、これらのコールバックのいずれかで何らかの例外が発生すると、その例外のせいで以後の`after_commit`コールバックや`after_rollback`コールバックのメソッドは**実行されなくなります**。このため、もし自作のコールバックが例外を発生する可能性がある場合は、自分のコールバック内で`rescue`して適切にエラー処理を行い、他のコールバックが停止しないようにする必要があります。
+
+WARNING. `after_commit`コールバックや`after_rollback`コールバックの中で実行されるコードそのものは、トランザクションに囲まれません。
 
 WARNING: 同一のモデル内で`after_create_commit`と`after_update_commit`を両方用いると、最後に定義された方のコールバックだけが有効になり、その他はすべてオーバライドされます。
 
@@ -444,10 +467,26 @@ end
 => User was saved to database
 ```
 
-`create`アクションのコールバックと`update`アクションのコールバックを両方とも登録するには、代わりに`after_commit`を使います。
+作成や更新の両方の操作にコールバックを登録するには、代わりに`after_commit`をお使いください。以下のエイリアスも、作成や更新の両方で使える`after_commit`コールバックとして用いることができます。
+
+* `after_save_commit`
 
 ```ruby
 class User < ApplicationRecord
   after_commit :log_user_saved_to_db, on: [:create, :update]
+  after_save_commit :log_user_saved_to_db
+
+  private
+  def log_user_saved_to_db
+    puts 'User was saved to database'
+  end
 end
+
+# ユーザーを1人作成する
+>> @user = User.create
+=> User was saved to database
+
+# @userを更新する
+>> @user.save
+=> User was saved to database
 ```

@@ -419,14 +419,14 @@ Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
 
 ### `SecurePassword`モジュール
 
-`ActiveModel::SecurePassword`は、任意のパスワードを暗号化して安全に保存する手段を提供します。このモジュールを`include`すると、バリデーション機能を備えた`password`アクセサを定義する`has_secure_password`クラスメソッドが提供されます。
+`ActiveModel::SecurePassword`は、任意のパスワードを暗号化して安全に保存する手段を提供します。このモジュールを`include`すると、バリデーション機能を備えた`password`アクセサを定義する`has_secure_password`クラスメソッドがデフォルトで提供されます。
 
 #### 必要条件
 
 `ActiveModel::SecurePassword`モジュールは[`bcrypt`](https://github.com/codahale/bcrypt-ruby 'BCrypt') gemに依存しているので、`ActiveModel::SecurePassword`を正しく使うにはこのgemを`Gemfile`に含める必要があります。モジュールが機能するには、モデルに`password_digest`という名前のアクセサがなくてはなりません。`has_secure_password`は`password`アクセサに以下のバリデーションを追加します。
 
 1. パスワードが存在すること
-2. パスワードが（`password_confirmation`で渡された）パスワード確認入力と等しいこと
+2. パスワードが（`XXX_confirmation`で渡された）パスワード確認入力と等しいこと
 3. パスワードの最大長が72文字であること（`ActiveModel::SecurePassword`が依存している`bcrypt`による要求）
 
 #### 例
@@ -435,7 +435,8 @@ Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
 class Person
   include ActiveModel::SecurePassword
   has_secure_password
-  attr_accessor :password_digest
+  has_secure_password :recovery_password, validations: false
+  attr_accessor :password_digest, :recovery_password_digest
 end
 
 person = Person.new
@@ -459,4 +460,17 @@ person.valid? # => true
 # すべてのバリデーションをパスした場合
 person.password = person.password_confirmation = 'aditya'
 person.valid? # => true
+
+person.recovery_password = "42password"
+
+person.authenticate('aditya') # => person
+person.authenticate('notright') # => false
+person.authenticate_password('aditya') # => person
+person.authenticate_password('notright') # => false
+
+person.authenticate_recovery_password('42password') # => person
+person.authenticate_recovery_password('notright') # => false
+
+person.password_digest # => "$2a$04$gF8RfZdoXHvyTjHhiU4ZsO.kQqV9oonYZu31PRE4hLQn3xM2qkpIy"
+person.recovery_password_digest # => "$2a$04$iOfhwahFymCs5weB3BNH/uXkTG65HR.qpW.bNhEjFP3ftli3o5DQC"
 ```

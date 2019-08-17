@@ -84,7 +84,7 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * `select`
 * `where`
 
-検索メソッドは`where`や`group`と行ったコレクションを返したり、`ActiveRecord::Relation`のインスタンスを返します。また、`find`や`first`などの１つのエンティティを検索するメソッドの場合、そのモデルのインスタンスを返します。
+検索メソッドは`where`や`group`といったコレクションを返したり、`ActiveRecord::Relation`のインスタンスを返します。また、`find`や`first`などの１つのエンティティを検索するメソッドの場合、そのモデルのインスタンスを返します。
 
 `Model.find(options)`という操作を要約すると以下のようになります。
 

@@ -1,4 +1,4 @@
-Railsアプリケーションを設定する
+Rails アプリケーションを設定する
 ==============================
 
 このガイドではRailsアプリケーションで利用可能な設定と初期化機能について説明いたします。
@@ -62,6 +62,8 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.autoload_paths`: Railsが定数を自動読み込みするパスを含む配列を引数に取ります。`config.autoload_paths`のデフォルト値は、`app`以下のすべてのディレクトリです。この設定の変更は既に非推奨になりました。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html#autoload-pathsとeager-load-paths)を参照してください。
 
+* `config.add_autoload_paths_to_load_path`: `$LOAD_PATH`にオートロードパスを足すべきかどうかを指定します。このフラグはデフォルトで`true`ですが、`:zeitwerk`モードでは早い段階で`config/application.rb`で`false`に設定することをおすすめします。Zeitwerkは内部で絶対パスを用いますし、`:zeitwerk`モードで動作するアプリケーションでは`require_dependency`が不要なので、モデルやコントローラやジョブなどが`$LOAD_PATH`に存在する必要はありません。これを`false`に設定すると、`require`の解決が相対パスで呼び出されるときにRubyがそれらのディレクトリのチェックを削減でき、Bootsnapの動作やメモリも節約できます。それらのインデックスの構築が不要になるからです。
+
 * `config.cache_classes`: アプリケーションのクラスやモジュールをリクエストごとに再読み込みするか(=キャッシュしないかどうか)どうかを指定します。`config.cache_classes`のデフォルト値は、developmentモードでは`false`なのでコードの更新がすぐ反映され、testモードとproductionモードの場合は`true`なので動作が高速になります。
 
 * `config.beginning_of_week`: アプリケーションにおける週の初日を設定します。引数には、曜日を表す有効なシンボルを渡します(`:monday`など)。
@@ -83,6 +85,8 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
     end
     ```
 
+* `config.disable_sandbox`: コンソールをsandboxモードで起動してよいかどうかを制御します。これは、sandboxコンソールのセッションを長時間動かしっぱなしにしてデータベースサーバーのメモリがなくなるのを避けるうえで有用です。デフォルトは`false`です。
+
 * `config.eager_load`: `true`にすると、`config.eager_load_namespaces`に登録された事前一括読み込み(eager loading)用の名前空間をすべて読み込みます。ここにはアプリケーション、エンジン、Railsフレームワークを含むあらゆる登録済み名前空間が含まれます。
 
 * `config.eager_load_namespaces`: ここに登録した名前は、`config.eager_load`が`true`のときに読み込まれます。登録された名前空間は、必ず`eager_load!`メソッドに応答しなければなりません。
@@ -101,7 +105,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.filter_parameters`: パスワードやクレジットカード番号など、ログに出力したくないパラメータをフィルタで除外するのに用います。デフォルトのRailsでは`config/initializers/filter_parameter_logging.rb`に`Rails.application.config.filter_parameters += [:password]`を追加することでパスワードをフィルタで除外します。パラメータのフィルタは正規表現の**部分一致**によって行われます（訳注: 他のパラメータ名が誤って部分一致しないようご注意ください）。
 
-* `config.force_ssl`: `ActionDispatch::SSL`ミドルウェアを用いて、すべてのリクエストをHTTPSプロトコル下で実行するよう強制し、かつ`config.action_mailer.default_url_options`を`{ protocol: 'https' }`に設定します。これは`config.ssl_options`で設定できます。詳しくは[ActionDispatch::SSL documentation](http://api.rubyonrails.org/classes/ActionDispatch/SSL.html)を参照してください。
+* `config.force_ssl`: `ActionDispatch::SSL`ミドルウェアを用いて、すべてのリクエストをHTTPSプロトコル下で実行するよう強制し、かつ`config.action_mailer.default_url_options`を`{ protocol: 'https' }`に設定します。これは`config.ssl_options`で設定できます。詳しくは[ActionDispatch::SSL documentation](https://api.rubyonrails.org/classes/ActionDispatch/SSL.html)を参照してください。
 
 * `config.log_formatter`: Railsロガーのフォーマットを定義します。このオプションは、デフォルトではすべてのモードで`ActiveSupport::Logger::SimpleFormatter`のインスタンスを使います。`config.logger`を設定する場合は、この設定が`ActiveSupport::TaggedLogging`インスタンスでラップされるより前の段階で、フォーマッターの値を手動で渡さなければなりません。Railsはこの処理を自動では行いません。
 
@@ -129,6 +133,10 @@ config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 
 * `config.reload_classes_only_on_change`: 監視しているファイルが変更された場合にのみクラスを再読み込みするかどうかを指定します。デフォルトでは、`autoload_path`で指定されたすべてのファイルが監視対象となり、デフォルトで`true`が設定されます。`config.cache_classes`が`true`の場合、このオプションは無視されます。
 
+* `config.credentials.content_path`: 暗号化済みcredentialの探索パスを設定します。
+
+* `config.credentials.key_path` 暗号化キーの探索パスを設定します。
+
 * `secret_key_base`: このメソッドは、改竄防止のためにアプリケーションのセッションを既知の秘密キーと照合するためのキーを指定するときに使います。test環境とdevelopment環境の場合、`secrets.secret_key_base`でランダムに生成されたキーを使います。その他の環境ではキーを`config/credentials.yml.enc`に設定すべきです。
 
 * `config.public_file_server.enabled`: `public/`ディレクトリ内の静的アセットを扱うかどうかを指定します。デフォルトでは`true`が設定されますが、production環境ではアプリケーションを実行するNginxやApacheなどのサーバーが静的アセットを扱う必要があるので、`false`になります。デフォルトの設定とは異なり、WEBrickをでアプリケーションをproductionモードで実行したり(WEBrickをproductionで使うことは推奨されません)テストしたりする場合は`true`に設定します。そうしないとページキャッシュが利用できなくなり、`public/`ディレクトリ以下に常駐する静的ファイルへのリクエストも有効になりません。
@@ -142,6 +150,13 @@ config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 カスタムストアは`ActionDispatch::Session::MyCustomStore`として定義する必要があります。
 
 * `config.time_zone`: アプリケーションのデフォルトタイムゾーンを設定し、Active Recordで認識できるようにします。
+
+* `config.autoloader`: オートローディングモードを設定します。`config.load_defaults`で`6.0`が指定されている場合、このオプションはデフォルトで`:zeitwerk`になります。フレームワークのデフォルトが読み込まれた後にこの値を`:classic`に設定することで、クラシックオートローダーを引き続きアプリケーションで利用できます。
+
+    ```ruby
+    config.load_defaults "6.0"
+    config.autoloader = :classic
+    ```
 
 ### アセットを設定する
 
@@ -192,9 +207,7 @@ end
 * `force_plural`: モデル名を複数形にするかどうかを指定します。デフォルトは`false`です。
 * `helper`: ヘルパーを生成するかどうかを指定します。デフォルトは`true`です。
 * `integration_tool`: 結合テストの生成に使う統合ツールを定義します。デフォルトは`:test_unit`です。
-* `system_tests`: システムテスト生成に用いる統合ツールを定義します。デフォルトは`:test_unit`です。
-* `javascripts`: 生成時にJavaScriptファイルへのフックをオンにするかどうかを指定します。この設定は`scaffold`ジェネレータの実行中に使われます。デフォルトは`true`です。
-* `javascript_engine`: アセット生成時に(coffeeなどで)使うエンジンを設定します。デフォルトは`:js`です。
+* `system_tests`: システムテスト生成に用いる統合ツールを定義します。デフォルトは`:test_unit`です。∂ç
 * `orm`: 使うORM (オブジェクトリレーショナルマッピング) を指定します。デフォルトは`false`であり、この場合はActive Recordが使われます。
 * `resource_controller`: `rails generate resource`の実行時にどのジェネレータでコントローラを生成するかを指定します。デフォルトは`:controller`です。
 * `resource_route`: リソースのルーティング定義を生成すべきかどうかを定義します。デフォルトは`true`です。
@@ -296,6 +309,10 @@ config.middleware.delete Rack::MethodOverride
      config.i18n.fallbacks.map = { az: :tr, da: [:de, :en] }
      ```
 
+### Active Modelを設定する
+
+* `config.active_model.i18n_customize_full_message`: `full_message`エラーフォーマットを属性レベルやモデルレベルでロケールファイルで上書きしてよいかどうかを制御するboolean値です。デフォルトは`false`です。
+
 ### Active Recordを設定する
 
 `config.active_record`には多くのオプションが含まれています。
@@ -329,13 +346,13 @@ config.middleware.delete Rack::MethodOverride
 
 * `config.active_record.lock_optimistically`: Active Recordで楽観的ロック(optimistic locking)を使うかどうかを指定します。デフォルトは`true`(利用する)です。
 
-* `config.active_record.cache_timestamp_format`: キャッシュキーに含まれるタイムスタンプ値の形式を指定します。デフォルトは`:nsec`です。
+* `config.active_record.cache_timestamp_format`: キャッシュキーに含まれるタイムスタンプ値の形式を指定します。デフォルトは`:usec`です。
 
 * `config.active_record.record_timestamps`: モデルで発生する`create`操作や`update`操作にタイムスタンプを付けるかどうかを指定する論理値です。デフォルト値は`true`です。
 
 * `config.active_record.partial_writes`: 部分書き込みを行なうかどうか(「dirty」とマークされた属性だけを更新するか)を指定する論理値です。データベースで部分書き込みを使う場合は、`config.active_record.lock_optimistically`で楽観的ロックも使う必要がある点にご注意ください。これは、更新がコンカレントに行われた場合に、読み出しの状態が古い情報に基づいて属性に書き込まれる可能性があるためです。デフォルト値は`true`です。
 
-* `config.active_record.maintain_test_schema`: テスト実行時にActive Recordがテスト用データベーススキーマを`db/schema.rb`(または`db/structure.sql`)に基いて最新の状態にするかどうかを指定します。デフォルト値は`true`です。
+* `config.active_record.maintain_test_schema`: テスト実行時にActive Recordがテスト用データベーススキーマを`db/schema.rb`(または`db/structure.sql`)に基づいて最新の状態にするかどうかを指定します。デフォルト値は`true`です。
 
 * `config.active_record.dump_schema_after_migration`: マイグレーション実行時にスキーマダンプ(`db/schema.rb`または`db/structure.sql`)を行なうかどうかを指定します。このオプションは、Railsが生成する`config/environments/production.rb`では`false`に設定されます。このオプションが無指定の場合は、デフォルトの`true`が指定されます。
 
@@ -349,28 +366,21 @@ config.middleware.delete Rack::MethodOverride
 
 * `config.active_record.use_schema_cache_dump`: （`bin/rails db:schema:cache:dump`で生成された）`db/schema_cache.yml`のスキーマ情報を、データベースにクエリを送信しなくてもユーザーが取得できるようにするかどうかを指定します。デフォルトは`true`です。
 
+* `config.active_record.collection_cache_versioning`: `ActiveRecord::Relation`型でキャッシュされたオブジェクトが、そのリレーションのキャッシュキーの揮発性の情報（updated atとcountの最大値）をキャッシュキーの再利用サポートのためにキャッシュバージョンに移動したときに、同じキャッシュキーを再利用できるようにします。デフォルトは`false`です。
+
 MySQLアダプターを使うと、以下の設定オプションが1つ追加されます。
 
 * `ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans`: Active Recordがすべての`tinyint(1)`カラムをデフォルトでbooleanと認識するかどうかを指定します。デフォルトは`true`です。
 
-SQLite3Adapterアダプターを使うと、以下の設定オプションが1つ追加されます。
+PostgreSQLアダプターを使うと、以下の設定オプションが1つ追加されます。
 
-* `ActiveRecord::ConnectionAdapters::SQLite3Adapter.represent_boolean_as_integer`: SQLite3データベースのboolean値を1と0または`t`と`f`のどちらで保存するかを指定します。`ActiveRecord::ConnectionAdapters::SQLite3Adapter.represent_boolean_as_integer`を`false`に設定するのは非推奨です。以前のSQLiteデータベースはboolean値のシリアライズに`t`と`f`を用いていたので、このフラグを`true`にする場合は、その前に古いデータを1と0（ネイティブのbooleanシリアライズ）に変換しておかなければなりません。以下のようなコードを実行するrakeタスクをセットアップすることですべてのモデルやbooleanカラムを変換できます。
-
-```ruby
-ExampleModel.where("boolean_column = 't'").update_all(boolean_column: 1)
-ExampleModel.where("boolean_column = 'f'").update_all(boolean_column: 0)
-```
-
-その後`application.rb`に以下を追加してこのフラグを`true`に設定しなければなりません。
-
-```ruby
-    Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
-```
+* `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.create_unlogged_tables`: 作成されたデータベースを「unlogged」にすべきかどうかを制御します。unloggedにするとパフォーマンスは向上しますが、データベースがクラッシュしたときのデータ喪失リスクも増加します。production環境ではこれを有効にしないことを強くおすすめします。デフォルトではすべての環境で`false`になります。
 
 スキーマダンパーは以下のオプションを追加します。
 
 * `ActiveRecord::SchemaDumper.ignore_tables`: テーブル名の配列を1つ引数に取ります。**どのスキーマファイルにも含まれてはならない**テーブル名がある場合はこの配列にテーブル名を含めます。
+
+* `ActiveRecord::SchemaDumper.fk_ignore_pattern`: 外部キー名をdb/schema.rbにダンプすべきかどうかを指定する正規表現を別のものに設定できます。デフォルトでは、`fk_rails_`で始まる外部キー名はデータベースのスキーマダンプにエクスポートされません。デフォルトは`/^fk_rails_[0-9a-f]{10}$/`です。
 
 ### Action Controllerを設定する
 
@@ -378,7 +388,7 @@ ExampleModel.where("boolean_column = 'f'").update_all(boolean_column: 0)
 
 * `config.action_controller.asset_host`: アセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使いたい場合に便利です。
 
-* `config.action_controller.perform_caching`: Action Controllerコンポーネントが提供するキャッシュ機能をアプリケーションで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。
+* `config.action_controller.perform_caching`: Action Controllerコンポーネントが提供するキャッシュ機能をアプリケーションで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。指定のない場合は`true`になります。
 
 * `config.action_controller.default_static_extension`: キャッシュされたページに与える拡張子を指定します。デフォルトは`.html`です。
 
@@ -492,6 +502,8 @@ config.action_dispatch.rescue_responses = {
 
 設定されていない例外はすべて500 Internel Server Errorに割り当てられます。
 
+* `config.action_dispatch.return_only_media_type_on_content_type`: `ActionDispatch::Response#content_type`がContent-Typeヘッダーを改変なしで返すよう変更します。デフォルト値は`false`です。
+
 * `ActionDispatch::Callbacks.before`: リクエストより前に実行したいコードブロックを1つ引数として与えます。
 
 * `ActionDispatch::Callbacks.after`: リクエストの後に実行したいコードブロックを1つ引数として与えます。
@@ -526,7 +538,7 @@ config.action_dispatch.rescue_responses = {
 
 デフォルト設定は`true`で、その場合`/admin/posts/_post.erb`にあるパーシャルを使います。この値を`false`にすると、`/posts/_post.erb`がレンダリングされます。この動作は、`PostsController`などの名前空間化されていないコントローラでレンダリングした場合と同じです。
 
-* `config.action_view.raise_on_missing_translations`: i18nで訳文が見つからない場合にエラーを発生するかどうかを指定します。
+* `config.action_view.raise_on_missing_translations`: i18nで訳文が見つからない場合にエラーを発生するかどうかを指定します。デフォルトは`false`です。
 
 * `config.action_view.automatically_disable_submit_tag`: クリック時に`submit_tag`を自動的に無効にするべきかどうかを指定します。デフォルトは`true`です。
 
@@ -534,7 +546,30 @@ config.action_dispatch.rescue_responses = {
 
 * `config.action_view.form_with_generates_remote_forms`: `form_with`でリモートフォームを生成するかどうかを指定します。デフォルトは`true`です。
 
-* `config.action_view.form_with_generates_ids`: `form_with`でidを生成するかどうかを指定します。デフォルトは`true`です。
+* `config.action_view.form_with_generates_ids`: `form_with`でidを生成するかどうかを指定します。デフォルトは`false`です。
+
+* `config.action_view.default_enforce_utf8`: UTF-8でエンコードされたフォームを古いInternet Explorerで強制送信する隠しタグ付きでフォームを生成するかどうかを指定します。デフォルトは`false`です。
+
+### Action Mailboxを設定する
+
+`config.action_mailbox`には以下の設定オプションがあります。
+
+* `config.action_mailbox.logger`: Action Mailboxで用いるロガーを含みます。Log4rまたはデフォルトのRuby Loggerクラスに従うロガーを渡せます。デフォルトは`Rails.logger`です。
+
+  ```ruby
+  config.action_mailbox.logger = ActiveSupport::Logger.new(STDOUT)
+  ```
+
+* `config.action_mailbox.incinerate_after`: `ActiveSupport::Duration`を受け取ります。これは`ActionMailbox::InboundEmail`レコードを処理後に破棄（destroy）すべき期間を指定します。デフォルトは`30.days`です。
+
+   ```ruby
+   # 受信メールの処理後、14日後に焼却する
+   config.action_mailbox.incinerate_after = 14.days
+   ```
+
+* `config.action_mailbox.queues.incineration`: 焼却（incinerate）ジョブに用いるActive Jobキューを示すシンボルを渡せます。デフォルトは`:action_mailbox_incineration`です。
+
+* `config.action_mailbox.queues.routing`: ルーティングジョブに用いるActive Jobキューを示すシンボルを渡せます。デフォルトは`:action_mailbox_routing`です。
 
 ### Action Mailerを設定する
 
@@ -607,7 +642,9 @@ config.action_dispatch.rescue_responses = {
 
 * `config.action_mailer.deliver_later_queue_name`: メイラーで使うキュー名を指定します。デフォルトは`mailers`です。
 
-* `config.action_mailer.perform_caching`: メイラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。デフォルトではすべての環境で`false`です。
+* `config.action_mailer.perform_caching`: メイラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。指定のない場合のデフォルト値は`true`です。
+
+* `config.action_mailer.delivery_job`: メールの配信ジョブを指定します。デフォルトは`ActionMailer::DeliveryJob`です。
 
 ### Active Supportを設定する
 
@@ -625,6 +662,8 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `config.active_support.use_sha1_digests`: 重要でないダイジェスト（ETagヘッダーなど）の生成にMD5ではなくSHA-1を使うかどうかを指定します。デフォルトは`false`です。
 
+* `config.active_support.use_authenticated_message_encryption`: AES-256-CBCではなくAES-256-GCM認証済み暗号をデフォルトのメッセージ暗号化に用いるかどうかを指定します。デフォルトは`false`です。
+
 * `ActiveSupport::Logger.silencer`: `false`に設定すると、ブロック内でのログ出力を抑制する機能がオフになります。デフォルト値は`true`です。
 
 * `ActiveSupport::Cache::Store.logger`: キャッシュストア操作で使うロガーを指定します。
@@ -633,13 +672,13 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `ActiveSupport::Deprecation.silence`: ブロックを1つ引数に取り、すべての非推奨警告メッセージを抑制します。
 
-* `ActiveSupport::Deprecation.silenced`: 非推奨警告メッセージを表示するかどうかを指定します。
+* `ActiveSupport::Deprecation.silenced`: 非推奨警告メッセージを表示するかどうかを指定します。デフォルトは`false`です。
 
 ### Active Jobを設定する
 
 `config.active_job`では以下の設定オプションが利用できます。
 
-* `config.active_job.queue_adapter`: キューのバックエンドに用いるアダプタを設定します。デフォルトのアダプタは`:async`です。最新の組み込みアダプタについては[ActiveJob::QueueAdapters API documentation](http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html)を参照してください。
+* `config.active_job.queue_adapter`: キューのバックエンドに用いるアダプタを設定します。デフォルトのアダプタは`:async`です。最新の組み込みアダプタについては[ActiveJob::QueueAdapters API documentation](https://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html)を参照してください。
 
     ```ruby
     # 必ずGemfileにアダプタのgemを追加し、
@@ -687,14 +726,22 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `config.active_job.logger`: Active Jobのログ情報に使うロガーとして、Log4rのインターフェイスに準拠したロガーか、デフォルトのRubyロガーを指定できます。このロガーは、Active JobのクラスかActive Jobのインスタンスで`logger`を呼び出すことで取り出せます。ログ出力を無効にするには`nil`を設定します。
 
+* `config.active_job.custom_serializers`: カスタムの引数シリアライザを設定できます。デフォルトは`[]`です。
+
+* `config.active_job.return_false_on_aborted_enqueue`: キューの投入がabortされた場合に、`#enqueue`がジョブのインスタンスではなく`false`を返すよう変更します。デフォルトは`false`です。
+
 ### Action Cableを設定する
 
 * `config.action_cable.url`: Action CableサーバーがホストされているURLの文字列を指定します。Action Cableサーバーがメインのアプリケーションと別になっている場合に使う可能性があります。
 * `config.action_cable.mount_path`: Action Cableをメインサーバープロセスの一部としてマウントする場所を文字列で指定します。デフォルトは`/cable`です。`nil`を設定すると、Action Cableは通常のRailsサーバーの一部としてマウントされなくなります。
 
+設定オプションについて詳しくは、[Action Cableの概要](action_cable_overview.html#設定)を参照してください。
+
 ### Active Storageを設定する
 
 `config.active_storage`では以下の設定オプションが提供されています。
+
+* `config.active_storage.variant_processor`: `:mini_magick`または`:vips`いずれかのシンボルを渡せます。これらはvariantの変換にMiniMagickとruby-vipsのどちらを使うかを指定します。デフォルトは`:mini_magick`です。
 
 * `config.active_storage.analyzers`: Active Storageのblob（binary large object）で利用できるアナライザを指定するクラスの配列を受け取ります。デフォルトは`[ActiveStorage::Analyzer::ImageAnalyzer, ActiveStorage::Analyzer::VideoAnalyzer]`です。前者は画像blobの幅（width）や高さ（height）の取り出し、後者は動画blobの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、アスペクト比（aspect ratio）の取り出しに利用できます。
 
@@ -715,10 +762,16 @@ Active Supportにもいくつかの設定オプションがあります。
 * `config.active_storage.content_types_to_serve_as_binary`: Active Storageが常に添付ファイルとして扱うcontent typeを示す文字列の配列を受け取ります。デフォルトは`%w(text/html
 text/javascript image/svg+xml application/postscript application/x-shockwave-flash text/xml application/xml application/xhtml+xml)`です。
 
-* `config.active_storage.queue`: blobのコンテンツ解析やblobのパージなどのジョブに使われるActive Jobキュー名を設定するのに利用できます。
+* `config.active_storage.queues.analysis`: 解析ジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、解析ジョブはデフォルトのActive Jobキューに送信されます（`config.active_job.default_queue_name`を参照）。
 
   ```ruby
   config.active_job.queue = :low_priority
+  ```
+
+* `config.active_storage.queues.purge`: purgeジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、解析ジョブはデフォルトのActive Jobキューに送信されます（`config.active_job.default_queue_name`を参照）。
+
+  ```ruby
+  config.active_storage.queues.purge = :low_priority
   ```
 
 * `config.active_storage.logger`: Active Storageで用いられるロガーを設定するのに利用できます。Log4rのインターフェイスに沿ったロガーや、デフォルトのRuby `Logger`クラスを指定できます。
@@ -726,6 +779,60 @@ text/javascript image/svg+xml application/postscript application/x-shockwave-fla
   ```ruby
   config.active_job.logger = ActiveSupport::Logger.new(STDOUT)
   ```
+
+* `config.active_storage.service_urls_expire_in`: 以下によって生成されるURLのデフォルトの期限を指定します。
+  * `ActiveStorage::Blob#service_url`
+  * `ActiveStorage::Blob#service_url_for_direct_upload`
+  * `ActiveStorage::Variant#service_url`
+
+  デフォルトは5分です。
+
+* `config.active_storage.routes_prefix`: Active Storageでサービスするルーティングのプレフィックスを設定できます。生成されるルーティングの冒頭に追加する文字列を渡せます。
+
+  ```ruby
+  config.active_storage.routes_prefix = '/files'
+  ```
+
+ デフォルトは`/rails/active_storage`です。
+
+* `config.active_storage.replace_on_assign_to_many`: `has_many_attached`で宣言された添付ファイルのコレクションに代入したときに、既存の添付ファイルをすべて置き換えるか、追加（append）するかを指定します。デフォルトは`true`です。
+
+### `load_defaults`の結果
+
+#### '5.0'を指定した場合
+
+- `config.action_controller.per_form_csrf_tokens`: `true`
+- `config.action_controller.forgery_protection_origin_check`: `true`
+- `ActiveSupport.to_time_preserves_timezone`: `true`
+- `config.active_record.belongs_to_required_by_default`: `true`
+- `config.ssl_options`: `{ hsts: { subdomains: true } }`
+
+#### '5.1'を指定した場合
+
+- `config.assets.unknown_asset_fallback`: `false`
+- `config.action_view.form_with_generates_remote_forms`: `true`
+
+#### '5.2'を指定した場合
+
+- `config.active_record.cache_versioning`: `true`
+- `action_dispatch.use_authenticated_cookie_encryption`: `true`
+- `config.active_support.use_authenticated_message_encryption`: `true`
+- `config.active_support.use_sha1_digests`: `true`
+- `config.action_controller.default_protect_from_forgery`: `true`
+- `config.action_view.form_with_generates_ids`: `true`
+
+#### '6.0'を指定した場合
+
+- `config.autoloader`: `:zeitwerk`
+- `config.action_view.default_enforce_utf8`: `false`
+- `config.action_dispatch.use_cookies_with_metadata`: `true`
+- `config.action_dispatch.return_only_media_type_on_content_type`: `false`
+- `config.action_mailer.delivery_job`: `"ActionMailer::MailDeliveryJob"`
+- `config.active_job.return_false_on_aborted_enqueue`: `true`
+- `config.active_storage.queues.analysis`: `:active_storage_analysis`
+- `config.active_storage.queues.purge`: `:active_storage_purge`
+- `config.active_storage.replace_on_assign_to_many`: `true`
+- `config.active_record.collection_cache_versioning`: `true`
 
 ### データベースを設定する
 
@@ -740,7 +847,7 @@ development:
   pool: 5
 ```
 
-この設定を使うと、`postgresql`を用いて`blog_development`という名前のデータベースに接続します。同じ接続情報をURL化して、以下のように環境変数に保存することもできます。
+この設定は、`postgresql`を用いて`blog_development`という名前のデータベースに接続します。同じ接続情報をURL化して、以下のように環境変数に保存することもできます。
 
 ```ruby
 > puts ENV['DATABASE_URL']
@@ -766,7 +873,7 @@ TIP: データベースの接続設定を手動で更新する必要はありま
 
 ### 接続設定
 
-データベース接続の設定方法は`config/database.yml`による方法と環境変数による方法の2とおりあるので、この2つがどのように相互作用するかを理解しておくことが重要です。
+データベース接続の設定方法は`config/database.yml`による方法と環境変数による方法の2とおりがあります。この2つがどのように相互作用するかを理解しておくことが重要です。
 
 `config/database.yml`ファイルの内容が空で、かつ環境変数`ENV['DATABASE_URL']`が設定されている場合、データベースへの接続には環境変数が使われます。
 
@@ -804,10 +911,18 @@ $ echo $DATABASE_URL
 postgresql://localhost/my_database
 
 $ rails runner 'puts ActiveRecord::Base.configurations'
-{"development"=>{"adapter"=>"postgresql", "host"=>"localhost", "database"=>"my_database"}}
+#<ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28>
+
+$ rails runner 'puts ActiveRecord::Base.configurations.inspect'
+#<ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations=[
+  #<ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+    @env_name="development", @spec_name="primary",
+    @config={"adapter"=>"postgresql", "database"=>"my_database", "host"=>"localhost"}
+    @url="postgresql://localhost/my_database">
+  ]
 ```
 
-上の実行結果で使われている接続情報は、`ENV['DATABASE_URL']`の内容と一致しています。
+上の実行結果で使われているアダプタ、ホスト、データベースは`ENV['DATABASE_URL']`の内容と一致しています。
 
 提供された複数の情報が重複ではなく競合している場合も、常に環境変数の接続設定が優先されます。
 
@@ -821,7 +936,15 @@ $ echo $DATABASE_URL
 postgresql://localhost/my_database
 
 $ rails runner 'puts ActiveRecord::Base.configurations'
-{"development"=>{"adapter"=>"postgresql", "host"=>"localhost", "database"=>"my_database", "pool"=>5}}
+#<ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28>
+
+$ rails runner 'puts ActiveRecord::Base.configurations.inspect'
+#<ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations=[
+  #<ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+    @env_name="development", @spec_name="primary",
+    @config={"adapter"=>"postgresql", "database"=>"my_database", "host"=>"localhost", "pool"=>5}
+    @url="postgresql://localhost/my_database">
+  ]
 ```
 
 poolは`ENV['DATABASE_URL']`で提供される情報に含まれていないので、マージされています。adapterは重複しているので、`ENV['DATABASE_URL']`の接続情報が優先されています。
@@ -837,12 +960,20 @@ $ echo $DATABASE_URL
 postgresql://localhost/my_database
 
 $ rails runner 'puts ActiveRecord::Base.configurations'
-{"development"=>{"adapter"=>"sqlite3", "database"=>"NOT_my_database"}}
+#<ActiveRecord::DatabaseConfigurations:0x00007fd50e209a28>
+
+$ rails runner 'puts ActiveRecord::Base.configurations.inspect'
+#<ActiveRecord::DatabaseConfigurations:0x00007fc8eab02880 @configurations=[
+  #<ActiveRecord::DatabaseConfigurations::UrlConfig:0x00007fc8eab020b0
+    @env_name="development", @spec_name="primary",
+    @config={"adapter"=>"sqlite3", "database"=>"NOT_my_database"}
+    @url="sqlite3:NOT_my_database">
+  ]
 ```
 
 今度は`ENV['DATABASE_URL']`の接続情報は無視されました。アダプタとデータベース名が異なります。
 
-`config/database.yml`にはERBを記述できるので、database.yml内で明示的に`ENV['DATABASE_URL']`を使うのが最もよい方法です。これは特にproduction環境で有用です。理由は、データベース接続のパスワードのような秘密情報をGitなどのソースコントロールに直接登録することは避けなければならないからです。
+`config/database.yml`にはERBを記述できるので、database.yml内で明示的に`ENV['DATABASE_URL']`を使うのが最もよい方法です。これは特にproduction環境で有用です。理由は、データベース接続のパスワードのような秘密情報をGitなどのソースコントロールに直接登録すべきではないからです。
 
 ```
 $ cat config/database.yml
@@ -850,7 +981,7 @@ production:
   url: <%= ENV['DATABASE_URL'] %>
 ```
 
-以上の説明で動作が明らかになりました。接続情報は絶対にdatabase.ymlに直接書かず、常に`ENV['DATABASE_URL']`に保存したものを利用してください。
+以上の説明で動作が明らかになりました。接続情報は決してdatabase.ymlに直接書かず、常に`ENV['DATABASE_URL']`に保存したものを利用してください。
 
 #### SQLite3データベースを設定する
 
@@ -885,6 +1016,16 @@ development:
 
 ユーザー名root、パスワードなしでdevelopment環境のデータベースに接続できれば、上の設定で接続できるはずです。接続できない場合は、`development`セクションのユーザー名またはパスワードを適切なものに変更してください。
 
+NOTE: MySQLのバージョンが5.5または5.6で、かつ`utf8mb4`文字セットをデフォルトで使いたい場合は、MySQLサーバーで`innodb_large_prefix`システム変数を有効にすることで、長いキープレフィックスがサポートされるよう設定してください。
+
+MySQLのAdvisory Locksはデフォルトで有効になります。これはデータベースマイグレーションをコンカレンシー安全にするために用いられます。`advisory_locks`を`false`にするとAdvisory Locksを無効にできます。
+
+```yaml
+production:
+  adapter: mysql2
+  advisory_locks: false
+```
+
 #### PostgreSQLデータベースを設定する
 
 PostgreSQLを採用した場合は、`config/database.yml`の記述は以下のようになります。
@@ -897,15 +1038,16 @@ development:
   pool: 5
 ```
 
-PostgreSQLのPrepared Statementsはデフォルトでオンになります。`prepared_statements`を`false`に設定することでPrepared Statementsをオフにできます。
+Active Recordでは、Prepared StatementsやAdvisory Locksなどの機能がデフォルトでオンになります。PgBouncerなどの外部コネクションプーラーを用いる場合、これらの機能をオフにできます。
 
 ```yaml
 production:
   adapter: postgresql
   prepared_statements: false
+  advisory_locks: false
 ```
 
-Prepared Statementsをオンにすると、Active Recordはデフォルトでデータベース接続ごとに最大`1000`までのPrepared Statementsを作成します。この数値を変更したい場合は`statement_limit`に別の数値を指定します。
+オンにする場合、Active Recordはデフォルトでデータベース接続ごとに最大`1000`までのPrepared Statementsを作成します。この数値を変更したい場合は`statement_limit`に別の数値を指定します。
 
 ```
 production:
@@ -959,7 +1101,6 @@ Railsにデフォルトで備わっている環境は、"development"、"test"�
 たとえば、production環境をミラーコピーしたサーバーをテスト目的でのみ使いたいという場合を想定してみましょう。このようなサーバーは通常「ステージングサーバー(staging server)」と呼ばれます。"staging"環境をサーバーに追加したいのであれば、`config/environments/staging.rb`というファイルを作成するだけで済みます。その際にはなるべく`config/environments`にある既存のファイルを流用し、必要な部分のみを変更するようにしてください。
 
 このようにして追加された環境は、デフォルトの3つの環境と同じように利用できます。`rails server -e staging`を実行すればステージング環境でサーバーを起動でき、`rails console -e staging`や`Rails.env.staging?`なども動作するようになります。
-
 
 ### サブディレクトリにデプロイする (相対URLルートの利用)
 
@@ -1036,6 +1177,8 @@ Rails環境の設定
 
 Railsは、フレームワークの読み込みとすべてのgemの読み込みが完了してから、イニシャライザの読み込みを開始します。イニシャライザとは、アプリケーションの`config/initializers`ディレクトリに保存されるRubyファイルのことです。たとえば各部分のオプション設定をイニシャライザに保存しておき、フレームワークとgemがすべて読み込まれた後に適用することができます。
 
+NOTE: 自分のイニシャライザが、他のすべてのgemのイニシャライザが実行された後で実行されるという保証はありません。つまり、そうしたgemに依存する初期化コードは`config.after_initilize`ブロックに配置すべきです。
+
 NOTE: イニシャライザを置くディレクトリにサブフォルダを作ってイニシャライザを整理することもできます。Railsはイニシャライザ用のディレクトリの下のすべての階層を探して実行してくれます。
 
 TIP: Railsではイニシャライザの複数のファイル名に番号を付けて読み込み順を制御するサポートがありますが、よりよい方法は同一ファイル内に記述するコードの順序で読み込み順を制御することです。この方がファイル名が散らからずに済みますし、依存関係も明確になり、アプリケーション内の新しい概念が見えやすくなります。
@@ -1061,7 +1204,7 @@ Railsにはフック可能な初期化イベントが5つあります。以下�
 module YourApp
   class Application < Rails::Application
     config.before_initialize do
-      # initialization code goes here
+      # ここに初期化コードを書く
     end
   end
 end
@@ -1071,7 +1214,7 @@ end
 
 ```ruby
 Rails.application.config.before_initialize do
-  # initialization code goes here
+  # ここに初期化コードを書く
 end
 ```
 
@@ -1126,8 +1269,6 @@ Railsにあるイニシャライザのリストを以下にまとめました。
 * `active_support.set_configs`: Active Supportをセットアップします。`config.active_support`内の設定を用い、メソッド名を`ActiveSupport`のセッターに`send`し、値を渡します。
 
 * `action_dispatch.configure`: `ActionDispatch::Http::URL.tld_length`を構成して、`config.action_dispatch.tld_length`の値(トップレベルドメイン名の長さ)が設定されるようにします。
-
-* `action_dispatch.configure`: `ActionDispatch::Http::URL.tld_length`に`config.action_dispatch.tld_length`の値を設定します。
 
 * `action_view.set_configs`: Action Viewをセットアップします。`config.action_view`内の設定を用い、メソッド名を`ActionView::Base`のセッターに`send`し、値を渡します。
 
@@ -1293,7 +1434,7 @@ User-agent: *
 Disallow: /
 ```
 
-特定のページのみをブロックする場合は、もう少し複雑な構文が必要です。robot.textの[公式ドキュメント](http://www.robotstxt.org/robotstxt.html)を参照してください。
+特定のページのみをブロックする場合は、もう少し複雑な構文が必要です。robot.txtの[公式ドキュメント](https://www.robotstxt.org/robotstxt.html)を参照してください。
 
 イベントベースのファイルシステム監視
 ---------------------------

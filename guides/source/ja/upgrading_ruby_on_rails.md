@@ -33,6 +33,7 @@ Railsのバージョンを変更する場合、マイナーバージョンを1�
 
 Railsは、そのバージョンがリリースされた時点で最新のバージョンのRubyに依存しています。
 
+* Rails 6: Ruby 2.3.0以降が必須です。
 * Rails 5: Ruby 2.2.2以降が必須です。
 * Rails 4: Ruby 2.0が推奨されます。Ruby 1.9.3以上が必須です。
 * Rails 3.2.x: Ruby 1.8.7の最終ブランチです。
@@ -42,7 +43,7 @@ TIP: Ruby 1.8.7 p248およびp249にはRailsをクラッシュさせるマーシ
 
 ### アップデートタスク
 
-Rails では`app:update`というタスクが提供されています (Rails 4.2以前では `rails:update` という名前でした)。`Gemfile`に記載されているRailsのバージョンを更新後、このタスクを実行することで、新しいバージョンでのファイル作成や既存ファイルの変更を対話形式で行うことができます。
+Rails では`app:update`というコマンドが提供されています (Rails 4.2以前では `rails:update` という名前でした)。`Gemfile`に記載されているRailsのバージョンを更新後、このコマンドを実行することで、新しいバージョンでのファイル作成や既存ファイルの変更を対話形式で行うことができます。
 
 ```bash
 $ rails app:update
@@ -77,7 +78,9 @@ Rails 6.0の変更点の詳細は[リリースノート](6_0_release_notes.html)
 
 ### 署名済みまたは暗号化済みcookieのpurpose情報がcookie内部に埋め込まれるようになった
 
-Railsではセキュリティ向上のため、暗号化済みまたは署名済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
+Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。
+
+これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
 
 新たに埋め込まれるこのpurpose情報によって、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
 
@@ -112,6 +115,304 @@ Action Cable JavaScriptパッケージがCoffeeScriptからES2015に置き換え
   -    ActionCable.stopDebugging()
   +    ActionCable.logger.enabled = false
   ```
+  
+### `ActionDispatch::Response#content_type`がContent-Typeヘッダーを変更せずに返すようになった
+
+従来は、`ActionDispatch::Response#content_type`の戻り値にcharsetパートが**含まれていませんでした**。
+この振る舞いは変更され、従来省略されていたcharsetパートも含まれるようになりました。
+
+MIMEタイプだけが欲しい場合は、代わりに`ActionDispatch::Response#media_type`をお使いください。
+
+変更前:
+
+```ruby
+resp = ActionDispatch::Response.new(200, "Content-Type" => "text/csv; header=present; charset=utf-16")
+resp.content_type #=> "text/csv; header=present"
+```
+
+変更後:
+
+```ruby
+resp = ActionDispatch::Response.new(200, "Content-Type" => "text/csv; header=present; charset=utf-16")
+resp.content_type #=> "text/csv; header=present; charset=utf-16"
+resp.media_type   #=> "text/csv"
+```
+
+### オートローディング
+
+Rails 6のデフォルト設定では、CRubyで`zeitwerk`のオートローディングモードが有効になります。
+
+```ruby
+# config/application.rb
+
+config.load_defaults "6.0"
+```
+
+オートローディングモードでは、オートロード、再読み込み、eager loadingを[Zeitwerk](https://github.com/fxn/zeitwerk)で管理します。
+
+#### Public APIについて
+
+一般に、アプリケーションでZeitwerk APIの利用が直接必要になることはありません。Railsは、`config.autoload_paths`や`config.cache_classes`といった既存の約束事に沿ってセットアップを行います。
+
+アプリケーションはこのインターフェイスを遵守すべきですが、実際のZeitwerkローダーオブジェクトに以下のようにアクセスできます。
+
+```ruby
+Rails.autoloaders.main
+```
+
+上は、たとえばSTI（単一テーブル継承）をプリロードする必要がある場合や、カスタムのinflectorを設定する必要が生じた場合には役立つことがあるでしょう。
+
+#### プロジェクトの構成
+
+アップグレードしたアプリケーションのオートロードが正しく動いていれば、プロジェクトの構成はほとんど互換が取れているはずです。
+
+ただし`classic`モードは、見つからない定数名からファイル名を推測しますが（`underscore`）、`zeitwerk`モードはファイル名から定数名を推測します（`camelize`）。特に略語がからむ場合、これらのヘルパーの動作が互いにきれいに逆になるとは限りません。たとえば、`"FOO".underscore`は`"foo"`になりますが、 `"foo".camelize`は`"FOO"`ではなく`"Foo"`になります。
+
+互換性については、以下のように`zeitwerk:check`タスクでチェックできます。
+
+```
+bin/rails zeitwerk:check
+```
+
+#### `require_dependency`について
+
+`require_dependency`の既知のユースケースはすべて排除されました。自分のプロジェクトをgrepして`require_dependency`を削除してください。
+
+アプリケーションでSTI（単一テーブル継承）が使われている場合は、[定数の自動読み込みと再読み込み（Zeitwerkモード）](autoloading_and_reloading_constants.html#single-table-inheritance)ガイドの該当セクションをご覧ください。
+
+#### クラス定義やモジュール定義の完全修飾名
+
+クラス定義やモジュール定義で、定数パスを安定して使えるようになりました。
+
+```ruby
+# このクラスの本文のオートロードがRubyのセマンティクスと一致するようになった
+class Admin::UsersController < ApplicationController
+  # ...
+end
+```
+
+ここで知っておいていただきたいのは、`classic`モードのオートローダーでは、実行順序によっては以下のコードの`Foo::Wadus`をオートロードできてしまう場合があるということです。
+
+```ruby
+class Foo::Bar
+  Wadus
+end
+```
+
+上の`Foo`はネストしていないのでRubyのセマンティクスと一致せず、`zeitwerk`ではまったく動かなくなります。こうしたエッジケースが見つかったら、以下のように完全修飾名の`Foo::Wadus`を使えます。
+
+```ruby
+class Foo::Bar
+  Foo::Wadus
+end
+```
+
+または、以下のように`Foo`でネストすることもできます
+
+```ruby
+module Foo
+  class Bar
+    Wadus
+  end
+end
+```
+
+#### concernsについて
+
+以下のような標準的な構造は、オートロードもeager loadも可能です。
+
+```
+app/models
+app/models/concerns
+```
+
+上は、（オートロードパスに属するので）`app/models/concerns`がルートディレクトリであると仮定され、名前空間としては無視されます。したがって、`app/models/concerns/foo.rb`は`Concerns::Foo`ではなく`Foo`と定義すべきです。
+
+`Concerns::`名前空間は、`classic`モードのオートローダーでは実装の副作用によって動作していましたが、これは意図した動作ではありませんでした。`Concerns::`を使っているアプリケーションが`zeitwerk`モードで動くようにするには、こうしたクラスやモジュールをリネームする必要があります。
+
+#### オートロードパス内に`app`がある場合
+
+プロジェクトによっては、`API::Base`を定義するために`app/api/base.rb`のようなものが欲しい場合があります。`classic`モードではこれを行うためにオートロードパスに`add`を追加します。Railsは`app`の全サブディレクトリをオートロードに自動的に追加するので、ネストしたルートディレクトリがある状況がもうひとつ存在することになり、セットアップが機能しなくなります。上述したのと似た原則が`concerns`にも当てはまります。
+
+そうした構造を維持したい場合は、イニシャライザで以下のようにそのサブディレクトリをオートロードパスから削除する必要が生じます。
+
+```ruby
+ActiveSupport::Dependencies.autoload_paths.delete("#{Rails.root}/app/api")
+```
+
+#### 定数のオートロードと明示的な名前空間
+
+あるファイルの中で名前空間が1つ定義されているとします（ここでは`Hotel`）。
+
+```
+app/models/hotel.rb         # Defines Hotel.
+app/models/hotel/pricing.rb # Defines Hotel::Pricing.
+```
+
+この`Hotel`という定数の定義には、必ず`class`キーワードまたは`module`キーワードを使わなければなりません。次の例をご覧ください。
+
+```ruby
+class Hotel
+end
+```
+
+上は問題ありません。
+
+しかし以下はどちらも動きません。
+
+```ruby
+Hotel = Class.new
+```
+
+```ruby
+Hotel = Struct.new
+```
+
+どちらも、`Hotel::Pricing`などの子オブジェクトを探索できなくなります。
+
+この制約は、明示的な名前空間にのみ適用されます。名前空間を定義しないクラスやモジュールであれば、そうしたイディオムで定義することもできます。
+
+#### 「1つのファイルには1つの定数だけ」（同じトップレベルで）
+
+`classic`モードでは、同じトップレベルに複数の定数を定義して、それらをすべて再読み込みすることが技術的には可能でした。以下の例をご覧ください。
+
+```ruby
+# app/models/foo.rb
+
+class Foo
+end
+
+class Bar
+end
+```
+
+上で`Foo`をオートロードすると、`Bar`をオートロードできなかった場合にも`Bar`をオートロード済みとマーキングすることがありました。このようなコードは`zeitwerk`では対象外です。`Bar`はそれ専用の`bar.rb`というファイルに移すべきです。「1つのファイルには1つの定数だけ」となります。
+
+この影響を受けるのは、上の例のように「同じトップレベルにある」複数の定数だけです。ネストの内側にあるクラスやモジュールは影響を受けません。以下の例をご覧ください。
+
+```ruby
+# app/models/foo.rb
+
+class Foo
+  class InnerClass
+  end
+end
+```
+
+アプリケーションで`Foo`を再読み込みすれば、`Foo::InnerClass`も再読み込みされます。
+
+#### spring gemと`test`環境について
+
+spring gemは、アプリケーションのコードが変更されると再読み込みします。`test`環境では、そのために再読み込みを有効にしておく必要があります。
+
+```ruby
+# config/environments/test.rb
+
+config.cache_classes = false
+```
+
+有効にしておかないと、以下のエラーが表示されます。
+
+```
+reloading is disabled because config.cache_classes is true
+```
+
+#### Bootsnapについて
+
+Bootsnapのバージョンは1.4.2以上にするべきです。
+
+また、Ruby 2.5を実行中は、インタプリタのバグの関係で、iseqキャッシュを無効にする必要があります。その場合はBootsnap 1.4.4以上に依存させるようにしてください。
+
+#### `config.add_autoload_paths_to_load_path`
+
+以下の新しい設定は、後方互換性のためデフォルトで`true`になっていますが、これを使って`$LOAD_PATH`に追加されるオートロードパスを減らせます。
+
+```ruby
+config.add_autoload_paths_to_load_path
+```
+
+これは、ほとんどのアプリケーションにとって合理的です（`app/models`内のファイルをrequireするような行為は決してすべきではないので）。しかも、Zeitwerkは内部で絶対パスだけを使います。
+
+この新しい設定を無効にすれば、`$LOAD_PATH`の探索を最適化して（つまりチェックするディレクトリを減らして）、Bootsnapの動作を軽くしてメモリ消費量を削減できます。Bootsnapがそうしたディレクトリのインデックスをビルドする必要がなくなるからです。
+
+#### スレッド安全性について
+
+`classic`モードの定数オートロードはスレッド安全ではありません。Railsには、オートロードが有効な状態でWebのリクエストをスレッド安全にする（これは`development`モードでよくあることです）などのためのインプレースのロックがあるにもかかわらずです。
+
+`zeitwerk`モードの定数オートロードは、スレッド安全です。たとえば、`runner`コマンドで実行されるマルチスレッドでもオートロードが可能です。
+
+#### config.autoload_pathsの汚れに注意
+
+以下のような設定は要注意です。
+
+```ruby
+config.autoload_paths += Dir["#{config.root}/lib/**/"]
+```
+
+`config.autoload_paths`のあらゆる要素は、トップレベルの名前空間（`Object`）を表すべきなので、ネストできなくなります（前述の`concerns`ディレクトリは例外）。
+
+この修正は、ワイルドカードを削除するだけでできます。
+
+```ruby
+config.autoload_paths << "#{config.root}/lib"
+```
+
+#### eager loadingとオートロードが一貫するようになる
+
+`classic`の場合、たとえば`app/models/foo.rb`で`Bar`を定義すると、そのファイルをオートロードできなくなりますが、eager loading（一括読み込み）は盲目的にファイルを再帰読み込みするため、可能です。この挙動のため、テストでeager loadingを最初に行うとその後の実行でオートロードが失敗し、エラーの原因となる可能性があります。
+
+`zeitwerk`モードの場合、どちらの読み込みモードも一貫するので、失敗やエラーは同一のファイルで発生するようになります。
+
+#### Rails 6でclassicモードのオートローダーを使う方法
+
+アプリケーションはRails 6のデフォルトを読み込みますが、以下のように`config.autoloader`を設定することで`classic`モードのオートローダを使うこともできます。
+
+```ruby
+# config/application.rb
+
+config.load_defaults "6.0"
+config.autoloader = :classic
+```
+
+### Active Storageの代入の振る舞いの変更
+
+Rails 5.2では、`has_many_attached`で宣言された添付ファイル（attachment）のコレクションへの代入は、新しいファイルの追加（append）操作になります。
+
+```ruby
+class User < ApplicationRecord
+  has_many_attached :highlights
+end
+user.highlights.attach(filename: "funky.jpg", ...)
+user.higlights.count # => 1
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+user.update!(highlights: [ blob ])
+user.highlights.count # => 2
+user.highlights.first.filename # => "funky.jpg"
+user.highlights.second.filename # => "town.jpg"
+```
+
+Rails 6.0のデフォルト設定では、添付ファイルのコレクションへの代入は、追加ではなく既存ファイルの置き換え操作になります。これにより、Active Recordでコレクションの関連付けに代入するときの振る舞いと一貫するようになります。
+
+```ruby
+user.highlights.attach(filename: "funky.jpg", ...)
+user.highlights.count # => 1
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+user.update!(highlights: [ blob ])
+user.highlights.count # => 1
+user.highlights.first.filename # => "town.jpg"
+```
+
+既存のものを削除せずに添付ファイルを新たに追加するには、`#attach`が利用できます。
+
+```ruby
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+user.highlights.attach(blob)
+user.highlights.count # => 2
+user.highlights.first.filename # => "funky.jpg"
+user.highlights.second.filename # => "town.jpg"
+```
+
+設定で`config.active_storage.replace_on_assign_to_many`を`true`にすることで、新しいデフォルトの振る舞いを選択できます。従来の振る舞いはRails 6.1で非推奨化され、その後のリリースで削除される予定です。
 
 Rails 5.1からRails 5.2へのアップグレード
 -------------------------------------
@@ -120,7 +421,7 @@ Rails 5.2 の変更点の詳細は[リリースノート](5_2_release_notes.html
 
 ### Bootsnap
 
-Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)に bootsnap gem が追加されました。`boot.rb`の`app:update`タスクを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。`boot.rb`を変更し、bootsnapを使わないようにすることもできます。
+Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)に bootsnap gem が追加されました。`boot.rb`の`app:update`コマンドを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。`boot.rb`を変更し、bootsnapを使わないようにすることもできます。
 
 ### 暗号化または署名付きcookieに有効期限情報が付与されました
 
@@ -252,15 +553,15 @@ Rails 5で古い`mysql`データベース アダプタのサポートが終了�
 
 Rails 5が必要とするRuby 2.2では、`debugger`はサポートされていません。代わりに、今後は`byebug`をお使いください。
 
-### タスクやテストの実行には`bin/rails`を使うこと
+### タスクやテストの実行には`rails`を使うこと
 
 Rails 5では、rakeに代わって`bin/rails`でタスクやテストを実行できるようになりました。原則として、多くのタスクやテストはrakeでも引き続き実行できますが、一部のタスクやテストは完全に`bin/rails`に移行しました。
 
-今後テストの実行には`bin/rails test`をお使いください。
+今後テストの実行には`rails test`をお使いください。
 
 `rake dev:cache`は`rails dev:cache`に変更されました。
 
-`bin/rails`を実行すると、利用可能なコマンドリストを表示できます。
+アプリケーションディレクトリの下で`rails`を実行すると、利用可能なコマンドリストを表示できます。
 
 ### `ActionController::Parameters`は今後`HashWithIndifferentAccess`を継承しない
 
@@ -363,7 +664,7 @@ end
 
 #### フォームごとのCSRFトークン
 
-ails 5 では、JavaScriptで作成されたフォームによるコードインジェクション攻撃に対応するため、フォーム単位でのCSRFトークンをサポートします。このオプションがオンの場合、アクションやメソッドで指定したCSRFトークンがアプリケーションのフォームごとに個別に生成されるようになります。
+ails 5 では、JavaScriptで作成されたフォームによるコードインジェクション攻撃に対応するため、フォーム単位でのCSRFトークンをサポートします。このオプションがオンの場合、アクションやメソッド固有のCSRFトークンがアプリケーションのフォームごとに個別に生成されるようになります。
 
     config.action_controller.per_form_csrf_tokens = true
 
@@ -538,7 +839,7 @@ gem 'rails-deprecated_sanitizer'
 
 ### RailsのDOMのテスト
 
-`assert_tag`などを含む[`TagAssertions`モジュール](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/TagAssertions.html)は[非推奨](https://github.com/rails/rails/blob/6061472b8c310158a2a2e8e9a6b81a1aef6b60fe/actionpack/lib/action_dispatch/testing/assertions/dom.rb)になりました。今後推奨されるのは、ActionViewから[rails-dom-testing gem](https://github.com/rails/rails-dom-testing)に移行した`SelectorAssertions`モジュールの`assert_select`メソッドです。
+`assert_tag`などを含む[`TagAssertions`モジュール](https://api.rubyonrails.org/classes/ActionDispatch/Assertions/TagAssertions.html)は[非推奨](https://github.com/rails/rails/blob/6061472b8c310158a2a2e8e9a6b81a1aef6b60fe/actionpack/lib/action_dispatch/testing/assertions/dom.rb)になりました。今後推奨されるのは、ActionViewから[rails-dom-testing gem](https://github.com/rails/rails-dom-testing)に移行した`SelectorAssertions`モジュールの`assert_select`メソッドです。
 
 
 ### マスク済み真正性トークン
@@ -977,7 +1278,7 @@ end
 <%= form_for [ :update_name, @user ], method: :put do |f| %>
 ```
 
-PATCHおよびこの変更が行われた理由についてはRailsブログの [この記事](http://weblog.rubyonrails.org/2012/2/26/edge-rails-patch-is-the-new-primary-http-method-for-updates/) を参照してください。
+PATCHおよびこの変更が行われた理由についてはRailsブログの [この記事](https://weblog.rubyonrails.org/2012/2/26/edge-rails-patch-is-the-new-primary-http-method-for-updates/) を参照してください。
 
 #### メディアタイプに関するメモ
 
@@ -1180,6 +1481,17 @@ config.middleware.insert_before(Rack::Lock, ActionDispatch::BestStandardsSupport
 
 環境設定も確認し、`config.action_dispatch.best_standards_support`がある場合は削除します。
 
+* Rails 4.0では、`config.action_dispatch.default_headers`を設定することでHTTPヘッダーを設定できるようになりました。デフォルト設定は以下のとおりです。
+
+```ruby
+  config.action_dispatch.default_headers = {
+    'X-Frame-Options' => 'SAMEORIGIN',
+    'X-XSS-Protection' => '1; mode=block'
+  }
+```
+
+ただし、アプリケーションが特定のページで`<frame>`や`<iframe>`を読み込むことに依存している場合、`X-Frame-Options`を明示的に`ALLOW-FROM ...`または`ALLOWALL`に設定する必要が生じる可能性があることにご注意ください。
+
 * Rails 4.0のアセットのプリコンパイルでは、`vendor/assets`および`lib/assets`にある非JS/CSSアセットを自動的にはコピーしなくなりました。Railsアプリケーションとエンジンの開発者は、これらのアセットを手動で`app/assets`に置き、`config.assets.precompile`を設定してください。
 
 * Rails 4.0では、リクエストされたフォーマットがアクションで扱えなかった場合に`ActionController::UnknownFormat`が発生するようになりました。デフォルトでは、この例外は406 Not Acceptable応答として扱われますが、この動作をオーバーライドすることができます。Rails 3では常に406 Not Acceptableが返されます。オーバーライドはできません。
@@ -1203,7 +1515,7 @@ Rails 4.0では`ERB::Util#json_escape`のエイリアス`j`が廃止されまし
 
 #### キャッシュ
 
-Rails 3.xからRails 4.0への移行に伴い、キャッシュ用のメソッドが変更されました[キャッシュの名前空間を変更](http://guides.rubyonrails.org/caching_with_rails.html#activesupport-cache-store)し、コールドキャッシュ (cold cache) を使って更新してください。
+Rails 3.xからRails 4.0への移行に伴い、キャッシュ用のメソッドが変更されました[キャッシュの名前空間を変更](https://guides.rubyonrails.org/caching_with_rails.html#activesupport-cache-store)し、コールドキャッシュ (cold cache) を使って更新してください。
 
 ### ヘルパーの読み込み順序
 

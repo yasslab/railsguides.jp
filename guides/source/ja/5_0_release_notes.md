@@ -1,4 +1,4 @@
-﻿Ruby on Rails 5.0 リリースノート
+Ruby on Rails 5.0 リリースノート
 ===============================
 
 Rails 5.0の注目ポイント
@@ -113,7 +113,7 @@ model.attributes # => {field_without_db_column: [1, 2, 3]}
 
 このtypeの属性は、「ダーティトラッキング」の実行方法を変更できるようになります。
 
-詳しくは [ドキュメント](http://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html) をご覧ください。
+詳しくは [ドキュメント](https://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html) をご覧ください。
 
 
 ### テストランナー
@@ -130,7 +130,7 @@ model.attributes # => {field_without_db_column: [1, 2, 3]}
 - `-f`オプションを付けると失敗時に即座にテストを停止できるようになり、全テストの完了を待たなくて済む
 - `-d`オプションを付けるとテストが完了するまでメッセージ出力を待たせることができる。
 - `-b`オプションを付けると完全な例外バックトレースを出力できる。
-- `Minitest`と統合されてさまざまなオプションが利用できるようになった: `-s`でシードデータを指定、`-n`で特定のテスト名を指定して実行、`-v`で詳細出力をオン、など。
+- `minitest`と統合されてさまざまなオプションが利用できるようになった: `-s`でシードデータを指定、`-n`で特定のテスト名を指定して実行、`-v`で詳細出力をオン、など。
 - テスト出力に色が追加された。
 
 Railties
@@ -877,7 +877,7 @@ Active Support
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 [railties]:       https://github.com/rails/rails/blob/5-0-stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/5-0-stable/actionpack/CHANGELOG.md
 [action-view]:    https://github.com/rails/rails/blob/5-0-stable/actionview/CHANGELOG.md

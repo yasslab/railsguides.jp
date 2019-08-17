@@ -1,4 +1,4 @@
-Ruby on Rails 3.0 リリースノート
+Rails 3.0 - 2010/08
 ===============================
 
 Rails 3.0は、晩ご飯も作れば洗濯物も畳んでくれる、夢のような製品です。Rails 3.0なしで今までどうやって暮らしていけたのか、不思議で仕方がなくなるでしょう。Rails 3.0は、これまでのRailsバージョンの中でかつてない高みに到達しました。
@@ -61,7 +61,7 @@ $ rails g scaffold post title:string # script/generate scaffold post title:strin
 
 ### アップグレードプロセス
 
-アップグレードプロセスを支援するために、[Rails Upgrade](http://github.com/rails/rails_upgrade)というプラグインが自動化の一部として作成されました。
+アップグレードプロセスを支援するために、[Rails Upgrade](https://github.com/rails/rails_upgrade)というプラグインが自動化の一部として作成されました。
 
 このプラグインをインストールして`rake rails:upgrade:check`を実行すれば、アプリ内でアップデートの必要な箇所をチェックできます（アップグレード方法の情報へのリンクも表示されます）。このプラグインは、`config.gem`呼び出しに基づいて`Gemfile`を生成するタスクや、現在のルーティングから新しいルーティングファイルを生成するタスクも提供します。以下を実行すればプラグインを取得できます。
 
@@ -72,7 +72,7 @@ $ ruby script/plugin install git://github.com/rails/rails_upgrade.git
 動作例については「[Rails Upgradeプラグインが公式化された] (http://omgbloglol.com/post/364624593/rails-upgrade-is-now-an-official-plugin)
 （英語）」で参照できます。
 
-Rails Upgradeツール以外にも、支援が必要な場合はIRCやGoogleグループの[rubyonrails-talk](http://groups.google.com/group/rubyonrails-talk)に自分と同じ問題に遭遇した人がおそらくいるでしょう。ぜひアップグレード作業をブログ記事にして、他の人々も知見を得られるようにしましょう。
+Rails Upgradeツール以外にも、支援が必要な場合はIRCやGoogleグループの[rubyonrails-talk](https://groups.google.com/group/rubyonrails-talk)に自分と同じ問題に遭遇した人がおそらくいるでしょう。ぜひアップグレード作業をブログ記事にして、他の人々も知見を得られるようにしましょう。
 
 Rails 3.0アプリケーションを作成する
 --------------------------------
@@ -132,27 +132,27 @@ MerbとRailsの主要なマージ作業のひとつが、Railsのコアコンポ
 
 ### Arelを統合した
 
-[Arel](http://github.com/brynary/arel)（Active Relationとも呼ばれます）がActive Recordの下に配置され、Railsで必須のコンポーネントになりました。Arelは、Active Recordを簡潔にするSQL抽象化を提供し、Active Recordのリレーション機能を支えます。
+[Arel](https://github.com/brynary/arel)（Active Relationとも呼ばれます）がActive Recordの下に配置され、Railsで必須のコンポーネントになりました。Arelは、Active Recordを簡潔にするSQL抽象化を提供し、Active Recordのリレーション機能を支えます。
 
 詳しくは「[Why I wrote Arel](http://magicscalingsprinkles.wordpress.com/2010/01/28/why-i-wrote-arel/)」を参照してください。
 
 ### メールを切り出した
 
-Action Mailerは最初期からモンキーパッチやプリパーサーだらけで、配信エージェントや受信エージェントまであり、さらにソースツリーでTMailをベンダリングしているというありさまでした。Rails 3では、メールに関連するあらゆる機能を[Mail](http://github.com/mikel/mail) gemで抽象化しました。こちらでもコードの重複が著しく解消され、Action Mailerとメールパーサーの間に定義可能な境界を作成しやすくなりました。
+Action Mailerは最初期からモンキーパッチやプリパーサーだらけで、配信エージェントや受信エージェントまであり、さらにソースツリーでTMailをベンダリングしているというありさまでした。Rails 3では、メールに関連するあらゆる機能を[Mail](https://github.com/mikel/mail) gemで抽象化しました。こちらでもコードの重複が著しく解消され、Action Mailerとメールパーサーの間に定義可能な境界を作成しやすくなりました。
 
 詳しくは「[New Action Mailer API in Rails 3](http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3)」を参照してください。
 
 ドキュメント
 -------------
 
-Railsツリーのドキュメントが更新されてAPI変更がすべて反映されました。さらに、[Rails Edgeガイド](http://edgeguides.rubyonrails.org/)にもRails 3.0の変更点を順次反映中です。ただし、[guides.rubyonrails.org](http://guides.rubyonrails.org/)の本ガイドについては、安定版Railsのドキュメントのみを含みます（執筆時点では3.0がリリースされるまで2.3.5となります）。
+Railsツリーのドキュメントが更新されてAPI変更がすべて反映されました。さらに、[Rails Edgeガイド](https://edgeguides.rubyonrails.org/)にもRails 3.0の変更点を順次反映中です。ただし、[guides.rubyonrails.org](https://guides.rubyonrails.org/)の本ガイドについては、安定版Railsのドキュメントのみを含みます（執筆時点では3.0がリリースされるまで2.3.5となります）。
 
-詳しくは「[Rails Documentation Projects](http://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.)」を参照してください。
+詳しくは「[Rails Documentation Projects](https://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.)」を参照してください。
 
 国際化（I18n）
 --------------------
 
-Rails 3では国際化（I18n）のサポートに関して、速度改善が著しい最新の[I18n](http://github.com/svenfuchs/i18n) gemなど多くの作業が行われました。
+Rails 3では国際化（I18n）のサポートに関して、速度改善が著しい最新の[I18n](https://github.com/svenfuchs/i18n) gemなど多くの作業が行われました。
 
 * あらゆるオブジェクトでのI18n: `ActiveModel::Translation`や`ActiveModel::Validations`を含むあらゆるオブジェクトにI18nの振る舞いを追加できます。訳文の`errors.messages`フォールバック機能もあります。
 * 属性にデフォルトの訳文を与えられます。
@@ -238,8 +238,8 @@ Abstract Controllerを導入したことで、Action Controllerのコードを�
 
 詳しくは以下を参照してください。
 
-* [Render Options in Rails 3](http://www.engineyard.com/blog/2010/render-options-in-rails-3/)
-* [Three reasons to love ActionController::Responder](http://weblog.rubyonrails.org/2009/8/31/three-reasons-love-responder)
+* [Render Options in Rails 3](https://www.engineyard.com/blog/2010/render-options-in-rails-3/)
+* [Three reasons to love ActionController::Responder](https://weblog.rubyonrails.org/2009/8/31/three-reasons-love-responder)
 
 ### Action Dispatch
 
@@ -297,7 +297,7 @@ NOTE: `map`コマンドの旧来の書式は、後方互換性レイヤがある
 
 Action Viewヘルパーで大規模な書き直しが行われ、Unobtrusive JavaScript（UJS）フックが実装され、旧来のインラインAJAXコマンドが削除されました。これによって、RailsでヘルパーでUJSフックを実装するときに任意のUJS準拠ドライバを利用できるようになりました。
 
-具体的には、旧来の`remote_<メソッド名>`ヘルパーはRailsコアからすべて削除され、Prototype Legacy Helper](http://github.com/rails/prototype_legacy_helper)に移動しました。今後UJSフックをHTML側で取得するには、以下のように`:remote => true`を渡します。
+具体的には、旧来の`remote_<メソッド名>`ヘルパーはRailsコアからすべて削除され、[Prototype Legacy Helper](https://github.com/rails/prototype_legacy_helper)に移動しました。今後UJSフックをHTML側で取得するには、以下のように`:remote => true`を渡します。
 
 
 ```ruby
@@ -590,6 +590,6 @@ Action Mailerで、メールライブラリとしてTMailに代えて新たに[M
 クレジット表記
 -------
 
-Rails3を頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
+Rails3を頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
 
 Rails 3.0リリースノート編集担当: [Mikel Lindsaar](http://lindsaar.net)

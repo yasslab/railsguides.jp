@@ -18,6 +18,19 @@ Action Cable の概要
 Action Cableは、
 [WebSocket](https://ja.wikipedia.org/wiki/WebSocket)とRailsのその他の部分をシームレスに統合するためのものです。Action Cable が導入されたことで、Rails アプリケーションの効率の良さとスケーラビリティを損なわずに、通常のRailsアプリケーションと同じスタイル・方法でリアルタイム機能をRubyで記述できます。クライアント側のJavaScriptフレームワークとサーバー側のRubyフレームワークを同時に提供する、フルスタックのフレームワークです。Active RecordなどのORMで書かれたすべてのドメインモデルにアクセスできます。
 
+用語について
+-----------
+
+1個のAction Cableサーバーは、コネクションインスタンスを複数扱え、WebSocketのコネクションごとに1つのコネクションインスタンスを持ちます。1人のユーザーは、ブラウザタブを複数開いたり複数のデバイスを用いている場合、アプリケーションに対して複数のWebSocketコネクションをオープンします。WebSocketコネクションのクライアントは「コンシューマー（consumer）」と呼ばれます。
+
+各コンシューマーは、複数のケーブルチャネルにサブスクライブできます。各チャネルには機能の論理的な単位がカプセル化され、そこで行われることは、コントローラが通常のMVPセットアップで行うことと似ています。たとえば`ChatChannel`と`AppearancesChannel`が1つずつあり、あるコンシューマーがそれらチャネルの一方または両方にサブスクライブされることができます。1つのコンシューマーは、少なくとも1つのチャネルにサブスクライブされるべきです。
+
+コンシューマーがあるチャネルにサブスクライブされると「サブスクライバ（subscriber）」として振る舞います。サブスクライバとチャネルの間のコネクションは、（驚いたことに）サブスクリプションと呼ばれます。あるコンシューマーは、何度でも指定のチャンネルのサブスクライバとして振る舞えます。たとえば、あるコンシューマーが複数のチャットルームに同時にサブスクライブしてもよいのです（物理的なユーザーは複数のコンシューマーを持つことができ、1つのタブやデバイスごとに接続をオープンできることをお忘れなく）。
+
+各チャネルは、その後何もストリーミングしないことも、さらにブロードキャストすることもできます。ブロードキャストとは、ブロードキャスター（broadcaster）によって転送されるあらゆるものがチャネルのサブスクライバ（サブスクライバはその名前が付いたブロードキャストをストリーミングします）に直接送信されるpubsubリンクです。
+
+以上のように、アーキテクチャ上のスタックとしてはある程度深くなっています。新しいものを表す用語も多数あり、何よりも、機能単位ごとにクライアント側とサーバー側の両方についてリフレクションを扱うことになります。
+
 Pub/Subについて
 ---------------
 
@@ -93,7 +106,7 @@ end
 
 #### サブスクリプション
 
-コンシューマーは、チャネルを購読するする**サブスクライバ**側（Subscriber）の役割を果たします。そして、コンシューマーのコネクションは**サブスクリプション*（Subscription: 購読）と呼ばれます。生成されたメッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネルサブスクライバ側にルーティングされます。
+コンシューマーは、チャネルを購読する**サブスクライバ**側（Subscriber）の役割を果たします。そして、コンシューマーのコネクションは**サブスクリプション*（Subscription: 購読）と呼ばれます。生成されたメッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネルサブスクライバ側にルーティングされます。
 
 ```ruby
 # app/channels/chat_channel.rb
@@ -111,43 +124,58 @@ end
 
 コンシューマー側でも、コネクションのインスタンスが必要になります。このコネクションは、Railsがデフォルトで生成する次のJavaScriptコードによって確立します。
 
-#### コンシューマーとの接続
+#### コンシューマーの接続
 
 ```js
-// app/assets/javascripts/cable.js
-//= require action_cable
-//= require_self
-//= require_tree ./channels
+// app/javascript/channels/consumer.js
+// Action Cable provides the framework to deal with WebSockets in Rails.
+// You can generate new channels where WebSocket features live using the `rails generate channel` command.
 
-(function() {
-  this.App || (this.App = {});
+import { createConsumer } from "@rails/actioncable"
 
-  App.cable = ActionCable.createConsumer();
-}).call(this);
+export default createConsumer()
 ```
 
 
 これにより、サーバーの`/cable`にデフォルトで接続するコンシューマーが準備されます。利用したいサブスクリプションを1つ以上指定しなければコネクションは確立しません。
 
+このコンシューマーは、オプションとして接続先URLを指定する引数を1つ取れます。これは文字列でも、WebSocketがオープンされるときに呼び出されて文字列を返す関数でも構いません。
+
+```js
+// 異なる接続先URLを指定する
+createConsumer('https://ws.example.com/cable')
+// 動的にURLを生成する関数
+createConsumer(getWebSocketURL)
+function getWebSocketURL {
+  const token = localStorage.get('auth-token')
+  return `https://ws.example.com/cable?token=${token}`
+}
+```
+
 #### サブスクライバ側
 
 指定のチャネルにサブスクリプションを作成することで、コンシューマーがサブスクライバ側になります。
 
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/chat.coffee
-App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" }
+```js
+// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
 
-# app/assets/javascripts/cable/subscriptions/appearance.coffee
-App.cable.subscriptions.create { channel: "AppearanceChannel" }
+consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" })
+
+// app/javascript/channels/appearance_channel.js
+import consumer from "./consumer"
+consumer.subscriptions.create({ channel: "AppearanceChannel" })
 ```
 
 サブスクリプションは上のコードで作成されます。受信したデータに応答する機能については後述します。
 
 コンシューマーは、指定のチャネルに対するサブスクライバ側として振る舞えます。回数の制限はありません。たとえば、コンシューマーはチャットルームを同時にいくつでもサブスクライブできます。
 
-```coffeescript
-App.cable.subscriptions.create { channel: "ChatChannel", room: "1st Room" }
-App.cable.subscriptions.create { channel: "ChatChannel", room: "2nd Room" }
+```js
+// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+consumer.subscriptions.create({ channel: "ChatChannel", room: "1st Room" })
+consumer.subscriptions.create({ channel: "ChatChannel", room: "2nd Room" })
 ```
 
 ## クライアント-サーバー間のやりとり
@@ -198,7 +226,7 @@ WebNotificationsChannel.broadcast_to(
 )
 ```
 
-`WebNotificationsChannel.broadcast_to`呼び出しでは、メッセージを現在のサブスクリプションアダプタ（production環境のデフォルトはRedis、development/test環境のデフォルトは`async`）のpubsubキューに設定します。ブロードキャスト名はユーザーごとに異なります。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
+`WebNotificationsChannel.broadcast_to`呼び出しでは、メッセージを現在のサブスクリプションアダプタのpubsubキュー（このキューはユーザーごとに異なるブロードキャスト名の下にあります）。Action Cableのデフォルトのpubsubキューは、production環境では`redis`、development環境とtest環境では`async`になります。IDが1のユーザーなら、ブロードキャスト名は`web_notifications:1`のようになります。
 
 このチャネルは、`web_notifications:1`に着信するものすべてを`received`コールバック呼び出しによってクライアントに直接ストリーミングするようになります。
 
@@ -206,24 +234,28 @@ WebNotificationsChannel.broadcast_to(
 
 チャネルをサブスクライブしたコンシューマーは、サブスクライバ側として振る舞います。この接続もサブスクリプション (Subscription: サブスクライバ) と呼ばれます。着信メッセージは、Action Cableコンシューマーが送信するIDに基いて、これらのチャネルサブスクライバ側にルーティングされます。
 
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/chat.coffee
-# web通知の送信権をサーバーからリクエスト済みであることが前提
-App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
-  received: (data) ->
-    @appendLine(data)
-
-  appendLine: (data) ->
-    html = @createLine(data)
-    $("[data-chat-room='Best Room']").append(html)
-
-  createLine: (data) ->
-    """
-    <article class="chat-line">
-      <span class="speaker">#{data["sent_by"]}</span>
-      <span class="body">#{data["body"]}</span>
-    </article>
-    """
+```js
+// app/javascript/channels/chat_channel.js
+// Web通知を送信する権限が既にあることが前提
+import consumer from "./consumer"
+consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
+  received(data) {
+    this.appendLine(data)
+  },
+  appendLine(data) {
+    const html = this.createLine(data)
+    const element = document.querySelector("[data-chat-room='Best Room']")
+    element.insertAdjacentHTML("beforeend", html)
+  },
+  createLine(data) {
+    return `
+      <article class="chat-line">
+        <span class="speaker">${data["sent_by"]}</span>
+        <span class="body">${data["body"]}</span>
+      </article>
+    `
+  }
+})
 ```
 
 ### チャネルにパラメータを渡す
@@ -241,23 +273,27 @@ end
 
 `subscriptions.create`に最初の引数として渡されるオブジェクトは、Action Cableチャネルのparamsハッシュになります。キーワード`channel`の指定は省略できません。
 
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/chat.coffee
-App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
-  received: (data) ->
-    @appendLine(data)
-
-  appendLine: (data) ->
-    html = @createLine(data)
-    $("[data-chat-room='Best Room']").append(html)
-
-  createLine: (data) ->
-    """
-    <article class="chat-line">
-      <span class="speaker">#{data["sent_by"]}</span>
-      <span class="body">#{data["body"]}</span>
-    </article>
-    """
+```js
+// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
+  received(data) {
+    this.appendLine(data)
+  },
+  appendLine(data) {
+    const html = this.createLine(data)
+    const element = document.querySelector("[data-chat-room='Best Room']")
+    element.insertAdjacentHTML("beforeend", html)
+  },
+  createLine(data) {
+    return `
+      <article class="chat-line">
+        <span class="speaker">${data["sent_by"]}</span>
+        <span class="body">${data["body"]}</span>
+      </article>
+    `
+  }
+})
 ```
 
 ```ruby
@@ -287,13 +323,16 @@ class ChatChannel < ApplicationCable::Channel
 end
 ```
 
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/chat.coffee
-App.chatChannel = App.cable.subscriptions.create { channel: "ChatChannel", room: "Best Room" },
-  received: (data) ->
-    # data => { sent_by: "Paul", body: "This is a cool chat app." }
+```js
+// app/javascript/channels/chat_channel.js
+import consumer from "./consumer"
+const chatChannel = consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
+  received(data) {
+    // data => { sent_by: "Paul", body: "This is a cool chat app." }
+  }
+}
 
-App.chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
+chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
 ```
 
 再ブロードキャストは、接続しているすべてのクライアントで受信されます。送信元クライアント自身も再ブロードキャストを受信します。利用するparamsは、チャネルをサブスクライブするときと同じです。
@@ -337,58 +376,69 @@ end
 
 クライアント側のアピアランスチャネルを作成します。
 
-
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/appearance.coffee
-App.cable.subscriptions.create "AppearanceChannel",
-  # サブスクリプションがサーバー側で利用可能になると呼び出される
-  connected: ->
-    @install()
-    @appear()
-
-  # WebSocketコネクションが閉じると呼び出される
-  disconnected: ->
-    @uninstall()
-
-  # サブスクリプションがサーバーに拒否されると呼び出される
-  rejected: ->
-    @uninstall()
-
-  appear: ->
-    # サーバーの`AppearanceChannel#appear(data)`を呼び出す
-    @perform("appear", appearing_on: $("main").data("appearing-on"))
-
-  away: ->
-    # サーバーの`AppearanceChannel#away`を呼び出す
-    @perform("away")
-
-
-  buttonSelector = "[data-behavior~=appear_away]"
-
-  install: ->
-    $(document).on "turbolinks:load.appearance", =>
-      @appear()
-
-    $(document).on "click.appearance", buttonSelector, =>
-      @away()
-      false
-
-    $(buttonSelector).show()
-
-  uninstall: ->
-    $(document).off(".appearance")
-    $(buttonSelector).hide()
+```js
+// app/javascript/channels/appearance_channel.js
+import consumer from "./consumer"
+consumer.subscriptions.create("AppearanceChannel", {
+  // サブスクリプションが作成されると1度呼び出される
+  initialized() {
+    this.update = this.update.bind(this)
+  },
+  // サブスクリプションがサーバーで利用可能になると呼び出される
+  connected() {
+    this.install()
+    this.update()
+  },
+  // WebSocketコネクションがクローズすると呼び出される
+  disconnected() {
+    this.uninstall()
+  },
+  // サブスクリプションがサーバーで却下されると呼び出される
+  rejected() {
+    this.uninstall()
+  },
+  update() {
+    this.documentIsActive ? this.appear() : this.away()
+  },
+  appear() {
+    // サーバーの`AppearanceChannel#appear(data)`を呼び出す
+    this.perform("appear", { appearing_on: this.appearingOn })
+  },
+  away() {
+    // サーバーの`AppearanceChannel#away`を呼び出す
+    this.perform("away")
+  },
+  install() {
+    window.addEventListener("focus", this.update)
+    window.addEventListener("blur", this.update)
+    document.addEventListener("turbolinks:load", this.update)
+    document.addEventListener("visibilitychange", this.update)
+  },
+  uninstall() {
+    window.removeEventListener("focus", this.update)
+    window.removeEventListener("blur", this.update)
+    document.removeEventListener("turbolinks:load", this.update)
+    document.removeEventListener("visibilitychange", this.update)
+  },
+  get documentIsActive() {
+    return document.visibilityState == "visible" && document.hasFocus()
+  },
+  get appearingOn() {
+    const element = document.querySelector("[data-appearing-on]")
+    return element ? element.getAttribute("data-appearing-on") : null
+  }
+})
 ```
 
 ##### クライアント-サーバー間のやりとり
 
 1. **クライアント**は**サーバー**に`App.cable = ActionCable.createConsumer("ws://cable.example.com")`経由で接続する（`cable.js`）。**サーバー**は、このコネクションの認識に`current_user`を使う。
 
-2. **クライアント**はアピアランスチャネルに`App.cable.subscriptions.create(channel: "AppearanceChannel")`経由で接続する（`appearance.coffee`）
+2. **クライアント**はアピアランスチャネルに`consumer.subscriptions.create({ channel: "AppearanceChannel" })`経由で接続する（`appearance_channel.js`）。
 
 3. **サーバー**は、アピアランスチャネル向けに新しいサブスクリプションを開始したことを認識し、サーバーの`subscribed`コールバックを呼び出し、`current_user`の`appear`メソッドを呼び出す。（`appearance_channel.rb`）
 
-4. **クライアント**は、サブスクリプションが確立したことを認識し、`connected`（`appearance.coffee`）を呼び出す。これにより、`@install`と`@appear`が呼び出される。`@appear`はサーバーの`AppearanceChannel#appear(data)`を呼び出して`{ appearing_on: $("main").data("appearing-on") }`のデータハッシュを渡す。なお、この動作が可能なのは、クラスで宣言されている（コールバックを除く）全パブリックメソッドが、サーバー側のチャネルインスタンスから自動的に公開されるからです。公開されたパブリックメソッドは、サブスクリプションで`perform`メソッドを使って、RPC（リモートプロシージャコール）として利用できます。
+4. **クライアント**は、サブスクリプションが確立したことを認識し、`connected`（`appearance_channel.js`）を呼び出す。これにより、`install`と`appear`が呼び出される。`appear`はサーバーの`AppearanceChannel#appear(data)`を呼び出して`{ appearing_on: this.appearingOn }`のデータハッシュを渡す。なお、この動作が可能なのは、クラスで宣言されている（コールバックを除く）全パブリックメソッドが、サーバー側のチャネルインスタンスから自動的に公開されるからです。公開されたパブリックメソッドは、サブスクリプションで`perform`メソッドを使って、RPC（リモートプロシージャコール）として利用できます。
 
 5. **サーバー**は、`current_user`で認識したコネクションのアピアランスチャネルで、`appear`アクションへのリクエストを受信する。（`appearance_channel.rb`）**サーバー**は`:appearing_on`キーを使ってデータをデータハッシュから取り出し、
 `current_user.appear`に渡される`:on`キーの値として設定する。
@@ -412,13 +462,16 @@ end
 
 クライアント側のweb通知チャネルを作成します。
 
-```coffeescript
-# app/assets/javascripts/cable/subscriptions/web_notifications.coffee
-# クライアント側では、サーバーからweb通知の送信権を
-# リクエスト済みであることが前提
-App.cable.subscriptions.create "WebNotificationsChannel",
-  received: (data) ->
-    new Notification data["title"], body: data["body"]
+```js
+// app/javascript/channels/web_notifications_channel.js
+// クライアント側では、サーバーからweb通知の送信権を
+// リクエスト済みであることが前提
+import consumer from "./consumer"
+consumer.subscriptions.create("WebNotificationsChannel", {
+  received(data) {
+    new Notification(data["title"], body: data["body"])
+  }
+})
 ```
 
 アプリケーションのどこからでも、web通知チャネルのインスタンスにコンテンツをブロードキャストできます。
@@ -483,7 +536,7 @@ PostgreSQLアダプタはActive Recordコネクションプールを用いるた
 Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストには文字列のインスタンスや正規表現を利用でき、これに対して一致するかどうかがチェックされます。
 
 ```ruby
-config.action_cable.allowed_request_origins = ['http://rubyonrails.com', %r{http://ruby.*}]
+config.action_cable.allowed_request_origins = ['https://rubyonrails.com', %r{http://ruby.*}]
 ```
 
 すべての送信元からのリクエストを許可または拒否するには、次を設定します。
@@ -497,6 +550,16 @@ development環境で実行中、Action Cableはlocalhost:3000からのすべて�
 ### コンシューマーの設定
 
 URLを設定するには、HTMLレイアウトのHEADセクションに`action_cable_meta_tag`呼び出しを追加します。通常、ここで使うURLは、環境ごとの設定ファイルで`config.action_cable.url`に設定されます。
+
+### ワーカープールの設定
+
+ワーカープールは、サーバーのメインスレッドから隔離された状態でコネクションのコールバックやチャネルのアクションを実行するために用いられます。Action Cableでは、アプリケーションのワーカープール内で同時に処理されるスレッド数を次のように設定できます。
+
+```ruby
+config.action_cable.worker_pool_size = 4
+```
+
+また、サーバーが提供するデータベース接続の数は、少なくとも利用するワーカー数と同じでなければなりません。デフォルトのワーカープールサイズは4に設定されているので、データベース接続数は少なくとも4以上を確保しなければなりません。この設定は`config/database.yml`の`pool`属性で変更できます。
 
 ### その他の設定
 
@@ -512,8 +575,6 @@ config.action_cable.log_tags = [
 
 利用可能なすべての設定オプションについては、`ActionCable::Server::Configuration`クラスをご覧ください。
 
-もう1つ注意が必要な点があります。サーバーが提供するデータベースへのコネクション数は、少なくともワーカー数を下回らないようにする必要があります。デフォルトのワーカープールサイズは4なので、データベースへのコネクションも4つは用意する必要があります。この値は、`config/database.yml`の`pool`属性で変更できます。
-
 ## Action Cable専用サーバーを実行する
 
 ### アプリケーションで実行
@@ -527,7 +588,7 @@ class Application < Rails::Application
 end 
 ```
 
-レイアウトで`action_cable_meta_tag`を呼び出すと、`App.cable = ActionCable.createConsumer()`でAction Cableサーバーに接続できるようになります。`createConsumer`の最初の引数にはカスタムパスが指定されます（例: `App.cable = ActionCable.createConsumer("/websocket")`）。
+レイアウトで`action_cable_meta_tag`が呼び出されると、`ActionCable.createConsumer()`でAction Cableサーバーに接続できるようになります。それ以外の場合は、パスが`createConsumer`の最初の引数として指定されます（例: `ActionCable.createConsumer("/websocket")`）。
 
 作成したサーバーの全インスタンスと、サーバーが作成した全ワーカーのインスタンスには、Action Cableの新しいインスタンスも含まれます。コネクション間のメッセージ同期は、Redisによって行われます。
 
@@ -554,7 +615,7 @@ bundle exec puma -p 28080 cable/config.ru
 
 ### メモ
 
-WebSocketサーバーからはセッションにアクセスできませんが、cookieにはアクセスできます。これを利用して認証を処理できます。[Action CableとDeviseでの認証](http://www.rubytutorial.io/actioncable-devise-authentication) 記事をご覧ください。
+WebSocketサーバーからはセッションにアクセスできませんが、cookieにはアクセスできます。これを利用して認証を処理できます。[Action CableとDeviseでの認証](https://greg.molnar.io/blog/actioncable-devise-authentication/) 記事をご覧ください。
 
 ## 依存関係
 
@@ -570,3 +631,7 @@ Action Cableを支えているのは、WebSocketとスレッドの組み合わ�
 Action Cableサーバーには、RackソケットをハイジャックするAPIが実装されています。これによって、アプリケーション・サーバーがマルチスレッドであるかどうかにかかわらず、内部のコネクションをマルチスレッドパターンで管理できます。
 
 つまり、Action Cableは、Unicorn、Puma、Passengerなどの有名なサーバーと問題なく連携できるのです。
+
+## テスト
+
+Action Cableで作成した機能のテスト方法について詳しくは、[テスティングガイド](testing.html#testing-action-cable)を参照してください。

@@ -33,7 +33,7 @@ NOTE: ルーティングの詳細については、本ガイドの[Railsのル�
 
 Railsのコントローラ名(ここでは「Controller」という文字は除きます)は、基本的に名前の最後の部分に「複数形」を使います。ただしこれは絶対的に守らなければならないというものではありません (実際 `ApplicationController`はApplicationが単数になっています)。たとえば、`ClientsController`の方が`ClientController`より好ましく、`SiteAdminsController`は`SiteAdminController`や`SitesAdminsController`よりも好ましい、といった具合です。
 
-しかし、この規則には従っておくことをお勧めします。その理由は、`resources`などのデフォルトのルーティングジェネレータがそのまま利用できるのと、URLやパスヘルパーの用法がアプリケーション全体で一貫するからです。コントローラ名の最後が複数形になっていないと、たとえば`resources`で簡単に一括ルーティングできず、`:path`や`:controller`をいちいち指定しなければなりません。詳細については、[レイアウト・レンダリングガイド](layouts_and_rendering.html)を参照してください。
+しかし、この規則には従っておくことをお勧めします。その理由は、`resources`などのデフォルトのルーティングジェネレータがそのまま利用できるのと、名前付きルーティングヘルパーの用法がアプリケーション全体で一貫するからです。コントローラ名の最後が複数形になっていないと、たとえば`resources`で簡単に一括ルーティングできず、`:path`や`:controller`をいちいち指定しなければなりません。詳細については、[レイアウト・レンダリングガイド](layouts_and_rendering.html)を参照してください。
 
 NOTE: モデルの命名規則は「単数形」であることが期待され、コントローラの命名規則とは異なります。
 
@@ -51,7 +51,7 @@ end
 ```
 
 
-例として、クライアントを1人追加するためにブラウザでアプリケーションの`/clients/new`にアクセスすると、Railsは`ClientsController`のインスタンスを作成して`new`メソッドを呼び出します。ここでご注目いただきたいのは、`new`メソッドの内容が空であるにもかかわらず正常に動作するという点です。これは、Railsでは`new`アクションで特に指定のない場合には`new.html.erb`ビューを描画するようになっているからです。ビューで`@client`インスタンス変数にアクセスできるようにするために、`new`メソッドで`Client`を新規作成し、@clientに保存してみましょう。
+例として、クライアントを1人追加するためにブラウザでアプリケーションの`/clients/new`にアクセスすると、Railsは`ClientsController`のインスタンスを作成して`new`メソッドを呼び出します。ここでご注目いただきたいのは、`new`メソッドの内容が空であるにもかかわらず正常に動作するという点です。これは、Railsでは`new`アクションで特に指定のない場合には`new.html.erb`ビューをレンダリングするようになっているからです。`Client`を新規作成すると、`new`メソッドはビューでアクセス可能な`@client`インスタンス変数を1つ作成できるようになります。
 
 ```ruby
 def new
@@ -59,7 +59,7 @@ def new
 end
 ```
 
-この詳細については、[レイアウト・レンダリングガイド](layouts_and_rendering.html)で説明されています。
+これについて詳しくは、[レイアウト・レンダリングガイド](layouts_and_rendering.html)を参照してください。
 
 `ApplicationController`は、便利なメソッドが多数定義されている`ActionController::Base`を継承しています。本ガイドではそれらの一部について説明しますが、もっと知りたい場合は[APIドキュメント](https://api.rubyonrails.org/classes/ActionController.html)かRailsのソースコードを参照してください。
 
@@ -155,7 +155,7 @@ Webサービスを開発していると、パラメータをJSONフォーマッ�
 { name: "acme", address: "123 Carrot Street", company: { name: "acme", address: "123 Carrot Street" } }
 ```
 
-キー名のカスタマイズや、ラップしたい特定のパラメータについては[APIドキュメント](http://api.rubyonrails.org/classes/ActionController/ParamsWrapper.html)を参照してください。
+キー名のカスタマイズや、ラップしたい特定のパラメータについては[APIドキュメント](https://api.rubyonrails.org/classes/ActionController/ParamsWrapper.html)を参照してください。
 
 NOTE: 従来のXMLパラメータ解析のサポートは、`actionpack-xml_parser`という別のgemに切り出されました。
 
@@ -164,7 +164,7 @@ NOTE: 従来のXMLパラメータ解析のサポートは、`actionpack-xml_pars
 `params`ハッシュに必ず含まれるキーは`:controller`キーと`:action`キーです。ただしこれらの値には直接アクセスせず、`controller_name`と`action_name`という専用のメソッドを使ってください。ルーティングで定義されるその他の値パラメータ (`id`など) にもアクセスできます。例として、「有効」と「無効」のいずれかで表される顧客のリストについて考えてみましょう。「プリティな」URLに含まれる`:status`パラメータを捉えるためのルートを1つ追加してみましょう。
 
 ```ruby
-get '/clients/:status' => 'clients#index', foo: 'bar'
+get '/clients/:status', to: 'clients#index', foo: 'bar'
 ```
 
 この場合、ブラウザで`/clients/active`というURLを開くと、`params[:status]`が「active」(有効) に設定されます。このルーティングを使うと、あたかもクエリ文字列で渡したかのように`params[:foo]`にも"bar"が設定されます。コントローラでも`params[:action]`をindexとして、`params[:controller]`をclientsとして受け取ります。
@@ -189,7 +189,7 @@ end
 
 ### Strong Parameters
 
-strong parametersを用いることで、Action Controllerのホワイトリストに載っていないパラメータがActive Modelの「マスアサインメント」に利用されることを禁止できます。つまり、多くの属性を一度に更新したい場合は、どの属性のマスアップデートを許可するかを開発者が明示的に指定しなければなりません。大雑把にすべての属性の更新を一括で許可してしまうと、外部に公開する必要のない属性まで誤って公開してしまう可能性が生じるため、そのような事態を防ぐための機能です。
+strong parametersを用いることで、Action Controllerのパラメータが許可されるまでActive Modelの「マスアサインメント」に利用されることを禁止できます。つまり、多くの属性を一度に更新したい場合は、どの属性のマスアップデートを許可するかを開発者が明示的に指定しなければなりません。大雑把にすべての属性の更新を一括で許可してしまうと、外部に公開する必要のない属性まで誤って公開してしまう可能性が生じるため、そのような事態を防ぐための機能です。
 
 さらに、パラメータの属性に「必須 (required)」を指定することで、事前に定義したraise/rescueフローによって、渡された必須パラメータが不足している場合に「400 Bad Request」で終了させることもできます。
 
@@ -250,7 +250,7 @@ params.permit(preferences: {})
 
 ただしこのように指定してしまうと任意の入力を受け付けてしまうため、利用には十分ご注意ください。この場合`permit`によって、受け取った構造内の値が許可済みのスカラーとして扱われ、それ以外の値がフィルタで除外されます。
 
-パラメータのハッシュ全体をホワイトリスト化したい場合は、`permit!`メソッドを使えます。
+パラメータのハッシュ全体を許可したい場合は、`permit!`メソッドを使えます。
 
 ```ruby
 params.require(:log_entry).permit!
@@ -268,7 +268,7 @@ params.permit(:name, { emails: [] },
                          { family: [ :name ], hobbies: [] }])
 ```
 
-この宣言では、`name`、`emails`、`friends`属性がホワイトリスト化されます。ここでは、`emails`は許可を受けたスカラー値の配列であることが期待され、`friends`は特定の属性を持つリソースの配列であることが期待され、どちらも`name`属性(許可を受けたあらゆるスカラー値を受け付ける)を持ちます。また、`hobbies`属性(許可を受けたスカラー値の配列)や、`family`属性(同じく、許可を受けたあらゆるスカラー値を受け付ける)を持つことも期待されます。
+この宣言では、`name`、`emails`、`friends`属性が許可されます。ここでは、`emails`は許可を受けたスカラー値の配列であることが期待され、`friends`は特定の属性を持つリソースの配列であることが期待され、どちらも`name`属性(許可を受けたあらゆるスカラー値を受け付ける)を持ちます。また、`hobbies`属性(許可を受けたスカラー値の配列)や、`family`属性(同じく、許可を受けたあらゆるスカラー値を受け付ける)を持つことも期待されます。
 
 #### その他の事例
 
@@ -290,7 +290,7 @@ params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy]
 キーが整数のハッシュは異なる方法で処理されます。これらは、あたかも直接の子オブジェクトであるかのように属性を宣言できます。`has_many`関連付けとともに`accepts_nested_attributes_for`メソッドを使うと、このようなパラメータを取得できます。
 
 ```ruby
-# 以下のデータをホワイトリスト化
+# 以下のデータを許可
 # {"book" => {"title" => "Some Book",
 #             "chapters_attributes" => { "1" => {"title" => "First Chapter"},
 #                                        "2" => {"title" => "Second Chapter"}}}}
@@ -298,17 +298,18 @@ params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy]
 params.require(:book).permit(:title, chapters_attributes: [:title])
 ```
 
-#### Strong Parametersのスコープの外
-
-strong parameter APIは、最も一般的な使用状況を念頭に置いて設計されています。つまり、あらゆるホワイトリスト化問題を扱えるほど万能ではないということです。しかし、このAPIを自分のコードに混在させて状況に対応しやすくすることはできます。
-
-次のような状況を想像してみましょう。製品名と、その製品名に関連する任意のデータを表すパラメータがあるとします。そして、この製品名もデータハッシュ全体もまとめてホワイトリスト化したいとします。strong parameters APIでは、任意のキーを持つネストしたハッシュ全体を直接ホワイトリスト化することはしませんが、ネストしたハッシュのキーを使ってホワイトリスト化の対象を宣言することはできます。
+次のような状況を想像してみましょう。製品名と、その製品名に関連する任意のデータを表すパラメータがあるとします。そして、この製品名もデータハッシュ全体もまとめて許可したいとします。
 
 ```ruby
 def product_params
-  params.require(:product).permit(:name, data: params[:product][:data].try(:keys))
+  params.require(:product).permit(:name, data: {})
 end
 ```
+
+
+#### Strong Parametersのスコープの外
+
+strong parameter APIは、最も一般的な使用状況を念頭に置いて設計されています。つまり、あらゆるパラメータのフィルタ問題を扱える「銀の弾丸」ではありません。しかし、このAPIを自分のコードに混在させてアプリの実情に対応しやすくなります。
 
 セッション
 -------
@@ -353,7 +354,7 @@ Rails.application.config.session_store :cookie_store, key: '_your_app_session'
 Rails.application.config.session_store :cookie_store, key: '_your_app_session', domain: ".example.com"
 ```
 
-Railsは、`config/credentials.yml.enc`のセッションデータの署名に用いる秘密鍵を (CookieStore用に) 設定します。この秘密鍵は`bin/rails credentials:edit`で変更できます。
+Railsは、`config/credentials.yml.enc`のセッションデータの署名に用いる秘密鍵を (CookieStore用に) 設定します。この秘密鍵は`rails credentials:edit`で変更できます。
 
 
 ```ruby
@@ -407,14 +408,16 @@ class LoginsController < ApplicationController
 end
 ```
 
-セッションからデータの一部を削除したい場合は、キーに`nil`を割り当てます。
+セッションからデータの一部を削除したい場合は、そのキーバリューペアを削除します。
 
 ```ruby
 class LoginsController < ApplicationController
   # ログインを削除する (=ログアウト)
   def destroy
     # セッションidからuser idを削除する
-    @_current_user = session[:current_user_id] = nil
+    session.delete(:current_user_id)
+    # メモ化された現在のユーザーをクリアする
+    @_current_user = nil
     redirect_to root_url
   end
 end
@@ -426,14 +429,14 @@ end
 
 flashはセッションの中の特殊な部分であり、リクエストごとにクリアされます。つまりflashは「直後のリクエスト」でのみ参照可能になるという特徴を持ち、エラーメッセージをビューに渡したりするのに便利です。
 
-flashのアクセス方法はセッションとほとんど同じで、ハッシュとしてアクセスします (これを[FlashHash](http://api.rubyonrails.org/classes/ActionDispatch/Flash/FlashHash.html) インスタンスと呼びます)。
+flashのアクセス方法はセッションとほとんど同じで、ハッシュとしてアクセスします (これを[FlashHash](https://api.rubyonrails.org/classes/ActionDispatch/Flash/FlashHash.html) インスタンスと呼びます)。
 
 例として、ログアウトする動作を扱ってみましょう。コントローラでflashを使うことで、次のリクエストで表示するメッセージを送信できます。
 
 ```ruby
 class LoginsController < ApplicationController
   def destroy
-    session[:current_user_id] = nil
+    session.delete(:current_user_id)
     flash[:notice] = "You have successfully logged out."
     redirect_to root_url
   end
@@ -545,7 +548,7 @@ end
 セッションを削除する場合はキーに`nil`を指定することで削除しましたが、cookieを削除する場合はこの方法ではなく、`cookies.delete(:key)`を使ってください。
 
 Railsでは、機密データ保存のために署名済みcookie jarと暗号化cookie jarを利用することもできます。署名済みcookie jarでは、暗号化した署名をcookie値に追加することで、cookieの改竄を防ぎます。暗号化cookie jarでは、署名の追加と共に、値自体を暗号化してエンドユーザーに読まれることのないようにします。
-詳細については[APIドキュメント](http://api.rubyonrails.org/classes/ActionDispatch/Cookies.html)を参照してください。
+詳細については[APIドキュメント](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html)を参照してください。
 
 これらの特殊なcookieではシリアライザを使って値を文字列に変換して保存し、読み込み時に逆変換(deserialize)を行ってRubyオブジェクトに戻しています。
 
@@ -1096,22 +1099,4 @@ NOTE: `ApplicationController`クラスでは一部の例外についてrescueで
 HTTPSプロトコルを強制する
 --------------------
 
-セキュリティ上の理由から、特定のコントローラについてはHTTPSのみでアクセスできるように強制したいことがあります。コントローラ内で`force_ssl`メソッドを使うことでSSLを強制することができます。
-
-```ruby
-class DinnerController
-  force_ssl
-end
-```
-
-フィルタの時と同様、`:only`オプションや`:except`オプションを使って、コントローラ内の特定のアクションでのみセキュア接続を強制することもできます。
-
-```ruby
-class DinnerController
-  force_ssl only: :cheeseburger
-  # または
-  force_ssl except: :cheeseburger
-end
-```
-
-`force_ssl`を多くのコントローラに追加したい場合は、アプリケーション全体でHTTPS接続を強制する方がよいでしょう。これを行なうには、環境ファイルで`config.force_ssl`を設定します。
+コントローラとのやりとりがHTTPSのみで行われるようにしたい場合は、環境設定の`config.force_ssl`で`ActionDispatch::SSL`ミドルウェアを有効にすることで行うべきです。

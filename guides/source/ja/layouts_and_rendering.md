@@ -620,8 +620,6 @@ redirect_to photos_url
 
 `redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻る場所は`HTTP_REFERER`ヘッダを利用していますが、これはブラウザが必ず設定しているとは限りません。そのため、`fallback_location`は必ず設定しなければなりません。
 
-`redirect_back`を使うと、ユーザを直前のページに戻すことができます。戻り先の場所は`HTTP_REFERER`ヘッダーから取り出されますが、これがブラウザ側で設定される保証はありません。したがって、ここでは`fallback_location`を指定する必要があります。
-
 ```ruby
 redirect_back(fallback_location: root_path)
 ```

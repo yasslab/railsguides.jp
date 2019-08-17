@@ -1,4 +1,4 @@
-Ruby on Rails 3.1 リリースノート
+Rails 3.1 - 2011/08
 ===============================
 
 Rails 3.1の注目ポイント
@@ -287,7 +287,7 @@ Action Pack
     end
     ```
 
-    `:only`や`:except`を用いてストリーミングを特定のアクションに限定できます。詳しくは[`ActionController::Streaming`](http://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html)を参照してください。
+    `:only`や`:except`を用いてストリーミングを特定のアクションに限定できます。詳しくは[`ActionController::Streaming`](https://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html)を参照してください。
 
 * ルーティングの`redirect`メソッドが、対象URLの一部のみを変更するオプションハッシュを1つ受け取ることも、呼び出しに応答できるオブジェクト（リダイレクトで再利用できる）を1つ受け取ることもできるようになりました。
 
@@ -552,6 +552,6 @@ Active Support
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
 
 Rails 3.1リリースノートの編集は[Vijay Dev](https://github.com/vijaydev)が担当しました。

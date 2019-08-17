@@ -38,7 +38,7 @@ NOTE: デフォルトのRailsは非同期キューを実装します。これは
 Active Jobは、ジョブ作成用のRailsジェネレータを提供しています。以下を実行すると、`app/jobs`にジョブが1つ作成されます。
 
 ```bash
-$ bin/rails generate job guests_cleanup
+$ rails generate job guests_cleanup
 invoke  test_unit
 create    test/jobs/guests_cleanup_job_test.rb
 create  app/jobs/guests_cleanup_job.rb
@@ -47,7 +47,7 @@ create  app/jobs/guests_cleanup_job.rb
 以下のようにすると、特定のキューに対してジョブを1つ作成できます。
 
 ```bash
-$ bin/rails generate job guests_cleanup --queue urgent
+$ rails generate job guests_cleanup --queue urgent
 ```
 
 ジェネレータを使いたくない場合は、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
@@ -101,7 +101,7 @@ Rails自身が提供するのは、ジョブをメモリに保持するインプ
 
 ### バックエンド
 
-Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキューイングバックエンドに接続できるアダプタがビルトインで用意されています。利用可能な最新のアダプタのリストについては、APIドキュメントの[ActiveJob::QueueAdapters](http://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html) を参照してください。
+Active Jobには、Sidekiq、Resque、Delayed Jobなどさまざまなキューイングバックエンドに接続できるアダプタがビルトインで用意されています。利用可能な最新のアダプタのリストについては、APIドキュメントの[ActiveJob::QueueAdapters](https://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html) を参照してください。
 
 ### バックエンドを設定する
 
@@ -245,7 +245,7 @@ class GuestsCleanupJob < ApplicationJob
 
   private
 
-  def around_cleanup(job)
+  def around_cleanup
     # performの直前に何か実行
     yield
     # performの直後に何か実行
@@ -257,8 +257,8 @@ end
 たとえば、登録されたジョブごとの測定値を送信する場合は次のようにします。
 
 ```ruby
-class ApplicationJob
-  before_enqueue { |job| $statsd.increment "#{job.name.underscore}.enqueue" }
+class ApplicationJob < ActiveJob::Base
+  before_enqueue { |job| $statsd.increment "#{job.class.name.underscore}.enqueue" }
 end
 ```
 
@@ -298,6 +298,23 @@ I18n.locale = :eo
 UserMailer.welcome(@user).deliver_later # メールがエスペラント語にローカライズされる
 ```
 
+引数でサポートされる型
+----------------------------
+
+Active Jobの引数では、デフォルトで以下の型をサポートします。
+
+  - 基本型（`NilClass`、`String`、`Integer`、`Float`、`BigDecimal`、`TrueClass`、`FalseClass`）
+  - `Symbol`
+  - `Date`
+  - `Time`
+  - `DateTime`
+  - `ActiveSupport::TimeWithZone`
+  - `ActiveSupport::Duration`
+  - `Hash`（キーの型は`String`か`Symbol`にすべき）
+  - `ActiveSupport::HashWithIndifferentAccess`
+  - `Array`
+
+
 GlobalID
 --------
 Active JobではGlobalIDがパラメータとしてサポートされています。GlobalIDを使用すると、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ (deserialize) する必要がありました。従来のジョブが以下のようなものだったとします。
@@ -323,6 +340,37 @@ end
 
 上のコードは、`ActiveModel::GlobalIdentification`をミックスインするすべてのクラスで動作します。このモジュールはActive Recordクラスにデフォルトでミックスインされます。
 
+### シリアライザ
+
+サポートされる引数の型は、以下のような独自のシリアライザを定義するだけで拡張できます。
+
+```ruby
+class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
+  # ある引数がこのシリアライザでシリアライズされるべきかどうかをチェックする
+  def serialize?(argument)
+    argument.is_a? Money
+  end
+  # あるオブジェクトを、オブジェクト型をサポートするもっとシンプルな表現形式に変換する。
+  # 表現形式としては特定のキーを持つハッシュが推奨される。キーには基本型のみが利用可能。
+  # `super`を読んでカスタムシリアライザ型をハッシュに追加すべき
+  def serialize(money)
+    super(
+      "amount" => money.amount,
+      "currency" => money.currency
+    )
+  end
+  # シリアライズされた値を正しいオブジェクトに逆変換する
+  def deserialize(hash)
+    Money.new(hash["amount"], hash["currency"])
+  end
+end
+```
+
+続いてこのシリアライザをリストに追加します。
+
+```ruby
+Rails.application.config.active_job.custom_serializers << MoneySerializer
+```
 
 例外処理
 ----------
@@ -359,7 +407,7 @@ class RemoteServiceJob < ApplicationJob
 end
 ```
 
-詳しくは、[ActiveJob::Exceptions](http://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html) APIドキュメントを参照してください。
+詳しくは、[ActiveJob::Exceptions](https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html) APIドキュメントを参照してください。
 
 ### デシリアライズ
 

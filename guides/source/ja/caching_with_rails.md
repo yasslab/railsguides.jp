@@ -1,4 +1,4 @@
-Rails のキャッシュ: 概要
+Rails のキャッシュ機構
 ===============================
 
 本ガイドでは、キャッシュを導入してRailsアプリケーションを高速化する方法をご紹介します。
@@ -385,8 +385,8 @@ config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 これらをまとめたproduction向けRedisキャッシュストアは以下のような感じになります。
 
 ```ruby
-cache_servers = %w[ "redis://cache-01:6379/0", "redis://cache-02:6379/0", … ],
-config.cache_store = :redis_cache_store, url: cache_servers,
+cache_servers = %w(redis://cache-01:6379/0 redis://cache-02:6379/0)
+config.cache_store = :redis_cache_store, { url: cache_servers,
 
   connect_timeout: 30,  # Defaults to 20 seconds
   read_timeout:    0.2, # Defaults to 1 second
@@ -394,9 +394,10 @@ config.cache_store = :redis_cache_store, url: cache_servers,
 
   error_handler: -> (method:, returning:, exception:) {
     # Report errors to Sentry as warnings
-    Raven.capture_exception exception, level: 'warning",
+    Raven.capture_exception exception, level: 'warning',
       tags: { method: method, returning: returning }
   }
+}
 ```
 
 ### ActiveSupport::Cache::NullStore
