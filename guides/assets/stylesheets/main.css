@@ -362,6 +362,9 @@ aside#toppage {
   float:right;
   width:220px;
 }
+aside#toppage img.bnr-proplan {
+  border: 1px solid #e9e1bd;
+}
 @media screen and (max-width: 920px) {
   aside#toppage {
     float:unset;
