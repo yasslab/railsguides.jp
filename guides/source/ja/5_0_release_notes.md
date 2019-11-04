@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Ruby on Rails 5.0 リリースノート
 ===============================
 
@@ -76,7 +78,7 @@ end
 
 # app/models/store_listing.rb
 class StoreListing < ActiveRecord::Base
-end 
+end
 
 store_listing = StoreListing.new(price_in_cents: '10.1')
 
@@ -89,7 +91,7 @@ class StoreListing < ActiveRecord::Base
   attribute :my_string, :string, default: "new default" # デフォルト値
   attribute :my_default_proc, :datetime, default: -> { Time.now } # デフォルト値
   attribute :field_without_db_column, :integer, array: true
-end 
+end
 
 # 変更後
 store_listing.price_in_cents # => 10

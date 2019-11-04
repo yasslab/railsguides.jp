@@ -1,5 +1,4 @@
-
-
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Active Record クエリインターフェイス
 =============================
@@ -121,7 +120,7 @@ SELECT * FROM clients WHERE (clients.id = 10) LIMIT 1
 # 主キー（id）が1と10のクライアントを検索
 clients = Client.find([1, 10]) # Client.find(1, 10)も可
 # => [
-# <Client id: 1, first_name: "Lifo">, 
+# <Client id: 1, first_name: "Lifo">,
 # <Client id: 10, first_name: "Ryan">
 # ]
 ```

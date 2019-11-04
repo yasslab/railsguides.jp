@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Rails 2.3 - 2009/03 [未訳]
 ===============================
 

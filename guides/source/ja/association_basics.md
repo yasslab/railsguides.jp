@@ -1,5 +1,4 @@
-
-
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Active Record の関連付け
 ==========================
@@ -17,7 +16,7 @@ Active Record の関連付け
 関連付けを使う理由
 -----------------
 
-Railsでは、「関連付け(アソシエーション: association)」とは2つのActive Recordモデル同士のつながりを指します。モデルとモデルの間には関連付けを行なう必要がありますが、その理由を御存じでしょうか。それは、関連付けを行う事であなたのコードでの共通操作をよりシンプルで簡単にするからです。簡単なRailsアプリケーションを例にとって説明しましょう。このアプリケーションには著者用のモデル(Author)と書籍用のモデル(Book)があります。一人の著者は、複数の書籍を持っています。関連付けを設定していない状態では、モデルの宣言は以下のようになります。    
+Railsでは、「関連付け(アソシエーション: association)」とは2つのActive Recordモデル同士のつながりを指します。モデルとモデルの間には関連付けを行なう必要がありますが、その理由を御存じでしょうか。それは、関連付けを行う事であなたのコードでの共通操作をよりシンプルで簡単にするからです。簡単なRailsアプリケーションを例にとって説明しましょう。このアプリケーションには著者用のモデル(Author)と書籍用のモデル(Book)があります。一人の著者は、複数の書籍を持っています。関連付けを設定していない状態では、モデルの宣言は以下のようになります。
 
 ```ruby
 class Author < ApplicationRecord
@@ -2354,11 +2353,11 @@ NOTE: これらのコールバックは、関連付けられたオブジェク�
 
 ```ruby
 # `before_add`コールバックがトリガーされる
-author.books << book    
+author.books << book
 author.books = [book, book2]
 
 # `before_add`コールバックはトリガーされない
-book.update(author_id: 1) 
+book.update(author_id: 1)
 ```
 
 ### 関連付けの拡張

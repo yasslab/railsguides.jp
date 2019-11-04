@@ -1,3 +1,4 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Active Job の基礎
 =================
@@ -75,7 +76,7 @@ GuestsCleanupJob.perform_later guest
 
 ```ruby
 # 明日正午に実行したいジョブをキューに登録する
-GuestsCleanupJob.set(wait_until: Date.tomorrow.noon).perform_later(guest) 
+GuestsCleanupJob.set(wait_until: Date.tomorrow.noon).perform_later(guest)
 ```
 
 ```ruby
@@ -177,7 +178,7 @@ end
 ```
 
 キュー名のプレフィックスのデフォルト区切り文字は'\_'です。`application.rb`の`config.active_job.queue_name_delimiter`を設定することでこの区切り文字を変更できます。
- 
+
 ```ruby
 # config/application.rb
 module YourApp
@@ -238,7 +239,7 @@ class GuestsCleanupJob < ApplicationJob
   queue_as :default
 
   around_perform :around_cleanup
-  
+
   def perform
     # 後で行なう
   end
@@ -291,10 +292,10 @@ NOTE: 一般に、非同期キュー（`.deliver_later`でメールを送信す�
 
 各ジョブでは、ジョブ作成時に設定された`I18n.locale`を使います。これはメールを非同期的に送信する場合に便利です。
 
- 
+
 ```ruby
 I18n.locale = :eo
- 
+
 UserMailer.welcome(@user).deliver_later # メールがエスペラント語にローカライズされる
 ```
 

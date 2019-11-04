@@ -1,4 +1,6 @@
 
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Rails プラグイン作成入門
 ====================================
 
@@ -216,7 +218,7 @@ E
 Error:
 ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
 NameError: uninitialized constant ActsAsYaffleTest::Hickwall
-  		  
+
 
 bin/test /path/to/yaffle/test/acts_as_yaffle_test.rb:4
 

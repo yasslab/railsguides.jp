@@ -1,3 +1,4 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Active Model の基礎
 ===================
@@ -136,7 +137,7 @@ end
 
 ```ruby
 person = Person.new
-person.changed? # => false 
+person.changed? # => false
 
 person.first_name = "First Name"
 person.first_name # => "First Name"
@@ -195,10 +196,10 @@ class Person
 end
 
 person = Person.new(token: "2b1f325")
-person.valid? # => false 
+person.valid? # => false
 person.name = 'vishnu'
 person.email = 'me'
-person.valid? # => false 
+person.valid? # => false
 person.email = 'me@vishnuatrai.com'
 person.valid? # => true
 person.token = nil

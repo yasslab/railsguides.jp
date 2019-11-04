@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Rails アップグレードガイド
 ===================================
 
@@ -111,7 +113,7 @@ Action Cable JavaScriptパッケージがCoffeeScriptからES2015に置き換え
   -    ActionCable.WebSocket = MyWebSocket
   +    ActionCable.adapters.WebSocket = MyWebSocket
   ```
-  
+
   ```diff
   -    ActionCable.logger = myLogger
   +    ActionCable.adapters.logger = myLogger
@@ -128,7 +130,7 @@ Action Cable JavaScriptパッケージがCoffeeScriptからES2015に置き換え
   -    ActionCable.stopDebugging()
   +    ActionCable.logger.enabled = false
   ```
-  
+
 ### `ActionDispatch::Response#content_type`がContent-Typeヘッダーを変更せずに返すようになった
 
 従来は、`ActionDispatch::Response#content_type`の戻り値にcharsetパートが**含まれていませんでした**。
@@ -504,7 +506,7 @@ Rails 4.2をRails 5.0にアップグレードする場合、`app/models/`ディ�
 ```
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
-end 
+end
 ```
 
 最後に、すべてのモデルが`ApplicationRecord`を継承するように変更し、動作を確認してください。
@@ -533,7 +535,7 @@ Rails 4.2をRails 5.0にアップグレードする場合、`app/jobs/`ディレ
 
 ```
 class ApplicationJob < ActiveJob::Base
-end 
+end
 ```
 
 これにより、すべてのjobクラスがActiveJob::Baseを継承するようになります。
@@ -644,7 +646,7 @@ gem 'record_tag_helper', '~> 1.0'
 # config/environments/test.rb
 Rails.application.configure do
   config.active_support.test_order = :sorted
-end 
+end
 ```
 
 ### `ActionController::Live` は`Concern`に変更された
@@ -1116,7 +1118,7 @@ module FixtureFileHelpers
   def file_sha(path)
     Digest::SHA2.hexdigest(File.read(Rails.root.join('test/fixtures', path)))
   end
-end 
+end
 ActiveRecord::FixtureSet.context_class.include FixtureFileHelpers
 ```
 
@@ -1392,11 +1394,11 @@ Rails 4.0 では `vendor/plugins` 読み込みのサポートは完全に終了�
 ```ruby
 CatalogCategory < ActiveRecord::Base
   has_and_belongs_to_many :catalog_products, join_table: 'catalog_categories_catalog_products'
-end 
+end
 
 CatalogProduct < ActiveRecord::Base
   has_and_belongs_to_many :catalog_categories, join_table: 'catalog_categories_catalog_products'
-end 
+end
 ```
 
 * プレフィックスではスコープも同様に考慮されるので、`Catalog::Category`と`Catalog::Product`間のリレーションや、`Catalog::Category`と`CatalogProduct`間のリレーションも同様に更新する必要があります。
@@ -1414,7 +1416,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 ```ruby
 # Disable root element in JSON by default.
 # ActiveSupport.on_load(:active_record) do
-#   self.include_root_in_json = false 
+#   self.include_root_in_json = false
 # end
 ```
 
@@ -1463,7 +1465,7 @@ Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルト�
 
 ```ruby
   resources :examples
-  get 'clashing/:id' => 'test#example', as: :example 
+  get 'clashing/:id' => 'test#example', as: :example
 ```
 
 最初の例では、複数のルーティングで同じ名前を使わないようにすれば回避できます。次の例では、`only`または`except`オプションを`resources`メソッド内で使うことで、作成されるルーティングを制限できます。詳細は[Railsのルーティング](routing.html#%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%AE%E4%BD%9C%E6%88%90%E3%82%92%E5%88%B6%E9%99%90%E3%81%99%E3%82%8B)を参照。
@@ -1472,7 +1474,7 @@ Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルト�
 
 ```ruby
 get Rack::Utils.escape('こんにちは'), controller: 'welcome', action: 'index'
-``` 
+```
 
 上のコードは以下のように変更する必要があります。
 
@@ -1625,7 +1627,7 @@ Railsアプリケーションのバージョンが3.0より前の場合、まず
 
 ```ruby
 gem 'rails', '3.1.12'
-gem 'mysql2' 
+gem 'mysql2'
 
 # 新しいアセットパイプラインで必要
 group :assets do

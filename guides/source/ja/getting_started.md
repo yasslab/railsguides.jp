@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Rails をはじめよう
 ==========================
 
@@ -66,7 +68,6 @@ TIP: Windowsユーザーは、[Railsインストーラ](http://railsinstaller.or
 Windowsで作業する場合は、[Ruby Installer Development Kit](https://rubyinstaller.org/downloads/)もインストールすべきです。
 
 SQLite3データベースのインストールも必要です。
-
 多くのUnix系OSには実用的なバージョンのSQLite3が同梱されています。 Windowsで上述のRails InstalerでRailsをインストールすると、SQLite3もインストールされます。その他の環境の方は[SQLite3](https://www.sqlite.org)のインストール方法を参照してください。
 
 ```bash
@@ -146,6 +147,8 @@ Hello, Rails!
 ```bash
 $ rails server
 ```
+
+TIP: Windowsをお使いの場合、Rubyインタープリタにはbinディレクトリ以下のスクリプトを渡す必要があります（例: `ruby bin/rails serrver`）。
 
 TIP: JavaScriptによるアセットの圧縮にはJavaScriptランタイムが必要です。ランタイムが環境にない場合は`execjs`エラーが発生します。macOSやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する`Gemfile`には`mini_racer`というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムについて詳しくは[ExecJS](https://github.com/sstephenson/execjs#readme)で確認できます。
 
@@ -312,18 +315,20 @@ end
 
 `ArticlesController`コントローラに`new`メソッドを作成してからブラウザで<http://localhost:3000/articles/new>を再表示すると、今度はまた違うエラーが表示されます。
 
+
 ![Template is missing for articles/new](images/getting_started/template_is_missing_articles_new.png)
+
 
 Railsでは、このシンプルなアクションに関連付けられたビューがあり、そこで情報を表示できることを期待しています。アクションは定義されましたが、これに関連付けられたビューがないのでエラーが表示されます。
 
+
 以下の完全なメッセージを改めて見てみましょう。
 
-<blockquote>
->ArticlesController#new is missing a template for request formats: text/html
 
->NOTE!
+> ArticlesController#new is missing a template for request formats: text/html
+
+> NOTE!
 >Unless told otherwise, Rails expects an action to render a template with the same name, contained in a folder named after its controller. If this controller is an API responding with 204 (No Content), which does not require a template, then this error will occur when trying to access it via browser, since we expect an HTML template to be rendered for such requests. If that's the case, carry on.
-</blockquote>
 
 このメッセージでは、見つからないテンプレートを指摘してくれています。ここでは`articles/new`というテンプレートがあるはずだと言っています。Railsは最初にこのテンプレートを探します。見つからない場合は次に`application/new`というテンプレートがあるかどうかを探します。`application/new`にテンプレートがあるかどうかを探しているのは、`ArticlesController`コントローラが`ApplicationController`コントローラを継承しているからです。
 

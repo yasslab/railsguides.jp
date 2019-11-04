@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Action Cable の概要
 =====================
 
@@ -200,7 +202,7 @@ class CommentsChannel < ApplicationCable::Channel
   def subscribed
     post = Post.find(params[:id])
     stream_for post
-  end 
+  end
 end
 ```
 
@@ -585,7 +587,7 @@ Action CableはRailsアプリケーションと一緒に実行できます。た
 # config/application.rb
 class Application < Rails::Application
   config.action_cable.mount_path = '/websocket'
-end 
+end
 ```
 
 レイアウトで`action_cable_meta_tag`が呼び出されると、`ActionCable.createConsumer()`でAction Cableサーバーに接続できるようになります。それ以外の場合は、パスが`createConsumer`の最初の引数として指定されます（例: `ActionCable.createConsumer("/websocket")`）。

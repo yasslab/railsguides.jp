@@ -1,4 +1,6 @@
 
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Action View フォームヘルパー
 ============
 

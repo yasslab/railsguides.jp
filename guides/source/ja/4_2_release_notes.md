@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Ruby on Rails 4.2 リリースノート
 ===============================
 
@@ -201,7 +203,7 @@ HTMLサニタイザは[Loofah](https://github.com/flavorjones/loofah)と
 
 *   要素のネストが正しくないHTMLを含むHTMLソースから生成されたDOMでは結果が異なることがあります。
 
-    例: 
+    例:
 
     ``` ruby
     # content: <div><i><p></i></div>
@@ -427,7 +429,7 @@ Gemfileに`gem 'responders', '~> 2.0'`を追加してください。
     test "list all posts" do
       get "/posts"
       assert_response :success
-    end 
+    end
     ```
 
 Action View

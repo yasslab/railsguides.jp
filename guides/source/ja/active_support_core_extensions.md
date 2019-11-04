@@ -1,5 +1,4 @@
-
-
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Active Support コア拡張機能
 ==============================

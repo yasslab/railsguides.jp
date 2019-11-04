@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
 Rails のキャッシュ機構
 ===============================
 
@@ -123,7 +125,7 @@ end
 
 class Game < ApplicationRecord
   belongs_to :product, touch: true
-end 
+end
 ```
 
 `touch`を`true`に設定すると、gameのレコードの`updated_at`を更新するアクションを実行すると、関連付けられているproductの`updated_at`も同様に更新されてキャッシュの期限が終了します。
@@ -135,7 +137,7 @@ end
 ```ruby
 render(partial: 'hotels/hotel', collection: @hotels, cached: true)
 ```
- 
+
 上のコードは`hotels/hotel.erb`という名前のファイルを読み込みます。
 
 もうひとつの方法として、レンダリングするパーシャルの完全なファイル名を含めることもできます。
@@ -145,7 +147,7 @@ render(partial: 'hotels/hotel.html.erb', collection: @hotels, cached: true)
 ```
 
 上のコードは、ファイルのMIMEタイプにかかわらず`hotels/hotel.html.erb`という名前のファイルを読み込みます。たとえば、このパーシャルはJavaScriptファイルに含められます。
- 
+
 ### 依存関係の管理
 
 キャッシュを正しく無効にするには、キャッシュの依存関係を適切に定義する必要があります。多くの場合、Railsでは依存関係が適切に処理されるので、特別な対応は不要です。ただし、カスタムヘルパーでキャッシュを扱うなどの場合は、明示的に依存関係を定義する必要があります。
@@ -252,11 +254,11 @@ def index
     # 検索クエリの実行
     @products = Product.all
 
-    ... 
+    ...
 
     # 同じクエリの再実行
     @products = Product.all
-  end 
+  end
 
 end
 ```
