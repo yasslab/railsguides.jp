@@ -809,7 +809,6 @@ SELECT * FROM articles WHERE id > 10 ORDER BY id DESC
 
 # Original query without `only`
 SELECT * FROM articles WHERE id > 10 ORDER BY id DESC LIMIT 20
-
 ```
 
 ### `reselect`

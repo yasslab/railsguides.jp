@@ -59,11 +59,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 
 以下のメソッドが用意されています。
 
+* `annotate`
 * `find`
 * `create_with`
 * `distinct`
 * `eager_load`
 * `extending`
+* `extract_associated`
 * `from`
 * `group`
 * `having`
@@ -74,11 +76,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * `lock`
 * `none`
 * `offset`
+* `optimizer_hints`
 * `order`
 * `preload`
 * `readonly`
 * `references`
 * `reorder`
+* `reselect`
 * `reverse_order`
 * `select`
 * `where`
@@ -795,7 +799,32 @@ SELECT * FROM articles WHERE id > 10 ORDER BY id DESC
 
 # `only`を使用する前のオリジナルのクエリ
 SELECT "articles".* FROM "articles" WHERE (id > 10) ORDER BY id desc LIMIT 20
+```
 
+### `reselect`
+
+`reselect`メソッドは、次のように既存の`select`メソッドをオーバーライドします。
+
+```ruby
+Post.select(:title, :body).reselect(:created_at)
+```
+
+上で実行されるSQLは以下のようなものになります。
+
+```sql
+SELECT `posts`.`created_at` FROM `posts`
+```
+
+`reselect`句を使わない場合は次のようになります、
+
+```ruby
+Post.select(:title, :body).select(:created_at)
+```
+
+上で実行されるSQLは以下のようなものになります。
+
+```sql
+SELECT `posts`.`title`, `posts`.`body`, `posts`.`created_at` FROM `posts`
 ```
 
 ### `reorder`
