@@ -59,11 +59,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 
 以下のメソッドが用意されています。
 
+* `annotate`
 * `find`
 * `create_with`
 * `distinct`
 * `eager_load`
 * `extending`
+* `extract_associated`
 * `from`
 * `group`
 * `having`
@@ -74,11 +76,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * `lock`
 * `none`
 * `offset`
+* `optimizer_hints`
 * `order`
 * `preload`
 * `readonly`
 * `references`
 * `reorder`
+* `reselect`
 * `reverse_order`
 * `select`
 * `where`
