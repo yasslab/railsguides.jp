@@ -1,5 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Ruby on Rails 5.1 リリースノート
 ===============================
 
@@ -78,7 +76,7 @@ mailer用クラス内の全メソッドで利用する共通のパラメータ�
 
   def account_invitation
     mail subject: "#{@inviter.name} invited you to their Basecamp (#{@account.name})"
-  end
+  end 
 end
 
 InvitationsMailer.with(inviter: person_a, invitee: person_b)
@@ -119,11 +117,11 @@ resolve("Basket") { [:basket] }
 ```ruby
  direct :commentable do |model|
   [ model, anchor: model.dom_id ]
-end
+end 
 
 direct :main do
   { controller: 'pages', action: 'index', subdomain: 'www' }
-end
+end 
 ```
 
 ### form_forとform_tagのform_withへの統合

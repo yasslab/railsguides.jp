@@ -1,5 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Rails 2.2 - 2008/11 [未訳]
 ===============================
 

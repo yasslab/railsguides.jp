@@ -1,4 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
 Rails のコマンドラインツール
 ======================
@@ -207,8 +206,8 @@ $ rails generate controller Greetings hello
 class GreetingsController < ApplicationController
   def hello
     @message = "Hello, how are you today?"
-  end
-end
+  end 
+end 
 ```
 
 メッセージを表示するためにビュー(`app/views/greetings/hello.html.erb`)を編集します。
@@ -586,7 +585,7 @@ desc "I am short, but comprehensive description for my cool task"
 task task_name: [:prerequisite_task, :another_task_we_depend_on] do
   # マジックをここに書く
   # 有効なRubyコードなら何でも書ける
-end
+end 
 ```
 
 タスクには以下のように引数を渡します。
@@ -600,12 +599,12 @@ end
 タスクを名前空間内で定義することで、タスクをグルーピングできます。
 
 ```ruby
-namespace :db do
+namespace :db do 
   desc "何もしないたすく"
   task :nothing do
     # マジ何もしない
-  end
-end
+  end 
+end 
 ```
 
 タスクの呼び出しは以下のように行います。

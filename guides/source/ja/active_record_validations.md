@@ -1,5 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Active Record バリデーション
 ==========================
 
@@ -211,6 +209,7 @@ end
 
 このチェックは、`terms_of_service`が`nil`でない場合にのみ実行されます。
 このヘルパーのデフォルトエラーメッセージは「must be accepted」です。
+
 次のようにカスタムメッセージを`message`オプションで渡すこともできます。
 
 ```ruby
@@ -309,8 +308,6 @@ class Product < ApplicationRecord
     message: "英文字のみが使えます" }
 end
 ```
-
-または、`:without`オプションを用いて指定の属性が正規表現に一致**しない**ことを必須にすることもできます。
 
 デフォルトのエラーメッセージは「is invalid」です。
 
@@ -666,29 +663,10 @@ class Person < ApplicationRecord
   validates :age, numericality: true, on: :account_setup
 end
 
-person = Person.new(age: 'thirty-three')
-person.valid? # => true
-person.valid?(:account_setup) # => false
-person.errors.messages
-# => {:email=>["has already been taken"], :age=>["is not a number"]}
-```
-
-`person.valid?(:account_setup)`は、モデルを保存せずにバリデーションを2つとも実行します。`person.save(context: :account_setup)`は、`account_setup`コンテキストで`person`をバリデーションしてから保存します。
-
-明示的なトリガーによるモデルのバリデーションでは、そのコンテキストのみのバリデーションと、コンテキストなしのバリデーションが行われます。
-
-```ruby
-class Person < ApplicationRecord
-  validates :email, uniqueness: true, on: :account_setup
-  validates :age, numericality: true, on: :account_setup
-  validates :name, presence: true
-end
-
 person = Person.new
-person.valid?(:account_setup) # => false
-person.errors.messages
- # => {:email=>["has already been taken"], :age=>["is not a number"], :name=>["can't be blank"]}
 ```
+
+`person.valid?(:account_setup)`は、モデルを保存せずにバリデーションを2つとも実行します。`person.save(context: :account_setup)`は、`account_setup`コンテキストで`person`をバリデーションしてから保存します。明示的なトリガーによるモデルのバリデーションでは、そのコンテキストのみのバリデーションと、コンテキストなしのバリデーションが行われます。
 
 厳密なバリデーション
 ------------------
@@ -700,7 +678,7 @@ class Person < ApplicationRecord
   validates :name, presence: { strict: true }
 end
 
-Person.new.valid?  # => ActiveModel::StrictValidationFailed: Name can't be blank
+Person.new.valid?  # => ActiveModel::StrictValidationFailed: 名前は空欄にできません
 ```
 
 カスタム例外を`:strict`オプションに追加することもできます。
@@ -742,12 +720,6 @@ class Account < ApplicationRecord
   validates :password, confirmation: true,
     unless: Proc.new { |a| a.password.blank? }
 end
-```
-
-`Lambdas`は`Proc`の一種なので、これもインライン条件に短く書けます。
-
-```ruby
-validates :password, confirmation: true, unless: -> { password.blank? }
 ```
 
 ### 条件付きバリデーションをグループ化する
@@ -928,6 +900,24 @@ person.errors[:name]
 # => ["は以下の文字を含むことができません !@#%*()_-+="]
 
 person.errors.full_messages
+# => ["Name は以下の文字を含むことができません !@#%*()_-+="]
+```
+
+`errors#add`と同等の`<<`メソッドを使うと、属性の`errors.messages`配列にメッセージを追加できます。
+
+```ruby
+class Person < ApplicationRecord
+  def a_method_used_for_validation_purposes
+    errors.messages[:name] <<  "は以下の文字を含むことができません !@#%*()_-+="
+  end
+end
+
+person = Person.create(name: "!@#")
+
+person.errors[:name]
+# => ["は以下の文字を含むことができません !@#%*()_-+="]
+
+person.errors.to_a
 # => ["Name は以下の文字を含むことができません !@#%*()_-+="]
 ```
 

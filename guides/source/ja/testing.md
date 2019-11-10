@@ -1,5 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Rails テスティングガイド
 =====================================
 
@@ -1193,7 +1191,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   # 各テストの実行前に呼ばれる
   setup do
     @article = articles(:one)
-  end
+  end  
 
   # 各テストの実行後に呼ばれる
   teardown do
@@ -1256,7 +1254,7 @@ class ProfileControllerTest < ActionDispatch::IntegrationTest
     get profile_url
     assert_response :success
   end
-end
+end		
 ```
 
 ルーティングをテストする

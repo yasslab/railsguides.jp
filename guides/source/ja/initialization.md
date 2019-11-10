@@ -1,6 +1,4 @@
 
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Rails の初期化プロセス
 ================================
 

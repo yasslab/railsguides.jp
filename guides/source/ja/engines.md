@@ -1,5 +1,3 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
-
 Rails エンジン入門
 ============================
 
@@ -1061,7 +1059,7 @@ ActiveRecord::Base.include(MyActiveRecordHelper)
 上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper }
+ActiveSupport.on_load(:active_record) { include MyActiveRecordHelper } 
 # selfがActiveRecord::Baseを指すので`#include`呼び出しが簡潔になる
 ```
 
@@ -1087,7 +1085,7 @@ ActiveRecord::Base.include_root_in_json = true
 上のコードは以下のように書けます。
 
 ```ruby
-ActiveSupport.on_load(:active_record) { self.include_root_in_json = true }
+ActiveSupport.on_load(:active_record) { self.include_root_in_json = true } 
 # selfはActiveRecord::Baseを指す
 ```
 
