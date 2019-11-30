@@ -281,11 +281,3 @@
       name: Rails 3.0 - 2010/08
       url: 3_0_release_notes.html
       description: Rails 3.0のリリースノートです。
-    -
-      name: Rails 2.3 - 2009/03 [未訳]
-      url: 2_3_release_notes.html
-      description: Rails 2.3のリリースノートです。
-    -
-      name: Rails 2.2 - 2008/11 [未訳]
-      url: 2_2_release_notes.html
-      description: Rails 2.2のリリースノートです。
