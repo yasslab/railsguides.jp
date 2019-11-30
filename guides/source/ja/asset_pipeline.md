@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
 アセットパイプライン
 ==================
 
@@ -133,7 +135,7 @@ NOTE: CoffeeScriptを使用するには、ExecJSがランタイムでサポー�
 ```ruby
 config.generators do |g|
   g.assets false
-end 
+end
 ```
 
 ### アセットの編成
@@ -246,7 +248,7 @@ Sprocketsは`config.assets.paths`で指定したパスも探索します。こ�
 
 WARNING: アセットのプリコンパイルを行っている場合 ([production環境の場合](#production環境の場合)参照)、存在しないアセットへのリンクを含むページを呼び出すと例外が発生します。空文字へのリンクも同様に例外が発生します。ユーザーから提供されたデータに対して`image_tag`などのヘルパーを使用する場合はご注意ください。
 
-#### CSSとERB 
+#### CSSとERB
 
 アセットパイプラインは自動的にERBを評価します。たとえば、cssアセットファイルに`erb`という拡張子を追加すると (`application.css.erb`など)、CSSルール内で`asset_path`などのヘルパーが使用できるようになります。
 
@@ -410,7 +412,7 @@ config.assets.debug = false
 デバッグモードをオフにすると、Sprocketsはすべてのファイルを結合して、必要なプリプロセッサを実行します。デバッグモードをオフにすると、上のマニフェストファイルによって以下が生成されるようになります。
 
 ```html
-<script src="/assets/application.js"></script> 
+<script src="/assets/application.js"></script>
 ```
 
 アセットは、サーバー起動後に最初にリクエストを受け取った時点でコンパイルとキャッシュが行われます。Sprocketsは、`must-revalidate`というCache-Control HTTPヘッダを設定することで、以後のリクエストのオーバーヘッドを減らします。この場合、ブラウザはレスポンス304 (Not Modified) を受け取ります。
@@ -544,7 +546,7 @@ NOTE: productionモードで見つからないプリコンパイル済みファ�
 
 プリコンパイル済みのアセットはファイルシステム上に置かれ、Webサーバーから直接クライアントに提供されます。これらプリコンパイル済みアセットには、いわゆる遠い将来に期限切れになるヘッダ (far-future headers) はデフォルトでは含まれていません。したがって、フィンガープリントのメリットを得るためには、サーバーの設定を更新してこのヘッダを含める必要があります。
 
-Apacheの設定: 
+Apacheの設定:
 
 ```apache
 # Expires* ディレクティブを使用する場合はApacheの
@@ -868,7 +870,7 @@ TIP: 詳細については、production環境用Webサーバーのドキュメ�
 config.assets.configure do |env|
   env.cache = ActiveSupport::Cache.lookup_store(:memory_store,
                                                 { size: 32.megabytes })
-end                                                
+end
 ```
 
 アセットキャッシュストアを無効にするには以下のようにします。

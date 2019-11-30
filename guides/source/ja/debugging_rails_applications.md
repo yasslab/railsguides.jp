@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
 Rails アプリケーションのデバッグ
 ============================
 
@@ -171,7 +173,7 @@ logger.fatal "Terminating application, raised unrecoverable error!!!"
   end
 
   # ...
-  
+
   private
     def article_params
       params.require(:article).permit(:title, :body, :published)
@@ -181,7 +183,7 @@ end
 
 上のコントローラのアクションを実行すると、以下のようなログが生成されます。
 
-``` 
+```
 Started POST "/articles" for 127.0.0.1 at 2017-08-20 20:53:10 +0900
 Processing by ArticlesController#create as HTML
   Parameters: {"utf8"=>"✓", "authenticity_token"=>"xhuIbSBFytHCE1agHgvrlKnSVIOGD6jltW2tO+P6a/ACjQ3igjpV4OdbsZjIhC98QizWH9YdKokrqxBCJrtoqQ==", "article"=>{"title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!", "published"=>"0"}, "commit"=>"Create Article"}
@@ -256,14 +258,14 @@ class PeopleController < ApplicationController
     @person = Person.new
   end
 end
-``` 
+```
 
 ### シェル
 
 アプリケーションで`byebug`を呼び出すと、アプリケーションサーバーを実行しているターミナルウィンドウ内のデバッガーシェルで即座にデバッガーが起動し、`(byebug)`というプロンプトが表示されます。
 実行しようとしている行の前後のコードがプロンプトの前に表示され、'=>'で現在の行が示されます。以下に例を示します。
 
-``` 
+```
 [1, 10] in /PathTo/project/app/controllers/articles_controller.rb
     3:
     4:   # GET /articles
@@ -314,7 +316,7 @@ Processing by ArticlesController#index as HTML
 
 それではアプリケーションをもっと詳しく見てみましょう。まずはデバッガーのヘルプを表示してみるのがよいでしょう。`help`と入力します。
 
-``` 
+```
 (byebug) help
   break      -- Sets breakpoints in the source code
   catch      -- Handles exception catchpoints
@@ -517,7 +519,7 @@ TIP: `irb`コマンドを使うことで、**irb**モードで実行できます
 (byebug) help var
 
   [v]ar <subcommand>
- 
+
   Shows variables and its values
 
 

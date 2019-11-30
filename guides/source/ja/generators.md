@@ -1,3 +1,4 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
 
 Rails ジェネレータとテンプレート入門
 =====================================================
@@ -184,7 +185,7 @@ $ bin/rails generate scaffold User name:string
        route    resources :users
       invoke  scaffold_controller
       create    app/controllers/users_controller.rb
-      invoke    erb 
+      invoke    erb
       create      app/views/users
       create      app/views/users/index.html.erb
       create      app/views/users/edit.html.erb

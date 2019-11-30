@@ -1,3 +1,5 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
 Active Record バリデーション
 ==========================
 
@@ -175,17 +177,17 @@ end
 ### `errors.details`
 
  無効(invalid)な属性において、どのバリデーションが失敗したのか調べるのに`errors.details[:attribute]`が利用できます。これは`:error`がキーで、失敗したバリデーターのシンボルが値となるハッシュの配列を返します。
- 
+
  ```ruby
  class Person < ApplicationRecord
  validates :name, presence: true
  end
- 
+
  >> person = Person.new
  >> person.valid?
  >> person.errors.details[:name] # => [{error: :blank}]
  ```
- 
+
 カスタムバリデータで`details`を使う方法については、[バリデーションエラーの取り扱い](#バリデーションエラーに対応する)セクションを参照してください。
 
 バリデーションヘルパー

@@ -1,3 +1,4 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
 
 Action View の概要
 ====================
@@ -347,7 +348,7 @@ Article.create(body: 'パーシャルレイアウトはいいぞ！')
 `box`レイアウトは、`div`タグの中に`_article`パーシャルを内包した簡単な構造です。
 
  **articles/_box.html.erb**
- 
+
 ```html+erb
 <div class='box'>
   <%= yield %>
@@ -511,13 +512,13 @@ stylesheet_url "application" # => http://www.example.com/assets/application.css
 このヘルパーを使用して、Atomフィードを簡単に生成できます。以下にすべての使用例を示します。
 
 **config/routes.rb**
- 
+
 ```ruby
 resources :articles
 ```
 
 **app/controllers/articles_controller.rb**
- 
+
 ```ruby
 def index
   @articles = Article.all
@@ -540,7 +541,7 @@ atom_feed do |feed|
     feed.entry(article) do |entry|
       entry.title(article.title)
       entry.content(article.body, type: 'html')
- 
+
       entry.author do |author|
         author.name(article.author_name)
       end

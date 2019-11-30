@@ -1,3 +1,4 @@
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
 
 Active Storage の概要
 =====================
@@ -29,12 +30,12 @@ PDFやビデオなどの非画像アップロードの画像表現を生成し�
 ## セットアップ
 
 Active Storageは、アプリケーションのデータベースで `active_storage_blobs`と`active_storage_attachments`という名前の2つのテーブルを使用します。
-新規アプリケーション作成した後（または既存のアプリケーションをRails 5.2にアップグレードした後）に、`rails active_storage:install`を実行して、これらのテーブルを作成するmigrationファイルを作成します。 
+新規アプリケーション作成した後（または既存のアプリケーションをRails 5.2にアップグレードした後）に、`rails active_storage:install`を実行して、これらのテーブルを作成するmigrationファイルを作成します。
 migrationファイルを実行するには`rails db:migrate`をお使いください。
 
 WARNING: `active_storage_attachments`は、使うモデルのクラス名を保存するポリモーフィックjoinテーブルです。モデルのクラス名を変更した場合は、このテーブルに対してマイグレーションを実行して背後の`record_type`をモデルの新しいクラス名に更新する必要があります。
 
-Active Storageのサービスは`config/storage.yml`で宣言します。アプリケーションが使うサービスごとに、名前と必要な構成を指定します。 
+Active Storageのサービスは`config/storage.yml`で宣言します。アプリケーションが使うサービスごとに、名前と必要な構成を指定します。
 次の例では、`local`、`test`、`amazon`という3つのサービスを宣言しています。
 
 ```yaml
@@ -400,24 +401,24 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
 1. アプリケーションのJavaScriptバンドルに`activestorage.js`を追記します。
 
     アセットパイプラインを使う場合は以下のようにします。
-    
+
     ```js
     //= require activestorage
     ```
-    
+
     npmパッケージを使う場合は以下のようにします。
-    
+
     ```js
     import * as ActiveStorage from "activestorage"
     ActiveStorage.start()
     ```
-    
+
 2. ファイル入力に以下を記述してダイレクトアップロードのURLを指定します。
 
      ```ruby
      <%= form.file_field :attachments, multiple: true, direct_upload: true %>
      ```
-     
+
 3. 以上で完了です。アップロードはフォーム送信時に開始されます。
 
 ### ダイレクトアップロードのJavascriptイベント

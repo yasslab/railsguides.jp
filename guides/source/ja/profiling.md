@@ -1,4 +1,6 @@
-﻿Rails アプリケーションを解析する
+﻿**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+
+Rails アプリケーションを解析する
 =======================================
 
 本ガイドは、アプリケーションをテストするためにRailsに組み込まれているメカニズムについて解説します。(訳注: 現在執筆中です)
