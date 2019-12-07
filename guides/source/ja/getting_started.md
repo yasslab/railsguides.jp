@@ -68,7 +68,6 @@ TIP: Windowsユーザーは、[Railsインストーラ](http://railsinstaller.or
 Windowsで作業する場合は、[Ruby Installer Development Kit](https://rubyinstaller.org/downloads/)もインストールすべきです。
 
 SQLite3データベースのインストールも必要です。
-
 多くのUnix系OSには実用的なバージョンのSQLite3が同梱されています。 Windowsで上述のRails InstalerでRailsをインストールすると、SQLite3もインストールされます。その他の環境の方は[SQLite3](https://www.sqlite.org)のインストール方法を参照してください。
 
 ```bash
@@ -314,18 +313,18 @@ end
 
 `ArticlesController`コントローラに`new`メソッドを作成してからブラウザで<http://localhost:3000/articles/new>を再表示すると、今度はまた違うエラーが表示されます。
 
+
 ![Template is missing for articles/new](images/getting_started/template_is_missing_articles_new.png)
+
 
 Railsでは、このシンプルなアクションに関連付けられたビューがあり、そこで情報を表示できることを期待しています。アクションは定義されましたが、これに関連付けられたビューがないのでエラーが表示されます。
 
 以下の完全なメッセージを改めて見てみましょう。
 
-<blockquote>
 >ArticlesController#new is missing a template for request formats: text/html
 
 >NOTE!
 >Unless told otherwise, Rails expects an action to render a template with the same name, contained in a folder named after its controller. If this controller is an API responding with 204 (No Content), which does not require a template, then this error will occur when trying to access it via browser, since we expect an HTML template to be rendered for such requests. If that's the case, carry on.
-</blockquote>
 
 このメッセージでは、見つからないテンプレートを指摘してくれています。ここでは`articles/new`というテンプレートがあるはずだと言っています。Railsは最初にこのテンプレートを探します。見つからない場合は次に`application/new`というテンプレートがあるかどうかを探します。`application/new`にテンプレートがあるかどうかを探しているのは、`ArticlesController`コントローラが`ApplicationController`コントローラを継承しているからです。
 
@@ -800,11 +799,25 @@ TIP: Railsでは、エラーメッセージを含むフィールドは自動的�
 
 ここまでで、CRUDのうちCとRを実現しました。今度はUの部分、つまり記事の更新を実装してみましょう。
 
-最初に、`ArticlesController`に`edit`アクションを追加しましょう。
+最初に、`ArticlesController`に`edit`アクションを追加しましょう。以下のように、`new`アクションと`create`アクションの間に追加するのが一般的です。
 
 ```ruby
+def new
+  @article = Article.new
+end
+
 def edit
   @article = Article.find(params[:id])
+end
+
+def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
 end
 ```
 
