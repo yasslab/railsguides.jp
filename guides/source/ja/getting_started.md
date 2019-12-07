@@ -796,25 +796,11 @@ TIP: Railsでは、エラーメッセージを含むフィールドは自動的�
 
 ここまでで、CRUDのうちCとRを実現しました。今度はUの部分、つまり記事の更新を実装してみましょう。
 
-最初に、`ArticlesController`に`edit`アクションを追加しましょう。以下のように、`new`アクションと`create`アクションの間に追加するのが一般的です。
+最初に、`ArticlesController`に`edit`アクションを追加しましょう。
 
 ```ruby
-def new
-  @article = Article.new
-end
-
 def edit
   @article = Article.find(params[:id])
-end
-
-def create
-  @article = Article.new(article_params)
-
-  if @article.save
-    redirect_to @article
-  else
-    render 'new'
-  end
 end
 ```
 
