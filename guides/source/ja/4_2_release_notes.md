@@ -1,4 +1,3 @@
-﻿
 Ruby on Rails 4.2 リリースノート
 ===============================
 
@@ -112,8 +111,8 @@ remove_foreign_key :accounts, :branches
 remove_foreign_key :accounts, column: :owner_id
 ```
 
-完全な説明については、APIドキュメントの [add_foreign_key](http://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_foreign_key)
-および [remove_foreign_key](http://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-remove_foreign_key) を参照してください。
+完全な説明については、APIドキュメントの [add_foreign_key](https://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_foreign_key)
+および [remove_foreign_key](https://api.rubyonrails.org/v4.2.0/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-remove_foreign_key) を参照してください。
 
 
 非互換性
@@ -129,7 +128,7 @@ remove_foreign_key :accounts, column: :owner_id
 
 ### `respond_with`とクラスレベルの`respond_to`の扱いについて
 
-`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、Gemfileに`gem 'responders', '~> 2.0'`を追記してください。
+`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、`Gemfile`に`gem 'responders', '~> 2.0'`を追記してください。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -263,7 +262,7 @@ Railties
 
 ### 主な変更点
 
-*   `web-console`がデフォルトのアプリケーションGemfileに導入されました。
+*   `web-console`がデフォルトのアプリケーションの`Gemfile`に導入されました。
     ([Pull Request](https://github.com/rails/rails/pull/11667))
 
 *   モデル関連付けをおこなうジェネレータに`required`オプションが追加されました。
@@ -685,7 +684,7 @@ Active Support
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
 [railties]:       https://github.com/rails/rails/blob/4-2-stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/4-2-stable/actionpack/CHANGELOG.md

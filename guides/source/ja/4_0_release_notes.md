@@ -1,6 +1,3 @@
-﻿
-
-
 Ruby on Rails 4.0 リリースノート
 ===============================
 
@@ -32,11 +29,11 @@ $ cd myapp
 
 ### gemに移行する
 
-Rails 4.0からは、アプリケーションのルートディレクトリに置かれる`Gemfile`を使用して、アプリケーションの起動に必要なgemを指定するようになりました。この`Gemfile`は[Bundler](https://github.com/carlhuda/bundler)というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。
+Railsでは、アプリケーションのルートディレクトリに置かれる`Gemfile`を使って、アプリケーションの起動に必要なgemを指定します。この`Gemfile`は[Bundler](https://github.com/carlhuda/bundler)というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。
 
-詳細情報: [Bundlerホームページ](http://bundler.io/)
+詳細情報: [Bundlerホームページ](https://bundler.io/)
 
-### 最新のgemを使用する
+### 最新のgemを使う
 
 `Bundler`と`Gemfile`のおかげで、専用の`bundle`コマンド一発でRailsアプリケーションのgemを簡単に安定させることができます。Gitリポジトリから直接bundleしたい場合は`--edge`フラグを追加します。
 
@@ -44,7 +41,7 @@ Rails 4.0からは、アプリケーションのルートディレクトリに�
 $ rails new myapp --edge
 ```
 
-Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使用してアプリケーションを生成したい場合は、`--dev`フラグを追加します。
+Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使ってアプリケーションを生成したい場合は、`--dev`フラグを追加します。
 
 ```
 $ ruby /path/to/rails/railties/bin/rails new myapp --dev
@@ -53,48 +50,48 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 主要な変更
 --------------
 
-[![Rails 4.0](images/rails4_features.png)](http://railsguides.jp/images/rails4_features.png)
+[![Rails 4.0](images/rails4_features.png)](https://guides.rubyonrails.org/images/4_0_release_notes/rails4_features.png)
 
 ### アップグレード
 
 * **Ruby 1.9.3** ([コミット](https://github.com/rails/rails/commit/a0380e808d3dbd2462df17f5d3b7fcd8bd812496)) - Ruby 2.0を推奨、1.9.3以降は必須。
-* **[今後の非推奨化ポリシー](http://www.youtube.com/watch?v=z6YgD6tVPQs)** - 非推奨となった機能はRails 4.0で警告が表示されるようになり、Rails 4.1ではその機能が完全に削除される。
-* **ActionPackの「ページとアクションキャッシュ」(page and action caching)** ([コミット](https://github.com/rails/rails/commit/b0a7068564f0c95e7ef28fc39d0335ed17d93e90)) - ページとアクションキャッシュは個別のgemに分離された。ページとアクションキャッシュは手動での調整が必要な部分が多すぎる(背後のモデルオブジェクトが更新されたらキャッシュを手動で期限切れにする必要がある)。今後はロシアンドールキャッシュを使用のこと。
-* **ActiveRecord observers** ([コミット](https://github.com/rails/rails/commit/ccecab3ba950a288b61a516bf9b6962e384aae0b)) - observers (デザインパターン) は個別のgemに分離された。observersパターンはページとアクションキャッシュでしか使用されず、コードがスパゲッティになりやすいため。
-* **ActiveRecordセッションストア** ([コミット](https://github.com/rails/rails/commit/0ffe19056c8e8b2f9ae9d487b896cad2ce9387ad)) - ActiveRecordセッションストアは個別のgemに分離された。セッションをSQLに保存するのはコストがかさむ傾向がある。今後はcookiesセッション、memcacheセッション、または独自のセッションストアを使用のこと。
-* **ActiveModelマスアサインメント保護** ([コミット](https://github.com/rails/rails/commit/f8c9a4d3e88181cee644f91e1342bfe896ca64c6)) - Rails 3のマスアサインメント保護は非推奨に指定された。今後はStrong Parametersを使用のこと。
-* **ActiveResource** ([コミット](https://github.com/rails/rails/commit/f1637bf2bb00490203503fbd943b73406e043d1d)) - ActiveResourceは個別のgemに分離された。ActiveResourceの使用頻度が低いため。
-* **vendor/plugins の削除** ([コミット](https://github.com/rails/rails/commit/853de2bd9ac572735fa6cf59fcf827e485a231c3)) - 今後はGemfileでgemのインストールを管理すること。
+* **[今後の非推奨化ポリシー](https://www.youtube.com/watch?v=z6YgD6tVPQs)** - 非推奨となった機能はRails 4.0で警告が表示されるようになり、Rails 4.1ではその機能が完全に削除される。
+* **ActionPackの「ページとアクションキャッシュ」(page and action caching)** ([コミット](https://github.com/rails/rails/commit/b0a7068564f0c95e7ef28fc39d0335ed17d93e90)) - ページとアクションキャッシュは個別のgemに分離された。ページとアクションキャッシュは手動での調整が必要な部分が多すぎる(背後のモデルオブジェクトが更新されたらキャッシュを手動で期限切れにする必要がある)。今後はロシアンドールキャッシュを利用すること。
+* **ActiveRecord observers** ([コミット](https://github.com/rails/rails/commit/ccecab3ba950a288b61a516bf9b6962e384aae0b)) - observers (デザインパターン) は個別のgemに分離された。observersパターンはページとアクションキャッシュでしか使われず、コードがスパゲッティになりやすいため。
+* **ActiveRecordセッションストア** ([コミット](https://github.com/rails/rails/commit/0ffe19056c8e8b2f9ae9d487b896cad2ce9387ad)) - ActiveRecordセッションストアは個別のgemに分離された。セッションをSQLに保存するのはコストがかさむ傾向がある。今後はcookiesセッション、memcacheセッション、または独自のセッションストアを利用すること。
+* **ActiveModelマスアサインメント保護** ([コミット](https://github.com/rails/rails/commit/f8c9a4d3e88181cee644f91e1342bfe896ca64c6)) - Rails 3のマスアサインメント保護は非推奨に指定された。今後はStrong Parametersを利用すること。
+* **ActiveResource** ([コミット](https://github.com/rails/rails/commit/f1637bf2bb00490203503fbd943b73406e043d1d)) - ActiveResourceは個別のgemに分離された。ActiveResourceの利用頻度が低いため。
+* **vendor/plugins の削除** ([コミット](https://github.com/rails/rails/commit/853de2bd9ac572735fa6cf59fcf827e485a231c3)) - 今後は`Gemfile`でgemのインストールを管理すること。
 
 ### ActionPack
 
-* **Strong Parameters** ([コミット](https://github.com/rails/rails/commit/a8f6d5c6450a7fe058348a7f10a908352bb6c7fc)) - ホワイトリストで明示的に許可されたパラメータ (`params.permit(:title, :text)`) を使用しないとモデルオブジェクトを更新できないようにする。
+* **Strong Parameters** ([コミット](https://github.com/rails/rails/commit/a8f6d5c6450a7fe058348a7f10a908352bb6c7fc)) - ホワイトリストで明示的に許可されたパラメータ (`params.permit(:title, :text)`) を使わないとモデルオブジェクトを更新できないようにする。
 * **ルーティングの「concern」機能** ([コミット](https://github.com/rails/rails/commit/0dd24728a088fcb4ae616bb5d62734aca5276b1b)) - ルーティング用のDSLで、共通となるサブルーティング (subroutes) を除外する (`/posts/1/comments`と`/videos/1/comments`における`comments`など)。
 * **ActionController::Live** ([コミット](https://github.com/rails/rails/commit/af0a9f9eefaee3a8120cfd8d05cbc431af376da3)) - JSONを`response.stream`でストリーミングする。
-* **「宣言的 (declarative)」ETag** ([コミット](https://github.com/rails/rails/commit/ed5c938fa36995f06d4917d9543ba78ed506bb8d)) - コントローラレベルのetagを追加する。これはアクションでのetag算出にも使用される。
-* **[ロシアンドールキャッシュ](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)** ([コミット](https://github.com/rails/rails/commit/4154bf012d2bec2aae79e4a49aa94a70d3e91d49)) - ビューで、ネストしたコード断片をキャッシュする。各断片は依存関係のセット (キャッシュキー) に応じて期限切れになる。通常、このキャッシュキーにはテンプレートのバージョン番号とモデルオブジェクトが使用される。
-* **Turbolinks** ([コミット](https://github.com/rails/rails/commit/e35d8b18d0649c0ecc58f6b73df6b3c8d0c6bb74)) - 最初のHTMLページだけを使用してサービスを提供する (訳注: 一部しか違わないページのためにページ全体を HTTP 送信しないで済むようにするための仕組み)。ユーザーが別のページに遷移すると、pushStateでURLを差し替え、AJAXでタイトルとbodyを差し替える。
+* **「宣言的 (declarative)」ETag** ([コミット](https://github.com/rails/rails/commit/ed5c938fa36995f06d4917d9543ba78ed506bb8d)) - コントローラレベルのetagを追加する。これはアクションでのetag算出にも使われる。
+* **[ロシアンドールキャッシュ](https://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)** ([コミット](https://github.com/rails/rails/commit/4154bf012d2bec2aae79e4a49aa94a70d3e91d49)) - ビューで、ネストしたコード断片をキャッシュする。各断片は依存関係のセット (キャッシュキー) に応じて期限切れになる。通常、このキャッシュキーにはテンプレートのバージョン番号とモデルオブジェクトが使われる。
+* **Turbolinks** ([コミット](https://github.com/rails/rails/commit/e35d8b18d0649c0ecc58f6b73df6b3c8d0c6bb74)) - 最初のHTMLページだけを使ってサービスを提供する (訳注: 一部しか違わないページのためにページ全体を HTTP 送信しないで済むようにするための仕組み)。ユーザーが別のページに遷移すると、pushStateでURLを差し替え、AJAXでタイトルとbodyを差し替える。
 * **ActionControllerとActionViewの分離** ([コミット](https://github.com/rails/rails/commit/78b0934dd1bb84e8f093fb8ef95ca99b297b51cd)) - ActionViewはActionPackから分離され、Rails 4.1で個別のgemに移行する予定。
-* **ActiveModelへの依存をただちにやめること** ([コミット](https://github.com/rails/rails/commit/166dbaa7526a96fdf046f093f25b0a134b277a68)) - ActionPackはもはやActiveModelを使用しなくなった。
+* **ActiveModelへの依存をただちにやめること** ([コミット](https://github.com/rails/rails/commit/166dbaa7526a96fdf046f093f25b0a134b277a68)) - ActionPackはもはやActiveModelを使わなくなった。
 
 ### 一般
 
-* **ActiveModel::Model** ([commit](https://github.com/rails/rails/commit/3b822e91d1a6c4eab0064989bbd07aae3a6d0d08)) - `ActiveModel::Model`は通常のRubyオブジェクトでもActionPackの機能を利用できるようにする (`form_for`など) ためのミックスイン。 
+* **ActiveModel::Model** ([commit](https://github.com/rails/rails/commit/3b822e91d1a6c4eab0064989bbd07aae3a6d0d08)) - `ActiveModel::Model`は通常のRubyオブジェクトでもActionPackの機能を利用できるようにする (`form_for`など) ためのミックスイン。
 * **新しい「スコープAPI」** ([コミット](https://github.com/rails/rails/commit/50cbc03d18c5984347965a94027879623fc44cce)) - scopeメソッドの引数は常にcallメソッドを実装していなくてはならない。
 * **スキーマキャッシュダンプ** ([コミット](https://github.com/rails/rails/commit/5ca4fc95818047108e69e22d200e7a4a22969477)) - Railsの起動時間短縮のため、スキーマをデータベースから直接読み込むのではなくダンプファイルから読み込む。
 * **トランザクション分離レベル指定のサポート** ([コミット](https://github.com/rails/rails/commit/392eeecc11a291e406db927a18b75f41b2658253)) - 読み出しを頻繁に行うか、書き込みのパフォーマンスを重視してロックを減らすかを選択できる。
-* **Dalli** ([コミット](https://github.com/rails/rails/commit/82663306f428a5bbc90c511458432afb26d2f238)) - memcacheストアにはDalliのmemcacheクライアントを使用すること。
+* **Dalli** ([コミット](https://github.com/rails/rails/commit/82663306f428a5bbc90c511458432afb26d2f238)) - memcacheストアにはDalliのmemcacheクライアントを利用すること。
 * **通知の開始と終了** ([コミット](https://github.com/rails/rails/commit/f08f8750a512f741acb004d0cebe210c5f949f28)) - Active Support の内部フック機構 (instrumentation) によってサブスクライバへの通知の開始と終了が報告されます。
 * **デフォルトでのスレッドセーフ提供** ([コミット](https://github.com/rails/rails/commit/5d416b907864d99af55ebaa400fff217e17570cd)) - Railsは追加設定なしでスレッド化されます。
 
 NOTE: 追加したgemも同様にスレッドセーフであるかどうかをチェックしておいてください。
 
 
-* **PATCH 動詞** ([コミット](https://github.com/rails/rails/commit/eed9f2539e3ab5a68e798802f464b8e4e95e619e)) - 従来の HTTP 動詞であるPUTはPATCHに置き換えられました。PATCHはリソースの部分的な更新に使用されます。
+* **PATCH動詞** ([コミット](https://github.com/rails/rails/commit/eed9f2539e3ab5a68e798802f464b8e4e95e619e)) - 従来の HTTP動詞であるPUTはPATCHに置き換えられました。PATCHはリソースの部分的な更新に使われます。
 
 ### セキュリティ
 
-* **matchだけですべてをまかなわないこと** ([コミット](https://github.com/rails/rails/commit/90d2802b71a6e89aedfe40564a37bd35f777e541)) - ルーティング用のDSLで match を使用する場合には HTTP 動詞 (verb) を明示的にひとつまたは複数指定する必要があります。
+* **matchだけですべてをまかなわないこと** ([コミット](https://github.com/rails/rails/commit/90d2802b71a6e89aedfe40564a37bd35f777e541)) - ルーティング用のDSLで`match`を使う場合には HTTP動詞 (verb) を明示的にひとつまたは複数指定する必要があります。
 * **htmlエンティティをデフォルトでエスケープ** ([コミット](https://github.com/rails/rails/commit/5f189f41258b83d49012ec5a0678d827327e7543)) - ERB内でレンダリングされる文字列は、`raw`や`html_safe`メソッドでラップしない限り常にエスケープされます。
 * **新しいセキュリティヘッダー** ([コメント](https://github.com/rails/rails/commit/6794e92b204572d75a07bd6413bdae6ae22d5a82)) - Railsから送信されるあらゆるHTTPリクエストに次のヘッダーが含まれるようになりました: `X-Frame-Options` (クリックジャック防止のため、フレーム内へのページ埋め込みを禁止するようブラウザに指示する)、`X-XSS-Protection` (スクリプト注入を停止するようブラウザに指示する)、`X-Content-Type-Options` (jpegファイルをexeとして開かないようブラウザに指示する)。
 
@@ -116,7 +113,7 @@ Rails 4.0では多くの機能が切り出されてgemに移行しました。�
 ドキュメント
 -------------
 
-* ガイドはGitHub風マークダウンで書き直されました。
+* ガイドはGitHub-flavored Markdownで書き直されました。
 
 * ガイドのデザインがレスポンシブになりました。
 
@@ -133,7 +130,7 @@ Railties
 
 * デフォルトでスレッドセーフになりました。
 
-* `rails new`に`--builder`または`-b`を渡すことでカスタムビルダーを使用できる機能は削除されました。今後はアプリケーションテンプレートの利用をご検討ください。([Pull Request](https://github.com/rails/rails/pull/9401))
+* `rails new`に`--builder`または`-b`を渡すことでカスタムビルダーを利用できる機能は削除されました。今後はアプリケーションテンプレートの利用をご検討ください。([Pull Request](https://github.com/rails/rails/pull/9401))
 
 ### 非推奨
 
@@ -176,7 +173,7 @@ Active Support
 
 * 語の活用形 (inflection) をロケールごとに設定できるようになり、`singularize`や`pluralize`メソッドの引数にロケールも指定できるようになりました。
 
-* `Object#try`に渡したオブジェクトにメソッドが実装されていなかった場合に、NoMethodErrorエラーを発生する代わりにnilを返すようになりました。新しい`Object#try!`を使用すれば従来と同じ動作になります。
+* `Object#try`に渡したオブジェクトにメソッドが実装されていなかった場合に、NoMethodErrorを発生する代わりにnilを返すようになりました。新しい`Object#try!`を使えば従来と同じ動作になります。
 
 * `String#to_date`に無効な日付を渡した場合に発生するエラーが`NoMethodError: undefined method 'div' for nil:NilClass`から`ArgumentError: invalid date`に変更されました。これによって`Date.parse`と同じ動作になり、以下のように3.xよりも日付を適切に扱えるようになりました。
 
@@ -192,7 +189,7 @@ Active Support
 
 ### 非推奨
 
-* `ActiveSupport::TestCase#pending`メソッドが非推奨になりました。今後はMiniTestの`skip`をご利用ください。
+* `ActiveSupport::TestCase#pending`メソッドが非推奨になりました。今後はminitestの`skip`をご利用ください。
 
 * `ActiveSupport::Benchmarkable#silence`はスレッドセーフでないため非推奨となりました。Rails 4.1では代替されることなく削除される予定です。
 
@@ -223,20 +220,20 @@ Active Record
 
 ### 主な変更点
 
-* マイグレーションで`change`を書く方法が改良され、以前のように`up`や`down`メソッドを使用する必要がなくなりました。
+* マイグレーションで`change`を書く方法が改良され、以前のように`up`や`down`メソッドを使う必要がなくなりました。
 
     * `drop_table`メソッドと`remove_column`メソッドは逆方向のマイグレーション (取り消し) が可能になりました。ただしそのために必要な情報が与えられていることが前提です。
-      `remove_column`メソッドは従来複数のカラムを引数に指定する際に使用されていましたが、今後はそのような場合には`remove_columns`メソッドをご利用ください (ただしこちらは逆マイグレーションできません)。
+      `remove_column`メソッドは従来複数のカラムを引数に指定する際に使われていましたが、今後はそのような場合には`remove_columns`メソッドをご利用ください (ただしこちらは逆マイグレーションできません)。
       `change_table`も逆マイグレーション可能になりました。ただしそのブロックで`remove`、`change`、`change_default`が呼び出されていないことが前提です。
 
     * `reversible`メソッドが新たに追加され、マイグレーション (up) や逆マイグレーション (down) 時に実行するコードを指定できるようになりました。
-      詳細については[Active Record マイグレーションガイド](active_record_migrations.html#reversibleを使用する)を参照してください。
+      詳細については[Active Record マイグレーションガイド](active_record_migrations.html#reversibleを使う)を参照してください。
 
     * 新しい`revert`メソッドは、特定のブロックやマイグレーション全体を逆転します。
       逆マイグレーション (down) を行うと、指定されたマイグレーションやブロックは通常のマイグレーション (up) になります。
       詳細については[Active Record マイグレーションガイド](active_record_migrations.html#以前のマイグレーションを逆転する)を参照してください。
 
-* PostgreSQLの配列型サポートが追加されました。配列カラムの作成時に任意のデータ型を使用できます。それらのデータ型はフルマイグレーションやスキーマダンプでもサポートされます。
+* PostgreSQLの配列型サポートが追加されました。配列カラムの作成時に任意のデータ型を使えます。それらのデータ型はフルマイグレーションやスキーマダンプでもサポートされます。
 
 * `Relation#load`メソッドが追加されました。これはレコードを明示的に読み込んで`self`を返します。
 
@@ -276,4 +273,4 @@ Active Record
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
