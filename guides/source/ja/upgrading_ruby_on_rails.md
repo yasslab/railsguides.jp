@@ -60,23 +60,6 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 
 予期しなかった変更が発生した場合は、必ず差分を十分にチェックしてください。
 
-Rails 5.1からRails 5.2へのアップグレード
--------------------------------------
-
-Rails 5.2 の変更点の詳細は[リリースノート](5_2_release_notes.html)を参照してください。
-
-### Bootsnap
-
-Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)に bootsnap gem が追加されました。`boot.rb`の`app:update`タスクを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。`boot.rb`を変更し、bootsnapを使わないようにすることもできます。
-
-### 暗号化または署名付きcookieに有効期限情報が付与されました
-
-セキュリティ向上のため、Railsでは暗号化または署名付きcookieに有効期限情報を埋め込むようになりました。
-
-有効期限情報が付与されたcookieは、Rails 5.1 以前のバージョンとの互換性はありません。
-
-Rails 5.1 以前で新しいcookieを読み込みたい場合、もしくは Rails 5.2 でうまくデプロイできるか確認したい場合は (必要に応じてロールバックできるようにしたい場合は) `Rails.application.config` の `action_dispatch.use_authenticated_cookie_encryption` を `false` に設定してください。
-
 Rails 5.0からRails 5.1へのアップグレード
 -------------------------------------
 
