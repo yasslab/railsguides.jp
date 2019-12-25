@@ -34,7 +34,7 @@ Active Storageの詳細については[Active Storageの概要](active_storage_o
 [Pull Request](https://github.com/rails/rails/pull/31134)
 
 Rails 5.2にRedisキャッシュストアが組み込まれました。
-詳しくは、ガイドの[Rails のキャッシュ: 概要](caching_with_rails.html#activesupport-cache-rediscachestore)を参照してください。
+詳しくは、ガイドの[Rails のキャッシュ機構](caching_with_rails.html#activesupport-cache-rediscachestore)を参照してください。
 
 ### HTTP/2 Early Hints
 
@@ -513,6 +513,9 @@ Active Record
 * `dependent: :destroy`で、`has_one`/`belongs_to`リレーションシップの子クラスが削除されていないのに親クラスが削除される問題を修正。
     ([Commit](https://github.com/rails/rails/commit/b0fc04aa3af338d5a90608bf37248668d59fc881))
 
+* アイドル状態のデータベース接続は従来孤立した接続だったのが、コネクションプールreaperによって定期的に刈り取られるようになった。
+    [Commit](https://github.com/rails/rails/pull/31221/commits/9027fafff6da932e6e64ddb828665f4b01fc8902)
+
 Active Model
 ------------
 
@@ -713,7 +716,7 @@ Ruby on Railsガイド
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
 [railties]:       https://github.com/rails/rails/blob/5-2-stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/5-2-stable/actionpack/CHANGELOG.md

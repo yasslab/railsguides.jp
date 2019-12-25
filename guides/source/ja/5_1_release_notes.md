@@ -292,6 +292,13 @@ Action Pack
 *   コントローラのフィルタに関連する非推奨メソッドを削除
     ([Commit](https://github.com/rails/rails/commit/d7be30e8babf5e37a891522869e7b0191b79b757))
 
+*   `render` メソッドのキーワード引数 `:text`、`:nothing` のサポートを削除
+    ([Commit](https://github.com/rails/rails/commit/79a5ea9eadb4d43b62afacedc0706cbe88c54496),
+    [Commit](https://github.com/rails/rails/commit/57e1c99a280bdc1b324936a690350320a1cd8111))
+
+*   `ActionController::Parameters` における `HashWithIndifferentAccess` のメソッド呼び出しのサポートを削除
+    ([Commit](https://github.com/rails/rails/pull/26746/commits/7093ceb480ad6a0a91b511832dad4c6a86981b93))
+
 ### 非推奨
 
 *  パスパラメータ`:controller`と`:action`を非推奨に指定。
@@ -332,7 +339,7 @@ Action View
     ([commit](https://github.com/rails/rails/commit/1de0df86695f8fa2eeae6b8b46f9b53decfa6ec8))
 
 *   `datetime_field`と`datetime_field_tag`で`datetime-local`フィールドを生成するよう変更
-    ([Pull Request](https://github.com/rails/rails/pull/28061))
+    ([Pull Request](https://github.com/rails/rails/pull/25469))
 
 *   HTMLタグ用の新しいビルダ風の構文を導入（`tag.div`、`tag.br`など）
     ([Pull Request](https://github.com/rails/rails/pull/25543))
@@ -530,7 +537,7 @@ Active Support
     ([Pull Request](https://github.com/rails/rails/pull/28157))
 
 *   `set_callback`や`skip_callback`で`:if`条件オプションや`:unless`条件オプションに文字列を渡すことを非推奨化
-    ([Commit](https://github.com/rails/rails/commit/0952552)
+    ([Commit](https://github.com/rails/rails/commit/0952552))
 
 ### 主な変更点
 
@@ -563,7 +570,7 @@ Active Support
 -------
 
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
 [railties]:       https://github.com/rails/rails/blob/5-1-stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/5-1-stable/actionpack/CHANGELOG.md

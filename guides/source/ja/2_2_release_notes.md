@@ -1,4 +1,4 @@
-Ruby on Rails 2.2 Release Notes
+Rails 2.2 - 2008/11 [未訳]
 ===============================
 
 Rails 2.2 delivers a number of new and improved features. This list covers the major upgrades, but doesn't include every little bug fix and change. If you want to see everything, check out the [list of commits](http://github.com/rails/rails/commits/master) in the main Rails repository on GitHub.
@@ -56,7 +56,6 @@ rake doc:guides
 
 This will put the guides inside `Rails.root/doc/guides` and you may start surfing straight away by opening `Rails.root/doc/guides/index.html` in your favourite browser.
 
-* Lead Contributors: [Rails Documentation Team](credits.html)
 * Major contributions from [Xavier Noria":http://advogato.org/person/fxn/diary.html and "Hongli Lai](http://izumi.plan99.net/blog/.)
 * More information:
     * [Rails Guides hackfest](http://hackfest.rubyonrails.org/guide)
