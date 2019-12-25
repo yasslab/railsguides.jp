@@ -99,6 +99,7 @@
             <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
             <div id="guides" class="clearfix" style="display: none;">
               <hr />
+              <div class='guides-scroll'>
               <% ['L', 'R'].each do |position| %>
 		<dl class="<%= position %>">
 		  <% docs_for_menu(position).each do |section| %>
@@ -109,6 +110,7 @@
 		  <% end %>
 		</dl>
               <% end %>
+              </div>
             </div>
           </li>
           <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
