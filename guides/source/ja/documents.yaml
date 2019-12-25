@@ -199,14 +199,6 @@
       url: upgrading_ruby_on_rails.html
       description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
     -
-      name: Ruby on Rails 5.2 リリースノート
-      url: 5_2_release_notes.html
-      description: Rails 5.2のリリースノートです。
-    -
-      name: Ruby on Rails 5.1 リリースノート
-      url: 5_1_release_notes.html
-      description: Rails 5.1のリリースノートです。
-    -
       name: Ruby on Rails 5.0 リリースノート
       url: 5_0_release_notes.html
       description: Rails 5.0のリリースノートです。
