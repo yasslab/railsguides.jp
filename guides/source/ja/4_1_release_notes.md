@@ -1,4 +1,4 @@
-﻿
+
 Ruby on Rails 4.1 リリースノート
 ===============================
 
@@ -53,13 +53,13 @@ Spring is running:
 
 Springのすべての機能については[Spring README](https://github.com/rails/spring/blob/master/README.md)を参照してください。
 
-[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring)には、この機能を既存のアプリケーションと統合する方法について記載されています。
+[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring-gem)には、この機能を既存のアプリケーションと統合する方法について記載されています。
 
 ### `config/secrets.yml`
 
 Rails 4.1では`config`フォルダ内に新しく`secrets.yml`ファイルが生成されます。デフォルトでは、このファイルにはアプリケーションの`secret_key_base`が含まれていますが、外部API用のアクセスキーなどの秘密キーもここに保存できます。
 
-このファイルに保存された秘密キーは`Rails.application.secrets`を使用してアクセスできます。
+このファイルに保存された秘密キーは`Rails.application.secrets`を用いてアクセスできます。
 たとえば、以下の`config/secrets.yml`について見てみましょう。
 
 ```yaml
@@ -74,7 +74,7 @@ development:
 
 ### Action Pack Variant
 
-スマートフォン、タブレット、デスクトップブラウザごとに異なるHTML/JSON/XMLテンプレートを使いたいことはよくあります。Variantを使用することで、これを簡単に実現できます。
+スマートフォン、タブレット、デスクトップブラウザごとに異なるHTML/JSON/XMLテンプレートを使いたいことはよくあります。Variantを使うことで、これを簡単に実現できます。
 
 リクエストvariantは、`:tablet`、`:phone`、`:desktop`のようなリクエストフォーマットを特殊化したものです。
 
@@ -103,7 +103,7 @@ app/views/projects/show.html+tablet.erb
 app/views/projects/show.html+phone.erb
 ```
 
-以下のようなインライン文法を使用することで、variant定義を簡略化することもできます。
+以下のようなインライン文法を使うことで、variant定義を簡略化することもできます。
 
 ```ruby
 respond_to do |format|
@@ -156,9 +156,9 @@ Conversation.statuses # => { "active" => 0, "archived" => 1 }
 
 ### メッセージベリファイア
 
-メッセージベリファイア (message verifier) は、署名付きメッセージの生成と照合に使用できます。この機能は、「パスワードを保存 (remember me)」トークンや友人リストのような機密データを安全に転送するときに便利です。
+メッセージベリファイア (message verifier) は、署名付きメッセージの生成と照合に利用できます。この機能は、「パスワードを保存 (remember me)」トークンや友人リストのような機密データを安全に転送するときに便利です。
 
-`Rails.application.message_verifier`メソッドは、 secret_key_baseを使用して生成されたキーで署名された新しいメッセージベリファイアと、与えられたメッセージ照合名を返します。
+`Rails.application.message_verifier`メソッドは、 secret_key_baseで生成されたキーで署名された新しいメッセージベリファイアと、与えられたメッセージ照合名を返します。
 
 ```ruby
 signed_token = Rails.application.message_verifier(:remember_me).generate(token)
@@ -199,7 +199,7 @@ end
 
 JavaScriptレスポンスを伴うGETリクエストもクロスサイトリクエストフォージェリ (CSRF) 保護の対象となりました。この保護によって、第三者のサイトが重要なデータの奪取のために自分のサイトのJavaScript URLを参照して実行しようとすることを防止します。
 
-これは、`xhr`を使用しない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。``XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代りに、明示的に`xhr :post, :create, format: :js`を使用してください。
+これは、`xhr`を使わない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。``XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代りに、明示的に`xhr :post, :create, format: :js`をお使いください。
 
 
 Railties
@@ -215,7 +215,7 @@ Railties
 
 * 非推奨の`threadsafe!`がRails Configから削除されました。
 
-* 非推奨の`ActiveRecord::Generators::ActiveModel#update_attributes`が削除されました。`ActiveRecord::Generators::ActiveModel#update`をご使用ください。
+* 非推奨の`ActiveRecord::Generators::ActiveModel#update_attributes`が削除されました。`ActiveRecord::Generators::ActiveModel#update`をお使いください。
 
 * 非推奨の`config.whiny_nils`オプションが削除されました。
 
@@ -223,7 +223,7 @@ Railties
 
 ### 主な変更点
 
-* [Springアプリケーションプリローダー](https://github.com/rails/spring) は新規アプリケーションにデフォルトでインストールされます。Gemfileのdevelopグループにインストールされ、productionグループにはインストールされません。([Pull Request](https://github.com/rails/rails/pull/12958))
+* [Springアプリケーションプリローダー](https://github.com/rails/spring) は新規アプリケーションにデフォルトでインストールされます。`Gemfile`のdevelopグループにインストールされ、productionグループにはインストールされません。([Pull Request](https://github.com/rails/rails/pull/12958))
 
 * テスト失敗時にフィルタされていないバックトレースを表示する`BACKTRACE`環境変数。([Commit](https://github.com/rails/rails/commit/84eac5dab8b0fe9ee20b51250e52ad7bfea36553))
 
@@ -231,7 +231,7 @@ Railties
 
 * メッセージベリファイアを返す`Application#message_verifier`メソッド。([Pull Request](https://github.com/rails/rails/pull/12995))
 
-* デフォルトで生成されるテストヘルパーでrequireされる`test_help.rb`ファイルは、`db/schema.rb` (または `db/structure.sql`) を使用して自動的にテストデータベースを最新の状態に保ちます。スキーマを再度読み込んでもペンディング中のマイグレーションをすべて解決できなかった場合はエラーが発生します。`config.active_record.maintain_test_schema = false`を指定することでエラーを回避できます。([Pull Request](https://github.com/rails/rails/pull/13528))
+* デフォルトで生成されるテストヘルパーでrequireされる`test_help.rb`ファイルは、`db/schema.rb` (または `db/structure.sql`) を用いて自動的にテストデータベースを最新の状態に保ちます。スキーマを再度読み込んでもペンディング中のマイグレーションをすべて解決できなかった場合はエラーが発生します。`config.active_record.maintain_test_schema = false`を指定することでエラーを回避できます。([Pull Request](https://github.com/rails/rails/pull/13528))
 
 * `Gem::Version.new(Rails.version)`を返す便利なメソッドとして`Rails.gem_version`が導入されました。より信頼できるバージョン比較法を提供します。([Pull Request](https://github.com/rails/rails/pull/14103))
 
@@ -243,15 +243,15 @@ Action Pack
 
 ### 削除されたもの
 
-* 非推奨の、結合テスト用Railsアプリケーションフォールバックが削除されました。`ActionDispatch.test_app`を代りにご使用ください。
+* 非推奨の、結合テスト用Railsアプリケーションフォールバックが削除されました。`ActionDispatch.test_app`を代りにお使いください。
 
 * 非推奨の`page_cache_extension` configが削除されました。
 
-* 非推奨の`ActionController::RecordIdentifier`が削除されました。`ActionView::RecordIdentifier`を代りにご使用ください。
+* 非推奨の`ActionController::RecordIdentifier`が削除されました。`ActionView::RecordIdentifier`を代りにお使いください。
 
 * 以下の非推奨の定数がAction Controllerから削除されました。
 
-| 削除された                            | 今後使用する                       |
+| 削除された                            | 今後使う                       |
 |:-----------------------------------|:--------------------------------|
 | ActionController::AbstractRequest  | ActionDispatch::Request         |
 | ActionController::Request          | ActionDispatch::Request         |
@@ -263,9 +263,9 @@ Action Pack
 
 ### 主な変更点
 
-* `protect_from_forgery`によって、クロスオリジン`<script>`タグも使用できなくなりました。テストをアップデートして、 `get :foo, format: :js`の代りに`xhr :get, :foo, format: :js`を使うようにしてください。([Pull Request](https://github.com/rails/rails/pull/13345))
+* `protect_from_forgery`によって、クロスオリジン`<script>`タグも利用できなくなりました。テストをアップデートして、 `get :foo, format: :js`の代りに`xhr :get, :foo, format: :js`を使うようにしてください。([Pull Request](https://github.com/rails/rails/pull/13345))
 
-* `#url_for`は、オプションのハッシュを配列の中で使用できるようになりました。([Pull Request](https://github.com/rails/rails/pull/9599))
+* `#url_for`は、オプションのハッシュを配列の中で使えるようになりました。([Pull Request](https://github.com/rails/rails/pull/9599))
 
 * `session#fetch`メソッドが追加されました。この振る舞いは[Hash#fetch](http://www.ruby-doc.org/core-1.9.3/Hash.html#method-i-fetch)と似ていますが、戻り値が常にセッションに保存される点が異なります。([Pull Request](https://github.com/rails/rails/pull/12692))
 
@@ -277,7 +277,7 @@ Action Pack
 
 * 署名及び暗号化されたcookies jarのシリアライザを指定する`config.action_dispatch.cookies_serializer`configオプションが新たに追加されました。 (Pull Requests [1](https://github.com/rails/rails/pull/13692), [2](https://github.com/rails/rails/pull/13945) / [詳細](upgrading_ruby_on_rails.html#cookiesシリアライザ))
 
-* `render :plain`、`render :html`、`render :body`が追加されました。([Pull Request](https://github.com/rails/rails/pull/14062) / [詳細](upgrading_ruby_on_rails.html#文字列からのコンテンツ描出))
+* `render :plain`、`render :html`、`render :body`が追加されました。([Pull Request](https://github.com/rails/rails/pull/14062) / [詳細](upgrading_ruby_on_rails.html#文字列コンテンツのレンダリング))
 
 
 Action Mailer
@@ -321,7 +321,7 @@ Active Record
 
 * 非推奨の`SchemaStatements#distinct`が削除されました。
 
-* 非推奨の`ActiveRecord::TestCase`がRailsテストスイートに移動しました。このクラスはpublicでなくなり、Railsテストの内部でのみ使用されます。
+* 非推奨の`ActiveRecord::TestCase`がRailsテストスイートに移動しました。このクラスはpublicでなくなり、Railsテストの内部でのみ使われます。
 
 * 関連付けの`:dependent`で、非推奨の`:restrict`オプションのサポートが削除されました。
 
@@ -345,17 +345,17 @@ Active Record
 
 * 依存関係としての`activerecord-deprecated_finders`が削除されました。詳細については[gem README](https://github.com/rails/activerecord-deprecated_finders#active-record-deprecated-finders)を参照してください。
 
-* `implicit_readonly`の用法が削除されました。明示的に`readonly`メソッドを使用してレコードを`readonly`に設定してください。([Pull Request](https://github.com/rails/rails/pull/10769))
+* `implicit_readonly`の用法が削除されました。明示的に`readonly`メソッドを用いてレコードを`readonly`に設定してください。([Pull Request](https://github.com/rails/rails/pull/10769))
 
 ### 非推奨
 
 * `quoted_locking_column`メソッドは非推奨です。現在使われている場所はありません。
 
-* `ConnectionAdapters::SchemaStatements#distinct`は内部で使用されなくなったため非推奨です。([Pull Request](https://github.com/rails/rails/pull/10556))
+* `ConnectionAdapters::SchemaStatements#distinct`は内部で使われなくなったため非推奨です。([Pull Request](https://github.com/rails/rails/pull/10556))
 
 * `rake db:test:*`タスクは非推奨となりました。データベースは自動的にメンテナンスされます。railtiesのリリースノートを参照してください。([Pull Request](https://github.com/rails/rails/pull/13528))
 
-* 使用されていない`ActiveRecord::Base.symbolized_base_class`、および置き換えのない`ActiveRecord::Base.symbolized_sti_name`は非推奨になりました。[Commit](https://github.com/rails/rails/commit/97e7ca48c139ea5cce2fa9b4be631946252a1ebd)
+* 使われていない`ActiveRecord::Base.symbolized_base_class`、および置き換えのない`ActiveRecord::Base.symbolized_sti_name`は非推奨になりました。[Commit](https://github.com/rails/rails/commit/97e7ca48c139ea5cce2fa9b4be631946252a1ebd)
 
 ### 主な変更点
 
@@ -373,7 +373,7 @@ Active Record
 
 * `ActiveRecord::QueryMethods#rewhere`が追加されました。既存の名前付きwhere条件をオーバーライドします。([Commit](https://github.com/rails/rails/commit/f950b2699f97749ef706c6939a84dfc85f0b05f2))
 
-* `ActiveRecord::Base#cache_key`が拡張され、timestamp属性のリストをオプションで取れるようになりました。timestamp属性リストのうち最大値が使用されます。([Commit](https://github.com/rails/rails/commit/e94e97ca796c0759d8fcb8f946a3bbc60252d329))
+* `ActiveRecord::Base#cache_key`が拡張され、timestamp属性のリストをオプションで取れるようになりました。timestamp属性リストのうち最大値が使われます。([Commit](https://github.com/rails/rails/commit/e94e97ca796c0759d8fcb8f946a3bbc60252d329))
 
 * enum属性を宣言する`ActiveRecord::Base#enum`が追加されました。enum属性はデータベースのintegerにマップされますが、名前でクエリできます。([Commit](https://github.com/rails/rails/commit/db41eb8a6ea88b854bf5cd11070ea4245e1639c5))
 
@@ -385,7 +385,7 @@ Active Record
 
 * 引数を`nil`にして`update_attributes`を呼び出すと、常に`ArgumentError`エラーが発生します。具体的には、渡された引数が`stringify_keys`に応答しない場合にエラーが発生します。([Pull Request](https://github.com/rails/rails/pull/9860))
 
-* `CollectionAssociation#first`/`#last` (`has_many`など) による結果の取り出しで、コレクション全体を読み出すクエリの代りに、限定的なクエリが使用されるようになりました。([Pull Request](https://github.com/rails/rails/pull/12137))
+* `CollectionAssociation#first`/`#last` (`has_many`など) による結果の取り出しで、コレクション全体を読み出すクエリの代りに、限定的なクエリが使われるようになりました。([Pull Request](https://github.com/rails/rails/pull/12137))
 
 * Active Recordモデルクラスの`inspect`は新しい接続を初期化しなくなりました。つまり、データベースが見つからない状態で`inspect`を呼び出した場合に例外を発生しなくなりました。([Pull Request](https://github.com/rails/rails/pull/11014))
 
@@ -393,13 +393,13 @@ Active Record
 
 * Railsが逆関連付けを自動で検出するようになりました。関連付けで`:inverse_of`オプションを設定していない場合、Active Recordはヒューリスティックに逆関連付けを推測します。([Pull Request](https://github.com/rails/rails/pull/10886))
 
-* ActiveRecord::Relationの属性のエイリアスを扱うようになりました。シンボルキーを使用すると、ActiveRecordはエイリアス化された属性名をデータベース上の実際のカラム名に翻訳します。([Pull Request](https://github.com/rails/rails/pull/7839))
+* ActiveRecord::Relationの属性のエイリアスを扱うようになりました。シンボルキーを使うと、ActiveRecordはエイリアス化された属性名をデータベース上の実際のカラム名に翻訳します。([Pull Request](https://github.com/rails/rails/pull/7839))
 
-* フィクスチャーのERBファイルはメインオブジェクトのコンテキストでは評価されなくなりました。複数のフィクスチャーで使用されているヘルパーメソッドは、`ActiveRecord::FixtureSet.context_class`でインクルードされるモジュール上で定義しておく必要があります。([Pull Request](https://github.com/rails/rails/pull/13022))
+* フィクスチャーのERBファイルはメインオブジェクトのコンテキストでは評価されなくなりました。複数のフィクスチャーで使われているヘルパーメソッドは、`ActiveRecord::FixtureSet.context_class`でインクルードされるモジュール上で定義しておく必要があります。([Pull Request](https://github.com/rails/rails/pull/13022))
 
 * RAILS_ENVが明示的に指定されている場合はテストデータベースのcreateやdropは行いません。([Pull Request](https://github.com/rails/rails/pull/13629))
 
-`Relation`には`#map!`や`#delete_if`などのミューテーターメソッド (mutator method) が含まれなくなりました。これらのメソッドを使用したい場合は`#to_a`を呼び出して`Array`に変更してからにしてください。([Pull Request](https://github.com/rails/rails/pull/13314))
+`Relation`には`#map!`や`#delete_if`などのミューテーターメソッド (mutator method) が含まれなくなりました。これらのメソッドを使いたい場合は`#to_a`を呼び出して`Array`に変更してからにしてください。([Pull Request](https://github.com/rails/rails/pull/13314))
 
 * `find_in_batches`、`find_each`、`Result#each`、 `Enumerable#index_by`は、自身のサイズを計算可能な`Enumerator`を返すようになりました。([Pull Request](https://github.com/rails/rails/pull/13938))
 
@@ -450,29 +450,29 @@ Active Support
 
 * 非推奨の`String#encoding_aware?`コアエクステンション (`core_ext/string/encoding`) が削除されました。
 
-* 非推奨の`Module#local_constant_names`が削除されました。`Module#local_constants`を使用します。
+* 非推奨の`Module#local_constant_names`が削除されました。`Module#local_constants`をお使いください。
 
-* 非推奨の`DateTime.local_offset`が削除されました。`DateTime.civil_from_format`を使用します。
+* 非推奨の`DateTime.local_offset`が削除されました。`DateTime.civil_from_format`をお使いください。
 
 * 非推奨の`Logger`コアエクステンション (`core_ext/logger.rb`) が削除されました。
 
-* 非推奨の`Time#time_with_datetime_fallback`、`Time#utc_time`、`Time#local_time`が削除されました。`Time#utc`および`Time#local`を使用します。
+* 非推奨の`Time#time_with_datetime_fallback`、`Time#utc_time`、`Time#local_time`が削除されました。`Time#utc`および`Time#local`をお使いください。
 
 * 非推奨の`Hash#diff`が代替なしで削除されました。
 
-* 非推奨の`Date#to_time_in_current_zone`が削除されました。`Date#in_time_zone`を使用します。
+* 非推奨の`Date#to_time_in_current_zone`が削除されました。`Date#in_time_zone`をお使いください。
 
 * 非推奨の`Proc#bind`が代替なしで削除されました。
 
-* 非推奨の`Array#uniq_by`と`Array#uniq_by!`が削除されました。ネイティブの`Array#uniq`および`Array#uniq!`を使用してください。
+* 非推奨の`Array#uniq_by`と`Array#uniq_by!`が削除されました。ネイティブの`Array#uniq`および`Array#uniq!`をお使いください。
 
-* 非推奨の`ActiveSupport::BasicObject`が削除されました。`ActiveSupport::ProxyObject`を使用してください。
+* 非推奨の`ActiveSupport::BasicObject`が削除されました。`ActiveSupport::ProxyObject`をお使いください。
 
-* 非推奨の`BufferedLogger`が削除されました。`ActiveSupport::Logger`を使用してください。
+* 非推奨の`BufferedLogger`が削除されました。`ActiveSupport::Logger`をお使いください。
 
-* 非推奨の`assert_present`メソッドと`assert_blank`メソッドが削除されました。`assert object.blank?`および`assert object.present?`を使用してください。
+* 非推奨の`assert_present`メソッドと`assert_blank`メソッドが削除されました。`assert object.blank?`および`assert object.present?`をお使いください。
 
-* フィルタオブジェクト用の非推奨`#filter`メソッドが削除されました。対応する別のメソッドを使用してください。(before filterの`#before`など)
+* フィルタオブジェクト用の非推奨`#filter`メソッドが削除されました。対応する別のメソッドをお使いください。(before filterの`#before`など)
 
 * デフォルトの活用形から不規則活用の'cow' => 'kine'が削除されました。([Commit](https://github.com/rails/rails/commit/c300dca9963bda78b8f358dbcb59cabcdc5e1dc9))
 
@@ -501,7 +501,7 @@ Active Support
 
 * `ActiveSupport::Testing::TimeHelpers#travel_back`が追加されました。このメソッドは、`travel`および`travel_to`メソッドによって追加されたスタブを削除することで、現在時刻を元の状態に戻します。([Pull Request](https://github.com/rails/rails/pull/13884))
 
-* `Numeric#in_milliseconds`が追加されました。`1.hour.in_milliseconds`のように使用でき、これを`getTime()`などのJavaScript関数に渡すことができます。([Commit](https://github.com/rails/rails/commit/423249504a2b468d7a273cbe6accf4f21cb0e643))
+* `Numeric#in_milliseconds`が追加されました。`1.hour.in_milliseconds`のように利用でき、これを`getTime()`などのJavaScript関数に渡すことができます。([Commit](https://github.com/rails/rails/commit/423249504a2b468d7a273cbe6accf4f21cb0e643))
 
 * `Date#middle_of_day`、`DateTime#middle_of_day`、`Time#middle_of_day`メソッドが追加されました。エイリアスとして`midday`、`noon`、`at_midday`、`at_noon`、`at_middle_of_day`も追加されました。([Pull Request](https://github.com/rails/rails/pull/10879))
 
@@ -509,7 +509,7 @@ Active Support
 
 * `Time.zone.yesterday`と`Time.zone.tomorrow`が追加されました。([Pull Request](https://github.com/rails/rails/pull/12822))
 
-* よく使用される`String#gsub("pattern,'')`の省略表現として`String#remove(pattern)`が追加されました。([Commit](https://github.com/rails/rails/commit/5da23a3f921f0a4a3139495d2779ab0d3bd4cb5f))
+* よく使われる`String#gsub("pattern,'')`の省略表現として`String#remove(pattern)`が追加されました。([Commit](https://github.com/rails/rails/commit/5da23a3f921f0a4a3139495d2779ab0d3bd4cb5f))
 
 * 値がnilの項目をハッシュから削除するための`Hash#compact`および`Hash#compact!`が追加されました。([Pull Request](https://github.com/rails/rails/pull/13632))
 

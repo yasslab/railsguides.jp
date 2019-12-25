@@ -1,4 +1,4 @@
-﻿
+
 Ruby on Rails 4.2 リリースノート
 ===============================
 
@@ -129,7 +129,7 @@ remove_foreign_key :accounts, column: :owner_id
 
 ### `respond_with`とクラスレベルの`respond_to`の扱いについて
 
-`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、Gemfileに`gem 'responders', '~> 2.0'`を追記してください。
+`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、`Gemfile`に`gem 'responders', '~> 2.0'`を追記してください。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -263,7 +263,7 @@ Railties
 
 ### 主な変更点
 
-*   `web-console`がデフォルトのアプリケーションGemfileに導入されました。
+*   `web-console`がデフォルトのアプリケーションの`Gemfile`に導入されました。
     ([Pull Request](https://github.com/rails/rails/pull/11667))
 
 *   モデル関連付けをおこなうジェネレータに`required`オプションが追加されました。
