@@ -90,10 +90,6 @@
       url: active_job_basics.html
       description: バックグラウンドで動作するジョブの作成・キュー送信・実行方法に必要なすべてを解説します。
     -
-      name: Active Storage の概要
-      url: active_storage_overview.html
-      description: Active Record のモデルにファイルを添付する方法について解説します。
-    -
       name: Rails テスティングガイド
       url: testing.html
       description: Railsでさまざまなテストを実行するための総合的な解説を行います。「テスティングとは何か」から結合テストまですべてのトピックを扱います。
@@ -213,10 +209,6 @@
       url: upgrading_ruby_on_rails.html
       description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
     -
-      name: Ruby on Rails 5.2 リリースノート
-      url: 5_2_release_notes.html
-      description: Rails 5.2のリリースノートです。
-    -
       name: Ruby on Rails 5.1 リリースノート
       url: 5_1_release_notes.html
       description: Rails 5.1のリリースノートです。
@@ -237,15 +229,15 @@
       url: 4_0_release_notes.html
       description: Rails 4.0のリリースノートです。
     -
-      name: Ruby on Rails 3.2 Release Notes [未訳]
+      name: Ruby on Rails 3.2 リリースノート
       url: 3_2_release_notes.html
       description: Rails 3.2のリリースノートです。
     -
-      name: Ruby on Rails 3.1 Release Notes [未訳]
+      name: Ruby on Rails 3.1 リリースノート
       url: 3_1_release_notes.html
       description: Rails 3.1のリリースノートです。
     -
-      name: Ruby on Rails 3.0 Release Notes [未訳]
+      name: Ruby on Rails 3.0 リリースノート
       url: 3_0_release_notes.html
       description: Rails 3.0のリリースノートです。
     -
