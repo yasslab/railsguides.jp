@@ -1,4 +1,3 @@
-
 Ruby on Rails 4.1 リリースノート
 ===============================
 
@@ -132,7 +131,7 @@ end
 デフォルトのプレビュークラスは`test/mailers/previews`に置かれます。
 `preview_path`オプションを変更することでこれを変更できます。
 
-詳細については[ドキュメント](http://api.rubyonrails.org/v4.1.0/classes/ActionMailer/Base.html)を参照してください。
+詳細については[ドキュメント](https://api.rubyonrails.org/v4.1.0/classes/ActionMailer/Base.html)を参照してください。
 
 ### Active Record enums
 
@@ -152,7 +151,7 @@ Conversation.archived # => Relation for all archived Conversations
 Conversation.statuses # => { "active" => 0, "archived" => 1 }
 ```
 
-詳細については[マニュアル](http://api.rubyonrails.org/v4.1.0/classes/ActiveRecord/Enum.html)を参照してください。
+詳細については[マニュアル](https://api.rubyonrails.org/v4.1.0/classes/ActiveRecord/Enum.html)を参照してください。
 
 ### メッセージベリファイア
 
@@ -519,10 +518,10 @@ Active Support
 
 `Module#concerning`が導入されました。自然かつ堅苦しくない方法で、クラスから責任を分離します。([Commit](https://github.com/rails/rails/commit/1eee0ca6de975b42524105a59e0521d18b38ab81))
 
-* `Object#presence_in`が追加されました。値のホワイトリスト化を簡略化します。([Commit](https://github.com/rails/rails/commit/4edca106daacc5a159289eae255207d160f22396))
+* `Object#presence_in`が追加されました。値を単に許可済みリストに追加します。([Commit](https://github.com/rails/rails/commit/4edca106daacc5a159289eae255207d160f22396))
 
 
 クレジット表記
 -------
 
-膨大な時間を費やしてRailsを作り、頑丈かつ安定したフレームワークにしてくれた多くの皆様については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
+膨大な時間を費やしてRailsを作り、頑丈かつ安定したフレームワークにしてくれた多くの皆様については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
