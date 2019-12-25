@@ -60,51 +60,6 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 
 予期しなかった変更が発生した場合は、必ず差分を十分にチェックしてください。
 
-Rails 5.1からRails 5.2へのアップグレード
--------------------------------------
-
-Rails 5.2 の変更点の詳細は[リリースノート](5_2_release_notes.html)を参照してください。
-
-### Bootsnap
-
-Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)に bootsnap gem が追加されました。`boot.rb`の`app:update`タスクを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。`boot.rb`を変更し、bootsnapを使わないようにすることもできます。
-
-### 暗号化または署名付きcookieに有効期限情報が付与されました
-
-セキュリティ向上のため、Railsでは暗号化または署名付きcookieに有効期限情報を埋め込むようになりました。
-
-有効期限情報が付与されたcookieは、Rails 5.1 以前のバージョンとの互換性はありません。
-
-Rails 5.1 以前で新しいcookieを読み込みたい場合、もしくは Rails 5.2 でうまくデプロイできるか確認したい場合は (必要に応じてロールバックできるようにしたい場合は) `Rails.application.config.action_dispatch.use_authenticated_cookie_encryption` を `false` に設定してください。
-
-Rails 5.0からRails 5.1へのアップグレード
--------------------------------------
-
-Rails 5.1 の変更点の詳細は[リリースノート](5_1_release_notes.html)を参照してください。
-
-### トップレベルの`HashWithIndifferentAccess`が弱く非推奨化された
-
-アプリでトップレベルの`HashWithIndifferentAccess`クラスを使っている場合、すぐでなくてもよいので`ActiveSupport::HashWithIndifferentAccess`に置き換えてください。
-
-これは「弱い非推奨化」であり、しばらくは正常に動作し、非推奨警告も表示されません。ただし、この定数は将来削除されます。
-
-また、こうしたオブジェクトのダンプを含むかなり古いYAMLドキュメントがある場合は、YAMLを再度読み込み/ダンプして、正しい定数が参照されるようにしておく必要があるかもしれません。また、読み込みについては今後も行えます。
-
-### `application.secrets`ですべてのキーをシンボルとして読み込むようになった
-
-`config/secrets.yml`に保存されているアプリの設定がネストしている場合、すべてのキーがシンボルとして読み込まれます。このため、文字列による設定へのアクセス方法を以下のように変更する必要があります。
-
-変更前:
-
-```ruby
-Rails.application.secrets[:smtp_settings]["address"]
-```
-
-変更後:
-
-```ruby
-Rails.application.secrets[:smtp_settings][:address]
-```
 
 Rails 4.2からRails 5.0へのアップグレード
 -------------------------------------
