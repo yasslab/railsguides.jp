@@ -1,183 +1,184 @@
-Ruby on Rails 3.1 Release Notes
+Ruby on Rails 3.1 リリースノート
 ===============================
 
-Highlights in Rails 3.1:
+Rails 3.1の注目ポイント
 
-* Streaming
-* Reversible Migrations
-* Assets Pipeline
-* jQuery as the default JavaScript library
+* ストリーミング
+* 逆進可能なマイグレーション
+* アセットパイプラリン
+* jQueryがデフォルトのJavaScriptライブラリになった
 
-This release notes cover the major changes, but don't include every little bug fix and change. If you want to see everything, check out the [list of commits](https://github.com/rails/rails/commits/master) in the main Rails repository on GitHub.
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/3-1-stable)のchangelogを参照してください。
 
 --------------------------------------------------------------------------------
 
-Upgrading to Rails 3.1
+Rails 3.1へのアップグレード
 ----------------------
 
-If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 3 in case you haven't and make sure your application still runs as expected before attempting to update to Rails 3.1. Then take heed of the following changes:
+既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 3までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 3.1にアップデートしてください。以下の注意点を参照してからアップデートしてください。
 
-### Rails 3.1 requires at least Ruby 1.8.7
+### Rails 3.1ではRuby 1.8.7以上が必要
 
-Rails 3.1 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.1 is also compatible with Ruby 1.9.2.
+Rails 3.1ではRuby 1.8.7以上が必須です。これより前のバージョンのRubyのサポートは公式に廃止されたため、速やかにRubyをアップグレードすべきです。Rails 3.1はRuby 1.9.2とも互換性があります。
 
-TIP: Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults, so if you want to use 1.9.x jump on 1.9.2 for smooth sailing.
+TIP: Ruby 1.8.7のp248とp249には、Railsクラッシュの原因となるマーシャリングのバグがあります。なおRuby Enterprise Editionでは1.8.7-2010.02のリリースでこの問題が修正されました。現行のRuby 1.9のうち、Ruby 1.9.1はセグメンテーションフォールト（segfault）で完全にダウンするため利用できません。Railsをスムーズに動かすため、Ruby 1.9.xを使いたい場合は1.9.2をお使いください。
 
-### What to update in your apps
+### Railsのアップグレード方法
 
-The following changes are meant for upgrading your application to Rails 3.1.3, the latest 3.1.x version of Rails.
+以下の変更点は、アプリケーションをRail 3.1.x系の中で最新のRails 3.1.3にアップグレードする場合を想定しています。
 
 #### Gemfile
 
-Make the following changes to your `Gemfile`.
+`Gemfile`を以下のように変更します。
 
 ```ruby
 gem 'rails', '= 3.1.3'
 gem 'mysql2'
 
-# Needed for the new asset pipeline
+# 新しいアセットパイプラインで必要
 group :assets do
   gem 'sass-rails',   "~> 3.1.5"
   gem 'coffee-rails', "~> 3.1.1"
   gem 'uglifier',     ">= 1.0.3"
 end
 
-# jQuery is the default JavaScript library in Rails 3.1
+# Rails 3.1ではjQueryがデフォルトのJavaScriptライブラリとなる
 gem 'jquery-rails'
 ```
 
 #### config/application.rb
 
-* The asset pipeline requires the following additions:
+* アセットパイプラインのために以下の追加が必要です。
 
     ```ruby
     config.assets.enabled = true
     config.assets.version = '1.0'
     ```
 
-* If your application is using the "/assets" route for a resource you may want change the prefix used for assets to avoid conflicts:
+* アプリケーションで、リソースへのルーティングに"/assets"を使っている場合、必要に応じてプレフィックスを変更してアセットのコンフリクトを避けてください。
 
     ```ruby
-    # Defaults to '/assets'
+    # デフォルトは'/assets'
     config.assets.prefix = '/asset-files'
     ```
 
 #### config/environments/development.rb
 
-* Remove the RJS setting `config.action_view.debug_rjs = true`.
+* RJSの設定`config.action_view.debug_rjs = true`を削除します。
 
-* Add the following, if you enable the asset pipeline.
+* アセットパイプラインを有効にする場合は以下を追加します。
 
     ```ruby
-    # Do not compress assets
+    # アセットを圧縮しない
     config.assets.compress = false
 
-    # Expands the lines which load the assets
+    # アセットを読み込む行を拡大する
     config.assets.debug = true
     ```
 
 #### config/environments/production.rb
 
-* Again, most of the changes below are for the asset pipeline. You can read more about these in the [Asset Pipeline](asset_pipeline.html) guide.
+* 以下の変更のほとんどもアセットパイプライン用です。詳しくは[アセットパイプライン](asset_pipeline.html)ガイドを参照してください。
 
     ```ruby
-    # Compress JavaScripts and CSS
+    # JavaScriptsとCSSの圧縮
     config.assets.compress = true
 
-    # Don't fallback to assets pipeline if a precompiled asset is missed
+    # プリコンパイル済みアセットがない場合はアセットパイプラインにフォールバックしない
     config.assets.compile = false
 
-    # Generate digests for assets URLs
+    # アセットURL用のダイジェストを生成する
     config.assets.digest = true
 
-    # Defaults to Rails.root.join("public/assets")
+    # デフォルトはRails.root.join("public/assets")
     # config.assets.manifest = YOUR_PATH
 
-    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+    # 追加のアセットをプリコンパイルする（application.js、application.css、およびすべてのnon-JS/CSSは既に追加済み）
     # config.assets.precompile `= %w( search.js )
 
 
-    # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+    # アプリへの全アクセスのSSL、Strict-Transport-Security、secure cookieを強制する
     # config.force_ssl = true
     ```
 
 #### config/environments/test.rb
 
 ```ruby
-# Configure static asset server for tests with Cache-Control for performance
+# テストの静的アセットサーバーをCache-Controlで構成（パフォーマンス向上用）
 config.serve_static_assets = true
 config.static_cache_control = "public, max-age=3600"
 ```
 
 #### config/initializers/wrap_parameters.rb
 
-* Add this file with the following contents, if you wish to wrap parameters into a nested hash. This is on by default in new applications.
+* パラメータをラップしてネスト済みハッシュにしたい場合は、以下の内容のファイルを追加します。新規アプリケーションでは今後これがデフォルトになります。
 
     ```ruby
-    # Be sure to restart your server when you modify this file.
-    # This file contains settings for ActionController::ParamsWrapper which
-    # is enabled by default.
+    # このファイルを変更したら必ずサーバーをリスタートすること
+    # このファイルに含まれるActionController::ParamsWrapperの設定は
+    # デフォルトで有効になる
 
-    # Enable parameter wrapping for JSON. You can disable this by setting :format to an empty array.
+    # JSONパラメーターのラップを有効にする
+    # 空配列に:formatを設定すると無効にできる
     ActiveSupport.on_load(:action_controller) do
       wrap_parameters :format => [:json]
     end
 
-    # Disable root element in JSON by default.
+    # JSONのroot要素を無効にする（デフォルト）
     ActiveSupport.on_load(:active_record) do
       self.include_root_in_json = false
     end
     ```
 
-#### Remove :cache and :concat options in asset helpers references in views
+#### ビューのアセットヘルパー参照から`:cache`と`:concat`オプションを削除する
 
-* With the Asset Pipeline the :cache and :concat options aren't used anymore, delete these options from your views.
+* アセットパイプラインの`:cache`と`:concat`オプションは今後使われないので、このオプションをビューから削除します。
 
-Creating a Rails 3.1 application
+Rails 3.1アプリケーションを作成する
 --------------------------------
 
 ```bash
-# You should have the 'rails' RubyGem installed
+# 以下を実行する前に'rails RubyGemをインストールしておくこと
 $ rails new myapp
 $ cd myapp
 ```
 
-### Vendoring Gems
+### gemに移行する
 
-Rails now uses a `Gemfile` in the application root to determine the gems you require for your application to start. This `Gemfile` is processed by the [Bundler](https://github.com/carlhuda/bundler) gem, which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.
+現在のRailsでは、アプリケーションのルートディレクトリに置かれる`Gemfile`を使って、アプリケーションの起動に必要なgemを指定します。この`Gemfile`は[Bundler](https://github.com/carlhuda/bundler)というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。
 
-More information: - [bundler homepage](http://gembundler.com)
+詳細情報: [Bundlerホームページ](https://bundler.io/)
 
-### Living on the Edge
+### 最新のgemを使う
 
-`Bundler` and `Gemfile` makes freezing your Rails application easy as pie with the new dedicated `bundle` command. If you want to bundle straight from the Git repository, you can pass the `--edge` flag:
+`Bundler`と`Gemfile`のおかげで、専用の`bundle`コマンド一発でRailsアプリケーションのgemを簡単に安定させることができます。Gitリポジトリから直接bundleしたい場合は`--edge`フラグを追加します。
 
-```bash
+```
 $ rails new myapp --edge
 ```
 
-If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the `--dev` flag:
+Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使ってアプリケーションを生成したい場合は、`--dev`フラグを追加します。
 
-```bash
+```
 $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 ```
 
-Rails Architectural Changes
+Railsアーキテクチャの変更点
 ---------------------------
 
-### Assets Pipeline
+### アセットパイプライン
 
-The major change in Rails 3.1 is the Assets Pipeline. It makes CSS and JavaScript first-class code citizens and enables proper organization, including use in plugins and engines.
+アセットパイプライン（Assets Pipeline）はRails 3.1の大きな変更点です。アセットパイプラインは、CSSやJavaScriptのコードを第一級市民として扱い、プラグインやエンジンの利用を含めて正式に編成できるようにします。
 
-The assets pipeline is powered by [Sprockets](https://github.com/sstephenson/sprockets) and is covered in the [Asset Pipeline](asset_pipeline.html) guide.
+アセットパイプラインは[Sprockets](https://github.com/sstephenson/sprockets)によって強化されています。また、[アセットパイプライン](asset_pipeline.html)ガイドに解説があります。
 
-### HTTP Streaming
+### HTTPストリーミング
 
-HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of nginx and unicorn is ready to take advantage of it.
+HTTPストリーミングもRails 3.1の変更点のひとつです。これにより、サーバーがレスポンス生成の途中でもスタイルシートやJavaScriptファイルをブラウザからダウンロードできるようになります。利用にはRuby 1.9.2の他に、Webサーバーでのサポートも必要ですが、よく使われているNginxとUnicornの組み合わせで利用可能です。
 
-### Default JS library is now jQuery
+### デフォルトのJSライブラリがjQueryになった
 
-jQuery is the default JavaScript library that ships with Rails 3.1. But if you use Prototype, it's simple to switch.
+Rails 3.1で同梱されるデフォルトのJavaScriptがjQueryになりました。Prototype.jsを使いたい場合は以下のように簡単に切り替えられます。
 
 ```bash
 $ rails new myapp -j prototype
@@ -185,59 +186,59 @@ $ rails new myapp -j prototype
 
 ### Identity Map
 
-Active Record has an Identity Map in Rails 3.1. An identity map keeps previously instantiated records and returns the object associated with the record if accessed again. The identity map is created on a per-request basis and is flushed at request completion.
+Rails 3.1のActive RecordにIdentity Mapが搭載されました。Identity Mapは直前にインスタンス化された複数のレコードを保持し、次のアクセス時にそのレコードに関連付けられたオブジェクトを返します。Identity Mapはリクエストごとに作成され、リクエストの完了時に破棄されます。
 
-Rails 3.1 comes with the identity map turned off by default.
+Rails 3.1のIdentity Mapはデフォルトでオフになっています（訳注: Identity Mapはその後Rails 4.0で削除されました）。
 
 Railties
 --------
 
-* jQuery is the new default JavaScript library.
+* jQueryが新たにデフォルトのJavaScriptライブラリになりました。
 
-* jQuery and Prototype are no longer vendored and is provided from now on by the jquery-rails and prototype-rails gems.
+* jQueryやPrototype.jsは今後ベンダリングされません。代わりにjquery-rails gemやprototype-rails gemで提供されます。
 
-* The application generator accepts an option `-j` which can be an arbitrary string. If passed "foo", the gem "foo-rails" is added to the `Gemfile`, and the application JavaScript manifest requires "foo" and "foo_ujs". Currently only "prototype-rails" and "jquery-rails" exist and provide those files via the asset pipeline.
+* アプリケーションジェネレータで、任意の文字列を取れる`-j`オプションを使えるようになりました。"foo"を渡すと`Gemfile`に"foo-rails" gemが追加され、アプリケーションのJavaScriptマニフェストで"foo"と"foo_ujs"がrequireされます。現時点では"prototype-rails"と"jquery-rails"のみが存在し、それらのファイルはアセットパイプライン経由で提供されます。
 
-* Generating an application or a plugin runs `bundle install` unless `--skip-gemfile` or `--skip-bundle` is specified.
+* アプリやプラグインの生成時に`--skip-gemfile`や`--skip-bundle`を指定しない場合、`bundle install`を実行します。
 
-* The controller and resource generators will now automatically produce asset stubs (this can be turned off with `--skip-assets`). These stubs will use CoffeeScript and Sass, if those libraries are available.
+* コントローラやリソースをジェネレータで生成すると、アセットのスタブが自動で作成されるようになりました（`--skip-assets`でオフにできます）。CoffeeScriptやSassのライブラリが利用可能な場合、生成されたスタブでCoffeeScriptやSassが使われます。
 
-* Scaffold and app generators use the Ruby 1.9 style hash when running on Ruby 1.9. To generate old style hash, `--old-style-hash` can be passed.
+* scaffoldやアプリをRuby 1.9で生成すると、ハッシュのスタイルがRuby 1.9のスタイルになります。`--old-style-hash`を渡すと従来のハッシュスタイルで生成できます。
 
-* Scaffold controller generator creates format block for JSON instead of XML.
+* scaffoldのコントローラジェネレータが、XMLフォーマットブロックに代えてJSONフォーマットブロックを生成するようになりました。
 
-* Active Record logging is directed to STDOUT and shown inline in the console.
+* コンソールでActive RecordログがSTDOUTにインライン出力されるようになりました。
 
-* Added `config.force_ssl` configuration which loads `Rack::SSL` middleware and force all requests to be under HTTPS protocol.
+* 設定に`config.force_ssl`が追加されました。これは`Rack::SSL`ミドルウェアを読み込んであらゆるリクエストを強制的にHTTPSプロトコルにします。
 
-* Added `rails plugin new` command which generates a Rails plugin with gemspec, tests and a dummy application for testing.
+* Railsプラグインを生成する`rails plugin new`コマンドが追加されました。生成されるプラグインにはgemspec、テスト、テスト用ダミーアプリケーションが含まれます。
 
-* Added `Rack::Etag` and `Rack::ConditionalGet` to the default middleware stack.
+* `Rack::Etag`と`Rack::ConditionalGet`がデフォルトのミドルウェアスタックに追加されました。
 
-* Added `Rack::Cache` to the default middleware stack.
+* `Rack::Cache`がデフォルトのミドルウェアスタックに追加されます。
 
-* Engines received a major update - You can mount them at any path, enable assets, run generators etc.
+* エンジンでメジャーアップデートが行われました。任意のパスをマウントする、アセットの有効化、ジェネレータの実行などを含みます。
 
 Action Pack
 -----------
 
 ### Action Controller
 
-* A warning is given out if the CSRF token authenticity cannot be verified.
+* CSRFトークンの認証を照合できない場合にwarningが出力されるようになりました。
 
-* Specify `force_ssl` in a controller to force the browser to transfer data via HTTPS protocol on that particular controller. To limit to specific actions, `:only` or `:except` can be used.
+* 特定のコントローラで`force_ssl`を指定すると、そのコントローラからブラウザにHTTPSプロトコルによるデータ通信を強制できるようになりました。HTTPSを特定のアクションに限定する`:only`や`:except`も利用できます。
 
-* Sensitive query string parameters specified in `config.filter_parameters` will now be filtered out from the request paths in the log.
+* （個人情報などの）重要な情報を含むクエリ文字列パラメータを`config.filter_parameters`で指定すると、そのリクエストパスをクエリのログから除外できるようになりました。
 
-* URL parameters which return `nil` for `to_param` are now removed from the query string.
+* `to_param`すると`nil`を返すURLパラメータは、クエリ文字列から削除されるようになりました。
 
-* Added `ActionController::ParamsWrapper` to wrap parameters into a nested hash, and will be turned on for JSON request in new applications by default. This can be customized in `config/initializers/wrap_parameters.rb`.
+* パラメータをラップしてnestedハッシュにする`ActionController::ParamsWrapper`が追加されました。かつ、新しいアプリのJSONリクエストではこの機能がデフォルトでオンになります。`config/initializers/wrap_parameters.rb`でカスタマイズできます。
 
-* Added `config.action_controller.include_all_helpers`. By default `helper :all` is done in `ActionController::Base`, which includes all the helpers by default. Setting `include_all_helpers` to `false` will result in including only application_helper and the helper corresponding to controller (like foo_helper for foo_controller).
+* `config.action_controller.include_all_helpers`が追加されました。デフォルトでは、`ActionController::Base`で`helper :all`が適用されます（デフォルトですべてのヘルパーを含む）。`include_all_helpers`設定を`false`にすると、`application_helper`と、コントローラ名に対応するヘルパー（例: foo_controllerの場合はfoo_helper）だけが含まれます。
 
-* `url_for` and named url helpers now accept `:subdomain` and `:domain` as options.
+* `url_for`や名前付きURLヘルパーで`:subdomain`オプションや`:domain`オプションを指定できるようになりました。
 
-* Added `Base.http_basic_authenticate_with` to do simple http basic authentication with a single class method call.
+* `Base.http_basic_authenticate_with`が追加されました。このクラスメソッドを1度呼び出すだけでシンプルなHTTP BASIC認証を行えます。
 
     ```ruby
     class PostsController < ApplicationController
@@ -246,11 +247,11 @@ Action Pack
       before_filter :authenticate, :except => [ :index ]
 
       def index
-        render :text => "Everyone can see me!"
+        render :text => "ここは誰でも見える！"
       end
 
       def edit
-        render :text => "I'm only accessible if you know the password"
+        render :text => "ここはパスワードを知らないと見えない"
       end
 
       private
@@ -262,23 +263,23 @@ Action Pack
     end
     ```
 
-    ..can now be written as
+    上のコードは以下のように書けます。
 
     ```ruby
     class PostsController < ApplicationController
       http_basic_authenticate_with :name => "dhh", :password => "secret", :except => :index
 
       def index
-        render :text => "Everyone can see me!"
+        render :text => "ここは誰でも見える！"
       end
 
       def edit
-        render :text => "I'm only accessible if you know the password"
+        render :text => "ここはパスワードを知らないと見えない"
       end
     end
     ```
 
-* Added streaming support, you can enable it with:
+* ストリーミングのサポートが追加されました。有効にするには以下のようにします。
 
     ```ruby
     class PostsController < ActionController::Base
@@ -286,69 +287,69 @@ Action Pack
     end
     ```
 
-    You can restrict it to some actions by using `:only` or `:except`. Please read the docs at [`ActionController::Streaming`](http://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html) for more information.
+    `:only`や`:except`を用いてストリーミングを特定のアクションに限定できます。詳しくは[`ActionController::Streaming`](https://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html)を参照してください。
 
-* The redirect route method now also accepts a hash of options which will only change the parts of the url in question, or an object which responds to call, allowing for redirects to be reused.
+* ルーティングの`redirect`メソッドが、対象URLの一部のみを変更するオプションハッシュを1つ受け取ることも、呼び出しに応答できるオブジェクト（リダイレクトで再利用できる）を1つ受け取ることもできるようになりました。
 
 ### Action Dispatch
 
-* `config.action_dispatch.x_sendfile_header` now defaults to `nil` and `config/environments/production.rb` doesn't set any particular value for it. This allows servers to set it through `X-Sendfile-Type`.
+* `config.action_dispatch.x_sendfile_header`がデフォルトで`nil`になりました。なおこの設定は`config/environments/production.rb`にはデフォルトで値が設定されません。サーバーは`X-Sendfile-Type`で値を設定できます。
 
-* `ActionDispatch::MiddlewareStack` now uses composition over inheritance and is no longer an array.
+* `ActionDispatch::MiddlewareStack`が「継承よりコンポジション」を採用し、配列を使わなくなりました。
 
-* Added `ActionDispatch::Request.ignore_accept_header` to ignore accept headers.
+* acceptヘッダーを無視できる`ActionDispatch::Request.ignore_accept_header`が追加されました。
 
-* Added `Rack::Cache` to the default stack.
+* `Rack::Cache`がデフォルトスタックに追加されました。
 
-* Moved etag responsibility from `ActionDispatch::Response` to the middleware stack.
+* etagの責務が`ActionDispatch::Response`ミドルウェアスタックに移動しました。
 
-* Rely on `Rack::Session` stores API for more compatibility across the Ruby world. This is backwards incompatible since `Rack::Session` expects `#get_session` to accept four arguments and requires `#destroy_session` instead of simply `#destroy`.
+* Ruby世界全体との互換性を高めるAPIを含む`Rack::Session`依存するようになりました。これにより後方互換性が失われます。理由は`Rack::Session`が`#get_session`で引数を4つ受け取ることを期待するのと、単なる`#destroy`ではなく`#destroy_session`が必須であるためです。
 
-* Template lookup now searches further up in the inheritance chain.
+* テンプレートが継承チェインまで深く探索するようになりました。
 
 ### Action View
 
-* Added an `:authenticity_token` option to `form_tag` for custom handling or to omit the token by passing `:authenticity_token => false`.
+* `:authenticity_token`オプションが`form_tag`に追加されました。これはカスタムハンドリングに使ったり、`:authenticity_token => false`を渡してトークンを省略したりできます。
 
-* Created `ActionView::Renderer` and specified an API for `ActionView::Context`.
+* `ActionView::Renderer`を作成し、`ActionView::Context`のAPIを指定しました。
 
-* In place `SafeBuffer` mutation is prohibited in Rails 3.1.
+* `SafeBuffer`をインプレースで改変することはRuby 3.1で禁止されました。
 
-* Added HTML5 `button_tag` helper.
+* HTML5の`button_tag`ヘルパーが追加されました。
 
-* `file_field` automatically adds `:multipart => true` to the enclosing form.
+* `file_field`に、`:multipart => true`が自動的に同封フォームに追加されるようになりました。
 
-* Added a convenience idiom to generate HTML5 data-* attributes in tag helpers from a `:data` hash of options:
+* オプションの`:data`ハッシュでHTML5の`data-*`属性を追加するのに便利なイディオムがタグヘルパーに追加されました。
 
     ```ruby
     tag("div", :data => {:name => 'Stephen', :city_state => %w(Chicago IL)})
     # => <div data-name="Stephen" data-city-state="[&quot;Chicago&quot;,&quot;IL&quot;]" />
     ```
 
-Keys are dasherized. Values are JSON-encoded, except for strings and symbols.
+キーはハイフンつなぎに変換され、値は文字列とシンボルを除いてJSONエンコードされます。
 
-* `csrf_meta_tag` is renamed to `csrf_meta_tags` and aliases `csrf_meta_tag` for backwards compatibility.
+* `csrf_meta_tag`が`csrf_meta_tags`にリネームされ、後方互換性のために`csrf_meta_tag`エイリアスが置かれました。
 
-* The old template handler API is deprecated and the new API simply requires a template handler to respond to call.
+* 旧来のテンプレートハンドラAPIは非推奨となり、新しいAPIでは単にcallに応答するテンプレートハンドラが要求されるようになりました。
 
-* rhtml and rxml are finally removed as template handlers.
+* テンプレートハンドラのrhtmlやrxmlが最終的に削除されました。
 
-* `config.action_view.cache_template_loading` is brought back which allows to decide whether templates should be cached or not.
+* テンプレートをキャッシュすべきかどうかを指定する`config.action_view.cache_template_loading`が復活しました。
 
-* The submit form helper does not generate an id "object_name_id" anymore.
+* submitフォームヘルパーで"object_name_id"というidは今後生成されません。
 
-* Allows `FormHelper#form_for` to specify the `:method` as a direct option instead of through the `:html` hash. `form_for(@post, remote: true, method: :delete)` instead of `form_for(@post, remote: true, html: { method: :delete })`.
+* `FormHelper#form_for`で、`:method`を`:html`ハッシュではなく直接のオプションとして指定できるようになりました。`form_for(@post, remote: true, html: { method: :delete })`ではなく、`form_for(@post, remote: true, method: :delete)`のように指定します。
 
-* Provided `JavaScriptHelper#j()` as an alias for `JavaScriptHelper#escape_javascript()`. This supersedes the `Object#j()` method that the JSON gem adds within templates using the JavaScriptHelper.
+* `JavaScriptHelper#escape_javascript()`のエイリアス`JavaScriptHelper#j()`が提供されました。これは、JSON gemがJavaScriptHelperを用いるテンプレート内に追加する`Object#j()`メソッドに代わる後継メソッドとなります。
 
-* Allows AM/PM format in datetime selectors.
+* 日時セレクタでAM/PM形式が利用できるようになりました。
 
-* `auto_link` has been removed from Rails and extracted into the [rails_autolink gem](https://github.com/tenderlove/rails_autolink)
+* `auto_link`がRailsから削除され、[rails_autolink](https://github.com/tenderlove/rails_autolink) gemに切り出されました。
 
 Active Record
 -------------
 
-* Added a class method `pluralize_table_names` to singularize/pluralize table names of individual models. Previously this could only be set globally for all models through `ActiveRecord::Base.pluralize_table_names`.
+* 個別のモデルのテーブル名を単数形や複数形にする`pluralize_table_names`というクラスメソッドが追加されました。従来は`ActiveRecord::Base.pluralize_table_names`を用いて全モデルでグローバルにしか設定できませんでした。
 
     ```ruby
     class User < ActiveRecord::Base
@@ -356,7 +357,7 @@ Active Record
     end
     ```
 
-* Added block setting of attributes to singular associations. The block will get called after the instance is initialized.
+* 単一の関連付け（`has_one`や`belongs_to`）に属性を設定するブロックが追加されました。このブロックはインスタンスが初期化された後に呼び出されます。
 
     ```ruby
     class User < ActiveRecord::Base
@@ -366,11 +367,11 @@ Active Record
     user.build_account{ |a| a.credit_limit = 100.0 }
     ```
 
-* Added `ActiveRecord::Base.attribute_names` to return a list of attribute names. This will return an empty array if the model is abstract or the table does not exist.
+* 属性名のリストを返す`ActiveRecord::Base.attribute_names`が追加されました。抽象モデルの場合やモデルにテーブルがない場合は空の配列を返します。
 
-* CSV Fixtures are deprecated and support will be removed in Rails 3.2.0.
+* CSVフィクスチャーが非推奨になりました。同サポートはRails 3.2.0で削除される予定です。
 
-* `ActiveRecord#new`, `ActiveRecord#create` and `ActiveRecord#update_attributes` all accept a second hash as an option that allows you to specify which role to consider when assigning attributes. This is built on top of Active Model's new mass assignment capabilities:
+* `ActiveRecord#new`、`ActiveRecord#create`、`ActiveRecord#update_attributes`がすべてオプションハッシュをもうひとつ取れるようになりました。この第2ハッシュを用いて、属性への代入時に考慮されるロールを指定できます。この機能は、Active Modelの新しいマスアサインメント機能の上に構築されます。
 
     ```ruby
     class Post < ActiveRecord::Base
@@ -381,21 +382,21 @@ Active Record
     Post.new(params[:post], :as => :admin)
     ```
 
-* `default_scope` can now take a block, lambda, or any other object which responds to call for lazy evaluation.
+* `default_scope`がブロックやlambdaや（遅延評価の呼び出しに応答する）任意のオブジェクトを1つ取れるようになりました。
 
-* Default scopes are now evaluated at the latest possible moment, to avoid problems where scopes would be created which would implicitly contain the default scope, which would then be impossible to get rid of via Model.unscoped.
+* デフォルトスコープが、可能な限り最新のタイミングで評価されるようになりました。これは、デフォルトスコープを含むスコープが暗黙で作成されると`Model.unscoped`を用いてスコープが削除できなくなることがある問題を回避するためのものです。
 
-* PostgreSQL adapter only supports PostgreSQL version 8.2 and higher.
+* PostgreSQLアダプタでサポートされるPostgreSQLバージョンが8.2以降のみとなりました。
 
-* `ConnectionManagement` middleware is changed to clean up the connection pool after the rack body has been flushed.
+* `ConnectionManagement`ミドルウェアが変更され、rackの本体が破棄された後でコネクションプールをクリーンアップするようになりました。
 
-* Added an `update_column` method on Active Record. This new method updates a given attribute on an object, skipping validations and callbacks. It is recommended to use `update_attributes` or `update_attribute` unless you are sure you do not want to execute any callback, including the modification of the `updated_at` column. It should not be called on new records.
+* Active Recordに`update_column`メソッドが新たに追加されました。これはオブジェクト上で指定の属性を更新し、バリデーションやコールバックをスキップしますが、（`updated_at`カラムの変更を含む）コールバックを一切実行したくない事情があるのでなければ、この`update_column`ではなく`update_attributes`か`update_attribute`をおすすめします。新規レコードに対して`update_column`メソッドを呼び出すべきではありません。
 
-* Associations with a `:through` option can now use any association as the through or source association, including other associations which have a `:through` option and `has_and_belongs_to_many` associations.
+* `:through`オプションを用いる関連付けで、（`:through`オプションと`has_and_belongs_to_many`関連付けの両方を持つ関連付けなどを含む）任意の関連付けをthrough関連付けやsource関連付けとして利用できるようになりました。
 
-* The configuration for the current database connection is now accessible via `ActiveRecord::Base.connection_config`.
+* `ActiveRecord::Base.connection_config`で現在のデータベース接続の設定にアクセスできるようになりました。
 
-* limits and offsets are removed from COUNT queries unless both are supplied.
+* COUNTクエリで`limit`と`offset`を両方指定しない限り、LIMITとOFFSETが削除されるようになりました。
 
     ```ruby
     People.limit(1).count           # => 'SELECT COUNT(*) FROM people'
@@ -403,21 +404,21 @@ Active Record
     People.limit(1).offset(1).count # => 'SELECT COUNT(*) FROM people LIMIT 1 OFFSET 1'
     ```
 
-* `ActiveRecord::Associations::AssociationProxy` has been split. There is now an `Association` class (and subclasses) which are responsible for operating on associations, and then a separate, thin wrapper called `CollectionProxy`, which proxies collection associations. This prevents namespace pollution, separates concerns, and will allow further refactorings.
+* `ActiveRecord::Associations::AssociationProxy`が分割されました。`Association`クラス（およびサブクラス）は関連付けへの操作を担当し、それとは別の`CollectionProxy`というラッパーはコレクション関連付けをプロキシします。これによって名前空間の汚染を防止し、concernsが分離されるので、リファクタリングをさらに進められるようになります。
 
-* Singular associations (`has_one`, `belongs_to`) no longer have a proxy and simply returns the associated record or `nil`. This means that you should not use undocumented methods such as `bob.mother.create` - use `bob.create_mother` instead.
+* 単一の関連付け（`has_one`や`belongs_to`）にプロキシが含まれなくなり、関連付けられたレコードか`nil`のいずれかを単に返すようになりました。これは、`bob.mother.create`のようなドキュメントのないメソッドを使うべきではないという意図を表しています。今後は`bob.create_mother`などをお使いください。
 
-* Support the `:dependent` option on `has_many :through` associations. For historical and practical reasons, `:delete_all` is the default deletion strategy employed by `association.delete(*records)`, despite the fact that the default strategy is `:nullify` for regular has_many. Also, this only works at all if the source reflection is a belongs_to. For other situations, you should directly modify the through association.
+* `has_many :through`関連付けで`:dependent`オプションがサポートされるようになりました。通常のhas_many関連付けでは`:nullify`がデフォルトの削除ストラテジーですが、歴史的な理由と実用上の理由によって、`association.delete(*records)`の`:delete_all`がデフォルトの削除ストラテジーとなっています。また、この機能をすべて使えるのは、ソースリフレクションがbelongs_toの場合に限られます。それ以外の場合は、through関連付けを直接変更すべきです。
 
-* The behavior of `association.destroy` for `has_and_belongs_to_many` and `has_many :through` is changed. From now on, 'destroy' or 'delete' on an association will be taken to mean 'get rid of the link', not (necessarily) 'get rid of the associated records'.
+* `has_and_belongs_to_many`や`has_many :through`における`association.destroy`の振る舞いが変更されました。今後、ある関連付けにおけるdestroyやdeleteは、「関連付けられたそのレコードを必ず削除する」ではなく、「そのリンクを削除する」と認識されます。
 
-* Previously, `has_and_belongs_to_many.destroy(*records)` would destroy the records themselves. It would not delete any records in the join table. Now, it deletes the records in the join table.
+* 従来の`has_and_belongs_to_many.destroy(*records)`はレコードそのものをdestroyし、joinテーブルのレコードは削除しませんでした。今後はjoinテーブルのレコードを削除します。
 
-* Previously, `has_many_through.destroy(*records)` would destroy the records themselves, and the records in the join table. [Note: This has not always been the case; previous version of Rails only deleted the records themselves.] Now, it destroys only the records in the join table.
+* 従来の`has_many_through.destroy(*records)`はレコードそのものをdestroyし、joinテーブルのレコードは削除しませんでした[メモ: これは常にそうとは限りませんでした。従来バージョンのRailsではレコードそのものだけが削除されました]。今後はjoinテーブルのレコードだけを削除します。
 
-* Note that this change is backwards-incompatible to an extent, but there is unfortunately no way to 'deprecate' it before changing it. The change is being made in order to have consistency as to the meaning of 'destroy' or 'delete' across the different types of associations. If you wish to destroy the records themselves, you can do `records.association.each(&:destroy)`.
+* この変更によって後方互換性がある程度失われますが、残念ながら、この変更を実施する前に「非推奨化する」方法がありません。この変更は、さまざまな関連付けの種類全体でdestroyやdeleteの意味を統一するために実施中です。レコードそのものをdestroyしたい場合は`records.association.each(&:destroy)`が使えます。
 
-* Add `:bulk => true` option to `change_table` to make all the schema changes defined in a block using a single ALTER statement.
+* `:bulk => true`オプションが`change_table`に追加されました。これはあらゆるスキーマ変更を、ブロック内で1つのALTERステートメントを用いて定義します。
 
     ```ruby
     change_table(:users, :bulk => true) do |t|
@@ -426,11 +427,11 @@ Active Record
     end
     ```
 
-* Removed support for accessing attributes on a `has_and_belongs_to_many` join table. `has_many :through` needs to be used.
+* `has_and_belongs_to_many`のjoinテーブルで属性にアクセスするためのサポートが削除されました。`has_many :through`を利用する必要があります。
 
-* Added a `create_association!` method for `has_one` and `belongs_to` associations.
+* `create_association!`メソッドが追加されました。`has_one`関連付けや`belongs_to`関連付けで利用できます。
 
-* Migrations are now reversible, meaning that Rails will figure out how to reverse your migrations. To use reversible migrations, just define the `change` method.
+* マイグレーションがリバース（巻き戻し）可能になりました。つまりRailsがマイグレーションをリバースする方法を認識できるということです。リバース可能なマイグレーションを利用するには、以下のように単に`change`メソッドを定義します。
 
     ```ruby
     class MyMigration < ActiveRecord::Migration
@@ -443,38 +444,38 @@ Active Record
     end
     ```
 
-* Some things cannot be automatically reversed for you. If you know how to reverse those things, you should define `up` and `down` in your migration. If you define something in change that cannot be reversed, an `IrreversibleMigration` exception will be raised when going down.
+* 自動的にはリバース可能にならないものもあります。リバースする方法を自分が知っているのであれば、マイグレーションで`up`や`down`を定義すべきです。`change`の中にリバースできないものがあると、リバース中に`IrreversibleMigration`例外が発生します。
 
-* Migrations now use instance methods rather than class methods:
+* マイグレーションで、クラスメソッドではなくインスタンスメソッドが使われるようになりました。
 
     ```ruby
     class FooMigration < ActiveRecord::Migration
-      def up # Not self.up
+      def up # self.upではなくなった
         ...
       end
     end
     ```
 
-* Migration files generated from model and constructive migration generators (for example, add_name_to_users) use the reversible migration's `change` method instead of the ordinary `up` and `down` methods.
+* モデルから生成したマイグレーションファイルや、構成可能なマイグレーションジェネレータで生成したマイグレーションファイル（add_name_to_usersなど）で、通常の`up`メソッドや`down`メソッドではなく、リバース可能な`change`メソッドが使われるようになりました。
 
-* Removed support for interpolating string SQL conditions on associations. Instead, a proc should be used.
+* 関連付けで文字列のSQL条件を展開する機能のサポートが削除されました。今後は`proc`を使うべきです。
 
     ```ruby
-    has_many :things, :conditions => 'foo = #{bar}'          # before
-    has_many :things, :conditions => proc { "foo = #{bar}" } # after
+    has_many :things, :conditions => 'foo = #{bar}'          # 従来
+    has_many :things, :conditions => proc { "foo = #{bar}" } # 今後
     ```
 
-    Inside the proc, `self` is the object which is the owner of the association, unless you are eager loading the association, in which case `self` is the class which the association is within.
+    `proc`の内部では、関連付けをeager loadingしない限り、関連付けのオーナーは`self`というオブジェクトになります。ここで`self`は、関連付けを含んでいるクラスを表します。
 
-    You can have any "normal" conditions inside the proc, so the following will work too:
+    `proc`の内部では「通常の」条件を何でも使えるので、以下も機能します。
 
     ```ruby
     has_many :things, :conditions => proc { ["foo = ?", bar] }
     ```
 
-* Previously `:insert_sql` and `:delete_sql` on `has_and_belongs_to_many` association allowed you to call 'record' to get the record being inserted or deleted. This is now passed as an argument to the proc.
+* 従来は`has_and_belongs_to_many`関連付けの`:insert_sql`メソッドや`:delete_sql`メソッドで「レコード」を呼び出すことで、挿入されるレコードや削除されるレコードを取得できました。今後これらのレコードは引数としてそのprocに渡されるようになりました。
 
-* Added `ActiveRecord::Base#has_secure_password` (via `ActiveModel::SecurePassword`) to encapsulate dead-simple password usage with BCrypt encryption and salting.
+* `ActiveRecord::Base#has_secure_password`（`ActiveModel::SecurePassword`を利用）が追加されました。BCrypt暗号化やsalt追加が使える極めてシンプルなパスワード利用機能がこのメソッドにカプセル化されています。
 
     ```ruby
     # Schema: User(name:string, password_digest:string, password_salt:string)
@@ -483,37 +484,37 @@ Active Record
     end
     ```
 
-* When a model is generated `add_index` is added by default for `belongs_to` or `references` columns.
+* モデルを生成するときに、`belongs_to`や`references`カラムにデフォルトで`add_index`が追加されるようになりました。
 
-* Setting the id of a `belongs_to` object will update the reference to the object.
+* `belongs_to`オブジェクトのidを設定すると、そのオブジェクトの参照が更新されるようになりました。
 
-* `ActiveRecord::Base#dup` and `ActiveRecord::Base#clone` semantics have changed to closer match normal Ruby dup and clone semantics.
+* `ActiveRecord::Base#dup`や`ActiveRecord::Base#clone`のセマンティクス（意味付け）が変更され、Rubyの通常の`dup`や`clone`のセマンティクスに近くなりました。
 
-* Calling `ActiveRecord::Base#clone` will result in a shallow copy of the record, including copying the frozen state. No callbacks will be called.
+* `ActiveRecord::Base#clone`を呼ぶと、frozenされたステートのコピーを含むレコードの浅い（shallow）コピーが返されます。コールバックは呼ばれません。
 
-* Calling `ActiveRecord::Base#dup` will duplicate the record, including calling after initialize hooks. Frozen state will not be copied, and all associations will be cleared. A duped record will return `true` for `new_record?`, have a `nil` id field, and is saveable.
+* `ActiveRecord::Base#dup`を呼ぶとレコードが複製され、after_initializeフックも呼び出されます。frozenなステートはコピーされず、関連付けはすべてクリアされます。`dup`されたレコードは`new_record?`で`true`を返し、idフィールドは`nil`に設定され、かつ保存可能になります。
 
-* The query cache now works with prepared statements. No changes in the applications are required.
+* クエリキャッシュがprepared statmentで使えるようになりました。アプリケーションの変更は不要です。
 
 Active Model
 ------------
 
-* `attr_accessible` accepts an option `:as` to specify a role.
+* `attr_accessible`で`:as`オプションを用いてロールを指定できるようになりました。
 
-* `InclusionValidator`, `ExclusionValidator`, and `FormatValidator` now accepts an option which can be a proc, a lambda, or anything that respond to `call`. This option will be called with the current record as an argument and returns an object which respond to `include?` for `InclusionValidator` and `ExclusionValidator`, and returns a regular expression object for `FormatValidator`.
+* `InclusionValidator`、`ExclusionValidator`、`FormatValidator`が、ブロックやlambda、または`call`に応答する任意のオブジェクトをオプションとして1つ取れるようになりました。このオプションは現在のレコードを引数として呼び出され、`InclusionValidator`や`ExclusionValidator`の場合は`include?`に応答するオブジェクトを1つ返し、`FormatValidator`の場合は正規表現オブジェクトを1つ返します。
 
-* Added `ActiveModel::SecurePassword` to encapsulate dead-simple password usage with BCrypt encryption and salting.
+* `ActiveModel::SecurePassword`が追加されました。BCrypt暗号化やsalt追加が使える極めてシンプルなパスワード利用機能がこのメソッドにカプセル化されています。
 
-* `ActiveModel::AttributeMethods` allows attributes to be defined on demand.
+* `ActiveModel::AttributeMethods`で属性を必要に応じて定義できるようになりました。
 
-* Added support for selectively enabling and disabling observers.
+* オブザーバー（observer）を選択的に有効にしたり無効にしたりする機能が追加されました。
 
-* Alternate `I18n` namespace lookup is no longer supported.
+* `I18n`名前空間を交互に探索する機能はサポートされなくなりました。
 
 Active Resource
 ---------------
 
-* The default format has been changed to JSON for all requests. If you want to continue to use XML you will need to set `self.format = :xml` in the class. For example,
+* すべてのリクエストでデフォルトのフォーマットがJSONに変更されました。XMLを使い続けたい場合は、次のようにこのクラスで`self.format = :xml`を設定する必要があります。
 
     ```ruby
     class User < ActiveResource::Base
@@ -524,33 +525,33 @@ Active Resource
 Active Support
 --------------
 
-* `ActiveSupport::Dependencies` now raises `NameError` if it finds an existing constant in `load_missing_constant`.
+* `ActiveSupport::Dependencies`で既存の定数が`load_missing_constant`にある場合に`NameError`をraiseするようになりました。
 
-* Added a new reporting method `Kernel#quietly` which silences both `STDOUT` and `STDERR`.
+* レポート用メソッド`Kernel#quietly`が新たに追加されました。これは`STDOUT`と`STDERR`を両方とも抑制します。
 
-* Added `String#inquiry` as a convenience method for turning a String into a `StringInquirer` object.
+* `String#inquiry`が追加されました。これは文字列を`StringInquirer`オブジェクトに変換するのに便利です。
 
-* Added `Object#in?` to test if an object is included in another object.
+* `Object#in?`が追加されました。これはオブジェクトが別のオブジェクトに含まれているかどうかをテストします。
 
-* `LocalCache` strategy is now a real middleware class and no longer an anonymous class.
+* `LocalCache`ストラテジーが、無名クラスではなくミドルウェアに実在するクラスになりました。
 
-* `ActiveSupport::Dependencies::ClassCache` class has been introduced for holding references to reloadable classes.
+* `ActiveSupport::Dependencies::ClassCache`クラスが導入されました。再読み込み可能なクラスへの参照がこのクラスに保持されます。
 
-* `ActiveSupport::Dependencies::Reference` has been refactored to take direct advantage of the new `ClassCache`.
+* `ActiveSupport::Dependencies::Reference`がリファクタリングされ、新しい`ClassCache`を直接利用するようになりました。
 
-* Backports `Range#cover?` as an alias for `Range#include?` in Ruby 1.8.
+* `Range#cover?`がRuby 1.8の`Range#include?`のエイリアスとしてバックポートされました。
 
-* Added `weeks_ago` and `prev_week` to Date/DateTime/Time.
+* Date/DateTime/Timeに`weeks_ago`と`prev_week`が追加されました。
 
-* Added `before_remove_const` callback to `ActiveSupport::Dependencies.remove_unloadable_constants!`.
+* `before_remove_const`コールバックが`ActiveSupport::Dependencies.remove_unloadable_constants!`に追加されました。
 
-Deprecations:
+非推奨化:
 
-* `ActiveSupport::SecureRandom` is deprecated in favor of `SecureRandom` from the Ruby standard library.
+* `ActiveSupport::SecureRandom`が非推奨化されました。今後はRuby標準ライブラリの`SecureRandom`が推奨されます。
 
-Credits
+クレジット表記
 -------
 
-See the [full list of contributors to Rails](http://contributors.rubyonrails.org/) for the many people who spent many hours making Rails, the stable and robust framework it is. Kudos to all of them.
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
 
-Rails 3.1 Release Notes were compiled by [Vijay Dev](https://github.com/vijaydev.)
+Rails 3.1リリースノートの編集は[Vijay Dev](https://github.com/vijaydev)が担当しました。

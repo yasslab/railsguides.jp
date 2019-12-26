@@ -1,6 +1,3 @@
-﻿
-
-
 Ruby on Rails 4.0 リリースノート
 ===============================
 
@@ -32,7 +29,7 @@ $ cd myapp
 
 ### gemに移行する
 
-Rails 4.0からは、アプリケーションのルートディレクトリに置かれる`Gemfile`を使用して、アプリケーションの起動に必要なgemを指定するようになりました。この`Gemfile`は[Bundler](https://github.com/carlhuda/bundler)というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。
+Railsでは、アプリケーションのルートディレクトリに置かれる`Gemfile`を使って、アプリケーションの起動に必要なgemを指定します。この`Gemfile`は[Bundler](https://github.com/carlhuda/bundler)というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。
 
 詳細情報: [Bundlerホームページ](http://gembundler.com)
 
@@ -53,7 +50,7 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 主要な変更
 --------------
 
-[![Rails 4.0](images/rails4_features.png)](http://railsguides.jp/images/rails4_features.png)
+[![Rails 4.0](images/rails4_features.png)](https://guides.rubyonrails.org/images/4_0_release_notes/rails4_features.png)
 
 ### アップグレード
 
@@ -71,15 +68,15 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 * **Strong Parameters** ([コミット](https://github.com/rails/rails/commit/a8f6d5c6450a7fe058348a7f10a908352bb6c7fc)) - ホワイトリストで明示的に許可されたパラメータ (`params.permit(:title, :text)`) を使用しないとモデルオブジェクトを更新できないようにする。
 * **ルーティングの「concern」機能** ([コミット](https://github.com/rails/rails/commit/0dd24728a088fcb4ae616bb5d62734aca5276b1b)) - ルーティング用のDSLで、共通となるサブルーティング (subroutes) を除外する (`/posts/1/comments`と`/videos/1/comments`における`comments`など)。
 * **ActionController::Live** ([コミット](https://github.com/rails/rails/commit/af0a9f9eefaee3a8120cfd8d05cbc431af376da3)) - JSONを`response.stream`でストリーミングする。
-* **「宣言的 (declarative)」ETag** ([コミット](https://github.com/rails/rails/commit/ed5c938fa36995f06d4917d9543ba78ed506bb8d)) - コントローラレベルのetagを追加する。これはアクションでのetag算出にも使用される。
-* **[ロシアンドールキャッシュ](http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)** ([コミット](https://github.com/rails/rails/commit/4154bf012d2bec2aae79e4a49aa94a70d3e91d49)) - ビューで、ネストしたコード断片をキャッシュする。各断片は依存関係のセット (キャッシュキー) に応じて期限切れになる。通常、このキャッシュキーにはテンプレートのバージョン番号とモデルオブジェクトが使用される。
-* **Turbolinks** ([コミット](https://github.com/rails/rails/commit/e35d8b18d0649c0ecc58f6b73df6b3c8d0c6bb74)) - 最初のHTMLページだけを使用してサービスを提供する (訳注: 一部しか違わないページのためにページ全体を HTTP 送信しないで済むようにするための仕組み)。ユーザーが別のページに遷移すると、pushStateでURLを差し替え、AJAXでタイトルとbodyを差し替える。
+* **「宣言的 (declarative)」ETag** ([コミット](https://github.com/rails/rails/commit/ed5c938fa36995f06d4917d9543ba78ed506bb8d)) - コントローラレベルのetagを追加する。これはアクションでのetag算出にも使われる。
+* **[ロシアンドールキャッシュ](https://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works)** ([コミット](https://github.com/rails/rails/commit/4154bf012d2bec2aae79e4a49aa94a70d3e91d49)) - ビューで、ネストしたコード断片をキャッシュする。各断片は依存関係のセット (キャッシュキー) に応じて期限切れになる。通常、このキャッシュキーにはテンプレートのバージョン番号とモデルオブジェクトが使われる。
+* **Turbolinks** ([コミット](https://github.com/rails/rails/commit/e35d8b18d0649c0ecc58f6b73df6b3c8d0c6bb74)) - 最初のHTMLページだけを使ってサービスを提供する (訳注: 一部しか違わないページのためにページ全体を HTTP 送信しないで済むようにするための仕組み)。ユーザーが別のページに遷移すると、pushStateでURLを差し替え、AJAXでタイトルとbodyを差し替える。
 * **ActionControllerとActionViewの分離** ([コミット](https://github.com/rails/rails/commit/78b0934dd1bb84e8f093fb8ef95ca99b297b51cd)) - ActionViewはActionPackから分離され、Rails 4.1で個別のgemに移行する予定。
 * **ActiveModelへの依存をただちにやめること** ([コミット](https://github.com/rails/rails/commit/166dbaa7526a96fdf046f093f25b0a134b277a68)) - ActionPackはもはやActiveModelを使用しなくなった。
 
 ### 一般
 
-* **ActiveModel::Model** ([commit](https://github.com/rails/rails/commit/3b822e91d1a6c4eab0064989bbd07aae3a6d0d08)) - `ActiveModel::Model`は通常のRubyオブジェクトでもActionPackの機能を利用できるようにする (`form_for`など) ためのミックスイン。 
+* **ActiveModel::Model** ([commit](https://github.com/rails/rails/commit/3b822e91d1a6c4eab0064989bbd07aae3a6d0d08)) - `ActiveModel::Model`は通常のRubyオブジェクトでもActionPackの機能を利用できるようにする (`form_for`など) ためのミックスイン。
 * **新しい「スコープAPI」** ([コミット](https://github.com/rails/rails/commit/50cbc03d18c5984347965a94027879623fc44cce)) - scopeメソッドの引数は常にcallメソッドを実装していなくてはならない。
 * **スキーマキャッシュダンプ** ([コミット](https://github.com/rails/rails/commit/5ca4fc95818047108e69e22d200e7a4a22969477)) - Railsの起動時間短縮のため、スキーマをデータベースから直接読み込むのではなくダンプファイルから読み込む。
 * **トランザクション分離レベル指定のサポート** ([コミット](https://github.com/rails/rails/commit/392eeecc11a291e406db927a18b75f41b2658253)) - 読み出しを頻繁に行うか、書き込みのパフォーマンスを重視してロックを減らすかを選択できる。
@@ -90,7 +87,7 @@ $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 NOTE: 追加したgemも同様にスレッドセーフであるかどうかをチェックしておいてください。
 
 
-* **PATCH 動詞** ([コミット](https://github.com/rails/rails/commit/eed9f2539e3ab5a68e798802f464b8e4e95e619e)) - 従来の HTTP 動詞であるPUTはPATCHに置き換えられました。PATCHはリソースの部分的な更新に使用されます。
+* **PATCH動詞** ([コミット](https://github.com/rails/rails/commit/eed9f2539e3ab5a68e798802f464b8e4e95e619e)) - 従来の HTTP動詞であるPUTはPATCHに置き換えられました。PATCHはリソースの部分的な更新に使われます。
 
 ### セキュリティ
 
@@ -192,7 +189,7 @@ Active Support
 
 ### 非推奨
 
-* `ActiveSupport::TestCase#pending`メソッドが非推奨になりました。今後はMiniTestの`skip`をご利用ください。
+* `ActiveSupport::TestCase#pending`メソッドが非推奨になりました。今後はminitestの`skip`をご利用ください。
 
 * `ActiveSupport::Benchmarkable#silence`はスレッドセーフでないため非推奨となりました。Rails 4.1では代替されることなく削除される予定です。
 
@@ -276,4 +273,4 @@ Active Record
 クレジット表記
 -------
 
-Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](http://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に敬意を表明いたします。
