@@ -150,7 +150,6 @@ end
 #### Jbuilder
 
 [Jbuilder](https://github.com/rails/jbuilder)はRailsチームによってメンテナンスされているgemのひとつで、RailsのGemfileにデフォルトで含まれています。
-
 JbuilderはBuilderと似ていますが、XMLではなくJSONを生成するのに使われます。
 
 Jbuilderが導入されていない場合は、Gemfileに以下を追加できます。
@@ -225,7 +224,6 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 #### `partial`のない`render`と`locals`とオプション
 
 上の例では、`render`は`partial`と`locales`の2つのオプションを取っています。しかし、渡したいオプションが他にない場合は、これらのオプションを省略できます。
-
 次の例で説明します。
 
 ```erb
@@ -250,12 +248,6 @@ Railsは、デフォルトですべてのビューテンプレートをコンパ
 
 ```erb
 <%= render partial: "product", locals: { product: product } %>
-```
-
-`as`オプションは、ローカル変数の名前を変更したい場合に使用します。たとえば、ローカル変数名を`product`ではなく`item`にしたいのであれば、以下のようにします。
-
-```erb
-<%= render partial: "product", as: "item" %>
 ```
 
 `object`オプションは、パーシャルで出力するオブジェクトを直接指定したい場合に使用します。これは、テンプレートのオブジェクトが他の場所 (別のインスタンス変数や別のローカル変数) にある場合に便利です。
@@ -1336,18 +1328,6 @@ date_field_tag "dob"
 ### JavaScriptHelper
 
 ビューでJavaScriptを使用するための機能を提供します。
-
-#### button_to_function
-
-`onclick`ハンドラを使用するJavaScript関数を起動するボタンを返します。以下の例を参照ください。
-
-```ruby
-button_to_function "Greeting", "alert('Hello world!')"
-button_to_function "Delete", "if (confirm('Really?')) do_delete()"
-button_to_function "Details" do |page|
-  page[:details].visual_effect :toggle_slide
-end
-```
 
 #### escape_javascript
 
