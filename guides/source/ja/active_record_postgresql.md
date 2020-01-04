@@ -3,7 +3,7 @@
 Active Record と PostgreSQL
 ============================
 
-このガイドでは、PostgreSQLに特化したActive Recordの利用法について説明します。
+このガイドでは、PostgreSQLに特化したActive Recordの利用法について説明します（訳注: 本ガイドにおける「ビュー」は、PostgreSQLの「**データベースビュー**」を指します）。
 
 このガイドの内容:
 
@@ -11,8 +11,6 @@ Active Record と PostgreSQL
 * UUID主キーの使い方
 * PostgreSQLで全文検索を実装する方法
 * Active Recordモデルで「データベースビュー」をサポートする方法
-
-> **訳注: 本ガイドにおける「ビュー」は、PostgreSQLの「データベースビュー」を指します。**
 
 --------------------------------------------------------------------------------
 
@@ -340,8 +338,6 @@ UUIDについて詳しくは、[UUID主キー](#uuid主キー)のセクション
 
 * [型の定義](https://www.postgresql.jp/document/current/html/datatype-bit.html)
 * [関数と演算子](https://www.postgresql.jp/document/current/html/functions-bitstring.html)
-
-> 訳注: bit stringはビット列またはビット文字列と訳されているようです。
 
 ```ruby
 # db/migrate/20131220144913_create_users.rb
