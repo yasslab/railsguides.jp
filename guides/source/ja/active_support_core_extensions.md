@@ -3220,6 +3220,8 @@ now.utc                # => Mon, 07 Jun 2010 23:27:52 +0000
 
 `getutc`はこのメソッドの別名です。
 
+NOTE: 定義は`active_support/core_ext/date_time/calculations.rb`にあります。
+
 ##### `utc?`
 
 `utc?`述語メソッドは、レシーバがそのタイムゾーンに合ったUTC時刻を持っているかどうかをチェックします。
