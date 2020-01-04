@@ -59,11 +59,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 
 以下のメソッドが用意されています。
 
+* `annotate`
 * `find`
 * `create_with`
 * `distinct`
 * `eager_load`
 * `extending`
+* `extract_associated`
 * `from`
 * `group`
 * `having`
@@ -74,11 +76,13 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * `lock`
 * `none`
 * `offset`
+* `optimizer_hints`
 * `order`
 * `preload`
 * `readonly`
 * `references`
 * `reorder`
+* `reselect`
 * `reverse_order`
 * `select`
 * `where`
@@ -798,6 +802,32 @@ SELECT "articles".* FROM "articles" WHERE (id > 10) ORDER BY id desc LIMIT 20
 
 ```
 
+### `reselect`
+
+`reselect`メソッドは既存のselect文をオーバーライドします。次に例を示します。
+
+```ruby
+Post.select(:title, :body).reselect(:created_at)
+```
+
+上で実行されるSQLは以下のようなものになります。
+
+```sql
+SELECT `posts`.`created_at` FROM `posts`
+```
+
+以下は`reselect`句を使わない場合です。
+
+```ruby
+Post.select(:title, :body).select(:created_at)
+```
+
+この場合のSQL文は以下のようになります。
+
+```sql
+SELECT `posts`.`title`, `posts`.`body`, `posts`.`created_at` FROM `posts`
+```
+
 ### `reorder`
 
 `reorder`メソッドは、デフォルトのスコープの並び順を上書きします。以下に例を示します。
@@ -1259,16 +1289,6 @@ class Article < ApplicationRecord
 end
 ```
 
-以下でもわかるように、スコープでのメソッドの設定は、クラスメソッドの定義と完全に同じ (というよりクラスメソッドの定義そのもの) です。どちらの形式を使用するかは好みの問題です。
-
-```ruby
-class Article < ApplicationRecord
-  def self.published
-    where(published: true)
-  end
-end
-```
-
 スコープをスコープ内でチェイン (chain) させることもできます。
 
 ```ruby
@@ -1725,6 +1745,13 @@ Client.select(:name).map &:name
 Client.pluck(:name)
 # => ["David", "Jeremy", "Jose"]
 ```
+
+この操作は、単一テーブルのフィールドへのクエリに限定されません。以下のように複数テーブルへのクエリも行えます。
+
+```
+Client.joins(:comments, :categories).pluck("clients.email, comments.title, categories.name")
+```
+
 
 さらに`pluck`は、`select`などの`Relation`スコープと異なり、クエリを直接トリガするので、その後ろに他のスコープをチェインすることはできません。ただし、構成済みのスコープを`pluck`の前に置くことはできます。
 
