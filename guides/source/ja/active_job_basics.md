@@ -1,4 +1,3 @@
-
 **DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
 
 Active Job の基礎
@@ -65,6 +64,8 @@ class GuestsCleanupJob < ApplicationJob
   end
 end
 ```
+
+なお、`perform`にはいくつでも引数を定義できます。
 
 ### ジョブをキューに登録する
 
@@ -145,6 +146,7 @@ end
 - [Sneakers](https://github.com/jondot/sneakers/wiki/How-To:-Rails-Background-Jobs-with-ActiveJob)
 - [Sucker Punch](https://github.com/brandonhilkert/sucker_punch#active-job)
 - [Queue Classic](https://github.com/QueueClassic/queue_classic#active-job)
+- [Delayed Job](https://github.com/collectiveidea/delayed_job#active-job)
 
 キュー
 ------
@@ -246,12 +248,11 @@ class GuestsCleanupJob < ApplicationJob
   end
 
   private
-
-  def around_cleanup
-    # performの直前に何か実行
-    yield
-    # performの直後に何か実行
-  end
+    def around_cleanup
+      # performの直前に何か実行
+      yield
+      # performの直後に何か実行
+    end
 end
 ```
 
@@ -317,8 +318,8 @@ Active Jobの引数では、デフォルトで以下の型をサポートしま�
   - `Array`
 
 
-GlobalID
---------
+### GlobalID
+
 Active JobではGlobalIDがパラメータとしてサポートされています。GlobalIDを使用すると、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ (deserialize) する必要がありました。従来のジョブが以下のようなものだったとします。
 
 ```ruby
@@ -361,6 +362,7 @@ class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
       "currency" => money.currency
     )
   end
+
   # シリアライズされた値を正しいオブジェクトに逆変換する
   def deserialize(hash)
     Money.new(hash["amount"], hash["currency"])
