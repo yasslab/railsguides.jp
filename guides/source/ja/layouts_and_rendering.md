@@ -149,28 +149,6 @@ render "products/show"
 render template: "products/show"
 ```
 
-#### 任意のファイルを使用して出力する
-
-`render`メソッドで指定するビューは、現在のアプリケーションディレクトリの外部にあっても構いません (2つのRailsアプリケーションでビューを共有しているなどの場合)。
-
-```ruby
-render "/u/apps/warehouse_app/current/app/views/products/show"
-```
-
-パスがスラッシュ`/`で始まっている場合、Railsはこのコードがファイルの出力であると認識します。ファイルを出力することをより明示的にしたい場合は、以下のように`:file`オプションを使用することもできます (Rails 2.2以前ではこのオプションは必須でした)。
-
-```ruby
-render file: "/u/apps/warehouse_app/current/app/views/products/show"
-```
-
-`:file`オプションに与えるパスは、ファイルシステムの絶対パスです。当然ながら、コンテンツを出力したいファイルに対して適切なアクセス権が与えられている必要があります。
-
-NOTE: `：file`オプションをユーザーの入力と組み合わせて使用すると、攻撃者がこのアクションを使用してファイルシステム内のセキュリティ上重要なファイルにアクセスする可能性があるため、セキュリティ上の問題が生じる可能性があります。
-
-NOTE: ファイルを出力する場合、デフォルトでは現在のレイアウトを使用してレンダリングされます。
-
-TIP: Microsoft Windows上でRailsを実行している場合、ファイルを出力する際に`:file`オプションを省略できません。Windowsのファイル名フォーマットはUnixのファイル名と同じではないためです。
-
 #### まとめ
 
 これまでご紹介した3通りの出力方法 (コントローラ内の別テンプレートを使用、別のコントローラのテンプレートを使用、ファイルシステム上の任意のファイルを使用) は、実際には同一のアクションのバリエーションにすぎません。
@@ -181,17 +159,9 @@ TIP: Microsoft Windows上でRailsを実行している場合、ファイルを�
 render :edit
 render action: :edit
 render "edit"
-render "edit.html.erb"
 render action: "edit"
-render action: "edit.html.erb"
 render "books/edit"
-render "books/edit.html.erb"
 render template: "books/edit"
-render template: "books/edit.html.erb"
-render "/path/to/rails/app/views/books/edit"
-render "/path/to/rails/app/views/books/edit.html.erb"
-render file: "/path/to/rails/app/views/books/edit"
-render file: "/path/to/rails/app/views/books/edit.html.erb"
 ```
 
 どの呼び出しを使用するかはコーディングのスタイルと規則の問題でしかありませんが、経験上なるべくシンプルな記法を使用する方がコードがわかりやすくなるでしょう。
@@ -234,8 +204,6 @@ render html: helpers.tag.strong('Not Found')
 
 TIP: この手法は、HTMLコードのごく小規模なスニペットを出力したい場合に便利です。
 スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。
-
-
 
 NOTE: `html:`オプションを使用すると、`html_safe`を理解できるAPIで文字列が組み立てられていない場合にHTMLエンティティがエスケープされます。
 
@@ -281,6 +249,20 @@ TIP: このオプションを使用するのは、レスポンスのcontent type
 
 NOTE: このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り`text/plain`が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。
 
+#### 生のファイルを出力する
+
+Railsでは絶対パスで指定された生ファイルをレンダリングできます。これはエラーページのような静的ファイルを条件に応じてレンダリングしたいときに便利です。
+
+```ruby
+render file: "#{Rails.root}/public/404.html", layout: false
+```
+
+上のコードでは指定の生ファイルがレンダリングされます（ただしERBなどのハンドラはサポートされません）。デフォルトでは現在のレイアウト内でレンダリングされます。
+
+WARNING: `:file`オプションにユーザー入力を組み合わせると、セキュリティ上の問題が発生する可能性があります。攻撃者がこの操作を悪用してファイルシステムにあるセキュリティ上重要なファイルにアクセスする可能性があるためです。
+
+TIP: レイアウトが必須でなければ、`send_file`は多くの場合高速かつ優れた選択肢となります。
+
 #### `render`のオプション
 
 `render`メソッドに対する呼び出しでは、一般に以下の5つのオプションが使用できます。
@@ -290,6 +272,7 @@ NOTE: このオプションを使用してブラウザに送信されるレス�
 * `:location`
 * `:status`
 * `:formats`
+* `:variants`
 
 ##### `:content_type`オプション
 
@@ -409,6 +392,42 @@ render formats: [:json, :xml]
 
 指定されたフォーマットのテンプレートが存在しない場合は、`ActionView::MissingTemplate`エラーになります。
 
+##### `:variants`オプション
+
+このオプションは、テンプレートに同じフォーマットのバリエーションがあるかどうかを探索します。`:variants`オプションにシンボルを1つ、または配列を1つ渡すことでバリエーションのリストを指定できます。
+
+たとえば以下のような利用例があります。
+
+```ruby
+# HomeController#indexでの呼び出し
+render variants: [:mobile, :desktop]
+```
+
+バリエーションのセットが渡されると、Railsは以下のテンプレートセットを探索して最初に存在しているテンプレートを用います。
+
+- `app/views/home/index.html+mobile.erb`
+- `app/views/home/index.html+desktop.erb`
+- `app/views/home/index.html.erb`
+
+指定のフォーマットを持つテンプレートが存在しない場合は`ActionView::MissingTemplate`エラーを出力します。
+
+バリエーションは、`render`呼び出しで設定する他に、以下のようにコントローラのアクション内でrequestオブジェクトに設定することもできます。
+
+```ruby
+def index
+request.variant = determine_variant
+end
+
+private
+
+def determine_variant
+variant = nil
+# some code to determine the variant(s) to use
+variant = :mobile if session[:use_mobile]
+
+variant
+end
+```
 
 #### レイアウトの探索順序
 
@@ -487,38 +506,38 @@ end
 * `application_controller.rb`
 
     ```ruby
-class ApplicationController < ActionController::Base
+    class ApplicationController < ActionController::Base
       layout "main"
     end
     ```
 
-* `posts_controller.rb`
+* `articles_controller.rb`
 
     ```ruby
-    class PostsController < ApplicationController
+    class ArticlesController < ApplicationController
     end
     ```
 
-* `special_posts_controller.rb`
+* `special_articles_controller.rb`
 
     ```ruby
-    class SpecialPostsController < PostsController
+    class SpecialArticlesController < ArticlesController
       layout "special"
     end
     ```
 
-* `old_posts_controller.rb`
+* `old_articles_controller.rb`
 
     ```ruby
-    class OldPostsController < SpecialPostsController
+    class OldArticlesController < SpecialArticlesController
       layout false
 
       def show
-        @post = Post.find(params[:id])
+        @article = Article.find(params[:id])
       end
 
       def index
-        @old_posts = Post.older
+        @old_articles = Article.older
         render layout: "old"
       end
       # ...
@@ -528,10 +547,10 @@ class ApplicationController < ActionController::Base
 上のアプリケーションは以下のように動作します。
 
 * ビューの出力には基本的に`main`レイアウトが使用されます。
-* `PostsController#index`では`main`レイアウトが使用されます。
-* `SpecialPostsController#index`では`special`レイアウトが使用されます。
-* `OldPostsController#show`ではレイアウトが適用されません。
-* `OldPostsController#index`では`old`レイアウトが使用されます。
+* `ArticlesController#index`では`main`レイアウトが使用されます。
+* `SpecialArticlesController#index`では`special`レイアウトが使用されます。
+* `OldArticlesController#show`ではレイアウトが適用されません。
+* `OldArticlesController#index`では`old`レイアウトが使用されます。
 
 ##### テンプレートの継承
 
@@ -1132,8 +1151,6 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の2つのビューでは同じパーシャルがレンダリングされますが、Action Viewのsubmitヘルパーはnewアクションの場合には"Create Zone"を返し、editアクションの場合は"Update Zone"を返します。
 
-どのパーシャルにも、パーシャル名からアンダースコアを取り除いた名前を持つローカル変数が与えられます。`:object`オプションを使用することで、このローカル変数にオブジェクトを渡すことができます。
-
 ローカル変数を特定の状況に限ってパーシャルに渡すには、`local_assigns`を使います。
 
 * `index.html.erb`
@@ -1253,7 +1270,7 @@ TIP: すべてのページで共有されているコンテンツであれば、
 
 上の場合、`title`という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。
 
-TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、パーシャルのタイトル名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングすると、`_product.html.erb`から`product_counter`変数を参照できます。`product_counter`変数は、それを囲むビュー内でレンダリングされた回数を示します。
+TIP: コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、パーシャルのタイトル名の後ろに`_counter`を追加した名前になります。たとえば、パーシャル内で`@products`をレンダリングすると、`_product.html.erb`から`product_counter`変数を参照できます。`product_counter`変数は、それを囲むビュー内でレンダリングされた回数を示します。ただし、これは`as:`オプションでパーシャル名を変更した場合にも適用されますのでご注意ください。たとえば上のコードのカウンタ変数は`item_counter`になります。
 
 `:spacer_template`オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。
 
@@ -1316,4 +1333,4 @@ TIP: コレクションによって呼び出されるパーシャル内でカウ
 
 以上でおしまいです。Newsビューで新しいレイアウトが使用されるようになり、トップメニューが隠されて"content" divタグ内に右メニューが新しく追加されました。
 
-これと同じ結果を得られるサブテンプレートの使用法はこの他にもさまざまなものが考えられます。ネスティングレベルには制限がない点にご注目ください。たとえばNewsレイアウトで新しいレイアウトを使用するために、`render template: 'layouts/news'`経由で`ActionView::render`メソッドを使用することもできます。`News`レイアウトをサブテンプレート化するつもりがないのであれば、`content_for?(:news_content) ? yield(:news_content) : yield`を単に`yield`に置き換えれば済みます。
+これと同じ結果を得られるサブテンプレートの使用法はこの他にもさまざまなものが考えられます。ネスティングレベルには制限がない点にご注目ください。たとえばNewsレイアウトで新しいレイアウトを使用するために、`render template: 'layouts/news'`経由で`ActionView::render`メソッドを使用することもできます。`News`レイアウトをサブテンプレート化するつもりがないのであれば、`content_for?(:news_content) ? yield(:news_content) : yield`を単に`yield`に置き換えるだけで済みます。
