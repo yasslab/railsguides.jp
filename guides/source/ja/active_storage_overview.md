@@ -51,7 +51,10 @@ amazon:
   service: S3
   access_key_id: ""
   secret_access_key: ""
+  bucket: ""
+  region: "" # 例: 'us-east-1'
 ```
+
 
 利用するサービスをActive Storageに認識させるには、`Rails.application.config.active_storage.service`を設定します。
 使うサービスは環境ごとに異なることもあるため、この設定を環境ごとに行うことをおすすめします。前述したローカルDiskサービスをdevelopment環境で使うには、`config/environments/development.rb`に以下を追加します。
@@ -66,6 +69,13 @@ production環境でAmazon S3を利用するには、`config/environments/product
 ```ruby
 # ファイルをAmazon S3に保存する
 config.active_storage.service = :amazon
+```
+
+テスト時にテスト用サービスを使うには、`config/environments/test.rb`に以下を追加します。
+
+```ruby
+# アップロードしたファイルをローカルファイルシステムの一時ディレクトリに保存する
+config.active_storage.service = :test
 ```
 
 内蔵されているサービスアダプタ(`Disk`や`S3`など)およびそれらに必要な設定について、詳しくは後述します。
@@ -93,7 +103,7 @@ amazon:
   bucket: ""
 ```
 
-`Gemfile`に`aws-sdk-s3` gemを追加します。
+`Gemfile`に[`aws-sdk-s3`](https://github.com/aws/aws-sdk-ruby) gemを追加します。
 
 ``` ruby
 gem "aws-sdk-s3", require: false
@@ -116,7 +126,7 @@ azure:
   container: ""
 ```
 
-`Gemfile`にMicrosoft Azure Storageクライアントのgemを追加します。
+`Gemfile`に[`azure-storage`](https://github.com/Azure/azure-storage-ruby) gemを追加します。
 
 ``` ruby
 gem "azure-storage", require: false
@@ -143,7 +153,7 @@ google:
     type: "service_account"
     project_id: ""
     private_key_id: <%= Rails.application.credentials.dig(:gcs, :private_key_id) %>
-    private_key:```` <%= Rails.application.credentials.dig(:gcs, :private_key) %>
+    private_key: <%= Rails.application.credentials.dig(:gcs, :private_key).dump %>
     client_email: ""
     client_id: ""
     auth_uri: "https://accounts.google.com/o/oauth2/auth"
@@ -154,10 +164,10 @@ google:
   bucket: ""
 ```
 
-`Gemfile`にGoogle Cloud Storageクライアントのgemを追加します。
+`Gemfile`に[`google-cloud-storage`](https://github.com/GoogleCloudPlatform/google-cloud-ruby/tree/master/google-cloud-storage) gemを追加します。
 
 ``` ruby
-gem "google-cloud-storage", "~> 1.8", require: false
+gem "google-cloud-storage", "~> 1.11", require: false
 ```
 
 ### ミラーサービス
@@ -229,13 +239,13 @@ end
 既存のuserにavatarを添付するには`avatar.attach`を呼び出します。
 
 ```ruby
-Current.user.avatar.attach(params[:avatar])
+user.avatar.attach(params[:avatar])
 ```
 
 `avatar.attached?`で特定のuserがavatarを持っているかどうかを調べられます。
 
 ```ruby
-Current.user.avatar.attached?
+user.ava.user.avatar.attached?
 ```
 
 ### `has_many_attached`
@@ -292,7 +302,18 @@ HTTPリクエスト経由では配信されないファイルをアタッチす�
 @message.image.attach(io: File.open('/path/to/file'), filename: 'file.pdf', content_type: 'application/pdf')
 ```
 
-`content_type:`を指定せず、Active Storageがファイルのcontent_typeを自動的に判別できない場合は、デフォルトで`application/octet-stream`が設定されます。
+データを元にするcontent type推測をバイパスするには、`content_type`にcontent typeを渡し、`identify: false`を指定します。
+
+```ruby
+@message.image.attach(
+  io: File.open('/path/to/file'),
+  filename: 'file.pdf',
+  content_type: 'application/pdf',
+  identify: false
+)
+```
+
+content typeを指定しないと、Active Storageでファイルのcontent typeを自動推測できなくなり、デフォルトのapplication/octet-streamが使われます。
 
 ファイルを削除する
 -----------------------------
@@ -383,7 +404,7 @@ config.active_storage.variant_processor = :vips
 <ul>
   <% @message.files.each do |file| %>
     <li>
-      <%= image_tag file.preview(resize: "100x100>") %>
+      <%= image_tag file.preview(resize_to_limit: [100, 100]) %>
     </li>
   <% end %>
 </ul>
@@ -409,15 +430,14 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
     npmパッケージを使う場合は以下のようにします。
 
     ```js
-    import * as ActiveStorage from "activestorage"
-    ActiveStorage.start()
+    require("@rails/activestorage").start()
     ```
 
 2. ファイル入力に以下を記述してダイレクトアップロードのURLを指定します。
 
-     ```ruby
-     <%= form.file_field :attachments, multiple: true, direct_upload: true %>
-     ```
+    ```erb
+    <%= form.file_field :attachments, multiple: true, direct_upload: true %>
+    ```
 
 3. 以上で完了です。アップロードはフォーム送信時に開始されます。
 
@@ -442,7 +462,6 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
 ![direct-uploads](https://user-images.githubusercontent.com/5355/28694528-16e69d0c-72f8-11e7-91a7-c0b8cfc90391.gif)
 
 以下は、アップロードされたファイルをフォームに表示するコードです。
-
 
 ```js
 // direct_uploads.js
@@ -533,7 +552,7 @@ input[type=file][data-direct-upload-url][disabled] {
 
 ダイレクトアップロード機能をJavaScriptフレームワークから利用したい場合や、ドラッグアンドドロップをカスタマイズしたい場合は、`DirectUpload`クラスを利用して行えます。選択したライブラリからファイルを1件受信したら、`DirectUpload`をインスタンス化してそのインスタンスの`create`メソッドを呼び出します。`create`には、アップロード完了時に呼び出すコールバックを1つ渡せます。
 
-```
+```js
 import { DirectUpload } from "@rails/activestorage"
 
 const input = document.querySelector('input[type=file]')
@@ -577,7 +596,7 @@ const uploadFile = (file) => {
 
 ファイルアップロードの進行状況をトラッキングする必要がある場合は、`DirectUpload`コンストラクタに3番目のパラメータを渡せます。`DirectUpload`はアップロード中にオブジェクトの`directUploadWillStoreFileWithXHR`メソッドを呼び出すので、以後XHRの独自のプログレスハンドラをバインドできるようになります。
 
-```ruby
+```js
 import { DirectUpload } from "@rails/activestorage"
 
 class Uploader {
@@ -601,7 +620,7 @@ class Uploader {
   }
 
   directUploadDidProgress(event) {
-    // Use event.loaded and event.total to update the progress bar
+    // event.loadedとevent.totalでプログレスバーを更新する
   }
 }
 ```
@@ -612,7 +631,7 @@ class Uploader {
 システムテストでは、トランザクションをロールバックすることでテストデータをクリーンアップしますが、`destroy`はオブジェクトに対して呼び出されないため、添付ファイルはそのままでは決してクリーンアップされません。
 添付ファイルを破棄したい場合は、`after_teardown`コールバックで行えます。このコールバックを実行すると、テスト中に作成されたすべての接続を確実に完了するので、Active Storageでファイルが見つからないというエラーは表示されなくなります。
 
-``` ruby
+```ruby
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
 
@@ -635,7 +654,7 @@ end
 # インラインジョブ処理でただちにジョブを実行する
 config.active_job.queue_adapter = :inline
 
-# test環境では別のファイルストレージをもしいる
+# test環境では別のファイルストレージを用いる
 config.active_storage.service = :local_test
 ```
 
