@@ -311,6 +311,8 @@ class Product < ApplicationRecord
 end
 ```
 
+`:without`オプションを使うと、指定の属性に**マッチしない**正規表現を指定することもできます。
+
 デフォルトのエラーメッセージは「is invalid」です。
 
 ### `inclusion`
@@ -665,10 +667,29 @@ class Person < ApplicationRecord
   validates :age, numericality: true, on: :account_setup
 end
 
-person = Person.new
+person = Person.new(age: 'thirty-three')
+person.valid? # => true
+person.valid?(:account_setup) # => false
+person.errors.messages
+ # => {:email=>["has already been taken"], :age=>["is not a number"]}
 ```
 
-`person.valid?(:account_setup)`は、モデルを保存せずにバリデーションを2つとも実行します。`person.save(context: :account_setup)`は、`account_setup`コンテキストで`person`をバリデーションしてから保存します。明示的なトリガーによるモデルのバリデーションでは、そのコンテキストのみのバリデーションと、コンテキストなしのバリデーションが行われます。
+`person.valid?(:account_setup)`は、モデルを保存せずにバリデーションを2つとも実行します。`person.save(context: :account_setup)`は、`account_setup`コンテキストで`person`をバリデーションしてから保存します。
+
+明示的なトリガーによるモデルのバリデーションでは、そのコンテキストのみのバリデーションと、コンテキストなしのバリデーションが行われます。
+
+```ruby
+class Person < ApplicationRecord
+  validates :email, uniqueness: true, on: :account_setup
+  validates :age, numericality: true, on: :account_setup
+  validates :name, presence: true
+end
+
+person = Person.new
+person.valid?(:account_setup) # => false
+person.errors.messages
+ # => {:email=>["has already been taken"], :age=>["is not a number"], :name=>["can't be blank"]}
+```
 
 厳密なバリデーション
 ------------------
@@ -680,7 +701,7 @@ class Person < ApplicationRecord
   validates :name, presence: { strict: true }
 end
 
-Person.new.valid?  # => ActiveModel::StrictValidationFailed: 名前は空欄にできません
+Person.new.valid?  # => ActiveModel::StrictValidationFailed: Name can't be blank
 ```
 
 カスタム例外を`:strict`オプションに追加することもできます。
@@ -690,7 +711,7 @@ class Person < ApplicationRecord
   validates :token, presence: true, uniqueness: true, strict: TokenGenerationException
 end
 
-Person.new.valid?  # => TokenGenerationException: トークンは空欄にできません
+Person.new.valid?  # => TokenGenerationException: Token can't be blank
 ```
 
 条件付きバリデーション
@@ -722,6 +743,12 @@ class Account < ApplicationRecord
   validates :password, confirmation: true,
     unless: Proc.new { |a| a.password.blank? }
 end
+```
+
+`Lambdas`は`Proc`の一種なので、これを用いて以下のようにインライン条件をもっと短く書くこともできます。
+
+```ruby
+validates :password, confirmation: true, unless: -> { password.blank? }
 ```
 
 ### 条件付きバリデーションをグループ化する
@@ -797,7 +824,7 @@ end
 
 ### カスタムメソッド
 
-モデルの状態を確認し、無効な場合に`errors`コレクションにメッセージを追加するメソッドを作成できます。これらのメソッドを作成後、バリデーションメソッド名を指すシンボルを渡し、`validate`クラスメソッドを使って登録する必要があります。
+モデルの状態を確認し、無効な場合に`errors`コレクションにメッセージを追加するメソッドを作成できます。これらのメソッドを作成後、`validate`（[API](https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validate)）クラスメソッドを使って登録し、バリデーションメソッド名を指すシンボルを渡す必要があります。
 
 1つのクラスメソッドには複数のシンボルを渡せます。バリデーションは登録されたとおりの順序で実行されます。
 
@@ -905,24 +932,6 @@ person.errors.full_messages
 # => ["Name は以下の文字を含むことができません !@#%*()_-+="]
 ```
 
-`errors#add`と同等の`<<`メソッドを使うと、属性の`errors.messages`配列にメッセージを追加できます。
-
-```ruby
-class Person < ApplicationRecord
-  def a_method_used_for_validation_purposes
-    errors.messages[:name] <<  "は以下の文字を含むことができません !@#%*()_-+="
-  end
-end
-
-person = Person.create(name: "!@#")
-
-person.errors[:name]
-# => ["は以下の文字を含むことができません !@#%*()_-+="]
-
-person.errors.to_a
-# => ["Name は以下の文字を含むことができません !@#%*()_-+="]
-```
-
 ### `errors.details`
 
 `errors.add`メソッドを使って、返されたエラーの`details`ハッシュにバリデータの種類を指定できます。
@@ -955,7 +964,7 @@ person.errors.details[:name]
 # => [{error: :invalid_characters, not_allowed: "!@#%*()_-+="}]
 ```
 
-対応するバリデータの種類を持つ`details`ハッシュは、すべての組み込みRailsバリデータに含まれます。
+Railsに組み込まれているどのバリデータも、対応するバリデータの種類を持つ`details`ハッシュを展開できます。
 
 ### `errors[:base]`
 
