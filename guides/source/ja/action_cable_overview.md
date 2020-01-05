@@ -278,15 +278,18 @@ end
 ```js
 // app/javascript/channels/chat_channel.js
 import consumer from "./consumer"
+
 consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
   received(data) {
     this.appendLine(data)
   },
+
   appendLine(data) {
     const html = this.createLine(data)
     const element = document.querySelector("[data-chat-room='Best Room']")
     element.insertAdjacentHTML("beforeend", html)
   },
+
   createLine(data) {
     return `
       <article class="chat-line">
@@ -328,6 +331,7 @@ end
 ```js
 // app/javascript/channels/chat_channel.js
 import consumer from "./consumer"
+
 const chatChannel = consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
   received(data) {
     // data => { sent_by: "Paul", body: "This is a cool chat app." }
@@ -344,7 +348,7 @@ chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
 以下の設定手順は、2つの例で共通です。
 
   1. [コネクションを設定](#コンシューマーの設定)
-  2. [親チャネルを設定](#親チャネルの設定
+  2. [親チャネルを設定](#親チャネルの設定)
   3. [コンシューマーを接続](#コンシューマーの接続)
 
 ### 例1: ユーザーアピアランスの表示
@@ -381,50 +385,61 @@ end
 ```js
 // app/javascript/channels/appearance_channel.js
 import consumer from "./consumer"
+
 consumer.subscriptions.create("AppearanceChannel", {
   // サブスクリプションが作成されると1度呼び出される
   initialized() {
     this.update = this.update.bind(this)
   },
+
   // サブスクリプションがサーバーで利用可能になると呼び出される
   connected() {
     this.install()
     this.update()
   },
+
   // WebSocketコネクションがクローズすると呼び出される
   disconnected() {
     this.uninstall()
   },
+
   // サブスクリプションがサーバーで却下されると呼び出される
   rejected() {
     this.uninstall()
   },
+
   update() {
     this.documentIsActive ? this.appear() : this.away()
   },
+
   appear() {
     // サーバーの`AppearanceChannel#appear(data)`を呼び出す
     this.perform("appear", { appearing_on: this.appearingOn })
   },
+
   away() {
     // サーバーの`AppearanceChannel#away`を呼び出す
     this.perform("away")
   },
+
   install() {
     window.addEventListener("focus", this.update)
     window.addEventListener("blur", this.update)
     document.addEventListener("turbolinks:load", this.update)
     document.addEventListener("visibilitychange", this.update)
   },
+
   uninstall() {
     window.removeEventListener("focus", this.update)
     window.removeEventListener("blur", this.update)
     document.removeEventListener("turbolinks:load", this.update)
     document.removeEventListener("visibilitychange", this.update)
   },
+
   get documentIsActive() {
     return document.visibilityState == "visible" && document.hasFocus()
   },
+
   get appearingOn() {
     const element = document.querySelector("[data-appearing-on]")
     return element ? element.getAttribute("data-appearing-on") : null
@@ -469,6 +484,7 @@ end
 // クライアント側では、サーバーからweb通知の送信権を
 // リクエスト済みであることが前提
 import consumer from "./consumer"
+
 consumer.subscriptions.create("WebNotificationsChannel", {
   received(data) {
     new Notification(data["title"], body: data["body"])
