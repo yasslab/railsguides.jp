@@ -33,8 +33,8 @@ Railsのテストはブラウザのリクエストをシミュレートできる
 
 ```bash
 $ ls -F test
-controllers/           helpers/               mailers/               system/                test_helper.rb
-fixtures/              integration/           models/                application_system_test_case.rb
+application_system_test_case.rb  controllers/                     helpers/                         mailers/                         system/
+channels/                        fixtures/                        integration/                     models/                          test_helper.rb
 ```
 
 `helpers`ディレクトリにはビューヘルパーのテスト、`mailers`ディレクトリにはメイラーのテスト、`models`ディレクトリにはモデル用のテストをそれぞれ保存します。`controllers`ディレクトリはコントローラ/ルーティング/ビューをまとめたテストの置き場所です。`integration`ディレクトリはコントローラ同士のやりとりのテストを置く場所です。
@@ -63,7 +63,7 @@ NOTE: テストは`RAILS_ENV=test`環境で実行されます。
 ガイドの[Rails をはじめよう](getting_started.html)で`rails generate model`コマンドを実行したのを覚えていますか。最初のモデルを作成すると、`test`ディレクトリにはテストのスタブ（stub）が生成されます。
 
 ```bash
-$ bin/rails generate model article title:string body:text
+$ rails generate model article title:string body:text
 ...
 create  app/models/article.rb
 create  test/models/article_test.rb
@@ -83,7 +83,7 @@ class ArticleTest < ActiveSupport::TestCase
 end
 ```
 
-Railsにおけるテスティングコードと用語に親しんでいただくために、このファイルに含まれている内容を順にご紹介します。
+Railsにおけるテスティングコードと用語に親しんでいただくために、このファイルに含まれている内容を順に解説します。
 
 ```ruby
 require 'test_helper'
@@ -148,7 +148,7 @@ end
 それでは、新しく追加したテストを実行してみましょう（`6`はテストが定義されている行番号です）。
 
 ```bash
-$ bin/rails test test/models/article_test.rb:6
+$ rails test test/models/article_test.rb:6
 Run options: --seed 44656
 
 # Running:
@@ -160,7 +160,7 @@ ArticleTest#test_should_not_save_article_without_title [/path/to/blog/test/model
 Expected true to be nil or false
 
 
-bin/rails test test/models/article_test.rb:6
+rails test test/models/article_test.rb:6
 
 
 
@@ -198,7 +198,7 @@ end
 このテストはパスするはずです。もう一度テストを実行してみましょう。
 
 ```bash
-$ bin/rails test test/models/article_test.rb:6
+$ rails test test/models/article_test.rb:6
 Run options: --seed 31252
 
 # Running:
@@ -227,7 +227,7 @@ end
 これで、このテストを実行するとさらに多くのメッセージがコンソールに表示されるようになりました。
 
 ```bash
-$ bin/rails test test/models/article_test.rb
+$ rails test test/models/article_test.rb
 Run options: --seed 1808
 
 # Running:
@@ -240,7 +240,9 @@ NameError: undefined local variable or method 'some_undefined_variable' for #<Ar
     test/models/article_test.rb:11:in 'block in <class:ArticleTest>'
 
 
-bin/rails test test/models/article_test.rb:9
+rails test test/models/article_test.rb:9
+
+
 
 
 Finished in 0.040609s, 49.2500 runs/s, 24.6250 assertions/s.
@@ -255,7 +257,7 @@ NOTE: テストスイートに含まれる各テストメソッドは、エラ�
 テストが失敗すると、それに応じたバックトレースが出力されます。Railsはデフォルトでバックトレースをフィルタし、アプリケーションに関連するバックトレースのみを出力します。これによって、フレームワークから発生する不要な情報を排除して作成中のコードに集中できます。完全なバックトレースを参照しなければならなくなった場合は、`-b`（または`--backtrace`）引数を設定するだけで動作を変更できます。
 
 ```bash
-$ bin/rails test -b test/models/article_test.rb
+$ rails test -b test/models/article_test.rb
 ```
 
 このテストをパスさせるには、`assert_raises`を用いて以下のようにテストを変更します。
@@ -275,8 +277,7 @@ end
 
 ここまでにいくつかのアサーションをご紹介しましたが、これらはごく一部に過ぎません。アサーションこそは、テストの中心を担う重要な存在です。システムが計画通りに動作していることを実際に確認しているのはアサーションです。
 
-アサーションは非常に多くの種類が使えるようになっています。
-以下で紹介するのは、[`Minitest`](https://github.com/seattlerb/minitest)で使えるアサーションからの抜粋です。MinitestはRailsにデフォルトで組み込まれているテスティングライブラリです。`[msg]`パラメータは1つのオプション文字列メッセージであり、テストが失敗したときのメッセージをわかりやすくするにはここで指定します。これは必須ではありません。
+アサーションは非常に多くの種類が使えるようになっています。以下で紹介するのは、[`Minitest`](https://github.com/seattlerb/minitest)で使えるアサーションからの抜粋です。MinitestはRailsにデフォルトで組み込まれているテスティングライブラリです。`[msg]`パラメータは1つのオプション文字列メッセージであり、テストが失敗したときのメッセージをわかりやすくするにはここで指定します。これは必須ではありません。
 
 | アサーション                                                        | 目的 |
 | ---------------------------------------------------------------- | ------- |
@@ -295,8 +296,8 @@ end
 | `assert_includes( collection, obj, [msg] )`                      | `obj`は`collection`に含まれると主張する。|
 | `assert_not_includes( collection, obj, [msg] )`                  | `obj`は`collection`に含まれないと主張する。|
 | `assert_in_delta( expected, actual, [delta], [msg] )`            | `expected`と`actual`の個数の差は`delta`以内であると主張する。|
-| `assert_in_epsilon ( expected, actual, [epsilon], [msg] )`       | `expected`と`actual`の数値の相対誤差が`epsilon`より小さいと主張する。|
 | `assert_not_in_delta( expected, actual, [delta], [msg] )`        | `expected`と`actual`の個数の差は`delta`以内にはないと主張する。|
+| `assert_in_epsilon ( expected, actual, [epsilon], [msg] )`       | `expected`と`actual`の数値の相対誤差が`epsilon`より小さいと主張する。|
 | `assert_not_in_epsilon ( expected, actual, [epsilon], [msg] )`   |  `expected`と`actual`の数値には`epsilon`より小さい相対誤差がないと主張する。|
 | `assert_throws( symbol, [msg] ) { block }`                       | 与えられたブロックはシンボルをスローすると主張する。|
 | `assert_raises( exception1, exception2, ... ) { block }`         | 渡されたブロックから、渡された例外のいずれかが発生すると主張する。|
@@ -354,12 +355,12 @@ NOTE: `Minitest`について詳しくは、[Minitestのドキュメント](http:
 
 ### Railsのテストランナー
 
-`bin/rails test`コマンドを使ってすべてのテストを一括実行できます。
+`rails test`コマンドを使ってすべてのテストを一括実行できます。
 
-個別のテストファイルを実行するには、`bin/rails test`コマンドにそのテストケースを含むファイル名を渡します。
+個別のテストファイルを実行するには、`rails test`コマンドにそのテストケースを含むファイル名を渡します。
 
 ```bash
-$ bin/rails test test/models/article_test.rb
+$ rails test test/models/article_test.rb
 Run options: --seed 1559
 
 # Running:
@@ -376,7 +377,7 @@ Finished in 0.027034s, 73.9810 runs/s, 110.9715 assertions/s.
 あるテストケースの特定のテストメソッドだけを実行するには、`-n`（または`--name`）フラグでテストのメソッド名を指定します。
 
 ```bash
-$ bin/rails test test/models/article_test.rb -n test_the_truth
+$ rails test test/models/article_test.rb -n test_the_truth
 Run options: -n test_the_truth --seed 43583
 
 # Running:
@@ -390,15 +391,14 @@ Finished tests in 0.009064s, 110.3266 tests/s, 110.3266 assertions/s.
 
 行番号を指定すると、特定の行だけをテストできます。
 
-
 ```bash
-$ bin/rails test test/models/article_test.rb:6 # run specific test and line
+$ rails test test/models/article_test.rb:6 # 特定のテストの行を実行
 ```
 
 ディレクトリを指定すると、そのディレクトリ内のすべてのテストを実行できます。
 
 ```bash
-$ bin/rails test test/controllers # run all tests from specific directory
+$ rails test test/controllers # 特定ディレクトリ以下のすべてのテストを実行
 ```
 
 テストランナーではこの他にも、「failing fast」やテスト終了時に必ずテストを出力するといったさまざまな機能が使えます。次を実行してテストランナーのドキュメントをチェックしてみましょう。
@@ -513,9 +513,9 @@ Railsアプリケーションは、ほぼ間違いなくデータベースと密
 
 ### テストデータベースのスキーマを管理する
 
-テストを実行するには、テストデータベースが最新の状態で構成されている必要があります。テストヘルパーは、テストデータベースに未完了のマイグレーションが残っていないかどうかをチェックします。マイグレーションがすべて終わっている場合、`db/schema.rb`や`db/structure.sql`をテストデータベースに読み込みます。ペンディングされたマイグレーションがある場合、エラーが発生します。このエラーが発生するということは、スキーマのマイグレーションが不完全であることを意味します。developmentデータベースに対してマイグレーション（`bin/rails db:migrate`）を実行することで、スキーマが最新の状態になります。
+テストを実行するには、テストデータベースが最新の状態で構成されている必要があります。テストヘルパーは、テストデータベースに未完了のマイグレーションが残っていないかどうかをチェックします。マイグレーションがすべて終わっている場合、`db/schema.rb`や`db/structure.sql`をテストデータベースに読み込みます。ペンディングされたマイグレーションがある場合、エラーが発生します。このエラーが発生するということは、スキーマのマイグレーションが不完全であることを意味します。developmentデータベースに対してマイグレーション（`rails db:migrate`）を実行することで、スキーマが最新の状態になります。
 
-NOTE: 既存のマイグレーションに変更が加えられていると、テストデータベースを再構築する必要があります。`bin/rails db:test:prepare`を実行することで再構築できます。
+NOTE: 既存のマイグレーションに変更が加えられていると、テストデータベースを再構築する必要があります。`rails db:test:prepare`を実行することで再構築できます。
 
 ### フィクスチャのしくみ
 
@@ -623,7 +623,7 @@ users(:david, :steve)
 Railsのモデルテストは`test/models`ディレクトリの下に保存されます。Railsではモデルテストのスケルトンを生成するジェネレータが提供されています。
 
 ```bash
-$ bin/rails generate test_unit:model article title:string body:text
+$ rails generate test_unit:model article title:string body:text
 create  test/models/article_test.rb
 create  test/fixtures/articles.yml
 ```
@@ -638,7 +638,7 @@ create  test/fixtures/articles.yml
 アプリケーションの`test/system`ディレクトリは、Railsのシステムテストを作成するために使います。Railsではシステムテストのスケルトンを生成するジェネレータが提供されています。
 
 ```bash
-$ bin/rails generate system_test users
+$ rails generate system_test users
       invoke test_unit
       create test/system/users_test.rb
 ```
@@ -716,7 +716,7 @@ Railsで提供されていないCapybara設定が必要な場合は、`applicati
 scaffoldジェネレータを使った場合はシステムテストのスケルトンが自動で作成されています。scaffoldジェネレータを使わなかった場合はシステムテストのスケルトンを自分で作成しておきましょう。
 
 ```bash
-$ bin/rails generate system_test articles
+$ rails generate system_test articles
 ```
 
 上のコマンドを実行するとテストファイルのプレースホルダが作成され、次のように表示されるはずです。
@@ -744,10 +744,10 @@ end
 システムテストを実行します。
 
 ```bash
-bin/rails test:system
+rails test:system
 ```
 
-NOTE: デフォルトでは`bin/rails test`を実行してもシステムテストが実行されません。実際にシステムテストを実行するには`bin/rails test:system`を実行してください。
+NOTE: デフォルトでは`rails test`を実行してもシステムテストが実行されません。実際にシステムテストを実行するには`rails test:system`を実行してください。
 
 #### 記事のシステムテストを作成する
 
@@ -776,6 +776,32 @@ end
 
 そして記事の元のindexページにリダイレクトされ、新しい記事のタイトルがその記事のindexページに表示されます。
 
+#### 画面サイズをさまざまに変えてテストする
+
+デスクトップ版の表示テストに加えて、モバイル版のサイズでの表示もテストしたい場合は、`SystemTestCase`を継承したクラスをもうひとつ作ってそれをテストスイートで利用できます。以下の例では`/test`ディレクトリに`mobile_system_test_case.rb`というファイルを以下の内容で作成します。
+
+```ruby
+require "test_helper"
+
+class MobileSystemTestCase < ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :chrome, screen_size: [375, 667]
+end
+```
+To use this configuration, create a test inside `test/system` that inherits from `MobileSystemTestCase`.
+Now you can test your app using multiple different configurations.
+
+```ruby
+require "mobile_system_test_case"
+
+class PostsTest < MobileSystemTestCase
+
+  test "visiting the index" do
+    visit posts_url
+    assert_selector "h1", text: "Posts"
+  end
+end
+```
+
 #### システムテストの利用法
 
 システムテストの長所は、ユーザーによるやり取りをコントローラやモデルやビューを用いてテストできるという点で結合テストに似ていますが、本物のユーザーが操作しているかのようにテストを実際に実行できるため、ずっと頑丈です。ユーザーがアプリケーションで行える操作であれば、コメント入力や記事の削除、ドラフト記事の公開など何でも行えます。
@@ -788,7 +814,7 @@ end
 Railsの結合テストは、アプリケーションの`test/integration`ディレクトリに作成します。Railsでは結合テストのスケルトンを生成するジェネレータが提供されています。
 
 ```bash
-$ bin/rails generate integration_test user_flows
+$ rails generate integration_test user_flows
       exists  test/integration/
       create  test/integration/user_flows_test.rb
 ```
@@ -824,7 +850,7 @@ end
 まずは結合テストのスケルトンを生成します。
 
 ```bash
-$ bin/rails generate integration_test blog_flow
+$ rails generate integration_test blog_flow
 ```
 
 上のコマンドを実行するとテストファイルのプレースホルダが作成され、次のように表示されるはずです。
@@ -875,7 +901,6 @@ end
 
 次に`Articles`コントローラの`:create`アクションを呼びます。
 
-
 ```ruby
 post "/articles",
   params: { article: { title: "can create", body: "article successfully." } }
@@ -911,7 +936,7 @@ Railsで1つのコントローラに含まれる複数のアクションをテ�
 実際の機能テストを最も簡単に見る方法は、scaffoldジェネレータでコントローラを生成することです。
 
 ```bash
-$ bin/rails generate scaffold_controller article title:string body:text
+$ rails generate scaffold_controller article title:string body:text
 ...
 create  app/controllers/articles_controller.rb
 ...
@@ -925,7 +950,7 @@ create    test/controllers/articles_controller_test.rb
 既にコントローラがあり、7つのデフォルトのアクションごとにテスト用のscaffoldコードだけを生成したい場合は、以下のコマンドを実行します。
 
 ```bash
-$ bin/rails generate test_unit:scaffold article
+$ rails generate test_unit:scaffold article
 ...
 invoke  test_unit
 create    test/controllers/articles_controller_test.rb
@@ -958,19 +983,19 @@ end
 
 上のキーワード引数はすべてオプションです。
 
-例: `:show`アクションを呼び出し、`id`に12を指定して`params`として渡し、`HTTP_REFERER`ヘッダを設定する。
+例: 最初の`Article`を得るために`:show`アクションを呼び出し、`HTTP_REFERER`ヘッダを設定する。
 
 ```ruby
-get article_url, params: { id: 12 }, headers: { "HTTP_REFERER" => "http://example.com/home" }
+get article_url(Article.first), headers: { "HTTP_REFERER" => "http://example.com/home" }
 ```
 
-別の例: `:update`アクションを呼び出し、`id`に12を指定し、Ajaxのリクエストの`params`として渡す。
+別の例:  末尾の`Article`を得るために`:update`アクションを呼び出し、`params`の`title`に新しいテキストを渡してAjaxリクエストとする。
 
 ```ruby
-patch article_url, params: { id: 12 }, xhr: true
+patch article_url(Article.last), params: { article: { title: "updated" } }, xhr: true
 ```
 
-NOTE: `articles_controller_test.rb`ファイルにある`test_should_create_article`テストを実行してみると、モデルレベルのバリデーションが新たに追加されることによってテストは失敗します。
+NOTE: `articles_controller_test.rb`ファイルにある`test_should_create_article`テストを実行してみると、モデルレベルのバリデーションが新たに追加されるのでテストは失敗します。
 
 `articles_controller_test.rb`ファイルの`test_should_create_article`テストを変更して、テストがパスするようにしてみましょう。
 
@@ -986,11 +1011,10 @@ end
 
 これで、すべてのテストを実行するとパスするようになったはずです。
 
-NOTE: 「BASIC認証」セクションの手順に沿う場合は、すべてのテストをパスさせるために`setup`ブロックに以下を追加する必要があります。
+NOTE: 「BASIC認証」セクションの手順に沿う場合は、すべてのテストをパスさせるために全リクエストヘッダーに認証用コードを追加する必要があります。
 
 ```ruby
-request.headers['Authorization'] = ActionController::HttpAuthentication::Basic.
-  encode_credentials('dhh', 'secret')
+post articles_url, params: { article: { body: 'Rails is awesome!', title: 'Hello Rails' } }, headers: { Authorization: ActionController::HttpAuthentication::Basic.encode_credentials('dhh', 'secret') }
 ```
 
 ### 機能テストで利用できるHTTPリクエストの種類
@@ -1064,10 +1088,10 @@ end
 
 ```ruby
 # HTTPヘッダーを設定する
-get articles_url, headers: { "Content-Type": "text/plain" } # simulate the request with custom header
+get articles_url, headers: { "Content-Type": "text/plain" } # カスタムヘッダーでリクエストをシミュレートする
 
 # CGI変数を設定する
-get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # simulate the request with custom env variable
+get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # カスタム環境変数でリクエストをシミュレートする
 ```
 
 ### `flash`通知をテストする
@@ -1092,7 +1116,7 @@ end
 この時点でテストを実行すると、以下のように失敗するはずです。
 
 ```bash
-$ bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+$ rails test test/controllers/articles_controller_test.rb -n test_should_create_article
 Run options: -n test_should_create_article --seed 32266
 
 # Running:
@@ -1130,7 +1154,7 @@ end
 テストを実行すると、今度はパスするはずです。
 
 ```bash
-$ bin/rails test test/controllers/articles_controller_test.rb -n test_should_create_article
+$ rails test test/controllers/articles_controller_test.rb -n test_should_create_article
 Run options: -n test_should_create_article --seed 18981
 
 # Running:
@@ -1156,6 +1180,8 @@ test "should show article" do
 end
 ```
 
+フィクスチャの項目で説明したことを思い出しましょう。`articles()`メソッドを使えばArticlesのフィクスチャにアクセスできます。
+
 記事の削除は次のようにテストします。
 
 ```ruby
@@ -1164,7 +1190,8 @@ test "should destroy article" do
   assert_difference('Article.count', -1) do
     delete article_url(article)
   end
-  assert_redirected_to articles_path
+
+  assert_redirected_to articles_path
 end
 ```
 
@@ -1189,6 +1216,7 @@ end
 
 ```ruby
 require 'test_helper'
+
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   # 各テストの実行前に呼ばれる
   setup do
@@ -1211,6 +1239,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Article.count', -1) do
       delete article_url(@article)
     end
+
     assert_redirected_to articles_path
   end
 
@@ -1247,6 +1276,7 @@ end
 
 ```ruby
 require 'test_helper'
+
 class ProfileControllerTest < ActionDispatch::IntegrationTest
 
   test "should show profile" do
@@ -1258,6 +1288,56 @@ class ProfileControllerTest < ActionDispatch::IntegrationTest
   end
 end
 ```
+
+#### 肥大化したファイルを分割する
+
+`test_helper.rb`のヘルパーがごちゃごちゃしてきたら、別のファイルに切り出せます。`lib/test`はよい置き場所のひとつです。
+
+```ruby
+# lib/test/multiple_assertions.rb
+module MultipleAssertions
+  def assert_multiple_of_forty_two(number)
+    assert (number % 42 == 0), 'expected #{number} to be a multiple of 42'
+  end
+end
+```
+
+これらのヘルパーは、必要に応じて`require`したり`include`したりできます。
+
+```ruby
+require 'test_helper'
+require 'test/multiple_assertions'
+
+class NumberTest < ActiveSupport::TestCase
+  include MultipleAssertions
+
+  test '420 is a multiple of forty two' do
+    assert_multiple_of_forty_two 420
+  end
+end
+```
+
+これまでどおり、関連する親クラスで直接`include`しても構いません。
+
+```ruby
+# test/test_helper.rb
+require 'test/sign_in_helper'
+
+class ActionDispatch::IntegrationTest
+  include SignInHelper
+end
+```
+
+#### ヘルパーを一括で`require`する
+
+`test_helper.rb`にあるヘルパーを一括で`require`できれば、テストファイルから暗黙でアクセスできて便利そうです。これは以下のように書くことでできます。
+
+```ruby
+# test/test_helper.rb
+Dir[Rails.root.join('lib', 'test', '**', '*.rb')].each { |file| require file }
+```
+
+ただしこの方法は起動時間が増えるというデメリットがあります。個別のファイルで明示的に`require`する場合は、必要なファイルだけを`require`すれば済みます。
 
 ルーティングをテストする
 --------------
@@ -1341,7 +1421,7 @@ end
 以下のようなヘルパーがあるとします。
 
 ```ruby
-module UserHelper
+module UsersHelper
   def link_to_user(user)
     link_to "#{user.first_name} #{user.last_name}", user
   end
@@ -1351,7 +1431,7 @@ end
 このメソッドの出力は次のようにしてテストできます。
 
 ```ruby
-class UserHelperTest < ActionView::TestCase
+class UsersHelperTest < ActionView::TestCase
   test "should return the user's full name" do
     user = users(:david)
 
@@ -1437,27 +1517,42 @@ friend@example.comさん、こんにちは。
 
 NOTE: この`ActionMailer::Base.deliveries`という配列は、`ActionMailer::TestCase`と`ActionDispatch::IntegrationTest`でのテストを除き、自動的にはリセットされません。それらのテストの外で配列をクリアしたい場合は、`ActionMailer::Base.deliveries.clear`で手動リセットできます。
 
-### 機能テスト
+### 機能テストとシステムテスト
 
-メイラーの機能テストでは、メール本文や受取人が正しいことを確認するなど、単体テストでカバーされているようなことは扱いません。メールの機能テストでは、メール配信メソッドを呼び出し、その結果適切なメールが配信リストに追加されるかどうかをチェックします。機能テストでは配信メソッド自体は正常に動作すると仮定することになりますが、これでまず問題ありません。機能テストでは、期待されたタイミングでアプリケーションのビジネスロジックからメールが送信されるかどうかをテストすることがメインになるのが普通だからです。たとえば、友人を招待するという操作によってメールが適切に送信されるかどうかをチェックするには以下のような機能テストを使います。
+単体テストはメールの属性をテストできますが、機能テストとシステムテストを使えば、ユーザーが操作したときにメールが正しくトリガされて配信されるかどうかをテストできます。たとえば、「友だちを招待する」操作でメールが正しく送信されるかどうかを以下のようにチェックできます。
 
 ```ruby
+# 結合テストで行う場合
 require 'test_helper'
 
-class UserControllerTest < ActionDispatch::IntegrationTest
+class UsersControllerTest < ActionDispatch::IntegrationTest
   test "invite friend" do
-    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+    # Asserts the difference in the ActionMailer::Base.deliveries
+    assert_emails 1 do
       post invite_friend_url, params: { email: 'friend@example.com' }
     end
-    invite_email = ActionMailer::Base.deliveries.last
-
-    assert_equal "You have been invited by me@example.com", invite_email.subject
-    assert_equal 'friend@example.com', invite_email.to[0]
-    assert_match(/Hi friend@example\.com/, invite_email.body.to_s)
   end
 end
 ```
 
+```ruby
+# システムテストで行う場合
+require 'test_helper'
+
+class UsersTest < ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_chrome
+
+  test "inviting a friend" do
+    visit invite_users_url
+    fill_in 'Email', with: 'friend@example.com'
+    assert_emails 1 do
+      click_on 'Invite'
+    end
+  end
+end
+```
+
+NOTE: 上の`assert_emails`メソッドは特定のメール配信メソッドと紐付けられておらず、`deliver_now`メソッドか`deliver_later`メソッドで配信されたメールに対してチェックを行います。メールが送信キューに入ったことを明示的なアサーションにしたい場合は、`assert_enqueued_emails`メソッドを利用できます。詳しくは[APIドキュメント](https://api.rubyonrails.org/classes/ActionMailer/TestHelper.html)を参照してください。
 
 ジョブをテストする
 ------------
@@ -1492,7 +1587,9 @@ Active Jobには、テストをシンプルに書くためのカスタムアサ�
 ```ruby
 require 'test_helper'
 
-class ProductTest < ActiveJob::TestCase
+class ProductTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   test 'billing job scheduling' do
     assert_enqueued_with(job: BillingJob) do
       product.charge(account)
@@ -1660,10 +1757,10 @@ Railsには、時間の影響を受けやすいコードが期待どおりに動
 user = User.create(name: 'Gaurish', activation_date: Date.new(2004, 10, 24))
 assert_not user.applicable_for_gifting?
 travel_to Date.new(2004, 11, 24) do
-  assert_equal Date.new(2004, 10, 24), user.activation_date # inside the `travel_to` block `Date.current` is mocked
+  assert_equal Date.new(2004, 10, 24), user.activation_date # `travel_to`ブロックの内部で`Date.current`がモック化される
   assert user.applicable_for_gifting?
 end
-assert_equal Date.new(2004, 10, 24), user.activation_date # The change was visible only inside the `travel_to` block.
+assert_equal Date.new(2004, 10, 24), user.activation_date # この変更は`travel_to`ブロック内からしか見えない
 ```
 
 時間関連のヘルパーについて詳しくは、[`ActiveSupport::Testing::TimeHelpers` API Documentation](http://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html)を参照してください。
