@@ -19,7 +19,6 @@
 ---------------------------
 
 アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSass、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。
-アセットパイプラインはアプリケーションのアセットを自動的に他のgemのアセットと結合できます。たとえば、jquery-railsにはRailsでAJAXを使えるようにするjquery.jsが含まれています。
 
 アセットパイプラインは[sprockets-rails](https://github.com/rails/sprockets-rails) gemによって実装され、デフォルトで有効になっています。アプリケーションの新規作成中にアセットパイプラインを無効にするには、`--skip-sprockets`オプションを渡します。
 
@@ -27,12 +26,10 @@
 rails new appname --skip-sprockets
 ```
 
-Railsでは`sass-rails`、`coffee-rails`、`uglifier` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
+Railsでは`sass-rails` gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。
 
 ```ruby
 gem 'sass-rails'
-gem 'uglifier'
-gem 'coffee-rails'
 ```
 
 `--skip-sprockets`オプションを使用すると、Railsで`sass-rails`と`uglifier`がGemfileに追加されなくなります。アセットパイプラインを後から有効にしたい場合は、これらのgemもGemfileに追加する必要があります。同様に、アプリケーション新規作成時に`--skip-sprockets`オプションを指定すると`config/application.rb`ファイルの記述内容がデフォルトから若干異なります。具体的にはsprocket railtieで必要となる記述がコメントアウトされます。アセットパイプラインを手動で有効にする場合は、これらのコメントアウトも解除する必要があります。
@@ -146,9 +143,7 @@ end
 
 * `lib/assets`は、1つのアプリケーションの範疇に収まらないライブラリのコードや、複数のアプリケーションで共有されるライブラリのコードを置く場所です。
 
-* `vendor/assets`は、JavaScriptプラグインやCSSフレームワークなど、外部の団体などによって所有されているアセットの置き場所です。
-
-WARNING: Rails 3からのアップグレードを行なう際には、`lib/assets`と`vendor/assets`の下に置かれているアセットがRails 4ではアプリケーションのマニフェストによってインクルードされて利用可能になること、しかしプリコンパイル配列の一部には含まれなくなることを考慮に入れてください。ガイダンスについては[アセットをプリコンパイルする](#アセットをプリコンパイルする)を参照してください。
+* `vendor/assets`は、JavaScriptプラグインやCSSフレームワークなど、外部の団体などによって所有されているアセットの置き場所です。ここで注意すべきは、こうしたサードパーティのコードに含まれる他のファイルへの参照（画像やスタイルシートなど）もアセットパイプラインで処理されるという点です。これらは`asset_path`などのヘルパーを用いて書き直す必要が生じるでしょう。
 
 #### パスの検索
 
@@ -498,27 +493,6 @@ NOTE: このマッチャ (および後述するプリコンパイル配列の他
 Rails.application.config.assets.precompile += %w( admin.js admin.css )
 ```
 
-あるいは、以下のようにすべてのアセットをプリコンパイルすることもできます。
-
-```ruby
-# config/initializers/assets.rb
-Rails.application.config.assets.precompile << Proc.new do |path|
-  if path =~ /\.(css|js)\z/
-    full_path = Rails.application.assets.resolve(path).to_path
-    app_assets_path = Rails.root.join('app', 'assets').to_path
-    if full_path.starts_with? app_assets_path
-      logger.info "including asset: " + full_path
-      true
-    else
-      logger.info "excluding asset: " + full_path
-      false
-    end
-  else
-    false
-  end
-end
-```
-
 NOTE: プリコンパイル配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず`.js`や`.css`で終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。
 
 このタスクによって、すべてのアセットファイルのリストとそれに対応するフィンガープリントを含む`.sprockets-manifest-md5hash.json`ファイルも生成されます（`md5hash`はMD5ハッシュを意味します）。これは、マッピングのリクエストがSprocketsに戻されるのを回避するためにRailsヘルパーメソッドで使われます。典型的なマニフェストファイルは以下のような感じになります。
@@ -571,31 +545,6 @@ location ~ ^/assets/ {
   add_header ETag "";
 }
 ```
-
-#### GZip圧縮
-
-ファイルをプリコンパイルする際に、Sprocketsによって[gzipされた](http://ja.wikipedia.org/wiki/Gzip) (.gz) アセットも作成されます。Webサーバーによる圧縮はほどほどの圧縮率で行われるのが普通ですが、プリコンパイルが1度発生するとSprocketsによって最大圧縮率で圧縮され、Webサーバーからのデータ転送量が最小化されます。逆に、圧縮されてないファイルを自前で圧縮する代りに、事前に圧縮しておいたコンテンツを直接ディスクに配置しておくようWebサーバーを設定することもできます。
-
-NGINXでは`gzip_static`を使用することでこれを自動的に行なうことができます。
-
-```nginx
-location ~ ^/(assets)/  {
-  root /path/to/public;
-  gzip_static on; # gzip済みのバージョンを提供する
-  expires max;
-  add_header Cache-Control public;
-}
-```
-
-このディレクティブは、この機能を提供するコアモジュールがWebサーバーと一緒にコンパイルされている場合に使用可能になります。Ubuntu/Debianパッケージはもちろん、`nginx-light`にもこのモジュールがコンパイル済みで用意されています。それ以外の場合には、自分でコンパイルを行う必要があるでしょう。
-
-```bash
-./configure --with-http_gzip_static_module
-```
-
-NGINXをPhusion Passengerと共にコンパイルする場合は、コンパイル中にプロンプトが表示された時にそのためのオプションを渡す必要があります。
-
-Apacheで堅牢な設定を行なうことは可能ですが、何かとトリッキーであるため、ネットを検索して情報を十分集めてください。(Apache用のよい設定例を確立したら本ガイドに反映いただけると大変助かります)
 
 ### ローカルでプリコンパイルを行なう
 
@@ -795,7 +744,8 @@ config.assets.css_compressor = :sass
 
 JavaScriptを圧縮する際には`:closure`、`:uglifier`、`:yui`のいずれかのオプションを指定できます。それぞれ、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemが必要です。
 
-Railsの`Gemfile`にはデフォルトで[uglifier](https://github.com/lautis/uglifier)が含まれています。このgemは、NodeJSで記述された[UglifyJS](https://github.com/mishoo/UglifyJS)をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
+`uglifier` gemを例に説明します。
+このgemは、NodeJSで記述された[UglifyJS](https://github.com/mishoo/UglifyJS)をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
 
 以下の設定により、JavaScriptの圧縮に`uglifier`が使用されます。
 
@@ -812,6 +762,8 @@ NOTE: `uglifier`を利用するには[ExecJS](https://github.com/sstephenson/exe
 ```ruby
 config.assets.gzip = false # disable gzipped assets generation
 ```
+
+gzip圧縮されたアセットを提供する方法については、お使いのWebサーバーのドキュメントを参照してください。
 
 ### 独自の圧縮機能を使用する
 
@@ -905,57 +857,4 @@ end
 
 ```ruby
 Sprockets.register_preprocessor 'text/css', AddComment
-```
-
-古いバージョンのRailsからアップグレードする
-------------------------------------
-
-Rails 3.0やRails 2.xからのアップグレードの際には、いくつかの作業を行う必要があります。最初に、`public/`ディレクトリ以下のファイルを新しい場所に移動します。ファイルの種類ごとの正しい置き場所については、[アセットの編成](#アセットの編成)を参照してください。
-
-続いて、JavaScriptファイルの重複を解消します。jQueryはRails 3.1以降におけるデフォルトのJavaScriptライブラリなので、`jquery.js`を`app/assets`に置かなくても自動的に読み込まれます。
-
-3番目に、多くの環境設定ファイルを正しいデフォルトオプションに更新します。
-
-`application.rb`の場合。
-
-```ruby
-# アセットのバージョンを指定する。アセットをすべて期限切れにしたい場合はこの値を変更する。
-config.assets.version = '1.0'
-
-# config.assets.prefix = "/assets"は、アセットの置き場所となるパスを変更する際に使用する。
-```
-
-`development.rb`の場合。
-
-```ruby
-# アセットで読み込んだ行を展開する。
-config.assets.debug = true
-```
-
-`production.rb`の場合。
-
-```ruby
-# 使うコンプレッサを選択する（ある場合）
-config.assets.js_compressor = :uglifier
-# config.assets.css_compressor = :yui
-
-# プリコンパイル済みのアセットが見当たらない場合にアセットパイプラインにフォールバックしない
-config.assets.compile = false
-
-# アセットURLのダイジェストを生成する。
-config.assets.digest = true
-
-# 追加のアセットをプリコンパイルする (application.js、application.css、およびすべての
-# 非JS/CSSファイルが追加済み)
-# config.assets.precompile += %w( admin.js admin.css )
-```
-
-Rails 4以降では、Sprocketsのデフォルト設定値をtest環境用の`test.rb`に設定しなくなりました。従って、`test.rb`にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、`config.assets.compile = true`、`config.assets.compress = false`、`config.assets.debug = false`、`config.assets.digest = false`です。
-
-以下を`Gemfile`に追加する必要があります。
-
-```ruby
-gem 'sass-rails',   "~> 3.2.3"
-gem 'coffee-rails', "~> 3.2.1"
-gem 'uglifier'
 ```
