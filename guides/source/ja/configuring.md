@@ -117,9 +117,9 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 * `config.logger`: `Rails.logger`で使われるロガーやRails関連のあらゆるログ出力（`ActiveRecord::Base.logger`など）を指定します。デフォルトでは、`ActiveSupport::Logger`のインスタンスをラップする`ActiveSupport::TaggedLogging`のインスタンスが指定されます。なお`ActiveSupport::Logger`はログを`log/`ディレクトリに出力します。ここにカスタムロガーを指定できますが、互換性を完全にするには以下のガイドラインに従わなければなりません。
 
-* フォーマッターをサポートする場合は、`config.log_formatter`の値を手動でロガーに代入しなければなりません。
-* タグ付きログをサポートする場合は、そのログのインスタンスを`ActiveSupport::TaggedLogging`でラップしなければなりません。
-* ログ出力の抑制をサポートするには、`LoggerSilence`モジュールと`ActiveSupport::LoggerThreadSafeLevel`を`include`しなければなりません。`ActiveSupport::Logger`クラスは既にこれらのモジュールに`include`されています。
+  * フォーマッターをサポートする場合は、`config.log_formatter`の値を手動でロガーに代入しなければなりません。
+  * タグ付きログをサポートする場合は、そのログのインスタンスを`ActiveSupport::TaggedLogging`でラップしなければなりません。
+  * ログ出力の抑制をサポートするには、`LoggerSilence`モジュールと`ActiveSupport::LoggerThreadSafeLevel`を`include`しなければなりません。`ActiveSupport::Logger`クラスは既にこれらのモジュールに`include`されています。
 
 ```ruby
 class MyLogger < ::Logger
@@ -475,6 +475,8 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 * `config.action_dispatch.use_authenticated_cookie_encryption`: 署名暗号化済みcookieが値の期限切れ情報に埋め込まれる場合に、暗号化済みcookieでAES-256-GCで認証された暗号を用いるようになります。デフォルトは`false`です。
 
+* `config.action_dispatch.use_cookies_with_metadata:` cookieへの書き込みにpurposeとexpiryメタデータを埋め込めるようにします。デフォルトは`true`です。
+
 * `config.action_dispatch.perform_deep_munge`: パラメータに対して`deep_munge`メソッドを実行すべきかどうかを指定します。詳細については[セキュリティガイド](security.html#安全でないクエリ生成)を参照してください。デフォルトは`true`です。
 
 * `config.action_dispatch.rescue_responses`: HTTPステータスに割り当てる例外を設定します。ここには、例外とステータスのさまざまなペアを指定したハッシュを1つ指定可能です。デフォルトの定義は次のようになっています。
@@ -499,7 +501,6 @@ config.action_dispatch.rescue_responses = {
   'ActiveRecord::RecordInvalid'                  => :unprocessable_entity,
   'ActiveRecord::RecordNotSaved'                 => :unprocessable_entity
 }
-
 ```
 
 設定されていない例外はすべて500 Internel Server Errorに割り当てられます。
@@ -580,12 +581,14 @@ config.action_dispatch.rescue_responses = {
 * `config.action_mailer.logger`: Log4rのインターフェイスまたはデフォルトのRuby Loggerクラスに従うロガーを引数として取ります。このロガーは、Action Mailerからの情報をログ出力するために使われます。ログ出力を無効にするには`nil`を設定します。
 
 * `config.action_mailer.smtp_settings`: `:smtp`配信方法を詳細に設定するのに使えます。これはオプションのハッシュを引数に取り、以下のどのオプションでも含めることができます。
+
     * `:address`: リモートのメールサーバーを指定します。デフォルトの"localhost"設定から変更します。
     * `:port`: 使うメールサーバーのポートが25番でないのであれば(めったにないと思いますが)、ここで対応できます。
     * `:domain`: HELOドメインの指定が必要な場合に使います。
     * `:user_name`: メールサーバーで認証が要求される場合は、ここでユーザー名を設定します。
     * `:password`: メールサーバーで認証が要求される場合は、ここでパスワードを設定します。
-    * `:authentication`: メールサーバーで認証が要求される場合は、ここで認証の種類を指定します。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定できます。
+
+    * `:authentication`: メールサーバーで認証が要求される場合は、ここで認証の種類を指定します。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定できます。
     * `:enable_starttls_auto`: 利用するSMTPサーバーでSTARTTLSが有効かどうかを検出し、可能な場合は使います。デフォルトは`true`です。
     * `:openssl_verify_mode`: TLSを使う場合、OpenSSLの認証方法を設定できます。これは、自己署名証明書やワイルドカード証明書が必要な場合に便利です。OpenSSLの検証定数である`:none`や`:peer`を指定することも、`OpenSSL::SSL::VERIFY_NONE`定数や`OpenSSL::SSL::VERIFY_PEER`定数を直接指定することもできます。
     * `:ssl/:tls`: SMTP接続でSMTP/TLS（SMTPS: SMTP over direct TLS connection）を有効にします。
@@ -629,6 +632,12 @@ config.action_dispatch.rescue_responses = {
     ```ruby
     config.action_mailer.interceptors = ["MailInterceptor"]
     ```
+
+* `config.action_mailer.preview_interceptors`:メールがプレビューされる前に呼び出すインターセプタを登録します。
+
+```ruby
+config.action_mailer.preview_interceptors = ["MyPreviewMailInterceptor"]
+```
 
 * `config.action_mailer.preview_path`: メイラーのプレビュー場所を指定します
 
@@ -696,7 +705,7 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `config.active_job.queue_name_prefix`: すべてのジョブ名の前に付けられるプレフィックスを設定します（スペースは含めません）。デフォルトは空欄なので何も追加されません。
 
-以下の設定では、production実行時に指定のジョブが`production_high_priority`キューに送信されます。
+    以下の設定では、production実行時に指定のジョブが`production_high_priority`キューに送信されます。
 
     ```ruby
     config.active_job.queue_name_prefix = Rails.env
@@ -711,7 +720,7 @@ Active Supportにもいくつかの設定オプションがあります。
 
 * `config.active_job.queue_name_delimiter`: デフォルト値は`'_'`です。`queue_name_prefix`が設定されている場合は、キュー名とプレフィックスの結合に`queue_name_delimiter`が使われます。
 
-以下の設定では、指定のジョブが`video_server.low_priority`キューに送信されます。
+    以下の設定では、指定のジョブが`video_server.low_priority`キューに送信されます。
 
     ```ruby
     # この区切り文字を使うにはprefixを設定しなければならない
