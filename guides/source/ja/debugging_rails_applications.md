@@ -56,8 +56,6 @@ Title: Rails debugging guide
 
 他の方法として、任意のオブジェクトに対して`to_yaml`を呼び出すことでYAMLに変換できます。変換したこのオブジェクトは、`simple_format`ヘルパーメソッドに渡して出力を整形できます。これは`debug`のマジックです。
 
-インスタンス変数や、その他のあらゆるオブジェクトやメソッドをYAML形式で表示します。以下のような感じで使います。
-
 ```html+erb
 <%= simple_format @article.to_yaml %>
 <p>
@@ -168,7 +166,7 @@ logger.fatal "Terminating application, raised unrecoverable error!!!"
       logger.debug "記事は正常に保存され、ユーザーをリダイレクト中..."
       redirect_to @article, notice: '記事は正常に作成されました。'
     else
-      render :new
+      render :new
     end
   end
 
@@ -198,6 +196,40 @@ Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
 ```
 
 このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが意味のない大量のメッセージでうずまることのないよう、適切なログレベルを使うようにしてください。
+
+### 詳細なクエリログ
+
+ログでデータベースクエリの出力を調べていると、以下のように1つのメソッド呼び出しでデータベースクエリが複数トリガされる理由がわかりにくいことがあります。
+
+```
+irb(main):001:0> Article.pamplemousse
+  Article Load (0.4ms)  SELECT "articles".* FROM "articles"
+  Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+=> #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
+```
+
+`rails console`で`ActiveRecord::Base.verbose_query_logs = true`を実行して詳細なクエリログ出力をオンにしてからメソッドを再度実行してみると、個別のデータベース呼び出しをすべてトリガしている行がどこかがはっきりわかります。
+
+```
+irb(main):003:0> Article.pamplemousse
+  Article Load (0.2ms)  SELECT "articles".* FROM "articles"
+  ↳ app/models/article.rb:5
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+  ↳ app/models/article.rb:6
+=> #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
+```
+
+各データベースステートメントの下にある矢印は、そのデータベース呼び出しを行った特定のファイル名と行番号を示しています。これはN+1クエリ（単一のデータベースクエリが追加クエリを多数生成すること）を引き起こすパフォーマンスの問題を特定するのに役立ちます。
+
+Rails 5.2から、development環境のログで詳細なログ出力がデフォルトで有効になっています。
+
+WARNING: この設定はproduction環境では避けることをおすすめします。この機能はRubyの`Kernel#caller`メソッドを利用していますが、これはメソッド呼び出しのスタックトレース生成のために大量のメモリをアロケートする傾向があるためです。
 
 ### タグ付きログの出力
 
@@ -814,9 +846,7 @@ Valgrindのインストール方法とRuby内での利用方法については�
 
 アプリケーションのエラーを検出し、デバッグするためのRailsプラグインがあります。デバッグ用に便利なプラグインのリストを以下にご紹介します。
 
-* [Footnotes](https://github.com/josevalim/rails-footnotes): すべてのRailsページに脚注を追加し、リクエスト情報を表示したり、TextMateでソースを開くためのリンクを表示したりします。
 * [Query Trace](https://github.com/ruckus/active-record-query-trace/tree/master): ログにクエリ元のトレースを追加します。
-* [Query Reviewer](https://github.com/nesquena/query_reviewer): このRailsプラグインは、開発中のselectクエリの前に"EXPLAIN"を実行します。また、ページごとにDIVセクションを追加して、分析対象のクエリごとの警告の概要をそこに表示します。
 * [Exception Notifier](https://github.com/smartinez87/exception_notification/tree/master): Railsアプリケーションでのエラー発生時用の、メイラーオブジェクトとメール通知送信テンプレートのデフォルトセットを提供します。
 * [Better Errors](https://github.com/charliesome/better_errors): Rails標準のエラーページを新しい表示に置き換えて、ソースコードや変数検査などのコンテキスト情報を見やすくしてくれます。
 * [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
