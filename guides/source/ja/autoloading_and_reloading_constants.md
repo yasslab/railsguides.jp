@@ -108,6 +108,7 @@ WARNING: `ActiveSupport::Dependencies.autoload_paths`はくれぐれも変更し
 `$LOAD_PATH`
 ----------
 
+
 自動読み込みパスはデフォルトで`$LOAD_PATH`に追加されます。ただし、Zeitwerkの内部では絶対ファイル名が使われますし、アプリケーションで自動読み込み可能なファイルを`require`すべきではありませんので、`$LOAD_PATH`に追加されたこれらのディレクトリは実際には不要です。この動作は以下のフラグで無効にできます。
 
 ```ruby
