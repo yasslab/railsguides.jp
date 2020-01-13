@@ -88,6 +88,8 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 * activerecord
 * activestorage
 * activesupport
+* actionmailbox
+* actiontext
 * arel
 * builder
 * bundler
@@ -335,7 +337,6 @@ private
   end
 ```
 
-
 Rails初期化の最初の出力はここで行われます。このメソッドでは`INT`シグナルのトラップが作成され、`CTRL-C`キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sessions`および`tmp/sockets`ディレクトリが作成されます。`rails server`に`--dev-caching`オプションを指定して呼び出した場合は、development環境でのキャッシュをオンにします。最後に`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成とアサインが行われる前に、Rackアプリケーションを作成する役割を担います。
 
 `super`メソッドは`Rack::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
@@ -482,12 +483,14 @@ require "rails"
 
 %w(
   active_record/railtie
+  active_storage/engine
   action_controller/railtie
   action_view/railtie
   action_mailer/railtie
   active_job/railtie
   action_cable/engine
-  active_storage/engine
+  action_mailbox/engine
+  action_text/engine
   rails/test_unit/railtie
   sprockets/railtie
 ).each do |railtie|
@@ -503,7 +506,6 @@ end
 現時点では、Railsエンジン、I18n、Rails設定などの共通機能がここで定義されていることを押さえておいてください。
 
 ### `config/environment.rb`に戻る
-
 
 `config/application.rb`の残りの行では`Rails::Application`の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。`config/application.rb`がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび`config/environment.rb`に戻ります。ここでは`Rails.application.initialize!`によるアプリケーションの初期化が行われます。これは`rails/application.rb`で定義されています。
 
