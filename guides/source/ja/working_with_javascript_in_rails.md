@@ -106,6 +106,8 @@ Railsチームは、本ガイドでご紹介した方法でCoffeeScriptやJavaSc
 組み込みヘルパー
 ----------------------
 
+### `remote`要素
+
 HTMLを簡単に生成できるようにするため、Rubyで記述されたさまざまなビューヘルパーメソッドが用意されています。それらのHTML要素にAjaxコードを若干追加したくなったときにも、Railsがちゃんとサポートしてくれます。
 
 RailsのJavaScriptは、「控えめなJavaScript」原則に基いて、JavaScriptとRubyという2つの要素で構成されています。
@@ -291,7 +293,6 @@ document.body.addEventListener('ajax:success', function(event) {
 NOTE: Rails 5.1では新しい`rails-ujs`が導入されたことにより、`data, status, xhr`パラメータは`event.detail`に組み込まれました。Rails 5およびそれ以前で利用されていた`jquery-ujs`について詳しくは、[`jquery-ujs` wiki](https://github.com/rails/jquery-ujs/wiki/ajax)をお読みください。
 
 ### 停止可能なイベント
-
 ハンドラメソッドから`false`を返すことで`ajax:before`や`ajax:beforeSend`を停止すると、以後のAjaxリクエストがまったく発生しなくなります。`ajax:before`イベントがフォームのデータを操作できるのはシリアライズ前なので、独自のリクエストヘッダを追加するには`ajax:beforeSend`が便利です。
 
 `ajax:aborted:file`イベントを停止すると、ブラウザがフォームを通常の方法（Ajaxを用いない送信など）で送信するときのデフォルトの振る舞いがキャンセルされ、以後そのフォームは送信されなくなります。この動作は、独自のAjaxでファイルアップロードを実装するときの回避方法として便利です。
