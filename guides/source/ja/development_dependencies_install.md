@@ -332,35 +332,3 @@ FreeBSDユーザーは以下を実行しなければなりません。
 # portmaster databases/redis
 ```
 
-### Active Storageのセットアップ
-
-Active Storageを使う場合、コードベースのセクションで使われているJavaScript依存関係のインストールが必要である点を押さえておくことが重要です。依存関係をインストールするには、YarnというNode.jsパッケージマネージャをシステムで使えるようにしておく必要があります。このパッケージをインストールするには、あらかじめ[Node.js](https://nodejs.org)をインストールしておく必要があります。
-
-macOSでは以下を実行できます。
-
-```bash
-brew install yarn
-```
-
-Ubuntuでは以下を実行できます。
-
-```bash
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo apt-get update && sudo apt-get install yarn
-```
-
-FedoraまたはCentOSの場合は以下を実行します。
-
-```bash
-sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
-
-sudo yum install yarn
-```
-
-Yarnのインストールが終わったら、`activestorage`ディレクトリの下で以下のコマンドを実行して、依存関係をインストールする必要があります。
-
-```bash
-yarn install
-```

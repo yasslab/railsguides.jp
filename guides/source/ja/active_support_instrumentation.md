@@ -514,54 +514,6 @@ Action Cable
 | `:message`      | メッセージ（ハッシュ）    |
 | `:coder`        | コーダー                  |
 
-Active Storage
---------------
-
-### service_upload.active_storage
-
-| キー          | 値                          |
-| ------------ | ---------------------------- |
-| `:key`       | セキュアトークン             |
-| `:service`   | サービス名                   |
-| `:checksum`  | 完全性を担保するチェックサム |
-
-### service_streaming_download.active_storage
-
-| キー          | 値               |
-| ------------ | ------------------- |
-| `:key`       | セキュアトークン             |
-| `:service`   | サービス名                   |
-
-### service_download.active_storage
-
-| キー          | 値               |
-| ------------ | ------------------- |
-| `:key`       | セキュアトークン             |
-| `:service`   | サービス名                   |
-
-### service_delete.active_storage
-
-| キー          | 値               |
-| ------------ | ------------------- |
-| `:key`       | セキュアトークン             |
-| `:service`   | サービス名                   |
-
-### service_exist.active_storage
-
-| キー          | 値                       |
-| ------------ | --------------------------- |
-| `:key`       | セキュアトークン             |
-| `:service`   | サービス名                   |
-| `:exist`     | ファイルかblogが存在するかどうか |
-
-### service_url.active_storage
-
-| キー          | 値                 |
-| ------------ | ------------------- |
-| `:key`       | セキュアトークン    |
-| `:service`   | サービス名          |
-| `:url`       | 生成されたURL       |
-
 Railties
 --------
 

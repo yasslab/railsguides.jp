@@ -85,7 +85,6 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 * activejob
 * activemodel
 * activerecord
-* activestorage
 * activesupport
 * arel
 * builder
