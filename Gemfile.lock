@@ -294,10 +294,6 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    gtt-downloader (0.1.8)
-      capybara
-      chromedriver-helper
-      selenium-webdriver
     hiredis (0.6.1)
     hiredis (0.6.1-java)
     html-proofer (3.8.0)
@@ -635,7 +631,6 @@ DEPENDENCIES
   delayed_job_active_record
   docset
   google-cloud-storage (~> 1.8)
-  gtt-downloader
   hiredis
   html-proofer
   jekyll
@@ -692,7 +687,7 @@ DEPENDENCIES
   wraith
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.6.2p47
 
 BUNDLED WITH
-   1.16.1
+   1.17.2
