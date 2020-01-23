@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>Rails プラグイン作成入門 - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>Rails プラグイン作成入門</h2><p>Railsのプラグインは、コアフレームワークを拡張したり変更したりするのに使用されます。プラグインは以下の機能を提供します。</p>
+<ul>
+<li>安定版コードベースに手を加えることなく最先端のアイディアを開発者同士で共有する手段を提供します。</li>
+<li>アーキテクチャを分割し、それらのコード単位ごとに異なるスケジュールで修正や更新を進められるようにします。</li>
+<li>コア開発者が価値ある新機能を実装しても、その全てオープンにすることなく共有できるようにします。</li>
+</ul>
+<p>このガイドの内容:</p>
+<ul>
+<li>プラグインをゼロから作成する方法</li>
+<li>プラグイン用のテストの作成方法と実行方法</li>
+</ul>
+<p>本ガイドでは、以下を理解することを目的として、プラグインをテスト駆動方式で開発する方法を解説します。</p>
+<ul>
+<li>HashやStringなどのコアRubyクラスを拡張する</li>
+<li><code>acts_as</code>プラグインと同様の手法で<code>ActiveRecord::Base</code>にメソッドを追加する</li>
+<li>プラグインのどこにジェネレータを配置すべきかを理解する</li>
+</ul>
+<p>ここからは説明上の便宜のため、自分がひとりの熱心なバードウォッチャーであるとお考えください。
+あなたは鳥の中でも特に Yaffle (ヨーロッパアオゲラ) が大好きで、この鳥がいかに素晴らしいかを他の開発者と共有するためのプラグインを作成したいと考えています。</p>
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li>
+<a href="#%E8%A8%AD%E5%AE%9A">設定</a>
+
+<ul>
+<li><a href="#gem%E5%BD%A2%E5%BC%8F%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">gem形式のプラグインを生成する</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B0%E3%81%97%E3%81%8F%E7%94%9F%E6%88%90%E3%81%97%E3%81%9F%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">新しく生成したプラグインをテストする</a></li>
+<li><a href="#%E3%82%B3%E3%82%A2%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E6%8B%A1%E5%BC%B5%E3%81%99%E3%82%8B">コアクラスを拡張する</a></li>
+<li>
+<a href="#acts-as-%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">"acts_as"メソッドをActive Recordに追加する</a>
+
+<ul>
+<li><a href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">クラスメソッドを追加する</a></li>
+<li><a href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">インスタンスメソッドを追加する</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF">ジェネレータ</a></li>
+<li><a href="#gem%E3%82%92%E5%85%AC%E9%96%8B%E3%81%99%E3%82%8B">gemを公開する</a></li>
+<li>
+<a href="#rdoc%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88">RDocドキュメント</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
+</ul>
+</li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="設定"><a class="anchorlink" href="#%E8%A8%AD%E5%AE%9A">1 設定</a></h3><p>以前と異なり、現在Railsのプラグインはgemとしてビルドします。gem形式を取っているので、必要であればRubygemsとBunderを使用してプラグインを他のRailsアプリケーションと共有することもできます。</p><h4 id="gem形式のプラグインを生成する"><a class="anchorlink" href="#gem%E5%BD%A2%E5%BC%8F%E3%81%AE%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">1.1 gem形式のプラグインを生成する</a></h4><p>RailsにはあらゆるRails拡張機能の開発用スケルトンを作成する<code>rails plugin new</code>というコマンドが最初から装備されています。これで作成したスケルトンはダミーのRailsアプリケーションを使用して結合テストを実行することもできます。プラグインを作成するには以下のコマンドを実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails plugin new yaffle
+
+</pre>
+</div>
+<p>使用法とオプションは以下の方法で表示できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails plugin new --help
+
+</pre>
+</div>
+<h3 id="新しく生成したプラグインをテストする"><a class="anchorlink" href="#%E6%96%B0%E3%81%97%E3%81%8F%E7%94%9F%E6%88%90%E3%81%97%E3%81%9F%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">2 新しく生成したプラグインをテストする</a></h3><p>プラグインを作成したディレクトリに移動して<code>bundle install</code>コマンドを実行し、自動生成されたテストを<code>rake</code>コマンドで実行します。</p><p>実行結果は以下のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
+
+</pre>
+</div>
+<p>生成が無事完了し、いつでも機能を追加できる状態であることがわかります。</p><h3 id="コアクラスを拡張する"><a class="anchorlink" href="#%E3%82%B3%E3%82%A2%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E6%8B%A1%E5%BC%B5%E3%81%99%E3%82%8B">3 コアクラスを拡張する</a></h3><p>このセクションでは、Railsアプリケーションのどこでも利用できるメソッドをStringクラスに追加する方法を解説します。</p><p>この例では、<code>to_squawk</code>(ガーガー鳴くの意)という名前のメソッドをStringクラスに追加します。最初に、テストファイルをひとつ作成してそこにアサーションをいくつか追加しましょう。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/test/core_ext_test.rb
+
+require 'test_helper'
+
+class CoreExtTest &lt; ActiveSupport::TestCase
+  def test_to_squawk_prepends_the_word_squawk
+    assert_equal "squawk! Hello World", "Hello World".to_squawk
+  end
+end
+
+</pre>
+</div>
+<p><code>rake</code>を実行してテストします。<code>to_squawk</code>は実装されていないので、当然テストは失敗します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+    1) Error:
+  CoreExtTest#test_to_squawk_prepends_the_word_squawk:
+  NoMethodError: undefined method `to_squawk' for "Hello World":String
+    /path/to/yaffle/test/core_ext_test.rb:5:in `test_to_squawk_prepends_the_word_squawk'
+
+</pre>
+</div>
+<p>ここまで準備できれば、いよいよコーディング開始です。</p><p><code>lib/yaffle.rb</code>に<code>require 'yaffle/core_ext'</code>を追加します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle.rb
+
+require 'yaffle/core_ext'
+
+module Yaffle
+end
+
+</pre>
+</div>
+<p>最後に<code>core_ext.rb</code>ファイルを作成して<code>to_squawk</code>メソッドを追加します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle/core_ext.rb
+
+String.class_eval do
+  def to_squawk
+    "squawk! #{self}".strip
+  end
+end
+
+</pre>
+</div>
+<p>プラグインのあるディレクトリで<code>rake</code>テストを実行して、メソッドがテストにパスすることを確認します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  2 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+
+</pre>
+</div>
+<p>最後にメソッドを実際に使ってみましょう。test/dummyディレクトリに移動してガーガー鳴いてみましょう(squawk)。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails console
+&gt;&gt; "Hello World".to_squawk
+=&gt; "squawk! Hello World"
+
+</pre>
+</div>
+<h3 id="acts-as-メソッドをactive-recordに追加する"><a class="anchorlink" href="#acts-as-%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92active-record%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4 "acts_as"メソッドをActive Recordに追加する</a></h3><p>プラグインでは、<code>acts_as_何とか</code>という名前のメソッドをモデルに追加することがよく行われます。この例ではそれにならって<code>acts_as_yaffle</code>というメソッドを追加してみます。これは<code>squawk</code>メソッドを自分のActive Recordモデルに追加するメソッドです。</p><p>最初に以下のファイルを準備します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/test/acts_as_yaffle_test.rb
+
+require 'test_helper'
+
+class ActsAsYaffleTest &lt; ActiveSupport::TestCase
+end
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle.rb
+
+require 'yaffle/core_ext'
+require 'yaffle/acts_as_yaffle'
+
+module Yaffle
+end
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle/acts_as_yaffle.rb
+
+module Yaffle
+  module ActsAsYaffle
+    # ここにコードを書く
+  end
+end
+
+</pre>
+</div>
+<h4 id="クラスメソッドを追加する"><a class="anchorlink" href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.1 クラスメソッドを追加する</a></h4><p>このプラグインはモデルに<code>last_squawk</code>という名前のメソッドが追加されていることを前提にしています。しかし、プラグインがインストールされた環境には、そのモデルに目的の異なる<code>last_squawk</code>という名前のメソッドが既にあるかもしれません。そこで、このプラグインでは<code>yaffle_text_field</code>という名前のクラスメソッドをひとつ追加することによって名前を変更できるようにしたいと思います。</p><p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/test/acts_as_yaffle_test.rb
+
+require 'test_helper'
+
+class ActsAsYaffleTest &lt; ActiveSupport::TestCase
+
+  def test_a_hickwalls_yaffle_text_field_should_be_last_squawk
+    assert_equal "last_squawk", Hickwall.yaffle_text_field
+  end
+
+  def test_a_wickwalls_yaffle_text_field_should_be_last_tweet
+    assert_equal "last_tweet", Wickwall.yaffle_text_field
+  end
+
+end
+
+</pre>
+</div>
+<p><code>rake</code>を実行すると以下が出力されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+    1) Error:
+  ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
+  NameError: uninitialized constant ActsAsYaffleTest::Hickwall
+    /path/to/yaffle/test/acts_as_yaffle_test.rb:6:in `test_a_hickwalls_yaffle_text_field_should_be_last_squawk'
+
+    2) Error:
+  ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
+  NameError: uninitialized constant ActsAsYaffleTest::Wickwall
+    /path/to/yaffle/test/acts_as_yaffle_test.rb:10:in `test_a_wickwalls_yaffle_text_field_should_be_last_tweet'
+
+  4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
+
+</pre>
+</div>
+<p>この結果から、テストの対象となるモデル (Hickwall and Wickwall) がそもそもないことがわかります。必要なモデルはダミーのRailsアプリケーションで簡単に作成できます。test/dummyディレクトリに移動して以下のコマンドを実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cd test/dummy
+$ bin/rails generate model Hickwall last_squawk:string
+$ bin/rails generate model Wickwall last_squawk:string last_tweet:string
+
+</pre>
+</div>
+<p>これで必要なデータベーステーブルをテストデータベース内に作成するための準備が整いました。作成は、ダミーアプリケーションのディレクトリに移動してデータベースのマイグレーションを実行することで行います。最初に以下を実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cd test/dummy
+$ bin/rake db:migrate
+
+</pre>
+</div>
+<p>続いて、このディレクトリでHickwallモデルとWickwallモデルを変更し、これらのモデルにyafflesとしての振る舞いが期待されていることが伝わるようにします。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# test/dummy/app/models/hickwall.rb
+
+class Hickwall &lt; ActiveRecord::Base
+  acts_as_yaffle
+end
+
+# test/dummy/app/models/wickwall.rb
+
+class Wickwall &lt; ActiveRecord::Base
+  acts_as_yaffle yaffle_text_field: :last_tweet
+end
+
+
+</pre>
+</div>
+<p><code>acts_as_yaffle</code>メソッドを定義するコードも追加します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle/acts_as_yaffle.rb
+module Yaffle
+  module ActsAsYaffle
+    extend ActiveSupport::Concern
+
+    included do
+    end
+
+    module ClassMethods
+      def acts_as_yaffle(options = {})
+        # ここにコードを書く
+      end
+    end
+  end
+end
+
+ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+
+</pre>
+</div>
+<p>終わったら<code>cd ../..</code>を実行してプラグインのルートディレクトリに戻り、<code>rake</code>を実行してテストを再実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+    1) Error:
+  ActsAsYaffleTest#test_a_hickwalls_yaffle_text_field_should_be_last_squawk:
+  NoMethodError: undefined method `yaffle_text_field' for #&lt;Class:0x007fd105e3b218&gt;
+    activerecord (4.1.5) lib/active_record/dynamic_matchers.rb:26:in `method_missing'
+    /path/to/yaffle/test/acts_as_yaffle_test.rb:6:in `test_a_hickwalls_yaffle_text_field_should_be_last_squawk'
+
+    2) Error:
+  ActsAsYaffleTest#test_a_wickwalls_yaffle_text_field_should_be_last_tweet:
+  NoMethodError: undefined method `yaffle_text_field' for #&lt;Class:0x007fd105e409c0&gt;
+    activerecord (4.1.5) lib/active_record/dynamic_matchers.rb:26:in `method_missing'
+    /path/to/yaffle/test/acts_as_yaffle_test.rb:10:in `test_a_wickwalls_yaffle_text_field_should_be_last_tweet'
+
+  4 runs, 2 assertions, 0 failures, 2 errors, 0 skips
+
+
+</pre>
+</div>
+<p>開発がだいぶ進んできました。今度は<code>acts_as_yaffle</code>メソッドを実装し、テストがパスするようにしましょう。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle/acts_as_yaffle.rb
+
+module Yaffle
+  module ActsAsYaffle
+   extend ActiveSupport::Concern
+
+    included do
+    end
+
+    module ClassMethods
+      def acts_as_yaffle(options = {})
+        cattr_accessor :yaffle_text_field
+        self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s
+      end
+    end
+  end
+end
+
+ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+
+</pre>
+</div>
+<p><code>rake</code>を実行すると、今度のテストはすべてパスします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  4 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+
+</pre>
+</div>
+<h4 id="インスタンスメソッドを追加する"><a class="anchorlink" href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">4.2 インスタンスメソッドを追加する</a></h4><p>今度はこのプラグインに'squawk'というメソッドを追加して、'acts_as_yaffle'を呼び出すすべてのActive Recordオブジェクトに追加しましょう'squawk'メソッドはデータベースのフィールドにある値のいずれかひとつを設定するだけのシンプルなものです。</p><p>最初に、以下のように振る舞う、失敗するテストをひとつ作成します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/test/acts_as_yaffle_test.rb
+require 'test_helper'
+
+class ActsAsYaffleTest &lt; ActiveSupport::TestCase
+
+  def test_a_hickwalls_yaffle_text_field_should_be_last_squawk
+    assert_equal "last_squawk", Hickwall.yaffle_text_field
+  end
+
+  def test_a_wickwalls_yaffle_text_field_should_be_last_tweet
+    assert_equal "last_tweet", Wickwall.yaffle_text_field
+  end
+
+  def test_hickwalls_squawk_should_populate_last_squawk
+    hickwall = Hickwall.new
+    hickwall.squawk("Hello World")
+    assert_equal "squawk! Hello World", hickwall.last_squawk
+  end
+
+  def test_wickwalls_squawk_should_populate_last_tweet
+    wickwall = Wickwall.new
+    wickwall.squawk("Hello World")
+    assert_equal "squawk! Hello World", wickwall.last_tweet
+  end
+end
+
+</pre>
+</div>
+<p>テストを実行して、最後に追加した2つのテストが失敗することを確認します。失敗のメッセージには"NoMethodError: undefined method `squawk'"が含まれているので、'acts_as_yaffle.rb'を以下のように更新します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# yaffle/lib/yaffle/acts_as_yaffle.rb
+
+module Yaffle
+  module ActsAsYaffle
+    extend ActiveSupport::Concern
+
+    included do
+    end
+
+    module ClassMethods
+      def acts_as_yaffle(options = {})
+        cattr_accessor :yaffle_text_field
+        self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s
+
+        include Yaffle::ActsAsYaffle::LocalInstanceMethods
+      end
+    end
+
+    module LocalInstanceMethods
+      def squawk(string)
+        write_attribute(self.class.yaffle_text_field, string.to_squawk)
+      end
+    end
+  end
+end
+
+ActiveRecord::Base.send :include, Yaffle::ActsAsYaffle
+
+</pre>
+</div>
+<p>最後に<code>rake</code>を実行すると以下の結果が表示されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  6 runs, 6 assertions, 0 failures, 0 errors, 0 skips
+
+</pre>
+</div>
+<div class="note"><p>上のコードでは<code>write_attribute</code>を使用してモデルのフィールドへの書き出しを行っていますが、これはあくまでプラグインからモデルとやりとりする際の書き方を示すための一例にすぎません。この書き方が適切とは限らないこともあるのでご注意ください。たとえば同じコードを以下のように書くこともできます。</p></div><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+send("#{self.class.yaffle_text_field}=", string.to_squawk)
+
+</pre>
+</div>
+<h3 id="ジェネレータ"><a class="anchorlink" href="#%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF">5 ジェネレータ</a></h3><p>gemにジェネレータを含めるには、単にジェネレータを作成してプラグインのlib/generatorsディレクトリに置くだけでもかまいません。ジェネレータの作成方法の詳細については<a href="generators.html">Rails ジェネレータとテンプレート入門</a>を参照してください。</p><h3 id="gemを公開する"><a class="anchorlink" href="#gem%E3%82%92%E5%85%AC%E9%96%8B%E3%81%99%E3%82%8B">6 gemを公開する</a></h3><p>開発中のgemであってもGitリポジトリで簡単に共有できます。今回のYaffle gemを他の開発者と共有するには、コードをGithubなどのGitリポジトリにコミットしておき、gemを使用したいアプリケーションのGemfileに一行書くだけで済みます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+gem 'yaffle', git: 'git://github.com/yaffle_watcher/yaffle.git'
+
+</pre>
+</div>
+<p>後は<code>bundle install</code>を実行すればgemの機能をアプリケーションで利用できるようになります。</p><p>gemを正式なリリースとして一般公開するのであれば<a href="http://www.rubygems.org">RubyGems</a>でパブリッシュします。
+RubyGemsサイトでgemを公開する方法の詳細については、<a href="http://blog.thepete.net/2010/11/creating-and-publishing-your-first-ruby.html">はじめてのRuby Gem作成・パブリッシュ方法</a>(英語) を参照してください。</p><h3 id="rdocドキュメント"><a class="anchorlink" href="#rdoc%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88">7 RDocドキュメント</a></h3><p>プラグインの開発が一段落してデプロイする段階になったら、プラグインの利用者のためにちゃんとしたドキュメントを作成しましょう。幸い、プラグインのドキュメント作成は簡単です。</p><p>最初に、プラグインの使用法をREADMEファイルに詳しく記載します。以下の項目は忘れずに記入してください。</p>
+<ul>
+<li>自分の名前</li>
+<li>インストール方法</li>
+<li>アプリケーションに機能を追加する具体的な方法 (一般的なユースケースもいくつか例として追加)</li>
+<li>警告、注意点、ヒントなど (ユーザーが無駄な時間を使わずに済むように)</li>
+</ul>
+<p>READMEの内容が固まってきたら、コードをひととおりチェックしてすべてのメソッドにrdoc形式のコメントを追加します。このコメントは開発者にとって役立つ情報となります。パブリックAPIにしたくない箇所には'#:nodoc:'というコメントを追加します。</p><p>コメントを付け終わったらプラグインのルートディレクトリに移動して以下を実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake rdoc
+
+</pre>
+</div>
+<h4 id="参考資料"><a class="anchorlink" href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">7.1 参考資料</a></h4>
+<ul>
+<li>
+<a href="https://github.com/radar/guides/blob/master/gem-development.md">Bundlerを使用してRubyGemを開発する</a>(英語)</li>
+<li>
+<a href="http://yehudakatz.com/2010/04/02/using-gemspecs-as-intended/">gemspecsを意図したとおりに使う</a>(英語)</li>
+<li>
+<a href="http://guides.rubygems.org/specification-reference/">Gemspecリファレンス</a>(英語)</li>
+<li>
+<a href="http://www.intridea.com/blog/2008/6/11/gemplugins-a-brief-introduction-to-the-future-of-rails-plugins">GemPlugin: Railsプラグインの今後の見通し</a>(英語)</li>
+</ul>
+
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

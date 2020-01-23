@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>Active Record マイグレーション - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>Active Record マイグレーション</h2><p>マイグレーション (migration) はActive Recordの機能の1つであり、データベーススキーマを長期にわたって安定して発展・増築し続けることができるようにするための仕組みです。マイグレーション機能のおかげで、Rubyで作成されたマイグレーション用のDSL (ドメイン固有言語) を使用して、テーブルの変更を簡単に記述できます。スキーマを変更するためにSQLを直に書いて実行する必要がありません。</p><p>このガイドの内容:</p>
+<ul>
+<li>マイグレーション作成で使用できるジェネレータ</li>
+<li>Active Recordが提供するデータベース操作用メソッド群の解説</li>
+<li>マイグレーション実行とスキーマ更新用のRakeタスクの解説</li>
+<li>マイグレーションとスキーマファイル<code>schema.rb</code>の関係</li>
+</ul>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E6%A6%82%E8%A6%81">マイグレーションの概要</a></li>
+<li>
+<a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">マイグレーションを作成する</a>
+
+<ul>
+<li><a href="#%E5%8D%98%E7%8B%AC%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">単独のマイグレーションを作成する</a></li>
+<li><a href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">モデルを生成する</a></li>
+<li><a href="#%E4%BF%AE%E9%A3%BE%E5%AD%90%E3%82%92%E6%B8%A1%E3%81%99">修飾子を渡す</a></li>
+</ul>
+</li>
+<li>
+<a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E8%87%AA%E4%BD%9C%E3%81%99%E3%82%8B">マイグレーションを自作する</a>
+
+<ul>
+<li><a href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">テーブルを作成する</a></li>
+<li><a href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E7%B5%90%E5%90%88%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">テーブル結合を作成する</a></li>
+<li><a href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">テーブルを変更する</a></li>
+<li><a href="#%E3%82%AB%E3%83%A9%E3%83%A0%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">カラムを変更する</a></li>
+<li><a href="#%E3%82%AB%E3%83%A9%E3%83%A0%E4%BF%AE%E9%A3%BE%E5%AD%90">カラム修飾子</a></li>
+<li><a href="#%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC">外部キー</a></li>
+<li><a href="#%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC%E3%81%AE%E6%A9%9F%E8%83%BD%E3%81%A0%E3%81%91%E3%81%A7%E3%81%AF%E8%B6%B3%E3%82%8A%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">ヘルパーの機能だけでは足りない場合</a></li>
+<li><a href="#change%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B"><code>change</code>メソッドを使用する</a></li>
+<li><a href="#reversible%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B"><code>reversible</code>を使用する</a></li>
+<li><a href="#up-down%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B"><code>up</code>/<code>down</code>メソッドを使用する</a></li>
+<li><a href="#%E4%BB%A5%E5%89%8D%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E9%80%86%E8%BB%A2%E3%81%99%E3%82%8B">以前のマイグレーションを逆転する</a></li>
+</ul>
+</li>
+<li>
+<a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">マイグレーションを実行する</a>
+
+<ul>
+<li><a href="#%E3%83%AD%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">ロールバック</a></li>
+<li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">データベースを設定する</a></li>
+<li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%82%92%E3%83%AA%E3%82%BB%E3%83%83%E3%83%88%E3%81%99%E3%82%8B">データベースをリセットする</a></li>
+<li><a href="#%E7%89%B9%E5%AE%9A%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%81%BF%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">特定のマイグレーションのみを実行する</a></li>
+<li><a href="#%E7%95%B0%E3%81%AA%E3%82%8B%E7%92%B0%E5%A2%83%E3%81%A7%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">異なる環境でマイグレーションを実行する</a></li>
+<li><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%AE%9F%E8%A1%8C%E7%B5%90%E6%9E%9C%E3%81%AE%E5%87%BA%E5%8A%9B%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">マイグレーション実行結果の出力を変更する</a></li>
+</ul>
+</li>
+<li><a href="#%E6%97%A2%E5%AD%98%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">既存のマイグレーションを変更する</a></li>
+<li>
+<a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%AE%E6%84%8F%E7%BE%A9">スキーマダンプの意義</a>
+
+<ul>
+<li><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E6%84%8F%E5%91%B3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">スキーマファイルの意味について</a></li>
+<li><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%AE%E7%A8%AE%E9%A1%9E">スキーマダンプの種類</a></li>
+<li><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86">スキーマダンプとソースコード管理</a></li>
+</ul>
+</li>
+<li><a href="#active-record%E3%81%A8%E5%8F%82%E7%85%A7%E6%95%B4%E5%90%88%E6%80%A7">Active Recordと参照整合性</a></li>
+<li><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A8%E3%82%B7%E3%83%BC%E3%83%89%E3%83%87%E3%83%BC%E3%82%BF">マイグレーションとシードデータ</a></li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="マイグレーションの概要"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E6%A6%82%E8%A6%81">1 マイグレーションの概要</a></h3><p>マイグレーションは、<a href="http://en.wikipedia.org/wiki/Schema_migration">データベーススキーマの継続的な変更</a> (英語) を、統一的かつ簡単に行なうための便利な手法です。マイグレーションではRubyのDSLを使用しているので、生のSQLを作成する必要がなく、スキーマとスキーマへの変更をデータベースの種類に依存せずに済みます。</p><p>1つ1つのマイグレーションは、データベースの新しい'version'とみなすことができます。スキーマは最初空の状態から始まり、マイグレーションによる変更が加わるたびにテーブル、カラム、エントリが追加または削除されます。Active Recordは時系列に沿ってスキーマを更新する方法を知っているので、履歴のどの時点からでも最新バージョンのスキーマに更新することができます。Active Recordは<code>db/schema.rb</code>ファイルを更新し、データベースの最新の構造と一致するようにします。</p><p>マイグレーションの例を以下に示します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateProducts &lt; ActiveRecord::Migration
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+
+</pre>
+</div>
+<p>上のマイグレーションを実行すると<code>products</code>という名前のテーブルが追加されます。この中には<code>name</code>というstringカラムと、<code>description</code>というtextカラムが含まれています。主キーは<code>id</code>という名前で暗黙に追加されます。<code>id</code>はActive Recordモデルにおけるデフォルトの主キーです。<code>timestamps</code>マクロは、<code>created_at</code>と<code>updated_at</code>という2つのカラムを追加します。これらの特殊なカラムが存在する場合、Active Recordによって自動的に管理されます。</p><p>マイグレーションは、時間を先に進めるときに実行したい動作を定義していることにご注目ください。マイグレーションの実行前にはテーブルは1つもありません。マイグレーションを実行すると、テーブルが作成されます。Active Recordは、このマイグレーションの進行を逆転させる方法も知っています。マイグレーションをロールバックすると、テーブルは削除されます。</p><p>スキーマ変更のステートメントが使用できるトランザクションをサポートするデータベースでは、マイグレーションはトランザクションの内側にラップされて実行されます。これらがデータベースでサポートされていない場合は、マイグレーション中に一部が失敗した場合にロールバックされません。その場合は、変更を手動でロールバックする必要があります。</p><div class="note"><p>ある種のクエリは、トランザクション内で実行できないことがあります。アダプタがDDLトランザクションをサポートしている場合は、<code>disable_ddl_transaction!</code>を使用して単一のマイグレーションでこれらを無効にすることができます。</p></div><p>マイグレーションを逆方向に実行 (ロールバック) する方法が推測できない場合、<code>reversible</code> を使用します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class ChangeProductsPrice &lt; ActiveRecord::Migration
+  def change
+    reversible do |dir|
+      change_table :products do |t|
+        dir.up   { t.change :price, :string }
+        dir.down { t.change :price, :integer }
+      end
+    end
+  end
+end
+
+</pre>
+</div>
+<p><code>change</code>の代りに<code>up</code>と<code>down</code>を使用することもできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class ChangeProductsPrice &lt; ActiveRecord::Migration
+  def up
+    change_table :products do |t|
+      t.change :price, :string
+    end
+  end
+
+  def down
+    change_table :products do |t|
+      t.change :price, :integer
+    end
+  end
+end
+
+</pre>
+</div>
+<h3 id="マイグレーションを作成する"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 マイグレーションを作成する</a></h3><h4 id="単独のマイグレーションを作成する"><a class="anchorlink" href="#%E5%8D%98%E7%8B%AC%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2.1 単独のマイグレーションを作成する</a></h4><p>マイグレーションは<code>db/migrate</code>ディレクトリに保存されます。1つのファイルが1つのマイグレーションクラスに対応します。マイグレーションファイル名は<code>YYYYMMDDHHMMSS_create_products.rb</code>のような形式になります。ファイル名の日時はマイグレーションを識別するUTCタイムスタンプであり、アンダースコアにつづいてマイグレーション名が記述されます。マイグレーション クラスの名前 (CamelCaseで表されるバージョン) は、ファイル名の後半と一致する必要があります。たとえば、<code>20080906120000_create_products.rb</code>では<code>CreateProducts</code>というクラスが定義され、<code>20080906120001_add_details_to_products.rb</code>では<code>AddDetailsToProducts</code>というクラスが定義される必要があります。Railsではマイグレーションの実行順序をファイル名のタイムスタンプで決定します。従って、マイグレーションを他のアプリケーションからコピーしたり、自分でマイグレーションを生成する場合は、実行順に注意する必要があります。</p><p>タイムスタンプを算出する作業は楽しいものではありませんので、Active Recordにはこれらを扱うためのジェネレータが用意されています。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddPartNumberToProducts
+
+</pre>
+</div>
+<p>これによって生成されるマイグレーションは中身が空ですが、適切な名前が付けられています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddPartNumberToProducts &lt; ActiveRecord::Migration
+  def change
+  end
+end
+
+</pre>
+</div>
+<p>マイグレーション名が"AddXXXToYYY"や"RemoveXXXFromYYY"の形式になっており、その後にカラム名と種類が続いていれば、マイグレーション内に適切な<code>add_column</code>文と<code>remove_column</code>文が作成されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddPartNumberToProducts part_number:string
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddPartNumberToProducts &lt; ActiveRecord::Migration
+  def change
+    add_column :products, :part_number, :string
+  end
+end
+
+</pre>
+</div>
+<p>新しいカラムにインデックスを追加したい場合は以下のようにします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddPartNumberToProducts part_number:string:index
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddPartNumberToProducts &lt; ActiveRecord::Migration
+  def change
+    add_column :products, :part_number, :string
+    add_index :products, :part_number
+  end
+end
+
+</pre>
+</div>
+<p>同様に、カラムを削除するマイグレーションをコマンドラインで生成するには以下のようにします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration RemovePartNumberFromProducts part_number:string
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class RemovePartNumberFromProducts &lt; ActiveRecord::Migration
+  def change
+    remove_column :products, :part_number, :string
+  end
+end
+
+</pre>
+</div>
+<p>自動で生成できるカラムは1つだけではありません。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddDetailsToProducts part_number:string price:decimal
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddDetailsToProducts &lt; ActiveRecord::Migration
+  def change
+    add_column :products, :part_number, :string
+    add_column :products, :price, :decimal
+  end
+end
+
+</pre>
+</div>
+<p>マイグレーション名が"CreateXXX"のような形式であり、その後にカラム名と種類が続く場合、XXXという名前のテーブルが作成され、指定の種類のカラム名がその中に生成されます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration CreateProducts name:string part_number:string
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateProducts &lt; ActiveRecord::Migration
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.string :part_number
+    end
+  end
+end
+
+</pre>
+</div>
+<p>これまでと同様、ここまでに生成した内容は単なる出発点でしかありません。<code>db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb</code>ファイルを編集して、項目の追加や削除を行なうことができます。</p><p>同様に、カラムの種類として<code>references</code> (<code>belongs_to</code> も可) を指定することができます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddUserRefToProducts user:references
+
+</pre>
+</div>
+<p>上を実行すると以下が生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddUserRefToProducts &lt; ActiveRecord::Migration
+  def change
+    add_reference :products, :user, index: true
+  end
+end
+
+</pre>
+</div>
+<p>このマイグレーションを実行すると、<code>user_id</code>が作成され、適切なインデックスが追加されます。</p><p>名前の一部に<code>JoinTable</code>が含まれているとテーブル結合を生成するジェネレータもあります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails g migration CreateJoinTableCustomerProduct customer product
+
+</pre>
+</div>
+<p>上によって以下のマイグレーションが生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateJoinTableCustomerProduct &lt; ActiveRecord::Migration
+  def change
+    create_join_table :customers, :products do |t|
+      # t.index [:customer_id, :product_id]
+      # t.index [:product_id, :customer_id]
+    end
+  end
+end
+
+</pre>
+</div>
+<h4 id="モデルを生成する"><a class="anchorlink" href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">2.2 モデルを生成する</a></h4><p>モデルのジェネレータとscaffoldジェネレータは、新しいモデルを追加するマイグレーションを生成します。このマイグレーションには、関連するテーブルを作成する命令が既に含まれています。必要なカラムを指定すると、それらのカラムを追加する命令も同時に生成されます。たとえば、以下を実行するとします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate model Product name:string description:text
+
+</pre>
+</div>
+<p>このとき、以下のようなマイグレーションが作成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateProducts &lt; ActiveRecord::Migration
+  def change
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+
+</pre>
+</div>
+<p>カラム名と種類のペアはいくつでも追加できます。</p><h4 id="修飾子を渡す"><a class="anchorlink" href="#%E4%BF%AE%E9%A3%BE%E5%AD%90%E3%82%92%E6%B8%A1%E3%81%99">2.3 修飾子を渡す</a></h4><p>コマンドラインである種の<a href="#%E3%82%AB%E3%83%A9%E3%83%A0%E4%BF%AE%E9%A3%BE%E5%AD%90">型修飾子</a> を直接渡すこともできます。これらは波かっこで囲まれ、後ろにフィールドの種類が追加されます。</p><p>たとえば以下を実行したとします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
+
+</pre>
+</div>
+<p>これによって以下のようなマイグレーションが生成されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddDetailsToProducts &lt; ActiveRecord::Migration
+  def change
+    add_column :products, :price, :decimal, precision: 5, scale: 2
+    add_reference :products, :supplier, polymorphic: true, index: true
+  end
+end
+
+</pre>
+</div>
+<div class="info"><p>詳細についてはジェネレータのヘルプを参照してください。</p></div><h3 id="マイグレーションを自作する"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E8%87%AA%E4%BD%9C%E3%81%99%E3%82%8B">3 マイグレーションを自作する</a></h3><p>ジェネレータでマイグレーションを作成できるようになったら、今度は自分で作成してみましょう。</p><h4 id="テーブルを作成する"><a class="anchorlink" href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.1 テーブルを作成する</a></h4><p><code>create_table</code>メソッドは最も基本的なメソッドであり、ほとんどの場合モデルやscaffoldの生成時に使用されます。典型的な利用法を以下に示します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_table :products do |t|
+  t.string :name
+end
+
+</pre>
+</div>
+<p>上によって<code>products</code>テーブルが生成され、<code>name</code>という名前のカラムがその中に作成されます (<code>id</code>というカラムも暗黙で生成されますが、これについては後述します)。</p><p>デフォルトでは、<code>create_table</code>によって<code>id</code>という名前の主キーが作成されます。<code>:primary_key</code>オプションを指定することで、主キー名を変更することもできます (その場合は必ず対応するモデル名を変更してください)。 主キーを使用したくない場合は<code>id: false</code>オプションを指定することもできます。特定のデータベースで使用するオプションが必要な場合は、<code>:options</code>オプションに続けてSQLフラグメントを記述します。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_table :products, options: "ENGINE=BLACKHOLE" do |t|
+  t.string :name, null: false
+end
+
+</pre>
+</div>
+<p>上のマイグレーションでは、テーブルを生成するSQLステートメントに<code>ENGINE=BLACKHOLE</code>を指定しています (MySQLを使用する場合、デフォルトは<code>ENGINE=InnoDB</code>です)。</p><h4 id="テーブル結合を作成する"><a class="anchorlink" href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E7%B5%90%E5%90%88%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.2 テーブル結合を作成する</a></h4><p>マイグレーションの<code>create_join_table</code>メソッドはhas_and_belongs_to_many (HABTM) テーブル結合を作成します。典型的な利用法を以下に示します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_join_table :products, :categories
+
+</pre>
+</div>
+<p>上によって<code>categories_products</code>テーブルが作成され、その中に<code>category_id</code>カラムと<code>product_id</code>カラムが生成されます。これらのカラムには<code>:null</code>オプションがあり、デフォルト値は<code>false</code>です。<code>:column_options</code>オプションを指定することでこれらを上書きできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_join_table :products, :categories, column_options: {null: true}
+
+</pre>
+</div>
+<p>上によって<code>product_id</code>と<code>category_id</code>が作成され、<code>:null</code>が<code>true</code>に設定されます。</p><p>テーブル名をカスタマイズしたい場合は<code>:table_name</code>オプションを渡すこともできます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_join_table :products, :categories, table_name: :categorization
+
+</pre>
+</div>
+<p>上のようにすることで<code>categorization</code>テーブルが作成されます。</p><p><code>create_join_table</code>はブロックを引数に取ることもできます。これはインデックスを追加したり (インデックスはデフォルトでは作成されません)、カラムを追加するのに使用されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+create_join_table :products, :categories do |t|
+  t.index :product_id
+  t.index :category_id
+end
+
+</pre>
+</div>
+<h4 id="テーブルを変更する"><a class="anchorlink" href="#%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">3.3 テーブルを変更する</a></h4><p>既存のテーブルを変更する<code>change_table</code>は、<code>create_table</code>とよく似ています。基本的には<code>create_table</code>と同じ要領で使用しますが、ブロックに対してyieldされるオブジェクトではいくつかのテクニックが使用できます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+change_table :products do |t|
+  t.remove :description, :name
+  t.string :part_number
+  t.index :part_number
+  t.rename :upccode, :upc_code
+end
+
+</pre>
+</div>
+<p>上のマイグレーションでは<code>description</code>と<code>name</code>カラムが削除され、stringカラムである<code>part_number</code>が作成されてインデックスがそこに追加されます。そして最後に<code>upccode</code>カラムをリネームしています。</p><h4 id="カラムを変更する"><a class="anchorlink" href="#%E3%82%AB%E3%83%A9%E3%83%A0%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">3.4 カラムを変更する</a></h4><p>マイグレーションでは、<code>remove_column</code>や<code>add_column</code>に加えて<code>change_column</code>メソッドも利用できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+change_column :products, :part_number, :text
+
+</pre>
+</div>
+<p>productsテーブル上の<code>part_number</code>カラムの種類を<code>:text</code>フィールドに変更しています。</p><p><code>change_column</code>の他に<code>change_column_null</code>メソッドと<code>change_column_default</code>メソッドもあり、それぞれnot null制約を変更したりデフォルト値を指定したりするのに使用します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+change_column_null :products, :name, false
+change_column_default :products, :approved, false
+
+</pre>
+</div>
+<p>上のマイグレーションはproductsテーブルの<code>:name</code>フィールドに<code>NOT NULL</code>制約を設定し、<code>:approved</code>フィールドのデフォルト値をfalseに設定します。</p><div class="info"><p><code>change_column</code> (および<code>change_column_default</code>) と異なる点は、<code>change_column_null</code>が可逆的であることです。</p></div><h4 id="カラム修飾子"><a class="anchorlink" href="#%E3%82%AB%E3%83%A9%E3%83%A0%E4%BF%AE%E9%A3%BE%E5%AD%90">3.5 カラム修飾子</a></h4><p>カラムの作成または変更時に、カラムの修飾子を適用できます。</p>
+<ul>
+<li>
+<code>limit</code> - <code>string/text/binary/integer</code>フィールドの最大サイズを設定します。</li>
+<li>
+<code>precision</code> - <code>decimal</code>フィールドの精度 (precision) を定義します。この精度は、その数字の総桁数で表されます。</li>
+<li>
+<code>scale</code> - <code>decimal</code>フィールドの精度 (スケール: scale) を指定します。この精度は小数点以下の桁数で表されます。</li>
+<li>
+<code>polymorphic</code> - <code>belongs_to</code>関連付けで使用する<code>type</code>カラムを追加します。</li>
+<li>
+<code>null</code> - カラムで<code>NULL</code>値を許可または禁止します。</li>
+<li>
+<code>default</code> - カラムでのデフォルト値の設定を許可します。dateなどの動的な値を使用している場合は、デフォルト値は最初 (マイグレーションが実行された日付など) にしか計算されないことに注意してください。</li>
+<li>
+<code>index</code> - カラムにインデックスを追加します。</li>
+</ul>
+<p>アダプタによってはこの他にも使用できるオプションがあるものもあります。詳細については各アダプタ固有のAPIドキュメントを参照してください。</p><h4 id="外部キー"><a class="anchorlink" href="#%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC">3.6 外部キー</a></h4><p><a href="#active-record%E3%81%A8%E5%8F%82%E7%85%A7%E6%95%B4%E5%90%88%E6%80%A7">参照整合性の保証</a> に対して外部キー制約を追加することもできます。これは必須ではありません。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+add_foreign_key :articles, :authors
+
+</pre>
+</div>
+<p>上によって新たな外部キーが<code>articles</code>テーブルの<code>author_id</code>カラムに追加されます。このキーは<code>authors</code>テーブルの<code>id</code>カラムを参照します。欲しいカラム名をテーブル名から類推できない場合は、<code>:column</code>オプションと<code>:primary_key</code>オプションを使用できます。</p><p>Railsでは、すべての外部キーは<code>fk_rails_</code>という名前で始まり、その後ろに10文字のランダムな文字列が続きます。
+必要であれば、<code>:name</code>オプションを指定することで別の名前を使用できます。</p><div class="note"><p>Active Recordでは単一カラムの外部キーのみがサポートされています。複合外部キーを使用する場合は<code>execute</code>と<code>structure.sql</code>が必要です。</p></div><p>外部キーの削除も以下のように簡単に行えます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# 削除するカラム名の決定をActive Recordに任せる場合
+remove_foreign_key :accounts, :branches
+
+# カラムを指定して外部キーを削除する場合
+remove_foreign_key :accounts, column: :owner_id
+
+# 名前を指定して外部キーを削除する場合
+remove_foreign_key :accounts, name: :special_fk_name
+
+</pre>
+</div>
+<h4 id="ヘルパーの機能だけでは足りない場合"><a class="anchorlink" href="#%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC%E3%81%AE%E6%A9%9F%E8%83%BD%E3%81%A0%E3%81%91%E3%81%A7%E3%81%AF%E8%B6%B3%E3%82%8A%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">3.7 ヘルパーの機能だけでは足りない場合</a></h4><p>Active Recordが提供するヘルパーの機能だけでは不十分な場合、<code>execute</code>メソッドを使用して任意のSQLを実行できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
+
+</pre>
+</div>
+<p>個別のメソッドの詳細については、APIドキュメントを確認してください。
+特に、<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html"><code>ActiveRecord::ConnectionAdapters::SchemaStatements</code></a>
+(<code>change</code>、<code>up</code>、<code>down</code>メソッドで利用可能なメソッドを提供)、<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html"><code>ActiveRecord::ConnectionAdapters::TableDefinition</code></a> (<code>create_table</code>で生成されるオブジェクトで使用可能なメソッドを提供)、および<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html"><code>ActiveRecord::ConnectionAdapters::Table</code></a> (<code>change_table</code>で生成されるオブジェクトで使用可能なメソッドを提供) を参照ください。</p><h4 id="changeメソッドを使用する"><a class="anchorlink" href="#change%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.8 <code>change</code>メソッドを使用する</a></h4><p><code>change</code>メソッドは、マイグレーションを自作する場合に最もよく使用されます。このメソッドを使用すれば、Active Recordがマイグレーションを逆方向に実行 (ロールバック) する方法を自動的に理解してくれるため、多くの場面で使用できます。現時点では、<code>change</code>でサポートされているマイグレーション定義は以下のものだけです。</p>
+<ul>
+<li><code>add_column</code></li>
+<li><code>add_index</code></li>
+<li><code>add_reference</code></li>
+<li><code>add_timestamps</code></li>
+<li><code>add_foreign_key</code></li>
+<li><code>create_table</code></li>
+<li><code>create_join_table</code></li>
+<li>
+<code>drop_table</code> (ブロックを渡す必要あり)</li>
+<li>
+<code>drop_join_table</code> (ブロックを渡す必要あり)</li>
+<li><code>remove_timestamps</code></li>
+<li><code>rename_column</code></li>
+<li><code>rename_index</code></li>
+<li><code>remove_reference</code></li>
+<li><code>rename_table</code></li>
+</ul>
+<p><code>change_table</code>の逆転は、<code>change</code>、<code>change_default</code>、<code>remove</code>が呼び出されない限り可能です。</p><p>これ以外のメソッドを使用する必要が生じた場合は、<code>change</code>メソッドではなく<code>reversible</code>メソッドを利用するか、<code>up</code>と<code>down</code>メソッドを明示的に書くようにしてください。</p><h4 id="reversibleを使用する"><a class="anchorlink" href="#reversible%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.9 <code>reversible</code>を使用する</a></h4><p>マイグレーションが複雑になると、Active Recordがマイグレーションを逆転できないことがあります。<code>reversible</code>メソッドを使用することで、マイグレーションを通常どおり実行する場合と逆転する場合の動作を指定できます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class ExampleMigration &lt; ActiveRecord::Migration
+  def change
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    reversible do |dir|
+      dir.up do
+        # CHECK制約を追加
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            ADD CONSTRAINT zipchk
+              CHECK (char_length(zipcode) = 5) NO INHERIT;
+        SQL
+      end
+      dir.down do
+        execute &lt;&lt;-SQL
+          ALTER TABLE distributors
+            DROP CONSTRAINT zipchk
+        SQL
+      end
+    end
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+end
+
+</pre>
+</div>
+<p><code>reversible</code>メソッドを使用することで、各命令を正しい順序で実行できます。前述のマイグレーション例を逆転させた場合、<code>down</code>ブロックは必ず<code>home_page_url</code>カラムが削除された直後、そして<code>distributors</code>テーブルがdropされる直前に実行されます。</p><p>自作したマイグレーションがたまたま逆転不可能にするしかない内容の場合、データの一部が失われる可能性があります。そのような場合は、<code>down</code>ブロック内で<code>ActiveRecord::IrreversibleMigration</code>をレイズできます。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。</p><h4 id="up-downメソッドを使用する"><a class="anchorlink" href="#up-down%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.10 <code>up</code>/<code>down</code>メソッドを使用する</a></h4><p><code>change</code>の代りに、従来の<code>up</code>メソッドと<code>down</code>メソッドを使用することもできます。
+<code>up</code>メソッドにはスキーマに対する変換方法を記述し、<code>down</code>メソッドには<code>up</code>メソッドによって行われた変換を逆転する方法を記述する必要があります。つまり、<code>up</code>の後に<code>down</code>を実行した場合、スキーマが変更されないようにする必要があります。たとえば、<code>up</code>メソッドでテーブルを作成したら、<code>down</code>メソッドではそのテーブルを削除する必要があります。<code>down</code>メソッド内で行なう変換の順序は、<code>up</code>メソッド内で行なうのと逆の順序にするのが賢明と言えます。先の<code>reversible</code>セクションの例は以下と同等になります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class ExampleMigration &lt; ActiveRecord::Migration
+  def up
+    create_table :distributors do |t|
+      t.string :zipcode
+    end
+
+    # CHECK制約を追加
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        ADD CONSTRAINT zipchk
+        CHECK (char_length(zipcode) = 5);
+    SQL
+
+    add_column :users, :home_page_url, :string
+    rename_column :users, :email, :email_address
+  end
+
+  def down
+    rename_column :users, :email_address, :email
+    remove_column :users, :home_page_url
+
+    execute &lt;&lt;-SQL
+      ALTER TABLE distributors
+        DROP CONSTRAINT zipchk
+    SQL
+
+    drop_table :distributors
+  end
+end
+
+</pre>
+</div>
+<p>マイグレーションが逆転不可能な場合、<code>down</code>メソッド内に<code>ActiveRecord::IrreversibleMigration</code>を記述しておく必要があります。こうすることで、誰かが後にマイグレーションを逆転させたときに、実行不可能であることを示すエラーが表示されるようになります。</p><h4 id="以前のマイグレーションを逆転する"><a class="anchorlink" href="#%E4%BB%A5%E5%89%8D%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E9%80%86%E8%BB%A2%E3%81%99%E3%82%8B">3.11 以前のマイグレーションを逆転する</a></h4><p><code>revert</code>メソッドを使用することで、Active Recordのマイグレーションロールバック (逆転) 機能を使用できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require_relative '2012121212_example_migration'
+
+class FixupExampleMigration &lt; ActiveRecord::Migration
+  def change
+    revert ExampleMigration
+
+    create_table(:apples) do |t|
+      t.string :variety
+    end
+  end
+end
+
+</pre>
+</div>
+<p><code>revert</code>はブロックを受け取ることもできます。ブロックには逆転のための命令群が含まれます。
+これは、以前のマイグレーションの一部のみを逆転したい場合に便利です。
+たとえば、<code>ExampleMigration</code>がコミット済みになっており、後になって郵便番号を検証するには<code>CHECK</code>制約よりもActive Recordのバリデーションを使う方がよいことに気付いたとしましょう。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class DontUseConstraintForZipcodeValidationMigration &lt; ActiveRecord::Migration
+  def change
+    revert do
+      # ExampleMigrationのコードをコピー＆ペースト
+      reversible do |dir|
+        dir.up do
+          # CHECK制約を追加
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              ADD CONSTRAINT zipchk
+                CHECK (char_length(zipcode) = 5);
+          SQL
+        end
+        dir.down do
+          execute &lt;&lt;-SQL
+            ALTER TABLE distributors
+              DROP CONSTRAINT zipchk
+          SQL
+        end
+      end
+
+      # 以後のマイグレーションはOK
+    end
+  end
+end
+
+</pre>
+</div>
+<p><code>revert</code>を使用せずに同様のマイグレーションを自作することもできますが、その分余計な手間がかかります (<code>create_table</code>と<code>reversible</code>の順序を逆にし、<code>create_table</code>を<code>drop_table</code>に置き換え、最後に<code>up</code>と<code>down</code>を入れ替えます)。
+<code>revert</code>はこれらを一手に引き受けてくれます。</p><h3 id="マイグレーションを実行する"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">4 マイグレーションを実行する</a></h3><p>Railsにはマイグレーションを実行するためのRakeタスクがいくつか用意されています。</p><p>最も手っ取り早くマイグレーションを実行するRakeタスクは、ほとんどの場合<code>rake db:migrate</code>でしょう。このRakeタスクは、基本的にこれまで実行されたことのない<code>change</code>または<code>up</code>メソッドを実行します。未実行のマイグレーションがない場合は何もせずに終了します。マイグレーションの実行順序は、マイグレーションの日付に基づきます。</p><p><code>db:migrate</code>タスクを実行すると、<code>db:schema:dump</code>タスクも同時に呼び出される点にご注意ください。このタスクは<code>db/schema.rb</code>スキーマファイルを更新し、スキーマがデータベースの構造に一致するようにします。</p><p>マイグレーションの特定のバージョンを指定すると、Active Recordは指定されたマイグレーションに達するまでマイグレーション (change/up/down) を実行します。マイグレーションのバージョンは、マイグレーションファイル名の冒頭に付いている数字で表されます。たとえば、20080906120000というバージョンまでマイグレーションしたい場合は、以下を実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:migrate VERSION=20080906120000
+
+</pre>
+</div>
+<p>20080906120000というバージョンが現在のバージョンより大きい場合 (新しい方に進む通常のマイグレーションなど)、20080906120000に到達するまで (このマイグレーション自身も実行対象に含まれます) のすべてのマイグレーションの<code>change</code> (または<code>up</code>) メソッドを実行し、それより先のマイグレーションは行いません。過去に遡るマイグレーションの場合、20080906120000に到達するまでのすべてのマイグレーションの<code>down</code>メソッドを実行しますが、上と異なり、20080906120000自身は含まれない点にご注意ください。</p><h4 id="ロールバック"><a class="anchorlink" href="#%E3%83%AD%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">4.1 ロールバック</a></h4><p>直前に行ったマイグレーションをロールバックする作業はよく発生します。たとえば、マイグレーションに誤りがあって訂正したい場合などです。この場合、バージョン番号を調べて明示的にロールバックを実行しなくても、次を実行するだけで済みます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:rollback
+
+</pre>
+</div>
+<p>これにより、直前のマイグレーションがロールバックされます。<code>change</code>メソッドを逆転実行するか<code>down</code>メソッドを実行します。マイグレーションを複数ロールバックしたい場合は、<code>STEP</code>パラメータを指定できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:rollback STEP=3
+
+</pre>
+</div>
+<p>これにより、最後に行った3つのマイグレーションがロールバックされます。</p><p><code>db:migrate:redo</code>タスクは、ロールバックと再マイグレーションを一度に実行できるショートカットです。複数バージョンに対してこれを行いたい場合は、<code>db:rollback</code>タスクの場合と同様に<code>STEP</code>パラメータを指定することもできます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:migrate:redo STEP=3
+
+</pre>
+</div>
+<p>ただし、<code>db:migrate</code>で実行できないタスクをこれらのタスクで実行することはできません。これらは単に、バージョンを明示的に指定しなくて済むように<code>db:migrate</code>タスクを使いやすくしたものに過ぎません。</p><h4 id="データベースを設定する"><a class="anchorlink" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">4.2 データベースを設定する</a></h4><p><code>rake db:setup</code>タスクは、データベースの作成、スキーマの読み込み、シードデータを使用したデータベースの初期化を実行します。</p><h4 id="データベースをリセットする"><a class="anchorlink" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%82%92%E3%83%AA%E3%82%BB%E3%83%83%E3%83%88%E3%81%99%E3%82%8B">4.3 データベースをリセットする</a></h4><p><code>rake db:reset</code>タスクは、データベースをdropして再度設定します。このタスクは、<code>rake db:drop db:setup</code>と同等です。</p><div class="note"><p>このタスクは、すべてのマイグレーションを実行することと等価ではありません。このタスクでは現在の<code>schema.rb</code>の内容をそのまま使い回しているためです。マイグレーションをロールバックできなくなった場合には、<code>rake db:reset</code>を実行しても復旧できないことがあります。スキーマダンプの詳細については、<a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%AE%E6%84%8F%E7%BE%A9">スキーマダンプの意義</a> セクションを参照してください。</p></div><h4 id="特定のマイグレーションのみを実行する"><a class="anchorlink" href="#%E7%89%B9%E5%AE%9A%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%81%BF%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">4.4 特定のマイグレーションのみを実行する</a></h4><p>特定のマイグレーションをupまたはdown方向に実行する必要がある場合は、<code>db:migrate:up</code>または<code>db:migrate:down</code>タスクを使用します。以下に示したように、適切なバージョン番号を指定するだけで、該当するマイグレーションに含まれる<code>change</code>、<code>up</code>、<code>down</code>メソッドのいずれかが呼び出されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:migrate:up VERSION=20080906120000
+
+</pre>
+</div>
+<p>上を実行すると、バージョン番号が20080906120000のマイグレーションに含まれる<code>change</code>メソッド (または<code>up</code>メソッド) が実行されます。このタスクは、最初にそのマイグレーションが実行済みであるかどうかをチェックし、Active Recordによって実行済みであると認定された場合は何も行いません。</p><h4 id="異なる環境でマイグレーションを実行する"><a class="anchorlink" href="#%E7%95%B0%E3%81%AA%E3%82%8B%E7%92%B0%E5%A2%83%E3%81%A7%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">4.5 異なる環境でマイグレーションを実行する</a></h4><p>デフォルトでは、<code>rake db:migrate</code>は<code>development</code>環境で実行されます。
+他の環境に対してマイグレーションを行いたい場合は、コマンド実行時に<code>RAILS_ENV</code>環境変数を指定します。たとえば、<code>test</code>環境でマイグレーションを実行する場合は以下のようにします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:migrate RAILS_ENV=test
+
+</pre>
+</div>
+<h4 id="マイグレーション実行結果の出力を変更する"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%AE%9F%E8%A1%8C%E7%B5%90%E6%9E%9C%E3%81%AE%E5%87%BA%E5%8A%9B%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">4.6 マイグレーション実行結果の出力を変更する</a></h4><p>デフォルトでは、マイグレーション実行後に正確な実行内容とそれぞれの所要時間が出力されます。
+たとえば、テーブル作成とインデックス追加を行なうと次のような出力が得られます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+==  CreateProducts: migrating =================================================
+-- create_table(:products)
+   -&gt; 0.0028s
+==  CreateProducts: migrated (0.0028s) ========================================
+
+</pre>
+</div>
+<p>マイグレーションには、これらの出力方法を制御するためのメソッドが提供されています。</p>
+<table>
+<thead>
+<tr>
+<th>メソッド</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>suppress_messages</td>
+<td>引数としてブロックを1つ取り、そのブロックによって生成される出力をすべて抑制する。</td>
+</tr>
+<tr>
+<td>say</td>
+<td>引数としてメッセージを1つ受け取り、それをそのまま出力する。2番目の引数として、出力をインデントするかどうかを指定するbooleanを与えられる。</td>
+</tr>
+<tr>
+<td>say_with_time</td>
+<td>受け取ったブロックを実行するのにかかった時間を示すテキストを出力する。ブロックが整数を1つ返す場合、影響を受けた行数であるとみなす。</td>
+</tr>
+</tbody>
+</table>
+<p>以下のマイグレーションを例に説明します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class CreateProducts &lt; ActiveRecord::Migration
+  def change
+    suppress_messages do
+    create_table :products do |t|
+      t.string :name
+      t.text :description
+      t.timestamps
+      end
+    end
+
+    say "Created a table"
+
+    suppress_messages {add_index :products, :name}
+    say "and an index!", true
+
+    say_with_time 'Waiting for a while' do
+      sleep 10
+      250
+    end
+  end
+end
+
+</pre>
+</div>
+<p>上によって以下の出力が得られます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+==  CreateProducts: migrating =================================================
+-- Created a table
+   -&gt; and an index!
+-- Waiting for a while
+   -&gt; 10.0013s
+   -&gt; 250 rows
+==  CreateProducts: migrated (10.0054s) =======================================
+
+</pre>
+</div>
+<p>Active Recordから何も出力したくない場合は、<code>rake db:migrate VERBOSE=false</code>を実行することで出力を完全に抑制できます。</p><h3 id="既存のマイグレーションを変更する"><a class="anchorlink" href="#%E6%97%A2%E5%AD%98%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">5 既存のマイグレーションを変更する</a></h3><p>マイグレーションを自作していると、ときにはミスしてしまうこともあります。いったんマイグレーションを実行してしまった後では、既存のマイグレーションを単に編集してもう一度マイグレーションをやり直しても意味がありません。Railsはマイグレーションが既に実行済みであると認識しているので、<code>rake db:migrate</code>を実行しても何も変更されません。このような場合には、マイグレーションをいったんロールバック (<code>rake db:rollback</code>など) してからマイグレーションを修正し、それから修正の完了したバージョンのマイグレーションを実行するために<code>rake db:migrate</code>を実行する必要があります。</p><p>そもそも、既存のマイグレーションを直接変更するのは一般的によい方法とは言えません。既存のマイグレーションを変更すると、自分どころか共同作業者にまで余分な作業を強いることになります。さらに、既存のマイグレーションが本番環境で実行中の場合、ひどい頭痛の種になるでしょう。既存のマイグレーションを直接修正するのではなく、そのためのマイグレーションを新たに作成してそれを実行するのが正しい方法です。これまでコミットされてない (より一般的に言えば、これまでdevelopment環境以外に展開されたことのない) マイグレーションを新たに生成し、それを編集するのが害の少ない方法であると言えます。</p><p><code>revert</code>メソッドは、以前のマイグレーション全体またはその一部を取り消すためのマイグレーションを新たに書くときにも便利です (前述の<a href="#%E4%BB%A5%E5%89%8D%E3%81%AE%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E9%80%86%E8%BB%A2%E3%81%99%E3%82%8B">以前のマイグレーションを逆転する</a>を参照してください)。</p><h3 id="スキーマダンプの意義"><a class="anchorlink" href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%AE%E6%84%8F%E7%BE%A9">6 スキーマダンプの意義</a></h3><h4 id="スキーマファイルの意味について"><a class="anchorlink" href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E6%84%8F%E5%91%B3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">6.1 スキーマファイルの意味について</a></h4><p>Railsのマイグレーションはあまりに強力であるため、データベースのスキーマを作成するための信頼できる情報源とするには適切ではありません。スキーマ情報は、<code>db/schema.rb</code>か、Active Recordがデータベースを検査することによって生成されるSQLファイルのどちらかを元にすることになります。これらのファイルは単にデータベースの現在の状態を表すものであり、開発者が編集するものではありません。</p><p>アプリケーションの新しいインスタンスをデプロイするときに、膨大なマイグレーション履歴をすべて再実行する必要はありません。むしろ、そのようなことをすると逆にエラーが発生しやすくなるでしょう。単に現在のスキーマの記述をデータベースに読み込む方がはるかに簡潔かつ高速です。</p><p>例として、Railsでtest環境のデータベースを作成するときの方法を説明します。現在のdevelopmentデータベースからいったん<code>db/schema.rb</code>または<code>db/structure.sql</code>にダンプされ、続いてtest環境のデータベースに読み込まれます。</p><p>スキーマファイルは、Active Recordのオブジェクトにどのような属性があるのかを概観するのにも便利です。スキーマ情報はモデルのコードの中にはありません。スキーマ情報は多くのマイグレーションに分かれて存在しており、そのままでは非常に探しにくいものですが、この情報はスキーマファイルにコンパクトに収まっています。なお、<a href="https://github.com/ctran/annotate_models">annotate_models</a> gemを使用すると、モデルファイルの冒頭にスキーマ情報の要約コメントが自動的に追加・更新されるようになるので便利です。</p><h4 id="スキーマダンプの種類"><a class="anchorlink" href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%AE%E7%A8%AE%E9%A1%9E">6.2 スキーマダンプの種類</a></h4><p>スキーマのダンプ方法は2種類あります。ダンプ方法は<code>config/application.rb</code>の<code>config.active_record.schema_format</code>で設定します。<code>:sql</code>または<code>:ruby</code>を指定できます。</p><p><code>:ruby</code>を指定すると、スキーマは<code>db/schema.rb</code>に保存されます。このファイルを開いてみると、1つの巨大なマイグレーションのように見えるはずです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+ActiveRecord::Schema.define(version: 20080906171750) do
+  create_table "authors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "part_number"
+  end
+end
+
+</pre>
+</div>
+<p>このスキーマ情報は、見てのとおりその内容を単刀直入に表しています。このファイルは、データベースを詳細に検査し、<code>create_table</code>や<code>add_index</code>などでその構造を表現することによって作成されています。このスキーマ情報はデータベースの種類に依存しないため、Active Recordがサポートしているデータベースであればどんなものにでも読み込むことができます。この特性は、複数の種類のデータベースを実行できるアプリケーションを展開する必要がある場合に特に有用です。</p><p>このような有用な特性を得られる代りに、1つの代償があります。当然ながら、<code>db/schema.rb</code>にはデータベース固有の項目 (トリガーやストアドプロシージャなど) を含めることはできません。マイグレーションにはカスタムSQLを含めることはできますが、スキーマをダンプするときにデータベースからこの構文を再構成することはできないのです。データベース固有の機能を使用するのであれば、スキーマのフォーマットを<code>:sql</code>にする必要があります。</p><p>この場合、Active Recordのスキーマダンプを使用する代りに、データベース固有のツールを使用してデータベースの構造を<code>db/structure.sql</code>にダンプします (<code>db:structure:dump</code> Rakeタスクを使用します)。たとえばPostgreSQLの場合は<code>pg_dump</code>ユーティリティが使用されます。MySQLの場合は、多くのテーブルにおいて<code>SHOW CREATE TABLE</code>の出力結果がファイルに含まれます。</p><p>これらのスキーマの読み込みは、そこに含まれるSQL文を実行するだけの非常にシンプルなものです。定義上、これによってデータベース構造の完全なコピーが作成されます。その代わり、<code>:sql</code>スキーマフォーマットを使用した場合は、そのスキーマを作成したRDBMS以外では読み込めないという制限が生じます。</p><h4 id="スキーマダンプとソースコード管理"><a class="anchorlink" href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%83%80%E3%83%B3%E3%83%97%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86">6.3 スキーマダンプとソースコード管理</a></h4><p>上述の通り、スキーマダンプはデータベーススキーマの情報源として信頼するに足るものです。従って、スキーマファイルをGitなどのソースコード管理の対象に加えることを強く推奨します。</p><p><code>db/schema.rb</code>にはデータベースの現在のバージョン番号が含まれています。これにより、ソースコード管理の異なるブランチでスキーマが変更されていた場合に、両者をマージすると競合が発生していることが警告されるというメリットもあります。スキーマの競合が発生した場合は手動で解決し、数字の大きい方のバージョン番号を保持する必要があります。</p><h3 id="active-recordと参照整合性"><a class="anchorlink" href="#active-record%E3%81%A8%E5%8F%82%E7%85%A7%E6%95%B4%E5%90%88%E6%80%A7">7 Active Recordと参照整合性</a></h3><p>Active Recordは、知的に動作すべきはモデルであり、データベースではないというコンセプトに基づいています。そして実際、トリガーや制約などの高度なデータベース機能はそれほど使用されていません。</p><p><code>validates :foreign_key, uniqueness: true</code>のようなデータベース検証機能は、データ整合性の強制をモデルが行っている1つの例です。モデルに関連付けの<code>:dependent</code>オプションを指定すると、親オブジェクトが削除されたときに子オブジェクトも自動的に削除されます。アプリケーションレベルで実行される他のものと同様、モデルのこうした機能だけでは参照整合性を維持できないため、データベースの<a href="#%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC">外部キー制約</a>を使用して参照整合性を増大させる開発者もいます。</p><p>Active Recordだけではこうした外部機能を扱うツールをすべて提供することはできませんが、<code>execute</code>メソッドを使用して任意のSQLを実行することができます。</p><h3 id="マイグレーションとシードデータ"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A8%E3%82%B7%E3%83%BC%E3%83%89%E3%83%87%E3%83%BC%E3%82%BF">8 マイグレーションとシードデータ</a></h3><p>データベースにデータを追加するのにマイグレーションが使用されることがあります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class AddInitialProducts &lt; ActiveRecord::Migration
+  def up
+    5.times do |i|
+      Product.create(name: "Product ##{i}", description: "A product.")
+    end
+  end
+
+  def down
+    Product.delete_all
+  end
+end
+
+</pre>
+</div>
+<p>しかしRailsには初期データをデータベースに与えるためのシード機能があります。これは、<code>db/seeds.rb</code>ファイルに若干のRubyコードを追加して<code>rake db:seed</code>を実行するだけですぐに利用できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+5.times do |i|
+  Product.create(name: "Product ##{i}", description: "A product.")
+end
+
+</pre>
+</div>
+<p>この方法なら、マイグレーションを使用するよりもずっとクリーンに空のアプリケーションのデータベースを設定できます。</p>
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

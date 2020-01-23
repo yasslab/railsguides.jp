@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>API ドキュメント作成ガイドライン - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>API ドキュメント作成ガイドライン</h2><p>本ガイドでは、Rails APIドキュメント作成のガイドラインについて解説します(訳注: APIドキュメントが英語で書かれることを前提とします。また、サンプルのコメントは基本的に英語のままにしています)。</p><p>このガイドの内容:</p>
+<ul>
+<li>APIドキュメントを効果的に書く方法</li>
+<li>ドキュメント作成用のスタイルガイド (Rubyコード開発用のスタイルガイドとは別)</li>
+</ul>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li><a href="#rdoc">RDoc</a></li>
+<li><a href="#%E8%AA%9E%E8%AA%BF">語調</a></li>
+<li><a href="#%E8%8B%B1%E8%AA%9E">英語</a></li>
+<li><a href="#%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%89">サンプルコード</a></li>
+<li><a href="#%E8%AB%96%E7%90%86%E5%80%A4">論理値</a></li>
+<li><a href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D">ファイル名</a></li>
+<li>
+<a href="#%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">フォント</a>
+
+<ul>
+<li><a href="#%E7%AD%89%E5%B9%85%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">等幅フォント</a></li>
+<li><a href="#regular%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">Regularフォント</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AA%AC%E6%98%8E%E3%81%AE%E3%83%AA%E3%82%B9%E3%83%88">説明のリスト</a></li>
+<li><a href="#%E5%8B%95%E7%9A%84%E3%81%AB%E7%94%9F%E6%88%90%E3%81%95%E3%82%8C%E3%82%8B%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89">動的に生成されるメソッド</a></li>
+<li><a href="#%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E5%8F%AF%E8%A6%96%E6%80%A7">メソッドの可視性</a></li>
+<li><a href="#rails%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">Railsスタック</a></li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="rdoc"><a class="anchorlink" href="#rdoc">1 RDoc</a></h3><p><a href="http://edgeapi.rubyonrails.org">Rails API ドキュメント</a>は<a href="http://docs.seattlerb.org/rdoc/">RDoc</a>を使用して生成されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+  bundle exec rake rdoc
+
+</pre>
+</div>
+<p>生成されたHTMLファイルは./doc/rdocディレクトリに置かれます。</p><p>RDocの記法に関しては、<a href="http://docs.seattlerb.org/rdoc/RDoc/Markup.html">markup</a>を参照してください(訳注: 別ページですが<a href="http://docs.ruby-lang.org/ja/2.1.0/library/rdoc.html">日本語のRDocライブラリ解説</a>があります)。<a href="http://docs.seattlerb.org/rdoc/RDoc/Parser/Ruby.html">追加のディレクティブ</a>にも目を通しておいてください。</p><h3 id="語調"><a class="anchorlink" href="#%E8%AA%9E%E8%AA%BF">2 語調</a></h3><p>簡潔かつ宣言的に書くこと。簡潔さはそれだけで長所になります。</p><p>現在形で書くこと。"Returned a hash that..." や "Will return a hash that..." ではなく"Returns a hash that..."のように書く。</p><p>コメントの英語は大文字で始めること。句読点や記号の用法は常識に従うこと。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Declares an attribute reader backed by an internally-named
+# instance variable.
+def attr_internal_reader(*attrs)
+  ...
+end
+
+</pre>
+</div>
+<p>読者に現時点の最新の方法が伝わるように書くこと、それも明示的かつ暗黙に。先進的な分野で推奨されている慣用表現を使用すること。推奨される方法が強調されるようセクションの順序に注意し、必要であれば順序を入れ替えること。作成するドキュメント自身がRailsのベストプラクティスのよいモデルとなるように、そしてRailsの最新かつ模範的な使用法になるように書くこと。</p><p>ドキュメントは簡潔であり、かつ全体を理解できるものであること。例外的なケースについても調査し、ドキュメントに盛り込むこと。あるモジュールが無名であったらどうなるか。あるコレクションの内容が空であったらどうなるか。引数がnilであったらどうなるか。</p><p>Railsのコンポーネント名は語の間にスペースを1つ置く表記を正式なものとする (例: "Active Support")。なお、<code>ActiveRecord</code>はRubyモジュール名だが、Active RecordはORMを指す。Railsドキュメント内でコンポーネントを指す場合には常に正式名称を使用すること。ブログ投稿やプレゼンテーションなどでもこの点に留意し、異なる名称で読者などを驚かせないようにすること。</p><p>正しいスペルを使用すること (Arel、Test::Unit、RSpec、HTML、 MySQL、JavaScript、ERBなど)。大文字小文字にも注意すること。疑わしい場合には公式ドキュメントなど、信頼できる情報源を参照すること。</p><p>"SQL" という語の前には冠詞 "an" を付けること (例: "an SQL statement")。同様に、"an SQLite database"のようにすること。</p><p>"you"や"your"を使用する表現を避けること。以下の例文ではyouが3度も使用されている。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+If you need to use `return` statements in your callbacks, it is recommended that you explicitly define them as methods.
+
+</pre>
+</div>
+<p>以下のスタイルで書くこと。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+If `return` is needed it is recommended to explicitly define a method.
+
+</pre>
+</div>
+<p>同様に、説明上何らかの人物を仮定して、その人物を代名詞で呼ぶ場合 ("a user with a session cookie" など)、heやsheのような性別のある代名詞を避け、they/their/themのような性別に影響されない代名詞を使用すること。以下のように言い換える。</p>
+<ul>
+<li>heまたはshe -&gt; theyに置き換える</li>
+<li>himまたはher -&gt; themに置き換える</li>
+<li>hisまたはher -&gt; theirに置き換える</li>
+<li>hisまたはhers -&gt; theirsに置き換える</li>
+<li>himselfまたはherself -&gt; themselvesに置き換える</li>
+</ul>
+<h3 id="英語"><a class="anchorlink" href="#%E8%8B%B1%E8%AA%9E">3 英語</a></h3><p>アメリカ英語を使用すること ( <em>color</em> 、 <em>center</em> 、 <em>modularize</em> など)。詳細は<a href="http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences">アメリカ英語とイギリス英語のスペルの違い</a> (英語) を参照してください。</p><h3 id="サンプルコード"><a class="anchorlink" href="#%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%89">4 サンプルコード</a></h3><p>意味のあるサンプルコードを選ぶこと。概要と基本を端的に示し、かつ興味深い点や落とし穴も示されているのが理想です。</p><p>サンプルコードのインデントにはスペース2文字を使用すること。マークアップ用には左マージンに合わせてスペース2文字を使用します。サンプルコードの例は<a href="contributing_to_ruby_on_rails.html#rails%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%AB%E3%81%AB%E5%BE%93%E3%81%86">Railsコーディングルールに従う</a>を参照してください。</p><p>短いドキュメントでは、スニペットを紹介する際に"Examples"と明示的にラベルを付ける必要はない。単にパラグラフに従うようにします。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Converts a collection of elements into a formatted string by
+# calling +to_s+ on all elements and joining them.
+#
+#   Blog.all.to_formatted_s # =&gt; "First PostSecond PostThird Post"
+
+</pre>
+</div>
+<p>逆に大きな章で構成されているドキュメントであれば、"Examples"セクションを設けてもよい。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# ==== Examples
+#
+#   Person.exists?(5)
+#   Person.exists?('5')
+#   Person.exists?(name: "David")
+#   Person.exists?(['name LIKE ?', "%#{query}%"])
+
+</pre>
+</div>
+<p>式の実行結果は式に続けて書き、冒頭に "# =&gt; " を追加して縦を揃えること。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# For checking if a fixnum is even or odd.
+#
+#   1.even? # =&gt; false
+#   1.odd?  # =&gt; true
+#   2.even? # =&gt; true
+#   2.odd?  # =&gt; false
+
+</pre>
+</div>
+<p>1つの行が長くなりすぎる場合はコメントを次の行に置いてもよい</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+#   label(:article, :title)
+#   # =&gt; &lt;label for="article_title"&gt;Title&lt;/label&gt;
+#
+#   label(:article, :title, "A short title")
+#   # =&gt; &lt;label for="article_title"&gt;A short title&lt;/label&gt;
+#
+#   label(:article, :title, "A short title", class: "title_label")
+#   # =&gt; &lt;label for="article_title" class="title_label"&gt;A short title&lt;/label&gt;
+
+</pre>
+</div>
+<p>実行結果を示すために<code>puts</code>や<code>p</code>などの印字用メソッドを使用することはなるべく避ける。</p><p>逆に、(実行結果を示さない) 通常のコメントでは矢印を使用しないこと。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+#   polymorphic_url(record)  # same as comment_url(record)
+
+</pre>
+</div>
+<h3 id="論理値"><a class="anchorlink" href="#%E8%AB%96%E7%90%86%E5%80%A4">5 論理値</a></h3><p>述語やフラグでの論理値の表記は、正確な値表現よりも、論理値の意味を優先すること。</p><p>"true"および"false"をRubyの定義どおりに使用する場合は、通常のフォントで表記すること。シングルトンの<code>true</code>および<code>false</code>は等幅フォントで表記すること(訳注: シングルトンの<code>true</code>および<code>false</code>とは、<code>TrueClass</code>および<code>FalseClass</code>の唯一のインスタンスのことです)。"truthy"のような用語は避けてください。Rubyでは言語レベルでtrueとfalseが定義されているので、これらの用語は技術的に厳密な意味が与えられており、言い方を変える必要はありません。</p><p>経験から申し上げると、どうしても必要な場合を除いて、ドキュメントでシングルトンを使用すべきではありません。シングルトンを避けることで、<code>!!</code>や三項演算子のような人工的な表現を避けることができ、リファクタリングもしやすくなります。さらに、実装で呼び出されるメソッドが返す値の表現が少しでも違うとコードが正常に動作しないという事態も避けられます。</p><p>以下の例で説明します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+`config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default (訳: `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルト値はtrueです。)
+
+</pre>
+</div>
+<p>上の例では、フラグのデフォルト値の実際の表現がどれであるか (訳注: シングルトンのtrueなのか、trueと評価されるオブジェクトなのか) を知る必要はありません。従って、論理値の意味だけをドキュメントに書くべきです。</p><p>以下は述語の例です。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Returns true if the collection is empty. (訳:コレクションが空ならtrueを返す)
+#
+# If the collection has been loaded (コレクションが読み込まれると)
+# it is equivalent to &lt;tt&gt;collection.size.zero?&lt;/tt&gt;. if the (&lt;tt&gt;collection.size.zero?&lt;/tt&gt;と同値)
+# collection has not been loaded, it is equivalent to (コレクションが読み込まれなかった場合は)
+# &lt;tt&gt;collection.exists?&lt;/tt&gt;. If the collection has not already been (&lt;tt&gt;collection.exists?&lt;/tt&gt;と同値。コレクションが読み込まれておらず、)
+# loaded and you are going to fetch the records anyway it is better to (どうしてもレコードを取り出したい場合は)
+# check &lt;tt&gt;collection.length.zero?&lt;/tt&gt;. (&lt;tt&gt;collection.length.zero?&lt;/tt&gt;をチェックすること)
+def empty?
+  if loaded?
+    size.zero?
+  else
+    @target.blank? &amp;&amp; !scope.exists?
+  end
+end
+
+</pre>
+</div>
+<p>このAPIは特定の値にコミットしないように注意が払われており、メソッドには述語と意味が示されています。これで十分です。</p><h3 id="ファイル名"><a class="anchorlink" href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D">6 ファイル名</a></h3><p>経験則からも、ファイル名はRailsアプリケーションのルート・ディレクトリからの相対パスで記述すること。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+config/routes.rb            # YES
+routes.rb                   # NO
+RAILS_ROOT/config/routes.rb # NO
+
+</pre>
+</div>
+<h3 id="フォント"><a class="anchorlink" href="#%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">7 フォント</a></h3><h4 id="等幅フォント"><a class="anchorlink" href="#%E7%AD%89%E5%B9%85%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">7.1 等幅フォント</a></h4><p>以下の場合は等幅フォントを使用すること。</p>
+<ul>
+<li>定数、特にクラス名およびモジュール名</li>
+<li>メソッド名</li>
+<li>次のようなリテラル: <code>nil</code>、<code>false</code>、<code>true</code>、<code>self</code>
+</li>
+<li>シンボル</li>
+<li>メソッドのパラメータ</li>
+<li>ファイル名</li>
+</ul>
+<div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class Array
+  # Calls +to_param+ on all its elements and joins the result with
+  # slashes. This is used by +url_for+ in Action Pack.
+  def to_param
+    collect { |e| e.to_param }.join '/'
+  end
+end
+
+</pre>
+</div>
+<div class="warning"><p>等幅フォントを<code>+...+</code>というマークアップで表記できるのは、通常のメソッド名、シンボル、パス (通常のスラッシュを使用しているもの) のようなシンプルなものに限られます。これらよりも複雑なものを表記するときには必ず<code>&lt;tt&gt;...&lt;/tt&gt;</code>でマークアップしてください。特に名前空間を使用しているクラス名やモジュール名では必須です (<code>&lt;tt&gt;ActiveRecord::Base&lt;/tt&gt;</code>など)。</p></div><p>以下のコマンドで、RDocの出力を手軽に確認できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ echo "+:to_param+" | rdoc --pipe
+#=&gt; &lt;p&gt;&lt;code&gt;:to_param&lt;/code&gt;&lt;/p&gt;
+
+</pre>
+</div>
+<h4 id="regularフォント"><a class="anchorlink" href="#regular%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88">7.2 Regularフォント</a></h4><p>Rubyのキーワードでない、英語としての"true"と"false"にはregularフォント (ItalicやBoldでないフォント) を使用すること。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Runs all the validations within the specified context.
+# Returns true if no errors are found, false otherwise.
+#
+# If the argument is false (default is +nil+), the context is
+# set to &lt;tt&gt;:create&lt;/tt&gt; if &lt;tt&gt;new_record?&lt;/tt&gt; is true,
+# and to &lt;tt&gt;:update&lt;/tt&gt; if it is not.
+#
+# Validations with no &lt;tt&gt;:on&lt;/tt&gt; option will run no
+# matter the context. Validations with # some &lt;tt&gt;:on&lt;/tt&gt;
+# option will only run in the specified context.
+def valid?(context = nil)
+  ...
+end
+
+</pre>
+</div>
+<h3 id="説明のリスト"><a class="anchorlink" href="#%E8%AA%AC%E6%98%8E%E3%81%AE%E3%83%AA%E3%82%B9%E3%83%88">8 説明のリスト</a></h3><p>項目 (オプションやパラメータのリストなど) とその説明はハイフンでつなぐこと。コロンはシンボルで使用されるので、ハイフンの方が読みやすくなります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# * &lt;tt&gt;:allow_nil&lt;/tt&gt; - Skip validation if attribute is +nil+.
+
+</pre>
+</div>
+<p>説明文は通常の英語として大文字で始め、ピリオドで終わること。</p><h3 id="動的に生成されるメソッド"><a class="anchorlink" href="#%E5%8B%95%E7%9A%84%E3%81%AB%E7%94%9F%E6%88%90%E3%81%95%E3%82%8C%E3%82%8B%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89">9 動的に生成されるメソッド</a></h3><p><code>(module|class)_eval(文字列)</code>メソッドで作成されるメソッドには、生成されたコードのインスタンスのそばにコメントが置かれます。このように作成されたコメントには、スペース2文字分のインデントが与えられます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+for severity in Severity.constants
+  class_eval &lt;&lt;-EOT, __FILE__, __LINE__
+    def #{severity.downcase}(message = nil, progname = nil, &amp;block)  # def debug(message = nil, progname = nil, &amp;block)
+      add(#{severity}, message, progname, &amp;block)                    #   add(DEBUG, message, progname, &amp;block)
+    end                                                              # end
+                                                                     #
+    def #{severity.downcase}?                                        # def debug?
+      #{severity} &gt;= @level                                          #   DEBUG &gt;= @level
+    end                                                              # end
+  EOT
+end
+
+</pre>
+</div>
+<p>生成された行が多過ぎる (200行を超える) 場合、コメントを呼び出しの上に置いてください。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# def self.find_by_login_and_activated(*args)
+#   options = args.extract_options!
+#   ...
+  # end
+self.class_eval %{
+  def self.#{method_id}(*args)
+    options = args.extract_options!
+    ...
+  end
+}
+
+</pre>
+</div>
+<h3 id="メソッドの可視性"><a class="anchorlink" href="#%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%81%AE%E5%8F%AF%E8%A6%96%E6%80%A7">10 メソッドの可視性</a></h3><p>Railsのドキュメントを作成するにあたり、ユーザー向けのパブリックなAPIと内部APIの違いを理解しておくことが重要です。</p><p>多くのライブラリと同様、Railsでも内部APIの定義にprivateキーワードが使用されます。しかし、パブリックなAPIのルールは若干異なります。Railsでは、すべてのpublicなメソッドがユーザーに公開されて使用されるということを前提にしていません。代りに、そのメソッドが内部APIであることを示すために<code>:nodoc:</code>ディレクティブを使用します。</p><p>つまり、Railsでは可視性が<code>public</code>のメソッドであっても、ユーザーに公開されているとは限らないのです。</p><p><code>ActiveRecord::Core::ClassMethods#arel_table</code>を例に説明します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+module ActiveRecord::Core::ClassMethods
+  def arel_table #:nodoc:
+    # 何か書く
+  end
+end
+
+</pre>
+</div>
+<p>このメソッドは一見して<code>ActiveRecord::Core</code>のパブリックなクラスメソッドであり、実際それ自体は間違いではありません。しかしRailsチームはこの種のメソッドに依存して欲しくないと考えています。そのために<code>:nodoc:</code>を指定して、ドキュメントに含まれないようにしています。実際の理由は、Railsチームはこの種の内部メソッドの動作を必要に応じてリリースごとに変更できるようにしたいからです。これらのメソッドは名前や戻り値が変更されたり、クラス自体が消滅したりすることもありえます。従ってこれらは外部に対して何も保証されておらず、Railsアプリケーションやプラグインがこの種のAPIに依存すべきではありません。これらのAPIに依存してしまうと、Railsを次のリリースにアップグレードしたときにアプリケーションやGemが壊れる危険性があります。</p><p>Rails貢献者がドキュメントを作成する場合、そのAPIを外部開発者に公開してよいかどうかに常に注意を払う必要があります。Railsチームは、パブリックなAPIに対して重大な変更を行なう際は、必ず非推奨サイクルを経てから行なうことにしています。内部メソッドや内部クラスの可視性がprivateになっていない場合は、<code>:nodoc:</code>オプションを指定することを推奨します (なお可視性がprivateの場合はデフォルトで内部扱いになります)。APIが安定したら可視性を変更できますが、後方互換性を保ちながらパブリックなAPIを変更することは簡単ではありません。</p><p>クラスやモジュールに対して<code>:nodoc:</code>を指定した場合、その中のすべてのメソッドは内部APIであり、直接アクセスすることは許されないことが示されます。</p><p>既存の<code>:nodoc:</code>指定はむやみに変更しないでください。この指定を外す際は、必ずコアチームの誰かかコードの著者に相談してからにしてください。<code>:nodoc:</code>が外されてしまうエラーは、docrailsプロジェクトよりもほとんどの場合pull requestで発生します。</p><p><code>:nodoc:</code>の追加は、絶対に無断で行わないでください。ドキュメントからそのメソッドやクラスの記述が失われてしまいます。たとえば、あるメソッドの可視性をprivateからpublicに切り替えた際に、内部のパブリックメソッドに<code>:nodoc:</code>が指定されていなかったという事例がありえます。そのようなケースを見つけたら、必要に応じてpull requestで議論してください。直接docrailsを変更することはくれぐれも行わないでください。</p><p>まとめ: Railsチームは可視性がpublicで内部でのみ使用するメソッドやクラスには<code>:nodoc:</code>を指定します。APIの可視性の変更は慎重に行なわれるべきであり、pull requestでの議論を経てから行なうこと。</p><h3 id="railsスタック"><a class="anchorlink" href="#rails%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">11 Railsスタック</a></h3><p>Rails APIの一部をドキュメント化する際には、それがRailsスタックのひとつとなることを意識しておくことが重要です。</p><p>つまり、ドキュメント化しようとしているメソッドやクラスのスコープやコンテキストに応じて振る舞いが変化することがあるということです。</p><p>スタック全体を考慮に入れれば、振る舞いの変化するはあちこちに見つかります。<code>ActionView::Helpers::AssetTagHelper#image_tag</code>などが典型です。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# image_tag("icon.png")
+#   # =&gt; &lt;img alt="Icon" src="/assets/icon.png" /&gt;
+
+</pre>
+</div>
+<p><code>#image_tag</code>はデフォルトでは常に<code>/images/icon.png</code>を返しますが、アセットパイプラインなどを含むRailsのフルスタックで見ると、上のような結果が返されるところもあります。</p><p>デフォルトのRailsフルスタックを使用している場合、実際に経験する振る舞いに対してしか関心が持てないものです。</p><p>このような場合、特定のメソッドの振る舞いだけではなく、 <em>フレームワーク</em> の振る舞いもドキュメント化するようにしたいと思います。</p><p>Railsチームが特定のAPIをどのように扱っているかを知りたい場合は、お気軽にチケットを発行して<a href="https://github.com/rails/rails/issues">issue tracker</a>にパッチを送ってください。</p>
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>
