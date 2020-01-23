@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <% provide(:desc, "Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。") %>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="<%= yield(:desc) %>" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="<%= yield(:desc) %>" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="<%= yield(:desc) %>" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title><%= yield(:page_title) || 'Ruby on Rails ガイド：体系的に Rails を学ぼう' %></title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <% if @edge %>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <% end %>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+              <% ['L', 'R'].each do |position| %>
+                <dl class="<%= position %>">
+                <% docs_for_menu(position).each do |section| %>
+                  <dt><%= section['name'] %></dt>
+                  <% finished_documents(section['documents']).each do |document| %>
+                  <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+                  <% end %>
+                <% end %>
+                </dl>
+              <% end %>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+            <% docs_for_menu.each do |section| %>
+              <optgroup label="<%= section['name'] %>">
+                <% finished_documents(section['documents']).each do |document| %>
+                  <option value="<%= document['url'] %>"><%= document['name'] %></option>
+                <% end %>
+              </optgroup>
+            <% end %>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <% if yield(:i_am_top).present? %>
+  <div id="feature" class="top">
+  <% else %>
+  <div id="feature">
+  <% end %>
+  <div class="wrapper">
+      <%= yield :header_section %>
+      <%= yield :index_section %></div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <%= yield.html_safe %>
+        <%= yield :references %>
+
+        <% if yield(:not_need_feedback).present? %>
+          <h3 id="contact" class="section">お問い合わせ</h3>
+          <p>電子書籍や広告出稿、法人向け販売などのお問い合わせについては、下記フォームまたは <i>yohei@yasslab.jp</i> までご連絡ください。</p>
+	  <div id="wufoo-zdk8f280mkdut0" style="margin-top: -50px" >
+	    Fill out my <a href="https://yasslab.wufoo.com/forms/zdk8f280mkdut0">online form</a>.
+    </div>
+    <div id="wuf-adv" style="font-family:inherit;font-size: small;color:#a7a7a7;text-align:center;display:block;">HTML Forms powered by <a href="http://www.wufoo.com">Wufoo</a>.</div>
+    <script type="text/javascript">var zdk8f280mkdut0;(function(d, t) {
+	    var s = d.createElement(t), options = {
+	    'userName':'yasslab',
+	    'formHash':'zdk8f280mkdut0',
+	    'autoResize':true,
+	    'height':'497',
+	    'async':true,
+	    'host':'wufoo.com',
+	    'header':'show',
+	    'ssl':true};
+	    s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+	    s.onload = s.onreadystatechange = function() {
+	    var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+	    try { zdk8f280mkdut0 = new WufooForm();zdk8f280mkdut0.initialize(options);zdk8f280mkdut0.display(); } catch (e) {}};
+	    var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+	    })(document, 'script');</script>
+        <% else %>
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <%= link_to 'yasslab/railsguides.jp', 'https://github.com/yasslab/railsguides.jp' %> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <%= link_to 'Issue', 'https://github.com/yasslab/railsguides.jp/issues' %> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<%= link_to 'Ruby on Railsガイドのガイドライン', 'ruby_on_rails_guides_guidelines.html' %>と、<%= link_to 'README', 'https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C'%>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<%= link_to 'Railsのドキュメントに貢献する', '/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B' %>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+        <% %w(L C R).each do |position| %>
+          <dl class="<%= position %>">
+          <% docs_for_sitemap(position).each do |section| %>
+            <dt><%= section['name'] %></dt>
+            <% finished_documents(section['documents']).each do |document| %>
+              <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+            <% end %>
+          <% end %>
+          </dl>
+        <% end %>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

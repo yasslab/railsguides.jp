@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>Rails のコマンドラインツール - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>Rails のコマンドラインツール</h2><p>このガイドの内容:</p>
+<ul>
+<li>Railsアプリケーションを作成する方法</li>
+<li>モデル、コントローラ、データベースのマイグレーションファイル、および単体テストを作成する方法</li>
+<li>開発用サーバーを起動する方法</li>
+<li>インタラクティブシェルを利用して、オブジェクトを実験する方法</li>
+</ul>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li>
+<a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E7%A4%8E">コマンドラインの基礎</a>
+
+<ul>
+<li><a href="#rails-new"><code>rails new</code></a></li>
+<li><a href="#rails-server"><code>rails server</code></a></li>
+<li><a href="#rails-generate"><code>rails generate</code></a></li>
+<li><a href="#rails-console"><code>rails console</code></a></li>
+<li><a href="#rails-dbconsole"><code>rails dbconsole</code></a></li>
+<li><a href="#rails-runner"><code>rails runner</code></a></li>
+<li><a href="#rails-destroy"><code>rails destroy</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#rake">Rake</a>
+
+<ul>
+<li><a href="#about"><code>about</code></a></li>
+<li><a href="#assets"><code>assets</code></a></li>
+<li><a href="#db"><code>db</code></a></li>
+<li><a href="#doc"><code>doc</code></a></li>
+<li><a href="#notes"><code>notes</code></a></li>
+<li><a href="#routes"><code>routes</code></a></li>
+<li><a href="#test"><code>test</code></a></li>
+<li><a href="#tmp"><code>tmp</code></a></li>
+<li><a href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF">その他のタスク</a></li>
+<li><a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0rake%E3%82%BF%E3%82%B9%E3%82%AF">カスタムRakeタスク</a></li>
+</ul>
+</li>
+<li>
+<a href="#rails%E3%81%AE%E9%AB%98%E5%BA%A6%E3%81%AA%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">Railsの高度なコマンドライン</a>
+
+<ul>
+<li><a href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%A8rails">データベースとソースコード管理システムとRails</a></li>
+</ul>
+</li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <div class="note"><p>このチュートリアルは、<a href="getting_started.html">Railsをはじめよう</a>を読んで、基本的なRailsの知識があることを前提としています。</p></div><h3 id="コマンドラインの基礎"><a class="anchorlink" href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E7%A4%8E">1 コマンドラインの基礎</a></h3><p>Railsを使用する際に、きわめて重要なコマンドがいくつかあります。それらを使用頻度順に並べると以下のとおりです。</p>
+<ul>
+<li><code>rails console</code></li>
+<li><code>rails server</code></li>
+<li><code>rake</code></li>
+<li><code>rails generate</code></li>
+<li><code>rails dbconsole</code></li>
+<li><code>rails new app_name</code></li>
+</ul>
+<p>どのコマンドも<code>-h</code> もしくは <code>--help</code>オプションを使用することで、詳細な情報をみることができます。</p><p>簡単なRailsアプリケーションをつくりながら、一つずつコマンドを実行していきましょう。</p><h4 id="rails-new"><a class="anchorlink" href="#rails-new">1.1 <code>rails new</code></a></h4><p>Railsをインストールしたあと、最初にやりたいことは<code>rails new</code>コマンドを実行して、新しいRailsアプリケーションを作成することです。</p><div class="info"><p>まだRailsをインストールしていない場合、<code>gem install rails</code>を実行してRailsをインストールできます。</p></div><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ rails new commandsapp
+    create
+    create README.rdoc
+    create Rakefile
+    create config.ru
+    create .gitignore
+    create Gemfile
+    create app
+    ...
+    create  tmp/cache
+    ...
+        run bundle install
+
+</pre>
+</div>
+<p>このような短いコマンドをうつだけで、Railsは非常に多くのものを用意してくれます。たったこれだけで、完璧なRailsのディレクトリ構成と、アプリケーションに必要なコードがすべて手に入りました。</p><h4 id="rails-server"><a class="anchorlink" href="#rails-server">1.2 <code>rails server</code></a></h4><p><code>rails server</code>コマンドを実行すると、WEBrickという小規模のwebサーバーが起動します(WEBrickはRubyに標準添付されています)。Webブラウザからアプリケーションにアクセスしたいときは、このコマンドを使用します。</p><p><code>rails server</code>を実行することで、新しいRailsアプリケーションを作成後すぐにRailsアプリケーションを起動することができます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cd commandsapp
+$ bin/rails server
+=&gt; Booting WEBrick
+=&gt; Rails 4.2.0 application starting in development on http://0.0.0.0:3000
+=&gt; Call with -d to detach
+=&gt; Ctrl-C to shutdown server
+[2013-08-07 02:00:01] INFO  WEBrick 1.3.1
+[2013-08-07 02:00:01] INFO  ruby 2.0.0 (2013-06-27) [x86_64-darwin11.2.0]
+[2013-08-07 02:00:01] INFO  WEBrick::HTTPServer#start: pid=69680 port=3000
+
+</pre>
+</div>
+<p>ちょうど3つのコマンドで、Railsサーバーを3000番ポートで起動しました。ブラウザを立ち上げて、<a href="http://localhost:3000">http://localhost:3000</a>を開いてみてください。Railsアプリケーションが動作していることが分かります。</p><div class="info"><p>サーバーを起動する際には<code>rails s</code>のように"s"というエイリアスが使用できます。</p></div><p><code>-p</code> オプションを使用することで、待ち受けるポートを指定できます。サーバーの環境は <code>-e</code> オプションで変更することができ、デフォルトではdevelopment (開発) 環境で実行されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails server -e production -p 4000
+
+</pre>
+</div>
+<p><code>-b</code>オプションを使用するとRailsを特定のIPにバインドできます。デフォルトでは0.0.0.0です。<code>-d</code>オプションを使用することで、デーモンとしてサーバーを起動することができます。</p><h4 id="rails-generate"><a class="anchorlink" href="#rails-generate">1.3 <code>rails generate</code></a></h4><p><code>rails generate</code>コマンドでは、テンプレートを使用して様々なものを作成します。<code>rails generate</code>を実行すると、利用可能なジェネレータの一覧が表示されます。</p><div class="info"><p>ジェネレータコマンドを実行する際には<code>rails g</code>のように"g"というエイリアスが使用できます。</p></div><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate
+Usage: rails generate GENERATOR [args] [options]
+
+...
+...
+
+Please choose a generator below.
+
+Rails:
+  assets
+  controller
+  generator
+  ...
+  ...
+
+</pre>
+</div>
+<div class="note"><p>ジェネレータgemをインストールしたり、プラグインに付属しているジェネレータをインストールすることで、ジェネレータを増やせます。また、自分でジェネレータを開発することもできます。</p></div><p>ジェネレータを使用すると、アプリケーションを動かすのに必要な <a href="http://en.wikipedia.org/wiki/Boilerplate_code"><strong>Boilerplate Code</strong></a> (訳注: 多くの箇所で使われている、ほとんどor全く変更がないコード) を書かなくて済むため、時間を節約できます。</p><p>それではコントローラジェネレータを使って、コントローラを作ってみましょう。どのようなコマンドを使用すればよいのでしょうか？ジェネレータに聞いてみましょう。</p><div class="info"><p>Railsのすべてのコマンドにはヘルプがついています。多くの *nix (訳注: LinuxやUnix、UnixライクなOSなど) のユーティリティと同じようにコマンドの最後に<code>--help</code>もしくは<code>-h</code>オプションを与えてください (例: <code>rails server --help</code>)。</p></div><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate controller
+Usage: rails generate controller NAME [action action] [options]
+
+    ...
+    ...
+
+    Description:
+    ...
+
+    To create a controller within a module, specify the controller name as a path like 'parent_module/controller_name'.
+
+    ...
+
+Example:
+    `rails generate controller CreditCards open debit credit close`
+
+    Credit card controller with URLs like /credit_cards/debit.
+        Controller: app/controllers/credit_cards_controller.rb
+        Test:       test/controllers/credit_cards_controller_test.rb
+        Views:      app/views/credit_cards/debit.html.erb [...]
+        Helper:     app/helpers/credit_cards_helper.rb
+
+</pre>
+</div>
+<p>コントローラジェネレータには<code>generate controller ControllerName action1 action2</code>という形式でパラメータを渡します。<strong>hello</strong>アクションを実行すると、すてきなメッセージを返してくれる<code>Greetings</code>コントローラを作ってみましょう。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate controller Greetings hello
+     create  app/controllers/greetings_controller.rb
+      route  get "greetings/hello"
+     invoke    erb 
+     create    app/views/greetings
+     create    app/views/greetings/hello.html.erb
+     invoke  test_unit
+     create    test/controllers/greetings_controller_test.rb
+     invoke  helper
+     create    app/helpers/greetings_helper.rb
+     invoke  assets
+     invoke    coffee
+     create      app/assets/javascripts/greetings.js.coffee
+     invoke    scss
+     create      app/assets/stylesheets/greetings.css.scss
+
+</pre>
+</div>
+<p>どのようなものが作成されたのでしょう？いくつかのディレクトリがアプリケーションに存在することを確認し、コントローラファイル、ビューファイル、機能テストのファイル、ビューのヘルパー、JavaScriptファイルそしてスタイルシートファイルを作成しました。</p><p>コントローラ(<code>app/controllers/greetings_controller.rb</code>)を確認し、少し編集してみましょう。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class GreetingsController &lt; ApplicationController
+  def hello
+    @message = "Hello, how are you today?"
+  end 
+end 
+
+</pre>
+</div>
+<p>メッセージを表示するためにビュー(<code>app/views/greetings/hello.html.erb</code>)を編集します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;h1&gt;A Greeting for You!&lt;/h1&gt;
+&lt;p&gt;&lt;%= @message %&gt;&lt;/p&gt;
+
+</pre>
+</div>
+<p><code>rails server</code>でサーバーを起動します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails server
+=&gt; Booting WEBrick...
+
+</pre>
+</div>
+<p>URLは<a href="http://localhost:3000/greetings/hello">http://localhost:3000/greetings/hello</a>です。</p><div class="info"><p>通常のRailsアプリケーションでは、URLはhttp://(host)/(controller)/(action)というパターンになります。またhttp://(host)/(controller)というパターンのURLはコントローラの<strong>index</strong>アクションへのURLとなります。</p></div><p>Railsにはデータモデルのためのジェネレータもついています。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate model
+Usage:
+  rails generate model NAME [field[:type][:index] field[:type][:index]] [options]
+
+...
+
+Active Record options:
+      [--migration]            # Indicates when to generate migration
+                               # Default: true
+
+...
+
+Description:
+    Create rails files for model generator.
+
+</pre>
+</div>
+<div class="note"><p>利用可能なフィールドタイプ(field types)については<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html#method-i-column">API documentation</a>に記載されている、<code>TableDefinition</code>のcolumnメソッドの説明を参照してください。</p></div><p>ここでは直接モデルを作成する代わりに(モデルの作成は後ほど行います)、scaffoldを生成しましょう。Railsにおいて<strong>scaffold</strong>とは、モデル、モデルのためのマイグレーション、モデルを操作するためのコントローラ、モデルを操作・表示するためのビュー、それらのためのテスト一式のことをさします。</p><p>"HighScore"という名のリソースを準備してみましょう。このリソースの役割はビデオゲームでの最高得点を記録することです。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate scaffold HighScore game:string score:integer
+    invoke  active_record
+    create    db/migrate/20130717151933_create_high_scores.rb
+    create    app/models/high_score.rb
+    invoke  test_unit
+    create      test/models/high_score_test.rb
+    create      test/fixtures/high_scores.yml
+    invoke  resource_route
+     route    resources :high_scores
+    invoke  scaffold_controller
+    create    app/controllers/high_scores_controller.rb
+    invoke    erb 
+    create      app/views/high_scores
+    create      app/views/high_scores/index.html.erb
+    create      app/views/high_scores/edit.html.erb
+    create      app/views/high_scores/show.html.erb
+    create      app/views/high_scores/new.html.erb
+    create      app/views/high_scores/_form.html.erb
+    invoke  test_unit
+    create      test/controllers/high_scores_controller_test.rb
+    invoke  helper
+    create      app/helpers/high_scores_helper.rb
+    invoke    jbuilder
+    create      app/views/high_scores/index.json.jbuilder
+    create      app/views/high_scores/show.json.jbuilder
+    invoke  assets
+    invoke    coffee
+    create      app/assets/javascripts/high_scores.js.coffee
+    invoke    scss
+    create      app/assets/stylesheets/high_scores.css.scss
+    invoke    scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+
+</pre>
+</div>
+<p>ジェネレータはモデル、コントローラ、ヘルパー、レイアウト、機能テスト、ユニットテスト、スタイルシート用のディレクトリが存在することをチェックし、ビュー、コントローラ、モデル、マイグレーション(<code>high_scores</code>テーブルとフィールドを作成する)を生成し、この<strong>resource</strong>のためのルーティングを用意します。またこれらのためのテストも作成します。</p><p><strong>migrate</strong>を実行してマイグレーションを走らせる必要があります。つまりデータベースのスキーマを変更するためにRubyのコード(コードとは<code>20130717151933_create_high_scores.rb</code>に書かれたコードのことです)を実行する必要があります。データベースとはどのデータベースでしょうか？<code>rake db:migrate</code>コマンドを実行すると、RailsはSQLite3に新しいデータベースを作ります。Rakeについては後ほど詳しく説明します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake db:migrate
+==  CreateHighScores: migrating ===============================================
+-- create_table(:high_scores)
+   -&gt; 0.0017s
+==  CreateHighScores: migrated (0.0019s) ======================================
+
+</pre>
+</div>
+<div class="info"><p>単体テストについて説明します。単体テストとは、コードをテストし、アサーションを行うコードです。ユニットテストでは、モデルのメソッドといったコードの一部分を取り出して、その引数と戻り値をテストします。単体テストはあなたの友人です。単体テストを書くことで幸せな人生が送れるということに、早く気がついたほうがいいでしょう。本当です。すぐにでも気がつけるはずです。</p></div><p>Railsが作ったインターフェースをみてみましょう。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails server
+
+</pre>
+</div>
+<p>ブラウザで<a href="http://localhost:3000/high_scores">http://localhost:3000/high_scores</a>を開いてみましょう。新しいハイスコアを作ることができます(スペースインベーダーで55,160点とかね!) (訳注: 2003年にDonald Hayesがたたき出したスコアです)。</p><h4 id="rails-console"><a class="anchorlink" href="#rails-console">1.4 <code>rails console</code></a></h4><p><code>console</code>コマンドを使うと、コマンドラインでRailsアプリケーションとやり取りすることができます。<code>rails console</code>は内部的にIRBを使用しているので、IRBを使ったことがあれば、扱うのは簡単です。ひらめいたアイデアを試してみたり、ウェブサイトにアクセスすることなくサーバのデータを変更するのに役立ちます。</p><div class="info"><p>コンソールコマンドを実行する際には<code>rails c</code>のように"c"というエイリアスが使用できます。</p></div><p><code>console</code>コマンドを実行する環境を指定することができます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails console staging
+
+</pre>
+</div>
+<p>データを変更することなくコードをテストしたいときは、<code>rails console --sandbox</code>を実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails console --sandbox
+Loading development environment in sandbox (Rails 4.2.0)
+Any modifications you make will be rolled back on exit
+irb(main):001:0&gt;
+
+</pre>
+</div>
+<h5 id="appオブジェクトとhelperオブジェクト"><a class="anchorlink" href="#app%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%A8helper%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88">1.4.1 appオブジェクトとhelperオブジェクト</a></h5><p><code>rails console</code>の実行中、<code>app</code>オブジェクトと<code>helper</code>オブジェクトにアクセスできます。</p><p><code>app</code>メソッドを使用すると、URLヘルパーとpathヘルパーにアクセスできます。またrequest投げることもできます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt;&gt; app.root_path
+=&gt; "/"
+
+&gt;&gt; app.get _
+Started GET "/" for 127.0.0.1 at 2014-06-19 10:41:57 -0300
+...
+
+</pre>
+</div>
+<p><code>helper</code>メソッドを使用すると、Railsのアプリケーションヘルパーと自分が実装したヘルパーにアクセスすることができます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+&gt;&gt; helper.time_ago_in_words 30.days.ago
+=&gt; "about 1 month"
+
+&gt;&gt; helper.my_custom_helper
+=&gt; "my custom helper"
+
+</pre>
+</div>
+<h4 id="rails-dbconsole"><a class="anchorlink" href="#rails-dbconsole">1.5 <code>rails dbconsole</code></a></h4><p><code>rails dbconsole</code>コマンドは使用しているデータベースを探し出し、適切なデータベースコマンドラインツールを起動します(また、コマンドラインツールに必要な引数を探し出します)。MySQL、PostgreSQL、SQLite、そしてSQLite3をサポートしています。</p><div class="info"><p>DBコンソールコマンドを実行する際には<code>rails db</code>のように"db"というエイリアスが使用できます。</p></div><h4 id="rails-runner"><a class="anchorlink" href="#rails-runner">1.6 <code>rails runner</code></a></h4><p><code>runner</code>コマンドを使うと、非対話的にRailsの文脈でRubyのコードを実行することができます。たとえば次のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails runner "Model.long_running_method"
+
+</pre>
+</div>
+<div class="info"><p>ランナーコマンドを実行する際には<code>rails r</code>のように"r"というエイリアスが使用できます。</p></div><p><code>-e</code>を使用することで<code>runner</code>コマンドを実行する環境を指定することができます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails runner -e staging "Model.long_running_method"
+
+</pre>
+</div>
+<h4 id="rails-destroy"><a class="anchorlink" href="#rails-destroy">1.7 <code>rails destroy</code></a></h4><p><code>destroy</code>は<code>generate</code>の反対と言えます。ジェネレータコマンドが何をしたか把握し、それを取り消します。</p><div class="info"><p><code>rails d</code>のように、"d"というエイリアスを使ってdestroyコマンドを実行することもできます。</p></div><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails generate model Oops
+      invoke  active_record
+      create    db/migrate/20120528062523_create_oops.rb
+      create    app/models/oops.rb
+      invoke  test_unit
+      create      test/models/oops_test.rb
+      create      test/fixtures/oops.yml
+
+</pre>
+</div>
+<div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rails destroy model Oops
+      invoke  active_record
+      remove    db/migrate/20120528062523_create_oops.rb
+      remove    app/models/oops.rb
+      invoke  test_unit
+      remove      test/models/oops_test.rb
+      remove      test/fixtures/oops.yml
+
+</pre>
+</div>
+<h3 id="rake"><a class="anchorlink" href="#rake">2 Rake</a></h3><p>RakeはRuby版のMakeです。Unixの 'make' に代わるような独立したRubyのユーティリティで、'Rakefile'と<code>.rake</code>ファイルでタスクを定義・管理します。 Railsでは、管理系のタスクはRakeタスクで書かれています。Railsのタスクは洗練されていて、タスク同士が協調して動くようになっています。</p><p><code>rake --tasks</code>とタイプすると、実行可能なRakeタスクの一覧が表示されます。カレントディレクトリによって、表示される内容が変化します。各タスクには説明がついているので、必要なタスクを見つけるのに役立つはずです。</p><p><code>--trace</code>を使うことで、タスクを実行する際のバックトレースをすべて表示することができます (訳注: バックトレースには、依存するタスクの呼び出しと実行順序が表示されます)。
+例えば <code>rake db:create --trace</code> のようにしてタスクを実行します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake --tasks
+rake about              # List versions of all Rails frameworks and the environment
+rake assets:clean       # Remove old compiled assets
+rake assets:clobber     # Remove compiled assets
+rake assets:precompile  # Compile all the assets named in config.assets.precompile
+rake db:create          # Create the database from config/database.yml for the current Rails.env
+...
+rake log:clear          # Truncates all *.log files in log/ to zero bytes (specify which logs with LOGS=test,development)
+rake middleware         # Prints out your Rack middleware stack
+...
+rake tmp:clear          # Clear session, cache, and socket files from tmp/ (narrow w/ tmp:sessions:clear, tmp:cache:clear, tmp:sockets:clear)
+rake tmp:create         # Creates tmp directories for sessions, cache, sockets, and pids
+
+</pre>
+</div>
+<div class="info"><p><code>rake -T</code>でもタスクの一覧を表示することができます。</p></div><h4 id="about"><a class="anchorlink" href="#about">2.1 <code>about</code></a></h4><p><code>rake about</code>を実行すると、Ruby、RubyGems、Rails、Railsのサブコンポーネント (訳注: Active RecordやAction Packなど) のバージョン、Railsアプリケーションのフォルダー名、現在のRailsの環境名とデータベースアダプター、そして、スキーマのバージョンが表示されます。誰かに質問をしたいときや、セキュリティパッチが自分のアプリケーションに影響するか確認したいときなど、現在使用しているRailsに関する情報が必要なときに役立ちます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake about
+About your application's environment
+Ruby version              1.9.3 (x86_64-linux)
+RubyGems version          1.3.6
+Rack version              1.3
+Rails version             4.2.0
+JavaScript Runtime        Node.js (V8)
+Active Record version     4.2.0
+Action Pack version       4.2.0
+Action View version       4.2.0
+Action Mailer version     4.2.0
+Active Support version    4.2.0
+Middleware                Rack::Sendfile, ActionDispatch::Static, Rack::Lock, #&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x007ffd131a7c88&gt;, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, Rails::Rack::Logger, ActionDispatch::ShowExceptions, ActionDispatch::DebugExceptions, ActionDispatch::RemoteIp, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActiveRecord::ConnectionAdapters::ConnectionManagement, ActiveRecord::QueryCache, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, ActionDispatch::ParamsParser, Rack::Head, Rack::ConditionalGet, Rack::ETag
+Application root          /home/foobar/commandsapp
+Environment               development
+Database adapter          sqlite3
+Database schema version   20110805173523
+
+</pre>
+</div>
+<h4 id="assets"><a class="anchorlink" href="#assets">2.2 <code>assets</code></a></h4><p><code>rake assets:precompile</code>を実行すると、<code>app/assets</code>配下のファイルをプレコンパイルすることができます。また<code>rake assets:clean</code>を実行すると、古くなったコンパイル済みのファイルを削除できます。<code>assets:clean</code>は、新しいassetsのビルドをしながらも古いassetsへのリンクを残す「ローリングデプロイ (rolling deploy)」というやり方を実現しています。</p><p><code>public/assets</code>配下を完全に消去するには<code>rake assets:clobber</code>を実行します。</p><h4 id="db"><a class="anchorlink" href="#db">2.3 <code>db</code></a></h4><p>Rakeの<code>db:</code>という名前空間に属するタスクのうち、最もよく使われるのは<code>migrate</code>と<code>create</code>です。マイグレーションに関するタスク(<code>up</code>, <code>down</code>, <code>redo</code>, <code>reset</code>)はいずれも一度試してみることをおすすめします。<code>rake db:version</code>を使えばデータベースの状況が分かるので、トラブルシューティングの際に役立ちます。</p><p>マイグレーションについては、<a href="active_record_migrations.html">Active Recordマイグレーション</a>でより詳しく扱っています。</p><h4 id="doc"><a class="anchorlink" href="#doc">2.4 <code>doc</code></a></h4><p><code>doc:</code>という名前空間にはアプリケーションやAPI、Railsガイドのドキュメントをつくるためのタスクが入っています。ドキュメントを別で管理することができるので、コードベースの肥大化を防ぐことができます (まるで組込み系の開発をしているかのようです)。</p>
+<ul>
+<li>
+<code>rake doc:app</code>で、<code>doc/app</code>配下に開発しているアプリケーションのドキュメントを作成します。</li>
+<li>
+<code>rake doc:guides</code>で、<code>doc/guides</code>配下にRailsガイドを作成します。</li>
+<li>
+<code>rake doc:rails</code>で、<code>doc/api</code>配下にRailsのAPIドキュメントを作成します。</li>
+</ul>
+<h4 id="notes"><a class="anchorlink" href="#notes">2.5 <code>notes</code></a></h4><p><code>rake notes</code>は、コードのコメントからFIXME、OPTIMIZE、TODOで始まる行を探し出して表示します (訳注: [FIXME]のように[から始まるものはヒットしません)。検索対象となるファイルの拡張子は<code>.builder</code>、<code>.rb</code>、<code>.rake</code>、<code>.yml</code>、<code>.yaml</code>、<code>.ruby</code>、<code>.css</code>、<code>.js</code>、<code>.erb</code>で、デフォルトのアノテーション以外に独自のアノテーションも使用できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake notes
+(in /home/foobar/commandsapp)
+app/controllers/admin/users_controller.rb:
+  * [ 20] [TODO] any other way to do this?
+  * [132] [FIXME] high priority for next deploy
+
+app/models/school.rb:
+  * [ 13] [OPTIMIZE] refactor this code to make it faster
+  * [ 17] [FIXME]
+
+</pre>
+</div>
+<p>検索するファイルの拡張子を追加するには、<code>config.annotations.register_extensions</code>オプションを使います。このオプションは拡張子の一覧と、マッチするべき行 を表す正規表現を引数にとります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.annotations.register_extensions("scss", "sass", "less") { |annotation| /\/\/\s*(#{annotation}):?\s*(.*)$/ }
+
+</pre>
+</div>
+<p>特定のアノテーションのみを表示したいとき(例えばFIXMEのみを表示したいとき)は<code>rake notes:fixme</code>のように実行します。このとき、アノテーションは小文字で書くことに注意してください。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake notes:fixme
+(in /home/foobar/commandsapp)
+app/controllers/admin/users_controller.rb:
+  * [132] high priority for next deploy
+
+app/models/school.rb:
+  * [ 17]
+
+</pre>
+</div>
+<p>独自のアノテーションを使う際には、<code>rake notes:custom</code>と書いて、<code>ANNOTATION</code>環境変数を使ってアノテーション名を指定します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake notes:custom ANNOTATION=BUG
+(in /home/foobar/commandsapp)
+app/models/article.rb:
+  * [ 23] Have to fix this one before pushing!
+
+</pre>
+</div>
+<div class="note"><p>特定のアノテーションのみを表示するときや、独自のアノテーションを表示する際には、FIXMEやBUGといったアノテーション名は表示されません。</p></div><p><code>rake notes</code>タスクはデフォルトでは<code>app</code>、<code>config</code>、<code>lib</code>、<code>bin</code>、<code>test</code>ディレクトリを対象とします。他のディレクトリも対象にしたい場合は、<code>SOURCE_ANNOTATION_DIRECTORIES</code>環境変数にディレクトリ名をカンマ区切りで与えてください。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ export SOURCE_ANNOTATION_DIRECTORIES='spec,vendor'
+$ bin/rake notes
+(in /home/foobar/commandsapp)
+app/models/user.rb:
+  * [ 35] [FIXME] User should have a subscription at this point
+spec/models/user_spec.rb:
+  * [122] [TODO] Verify the user that has a subscription works
+
+</pre>
+</div>
+<h4 id="routes"><a class="anchorlink" href="#routes">2.6 <code>routes</code></a></h4><p><code>rake routes</code>を使うと、定義されている全ルーティングをみることができます。これはルーティングの問題を解くときや、アプリケーションのルーティング全体を理解するのに役立ちます。</p><h4 id="test"><a class="anchorlink" href="#test">2.7 <code>test</code></a></h4><div class="info"><p>Railsでの単体テストについては<a href="testing.html">Railsアプリケーションをテストする</a>を参照してください。</p></div><p>RailsにはMinitestと呼ばれるテストスイートが付属しています。Railsではテストを書くことで、安定したアプリケーションを開発します。<code>test:</code>という名前空間の中で定義されたタスクは、あなたがこれから(期待を持って)書く様々なテストを実行するときに役立ちます。</p><h4 id="tmp"><a class="anchorlink" href="#tmp">2.8 <code>tmp</code></a></h4><p><code>Rails.root/tmp</code>ディレクトリは、(*nix系でいう/tmpディレクトリのような) 一時ファイルを保存するためのディレクトリです。一時ファイルには、(ファイルを利用してセッションの管理を行っている場合) セッションのためのファイルやプロセスIDのファイル、アクションキャッシュのためのファイルなどがあります (訳注: 最近のRailsではセッションをファイルで管理することは稀です)。</p><p><code>tmp:</code>という名前空間には、<code>Rails.root/tmp</code>ディレクトリを作成、削除するためのタスクが入っています。</p>
+<ul>
+<li>
+<code>rake tmp:cache:clear</code>で、<code>tmp/cache</code>を空にします。</li>
+<li>
+<code>rake tmp:sessions:clear</code>で、<code>tmp/sessions</code>を空にします。</li>
+<li>
+<code>rake tmp:sockets:clear</code>で、<code>tmp/sockets</code>を空にします。</li>
+<li>
+<code>rake tmp:clear</code>で、cache、sessions、socketsディレクトリを空にします。</li>
+<li>
+<code>rake tmp:create</code>で、sessions、cache、sockets、pidsのtmpディレクトリを作成します。</li>
+</ul>
+<h4 id="その他のタスク"><a class="anchorlink" href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF">2.9 その他のタスク</a></h4>
+<ul>
+<li>
+<code>rake stats</code>で、コードに対するテストの比率やKLOCs(コードの行数)といった、コードに関する統計値を表示します。</li>
+<li>
+<code>rake secret</code>で、セッションシークレット用に擬似乱数を生成します。</li>
+<li>
+<code>rake time:zones:all</code>で、Railsが扱える全タイムゾーンを表示します。</li>
+</ul>
+<h4 id="カスタムrakeタスク"><a class="anchorlink" href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0rake%E3%82%BF%E3%82%B9%E3%82%AF">2.10 カスタムRakeタスク</a></h4><p>独自のRakeタスクの拡張子は<code>.rake</code>で
+<code>Rails.root/lib/tasks</code>配下に保存します。また、独自のタスクを作成することができる
+<code>bin/rails generate task</code>というコマンドもあります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+desc "I am short, but comprehensive description for my cool task"
+task task_name: [:prerequisite_task, :another_task_we_depend_on] do
+  # All your magic here
+  # Any valid Ruby code is allowed
+end 
+
+</pre>
+</div>
+<p>タスクに引数を渡すには以下のようにします。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+task :task_name, [:arg_1] =&gt; [:pre_1, :pre_2] do |t, args|
+  # You can use args from here
+end 
+
+</pre>
+</div>
+<p>名前空間内でタスクを定義することで、タスクをグルーピングできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+namespace :db do 
+  desc "This task does nothing"
+  task :nothing do
+    # Seriously, nothing
+  end 
+end 
+
+</pre>
+</div>
+<p>そして、以下のようにしてタスクを呼び出します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ bin/rake task_name
+$ bin/rake "task_name[value 1]" # entire argument string should be quoted
+$ bin/rake db:nothing
+
+</pre>
+</div>
+<div class="note"><p>アプリケーション内のモデルを使用したり、データベースに対してクエリを投げたりしたいときは、タスクから<code>environment</code>タスクへの依存関係を定義する必要があります。<code>environment</code>タスクはアプリケーションのコードを読み込むタスクです。</p></div><h3 id="railsの高度なコマンドライン"><a class="anchorlink" href="#rails%E3%81%AE%E9%AB%98%E5%BA%A6%E3%81%AA%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">3 Railsの高度なコマンドライン</a></h3><p>コマンドラインのより高度な使い方として、便利な(時に驚くような)オプションを見つけて、オプションを使いこなすことがあります。ここでは、Railsのもつ妙技を少しだけ紹介します。</p><h4 id="データベースとソースコード管理システムとrails"><a class="anchorlink" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%A8%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%A8rails">3.1 データベースとソースコード管理システムとRails</a></h4><p>新しいRailsアプリケーションを作成するときに、データベースの種類とソースコード管理システムの種類を指定することができます。このオプションを使うことで、ちょっとした時間と多くのタイピングを節約できます。</p><p>それでは<code>--database = postgresql</code>オプションと<code>--git</code>オプションの動きを見てみましょう。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ mkdir gitapp
+$ cd gitapp
+$ git init 
+Initialized empty Git repository in .git/
+$ rails new . --git --database=postgresql
+      exists
+      create  app/controllers
+      create  app/helpers
+      ...
+      ...
+      create  tmp/cache
+      create  tmp/pids
+      create Rakefile
+      add 'Rakefile'
+      create README.rdoc
+      add 'README.rdoc'
+      create app/controllers/application_controller.rb
+      add 'app/controllers/application_controller.rb'
+      create app/helpers/application_helper.rb
+      ...
+      create  log/test.log
+      add 'log/test.log'
+
+</pre>
+</div>
+<p>Railsがgitのリポジトリ内にファイルを作成する前に、<strong>gitapp</strong>ディレクトリを作成し、空のgitリポジトリを初期化する必要があります。Railsがどのようなデータベースの設定ファイルを作ったか見てみましょう。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ cat config/database.yml
+# PostgreSQL. Versions 8.2 and up are supported.
+#
+# Install the pg driver:
+#   gem install pg
+# On OS X with Homebrew:
+#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+# On OS X with MacPorts:
+#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
+# On Windows:
+#   gem install pg
+#       Choose the win32 build.
+#       Install PostgreSQL and put its /bin directory on your path.
+#
+# Configure Using Gemfile
+# gem 'pg'
+#
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: gitapp_development
+  pool: 5
+  username: gitapp
+  password:
+...
+...
+
+</pre>
+</div>
+<p>選択したデータベース(PostgreSQL)に対応するように、Railsはdatabase.ymlを作成します。</p><div class="note"><p>ソースコード管理システムに関するオプションを使う際には、まずアプリケーション用のディレクトリを作り、ソースコード管理システムの初期化を行ってから、<code>rails new</code>コマンドを実行する点に注意してください。</p></div>
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

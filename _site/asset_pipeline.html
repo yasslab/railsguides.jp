@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>アセットパイプライン - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>アセットパイプライン</h2><p>本ガイドでは、アセットパイプライン (asset pipeline) について解説します。</p><p>このガイドの内容:</p>
+<ul>
+<li>アセットパイプラインの概要と機能</li>
+<li>アプリケーションのアセットを正しく編成する方法</li>
+<li>アセットパイプラインのメリット</li>
+<li>アセットパイプラインにプリプロセッサを追加する</li>
+<li>アセットをgemパッケージにする</li>
+</ul>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li>
+<a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">アセットパイプラインについて</a>
+
+<ul>
+<li><a href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E6%A9%9F%E8%83%BD">主要な機能</a></li>
+<li><a href="#%E3%83%95%E3%82%A3%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%97%E3%83%AA%E3%83%B3%E3%83%88%E3%81%A8%E6%B3%A8%E6%84%8F%E7%82%B9">フィンガープリントと注意点</a></li>
+</ul>
+</li>
+<li>
+<a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">アセットパイプラインの使用方法</a>
+
+<ul>
+<li><a href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E5%9B%BA%E6%9C%89%E3%81%AE%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88">コントローラ固有のアセット</a></li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">アセットの編成</a></li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E6%9B%B8%E3%81%8F">アセットにリンクするコードを書く</a></li>
+<li><a href="#%E3%83%9E%E3%83%8B%E3%83%95%E3%82%A7%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96">マニフェストファイルとディレクティブ</a></li>
+<li><a href="#%E3%83%97%E3%83%AA%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9">プリプロセス</a></li>
+</ul>
+</li>
+<li>
+<a href="#development%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">development環境の場合</a>
+
+<ul>
+<li><a href="#%E3%83%A9%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E3%81%99%E3%82%8B">ランタイムエラーをチェックする</a></li>
+<li><a href="#%E3%83%80%E3%82%A4%E3%82%B8%E3%82%A7%E3%82%B9%E3%83%88%E3%82%92%E3%82%AA%E3%83%95%E3%81%AB%E3%81%99%E3%82%8B">ダイジェストをオフにする</a></li>
+<li><a href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%82%92%E3%82%AA%E3%83%95%E3%81%AB%E3%81%99%E3%82%8B">デバッグをオフにする</a></li>
+</ul>
+</li>
+<li>
+<a href="#production%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">production環境の場合</a>
+
+<ul>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%81%99%E3%82%8B">アセットをプリコンパイルする</a></li>
+<li><a href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%81%A7%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%82%92%E8%A1%8C%E3%81%AA%E3%81%86">ローカルでプリコンパイルを行なう</a></li>
+<li><a href="#%E5%8B%95%E7%9A%84%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB">動的コンパイル</a></li>
+<li><a href="#cdn">CDN</a></li>
+</ul>
+</li>
+<li>
+<a href="#%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%92%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%99%E3%82%8B">パイプラインをカスタマイズする</a>
+
+<ul>
+<li><a href="#css%E3%82%92%E5%9C%A7%E7%B8%AE%E3%81%99%E3%82%8B">CSSを圧縮する</a></li>
+<li><a href="#javascript%E3%82%92%E5%9C%A7%E7%B8%AE%E3%81%99%E3%82%8B">JavaScriptを圧縮する</a></li>
+<li><a href="#%E7%8B%AC%E8%87%AA%E3%81%AE%E5%9C%A7%E7%B8%AE%E6%A9%9F%E8%83%BD%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">独自の圧縮機能を使用する</a></li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88-%E3%81%AE%E3%83%91%E3%82%B9%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B"><em>アセット</em> のパスを変更する</a></li>
+<li><a href="#x-sendfile%E3%83%98%E3%83%83%E3%83%80%E3%83%BC">X-Sendfileヘッダー</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%B9%E3%83%88%E3%82%A2">アセットのキャッシュストア</a></li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92gem%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">アセットをGemに追加する</a></li>
+<li><a href="#%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%84gem%E3%82%92%E3%83%97%E3%83%AA%E3%83%97%E3%83%AD%E3%82%BB%E3%83%83%E3%82%B5%E5%8C%96%E3%81%99%E3%82%8B">ライブラリやGemをプリプロセッサ化する</a></li>
+<li><a href="#%E5%8F%A4%E3%81%84%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AErails%E3%81%8B%E3%82%89%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E3%81%99%E3%82%8B">古いバージョンのRailsからアップグレードする</a></li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <h3 id="アセットパイプラインについて"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1 アセットパイプラインについて</a></h3><p>アセットパイプラインとは、JavaScriptやCSSのアセットを最小化 (minify: スペースや改行を詰めるなど) または圧縮して連結するためのフレームワークです。アセットパイプラインでは、CoffeeScriptやSASS、ERBなど他の言語で記述されたアセットを作成する機能を追加することもできます。</p><p>技術的には、アセットパイプラインは既にRails 4のコア機能ではありません。フレームワークから分離され、<a href="https://github.com/rails/sprockets-rails">sprockets-rails</a>というgemに書き出されています。</p><p>Railsではデフォルトでアセットパイプラインが有効になっています。</p><p>Railsアプリケーションを新規作成する際にアセットパイプラインをオフにしたい場合は、以下のように<code>--skip-sprockets</code>オプションを渡します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+rails new appname --skip-sprockets
+
+</pre>
+</div>
+<p>Rails 4では<code>sass-rails</code>、<code>coffee-rails</code>、<code>uglifier</code> gemが自動的にGemfileに追加されます。Sprocketsはアセット圧縮の際にこれらのgemを使用します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+
+</pre>
+</div>
+<p><code>--skip-sprockets</code>オプションを使用すると、Rails 4で<code>sass-rails</code>と<code>uglifier</code>がGemfileに追加されなくなります。アセットパイプラインを後から有効にしたい場合は、これらのgemもGemfileに追加する必要があります。同様に、アプリケーション新規作成時に<code>--skip-sprockets</code>オプションを指定すると<code>config/application.rb</code>ファイルの記述内容がデフォルトから若干異なります。具体的にはsprocket railtieで必要となる記述がコメントアウトされます。アセットパイプラインを手動で有効にする場合は、これらのコメントアウトも解除する必要があります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# require "sprockets/railtie"
+
+</pre>
+</div>
+<p>アセット圧縮方式を指定するには、<code>production.rb</code>の該当する設定オプションを設定します。<code>config.assets.css_compressor</code>はCSSの圧縮方式、<code>config.assets.js_compressor</code>はJavaScriptの圧縮方式をそれぞれ指定します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.css_compressor = :yui
+config.assets.js_compressor = :uglifier
+
+</pre>
+</div>
+<div class="note"><p><code>sass-rails</code> gemがGemfileに含まれていれば自動的にCSS圧縮に使用されます。この場合<code>config.assets.css_compressor</code>オプションは設定されません。</p></div><h4 id="主要な機能"><a class="anchorlink" href="#%E4%B8%BB%E8%A6%81%E3%81%AA%E6%A9%9F%E8%83%BD">1.1 主要な機能</a></h4><p>アセットパイプラインの第一の機能はアセットを連結することです。これにより、ブラウザがWebページをレンダリングするためのリクエスト数を減らすことができます。Webブラウザが同時に処理できるリクエスト数には限りがあるため、同時リクエスト数を減らすことができればその分読み込みが高速になります。</p><p>SprocketsはすべてのJavaScriptファイルを1つのマスター<code>.js</code>ファイルに連結し、すべてのCSSファイルを1つのマスター<code>.css</code>ファイルに連結します。本ガイドで後述するように、アセットファイルをグループ化する方法は自由にカスタマイズできます。production環境では、アセットファイル名にMD5フィンガープリントを挿入し、アセットファイルがWebブラウザでキャッシュされるようにしています。このフィンガープリントを変更することでブラウザでキャッシュされていた既存のアセットを無効にすることができます。フィンガープリントの変更は、アセットファイルの内容が変更された時に自動的に行われます。</p><p>アセットパイプラインのもうひとつの機能はアセットの最小化 (一種の圧縮) です。CSSファイルの最小化は、ホワイトスペースとコメントを削除することによって行われます。JavaScriptの最小化プロセスはもう少し複雑です。最小化方法はビルトインのオプションから選んだり、独自に指定したりすることができます。</p><p>アセットパイプラインの第3の機能は、より高級な言語を使用したコーディングのサポートです。これらの言語で記述されたコードはプリコンパイルされ、実際のアセットになります。デフォルトでサポートされている言語は、CSSに代わるSASS、JavaScriptに代わるCoffeeScript、CSS/JavaScriptに代わるERBです。</p><h4 id="フィンガープリントと注意点"><a class="anchorlink" href="#%E3%83%95%E3%82%A3%E3%83%B3%E3%82%AC%E3%83%BC%E3%83%97%E3%83%AA%E3%83%B3%E3%83%88%E3%81%A8%E6%B3%A8%E6%84%8F%E7%82%B9">1.2 フィンガープリントと注意点</a></h4><p>アセットファイル名で使用されるフィンガープリントは、アセットファイルの内容に応じて変わります。アセットファイルの内容が少しでも変わると、アセットファイル名も必ずそれに応じて変わります (訳注: MD5の性質により、異なるファイルからたまたま同じフィンガープリントが生成されることはほぼありません)。変更されていないファイルやめったに変更されないファイルがある場合、フィンガープリントも変化しないので、ファイルの内容が完全に同一であることが容易に確認できます。これはサーバーやデプロイ日が異なっていても有効です。</p><p>アセットファイル名は内容が変わると必ず変化するので、CDN、ISP、ネットワーク機器、Webブラウザなどあらゆる場面で有効なキャッシュをHTTPヘッダに設定することができます。ファイルの内容が更新されると、フィンガープリントも更新されます。これにより、リモートクライアントは (訳注: 既存のキャッシュを使用せずに) コンテンツの新しいコピーをサーバーにリクエストします。この手法を一般に <em>キャッシュ破棄 (cache busting)</em> と呼びます。</p><p>Sprocketsがフィンガープリントを使用する際には、ファイルの内容をハッシュ化したものをファイル名 (通常は末尾) に追加します。たとえば、<code>global.css</code>というCSSファイル名は以下のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+global-908e25f4bf641868d8683022a5b62f54.css
+
+</pre>
+</div>
+<p>これはRailsのアセットパイプラインの戦略として採用されています。</p><p>以前のRailsでは、ビルトインのヘルパーにリンクされているすべてのアセットに日付ベースのクエリ文字列を追加するという戦略が使用されていました。当時のソースで生成されたコードは以下のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+/stylesheets/global.css?1309495796
+
+</pre>
+</div>
+<p>このクエリ文字列ベースの戦略には多くの問題点があります。</p>
+<ol>
+<li>
+<p><strong>クエリパラメータ以外にファイル名に違いのないコンテンツは確実にキャッシュされないことがある</strong></p>
+<p><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">Steve Soudersのブログ記事</a>によると、「キャッシュされる可能性のあるリソースにクエリ文字列でアクセスするのは避けること」が推奨されています。Steveは、5%から20%ものリクエストがキャッシュされていないことに気付きました。クエリ文字列は、キャッシュ無効化が発生する一部のCDNでは役に立ちません。</p>
+</li>
+<li>
+<p><strong>マルチサーバー環境でファイル名が異なってしまうことがある</strong></p>
+<p>Rails 2.xのデフォルトのクエリ文字列はファイルの更新日付に基いていました。このアセットをサーバークラスタにデプロイすると、サーバー間でファイルのタイムスタンプが同じになる保証がないため、リクエストを受けるサーバーが変わるたびに値が異なってしまいます。</p>
+</li>
+<li>
+<p><strong>キャッシュの無効化が過剰に発生する</strong></p>
+<p>コードリリース時のデプロイが行われると、アセットに変更があるかどうかにかかわらず <em>すべての</em> ファイルのmtime (最後に更新された時刻) が変更されてしまいます。このため、アセットに変更がなくてもWebブラウザを含むあらゆるリモートクライアントで強制的にアセットが再取得されてしまいます。</p>
+</li>
+</ol>
+<p>フィンガープリントが導入されたことによって上述のクエリ文字列による問題点が解決され、アセットの内容が同じであればファイル名も常に同じになるようになりました。</p><p>フィンガープリントはproduction環境ではデフォルトでオンになっており、それ以外の環境ではオフになります。設定ファイルで<code>config.assets.digest</code>オプションを使用してフィンガープリントのオン/オフを制御できます。</p><p>詳細については以下を参照してください。</p>
+<ul>
+<li><a href="http://code.google.com/speed/page-speed/docs/caching.html">キャッシュの最適化</a></li>
+<li><a href="http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/">ファイル名の変更にクエリ文字列を使用してはいけない理由</a></li>
+</ul>
+<h3 id="アセットパイプラインの使用方法"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">2 アセットパイプラインの使用方法</a></h3><p>以前のRailsでは、すべてのアセットは<code>public</code>ディレクトリの下の<code>images</code>、<code>javascripts</code>、<code>stylesheets</code>などのサブフォルダに置かれました。アセットパイプライン導入後は、<code>app/assets</code>ディレクトリがアセットの置き場所として推奨されています。このディレクトリに置かれたファイルはSprocketsミドルウェアによってサポートされます。</p><p>アセットは引き続き<code>public</code>ディレクトリ以下に置くことも可能です。<code>config.serve_static_files</code>がtrueに設定されていると、<code>public</code>ディレクトリ以下に置かれているあらゆるアセットはアプリケーションまたはWebサーバーによって静的なファイルとして取り扱われます。プリプロセスが必要なファイルは<code>app/assets</code>ディレクトリの下に置く必要があります。</p><p>Railsは、productionモードではデフォルトで<code>public/assets</code>ファイルをプリコンパイルします。このプリコンパイルされたファイルがWebサーバーによって静的なアセットとして扱われます。<code>app/assets</code>に置かれたファイルがそのままの形でproduction環境で使用されることは決してありません。</p><h4 id="コントローラ固有のアセット"><a class="anchorlink" href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E5%9B%BA%E6%9C%89%E3%81%AE%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88">2.1 コントローラ固有のアセット</a></h4><p>Railsでscaffoldやコントローラを生成すると、JavaScriptファイル (<code>coffee-rails</code> gemが<code>Gemfile</code>で有効になっている場合はCoffeeScript) とCSS (<code>sass-rails</code> gemが<code>Gemfile</code>で有効になっている場合はSCSS) もそのコントローラ用に生成されます。scaffold生成時には、さらにscaffolds.css (<code>sass-rails</code> gemが<code>Gemfile</code>で有効になっている場合はscaffolds.css.scss) も生成されます。</p><p>たとえば<code>ProjectsController</code>を生成すると、<code>app/assets/javascripts/projects.js.coffee</code>ファイルと<code>app/assets/stylesheets/projects.css.scss</code>ファイルが新しく作成されます。<code>require_tree</code>ディレクティブを使用すると、これらのファイルを即座にアプリケーションから利用できます。require_treeの詳細については<a href="#%E3%83%9E%E3%83%8B%E3%83%95%E3%82%A7%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96">マニフェストファイルとディレクティブ</a>を参照してください。</p><p>関連するコントローラで以下のコードを使用することで、コントローラ固有のスタイルシートやJavaScriptファイルをそのコントローラだけで使用できます。</p><p><code>&lt;%= javascript_include_tag params[:controller] %&gt;</code> または <code>&lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p><p>上のコードを使用する際は、<code>require_tree</code>ディレクティブを使用していないことを必ず確認してください。<code>require_tree</code>と併用すると、アセットが2回以上インクルードされてしまいます。</p><div class="warning"><p>アセットのプリコンパイルを使用する場合、ページが読み込まれるたびにコントローラのアセットがプリコンパイルされるようにしておく必要があります。デフォルトでは、.coffeeファイルと.scssファイルは自動ではプリコンパイルされません。プリコンパイルの動作の詳細については、<a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%81%99%E3%82%8B">アセットをプリコンパイルする</a>を参照してください。</p></div><div class="note"><p>CoffeeScriptを使用するには、ExecJSがランタイムでサポートされている必要があります。Mac OS XまたはWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。サポートされているすべてのJavaScriptランタイムに関するドキュメントは、<a href="https://github.com/sstephenson/execjs#readme">ExecJS</a> で参照できます。</p></div><p><code>config/application.rb</code>設定に以下を追加することで、コントローラ固有のアセットファイル生成を止めることもできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.generators do |g|
+  g.assets false
+end 
+
+</pre>
+</div>
+<h4 id="アセットの編成"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">2.2 アセットの編成</a></h4><p>パイプラインのアセットは、アプリケーション内の<code>app/assets</code>、<code>lib/assets</code>、<code>vendor/assets</code>の3つのディレクトリのいずれかに置くことができます。</p>
+<ul>
+<li><p><code>app/assets</code>は、カスタム画像ファイル、JavaScript、スタイルシートなど、アプリケーション自身が保有するアセットの置き場所です。</p></li>
+<li><p><code>lib/assets</code>は、1つのアプリケーションの範疇に収まらないライブラリのコードや、複数のアプリケーションで共有されるライブラリのコードを置く場所です。</p></li>
+<li><p><code>vendor/assets</code>は、JavaScriptプラグインやCSSフレームワークなど、外部の団体などによって所有されているアセットの置き場所です。</p></li>
+</ul>
+<div class="warning"><p>Rails 3からのアップグレードを行なう際には、<code>lib/assets</code>と<code>vendor/assets</code>の下に置かれているアセットがRails 4ではアプリケーションのマニフェストによってインクルードされて利用可能になること、しかしプリコンパイル配列の一部には含まれなくなることを考慮に入れてください。ガイダンスについては<a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%81%99%E3%82%8B">アセットをプリコンパイルする</a>を参照してください。</p></div><h5 id="パスの検索"><a class="anchorlink" href="#%E3%83%91%E3%82%B9%E3%81%AE%E6%A4%9C%E7%B4%A2">2.2.1 パスの検索</a></h5><p>ファイルがマニフェストやヘルパーから参照される場合、Sprocketsはデフォルトのアセットの置き場所である3つのディレクトリからファイルを探します。</p><p>3つのディレクトリとは、<code>app/assets</code>の下にある<code>images</code>、<code>javascripts</code>、<code>stylesheets</code>ディレクトリです。ただしこれらのサブディレクトリは特殊なものではなく、実際には<code>assets/*</code>以下のすべてのパスが検索対象になります。</p><p>以下のファイルを例に説明します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+app/assets/javascripts/home.js
+lib/assets/javascripts/moovinator.js
+vendor/assets/javascripts/slider.js
+vendor/assets/somepackage/phonebox.js
+
+</pre>
+</div>
+<p>上のファイルはマニフェスト内で以下のように参照されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+//= require home
+//= require moovinator
+//= require slider
+//= require phonebox
+
+</pre>
+</div>
+<p>サブディレクトリ内のアセットにもアクセスできます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+app/assets/javascripts/sub/something.js
+
+</pre>
+</div>
+<p>上のファイルは以下のように参照されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+//= require sub/something
+
+</pre>
+</div>
+<p>検索パスを調べるには、Railsコンソールで<code>Rails.application.config.assets.paths</code>を調べます。</p><p><code>config/application.rb</code>に記述することで、標準の<code>assets/*</code>に加えて追加の (fully qualified) パスをパイプラインに追加することができます。以下の例で説明します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.paths &lt;&lt; Rails.root.join("lib", "videoplayer", "flash")
+
+</pre>
+</div>
+<p>パスの探索は、検索パスでの出現順で行われます。デフォルトでは<code>app/assets</code>の検索が優先されるので、対応するパスが<code>lib</code>や<code>vendor</code>にある場合はマスクされます。</p><p>ここでご注意いただきたいのは、参照したいファイルがマニフェストの外にある場合は、それらをプリコンパイル配列に追加しなければならないという点です。追加しない場合、production環境で利用することができなくなります。</p><h5 id="indexファイルを使用する"><a class="anchorlink" href="#index%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2.2 indexファイルを使用する</a></h5><p>Sprocketsでは、<code>index</code>という名前のファイル (および関連する拡張子) を特殊な目的に使用します。</p><p>たとえば、たくさんのモジュールがあるjQueryライブラリを使用していて、それらが<code>lib/assets/javascripts/library_name</code>に保存されているとします。この<code>lib/assets/javascripts/library_name/index.js</code>ファイルはそのライブラリ内のすべてのファイルで利用できるマニフェストとして機能します。このファイルには必要なファイルをすべて順に記述するか、あるいは単に<code>require_tree</code>と記述します。</p><p>一般に、このライブラリはアプリケーションマニフェストに以下のように記述することでアクセスできます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+//= require library_name
+
+</pre>
+</div>
+<p>このように記述することで、他でインクルードする前に関連するコードをグループ化できるようになり、記述が簡潔になり保守がしやすくなります。</p><h4 id="アセットにリンクするコードを書く"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E6%9B%B8%E3%81%8F">2.3 アセットにリンクするコードを書く</a></h4><p>Sprocketsはアセットにアクセスするためのメソッドを特に追加しません。従来同様<code>javascript_include_tag</code>と<code>stylesheet_link_tag</code>を使用します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= stylesheet_link_tag "application", media: "all" %&gt;
+&lt;%= javascript_include_tag "application" %&gt;
+
+</pre>
+</div>
+<p>Rails 4から同梱されるようになったturbolinks gemを使用している場合、'data-turbolinks-track'オプションが利用できます。これはアセットが更新されてページに読み込まれたかどうかをturbolinksがチェックします。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" =&gt; true %&gt;
+&lt;%= javascript_include_tag "application", "data-turbolinks-track" =&gt; true %&gt;
+
+</pre>
+</div>
+<p>通常のビューでは以下のような方法で<code>public/assets/images</code>ディレクトリの画像にアクセスできます。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= image_tag "rails.png" %&gt;
+
+</pre>
+</div>
+<p>パイプラインが有効でかつ現在の環境で無効になっていない場合、このファイルはSprocketsによって扱われます。ファイルが<code>public/assets/rails.png</code>に置かれている場合、Webサーバーによって扱われます。</p><p><code>public/assets/rails-af27b6a414e6da00003503148be9b409.png</code>など、ファイル名にMD5ハッシュを含むファイルへのリクエストについても同様に扱われます。ハッシュの生成法については、本ガイドの<a href="#production%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">production環境の場合</a>で後述します。</p><p>Sprocketsは<code>config.assets.paths</code>で指定したパスも探索します。このパスには、標準的なアプリケーションパスと、Railsエンジンによって追加されるすべてのパスが含まれます。</p><p>必要であれば画像ファイルをサブディレクトリに置いて整理することもできます。この画像にアクセスするには、ディレクトリ名を含めて以下のようにタグで指定します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= image_tag "icons/rails.png" %&gt;
+
+</pre>
+</div>
+<div class="warning"><p>アセットのプリコンパイルを行っている場合 (<a href="#production%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">production環境の場合</a>参照)、存在しないアセットへのリンクを含むページを呼び出すと例外が発生します。空文字へのリンクも同様に例外が発生します。ユーザーから提供されたデータに対して<code>image_tag</code>などのヘルパーを使用する場合はご注意ください。</p></div><h5 id="cssとerb"><a class="anchorlink" href="#css%E3%81%A8erb">2.3.1 CSSとERB</a></h5><p>アセットパイプラインは自動的にERBを評価します。たとえば、cssアセットファイルに<code>erb</code>という拡張子を追加すると (<code>application.css.erb</code>など)、CSSルール内で<code>asset_path</code>などのヘルパーが使用できるようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+.class { background-image: url(&lt;%= asset_path 'image.png' %&gt;) }
+
+</pre>
+</div>
+<p>これは、指定されたアセットへのパスを記述します。上の例では、アセット読み込みパスのいずれかにある画像ファイル (<code>app/assets/images/image.png</code>など) が指定されたと解釈されます。この画像が既にフィンガープリント付きで<code>public/assets</code>にあれば、このパスによる参照は有効になります。</p><p><a href="http://ja.wikipedia.org/wiki/Data_URI_scheme">データURIスキーム</a> (CSSファイルにデータを直接埋め込む手法) を使用したい場合は、<code>asset_data_uri</code>を使用できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+#logo { background: url(&lt;%= asset_data_uri 'logo.png' %&gt;) }
+
+</pre>
+</div>
+<p>上のコードは、CSSソースに正しくフォーマットされたdata URIを挿入します。</p><p>この場合、<code>-%&gt;</code>でタグを閉じることはできませんのでご注意ください。</p><h5 id="cssとsass"><a class="anchorlink" href="#css%E3%81%A8sass">2.3.2 CSSとSass</a></h5><p>アセットパイプラインを使用する場合、最終的にアセットへのパスを変換する必要があります。このために、<code>sass-rails</code> gemは名前が<code>-url</code>や<code>-path</code>で終わる (Sass内ではハイフンですが、Rubyではアンダースコアで表します) 各種ヘルパーを提供しています。ヘルパーがサポートするアセットクラスは、画像、フォント、ビデオ、音声、JavaScript、stylesheetです。</p>
+<ul>
+<li>
+<code>image-url("rails.png")</code>は<code>url(/assets/rails.png)</code>に変換される</li>
+<li>
+<code>image-path("rails.png")</code>は<code>"/assets/rails.png"</code>に変換される</li>
+</ul>
+<p>以下のような、より一般的な記法を使用することもできます。</p>
+<ul>
+<li>
+<code>asset-url("rails.png")</code>は<code>url(/assets/rails.png)</code>に変換される</li>
+<li>
+<code>asset-path("rails.png")</code>は<code>"/assets/rails.png"</code>に変換される</li>
+</ul>
+<h5 id="javascript-coffeescriptとerb"><a class="anchorlink" href="#javascript-coffeescript%E3%81%A8erb">2.3.3 JavaScript/CoffeeScriptとERB</a></h5><p>JavaScriptアセットに<code>erb</code>拡張子を追加すると (<code>application.js.erb</code>など)、以下のようにJavaScriptコード内で<code>asset_path</code>ヘルパーを使用できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$('#logo').attr({ src: "&lt;%= asset_path('logo.png') %&gt;" });
+
+</pre>
+</div>
+<p>これは、指定されたアセットへのパスを記述します。</p><p>CoffeeScriptファイルでも、<code>application.js.coffee.erb</code>のように<code>erb</code>拡張子を追加することで同様に<code>asset_path</code>ヘルパーを使用できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$('#logo').attr src: "&lt;%= asset_path('logo.png') %&gt;"
+
+</pre>
+</div>
+<h4 id="マニフェストファイルとディレクティブ"><a class="anchorlink" href="#%E3%83%9E%E3%83%8B%E3%83%95%E3%82%A7%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%86%E3%82%A3%E3%83%96">2.4 マニフェストファイルとディレクティブ</a></h4><p>Sprocketsでは、どのアセットをインクルードしてサポートするかを指定するのにマニフェストファイルを使用します。マニフェストファイルには <em>ディレクティブ (directive: 命令、指示)</em> を含めます。ディレクティブを使用して必要なファイルを指定し、それに基いて最終的に単一のCSSやJavaScriptファイルがビルドされます。Sprocketsはディレクティブで指定されたファイルを読み込み、必要に応じて処理を行い、連結して単一のファイルを生成し、圧縮します (<code>Rails.application.config.assets.compress</code>がtrueの場合)。ファイルを連結してひとつにすることにより、ブラウザからサーバーへのリクエスト数を減らすことができ、ページの読み込み時間が大きく短縮されます。圧縮することによってもファイルサイズが小さくなり、ブラウザへの読み込み時間が短縮されます。</p><p>新規作成したRails 4アプリケーションにはデフォルトで<code>app/assets/javascripts/application.js</code>ファイルに以下のような記述が含まれています。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+// ...
+//= require jquery
+//= require jquery_ujs
+//= require_tree .
+
+</pre>
+</div>
+<p>JavaScriptのSprocketsディレクティブは<code>//=</code>で始まります。上の例では<code>require</code>と<code>require_tree</code>というディレクティブが使用されています。<code>require</code>は、必要なファイルをSprocketsに指定するのに使用します。ここでは<code>jquery.js</code>と<code>jquery_ujs.js</code>を必要なファイルとして指定しています。これらのファイルはSprocketsの検索パスのどこかから読み込み可能になっています。このディレクティブでは拡張子を明示的に指定する必要はありません。ディレクティブが<code>.js</code>ファイルに書かれていれば、Sprocketsによって自動的に<code>.js</code>ファイルが必要ファイルとして指定されます。</p><p><code>require_tree</code>ディレクティブは、指定されたディレクトリ以下の <em>すべての</em> JavaScriptファイルを再帰的にインクルードし、出力に含めます。このパスは、マニフェストファイルからの相対パスとして指定する必要があります。<code>require_directory</code>ディレクティブを使用すると、指定されたディレクトリの直下にあるすべてのJavaScriptファイルのみをインクルードします。この場合サブディレクトリを再帰的に探索しません。</p><p>ディレクティブは記載した順に実行されますが、<code>require_tree</code>でインクルードされるファイルの読み込み順序は指定できません。従って、特定の読み込み順に依存しないようにする必要があります。もしどうしても特定のJavaScriptファイルを他のJavaScriptファイルよりも結合順を先にしたい場合、そのファイルへのrequireディレクティブをマニフェストの最初に置きます。<code>require</code>および類似のディレクティブは、出力時に同じファイルを2回以上インクルードしないようになっています。</p><p>Railsは以下の行を含むデフォルトの<code>app/assets/stylesheets/application.css</code>ファイルも作成します。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+/* ...
+*= require_self
+*= require_tree .
+*/
+
+</pre>
+</div>
+<p>Rails 4は<code>app/assets/javascripts/application.js</code>と<code>app/assets/stylesheets/application.css</code>ファイルを両方作成します。これはRailsアプリケーション新規作成時に--skip-sprocketsを指定するかどうかにかかわらず行われます。これにより、必要に応じて後からアセットパイプラインを追加することもできます。</p><p>JavaScriptで使用できるディレクティブはスタイルシートでも使用できます (なおJavaScriptと異なりスタイルシートは明示的にインクルードされるという違いがあります)。CSSマニフェストにおける<code>require_tree</code>ディレクティブの動作はJavaScriptの場合と同様に現在のディレクトリにあるすべてのスタイルシートをrequireします。</p><p>上の例では<code>require_self</code>が使用されています。このディレクティブは、<code>require_self</code>呼び出しが行われたその場所にCSSファイルがあれば読み込みます。</p><div class="note"><p>Sassファイルを複数使用しているのであれば、Sprocketsディレクティブで読み込まずに<a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#import">Sass <code>@import</code>ルール</a>を使用する必要があります。このような場合にSprocketsディレクティブを使用してしまうと、Sassファイルが自分自身のスコープに置かれるため、その中で定義されている変数やミックスインが他のSassから利用できなくなってしまいます。</p></div><p><code>@import "*"</code>や<code>@import "**/*"</code>などのようにワイルドカードマッチでツリー全体を指定することもできます。これは<code>require_tree</code>と同等です。詳細および重要な警告については<a href="https://github.com/rails/sass-rails#features">sass-railsドキュメント</a>を参照してください。</p><p>マニフェストファイルは必要に応じていくつでも使用できます。たとえば、アプリケーションのadminセクションで使用するJSファイルとCSSファイルを<code>admin.css</code>と<code>admin.js</code>マニフェストにそれぞれ記載することができます。</p><p>読み込み順についても前述のとおり反映されます。特に、個別に指定したファイルは、そのとおりの順序でコンパイルされます。たとえば、以下では3つのCSSファイルを結合しています。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+/* ...
+*= require reset
+*= require layout
+*= require chrome
+*/
+
+</pre>
+</div>
+<h4 id="プリプロセス"><a class="anchorlink" href="#%E3%83%97%E3%83%AA%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9">2.5 プリプロセス</a></h4><p>適用されるプリプロセスの種類は、アセットファイルの拡張子によって決まります。コントローラやscaffoldをデフォルトのgemセットで生成した場合、通常JavaScriptファイルやCSSファイルが置かれる場所にCoffeeScriptファイルとSCSSファイルがそれぞれ生成されます。先の例では、コントローラ名が"projects"で、<code>app/assets/javascripts/projects.js.coffee</code>ファイルと<code>app/assets/stylesheets/projects.css.scss</code>ファイルが生成されます。</p><p>developmentモードの場合、あるいはアセットパイプラインが無効になっている場合は、これらのアセットへのリクエストは<code>coffee-script</code> gemと<code>sass</code> gemが提供するプロセッサによって処理され、それぞれJavaScriptとCSSとしてブラウザへのレスポンスが送信されます。アセットパイプラインが有効になっている場合は、これらのアセットファイルはプリプロセスの対象となり、処理後のファイルが<code>public/assets</code>ディレクトリに置かれてRailsアプリケーションまたはWebサーバーによって利用されます。</p><p>アセットファイル名に別の拡張子を追加することにより、プリプロセス時に別のレイヤを追加でリクエストすることができます。アセットファイル名の拡張子は、「右から左」の順に処理されます。従って、アセットファイル名の拡張子は、これに従って処理を行うべき順序で与える必要があります。たとえば、<code>app/assets/stylesheets/projects.css.scss.erb</code>というスタイルシートでは、最初にERBとして処理され、続いてSCSS、最後にCSSとして処理されます。同様にして、 <code>app/assets/javascripts/projects.js.coffee.erb</code> というJavaScriptファイルの場合では、ERB → CoffeeScript → JavaScript の順に処理されます。</p><p>このプリプロセス順序は非常に重要ですので、心に留めておいてください。たとえば、仮に<code>app/assets/javascripts/projects.js.erb.coffee</code>というファイルを呼び出すと、最初にCoffeeScriptインタプリタによって処理されます。しかしこれは次のERBで処理できないので問題が発生することがあります。</p><h3 id="development環境の場合"><a class="anchorlink" href="#development%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">3 development環境の場合</a></h3><p>developmentモードの場合、アセットは個別のファイルとして、マニフェストファイルの記載順に読み込まれます。</p><p><code>app/assets/javascripts/application.js</code>というマニフェストの内容が以下のようになっているとします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+//= require core
+//= require projects
+//= require tickets
+
+</pre>
+</div>
+<p>上によって以下のHTMLが生成されます。</p><div class="code_container">
+<pre class="brush: xml; gutter: false; toolbar: false">
+&lt;script src="/assets/core.js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/assets/projects.js?body=1"&gt;&lt;/script&gt;
+&lt;script src="/assets/tickets.js?body=1"&gt;&lt;/script&gt;
+
+</pre>
+</div>
+<p><code>body</code>パラメータはSprocketsで必要となります。</p><h4 id="ランタイムエラーをチェックする"><a class="anchorlink" href="#%E3%83%A9%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E3%81%99%E3%82%8B">3.1 ランタイムエラーをチェックする</a></h4><p>アセットパイプラインはdevelopmentモードでランタイム時のエラーをデフォルトでチェックします。この動作を無効にするには、以下の設定を使用します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.raise_runtime_errors = false
+
+</pre>
+</div>
+<p>このオプションがtrueになっていると、アプリケーションのアセットが<code>config.assets.precompile</code>に記載されているとおりにすべて読み込まれているかどうかをチェックします。<code>config.assets.digest</code>もtrueになっている場合、アセットへのリクエストにダイジェストを含むことが必須となります。</p><h4 id="ダイジェストをオフにする"><a class="anchorlink" href="#%E3%83%80%E3%82%A4%E3%82%B8%E3%82%A7%E3%82%B9%E3%83%88%E3%82%92%E3%82%AA%E3%83%95%E3%81%AB%E3%81%99%E3%82%8B">3.2 ダイジェストをオフにする</a></h4><p><code>config/environments/development.rb</code>を更新して以下のようにすることで、ダイジェストをオフにできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.digest = false
+
+</pre>
+</div>
+<p>このオプションがtrueになっていると、ダイジェストが生成されてアセットへのURLに含まれるようになります。</p><h4 id="デバッグをオフにする"><a class="anchorlink" href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%82%92%E3%82%AA%E3%83%95%E3%81%AB%E3%81%99%E3%82%8B">3.3 デバッグをオフにする</a></h4><p>デバッグモードをオフにするには、<code>config/environments/development.rb</code>に以下を追記します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.debug = false
+
+</pre>
+</div>
+<p>デバッグモードをオフにすると、Sprocketsはすべてのファイルを結合して、必要なプリプロセッサを実行します。デバッグモードをオフにすると、上のマニフェストファイルによって以下が生成されるようになります。</p><div class="code_container">
+<pre class="brush: xml; gutter: false; toolbar: false">
+&lt;script src="/assets/application.js"&gt;&lt;/script&gt; 
+
+</pre>
+</div>
+<p>アセットは、サーバー起動後に最初にリクエストを受け取った時点でコンパイルとキャッシュが行われます。Sprocketsは、<code>must-revalidate</code>というCache-Control HTTPヘッダを設定することで、以後のリクエストのオーバーヘッドを減らします。この場合、ブラウザはレスポンス304 (Not Modified) を受け取ります。</p><p>リクエストとリクエストの合間に、マニフェストに記載されているファイルのいずれかで変更が生じた場合、Railsサーバーは新しくコンパイルされたファイルをレスポンスで返します。</p><p>Railsのヘルパーメソッドを使用してデバッグモードをオンにすることもできます。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= stylesheet_link_tag "application", debug: true %&gt;
+&lt;%= javascript_include_tag "application", debug: true %&gt;
+
+</pre>
+</div>
+<p>デバッグモードが既にオンの場合、<code>:debug</code>オプションは冗長です。</p><p>developmentモードで健全性チェックの一環として圧縮をオンにしたり、デバッグの必要性に応じてオンデマンドで無効にしたりすることもできます。</p><h3 id="production環境の場合"><a class="anchorlink" href="#production%E7%92%B0%E5%A2%83%E3%81%AE%E5%A0%B4%E5%90%88">4 production環境の場合</a></h3><p>Sprocketsは、production環境では前述のフィンガープリントによるスキームを使用します。デフォルトでは、Railsのアセットはプリコンパイル済みかつ静的なアセットとしてWebサーバーから提供されることが前提になっています。</p><p>MD5はコンパイルされるファイルの内容を元にプリコンパイル中に生成され、ファイル名に挿入されてディスクに保存されます。マニフェスト名はRailsヘルパーによってこれらのフィンガープリント名と置き換えられて使用されます。</p><p>以下の例で説明します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= javascript_include_tag "application" %&gt;
+&lt;%= stylesheet_link_tag "application" %&gt;
+
+</pre>
+</div>
+<p>上のコードによって以下のような感じで生成されます。</p><div class="code_container">
+<pre class="brush: xml; gutter: false; toolbar: false">
+&lt;script src="/assets/application-908e25f4bf641868d8683022a5b62f54.js"&gt;&lt;/script&gt;
+&lt;link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" media="screen" rel="stylesheet" /&gt;
+
+</pre>
+</div>
+<div class="note"><p>アセットパイプラインの:cacheオプションと:concatオプションは廃止されました。これらのオプションは<code>javascript_include_tag</code>と<code>stylesheet_link_tag</code>から削除してください。</p></div><p>フィンガープリントの振る舞いについては<code>config.assets.digest</code>初期化オプションで制御できます。productionモードではデフォルトで<code>true</code>、それ以外では<code>false</code>です。</p><div class="note"><p>デフォルトの<code>config.assets.digest</code>オプションは、通常は変更しないでください。ファイル名にダイジェストが含まれないと、遠い将来にヘッダが設定されたときに (ブラウザなどの) リモートクライアントがファイルの内容変更を検出して再度取得することができなくなってしまいます。</p></div><h4 id="アセットをプリコンパイルする"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%81%99%E3%82%8B">4.1 アセットをプリコンパイルする</a></h4><p>Railsには、パイプラインにあるアセットマニフェストなどのファイルを手動でコンパイルするためのrakeタスクが1つバンドルされています。</p><p>コンパイルされたアセットは、<code>config.assets.prefix</code>で指定された場所に保存されます。この保存場所は、デフォルトでは<code>/assets</code>ディレクトリです。</p><p>デプロイ時にこのrakeタスクをサーバー上で呼び出すと、コンパイル済みアセットをサーバー上で直接作成できます。ローカル環境でコンパイルする方法については次のセクションを参照してください。</p><p>以下がそのrakeタスクです。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ RAILS_ENV=production bin/rake assets:precompile
+
+</pre>
+</div>
+<p>Capistrano (v2.15.1以降) にはデプロイ中にこのrakeタスクを扱うレシピが含まれています。
+<code>Capfile</code>に以下を追加します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+load 'deploy/assets'
+
+</pre>
+</div>
+<p>これにより、<code>config.assets.prefix</code>で指定されたフォルダが<code>shared/assets</code>にリンクされます。
+既にこの共有フォルダを使用しているのであれば、独自のデプロイ用タスクを作成する必要があります。</p><p>このフォルダは、複数のデプロイによって共有されている点が重要です。これは、サーバー以外の離れた場所でキャッシュされているページが古いコンパイル済みアセットを参照している場合でも、キャッシュ済みページの寿命が来て削除されるまではその古いページへの参照が有効になるようにするためです。</p><p>ファイルをコンパイルする際のデフォルトのマッチャによって、<code>app/assets</code>フォルダ以下の<code>application.js</code>、<code>application.css</code>、およびすべての非JS/CSSファイル (これにより画像ファイルもすべて自動的にインクルードされます) がインクルードされます。<code>app/assets</code>フォルダにあるgemも含まれます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+[ Proc.new { |filename, path| path =~ /app\/assets/ &amp;&amp; !%w(.js .css).include?(File.extname(filename)) },
+/application.(css|js)$/ ]
+
+</pre>
+</div>
+<div class="note"><p>このマッチャ (および後述するプリコンパイル配列の他のメンバ) が適用されるのは、コンパイル前やコンパイル中のファイル名ではなく、コンパイル後の最終的なファイル名である点にご注意ください。これは、コンパイルされてJavaScriptやCSSになるような中間ファイルはマッチャの対象からすべて除外されるということです (純粋なJavaScript/CSSと同様)。たとえば、<code>.coffee</code>と<code>.scss</code>ファイルはコンパイル後にそれぞれJavaScriptとCSSになるので、これらは自動的にはインクルードされません。</p></div><p>他のマニフェストや、個別のスタイルシート/JavaScriptファイルをインクルードしたい場合は、<code>config/initializers/assets.rb</code>の<code>precompile</code>という配列を使用します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+Rails.application.config.assets.precompile += ['admin.js', 'admin.css', 'swfObject.js']
+
+</pre>
+</div>
+<p>あるいは、以下のようにすべてのアセットをプリコンパイルすることもできます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config/initializers/assets.rb
+Rails.application.config.assets.precompile &lt;&lt; Proc.new do |path|
+  if path =~ /\.(css|js)\z/
+    full_path = Rails.application.assets.resolve(path).to_path
+    app_assets_path = Rails.root.join('app', 'assets').to_path
+    if full_path.starts_with? app_assets_path
+      logger.info "including asset: " + full_path
+      true
+    else
+      logger.info "excluding asset: " + full_path
+      false
+    end
+  else
+    false
+  end
+end
+
+</pre>
+</div>
+<div class="note"><p>プリコンパイル配列にSassやCoffeeScriptファイルなどを追加する場合にも、必ず.jsや.cssで終わるファイル名 (つまりコンパイル後のファイル名として期待されているファイル名) も指定してください。</p></div><p>このrakeタスクは、<code>manifest-md5hash.json</code>ファイルも生成します。これはすべてのアセットとそれらのフィンガープリントのリストです。Railsヘルパーはこれを使用して、マッピングリクエストがSprocketsへ戻されることを回避します。典型的なマニフェストファイルの内容は以下のような感じになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+{"files":{"application-723d1be6cc741a3aabb1cec24276d681.js":{"logical_path":"application.js","mtime":"2013-07-26T22:55:03-07:00","size":302506,
+"digest":"723d1be6cc741a3aabb1cec24276d681"},"application-12b3c7dd74d2e9df37e7cbb1efa76a6d.css":{"logical_path":"application.css","mtime":"2013-07-26T22:54:54-07:00","size":1560,
+"digest":"12b3c7dd74d2e9df37e7cbb1efa76a6d"},"application-1c5752789588ac18d7e1a50b1f0fd4c2.css":{"logical_path":"application.css","mtime":"2013-07-26T22:56:17-07:00","size":1591,
+"digest":"1c5752789588ac18d7e1a50b1f0fd4c2"},"favicon-a9c641bf2b81f0476e876f7c5e375969.ico":{"logical_path":"favicon.ico","mtime":"2013-07-26T23:00:10-07:00","size":1406,
+"digest":"a9c641bf2b81f0476e876f7c5e375969"},"my_image-231a680f23887d9dd70710ea5efd3c62.png":{"logical_path":"my_image.png","mtime":"2013-07-26T23:00:27-07:00","size":6646,
+"digest":"231a680f23887d9dd70710ea5efd3c62"}},"assets":{"application.js":
+"application-723d1be6cc741a3aabb1cec24276d681.js","application.css":
+"application-1c5752789588ac18d7e1a50b1f0fd4c2.css",
+"favicon.ico":"favicona9c641bf2b81f0476e876f7c5e375969.ico","my_image.png":
+"my_image-231a680f23887d9dd70710ea5efd3c62.png"}}
+
+</pre>
+</div>
+<p>マニフェストのデフォルトの置き場所は、<code>config.assets.prefix</code>で指定された場所のルートディレクトリ (デフォルトでは'/assets') です。</p><div class="note"><p>productionモードで見つからないプリコンパイル済みファイルがあると、見つからないファイル名をエラーメッセージに含んだ<code>Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError</code>が発生します。</p></div><h5 id="遠い将来に期限切れになるヘッダー"><a class="anchorlink" href="#%E9%81%A0%E3%81%84%E5%B0%86%E6%9D%A5%E3%81%AB%E6%9C%9F%E9%99%90%E5%88%87%E3%82%8C%E3%81%AB%E3%81%AA%E3%82%8B%E3%83%98%E3%83%83%E3%83%80%E3%83%BC">4.1.1 遠い将来に期限切れになるヘッダー</a></h5><p>プリコンパイル済みのアセットはファイルシステム上に置かれ、Webサーバーから直接クライアントに提供されます。これらプリコンパイル済みアセットには、いわゆる遠い将来に期限切れになるヘッダ (far-future headers) はデフォルトでは含まれていません。したがって、フィンガープリントのメリットを得るためには、サーバーの設定を更新してこのヘッダを含める必要があります。</p><p>Apacheの設定: </p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+# Expires* ディレクティブを使用する場合はApacheの
+# `mod_expires`モジュールを有効にする必要あり
+&lt;Location /assets/&gt;
+  # Last-Modifiedフィールドが存在する場合はETagの使用が妨げられる
+  Header unset ETag
+  FileETag None
+  # RFCによるとキャッシュは最長1年まで
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+&lt;/Location&gt;
+
+</pre>
+</div>
+<p>NGINXの場合:</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+location ~ ^/assets/ {
+  expires 1y;
+  add_header Cache-Control public;
+
+  add_header ETag "";
+  break;
+}
+
+</pre>
+</div>
+<h5 id="gzip圧縮"><a class="anchorlink" href="#gzip%E5%9C%A7%E7%B8%AE">4.1.2 GZip圧縮</a></h5><p>ファイルをプリコンパイルする際に、Sprocketsによって<a href="http://ja.wikipedia.org/wiki/Gzip">gzipされた</a> (.gz) アセットも作成されます。Webサーバーによる圧縮はほどほどの圧縮率で行われるのが普通ですが、プリコンパイルが1度発生するとSprocketsによって最大圧縮率で圧縮され、Webサーバーからのデータ転送量が最小化されます。逆に、圧縮されてないファイルを自前で圧縮する代りに、事前に圧縮しておいたコンテンツを直接ディスクに配置しておくようWebサーバーを設定することもできます。</p><p>NGINXでは<code>gzip_static</code>を使用することでこれを自動的に行なうことができます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+location ~ ^/(assets)/  {
+  root /path/to/public;
+  gzip_static on; # gzip済みのバージョンを提供する
+  expires max;
+  add_header Cache-Control public;
+}
+
+</pre>
+</div>
+<p>このディレクティブは、この機能を提供するコアモジュールがWebサーバーと一緒にコンパイルされている場合に使用可能になります。Ubuntu/Debianパッケージはもちろん、<code>nginx-light</code>にもこのモジュールがコンパイル済みで用意されています。それ以外の場合には、自分でコンパイルを行う必要があるでしょう。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+./configure --with-http_gzip_static_module
+
+</pre>
+</div>
+<p>NGINXをPhusion Passengerと共にコンパイルする場合は、コンパイル中にプロンプトが表示された時にそのためのオプションを渡す必要があります。</p><p>Apacheで堅牢な設定を行なうことは可能ですが、何かとトリッキーであるため、ネットを検索して情報を十分集めてください。(Apache用のよい設定例を確立したら本ガイドに反映いただけると大変助かります)</p><h4 id="ローカルでプリコンパイルを行なう"><a class="anchorlink" href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E3%81%A7%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%82%92%E8%A1%8C%E3%81%AA%E3%81%86">4.2 ローカルでプリコンパイルを行なう</a></h4><p>アセットをローカルでプリコンパイルする理由はいくつか考えられます。たとえば以下のようなものがあります。</p>
+<ul>
+<li>production環境のファイルシステムへの書き込み権限がない。</li>
+<li>デプロイ先が複数あり、同じ作業を繰り返したくない。</li>
+<li>アセットの変更を伴わないデプロイが頻繁に発生する。</li>
+</ul>
+<p>ローカルでのコンパイルを行なうことで、コンパイル済みのアセットファイルをGitなどによるソース管理対象に含め、他のファイルと一緒にデプロイできるようになります。</p><p>ただし、以下の3つの注意点があります。</p>
+<ul>
+<li>Capistranoのデプロイメントタスクでアセットのプリコンパイルを行わないこと。</li>
+<li>development環境で圧縮機能や最小化機能がすべて利用できるようにしておくこと。</li>
+<li>以下のアプリケーション設定を変更しておくこと。</li>
+</ul>
+<p><code>config/environments/development.rb</code>に以下の行があります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.prefix = "/dev-assets"
+
+</pre>
+</div>
+<p><code>prefix</code>を変更すると、Sprocketsはdevelopmentモードで別のURLを使用してアセットを提供し、すべてのリクエストがSprocketsに渡されるようになります。production環境のプレフィックスは<code>/assets</code>のままです。この変更を行わなかった場合、アプリケーションはdevelopment環境でもproduction環境と同じ<code>/assets</code>からプリコンパイルしたアセットを提供します。この場合、アセットを再コンパイルしないとローカルでの変更が反映されません。</p><p>実用上は、この変更によってローカルでのプリコンパイルが行えるようになり、必要に応じてそれらのファイルをワーキングツリーに追加してソース管理にコミットできるようになります。developmentモードは期待どおり動作します。</p><h4 id="動的コンパイル"><a class="anchorlink" href="#%E5%8B%95%E7%9A%84%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB">4.3 動的コンパイル</a></h4><p>状況によっては動的コンパイル (live compilation) を使用したいこともあるでしょう。このモードでは、パイプラインのアセットへのリクエストは直接Sprocketsによって扱われます。</p><p>このオプションを有効にするには以下を設定します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.compile = true
+
+</pre>
+</div>
+<p>最初のリクエストを受けると、アセットは上述のdevelopment環境のところで説明したとおりにコンパイルおよびキャッシュされます。ヘルパーで使用されるマニフェスト名にはMD5ハッシュが含まれます。</p><p>また、Sprocketsは<code>Cache-Control</code> HTTPヘッダーを<code>max-age=31536000</code>に変更します。このヘッダーは、サーバーとクライアントブラウザの間にあるすべてのキャッシュ (プロキシなど) に対して、サーバーが提供するこのコンテンツは1年間キャッシュしてよいと通知します。これにより、そのサーバーのアセットに対するリクエスト数を減らすことができ、アセットをローカルブラウザのキャッシュやその他の中間キャッシュで代替するよい機会が与えられます。</p><p>このモードはデフォルトよりもメモリを余分に消費し、パフォーマンスも落ちるためお勧めできません。</p><p>本番アプリケーションのデプロイ先のシステムに既存のJavaScriptランタイムがない場合は、以下をGemfileに記述します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+group :production do
+  gem 'therubyracer'
+end
+
+</pre>
+</div>
+<h4 id="cdn"><a class="anchorlink" href="#cdn">4.4 CDN</a></h4><p>CDN (<a href="http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF">コンテンツデリバリーネットワーク</a>)は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。それにより、ブラウザからアセットをリクエストすると、ネットワーク上で最も近くにあるキャッシュのコピーが使用されます。production環境のRailsサーバーから (中間キャッシュを使用せずに) 直接アセットを提供しているのであれば、アプリケーションとブラウザの間でCDNを使用するのがベストプラクティスです。</p><p>CDNの典型的な利用法は、productionサーバーを "origin" サーバーとして設定することです。つまり、ブラウザがCDN上のアセットをリクエストしてキャッシュが見つからない場合、オンデマンドでサーバーからアセットファイルを取得してキャッシュするということです。たとえば、Railsアプリケーションを<code>example.com</code>というドメインで運用しており、<code>mycdnsubdomain.fictional-cdn.com</code>というCDNが設定済みであるとします。<code>mycdnsubdomain.fictional-cdn.com/assets/smile.png</code>がリクエストされると、CDNはいったん元のサーバーの<code>example.com/assets/smile.png</code>にアクセスしてこのリクエストをキャッシュします。CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーがヒットします。CDNがアセットを直接提供する場合、ブラウザからのリクエストが直接Railsサーバーに達することはありません。CDNが提供するアセットはネットワーク上でブラウザに近い位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをより高速で提供することに集中できます。</p><h5 id="cdnで静的なアセットを提供する"><a class="anchorlink" href="#cdn%E3%81%A7%E9%9D%99%E7%9A%84%E3%81%AA%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B">4.4.1 CDNで静的なアセットを提供する</a></h5><p>CDNを設定するには、Railsアプリケーションがインターネット上でproductionモードで運用されており、<code>example.com</code>などのように誰でもアクセスできるURLがある必要があります。続いて、クラウドホスティングプロバイダーが提供するCDNサービスと契約を結ぶ必要もあります。その際、CDNの"origin"設定をRailsアプリケーションのWebサイト<code>example.com</code>にする必要もあります。originサーバーの設定方法のドキュメントについてはプロバイダーにお問い合わせください。</p><p>サービスに使用するCDNから、アプリケーションで使用するためのカスタムサブドメイン (例: <code>mycdnsubdomain.fictional-cdn.com</code>) を交付してもらう必要もあります (メモ: fictional-cdn.comは説明用であり、少なくとも執筆時点では本当のCDNプロバイダーではありません)。以上でCDNサーバーの設定が終わりましたので、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、<code>config/production.rb</code>の<code>config.action_controller.asset_host</code>を以下のように設定します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.action_controller.asset_host = 'mycdnsubdomain.fictional-cdn.com'
+
+</pre>
+</div>
+<div class="note"><p>ここに記述するのは "ホスト名" (サブドメインとルートドメインを合わせたもの) のみです。<code>http://</code>や<code>https://</code>などのプロトコルスキームを記述する必要はありません。アセットへのリンクで使用されるプロトコルスキームは、Webページヘのリクエスト発生時に、そのページへのデフォルトのアクセス方法に合わせて適切に生成されます。</p></div><p>この値は<a href="http://ja.wikipedia.org/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0">環境変数</a>で設定することもできます。これを使用すると、ステージングサーバー (訳注: 検証用に本番サーバーを複製したサーバー) の実行が楽になります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+config.action_controller.asset_host = ENV['CDN_HOST']
+
+</pre>
+</div>
+<div class="note"><p>上の設定が有効になるためには、サーバーの<code>CDN_HOST</code>環境変数に値 (この場合であれば<code>mycdnsubdomain.fictional-cdn.com</code>) を設定しておく必要があります。</p></div><p>サーバーとCDNの設定完了後、以下のアセットを持つWebページにアクセスしたとします。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= asset_path('smile.png') %&gt;
+
+</pre>
+</div>
+<p>上の例では、<code>/assets/smile.png</code>のようなパスは返されません (読みやすくするためダイジェスト文字は省略してあります)。実際に生成されるCDNへのフルパスは以下のようになります。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+
+</pre>
+</div>
+<p><code>smile.png</code>のコピーがCDNにあれば、CDNが代りにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら知りません。ファイルのコピーがCDNにない場合、CDNは "origin" (この場合<code>example.com/assets/smile.png</code>) を探して今後のために保存しておきます。</p><p>CDNで扱うアセットを一部だけに限っておきたい場合、アセットヘルパーのカスタム<code>:host</code>オプションを使用して<code>config.action_controller.asset_host</code>の値セットを上書きすることもできます。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
+&lt;%= asset_path 'image.png', host: 'mycdnsubdomain.fictional-cdn.com' %&gt;
+
+</pre>
+</div>
+<h5 id="cdnのキャッシュの動作をカスタマイズする"><a class="anchorlink" href="#cdn%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%81%AE%E5%8B%95%E4%BD%9C%E3%82%92%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%99%E3%82%8B">4.4.2 CDNのキャッシュの動作をカスタマイズする</a></h5><p>CDNはコンテンツをキャッシュすることで動作します。CDNに保存されているコンテンツが古くなったり壊れていたりすると、メリットよりも害の方が大きくなります。本セクションでは、多くのCDNにおける一般的なキャッシュの動作について解説します。プロバイダによってはこの記述のとおりでないことがありますのでご注意ください。</p><h6 id="cdnリクエストキャッシュ"><a class="anchorlink" href="#cdn%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5">4.4.2.1 CDNリクエストキャッシュ</a></h6><p>これまでCDNがアセットをキャッシュするのに向いていると説明しましたが、実際にキャッシュされているのはアセット単体ではなくリクエスト全体です。リクエストにはアセット本体の他に各種ヘッダーも含まれています。ヘッダーの中でもっとも重要なのは<code>Cache-Control</code>です。これはCDN (およびWebブラウザ) にキャッシュの取り扱い方法を通知するためのものです。たとえば、誰かが実際には存在しないアセット<code>/assets/i-dont-exist.png</code>にリクエストを行い、Railsが404エラーを返したとします。このときに<code>Cache-Control</code>ヘッダーが有効になっていると、CDNはこの404エラーページをキャッシュしようとします。</p><h6 id="cdnヘッダをデバッグする"><a class="anchorlink" href="#cdn%E3%83%98%E3%83%83%E3%83%80%E3%82%92%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B">4.4.2.2 CDNヘッダをデバッグする</a></h6><p>このヘッダが正しくキャッシュされているかどうかを確認するひとつの方法として、<a href="http://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com">curl</a>を使用するという方法があります。curlを使用して、サーバーとCDNにそれぞれリクエストを送信し、ヘッダーが同じであるかどうかを以下のように確認できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ curl -I http://www.example/assets/application-d0e099e021c95eb0de3615fd1d8c4d83.css
+HTTP/1.1 200 OK
+Server: Cowboy
+Date: Sun, 24 Aug 2014 20:27:50 GMT
+Connection: keep-alive
+Last-Modified: Thu, 08 May 2014 01:24:14 GMT
+Content-Type: text/css
+Cache-Control: public, max-age=2592000
+Content-Length: 126560
+Via: 1.1 vegur
+
+</pre>
+</div>
+<p>今度はCDNのコピーです。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ curl -I http://mycdnsubdomain.fictional-cdn.com/application-d0e099e021c95eb0de3615fd1d8c4d83.css
+HTTP/1.1 200 OK Server: Cowboy
+Last-Modified: Thu, 08 May 2014 01:24:14 GMT Content-Type: text/css
+Cache-Control:
+public, max-age=2592000
+Via: 1.1 vegur
+Content-Length: 126560
+Accept-Ranges:
+bytes
+Date: Sun, 24 Aug 2014 20:28:45 GMT
+Via: 1.1 varnish
+Age: 885814
+Connection: keep-alive
+X-Served-By: cache-dfw1828-DFW
+X-Cache: HIT
+X-Cache-Hits:
+68
+X-Timer: S1408912125.211638212,VS0,VE0
+
+</pre>
+</div>
+<p>CDNが提供する<code>X-Cache</code>などの機能やCDNが追加するヘッダなどの付加的情報については、CDNのドキュメントを確認してください。</p><h6 id="cdnとcache-controlヘッダ"><a class="anchorlink" href="#cdn%E3%81%A8cache-control%E3%83%98%E3%83%83%E3%83%80">4.4.2.3 CDNとCache-Controlヘッダ</a></h6><p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">Cache-Controlヘッダ</a>は、リクエストがキャッシュされる方法を定めたW3Cの仕様です。CDNを使用していない場合、ブラウザはこのヘッダ情報を使用してコンテンツをキャッシュします。このヘッダのおかげで、アセットで変更が発生していない場合にブラウザがCSSやJavaScriptをリクエストのたびに再度ダウンロードせずに済み、非常に有用です。アセットのCache-Controlヘッダは一般に "public" にしておくものであり、RailsサーバーはCDNやブラウザに対してこのヘッダを通じてそのことを通知します。アセットが "public" であるということは、そのリクエストをどんなキャッシュにも保存してよいということを意味します。同様に<code>max-age</code> もこのヘッダでCDNやブラウザに通知されます。<code>max-age</code>は、キャッシュがオブジェクトを保存する期間を指定します。この期間を過ぎるとキャッシュは廃棄されます。<code>max-age</code>の値は秒単位で指定します。最大値は<code>31536000</code>であり、これは一年に相当します。Railsでは以下の設定でこの期間を指定できます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+config.static_cache_control = "public, max-age=31536000"
+
+</pre>
+</div>
+<p>production環境のアセットは上の設定によってアプリケーションから提供されるようになり、キャッシュは1年間保存されます。多くのCDNはリクエストのキャッシュも保存しているので、この<code>Cache-Control</code>ヘッダーはアセットをリクエストするすべてのブラウザ (将来登場するブラウザも含める) に渡されます。ブラウザはこのヘッダを受け取ると、次回再度リクエストが必要になったときに備えてそのアセットを当分の間キャッシュに保存してよいことを知ります。</p><h6 id="cdnにおけるurlベースのキャッシュ廃棄について"><a class="anchorlink" href="#cdn%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Burl%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E5%BB%83%E6%A3%84%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">4.4.2.4 CDNにおけるURLベースのキャッシュ廃棄について</a></h6><p>多くのCDNでは、アセットのキャッシュを完全なURLに基いて行います。たとえば以下のアセットへのリクエストがあるとします。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+http://mycdnsubdomain.fictional-cdn.com/assets/smile-123.png
+
+</pre>
+</div>
+<p>上のリクエストのキャッシュは、下のアセットへのリクエストのキャッシュとは完全に異なるものとして扱われます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
+
+</pre>
+</div>
+<p><code>Cache-Control</code>の<code>max-age</code>を遠い将来に設定する場合は、アセットに変更が生じた時にこれらのキャッシュが確実に廃棄されるようにしてください。たとえば、ニコニコマーク画像の色を黄色から青に変更したら、サイトを訪れた人には変更後の青いニコニコマークが見えるようにしたいはずです。RailsをCDNを併用している場合、Railsのアセットパイプライン<code>config.assets.digest</code>はデフォルトでtrueに設定されるので、アセットの内容に少しでも変更が生じれば必ずファイル名も変更されます。このとき、キャッシュ内の項目を手動で削除する必要がまったくない点にご注目ください。アセット名が内容に応じて常に一意になるので、ユーザーは常に最新のアセットを利用できます。</p><h3 id="パイプラインをカスタマイズする"><a class="anchorlink" href="#%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%92%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%99%E3%82%8B">5 パイプラインをカスタマイズする</a></h3><h4 id="cssを圧縮する"><a class="anchorlink" href="#css%E3%82%92%E5%9C%A7%E7%B8%AE%E3%81%99%E3%82%8B">5.1 CSSを圧縮する</a></h4><p>YUIはCSS圧縮方法のひとつです。<a href="http://yui.github.io/yuicompressor/css.html">YUI CSS compressor</a>は最小化機能を提供します (訳注: この項では、圧縮 (compress) という語は最小化 (minify) や難読化 (uglify) と同じ意味で使用されており、圧縮後のファイルはzipのようなバイナリになりません)。</p><p>YUI圧縮は以下の記述で有効にできます。これには<code>yui-compressor</code> gemが必要です。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.css_compressor = :yui
+
+</pre>
+</div>
+<p>sass-rails gemを使用している場合は、以下のように代替のCSS圧縮方法として指定できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.css_compressor = :sass
+
+</pre>
+</div>
+<h4 id="javascriptを圧縮する"><a class="anchorlink" href="#javascript%E3%82%92%E5%9C%A7%E7%B8%AE%E3%81%99%E3%82%8B">5.2 JavaScriptを圧縮する</a></h4><p>JavaScriptを圧縮する際には<code>:closure</code>、<code>:uglifier</code>、<code>:yui</code>のいずれかのオプションを指定できます。それぞれ、<code>closure-compiler</code> gem、<code>uglifier</code> gem、<code>yui-compressor</code> gemが必要です。</p><p>RailsのGemfileにはデフォルトで<a href="https://github.com/lautis/uglifier">uglifier</a>が含まれています。このgemは、NodeJSで記述された<a href="https://github.com/mishoo/UglifyJS">UglifyJS</a>をRubyでラップしたものです。uglifierによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば<code>if</code>と<code>else</code>を三項演算子に置き換えるなどの細かな最適化を行います。</p><p>以下の設定により、JavaScriptの圧縮に<code>uglifier</code>が使用されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.js_compressor = :uglifier
+
+</pre>
+</div>
+<div class="note"><p><code>uglifier</code>を利用するには<a href="https://github.com/sstephenson/execjs#readme">ExecJS</a>をサポートするJavaScriptランタイムが必要です。Mac OS XやWindowsを使用している場合は、OSにJavaScriptランタイムをインストールしてください。</p></div><div class="note"><p>CSSやJavaScriptの圧縮を有効にする<code>config.assets.compress</code>初期化オプションはRails 4で廃止されました。現在はこのオプションを設定しても何も変わりません。CSSおよびJavaScriptアセットの圧縮を制御するには、<code>config.assets.css_compressor</code>および<code>config.assets.js_compressor</code>を使用します。</p></div><h4 id="独自の圧縮機能を使用する"><a class="anchorlink" href="#%E7%8B%AC%E8%87%AA%E3%81%AE%E5%9C%A7%E7%B8%AE%E6%A9%9F%E8%83%BD%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">5.3 独自の圧縮機能を使用する</a></h4><p>CSSやJavaScriptの圧縮設定にはあらゆるオブジェクトを設定できます。設定に与えるオブジェクトには<code>compress</code>メソッドが実装されている必要があります。このメソッドは文字列のみを引数として受け取り、圧縮結果を文字列で返す必要があります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+class Transformer
+  def compress(string)
+    do_something_returning_a_string(string)
+  end
+end
+
+</pre>
+</div>
+<p>上のコードを有効にするには、<code>application.rb</code>の設定オプションに新しいオブジェクトを渡します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.css_compressor = Transformer.new
+
+</pre>
+</div>
+<h4 id="アセット-のパスを変更する"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88-%E3%81%AE%E3%83%91%E3%82%B9%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">5.4 <em>アセット</em> のパスを変更する</a></h4><p>デフォルトでは、Sprocketsが使用するパブリックなパスは<code>/assets</code>になります。</p><p>このパスは以下のように変更可能です。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.prefix = "/他のパス"
+
+</pre>
+</div>
+<p>このオプションは次のような場合に便利です。アセットパイプラインを使用しない既存のプロジェクトがあり、そのプロジェクトの既存のパスを指定したり、別途新しいリソース用のパスを指定したりする場合なのです。</p><h4 id="x-sendfileヘッダー"><a class="anchorlink" href="#x-sendfile%E3%83%98%E3%83%83%E3%83%80%E3%83%BC">5.5 X-Sendfileヘッダー</a></h4><p>X-SendfileヘッダーはWebサーバーに対するディレクティブであり、アプリケーションからのレスポンスをブラウザに送信せずに破棄し、代りに別のファイルをディスクから読みだしてブラウザに送信します。このオプションはデフォルトでは無効です。サーバーがこのヘッダーをサポートしていればオンにできます。このオプションをオンにすると、それらのファイル送信はWebサーバーに一任され、それによって高速化されます。この機能の使用法については<a href="http://edgeapi.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file">send_file</a>を参照してください。</p><p>ApacheとNGINXではこのオプションがサポートされており、以下のように<code>config/environments/production.rb</code>で有効にすることができます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# config.action_dispatch.x_sendfile_header = "X-Sendfile" # Apache用
+# config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # NGINX用
+
+</pre>
+</div>
+<div class="warning"><p>既存のRailsアプリケーションをアップグレードする際にこの機能を使用することを検討している場合は、このオプションの貼り付け先に十分ご注意ください。このオプションを貼り付けてよいのは<code>production.rb</code>と、production環境として振る舞わせたい他の環境ファイルのみです。<code>application.rb</code>ではありません。</p></div><div class="info"><p>詳細については、production環境用Webサーバーのドキュメントを参照してください。
+- <a href="https://tn123.org/mod_xsendfile/">Apache</a>
+- <a href="http://wiki.nginx.org/XSendfile">NGINX</a></p></div><h3 id="アセットのキャッシュストア"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%B9%E3%83%88%E3%82%A2">6 アセットのキャッシュストア</a></h3><p>Railsのキャッシュストアは、Sprocketsを使用してdevelopment環境とproduction環境のアセットをキャッシュを使用します。キャッシュストアの設定は<code>config.assets.cache_store</code>で変更できます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.cache_store = :memory_store
+
+</pre>
+</div>
+<p>アセットキャッシュストアで利用できるオプションは、アプリケーションのキャッシュストアと同じです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.cache_store = :memory_store, { size: 32.megabytes }
+
+</pre>
+</div>
+<p>アセットキャッシュストアを無効にするには以下のようにします。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+config.assets.configure do |env|
+  env.cache = ActiveSupport::Cache.lookup_store(:null_store)
+end
+
+</pre>
+</div>
+<h3 id="アセットをgemに追加する"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%92gem%E3%81%AB%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">7 アセットをGemに追加する</a></h3><p>アセットはgemの形式で外部ソースから持ち込むこともできます。</p><p>そのよい例は<code>jquery-rails</code> gemです。これは標準のJavaScriptライブラリをgemとしてRailsに提供します。このgemには<code>Rails::Engine</code>から継承したエンジンクラスが1つ含まれています。このgemを導入することにより、Railsはこのgem用のディレクトリにアセットを配置可能であることを認識し、<code>app/assets</code>、<code>lib/assets</code>、<code>vendor/assets</code>ディレクトリがSprocketsの検索パスに追加されます。</p><h3 id="ライブラリやgemをプリプロセッサ化する"><a class="anchorlink" href="#%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%84gem%E3%82%92%E3%83%97%E3%83%AA%E3%83%97%E3%83%AD%E3%82%BB%E3%83%83%E3%82%B5%E5%8C%96%E3%81%99%E3%82%8B">8 ライブラリやGemをプリプロセッサ化する</a></h3><p>Sprocketsは異なるテンプレートエンジンへの一般的なインターフェイスとして<a href="https://github.com/rtomayko/tilt">Tilt</a>を使用するため、gemにTiltテンプレートプロトコルのみを実装するだけで済みます。通常、Tiltを<code>Tilt::Template</code>のようにサブクラス化して<code>prepare</code>メソッドと<code>evaluate</code>メソッドを再実装します。<code>prepare</code>メソッドはテンプレートを初期化し、<code>evaluate</code>メソッドは処理の終わったソースを返します。処理前のソースは<code>data</code>に保存されます。詳細については<a href="https://github.com/rtomayko/tilt/blob/master/lib/tilt/template.rb"><code>Tilt::Template</code></a>のソースを参照してください。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+module BangBang
+  class Template &lt; ::Tilt::Template
+    def prepare
+      # ここですべての初期化を行なう
+    end
+
+    # 元のテンプレートに"!"を追加する
+    def evaluate(scope, locals, &amp;block)
+      "#{data}!"
+    end
+  end
+end
+
+</pre>
+</div>
+<p>これで<code>Template</code>クラスができましたので、続いてテンプレートファイルの拡張子との関連付けを行います。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+Sprockets.register_engine '.bang', BangBang::Template
+
+</pre>
+</div>
+<h3 id="古いバージョンのrailsからアップグレードする"><a class="anchorlink" href="#%E5%8F%A4%E3%81%84%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AErails%E3%81%8B%E3%82%89%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E3%81%99%E3%82%8B">9 古いバージョンのRailsからアップグレードする</a></h3><p>Rails 3.0やRails 2.xからのアップグレードの際には、いくつかの作業を行う必要があります。最初に、<code>public/</code>ディレクトリ以下のファイルを新しい場所に移動します。ファイルの種類ごとの正しい置き場所については、<a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">アセットの編成</a>を参照してください。</p><p>続いて、JavaScriptファイルの重複を解消します。jQueryはRails 3.1以降におけるデフォルトのJavaScriptライブラリなので、<code>jquery.js</code>を<code>app/assets</code>に置かなくても自動的に読み込まれます。</p><p>3番目に、多くの環境設定ファイルを正しいデフォルトオプションに更新します。</p><p><code>application.rb</code>の場合。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# アセットのバージョンを指定する。アセットをすべて期限切れにしたい場合はこの値を変更する。
+config.assets.version = '1.0'
+
+# config.assets.prefix = "/assets"は、アセットの置き場所となるパスを変更する際に使用する。
+
+</pre>
+</div>
+<p><code>development.rb</code>の場合。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# アセットで読み込んだ行を展開する。
+config.assets.debug = true
+
+</pre>
+</div>
+<p><code>production.rb</code>の場合。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# 圧縮機能を使用するには config.assets.js_compressor  = を使用する
+# :uglifier config.assets.css_compressor = :yui
+
+# プリコンパイル済みのアセットが見当たらない場合にアセットパイプラインにフォールバックしない
+config.assets.compile = false
+
+# アセットURLのダイジェストを生成する。(今後非推奨になる計画あり)
+config.assets.digest = true
+
+# 追加のアセットをプリコンパイルする (application.js、application.css、およびすべての
+# 非JS/CSSファイルが追加済み) config.assets.precompile += %w( search.js )
+
+</pre>
+</div>
+<p>Rails 4はSprocketsのデフォルト設定値をtest環境用の<code>test.rb</code>に設定しなくなりました。従って、<code>test.rb</code>にSprocketsの設定を行なう必要があります。test環境における以前のデフォルト値は、<code>config.assets.compile = true</code>、<code>config.assets.compress = false</code>、<code>config.assets.debug = false</code>、<code>config.assets.digest = false</code>です。</p><p>以下を<code>Gemfile</code>に追加する必要があります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+gem 'sass-rails',   "~&gt; 3.2.3"
+gem 'coffee-rails', "~&gt; 3.2.1"
+gem 'uglifier'
+
+</pre>
+</div>
+
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

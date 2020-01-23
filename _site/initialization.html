@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="keywords"    content="Ruby Rails ガイド 体系的 入門 無料" />
+    <meta name="author"      content="Ruby on Rails Community" />
+
+    <meta property="fb:admins"      content="715330868" />
+    <meta property="og:title"       content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:site_name"   content="Ruby on Rails ガイド：体系的に Rails を学ぼう"/>
+    <meta property="og:image"       content="http://railsguides.jp/images/cover_for_facebook.png"/>
+    <meta property="og:url"         content="http://railsguides.jp/" />
+    <meta property="og:type"        content="article" />
+    <meta property="og:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+
+    <meta name="twitter:card"  content="summary" />
+    <meta name="twitter:site"  content="@RailsGuidesJP" />
+    <meta name="twitter:title" content="Ruby on Rails ガイド：体系的に Rails を学ぼう" />
+    <meta name="twitter:description" content="Railsガイドは、Ruby on Rails Guidesに基づいたRails 4.2対応の大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。" />
+    <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
+    <meta name="twitter:url"   content="http://railsguides.jp/" />
+
+    <title>Rails の初期化プロセス - Railsガイド</title>
+    <meta name="apple-mobile-web-app-title" content="Railsガイド" />
+    <meta name="application-name"           content="Railsガイド" />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shCore.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/syntaxhighlighter/shThemeRailsGuides.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/fixes.css" />
+
+    <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+<body class="guide">
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
+  </div>
+  <div id="header">
+    <div class="wrapper clearfix">
+      <h1><a href="/" title="Return to home page">railsguides.jp</a></h1>
+      <ul class="nav">
+        <li><a class="nav-item" href="/">ホーム</a></li>
+        <li class="guides-index guides-index-large">
+          <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
+          <div id="guides" class="clearfix" style="display: none;">
+            <hr />
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
+        <li><a class="nav-item" href="credits.html">原著者</a></li>
+        <li><a class="nav-item" href="options.html">電子書籍 (検索対応)</a></li>
+        <li class="guides-index guides-index-small">
+          <select class="guides-index-item nav-item">
+            <option value="index.html">ガイド目次</option>
+              <optgroup label="はじめに">
+                  <option value="getting_started.html">Rails をはじめよう</option>
+              </optgroup>
+              <optgroup label="モデル">
+                  <option value="active_record_basics.html">Active Record の基礎</option>
+                  <option value="active_record_migrations.html">Active Record マイグレーション</option>
+                  <option value="active_record_validations.html">Active Record バリデーション</option>
+                  <option value="active_record_callbacks.html">Active Record コールバック</option>
+                  <option value="association_basics.html">Active Record の関連付け</option>
+                  <option value="active_record_querying.html">Active Record クエリインターフェイス</option>
+                  <option value="active_model_basics.html">Active Model の基礎</option>
+              </optgroup>
+              <optgroup label="ビュー">
+                  <option value="action_view_overview.html">Action View の概要</option>
+                  <option value="layouts_and_rendering.html">レイアウトとレンダリング</option>
+                  <option value="form_helpers.html">Action View フォームヘルパー</option>
+              </optgroup>
+              <optgroup label="コントローラ">
+                  <option value="action_controller_overview.html">Action Controller の概要</option>
+                  <option value="routing.html">Rails ルーティング</option>
+              </optgroup>
+              <optgroup label="高度なトピック">
+                  <option value="active_support_core_extensions.html">Active Support コア拡張機能</option>
+                  <option value="i18n.html">Rails 国際化 (i18n) API</option>
+                  <option value="action_mailer_basics.html">Action Mailer の基礎</option>
+                  <option value="active_job_basics.html">Active Job の基礎</option>
+                  <option value="testing.html">Rails テスティングガイド</option>
+                  <option value="security.html">Rails セキュリティガイド</option>
+                  <option value="debugging_rails_applications.html">Rails アプリケーションのデバッグ</option>
+                  <option value="configuring.html">Rails アプリケーションを設定する</option>
+                  <option value="command_line.html">コマンドラインツールと Rake タスク</option>
+                  <option value="asset_pipeline.html">アセットパイプライン</option>
+                  <option value="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</option>
+                  <option value="engines.html">Rails エンジン入門</option>
+                  <option value="initialization.html">Rails の初期化プロセス</option>
+                  <option value="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</option>
+              </optgroup>
+              <optgroup label="Rails を拡張する">
+                  <option value="plugins.html">Rails プラグイン作成入門</option>
+                  <option value="rails_on_rack.html">Rails と Rack</option>
+                  <option value="generators.html">Rails ジェネレータとテンプレート入門</option>
+              </optgroup>
+              <optgroup label="Ruby on Rails に貢献する">
+                  <option value="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</option>
+                  <option value="development_dependencies_install.html">Rails コア開発環境の構築方法</option>
+                  <option value="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</option>
+                  <option value="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</option>
+              </optgroup>
+              <optgroup label="メンテナンスポリシー">
+                  <option value="maintenance_policy.html">メンテナンスポリシー</option>
+              </optgroup>
+              <optgroup label="リリースノート">
+                  <option value="upgrading_ruby_on_rails.html">Rails アップグレードガイド</option>
+                  <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
+                  <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
+                  <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
+                  <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
+                  <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
+              </optgroup>
+          </select>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+  <hr class="hide" />
+  <div id="feature">
+  <div class="wrapper">
+      <h2>Rails の初期化プロセス</h2><p>本章は、Rails 4におけるRails初期化プロセスの内部について解説します。上級Rails開発者向けに推奨される、きわめて高度な内容を扱っています。</p><p>このガイドの内容:</p>
+<ul>
+<li><code>rails server</code>の使用法</li>
+<li>Rails初期化シーケンスのタイムライン</li>
+<li>ブートシーケンスで通常と異なるファイルが必要となる箇所</li>
+<li>Rails::Serverインターフェイスの定義方法と使用法</li>
+</ul>
+
+                <div id="subCol">
+            <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
+            <ol class="chapters">
+<li>
+<a href="#%E8%B5%B7%E5%8B%95-bang">起動!</a>
+
+<ul>
+<li><a href="#railties-bin-rails"><code>railties/bin/rails</code></a></li>
+<li><a href="#railties-lib-rails-app-rails-loader-rb"><code>railties/lib/rails/app_rails_loader.rb</code></a></li>
+<li><a href="#bin-rails"><code>bin/rails</code></a></li>
+<li><a href="#config-boot-rb"><code>config/boot.rb</code></a></li>
+<li><a href="#rails-commands-rb"><code>rails/commands.rb</code></a></li>
+<li><a href="#rails-commands-command-tasks-rb"><code>rails/commands/command_tasks.rb</code></a></li>
+<li><a href="#actionpack-lib-action-dispatch-rb"><code>actionpack/lib/action_dispatch.rb</code></a></li>
+<li><a href="#rails-commands-server-rb"><code>rails/commands/server.rb</code></a></li>
+<li><a href="#%E8%B5%B7%E5%8B%95-bang-rack-lib-rack-server-rb">Rack: <code>lib/rack/server.rb</code></a></li>
+<li><a href="#config-application"><code>config/application</code></a></li>
+<li><a href="#rails-server-start"><code>Rails::Server#start</code></a></li>
+<li><a href="#config-environment-rb"><code>config/environment.rb</code></a></li>
+<li><a href="#config-application-rb"><code>config/application.rb</code></a></li>
+</ul>
+</li>
+<li>
+<a href="#rails%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80">Railsを読み込む</a>
+
+<ul>
+<li><a href="#railties-lib-rails-all-rb"><code>railties/lib/rails/all.rb</code></a></li>
+<li><a href="#config-environment-rb%E3%81%AB%E6%88%BB%E3%82%8B"><code>config/environment.rb</code>に戻る</a></li>
+<li><a href="#railties-lib-rails-application-rb"><code>railties/lib/rails/application.rb</code></a></li>
+<li><a href="#rails%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-rack-lib-rack-server-rb">Rack: lib/rack/server.rb</a></li>
+</ul>
+</li>
+</ol>
+
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
+          </div>
+</div>
+  </div>
+
+  <div id="container">
+    <div class="wrapper">
+      <div id="mainCol">
+        <p>本章では、デフォルトのRails 4アプリケーション向けにRuby on Railsスタックの起動時に必要となるすべてのメソッド呼び出しについて、詳細な解説を行います。具体的には、<code>rails server</code>を実行してアプリケーションを起動したときにどのようなことが行われているかに注目して解説します。</p><div class="note"><p>文中に記載されるRuby on Railsアプリケーションへのパスは、特に記載のない限り相対パスを使用します。</p></div><div class="info"><p>Railsの<a href="https://github.com/rails/rails">ソースコード</a>を参照しながら読み進めるのであれば、Githubページ上で<code>t</code>キーバインドを使用してfile finderを起動し、ファイルを素早く見つけることをお勧めします。</p></div><h3 id="起動-bang"><a class="anchorlink" href="#%E8%B5%B7%E5%8B%95-bang">1 起動!</a></h3><p>それではアプリケーションを起動して初期化を開始しましょう。Railsアプリケーションの起動は<code>rails console</code>または<code>rails server</code>を実行して行うのが普通です。</p><h4 id="railties-bin-rails"><a class="anchorlink" href="#railties-bin-rails">1.1 <code>railties/bin/rails</code></a></h4><p><code>rails server</code>のうち、<code>rails</code>コマンドの部分はRubyで記述された実行ファイルであり、読み込みパス上に置かれています。この実行ファイルには以下の行が含まれています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+version = "&gt;= 0"
+load Gem.bin_path('railties', 'rails', version)
+
+</pre>
+</div>
+<p>このコマンドをRailsコンソールで実行すると、<code>railties/bin/rails</code>が読み込まれるのがわかります。<code>railties/bin/rails.rb</code>ファイルには以下のコードが含まれています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require "rails/cli"
+
+</pre>
+</div>
+<p>今度は<code>railties/lib/rails/cli</code>ファイルが<code>Rails::AppRailsLoader.exec_app_rails</code>を呼び出します。</p><h4 id="railties-lib-rails-app-rails-loader-rb"><a class="anchorlink" href="#railties-lib-rails-app-rails-loader-rb">1.2 <code>railties/lib/rails/app_rails_loader.rb</code></a></h4><p><code>exec_app_rails</code>の主要な目的な、Railsアプリケーションにある<code>bin/rails</code>を実行することです。カレントディレクトリに<code>bin/rails</code>がない場合、<code>bin/rails</code>が見つかるまでディレクトリを上に向って探索します。これにより、Railsアプリケーション内のどのディレクトリからでも<code>rails</code>コマンドを実行できるようになります。</p><p><code>rails server</code>については、以下の同等のコマンドが実行されます。</p><div class="code_container">
+<pre class="brush: plain; gutter: false; toolbar: false">
+$ exec ruby bin/rails server
+
+</pre>
+</div>
+<h4 id="bin-rails"><a class="anchorlink" href="#bin-rails">1.3 <code>bin/rails</code></a></h4><p>このファイルの内容は次のとおりです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+#!/usr/bin/env ruby
+APP_PATH = File.expand_path('../../config/application', __FILE__)
+require_relative '../config/boot'
+require 'rails/commands'
+
+</pre>
+</div>
+<p><code>APP_PATH</code>定数は後で<code>rails/commands</code>で使用されます。この行で参照されている<code>config/boot</code>ファイルは、Railsアプリケーションの<code>config/boot.rb</code>ファイルであり、Bundlerの読み込みと設定を担当します。</p><h4 id="config-boot-rb"><a class="anchorlink" href="#config-boot-rb">1.4 <code>config/boot.rb</code></a></h4><p><code>config/boot.rb</code>には以下の行が含まれています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# Set up gems listed in the Gemfile.
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+
+require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+
+</pre>
+</div>
+<p>標準的なRailsアプリケーションにはGemfileというファイルがあり、アプリケーション内のすべての依存関係がそのファイル内で宣言されています。<code>config/boot.rb</code>はGemfileの位置を<code>ENV['BUNDLE_GEMFILE']</code>に設定します。Gemfileが存在する場合、<code>bundler/setup</code>をrequireします。このrequireは、Gemfileの依存ファイルが置かれている読み込みパスをBundlerで設定する際に使用されます。</p><p>標準的なRailsアプリケーションは多くのgemに依存しますが、特に以下のgemに依存しています。</p>
+<ul>
+<li>actionmailer</li>
+<li>actionpack</li>
+<li>actionview</li>
+<li>activemodel</li>
+<li>activerecord</li>
+<li>activesupport</li>
+<li>arel</li>
+<li>builder</li>
+<li>bundler</li>
+<li>erubis</li>
+<li>i18n</li>
+<li>mail</li>
+<li>mime-types</li>
+<li>rack</li>
+<li>rack-cache</li>
+<li>rack-mount</li>
+<li>rack-test</li>
+<li>rails</li>
+<li>railties
+rake</li>
+<li>sqlite3</li>
+<li>thor</li>
+<li>tzinfo</li>
+</ul>
+<h4 id="rails-commands-rb"><a class="anchorlink" href="#rails-commands-rb">1.5 <code>rails/commands.rb</code></a></h4><p><code>config/boot.rb</code>の設定が完了すると、次にrequireするのはコマンドの別名を拡張する<code>rails/commands</code>です。この状況で<code>ARGV</code>配列には<code>server</code>だけが含まれており、以下のように受け渡しされます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+ARGV &lt;&lt; '--help' if ARGV.empty?
+
+aliases = {
+  "g"  =&gt; "generate",
+  "d"  =&gt; "destroy",
+  "c"  =&gt; "console"
+  "s"  =&gt; "server",
+  "db" =&gt; "dbconsole"
+  "r"  =&gt; "runner"
+}
+
+command = ARGV.shift
+command = aliases[command] || command
+
+require 'rails/commands/commands_tasks'
+
+Rails::CommandsTasks.new(ARGV).run_command!(command)
+
+</pre>
+</div>
+<div class="info"><p>実際にやってみるとわかるとおり、空のARGVリストが渡されると、使用法のスニペットが表示されます。</p></div><p><code>server</code>の代わりに<code>s</code>が渡されると、ここで定義されている<code>aliases</code>の中からマッチするコマンドを探します。</p><h4 id="rails-commands-command-tasks-rb"><a class="anchorlink" href="#rails-commands-command-tasks-rb">1.6 <code>rails/commands/command_tasks.rb</code></a></h4><p><code>run_command</code>は、間違ったRailsコマンドが入力された時にエラーメッセージを表示する役割も担います。正しいコマンドの場合は同じ名前のメソッドが呼び出されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+COMMAND_WHITELIST = %(plugin generate destroy console server dbconsole application runner new version help)
+
+def run_command!(command)
+  command = parse_command(command)
+  if COMMAND_WHITELIST.include?(command)
+    send(command)
+  else
+    write_error_message(command)
+  end
+end
+
+</pre>
+</div>
+<p><code>server</code>コマンドが指定されると、Railsはさらに以下のコードを実行します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def set_application_directory!
+  Dir.chdir(File.expand_path('../../', APP_PATH)) unless File.exist?(File.expand_path("config.ru"))
+end
+
+def server
+  set_application_directory!
+  require_command!("server")
+
+  Rails::Server.new.tap do |server|
+    # サーバーが環境を設定してからアプリケーションをrequireする必要がある
+    # そうしないとサーバーに与えられた環境オプションを展開できない
+    require APP_PATH
+    Dir.chdir(Rails.application.root)
+    server.start
+  end
+end
+
+def require_command!(command)
+  require "rails/commands/#{command}"
+end
+
+</pre>
+</div>
+<p>上のファイルは、<code>config.ru</code>ファイルが見つからない場合に限り、Railsのルートディレクトリ (<code>config/application.rb</code>を指す<code>APP_PATH</code>から2階層上のディレクトリ) に置かれます。このコードは続いて<code>rails/commands/server</code>を実行します。これは<code>Rails::Server</code>クラスを設定するものです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require 'fileutils'
+require 'optparse'
+require 'action_dispatch'
+require 'rails'
+
+module Rails
+  class Server &lt; ::Rack::Server
+
+</pre>
+</div>
+<p><code>fileutils</code>および<code>optparse</code>は標準のRubyライブラリであり、それぞれファイル操作や解析オプションを使用できるヘルパー関数を提供します。</p><h4 id="actionpack-lib-action-dispatch-rb"><a class="anchorlink" href="#actionpack-lib-action-dispatch-rb">1.7 <code>actionpack/lib/action_dispatch.rb</code></a></h4><p>Action DispatchはRailsフレームワークのルーティングを司るコンポーネントです。ルーティング、セッションおよび共通のミドルウェアなどの機能を提供します。</p><h4 id="rails-commands-server-rb"><a class="anchorlink" href="#rails-commands-server-rb">1.8 <code>rails/commands/server.rb</code></a></h4><p><code>Rails::Server</code>クラスはこのファイル内で定義されており、<code>Rack::Server</code>を継承しています。<code>Rails::Server.new</code>を呼び出すと、<code>rails/commands/server.rb</code>の<code>initialize</code>メソッドが呼び出されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def initialize(*)
+  super
+  set_environment
+end
+
+</pre>
+</div>
+<p>最初に<code>super</code>が呼び出され、そこから<code>Rack::Server</code>の<code>initialize</code>メソッドを呼び出します。</p><h4 id="起動-bang-rack-lib-rack-server-rb"><a class="anchorlink" href="#%E8%B5%B7%E5%8B%95-bang-rack-lib-rack-server-rb">1.9 Rack: <code>lib/rack/server.rb</code></a></h4><p><code>Rack::Server</code>は、あらゆるRackベースのアプリケーション (Railsもその中に含まれます) のための共通のサーバーインターフェイスを提供する役割を担います。</p><p><code>Rack::Server</code>の<code>initialize</code>は、いくつかの変数を設定しているだけの簡単なメソッドです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def initialize(options = nil)
+  @options = options
+  @app = options[:app] if options &amp;&amp; options[:app]
+end
+
+</pre>
+</div>
+<p>この場合<code>options</code>の値は<code>nil</code>になるので、このメソッドでは何も実行されません。</p><p><code>super</code>が<code>Rack::Server</code>の中で完了すると、<code>rails/commands/server.rb</code>に制御が戻ります。この時点で、<code>set_environment</code>が<code>Rails::Server</code>オブジェクトのコンテキスト内で呼び出されますが、一見したところ大した処理を行なっていないように見えます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def set_environment
+  ENV["RAILS_ENV"] ||= options[:environment]
+end
+
+</pre>
+</div>
+<p>実際にはこの<code>options</code>メソッドではきわめて多くの処理を実行しています。このメソッド定義は<code>Rack::Server</code>にあり、以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def options
+  @options ||= parse_options(ARGV)
+end
+
+</pre>
+</div>
+<p>そして<code>parse_options</code>は以下のように定義されています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def parse_options(args)
+  options = default_options
+
+  # CGI ISINDEXパラメータをevaluateしないこと
+  # http://www.meb.uni-bonn.de/docs/cgi/cl.html
+  args.clear if ENV.include?("REQUEST_METHOD")
+
+  options.merge! opt_parser.parse!(args)
+  options[:config] = ::File.expand_path(options[:config])
+  ENV["RACK_ENV"] = options[:environment]
+  options
+end
+
+</pre>
+</div>
+<p><code>default_options</code>では以下を設定します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def default_options
+  environment  = ENV['RACK_ENV'] || 'development'
+  default_host = environment == 'development' ? 'localhost' : '0.0.0.0'
+
+  {
+    :environment =&gt; environment,
+    :pid         =&gt; nil,
+    :Port        =&gt; 9292,
+    :Host        =&gt; default_host,
+    :AccessLog   =&gt; [],
+    :config      =&gt; "config.ru"
+  }
+end
+
+</pre>
+</div>
+<p><code>ENV</code>に<code>REQUEST_METHOD</code>キーがないので、その行はスキップできます。次の行では<code>opt_parser</code>からのオプションをマージします。<code>opt_parser</code>は<code>Rack::Server</code>で明確に定義されています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def opt_parser
+  Options.new
+end
+
+</pre>
+</div>
+<p>このクラスは<code>Rack::Server</code>で定義されていますが、異なる引数を扱うために<code>Rails::Server</code>で上書きされます。<code>Rails::Server</code>の<code>parse!</code>の冒頭部分は以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def parse!(args)
+  args, options = args.dup, {}
+
+  opt_parser = OptionParser.new do |opts|
+    opts.banner = "Usage: rails server [mongrel, thin, etc] [options]"
+    opts.on("-p", "--port=port", Integer,
+            "Runs Rails on the specified port.", "Default: 3000") { |v| options[:Port] = v }
+  ...
+
+</pre>
+</div>
+<p>このメソッドは<code>options</code>のキーを設定します。Railsはこれを使用して、どのようにサーバーを実行するかを決定します。<code>initialize</code>が完了すると、<code>rails/server</code>に戻ります。ここでは先ほど設定された<code>APP_PATH</code>がrequireされます。</p><h4 id="config-application"><a class="anchorlink" href="#config-application">1.10 <code>config/application</code></a></h4><p><code>require APP_PATH</code>が実行されると、続いて<code>config/application.rb</code>が読み込まれます (<code>APP_PATH</code>が<code>bin/rails</code>で定義されていることを思い出しましょう)。この設定ファイルはRailsアプリケーションの中にあり、必要に応じて自由に変更することができます。</p><h4 id="rails-server-start"><a class="anchorlink" href="#rails-server-start">1.11 <code>Rails::Server#start</code></a></h4><p><code>config/application</code>が読み込まれると、続いて<code>server.start</code>が呼び出されます。このメソッド定義は以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def start
+  print_boot_information
+  trap(:INT) { exit }
+  create_tmp_directories
+  log_to_stdout if options[:log_stdout]
+
+  super
+  ...
+end
+
+private
+
+  def print_boot_information
+    ...
+    puts "=&gt; Run `rails server -h` for more startup options"
+    ...
+    puts "=&gt; Ctrl-C to shutdown server" unless options[:daemonize]
+  end
+
+  def create_tmp_directories
+    %w(cache pids sessions sockets).each do |dir_to_make|
+      FileUtils.mkdir_p(File.join(Rails.root, 'tmp', dir_to_make))
+    end
+  end
+
+  def log_to_stdout
+    wrapped_app # アプリにタッチしてロガーを設定
+
+    console = ActiveSupport::Logger.new($stdout)
+    console.formatter = Rails.logger.formatter
+    console.level = Rails.logger.level
+
+    Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+  end
+
+</pre>
+</div>
+<p>Rails初期化の最初の出力が行われるのがこの箇所です。このメソッドでは<code>INT</code>シグナルのトラップが作成され、<code>CTRL-C</code>キーを押すことでサーバープロセスが終了するようになります。コードに示されているように、ここでは<code>tmp/cache</code>、<code>tmp/pids</code>、<code>tmp/sessions</code>および<code>tmp/sockets</code>ディレクトリが作成されます。続いて<code>wrapped_app</code>が呼び出されます。このメソッドは、<code>ActiveSupport::Logger</code>のインスタンスの作成とアサインが行われる前に、Rackアプリを作成する役割を担います。</p><p><code>super</code>メソッドは<code>Rack::Server.start</code>を呼び出します。このメソッド定義の冒頭は以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def start &amp;blk
+  if options[:warn]
+    $-w = true
+  end
+
+  if includes = options[:include]
+    $LOAD_PATH.unshift(*includes)
+  end
+
+  if library = options[:require]
+    require library
+  end
+
+  if options[:debug]
+    $DEBUG = true
+    require 'pp'
+    p options[:server]
+    pp wrapped_app
+    pp app
+  end
+
+  check_pid! if options[:pid]
+
+  # ラップされたアプリにタッチすることで、config.ruが読み込まれてから
+  # デーモン化されるようにする (chdirなど).
+  wrapped_app
+
+  daemonize_app if options[:daemonize]
+
+  write_pid if options[:pid]
+
+  trap(:INT) do
+    if server.respond_to?(:shutdown)
+      server.shutdown
+    else
+      exit
+    end
+  end
+
+  server.run wrapped_app, options, &amp;blk
+end
+
+</pre>
+</div>
+<p>Railsアプリケーションとして興味深いのは、最終行にある<code>server.run</code>でしょう。ここでも<code>wrapped_app</code>メソッドが再び使用されています。今度はこのメソッドをもう少し詳しく調べてみましょう (既に一度実行され、メモ化されてはいますが)。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+@wrapped_app ||= build_app app
+
+</pre>
+</div>
+<p>この<code>app</code>メソッドの定義は以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def app
+  @app ||= options[:builder] ? build_app_from_string : build_app_and_options_from_config
+end
+...
+private
+  def build_app_and_options_from_config
+    if !::File.exist? options[:config]
+      abort "configuration #{options[:config]} not found"
+    end
+
+    app, options = Rack::Builder.parse_file(self.options[:config], opt_parser)
+    self.options.merge! options
+    app
+  end
+
+  def build_app_from_string
+    Rack::Builder.new_from_string(self.options[:builder])
+  end
+
+</pre>
+</div>
+<p><code>options[:config]</code>の値はデフォルトでは<code>config.ru</code>です。<code>config.ru</code>には以下が含まれています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+# このファイルはRackベースのサーバーでアプリケーションの起動に使用される
+
+require ::File.expand_path('../config/environment', __FILE__)
+run &lt;%= app_const %&gt;
+
+</pre>
+</div>
+<p>上のコードの<code>Rack::Builder.parse_file</code>メソッドは、この<code>config.ru</code>ファイルの内容を取り出し、以下のコードを使用して解析 (parse) します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+app = new_from_string cfgfile, config
+
+...
+
+def self.new_from_string(builder_script, file="(rackup)")
+  eval "Rack::Builder.new {\n" + builder_script + "\n}.to_app",
+    TOPLEVEL_BINDING, file, 0
+end
+
+</pre>
+</div>
+<p><code>Rack::Builder</code>の<code>initialize</code>メソッドはこのブロックを受け取り、<code>Rack::Builder</code>のインスタンスの中で実行します。Railsの初期化プロセスの大半がこの場所で実行されます。<code>config.ru</code>の<code>config/environment.rb</code>の<code>require</code>行が最初に実行されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require ::File.expand_path('../config/environment', __FILE__)
+
+</pre>
+</div>
+<h4 id="config-environment-rb"><a class="anchorlink" href="#config-environment-rb">1.12 <code>config/environment.rb</code></a></h4><p>このファイルは<code>config.ru</code> (<code>rails server</code>)とPassengerの両方で必要となるファイルです。サーバーを実行するためのこれら2種類の方法はここで出会います。ここより前の部分はすべてRackとRailsの設定です。</p><p>このファイルの冒頭部分では<code>config/application.rb</code>がrequireされます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require File.expand_path('../application', __FILE__)
+
+</pre>
+</div>
+<h4 id="config-application-rb"><a class="anchorlink" href="#config-application-rb">1.13 <code>config/application.rb</code></a></h4><p>このファイルでは<code>config/boot.rb</code>がrequireされます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require File.expand_path('../boot', __FILE__)
+
+</pre>
+</div>
+<p>それまでにboot.rbがrequireされていなかった場合に限り、<code>rails server</code>の場合にはboot.rbがrequireされます。ただしPassengerを使用する場合にはboot.rbがrequire*<em>されません</em>*。</p><p>ここからいよいよ面白くなってきます。</p><h3 id="railsを読み込む"><a class="anchorlink" href="#rails%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80">2 Railsを読み込む</a></h3><p><code>config/application.rb</code>の次の行は以下のようになっています。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require 'rails/all'
+
+</pre>
+</div>
+<h4 id="railties-lib-rails-all-rb"><a class="anchorlink" href="#railties-lib-rails-all-rb">2.1 <code>railties/lib/rails/all.rb</code></a></h4><p>このファイルはRailsのすべてのフレームワークをrequireする役目を担当します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+require "rails"
+
+%w(
+  active_record
+  action_controller
+  action_view
+  action_mailer
+  rails/test_unit
+  sprockets
+).each do |framework|
+  begin
+    require "#{framework}/railtie"
+  rescue LoadError
+  end
+end
+
+</pre>
+</div>
+<p>ここでRailsのすべてのフレームワークが読み込まれ、アプリケーションから利用できるようになります。本章ではこれらのフレームワークの詳細については触れませんが、皆様にはぜひ自分でこれらのフレームワークを探索してみることをお勧めいたします。</p><p>現時点では、Railsエンジン、I18n、Rails設定などの共通機能がここで定義されていることを押さえておいてください。</p><h4 id="config-environment-rbに戻る"><a class="anchorlink" href="#config-environment-rb%E3%81%AB%E6%88%BB%E3%82%8B">2.2 <code>config/environment.rb</code>に戻る</a></h4><p><code>config/application.rb</code>の残りの行では<code>Rails::Application</code>の設定を行います。この設定はアプリケーションの初期化が完全に完了してから使用されます。<code>config/application.rb</code>がRailsの読み込みを完了し、アプリケーションの名前空間が定義されると、制御はふたたび<code>config/environment.rb</code>に戻ります。ここではアプリケーションの初期化が行われます。たとえばアプリケーションの名前が<code>Blog</code>であれば、environment.rbに<code>Rails.application.initialize!</code>という行があります。これは<code>rails/application.rb</code>で定義されています。</p><h4 id="railties-lib-rails-application-rb"><a class="anchorlink" href="#railties-lib-rails-application-rb">2.3 <code>railties/lib/rails/application.rb</code></a></h4><p>その<code>initialize!</code>メソッドは以下のようなコードです。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def initialize!(group=:default) #:nodoc:
+  raise "Application has been already initialized." if @initialized
+  run_initializers(group, self)
+  @initialized = true
+  self
+end
+
+</pre>
+</div>
+<p>見てのとおり、アプリケーションの初期化は一度だけ行うことができます。<code>railties/lib/rails/initializable.rb</code>で定義されている<code>run_initializers</code>メソッドによって各種イニシャライザが実行されます。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def run_initializers(group=:default, *args)
+  return if instance_variable_defined?(:@ran)
+  initializers.tsort_each do |initializer|
+    initializer.run(*args) if initializer.belongs_to?(group)
+  end
+  @ran = true
+end
+
+</pre>
+</div>
+<p>この<code>run_initializers</code>のコードはややトリッキーな作りになっています。Railsはここで、あらゆるクラス先祖をくまなく調べ、あるひとつの<code>initializers</code>メソッドに応答するものを探しだしています。続いてそれらを名前でソートし、その順序で実行します。たとえば、<code>Engine</code>クラスは<code>initializers</code>メソッドを提供しているので、あらゆるエンジンが利用できるようになります。</p><p><code>Rails::Application</code>クラスは<code>railties/lib/rails/application.rb</code>ファイルで定義されており、その中で<code>bootstrap</code>、<code>railtie</code>、<code>finisher</code>イニシャライザをそれぞれ定義しています。<code>bootstrap</code>イニシャライザは、ロガーの初期化などアプリケーションの準備を行います。一方、最後に実行される<code>finisher</code>イニシャライザはミドルウェアスタックのビルドなどを行います。<code>railtie</code>イニシャライザは<code>Rails::Application</code>自身で定義されており、<code>bootstrap</code>と<code>finishers</code>の間に実行されます。</p><p>これが完了したら、制御は<code>Rack::Server</code>に移ります。</p><h4 id="railsを読み込む-rack-lib-rack-server-rb"><a class="anchorlink" href="#rails%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-rack-lib-rack-server-rb">2.4 Rack: lib/rack/server.rb</a></h4><p><code>app</code>メソッドが定義されている箇所は、最後に見た時は以下のようになっていました。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def app
+  @app ||= options[:builder] ? build_app_from_string : build_app_and_options_from_config
+end
+...
+private
+  def build_app_and_options_from_config
+    if !::File.exist?options[:config]
+      abort "configuration #{options[:config]} not found"
+    end
+
+    app, options = Rack::Builder.parse_file(self.options[:config], opt_parser)
+    self.options.merge! options
+    app
+  end
+
+  def build_app_from_string
+    Rack::Builder.new_from_string(self.options[:builder])
+  end
+
+</pre>
+</div>
+<p>このコードにおける<code>app</code>とは、Railsアプリケーション自身 (ミドルウェア) であり、
+その後では、提供されているすべてのミドルウェアをRackが呼び出します。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+def build_app(app)
+  middleware[options[:environment]].reverse_each do |middleware|
+    middleware = middleware.call(self) if middleware.respond_to?(:call)
+    next unless middleware
+    klass = middleware.shift
+    app = klass.new(app, *middleware)
+  end
+  app
+end
+
+</pre>
+</div>
+<p>ここで、<code>Server#start</code>の最終行で<code>build_app</code>が (<code>wrapped_app</code>によって) 呼び出されていたことを思い出してください。最後に見かけたときのコードは以下のようになっていました。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+server.run wrapped_app, options, &amp;blk
+
+</pre>
+</div>
+<p>ここで使用している<code>server.run</code>の実装は、アプリケーションで使用しているサーバーに依存します。たとえばPumaを使用している場合、<code>run</code>メソッドは以下のようになります。</p><div class="code_container">
+<pre class="brush: ruby; gutter: false; toolbar: false">
+...
+DEFAULT_OPTIONS = {
+  :Host =&gt; '0.0.0.0',
+  :Port =&gt; 8080,
+  :Threads =&gt; '0:16',
+  :Verbose =&gt; false
+}
+
+def self.run(app, options = {})
+  options  = DEFAULT_OPTIONS.merge(options)
+
+  if options[:Verbose]
+    app = Rack::CommonLogger.new(app, STDOUT)
+  end
+
+  if options[:environment]
+    ENV['RACK_ENV'] = options[:environment].to_s
+  end
+
+  server   = ::Puma::Server.new(app)
+  min, max = options[:Threads].split(':', 2)
+
+  puts "Puma #{::Puma::Const::PUMA_VERSION} starting..."
+  puts "* Min threads: #{min}, max threads: #{max}"
+  puts "* Environment: #{ENV['RACK_ENV']}"
+  puts "* Listening on tcp://#{options[:Host]}:#{options[:Port]}"
+
+  server.add_tcp_listener options[:Host], options[:Port]
+  server.min_threads = min
+  server.max_threads = max
+  yield server if block_given?
+
+  begin
+    server.run.join
+  rescue Interrupt
+    puts "* Gracefully stopping, waiting for requests to finish"
+    server.stop(true)
+    puts "* Goodbye!"
+  end
+
+end
+
+</pre>
+</div>
+<p>本章ではサーバーの設定自体については深く立ち入ることはしませんが、この箇所はRailsの初期化プロセスという長い旅の最後のピースです。</p><p>本章で解説した高度な概要は、自分が開発したコードがいつどのように実行されるかを理解するためにも、そしてより優れたRails開発者になるためにも役に立つことでしょう。もっと詳しく知りたいのであれば、次のステップとしてRailsのソースコード自身を追うのがおそらく最適でしょう。</p>
+        
+
+        <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
+        <p>
+          本ガイドは GitHub上の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> で管理・公開されております。
+          本ガイドを読んで気になる文章や間違ったコードを見かけたら、上記リポジトリにてお気軽に <a href="https://github.com/yasslab/railsguides.jp/issues">Issue</a> を出して頂けると嬉しいです。また、「Pull Request を送りたい!」という場合には、<a href="ruby_on_rails_guides_guidelines.html">Ruby on Railsガイドのガイドライン</a>と、<a href="https://github.com/yasslab/railsguides.jp#%E7%BF%BB%E8%A8%B3%E3%81%AE%E6%B5%81%E3%82%8C">README</a>に記載されている「翻訳の流れ」をご参考にしてください。
+        </p>
+        <p>
+          なお、原著における間違いを見つけたら、「Ruby on Railsに貢献する方法」に記されている<a href="/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B">Railsのドキュメントに貢献する</a>を参考にしながら、ぜひRailsコミュニティに貢献してみてしてください :)
+        </p>
+        <p>
+          本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+        </p>
+        <ol class="snsb" style="margin-left: 0px">
+	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hide" />
+  <div id="footer">
+    <div class="wrapper">
+      <div class="sitemap">
+          <dl class="L">
+            <dt>はじめに</dt>
+              <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+            <dt>モデル</dt>
+              <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+              <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+              <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+              <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+              <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+              <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+              <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+            <dt>ビュー</dt>
+              <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+              <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+              <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+            <dt>コントローラ</dt>
+              <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+              <dd><a href="routing.html">Rails ルーティング</a></dd>
+            <dt>高度なトピック</dt>
+              <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+              <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+              <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+              <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+              <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+              <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+              <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+              <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+              <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+              <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+              <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+              <dd><a href="engines.html">Rails エンジン入門</a></dd>
+              <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+              <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
+            <dt>Rails を拡張する</dt>
+              <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+              <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+              <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+            <dt>Ruby on Rails に貢献する</dt>
+              <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+              <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+              <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+              <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
+            <dt>メンテナンスポリシー</dt>
+              <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+            <dt>リリースノート</dt>
+              <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+              <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+              <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+              <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+              <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+              <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+          </dl>
+      </div>
+
+      <ol class="snsb" style="padding-top: 20px">
+	<li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
+      </ol>
+    </div>
+  </div>
+</h5>
+  <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
+  <script type="text/javascript" src="javascripts/guides.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
+  <script type="text/javascript">
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
+    $(guidesIndex.bind);
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50163209-4', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>

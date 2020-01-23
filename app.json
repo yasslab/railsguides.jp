@@ -1,0 +1,13 @@
+{
+  "name": "Ruby on Rails ガイド",
+  "description": "Railsを学び，使うための公式リファレンスマニュアル",
+  "keywords": [
+    "Ruby",
+    "Rails",
+    "リファレンス",
+    "参考書",
+    "マニュアル"
+  ],
+  "repository": "https://github.com/yasslab/railsguides.jp",
+  "success_url": "/"
+}
