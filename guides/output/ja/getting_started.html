@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Rails をはじめよう | Rails ガイド</title>
+    <title>Rails をはじめよう - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -307,6 +301,14 @@
 <li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -314,7 +316,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="本ガイドの前提条件"><a href="#%E6%9C%AC%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AE%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">1 本ガイドの前提条件</a></h3><p>本ガイドは、ゼロからRailsアプリケーションを構築したいと考えている初心者を対象にしています。読者がRailsの経験がないことを前提としています。ただし、このドキュメントを最大限に活用するために、以下のソフトウェアがインストールされ、利用可能な状態になっていることを前提としています。</p>
+        <h3 id="本ガイドの前提条件"><a class="anchorlink" href="#%E6%9C%AC%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AE%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">1 本ガイドの前提条件</a></h3><p>本ガイドは、ゼロからRailsアプリケーションを構築したいと考えている初心者を対象にしています。読者がRailsの経験がないことを前提としています。ただし、このドキュメントを最大限に活用するために、以下のソフトウェアがインストールされ、利用可能な状態になっていることを前提としています。</p>
 <ul>
 <li>
 <a href="https://www.ruby-lang.org/ja/downloads/">Ruby</a> 1.9.3以降。</li>
@@ -329,7 +331,7 @@ Rubyの経験がまったくない場合、Railsを学ぶのはかなり大変�
 <li><a href="https://www.ruby-lang.org/ja/documentation/">Rubyプログラミング言語公式Webサイトの情報</a></li>
 <li><a href="http://resrc.io/list/10/list-of-free-programming-books/#ruby">reSRCが選ぶ無料のプログラミング学習用書籍一覧 (英語)</a></li>
 </ul>
-<p>これらはいずれもよくできていますが、中にはRubyのバージョンが1.6など古いものもありますのでご注意ください。また、バージョン1.8を対象にしているものが多く、Railsでの日常的な開発に使用されている新しい文法が含まれていないこともあります。</p><h3 id="railsとは何か"><a href="#rails%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%8B">2 Railsとは何か</a></h3><p>Railsとは、Rubyプログラミング言語で書かれたWebアプリケーションフレームワークです。
+<p>これらはいずれもよくできていますが、中にはRubyのバージョンが1.6など古いものもありますのでご注意ください。また、バージョン1.8を対象にしているものが多く、Railsでの日常的な開発に使用されている新しい文法が含まれていないこともあります。</p><h3 id="railsとは何か"><a class="anchorlink" href="#rails%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%8B">2 Railsとは何か</a></h3><p>Railsとは、Rubyプログラミング言語で書かれたWebアプリケーションフレームワークです。
 Railsは、あらゆる開発者がWebアプリケーションの開発を始めるうえで必要となる作業やリソースを事前に仮定して準備しておくことで、Webアプリケーションをより簡単にプログラミングできるように設計されています。他の多くの言語によるWebアプリケーションフレームワークと比較して、アプリケーションを作成する際のコード量がより少なくて済むにもかかわらず、より多くの機能を実現できます。
 Rails経験の長い多くの開発者から、おかげでWebアプリケーションの開発がとても楽しくなったという意見をいただいています。</p><p>Railsは、最善の開発方法というものを1つに定めるという、ある意味大胆な判断に基いて設計されています。Railsは、何かをなすうえで最善の方法というものが1つだけあると仮定し、それに沿った開発を全面的に支援します。言い換えれば、ここで仮定されている理想の開発手法に沿わない別の開発手法は行いにくくなるようにしています。この「The Rails Way」、「Rails流」とでもいうべき手法を学んだ人は、開発の生産性が著しく向上することに気付くでしょう。従って、Rails開発において別の言語環境での従来の開発手法に固執し、他所で学んだパターンを強引に適用しようとすると、せっかくの開発が楽しくなくなってしまうでしょう。</p><p>Railsの哲学には、以下の2つの主要な基本理念があります。</p>
 <ul>
@@ -338,7 +340,7 @@ Rails経験の長い多くの開発者から、おかげでWebアプリケーシ
 <li>
 <strong>設定より規約が優先される (Convention Over Configuration):</strong> Railsでは、Webアプリケーションで行われるさまざまなことを実現するための最善の方法を明確に思い描いており、Webアプリケーションの各種設定についても従来の経験や慣習を元に、それらのデフォルト値を定めています。このようにある種独断でデフォルト値が決まっているおかげで、開発者の意見をすべて取り入れようとした自由過ぎるWebアプリケーションのように、開発者が延々と設定ファイルを設定して回らずに済みます。</li>
 </ul>
-<h3 id="railsプロジェクトを新規作成する"><a href="#rails%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%96%B0%E8%A6%8F%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Railsプロジェクトを新規作成する</a></h3><p>本ガイドを活用するための最善の方法は、以下の手順を文字どおり1つずつ実行し、手順を取りこぼさないようにすることです。取りこぼしがあると、その後の手順が期待どおりに進まない可能性があります。この手順で作成された完全なRailsプロジェクトのコードは<a href="https://github.com/yasslab/getting_started">コチラ</a>で公開されているので、躓いてしまったときなどに参照してください。また、完成したサンプルアプリケーションは<a href="https://getting-started-jp.herokuapp.com/">コチラ</a>で公開されています。</p><p>本ガイドの手順に従うことで、<code>blog</code>という名前の非常にシンプルなブログのRailsプロジェクトを作成できます。Railsアプリケーションを構築する前に、Rails本体がインストールされていることを確認してください。</p><div class="info"><p>以下の例では、Unix系OSのプロンプトとして<code>$</code>記号を使用していますが、これはカスタマイズ可能であり、自分の環境では異なる記号になっていることもあります。Windowsでは<code>c:\source_code&gt;</code>のように表示されます。</p></div><h4 id="railsのインストール"><a href="#rails%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">3.1 Railsのインストール</a></h4><p>ターミナル (コマンドプロンプトとも言います) ウィンドウを開いてください。Mac OS Xの場合、ターミナル (Terminal.app) という名前のアプリケーションを実行します。Windowsの場合は[スタート] メニューから [ファイル名を指定して実行] をクリックして'cmd.exe'と入力します。<code>$</code>で始まる記述はコマンド行なので、これらはコマンドラインに入力して実行してください。続いて現在インストールされているRubyのバージョンが最新のものであることを確認してください。</p><div class="info"><p>RubyやRuby on Railsを素早くインストールするためのツールは多数存在します。Windowsユーザーの場合は<a href="http://railsinstaller.org">Railsインストーラ</a>をお使いください。Mac OS Xユーザーは<a href="https://github.com/tokaido/tokaidoapp">Tokaido</a>をお使いください。(訳注: 具体的なインストール方法については<a href="http://railstutorial.jp/chapters/beginning?version=4.0#sec-up_and_running">Railsチュートリアル 1.2 さっそく動作させる</a>を参照してください)</p></div><div class="code_container">
+<h3 id="railsプロジェクトを新規作成する"><a class="anchorlink" href="#rails%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%96%B0%E8%A6%8F%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Railsプロジェクトを新規作成する</a></h3><p>本ガイドを活用するための最善の方法は、以下の手順を文字どおり1つずつ実行し、手順を取りこぼさないようにすることです。取りこぼしがあると、その後の手順が期待どおりに進まない可能性があります。この手順で作成された完全なRailsプロジェクトのコードは<a href="https://github.com/yasslab/getting_started">コチラ</a>で公開されているので、躓いてしまったときなどに参照してください。また、完成したサンプルアプリケーションは<a href="https://getting-started-jp.herokuapp.com/">コチラ</a>で公開されています。</p><p>本ガイドの手順に従うことで、<code>blog</code>という名前の非常にシンプルなブログのRailsプロジェクトを作成できます。Railsアプリケーションを構築する前に、Rails本体がインストールされていることを確認してください。</p><div class="info"><p>以下の例では、Unix系OSのプロンプトとして<code>$</code>記号を使用していますが、これはカスタマイズ可能であり、自分の環境では異なる記号になっていることもあります。Windowsでは<code>c:\source_code&gt;</code>のように表示されます。</p></div><h4 id="railsのインストール"><a class="anchorlink" href="#rails%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">3.1 Railsのインストール</a></h4><p>ターミナル (コマンドプロンプトとも言います) ウィンドウを開いてください。Mac OS Xの場合、ターミナル (Terminal.app) という名前のアプリケーションを実行します。Windowsの場合は[スタート] メニューから [ファイル名を指定して実行] をクリックして'cmd.exe'と入力します。<code>$</code>で始まる記述はコマンド行なので、これらはコマンドラインに入力して実行してください。続いて現在インストールされているRubyのバージョンが最新のものであることを確認してください。</p><div class="info"><p>RubyやRuby on Railsを素早くインストールするためのツールは多数存在します。Windowsユーザーの場合は<a href="http://railsinstaller.org">Railsインストーラ</a>をお使いください。Mac OS Xユーザーは<a href="https://github.com/tokaido/tokaidoapp">Tokaido</a>をお使いください。(訳注: 具体的なインストール方法については<a href="http://railstutorial.jp/chapters/beginning?version=4.0#sec-up_and_running">Railsチュートリアル 1.2 さっそく動作させる</a>を参照してください)</p></div><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby -v
 ruby 2.0.0p353
@@ -364,7 +366,7 @@ $ rails --version
 
 </pre>
 </div>
-<p>"Rails 4.2.1"のように表示されれば、次に進むことができます。</p><h4 id="ブログアプリケーションを作成する"><a href="#%E3%83%96%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.2 ブログアプリケーションを作成する</a></h4><p>Railsには、ジェネレータという多数のスクリプトが付属しており、これらが特定のタスクを開始するために必要なものを自動的に作り出してくれるので、開発が容易になります。その中から、新規アプリケーション作成用のジェネレータを使ってみましょう。これを実行すればRailsアプリケーションの基本的な部分が提供されるので、開発者が自分でこれらを作成する必要はありません。</p><p>ジェネレータを実行するには、ターミナルを開き、Railsファイルを作成したいディレクトリに移動して、以下を入力します。</p><div class="code_container">
+<p>"Rails 4.2.1"のように表示されれば、次に進むことができます。</p><h4 id="ブログアプリケーションを作成する"><a class="anchorlink" href="#%E3%83%96%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3.2 ブログアプリケーションを作成する</a></h4><p>Railsには、ジェネレータという多数のスクリプトが付属しており、これらが特定のタスクを開始するために必要なものを自動的に作り出してくれるので、開発が容易になります。その中から、新規アプリケーション作成用のジェネレータを使ってみましょう。これを実行すればRailsアプリケーションの基本的な部分が提供されるので、開発者が自分でこれらを作成する必要はありません。</p><p>ジェネレータを実行するには、ターミナルを開き、Railsファイルを作成したいディレクトリに移動して、以下を入力します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new blog
 
@@ -443,13 +445,13 @@ $ cd blog
 </tr>
 </tbody>
 </table>
-<h3 id="hello-rails-bang"><a href="#hello-rails-bang">4 Hello, Rails!</a></h3><p>手始めに、画面に何かテキストを表示してみましょう。そのためには、Railsアプリケーションサーバーを起動しなくてはなりません。</p><h4 id="webサーバーを起動する"><a href="#web%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B">4.1 Webサーバーを起動する</a></h4><p>先ほど作成したRailsアプリケーションは、既に実行可能な状態になっています。Webアプリケーションを開発用のPCで実際に動かしてこのことを確かめてみましょう。<code>blog</code>ディレクトリに移動し、以下のコマンドを実行します。</p><div class="code_container">
+<h3 id="hello-rails-bang"><a class="anchorlink" href="#hello-rails-bang">4 Hello, Rails!</a></h3><p>手始めに、画面に何かテキストを表示してみましょう。そのためには、Railsアプリケーションサーバーを起動しなくてはなりません。</p><h4 id="webサーバーを起動する"><a class="anchorlink" href="#web%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%82%92%E8%B5%B7%E5%8B%95%E3%81%99%E3%82%8B">4.1 Webサーバーを起動する</a></h4><p>先ほど作成したRailsアプリケーションは、既に実行可能な状態になっています。Webアプリケーションを開発用のPCで実際に動かしてこのことを確かめてみましょう。<code>blog</code>ディレクトリに移動し、以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails server
 
 </pre>
 </div>
-<div class="info"><p>CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は<code>execjs</code>エラーが発生します。Mac OS XやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する<code>Gemfile</code>には<code>therubyracer</code>というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。<code>therubyrhino</code>はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの<code>Gemfile</code>に追加されます。サポートされているランタイムの詳細については<a href="https://github.com/sstephenson/execjs#readme">ExecJS</a>で確認できます。</p></div><p>Railsで起動されるWebサーバーは、Rubyにデフォルトで付属しているWEBrickです。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <a href="http://localhost:3000">http://localhost:3000</a> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。</p><p><img src="images/getting_started/rails_welcome.png" alt="Welcome画面のスクリーンショット"></p><div class="info"><p>Webサーバーを停止するには、実行されているターミナルのウィンドウでCtrl + Cキーを押します。コマンドプロンプトのカーソルがふたたび表示されれば、サーバーは停止しています。Mac OS Xを含む多くのUnix系OSではプロンプトとしてドル記号<code>$</code>が使用されます。一般に、Railsの開発モードではファイルに変更を加えた場合でもサーバーを再起動する必要はありません。ファイルの変更は自動的にサーバーに反映されます(訳注: libファイルやapplication.rbなど一部の設定ファイルなどはサーバーを再起動しないと読み込まれません)。</p></div><p>Railsの初期画面である「Welcome aboard」ページは、新しいRailsアプリケーションの <em>スモークテスト</em> として使えます。このページが表示されれば、サーバーが正常に動作していることまでは確認できたことになります。 <em>About your application's environment</em> リンクをクリックすれば、アプリケーション環境の概要を確認できます。</p><h4 id="railsに-hello-と挨拶させる"><a href="#rails%E3%81%AB-hello-%E3%81%A8%E6%8C%A8%E6%8B%B6%E3%81%95%E3%81%9B%E3%82%8B">4.2 Railsに"Hello"と挨拶させる</a></h4><p>Railsに"Hello"と表示するには、最低でも <em>コントローラ</em> と <em>ビュー</em> が必要です。</p><p>コントローラは、アプリケーションに対する特定のリクエストを受け取って処理するのが役割です。<em>ルーティング</em> は、リクエストをどのコントローラに割り振るかを決定するためのものです。1つのコントローラに対して複数のルーティングがあるのはよくあることです。そしてコントローラにはいくつかの <em>アクション</em> があります。いくつかの異なるルーティングに対して、それぞれ異なるアクションを割り当てることができます。それぞれのアクションは、情報を集めてビューに送り出すのが役割です。</p><p>ビューの役割は、この情報をユーザーが読める形式で表示することです。ここで気を付けていただきたい重要な違いは、表示する情報を集めるのは <em>コントローラ</em> であって、ビューではないということです。ビューは、コントローラが作成した情報に対して余計なことをせずに表示する必要があります。ビューテンプレートで使用できる言語は、デフォルトではeRuby (ERBとも、Embedded Rubyとも呼ばれます) が使用されます (訳注: 近年はhamlテンプレートがよく使われます)。ERBで書かれたコードは、ユーザーに表示される前のリクエストサイクルでRailsによって処理されます。</p><p>コントローラを新規作成するには、コントローラ用のジェネレータを実行します。ここでは以下のように、welcomeという名前のコントローラの中にindexというアクションを作成するよう指定します。</p><div class="code_container">
+<div class="info"><p>CoffeeScriptをJavaScriptにコンパイルするにはJavaScriptランタイムが必要です。ランタイムが環境にない場合は<code>execjs</code>エラーが発生します。Mac OS XやWindowsにはJavaScriptランタイムが同梱されています。Railsが新規アプリケーション用に生成する<code>Gemfile</code>には<code>therubyracer</code>というgemがコメントアウトされた状態で含まれており、必要であればこのgemのコメントアウトを解除して有効にすることもできます。<code>therubyrhino</code>はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの<code>Gemfile</code>に追加されます。サポートされているランタイムの詳細については<a href="https://github.com/sstephenson/execjs#readme">ExecJS</a>で確認できます。</p></div><p>Railsで起動されるWebサーバーは、Rubyにデフォルトで付属しているWEBrickです。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて <a href="http://localhost:3000">http://localhost:3000</a> を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。</p><p><img src="images/getting_started/rails_welcome.png" alt="Welcome画面のスクリーンショット"></p><div class="info"><p>Webサーバーを停止するには、実行されているターミナルのウィンドウでCtrl + Cキーを押します。コマンドプロンプトのカーソルがふたたび表示されれば、サーバーは停止しています。Mac OS Xを含む多くのUnix系OSではプロンプトとしてドル記号<code>$</code>が使用されます。一般に、Railsの開発モードではファイルに変更を加えた場合でもサーバーを再起動する必要はありません。ファイルの変更は自動的にサーバーに反映されます(訳注: libファイルやapplication.rbなど一部の設定ファイルなどはサーバーを再起動しないと読み込まれません)。</p></div><p>Railsの初期画面である「Welcome aboard」ページは、新しいRailsアプリケーションの <em>スモークテスト</em> として使えます。このページが表示されれば、サーバーが正常に動作していることまでは確認できたことになります。 <em>About your application's environment</em> リンクをクリックすれば、アプリケーション環境の概要を確認できます。</p><h4 id="railsに-hello-と挨拶させる"><a class="anchorlink" href="#rails%E3%81%AB-hello-%E3%81%A8%E6%8C%A8%E6%8B%B6%E3%81%95%E3%81%9B%E3%82%8B">4.2 Railsに"Hello"と挨拶させる</a></h4><p>Railsに"Hello"と表示するには、最低でも <em>コントローラ</em> と <em>ビュー</em> が必要です。</p><p>コントローラは、アプリケーションに対する特定のリクエストを受け取って処理するのが役割です。<em>ルーティング</em> は、リクエストをどのコントローラに割り振るかを決定するためのものです。1つのコントローラに対して複数のルーティングがあるのはよくあることです。そしてコントローラにはいくつかの <em>アクション</em> があります。いくつかの異なるルーティングに対して、それぞれ異なるアクションを割り当てることができます。それぞれのアクションは、情報を集めてビューに送り出すのが役割です。</p><p>ビューの役割は、この情報をユーザーが読める形式で表示することです。ここで気を付けていただきたい重要な違いは、表示する情報を集めるのは <em>コントローラ</em> であって、ビューではないということです。ビューは、コントローラが作成した情報に対して余計なことをせずに表示する必要があります。ビューテンプレートで使用できる言語は、デフォルトではeRuby (ERBとも、Embedded Rubyとも呼ばれます) が使用されます (訳注: 近年はhamlテンプレートがよく使われます)。ERBで書かれたコードは、ユーザーに表示される前のリクエストサイクルでRailsによって処理されます。</p><p>コントローラを新規作成するには、コントローラ用のジェネレータを実行します。ここでは以下のように、welcomeという名前のコントローラの中にindexというアクションを作成するよう指定します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails generate controller welcome index
 
@@ -482,7 +484,7 @@ create      app/assets/stylesheets/welcome.css.scss
 
 </pre>
 </div>
-<h4 id="アプリケーションのホームページを設定する"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%9A%E3%83%BC%E3%82%B8%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">4.3 アプリケーションのホームページを設定する</a></h4><p>以上でコントローラとビューが作成されました。Railsに"Hello, Rails!"と表示させてみましょう。ここでは、サイトのルートURL <a href="http://localhost:3000">http://localhost:3000</a> にアクセスしたときにこのメッセージが表示されるようにします。現時点のルートURLでは、デフォルトの"Welcome aboard"が表示されていますので、これを変更します。</p><p>Railsで表示させたい実際のホームページの場所を指定します。</p><p>エディタで<code>config/routes.rb</code>を開いてください。</p><div class="code_container">
+<h4 id="アプリケーションのホームページを設定する"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%9A%E3%83%BC%E3%82%B8%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">4.3 アプリケーションのホームページを設定する</a></h4><p>以上でコントローラとビューが作成されました。Railsに"Hello, Rails!"と表示させてみましょう。ここでは、サイトのルートURL <a href="http://localhost:3000">http://localhost:3000</a> にアクセスしたときにこのメッセージが表示されるようにします。現時点のルートURLでは、デフォルトの"Welcome aboard"が表示されていますので、これを変更します。</p><p>Railsで表示させたい実際のホームページの場所を指定します。</p><p>エディタで<code>config/routes.rb</code>を開いてください。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Rails.application.routes.draw do
   get 'welcome/index'
@@ -503,7 +505,7 @@ root 'welcome#index'
 
 </pre>
 </div>
-<p><code>root 'welcome#index'</code>と記述することで、アプリケーションのルートURLへのアクセスをwelcomeコントローラのindexアクションに割り当てるようRailsに指示が伝わります。同様に、<code>get 'welcome/index'</code>は<a href="http://localhost:3000/welcome/index">http://localhost:3000/welcome/index</a>というリクエストをwelcomeコントローラのindexアクションに割り当てます。後者は先ほどコントローラ用ジェネレータ (<code>rails generate controller welcome index</code>) を実行した時に自動的に作成されています。</p><p>ブラウザで<a href="http://localhost:3000">http://localhost:3000</a>を表示してみましょう (ジェネレータを実行するためにRailsを止めていた場合は<code>rails server</code>を再実行してください)。<code>app/views/welcome/index.html.erb</code>の中に書いた"Hello, Rails!"という文字がブラウザ上に表示されるはずです。<code>WelcomeController</code>の<code>index</code>アクションへのルーティングが新たに形成され、ビューが正しく表示されたことがこれで確認できました。</p><div class="info"><p>ルーティングの詳細については<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h3 id="アプリケーションの実装と実行"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A8%E5%AE%9F%E8%A1%8C">5 アプリケーションの実装と実行</a></h3><p>以上で、コントローラとアクションとビューの作成方法を説明いたしました。ここからはもう少しブログらしい体裁を整えていきましょう。</p><p>今度はBlogアプリケーションに新しく <em>リソース</em> を作成します。ここで言う「リソース」とは、記事、人、動物などのよく似たオブジェクト同士が集まったものを指します。
+<p><code>root 'welcome#index'</code>と記述することで、アプリケーションのルートURLへのアクセスをwelcomeコントローラのindexアクションに割り当てるようRailsに指示が伝わります。同様に、<code>get 'welcome/index'</code>は<a href="http://localhost:3000/welcome/index">http://localhost:3000/welcome/index</a>というリクエストをwelcomeコントローラのindexアクションに割り当てます。後者は先ほどコントローラ用ジェネレータ (<code>rails generate controller welcome index</code>) を実行した時に自動的に作成されています。</p><p>ブラウザで<a href="http://localhost:3000">http://localhost:3000</a>を表示してみましょう (ジェネレータを実行するためにRailsを止めていた場合は<code>rails server</code>を再実行してください)。<code>app/views/welcome/index.html.erb</code>の中に書いた"Hello, Rails!"という文字がブラウザ上に表示されるはずです。<code>WelcomeController</code>の<code>index</code>アクションへのルーティングが新たに形成され、ビューが正しく表示されたことがこれで確認できました。</p><div class="info"><p>ルーティングの詳細については<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h3 id="アプリケーションの実装と実行"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A8%E5%AE%9F%E8%A1%8C">5 アプリケーションの実装と実行</a></h3><p>以上で、コントローラとアクションとビューの作成方法を説明いたしました。ここからはもう少しブログらしい体裁を整えていきましょう。</p><p>今度はBlogアプリケーションに新しく <em>リソース</em> を作成します。ここで言う「リソース」とは、記事、人、動物などのよく似たオブジェクト同士が集まったものを指します。
 リソースに対して作成 (create)、読み出し (read)、更新 (update)、削除 (destroy) の4つの操作を行なうことができるようになっており、これらの操作の頭文字を取って <em>CRUD</em> と呼ばれます。</p><p>Railsのルーティングには<code>resources</code>メソッドがあり、これを使用してRESTリソースへの標準的なルーティングを宣言できます (訳注: RESTについては<a href="http://ja.wikipedia.org/wiki/REST">Wikipedia</a>を参照してください)。たとえば<code>config/routes.rb</code>で <em>articleリソース</em> を宣言すると以下のようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Rails.application.routes.draw do
@@ -531,7 +533,7 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
 
 </pre>
 </div>
-<p>次の節では、アプリケーションで新しい記事を作成してそれを表示する機能を追加しましょう。これはCRUDでいう"C" (作成) と"R" (読み出し) の操作に相当します。作成するフォームは以下のような感じになります。</p><p><img src="images/getting_started/new_article.png" alt="新規記事投稿フォーム"></p><p>これだけでは飾り気がなさすぎる感じもしますが、今はこれでよしとします。スタイルの追加はその後に行います。</p><h4 id="土台を設置する"><a href="#%E5%9C%9F%E5%8F%B0%E3%82%92%E8%A8%AD%E7%BD%AE%E3%81%99%E3%82%8B">5.1 土台を設置する</a></h4><p>最初に、新規記事を作成するための場所がアプリケーション内に必要です。置き場所はやはり<code>/articles/new</code>でしょう。ルーティングは既に定義されているので、リクエストはアプリケーションの<code>/articles/new</code>に送られます。ブラウザで<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>を開くと、今はルーティングエラーが表示されます。</p><p><img src="images/getting_started/routing_error_no_controller.png" alt="Another routing error, uninitialized constant ArticlesController"></p><p>このエラーが発生したのは、ルーティングで指定された先に、リクエストを処理するように定義されたコントローラが見つからないためです。この問題を解決するには、それに対応する<code>ArticlesController</code>を作成すればよいのです。以下のコマンドを実行して解決します。</p><div class="code_container">
+<p>次の節では、アプリケーションで新しい記事を作成してそれを表示する機能を追加しましょう。これはCRUDでいう"C" (作成) と"R" (読み出し) の操作に相当します。作成するフォームは以下のような感じになります。</p><p><img src="images/getting_started/new_article.png" alt="新規記事投稿フォーム"></p><p>これだけでは飾り気がなさすぎる感じもしますが、今はこれでよしとします。スタイルの追加はその後に行います。</p><h4 id="土台を設置する"><a class="anchorlink" href="#%E5%9C%9F%E5%8F%B0%E3%82%92%E8%A8%AD%E7%BD%AE%E3%81%99%E3%82%8B">5.1 土台を設置する</a></h4><p>最初に、新規記事を作成するための場所がアプリケーション内に必要です。置き場所はやはり<code>/articles/new</code>でしょう。ルーティングは既に定義されているので、リクエストはアプリケーションの<code>/articles/new</code>に送られます。ブラウザで<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>を開くと、今はルーティングエラーが表示されます。</p><p><img src="images/getting_started/routing_error_no_controller.png" alt="Another routing error, uninitialized constant ArticlesController"></p><p>このエラーが発生したのは、ルーティングで指定された先に、リクエストを処理するように定義されたコントローラが見つからないためです。この問題を解決するには、それに対応する<code>ArticlesController</code>を作成すればよいのです。以下のコマンドを実行して解決します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails g controller articles
 
@@ -561,8 +563,8 @@ Missing template articles/new, application/new with {locale:[:en], formats:[:htm
 
 </pre>
 </div>
-<p><a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>をブラウザで再表示すると、ページにタイトルが表示されるようになりました。ついに、ルーティングとコントローラとアクションとビューが協調して動作するようになりました。いよいよ新規記事を投稿するフォームを作成することにしましょう。</p><h4 id="最初のフォーム"><a href="#%E6%9C%80%E5%88%9D%E3%81%AE%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">5.2 最初のフォーム</a></h4><p>このテンプレート内にフォームを作成するために、<em>form builder</em> を使用します。Railsには<code>form_for</code>というヘルパーメソッドがあり、主にこれを使用してフォームを作成します。以下のコードを<code>app/views/articles/new.html.erb</code>に追加して、<code>form_for</code>メソッドを使用できるようにしましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p><a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>をブラウザで再表示すると、ページにタイトルが表示されるようになりました。ついに、ルーティングとコントローラとアクションとビューが協調して動作するようになりました。いよいよ新規記事を投稿するフォームを作成することにしましょう。</p><h4 id="最初のフォーム"><a class="anchorlink" href="#%E6%9C%80%E5%88%9D%E3%81%AE%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0">5.2 最初のフォーム</a></h4><p>このテンプレート内にフォームを作成するために、<em>form builder</em> を使用します。Railsには<code>form_for</code>というヘルパーメソッドがあり、主にこれを使用してフォームを作成します。以下のコードを<code>app/views/articles/new.html.erb</code>に追加して、<code>form_for</code>メソッドを使用できるようにしましょう。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for :article do |f| %&gt;
   &lt;p&gt;
     &lt;%= f.label :title %&gt;&lt;br&gt;
@@ -582,7 +584,7 @@ Missing template articles/new, application/new with {locale:[:en], formats:[:htm
 </pre>
 </div>
 <p>ページをブラウザで再表示すると、先に図に示したフォームの例のとおりにフォームが表示されます。Railsのフォーム作成は非常に簡単です。</p><p><code>form_for</code>メソッドを呼び出すときには、このフォームを識別するためのオブジェクトを渡してください。ここでは<code>:article</code>というシンボルを渡します。<code>form_for</code>ヘルパーは、これを見て何のフォームであるかを知ることができます。このメソッドのブロックの内側は<code>FormBuilder</code>オブジェクトを置きます(<code>f</code>で表すのが通例です)。ここでは2つのラベルと2つのテキストフィールドが置かれ、それぞれタイトルと記事本文になります。最後に、<code>f</code>オブジェクトに対して<code>submit</code>を実行すると、フォームの送信ボタンが作成されます。</p><p>しかし、このフォームには1つ問題があります。このフォームページのソースを表示して、生成されたHTMLをよく調べてみると、フォームの<code>action</code>属性の送信先が<code>/articles/new</code>になってしまっています。<code>/articles/new</code>というルーティングは、このフォームを最初に表示するときに使用されるものなので、記入されたフォームの送信先まで同じルーティングにしてしまうのは変です。<code>/articles/new</code>はフォームの表示専用にすべきです。</p><p>どうやらフォームの送信先は別のURLにしなければならないようです。送信先の指定は<code>form_for</code>の<code>:url</code>オプションで簡単に指定できます。Railsでは、新しいフォームの送信先となるアクションは"create"にするのが普通ですので、それに従って送信先を変更しましょう。</p><p><code>app/views/articles/new.html.erb</code>をエディタで開き、<code>form_for</code>の行を以下のように変更します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for :article, url: articles_path do |f| %&gt;
 
 </pre>
@@ -604,7 +606,7 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
 
 </pre>
 </div>
-<p><code>articles_path</code>ヘルパーは、<code>articles</code>という接頭語に関連付けられているURIパターンをフォームの送信先とするようRailsに指示します。そしてこのフォームはデフォルトに従って<code>POST</code>リクエストとしてルーティングに送信されます。そしてこのルーティングは、現在のコントローラである<code>ArticlesController</code>の<code>create</code>アクションに関連付けられます。</p><p>このフォームと、それに関連付けられたルーティングが定義されることで、フォームに記入して送信ボタンをクリックすると新しい記事作成プロセスが開始されるようになります。この状態でフォームを送信すると、既にお馴染みの以下のエラーが表示されます。</p><p><img src="images/getting_started/unknown_action_create_for_articles.png" alt="Unknown action create for ArticlesController"></p><p>そこで今度は<code>ArticlesController</code>コントローラ内に<code>create</code>アクションを作成し、フォームが動作するようにしましょう。</p><h4 id="記事を作成する"><a href="#%E8%A8%98%E4%BA%8B%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">5.3 記事を作成する</a></h4><p>"Unknown action"エラーを解消するには、<code>app/controllers/articles_controller.rb</code>ファイル内の<code>ArticlesController</code>クラス内の<code>new</code>アクションの下に<code>create</code>アクションを追加します。</p><div class="code_container">
+<p><code>articles_path</code>ヘルパーは、<code>articles</code>という接頭語に関連付けられているURIパターンをフォームの送信先とするようRailsに指示します。そしてこのフォームはデフォルトに従って<code>POST</code>リクエストとしてルーティングに送信されます。そしてこのルーティングは、現在のコントローラである<code>ArticlesController</code>の<code>create</code>アクションに関連付けられます。</p><p>このフォームと、それに関連付けられたルーティングが定義されることで、フォームに記入して送信ボタンをクリックすると新しい記事作成プロセスが開始されるようになります。この状態でフォームを送信すると、既にお馴染みの以下のエラーが表示されます。</p><p><img src="images/getting_started/unknown_action_create_for_articles.png" alt="Unknown action create for ArticlesController"></p><p>そこで今度は<code>ArticlesController</code>コントローラ内に<code>create</code>アクションを作成し、フォームが動作するようにしましょう。</p><h4 id="記事を作成する"><a class="anchorlink" href="#%E8%A8%98%E4%BA%8B%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">5.3 記事を作成する</a></h4><p>"Unknown action"エラーを解消するには、<code>app/controllers/articles_controller.rb</code>ファイル内の<code>ArticlesController</code>クラス内の<code>new</code>アクションの下に<code>create</code>アクションを追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ArticlesController &lt; ApplicationController 
   def new
@@ -630,13 +632,13 @@ end
 
 </pre>
 </div>
-<p>このアクションは、フォームから送信されたパラメータをそのまま表示するようになりました。しかしこのままでは役に立ちそうにありません。確かにパラメータは表示されるようになりましたが、何の加工もされていません。</p><h4 id="articleモデルを作成する"><a href="#article%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">5.4 Articleモデルを作成する</a></h4><p>Railsのモデルは、単数形の名前を持ち、対応するデータベーステーブル名は複数形で表されるというルールがあります。Railsにはモデル作成用のジェネレータもあり、多くのRails開発者がモデル作成の際に使用しています。モデルを作成するにはターミナルで以下のコマンドを実行します。</p><div class="code_container">
+<p>このアクションは、フォームから送信されたパラメータをそのまま表示するようになりました。しかしこのままでは役に立ちそうにありません。確かにパラメータは表示されるようになりましたが、何の加工もされていません。</p><h4 id="articleモデルを作成する"><a class="anchorlink" href="#article%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">5.4 Articleモデルを作成する</a></h4><p>Railsのモデルは、単数形の名前を持ち、対応するデータベーステーブル名は複数形で表されるというルールがあります。Railsにはモデル作成用のジェネレータもあり、多くのRails開発者がモデル作成の際に使用しています。モデルを作成するにはターミナルで以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails generate model Article title:string text:text
 
 </pre>
 </div>
-<p>このコマンドを実行すると、<code>Article</code>モデルが作成されます。その中にはstring型の <em>title</em> 属性とtext型の <em>text</em> 属性が作成されています。これらの属性は、データベースの<code>articles</code>テーブルに自動的に追加され、<code>Article</code>モデルと対応付けられます (訳注: 実際には後述するマイグレーションを行わないとデータベースとの対応付けは完了しません)。</p><p>Railsによって多数のファイルが作成されました。ここで必要なのは、<code>app/models/article.rb</code>と<code>db/migrate/20140120191729_create_articles.rb</code>の2つだけです (後者のファイル名には日付が含まれているのでこれと同じにはなりません)。後者のマイグレーションファイルは、データベース構造を作成するためのものであり、この次に説明します。</p><div class="info"><p>Active Recordは、データベースのカラム名とモデルの属性を自動的に対応付けるインテリジェントな機能を有しています。このおかげで、Railsのモデルでは属性をいちいち宣言する必要がありません。そうした作業はActive Recordが自動的にやってくれます。</p></div><h4 id="マイグレーションを実行する"><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">5.5 マイグレーションを実行する</a></h4><p>既に見たように<code>rails generate model</code>を実行すると <em>データベースマイグレーション</em> ファイルが<code>db/migrate</code>の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはrakeコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。</p><p>ここで<code>db/migrate/20140120191729_create_articles.rb</code> ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。</p><div class="code_container">
+<p>このコマンドを実行すると、<code>Article</code>モデルが作成されます。その中にはstring型の <em>title</em> 属性とtext型の <em>text</em> 属性が作成されています。これらの属性は、データベースの<code>articles</code>テーブルに自動的に追加され、<code>Article</code>モデルと対応付けられます (訳注: 実際には後述するマイグレーションを行わないとデータベースとの対応付けは完了しません)。</p><p>Railsによって多数のファイルが作成されました。ここで必要なのは、<code>app/models/article.rb</code>と<code>db/migrate/20140120191729_create_articles.rb</code>の2つだけです (後者のファイル名には日付が含まれているのでこれと同じにはなりません)。後者のマイグレーションファイルは、データベース構造を作成するためのものであり、この次に説明します。</p><div class="info"><p>Active Recordは、データベースのカラム名とモデルの属性を自動的に対応付けるインテリジェントな機能を有しています。このおかげで、Railsのモデルでは属性をいちいち宣言する必要がありません。そうした作業はActive Recordが自動的にやってくれます。</p></div><h4 id="マイグレーションを実行する"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B">5.5 マイグレーションを実行する</a></h4><p>既に見たように<code>rails generate model</code>を実行すると <em>データベースマイグレーション</em> ファイルが<code>db/migrate</code>の下に作成されます。マイグレーションはRubyのクラスであり、データベーステーブルの作成や変更を簡単に行うためのしくみです。マイグレーションを実行するにはrakeコマンドを実行します。マイグレーションを使用して行ったデータベース構成の変更は、後から取り消すことができます。マイグレーションファイルの名前にはタイムスタンプが含まれており、これに基いて、マイグレーションは作成された順に実行されます。</p><p>ここで<code>db/migrate/20140120191729_create_articles.rb</code> ファイルをエディタで開いてみると (タイムスタンプは各自異なることにご注意ください)、以下のようになっています。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class CreateArticles &lt; ActiveRecord::Migration
   def change
@@ -666,7 +668,7 @@ $ rake db:migrate
 
 </pre>
 </div>
-<div class="note"><p>マイグレーションはデフォルトではdevelopment (開発) 環境で実行されます。そのため、<code>config/database.yml</code>ファイルの<code>development</code>セクションで定義されている開発用データベースに対して実行される点にご注意ください。production (本番) 環境など、development以外の環境に対してもマイグレーションを実行したい場合は、<code>rake db:migrate RAILS_ENV=production</code>のように環境変数を明示的に指定する必要があります。</p></div><h4 id="コントローラでデータを保存する"><a href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B">5.6 コントローラでデータを保存する</a></h4><p>ふたたび<code>ArticlesController</code>に戻りましょう。先ほど作成した<code>Article</code>モデルを使用して、<code>create</code>アクションを変更しなければなりません。<code>app/controllers/articles_controller.rb</code>をエディタで開き、<code>create</code>アクションを次のように変更します。</p><div class="code_container">
+<div class="note"><p>マイグレーションはデフォルトではdevelopment (開発) 環境で実行されます。そのため、<code>config/database.yml</code>ファイルの<code>development</code>セクションで定義されている開発用データベースに対して実行される点にご注意ください。production (本番) 環境など、development以外の環境に対してもマイグレーションを実行したい場合は、<code>rake db:migrate RAILS_ENV=production</code>のように環境変数を明示的に指定する必要があります。</p></div><h4 id="コントローラでデータを保存する"><a class="anchorlink" href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B">5.6 コントローラでデータを保存する</a></h4><p>ふたたび<code>ArticlesController</code>に戻りましょう。先ほど作成した<code>Article</code>モデルを使用して、<code>create</code>アクションを変更しなければなりません。<code>app/controllers/articles_controller.rb</code>をエディタで開き、<code>create</code>アクションを次のように変更します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def create
   @article = Article.new(params[:article])
@@ -700,7 +702,7 @@ private
 
 </pre>
 </div>
-<div class="info"><p>詳細については、上に挙げた参考資料に加えて<a href="http://weblog.rubyonrails.org/2012/3/21/strong-parameters/">Strong Parametersに関する公式ブログの記事</a> (英語) を参照してください。</p></div><h4 id="記事を表示する"><a href="#%E8%A8%98%E4%BA%8B%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">5.7 記事を表示する</a></h4><p>現時点の状態でフォームを再度送信すると、<code>show</code>アクションがないというメッセージがRailsから返されます。このままでは実用に耐えないので、<code>show</code>アクションを追加して先に進むことにしましょう。</p><p><code>rake routes</code>の出力結果にもあったように<code>show</code>アクションへのルーティングは以下のようになります。</p><div class="code_container">
+<div class="info"><p>詳細については、上に挙げた参考資料に加えて<a href="http://weblog.rubyonrails.org/2012/3/21/strong-parameters/">Strong Parametersに関する公式ブログの記事</a> (英語) を参照してください。</p></div><h4 id="記事を表示する"><a class="anchorlink" href="#%E8%A8%98%E4%BA%8B%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">5.7 記事を表示する</a></h4><p>現時点の状態でフォームを再度送信すると、<code>show</code>アクションがないというメッセージがRailsから返されます。このままでは実用に耐えないので、<code>show</code>アクションを追加して先に進むことにしましょう。</p><p><code>rake routes</code>の出力結果にもあったように<code>show</code>アクションへのルーティングは以下のようになります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 article GET    /articles/:id(.:format)      articles#show
 
@@ -715,7 +717,7 @@ end
 </pre>
 </div>
 <p>ここでいくつか注意すべき点があります。ここでは<code>Article.find</code>を使用して、取り出したい記事をデータベースから探しています。このとき、リクエストの<code>:id</code>パラメータを取り出すために<code>params[:id]</code>を引数としてfindに渡しています。そして、取り出した記事オブジェクトへの参照を保持するために、通常の変数ではなく、インスタンス変数 (<code>@</code>が頭に付いているのが印です) が使用されている点にもご注目ください。これは、Railsではコントローラのインスタンス変数はすべてビューに渡されるようになっているからです (訳注: Railsはそのために背後でインスタンス変数をコントローラからビューに絶え間なくコピーし続けています)。</p><p>それでは、<code>app/views/articles/show.html.erb</code>ファイルを作成し、以下のように記入しましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -729,7 +731,7 @@ end
 </pre>
 </div>
 <p>上のように変更したことで、新しい記事の作成がようやくできるようになりました。
-<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>をブラウザで開いて試してみましょう。</p><p><img src="images/getting_started/show_action_for_articles.png" alt="Show action for articles"></p><h4 id="すべての記事を一覧表示する"><a href="#%E3%81%99%E3%81%B9%E3%81%A6%E3%81%AE%E8%A8%98%E4%BA%8B%E3%82%92%E4%B8%80%E8%A6%A7%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">5.8 すべての記事を一覧表示する</a></h4><p>単独の記事は表示できるようになりましたが、今度は記事の一覧も表示できるようにしてみましょう。
+<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>をブラウザで開いて試してみましょう。</p><p><img src="images/getting_started/show_action_for_articles.png" alt="Show action for articles"></p><h4 id="すべての記事を一覧表示する"><a class="anchorlink" href="#%E3%81%99%E3%81%B9%E3%81%A6%E3%81%AE%E8%A8%98%E4%BA%8B%E3%82%92%E4%B8%80%E8%A6%A7%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B">5.8 すべての記事を一覧表示する</a></h4><p>単独の記事は表示できるようになりましたが、今度は記事の一覧も表示できるようにしてみましょう。
 今度も<code>rake routes</code>でルーティングを確認すると、以下のようなルーティングが既にあります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 articles GET    /articles(.:format)          articles#index
@@ -745,7 +747,7 @@ end
 </pre>
 </div>
 <p>最後に、このアクションに対応するビューを<code>app/views/articles/index.html.erb</code>に追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Listing articles&lt;/h1&gt;
 
 &lt;table&gt;
@@ -764,8 +766,8 @@ end
 
 </pre>
 </div>
-<p>これで、<code>http://localhost:3000/articles</code>をブラウザで開くと、作成された記事の一覧が表示されるようになりました。</p><h4 id="リンクの追加"><a href="#%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%AE%E8%BF%BD%E5%8A%A0">5.9 リンクの追加</a></h4><p>ここまでで、記事の作成、表示、一覧表示ができるようになりました。今度は、ページ間を移動するためのリンクを追加してみましょう。</p><p><code>app/views/welcome/index.html.erb</code>を開いて以下のように変更してください。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>これで、<code>http://localhost:3000/articles</code>をブラウザで開くと、作成された記事の一覧が表示されるようになりました。</p><h4 id="リンクの追加"><a class="anchorlink" href="#%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%AE%E8%BF%BD%E5%8A%A0">5.9 リンクの追加</a></h4><p>ここまでで、記事の作成、表示、一覧表示ができるようになりました。今度は、ページ間を移動するためのリンクを追加してみましょう。</p><p><code>app/views/welcome/index.html.erb</code>を開いて以下のように変更してください。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Hello, Rails!&lt;/h1&gt;
 &lt;%= link_to 'My Blog', controller: 'articles' %&gt;
 
@@ -788,7 +790,7 @@ end
 </pre>
 </div>
 <p>最後に、<code>app/views/articles/show.html.erb</code>テンプレートに、<code>index</code>アクションに戻るためのリンクも追加し、記事単体を見ていたユーザーが元に戻って一覧を参照できるようにします。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -803,7 +805,7 @@ end
 
 </pre>
 </div>
-<div class="info"><p>現在と同じコントローラのアクションにリンクする場合は、<code>controller</code>の指定は不要です。デフォルトでは現在のコントローラが使用されるからです。</p></div><div class="info"><p>developmentモード (これはRailsのデフォルトのモードです) では、Railsはリクエストのたびにアプリケーションを再読み込みします。これは開発をやりやすくするためであり、変更を行なうたびにRailsのWebサーバーを再起動する必要はありません。</p></div><h4 id="検証-バリデーション-の追加"><a href="#%E6%A4%9C%E8%A8%BC-%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3-%E3%81%AE%E8%BF%BD%E5%8A%A0">5.10 検証 (バリデーション) の追加</a></h4><p>モデルファイル<code>app/models/article.rb</code>の中身は、以下のように驚くほどシンプルです。</p><div class="code_container">
+<div class="info"><p>現在と同じコントローラのアクションにリンクする場合は、<code>controller</code>の指定は不要です。デフォルトでは現在のコントローラが使用されるからです。</p></div><div class="info"><p>developmentモード (これはRailsのデフォルトのモードです) では、Railsはリクエストのたびにアプリケーションを再読み込みします。これは開発をやりやすくするためであり、変更を行なうたびにRailsのWebサーバーを再起動する必要はありません。</p></div><h4 id="検証-バリデーション-の追加"><a class="anchorlink" href="#%E6%A4%9C%E8%A8%BC-%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3-%E3%81%AE%E8%BF%BD%E5%8A%A0">5.10 検証 (バリデーション) の追加</a></h4><p>モデルファイル<code>app/models/article.rb</code>の中身は、以下のように驚くほどシンプルです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Article &lt; ActiveRecord::Base
 end
@@ -843,7 +845,7 @@ private
 </pre>
 </div>
 <p><code>new</code>で<code>@article</code>というインスタンス変数が新たに作成されるようになりました。これを何に使うのかはすぐにわかります。</p><p><code>create</code>アクションも、<code>save</code>の結果が<code>false</code>の場合には、<code>redirect_to</code>ではなく、<code>new</code>テンプレートに対する<code>render</code>を実行するように変更されました。ここで<code>render</code>メソッドを使用する理由は、ビューの<code>new</code>テンプレートが描画されたときに、<code>@article</code>オブジェクトがビューの<code>new</code>テンプレートに返されるようにするためです。<code>render</code>による描画は、フォームの送信時と同じリクエスト内で行われます。対照的に、<code>redirect_to</code>はサーバーに別途リクエストを発行するようブラウザに対して指示するので、やりとりが1往復増えます。</p><p><a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>をブラウザで再表示し、わざと記事のタイトルを空にして保存してみましょう。Railsは記事入力フォームを再表示するはずです。しかしこれだけではまだ不親切です。入力のどこに問題があったのかをユーザーに通知する必要があります。そこで、<code>app/views/articles/new.html.erb</code>を変更して、エラーメッセージがある場合に表示するようにしてみましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for :article, url: articles_path do |f| %&gt;
   &lt;% if @article.errors.any? %&gt;
   &lt;div id="error_explanation"&gt;
@@ -875,7 +877,7 @@ private
 
 </pre>
 </div>
-<p>何やら目新しいコードが追加されています。ここでは、<code>@article.errors.any?</code>でエラーが発生しているかどうかをチェックしています。そしてエラーの場合は<code>@article.errors.full_messages</code>でエラーメッセージを全文表示します。</p><p><code>pluralize</code>は、数値を受け取ってそれに応じて英語の「単数形/複数形」活用を行ってくれるRailsのヘルパーメソッドです。数値が1より大きい場合は、引数の文字列を自動的に複数形に変更します(訳注:<code>pluralize</code>はたいていの不規則活用にも対応しています)。</p><p><code>ArticlesController</code>に<code>@article = Article.new</code>を追加した理由は、そうしないとビューで受け取る<code>@article</code>が<code>nil</code>になってしまい、<code>@article.errors.any?</code>を呼び出すところでエラーになってしまうためです。Articleのインスタンス作成に成功したときは@articleが<code>nil</code>にならないようにしておきたいわけです。</p><div class="info"><p>Railsでは、エラーメッセージを含むフィールドは自動的に<code>field_with_errors</code>クラスを持つdivタグで囲まれます。これを利用して、エラーメッセージをもっと目立たせるようにcssルールを定義しても構いません。</p></div><p>これで、<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>のフォームで新しい記事を保存する時にタイトルがなかった場合に、適切なエラーメッセージが表示されるようになりました。</p><p><img src="images/getting_started/form_with_errors.png" alt="エラーが表示されているフォーム"></p><h4 id="記事を更新する"><a href="#%E8%A8%98%E4%BA%8B%E3%82%92%E6%9B%B4%E6%96%B0%E3%81%99%E3%82%8B">5.11 記事を更新する</a></h4><p>ここまでで、CRUDのうちCとRを実現しました。今度はUの部分、つまり記事の更新を実装してみましょう。</p><p>最初に、<code>ArticlesController</code>に<code>edit</code>アクションを追加しましょう。</p><div class="code_container">
+<p>何やら目新しいコードが追加されています。ここでは、<code>@article.errors.any?</code>でエラーが発生しているかどうかをチェックしています。そしてエラーの場合は<code>@article.errors.full_messages</code>でエラーメッセージを全文表示します。</p><p><code>pluralize</code>は、数値を受け取ってそれに応じて英語の「単数形/複数形」活用を行ってくれるRailsのヘルパーメソッドです。数値が1より大きい場合は、引数の文字列を自動的に複数形に変更します(訳注:<code>pluralize</code>はたいていの不規則活用にも対応しています)。</p><p><code>ArticlesController</code>に<code>@article = Article.new</code>を追加した理由は、そうしないとビューで受け取る<code>@article</code>が<code>nil</code>になってしまい、<code>@article.errors.any?</code>を呼び出すところでエラーになってしまうためです。Articleのインスタンス作成に成功したときは@articleが<code>nil</code>にならないようにしておきたいわけです。</p><div class="info"><p>Railsでは、エラーメッセージを含むフィールドは自動的に<code>field_with_errors</code>クラスを持つdivタグで囲まれます。これを利用して、エラーメッセージをもっと目立たせるようにcssルールを定義しても構いません。</p></div><p>これで、<a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>のフォームで新しい記事を保存する時にタイトルがなかった場合に、適切なエラーメッセージが表示されるようになりました。</p><p><img src="images/getting_started/form_with_errors.png" alt="エラーが表示されているフォーム"></p><h4 id="記事を更新する"><a class="anchorlink" href="#%E8%A8%98%E4%BA%8B%E3%82%92%E6%9B%B4%E6%96%B0%E3%81%99%E3%82%8B">5.11 記事を更新する</a></h4><p>ここまでで、CRUDのうちCとRを実現しました。今度はUの部分、つまり記事の更新を実装してみましょう。</p><p>最初に、<code>ArticlesController</code>に<code>edit</code>アクションを追加しましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def edit
   @article = Article.find(params[:id])
@@ -884,7 +886,7 @@ end
 </pre>
 </div>
 <p>編集用のビューに含まれるフォームは、記事を作成するときのビューに含まれるフォームと基本的にほとんど同じです。<code>app/views/articles/edit.html.erb</code>というファイルを作成し、以下のコードを入力してください。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Editing article&lt;/h1&gt;
 
 &lt;%= form_for :article, url: article_path(@article), method: :patch do |f| %&gt;
@@ -918,7 +920,7 @@ end
 
 </pre>
 </div>
-<p>このフォームの送信先は<code>update</code>アクションになります。今の時点では未定義ですが、この後すぐ定義します。</p><p>ここで<code>method: :patch</code>というオプションが指定されていますので、<code>PATCH</code>というHTTPメソッドを使用してこのフォームを送信しようとしていることがRailsに伝わります。PATCHメソッドは、RESTプロトコルに基いてリソースを <strong>更新</strong> するために使用されます。</p><p><code>form_for</code>ヘルパーメソッドの最初のパラメータには<code>@article</code>のようなオブジェクトを使用できます。<code>@article</code>のようなオブジェクトが最初のパラメータとして渡されると、ヘルパーはそのパラメータに含まれているフィールドを使用してフォームの項目を埋めます。ここで面白いのは、<code>@article</code>のようなインスタンス変数の代わりに同じ名前のシンボル (<code>:article</code>など) を渡した場合にも動作はまったく同じであることです。以上がこのコードで行われていることです。詳細については、<a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for">form_forに関するAPIドキュメント</a> (英語) を参照してください。</p><p>続いて、<code>app/controllers/articles_controller.rb</code>に<code>update</code>アクションを作成しましょう。</p><div class="code_container">
+<p>このフォームの送信先は<code>update</code>アクションになります。今の時点では未定義ですが、この後すぐ定義します。</p><p>ここで<code>method: :patch</code>というオプションが指定されていますので、<code>PATCH</code>というHTTPメソッドを使用してこのフォームを送信しようとしていることがRailsに伝わります。PATCHメソッドは、RESTプロトコルに基いてリソースを <strong>更新</strong> するために使用されます。</p><p><code>form_for</code>ヘルパーメソッドの最初のパラメータには<code>@article</code>のようなオブジェクトを使用できます。<code>@article</code>のようなオブジェクトが最初のパラメータとして渡されると、ヘルパーはそのパラメータに含まれているフィールドを使用してフォームの項目を埋めます。ここで面白いのは、<code>@article</code>のようなインスタンス変数の代わりに同じ名前のシンボル (<code>:article</code>など) を渡した場合にも動作はまったく同じであることです。以上がこのコードで行われていることです。詳細については、<a href="http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for">form_forに関するAPIドキュメント</a> (英語) を参照してください。</p><p>続いて、<code>app/controllers/articles_controller.rb</code>に<code>update</code>アクションを作成しましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def update
   @article = Article.find(params[:id])
@@ -938,7 +940,7 @@ private
 </pre>
 </div>
 <p>既存のレコードを更新したいときには新たに<code>update</code>アクションを使用します。このアクションには、更新後の属性を含むハッシュを渡すことができます。createのときに既に行ったように、記事の更新に失敗してエラーが発生した場合、そのことをユーザーに伝えるようにしましょう。</p><p>createアクションで使用した<code>article_params</code>メソッドをここでも使うことにします。</p><div class="info"><p><code>update</code>に属性をすべて渡す必要はありません。たとえば、<code>@article.update(title: 'A new title')</code>を実行した場合、Railsは<code>title</code>属性のみを更新し、それ以外の属性は変更しません。</p></div><p>最後に、<code>edit</code>アクションへのリンクを全記事の一覧に追加しましょう。<code>app/views/articles/index.html.erb</code>に以下のように手を加えて"Show"リンクの隣にEditリンクを追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;table&gt;
   &lt;tr&gt;
     &lt;th&gt;Title&lt;/th&gt;
@@ -959,7 +961,7 @@ private
 </pre>
 </div>
 <p>同様に、<code>app/views/articles/show.html.erb</code>テンプレートにもEditリンクを追加しましょう。こうしておけば各記事のページから編集を行えるようになります。テンプレートの最下部に以下を追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 ...
 
 &lt;%= link_to 'Back', articles_path %&gt;
@@ -967,8 +969,8 @@ private
 
 </pre>
 </div>
-<p>ここまでの変更で、アプリケーションの外観は以下のような感じになっているはずです。</p><p><img src="images/getting_started/index_action_with_edit_link.png" alt="Editリンクが追加されたindexアクション"></p><h4 id="部分テンプレート-パーシャル-を使用してビューの重複コードをきれいにする"><a href="#%E9%83%A8%E5%88%86%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88-%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB-%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%93%E3%83%A5%E3%83%BC%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%81%8D%E3%82%8C%E3%81%84%E3%81%AB%E3%81%99%E3%82%8B">5.12 部分テンプレート(パーシャル)を使用してビューの重複コードをきれいにする</a></h4><p>さて、<code>edit</code>ページをよく見ると、<code>new</code>ページとほとんど違いがありません。実際、フォームを表示するコードはどちらでもまったく同じになっています。パーシャル(部分テンプレートとも呼ばれます)を使用して、このような無駄な重複を取り除きましょう。Rubyの慣例として、パーシャルのファイル名の先頭にはアンダースコアを追加します。</p><div class="info"><p>パーシャルについての詳細は本ガイドの<a href="layouts_and_rendering.html">レイアウトとレンダリング</a>を参照してください。</p></div><p><code>app/views/articles/_form.html.erb</code>という名前のパーシャルファイルを作成し、以下の内容を入力してください。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>ここまでの変更で、アプリケーションの外観は以下のような感じになっているはずです。</p><p><img src="images/getting_started/index_action_with_edit_link.png" alt="Editリンクが追加されたindexアクション"></p><h4 id="部分テンプレート-パーシャル-を使用してビューの重複コードをきれいにする"><a class="anchorlink" href="#%E9%83%A8%E5%88%86%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88-%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB-%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%93%E3%83%A5%E3%83%BC%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%81%8D%E3%82%8C%E3%81%84%E3%81%AB%E3%81%99%E3%82%8B">5.12 部分テンプレート(パーシャル)を使用してビューの重複コードをきれいにする</a></h4><p>さて、<code>edit</code>ページをよく見ると、<code>new</code>ページとほとんど違いがありません。実際、フォームを表示するコードはどちらでもまったく同じになっています。パーシャル(部分テンプレートとも呼ばれます)を使用して、このような無駄な重複を取り除きましょう。Rubyの慣例として、パーシャルのファイル名の先頭にはアンダースコアを追加します。</p><div class="info"><p>パーシャルについての詳細は本ガイドの<a href="layouts_and_rendering.html">レイアウトとレンダリング</a>を参照してください。</p></div><p><code>app/views/articles/_form.html.erb</code>という名前のパーシャルファイルを作成し、以下の内容を入力してください。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @article do |f| %&gt;
   &lt;% if @article.errors.any? %&gt;
   &lt;div id="error_explanation"&gt;
@@ -999,8 +1001,8 @@ private
 </pre>
 </div>
 <p>このコードをよく観察してみると、<code>form_for</code>の宣言部分以外には元のコードとの違いがないことがわかります。他のフォーム内のコードを置き換えるパーシャル内での<code>form_for</code>宣言がこのように短くて簡潔で済むのは、<code>@article</code>がRESTfulルーティングの完全なセットに対応する <strong>リソース</strong> であり、必要なURIとメソッドをRailsがそれに基いて推測できるからです。
-<code>form_for</code>の使用法の詳細については、<a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style">Rails APIのリソース指向のスタイル</a> (英語) を参照してください。</p><p>今度は<code>app/views/articles/new.html.erb</code>ビューを完全に書き直して、今作成したパーシャルをここで使ってみましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<code>form_for</code>の使用法の詳細については、<a href="http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style">Rails APIのリソース指向のスタイル</a> (英語) を参照してください。</p><p>今度は<code>app/views/articles/new.html.erb</code>ビューを完全に書き直して、今作成したパーシャルをここで使ってみましょう。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;New article&lt;/h1&gt;
 
 &lt;%= render 'form' %&gt;
@@ -1010,7 +1012,7 @@ private
 </pre>
 </div>
 <p>続いて、<code>app/views/articles/edit.html.erb</code>ビューでも同じ作業を行います。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Edit article&lt;/h1&gt;
 
 &lt;%= render 'form' %&gt;
@@ -1019,7 +1021,7 @@ private
 
 </pre>
 </div>
-<h4 id="記事を削除する"><a href="#%E8%A8%98%E4%BA%8B%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">5.13 記事を削除する</a></h4><p>いよいよCRUDのDまで到達しました。ここでは記事をデータベースから削除します。RESTの慣例に従い、記事の削除に使用するルーティングを<code>rake routes</code>の出力結果から取り出したのが以下です。</p><div class="code_container">
+<h4 id="記事を削除する"><a class="anchorlink" href="#%E8%A8%98%E4%BA%8B%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">5.13 記事を削除する</a></h4><p>いよいよCRUDのDまで到達しました。ここでは記事をデータベースから削除します。RESTの慣例に従い、記事の削除に使用するルーティングを<code>rake routes</code>の出力結果から取り出したのが以下です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 DELETE /articles/:id(.:format)      articles#destroy
 
@@ -1043,7 +1045,7 @@ end
 </pre>
 </div>
 <p>データベースのレコードを削除したい場合には、Active Recordの<code>destroy</code>メソッドを呼びます。なお、レコードの削除の場合、それ専用のビューテンプレートは不要です。その代わりに削除後に<code>index</code>アクションにリダイレクトします。</p><p>最後に、 <code>index</code>アクションのテンプレート(<code>app/views/articles/index.html.erb</code>)に'Destroy'リンクを追加し、機能を完成させましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Listing Articles&lt;/h1&gt;
 &lt;%= link_to 'New article', new_article_path %&gt;
 &lt;table&gt;
@@ -1068,7 +1070,7 @@ end
 </pre>
 </div>
 <p>上で追加したコードでは、<code>link_to</code>メソッドの使い方がこれまでと違っていることにご注目ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この<code>:method</code>オプションと<code>:'data-confirm'</code>オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後<code>delete</code>メソッドとリンクを送信します。このダイアログボックスの表示は<code>jquery_ujs</code>というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (<code>app/views/layouts/application.html.erb</code>) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されなくなります。</p><p><img src="images/getting_started/confirm_dialog.png" alt="Confirm Dialog"></p><p>以上で記事の作成、表示、一覧表示、更新、削除をひととおり実装できました。お疲れさまでした!</p><div class="info"><p>Railsでは、ルーティングを1つずつ手作りするよりもresourcesオブジェクトを使用してルーティングを設定することが推奨されています。
-ルーティングの詳細については、本ガイドの<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h3 id="2番目のモデルを追加する"><a href="#2%E7%95%AA%E7%9B%AE%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">6 2番目のモデルを追加する</a></h3><p>今度はアプリケーションに第2のモデルを追加しましょう。この第2のモデルでは、記事へのコメントを扱います。</p><h4 id="モデルを生成する"><a href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">6.1 モデルを生成する</a></h4><p>今回のモデルの生成には、<code>Article</code>モデルを生成したときと同じジェネレータを使用します。作成する<code>Comment</code>モデルは、記事への参照を保持します。以下のコマンドをターミナルで実行してください。</p><div class="code_container">
+ルーティングの詳細については、本ガイドの<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h3 id="2番目のモデルを追加する"><a class="anchorlink" href="#2%E7%95%AA%E7%9B%AE%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">6 2番目のモデルを追加する</a></h3><p>今度はアプリケーションに第2のモデルを追加しましょう。この第2のモデルでは、記事へのコメントを扱います。</p><h4 id="モデルを生成する"><a class="anchorlink" href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">6.1 モデルを生成する</a></h4><p>今回のモデルの生成には、<code>Article</code>モデルを生成したときと同じジェネレータを使用します。作成する<code>Comment</code>モデルは、記事への参照を保持します。以下のコマンドをターミナルで実行してください。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails generate model Comment commenter:string body:text article:references
 
@@ -1142,7 +1144,7 @@ $ rake db:migrate
 
 </pre>
 </div>
-<h4 id="モデル同士を関連付ける"><a href="#%E3%83%A2%E3%83%87%E3%83%AB%E5%90%8C%E5%A3%AB%E3%82%92%E9%96%A2%E9%80%A3%E4%BB%98%E3%81%91%E3%82%8B">6.2 モデル同士を関連付ける</a></h4><p>Active Recordの関連付け機能により、2つのモデルの間にリレーションシップを簡単に宣言することができます。今回の記事とコメントというモデルの場合、以下のいずれかの方法で関連付けを設定できます。</p>
+<h4 id="モデル同士を関連付ける"><a class="anchorlink" href="#%E3%83%A2%E3%83%87%E3%83%AB%E5%90%8C%E5%A3%AB%E3%82%92%E9%96%A2%E9%80%A3%E4%BB%98%E3%81%91%E3%82%8B">6.2 モデル同士を関連付ける</a></h4><p>Active Recordの関連付け機能により、2つのモデルの間にリレーションシップを簡単に宣言することができます。今回の記事とコメントというモデルの場合、以下のいずれかの方法で関連付けを設定できます。</p>
 <ul>
 <li>1つのコメントは1つの記事に属する (Each comment belongs to one article)。</li>
 <li>1つの記事は複数のコメントを持てる (One article can have many comments)。</li>
@@ -1165,7 +1167,7 @@ end
 
 </pre>
 </div>
-<p>2つのモデルで行われているこれらの宣言によって、さまざまな動作が自動化されています。たとえば、<code>@article</code>というインスタンス変数に記事が1つ含まれているのであれば、<code>@article.comments</code>と書くだけでその記事に関連付けられているコメントをすべて取得することができるのです。</p><div class="info"><p>Active Recordの関連付けの詳細については、<a href="association_basics.html">Active Recordの関連付け(アソシエーション)</a>ガイドを参照してください。</p></div><h4 id="コメントへのルーティングを追加する"><a href="#%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%B8%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">6.3 コメントへのルーティングを追加する</a></h4><p><code>welcome</code>コントローラで行ったときと同様、<code>comments</code>を参照するためにRailsが知っておくべきルーティングを追加する必要があります。再び<code>config/routes.rb</code>ファイルを開き、以下のように変更してください。</p><div class="code_container">
+<p>2つのモデルで行われているこれらの宣言によって、さまざまな動作が自動化されています。たとえば、<code>@article</code>というインスタンス変数に記事が1つ含まれているのであれば、<code>@article.comments</code>と書くだけでその記事に関連付けられているコメントをすべて取得することができるのです。</p><div class="info"><p>Active Recordの関連付けの詳細については、<a href="association_basics.html">Active Recordの関連付け(アソシエーション)</a>ガイドを参照してください。</p></div><h4 id="コメントへのルーティングを追加する"><a class="anchorlink" href="#%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%B8%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">6.3 コメントへのルーティングを追加する</a></h4><p><code>welcome</code>コントローラで行ったときと同様、<code>comments</code>を参照するためにRailsが知っておくべきルーティングを追加する必要があります。再び<code>config/routes.rb</code>ファイルを開き、以下のように変更してください。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 resources :articles do
   resources :comments
@@ -1173,7 +1175,7 @@ end
 
 </pre>
 </div>
-<p>この設定により、<code>article</code>の内側に <em>ネストされたリソース</em> として<code>comments</code>が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものであると言えます。</p><div class="info"><p>ルーティングの詳細については<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h4 id="コントローラを生成する"><a href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">6.4 コントローラを生成する</a></h4><p>モデルを手作りしたのですから、それに合ったコントローラも作ってみたくなります。ということで再びこれまでと同じジェネレータを使用してみましょう。</p><div class="code_container">
+<p>この設定により、<code>article</code>の内側に <em>ネストされたリソース</em> として<code>comments</code>が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものであると言えます。</p><div class="info"><p>ルーティングの詳細については<a href="routing.html">Railsのルーティング</a>を参照してください。</p></div><h4 id="コントローラを生成する"><a class="anchorlink" href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">6.4 コントローラを生成する</a></h4><p>モデルを手作りしたのですから、それに合ったコントローラも作ってみたくなります。ということで再びこれまでと同じジェネレータを使用してみましょう。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails generate controller Comments
 
@@ -1219,7 +1221,7 @@ $ rails generate controller Comments
 </tbody>
 </table>
 <p>一般的なブログと同様、このブログの記事を読んだ人はそこに直接コメントを追加したくなるでしょう。そしてコメントを追加後に元の記事表示ページに戻り、コメントがそこに反映されていることを確認したいはずです。そこで、<code>CommentsController</code>を使用してコメントを作成したり、スパムコメントが書き込まれたら削除できるようにしたいと思います。</p><p>そこで最初に、Articleのshowテンプレート (<code>app/views/articles/show.html.erb</code>) を改造して新規コメントを作成できるようにしましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -1268,7 +1270,7 @@ end
 </pre>
 </div>
 <p>上のコードは、Articleコントローラのコードを書いていたときよりも何だか複雑に見えます。これはネスティングを使用したことによって複雑さが増したのです。コメント関連のリクエストでは、コメントが追加される先の記事がどれであったかを忘れないようにしておく必要があります。そこで、<code>Article</code>モデルの<code>find</code>メソッドを最初に呼び出し、リクエストで言及されている記事(のオブジェクト)を取得して@articleに保存しています。</p><p>さらにこのコードでは、関連付けによって使用できるようになったメソッドをいくつも利用しています。<code>@article.comments</code>に対して<code>create</code>メソッドを実行することで、コメントの作成と保存を同時に行っています(訳注: <code>build</code>メソッドにすれば作成のみで保存は行いません)。この方法でコメントを作成すると、コメントと記事が自動的にリンクされ、指定された記事に対してコメントが従属するようになります。</p><p>新しいコメントの作成が完了したら、<code>article_path(@article)</code>ヘルパーを使用して元の記事の画面に戻ります。既に説明したように、このヘルパーを呼び出すと<code>ArticlesController</code>の<code>show</code>アクションが呼び出され、<code>show.html.erb</code>テンプレートが描画されます。この画面にコメントを表示できるようにしたいので、<code>app/views/articles/show.html.erb</code>に以下のコードを追加しましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -1312,8 +1314,8 @@ end
 
 </pre>
 </div>
-<p>以上で、ブログに記事やコメントを自由に追加して、それらを正しい場所に表示できるようになりました。</p><p><img src="images/getting_started/article_with_comments.png" alt="記事にコメントが追加されたところ"></p><h3 id="リファクタリング"><a href="#%E3%83%AA%E3%83%95%E3%82%A1%E3%82%AF%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0">7 リファクタリング</a></h3><p>さて、ブログの記事とコメントが動作するようになったので、ここで<code>app/views/articles/show.html.erb</code>テンプレートを見てみましょう。何やらコードがたくさん書かれていて読みにくいように思えます。ここでもパーシャルを使用してコードをきれいにしましょう。</p><h4 id="パーシャルコレクションを描画する"><a href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E6%8F%8F%E7%94%BB%E3%81%99%E3%82%8B">7.1 パーシャルコレクションを描画する</a></h4><p>最初に、特定記事のコメントをすべて表示する部分を切り出してコメントパーシャルを作成しましょう。<code>app/views/comments/_comment.html.erb</code>というファイルを作成し、以下のコードを入力します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>以上で、ブログに記事やコメントを自由に追加して、それらを正しい場所に表示できるようになりました。</p><p><img src="images/getting_started/article_with_comments.png" alt="記事にコメントが追加されたところ"></p><h3 id="リファクタリング"><a class="anchorlink" href="#%E3%83%AA%E3%83%95%E3%82%A1%E3%82%AF%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0">7 リファクタリング</a></h3><p>さて、ブログの記事とコメントが動作するようになったので、ここで<code>app/views/articles/show.html.erb</code>テンプレートを見てみましょう。何やらコードがたくさん書かれていて読みにくいように思えます。ここでもパーシャルを使用してコードをきれいにしましょう。</p><h4 id="パーシャルコレクションを描画する"><a class="anchorlink" href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E6%8F%8F%E7%94%BB%E3%81%99%E3%82%8B">7.1 パーシャルコレクションを描画する</a></h4><p>最初に、特定記事のコメントをすべて表示する部分を切り出してコメントパーシャルを作成しましょう。<code>app/views/comments/_comment.html.erb</code>というファイルを作成し、以下のコードを入力します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Commenter:&lt;/strong&gt;
   &lt;%= comment.commenter %&gt;
@@ -1327,7 +1329,7 @@ end
 </pre>
 </div>
 <p>続いて、<code>app/views/articles/show.html.erb</code>の内容を以下のように変更しましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -1361,8 +1363,8 @@ end
 
 </pre>
 </div>
-<p>これにより、<code>app/views/comments/_comment.html.erb</code>パーシャルが、<code>@article.comments</code>コレクションに含まれているコメントをすべて出力するようになりました。<code>render</code>メソッドが<code>@article.comments</code>コレクションに含まれる要素を1つ1つ列挙するときに、各コメントをパーシャルと同じ名前のローカル変数に自動的に割り当てます。この場合は<code>comment</code>というローカル変数が使用され、これはパーシャルでの表示に使用されます。</p><h4 id="パーシャルのフォームを描画する"><a href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%81%AE%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%82%92%E6%8F%8F%E7%94%BB%E3%81%99%E3%82%8B">7.2 パーシャルのフォームを描画する</a></h4><p>今度はコメント作成部分もパーシャルに追い出してみましょう。<code>app/views/comments/_form.html.erb</code>ファイルを作成し、以下のように入力します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>これにより、<code>app/views/comments/_comment.html.erb</code>パーシャルが、<code>@article.comments</code>コレクションに含まれているコメントをすべて出力するようになりました。<code>render</code>メソッドが<code>@article.comments</code>コレクションに含まれる要素を1つ1つ列挙するときに、各コメントをパーシャルと同じ名前のローカル変数に自動的に割り当てます。この場合は<code>comment</code>というローカル変数が使用され、これはパーシャルでの表示に使用されます。</p><h4 id="パーシャルのフォームを描画する"><a class="anchorlink" href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%81%AE%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%82%92%E6%8F%8F%E7%94%BB%E3%81%99%E3%82%8B">7.2 パーシャルのフォームを描画する</a></h4><p>今度はコメント作成部分もパーシャルに追い出してみましょう。<code>app/views/comments/_form.html.erb</code>ファイルを作成し、以下のように入力します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for([@article, @article.comments.build]) do |f| %&gt;
   &lt;p&gt;
     &lt;%= f.label :commenter %&gt;&lt;br&gt;
@@ -1380,7 +1382,7 @@ end
 </pre>
 </div>
 <p>続いて<code>app/views/articles/show.html.erb</code>の内容を以下のように変更しましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Title:&lt;/strong&gt;
   &lt;%= @article.title %&gt;
@@ -1402,8 +1404,8 @@ end
 
 </pre>
 </div>
-<p>2番目のrenderは、描画したいパーシャルテンプレートである<code>comments/form</code>を単純に定義しているだけです。<code>comments/form</code>と書くだけで、Railsは区切りのスラッシュ文字に気付き、<code>app/views/comments</code>ディレクトリの<code>_form.html.erb</code>パーシャルを描画すればよいということを理解し、実行してくれます。<code>app/views/comments/_form.html.erb</code>などと書く必要はありません。</p><p><code>@article</code>オブジェクトはインスタンス変数なので、ビューで出力されるどのパーシャルからもアクセスできます。</p><h3 id="コメントを削除する"><a href="#%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">8 コメントを削除する</a></h3><p>スパムコメントを削除できるようにするのも、このブログでは重要な機能です。そのためのビューを作成し、<code>CommentsController</code>に<code>destroy</code>アクションを作成する必要があります。</p><p>最初に<code>app/views/comments/_comment.html.erb</code>パーシャルに削除用のリンクを追加しましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>2番目のrenderは、描画したいパーシャルテンプレートである<code>comments/form</code>を単純に定義しているだけです。<code>comments/form</code>と書くだけで、Railsは区切りのスラッシュ文字に気付き、<code>app/views/comments</code>ディレクトリの<code>_form.html.erb</code>パーシャルを描画すればよいということを理解し、実行してくれます。<code>app/views/comments/_form.html.erb</code>などと書く必要はありません。</p><p><code>@article</code>オブジェクトはインスタンス変数なので、ビューで出力されるどのパーシャルからもアクセスできます。</p><h3 id="コメントを削除する"><a class="anchorlink" href="#%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">8 コメントを削除する</a></h3><p>スパムコメントを削除できるようにするのも、このブログでは重要な機能です。そのためのビューを作成し、<code>CommentsController</code>に<code>destroy</code>アクションを作成する必要があります。</p><p>最初に<code>app/views/comments/_comment.html.erb</code>パーシャルに削除用のリンクを追加しましょう。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;strong&gt;Commenter:&lt;/strong&gt;
   &lt;%= comment.commenter %&gt;
@@ -1446,7 +1448,7 @@ end
 
 </pre>
 </div>
-<p><code>destroy</code>アクションでは、まずどの記事が対象であるかを検索して@articleに保存し、続いて<code>@article.comments</code>コレクションの中のどのコメントが対象であるかを特定して@commentに保存します。そしてそのコメントをデータベースから削除し、終わったら記事の<code>show</code>アクションに戻ります。</p><h4 id="関連付けられたオブジェクトも削除する"><a href="#%E9%96%A2%E9%80%A3%E4%BB%98%E3%81%91%E3%82%89%E3%82%8C%E3%81%9F%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%82%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">8.1 関連付けられたオブジェクトも削除する</a></h4><p>ある記事を削除したら、その記事に関連付けられているコメントも一緒に削除する必要があります。そうしないと、コメントがいつまでもデータベース上に残ってしまいます。Railsでは関連付けに<code>dependent</code>オプションを指定することでこれを実現しています。Articleモデル<code>app/models/article.rb</code>を以下のように変更しましょう。</p><div class="code_container">
+<p><code>destroy</code>アクションでは、まずどの記事が対象であるかを検索して@articleに保存し、続いて<code>@article.comments</code>コレクションの中のどのコメントが対象であるかを特定して@commentに保存します。そしてそのコメントをデータベースから削除し、終わったら記事の<code>show</code>アクションに戻ります。</p><h4 id="関連付けられたオブジェクトも削除する"><a class="anchorlink" href="#%E9%96%A2%E9%80%A3%E4%BB%98%E3%81%91%E3%82%89%E3%82%8C%E3%81%9F%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%82%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">8.1 関連付けられたオブジェクトも削除する</a></h4><p>ある記事を削除したら、その記事に関連付けられているコメントも一緒に削除する必要があります。そうしないと、コメントがいつまでもデータベース上に残ってしまいます。Railsでは関連付けに<code>dependent</code>オプションを指定することでこれを実現しています。Articleモデル<code>app/models/article.rb</code>を以下のように変更しましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Article &lt; ActiveRecord::Base
   has_many :comments, dependent: :destroy
@@ -1456,7 +1458,7 @@ end
 
 </pre>
 </div>
-<h3 id="セキュリティ"><a href="#%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3">9 セキュリティ</a></h3><h4 id="basic認証"><a href="#basic%E8%AA%8D%E8%A8%BC">9.1 BASIC認証</a></h4><p>このブログアプリケーションをオンラインで公開すると、このままでは誰でも記事を追加/編集/削除したり、コメントを削除したりできてしまいます。</p><p>Railsではこのような場合に便利な、非常にシンプルなHTTP認証システムが用意されています。</p><p><code>ArticlesController</code>では、認証されていない人物がアクションに触れないようにブロックする必要があります。そこで、Railsの<code>http_basic_authenticate_with</code>メソッドを使用することで、このメソッドが許可する場合に限って、リクエストされたアクションにアクセスできるようにすることができます。</p><p>この認証システムを使用するには、<code>ArticlesController</code>コントローラの最初の部分で指定します。今回は、<code>index</code>アクションと<code>show</code>アクションは自由にアクセスできるようにし、それ以外のアクションには認証を要求するようにしたいと思います。そこで、<code>app/controllers/articles_controller.rb</code>に次の記述を追加してください。</p><div class="code_container">
+<h3 id="セキュリティ"><a class="anchorlink" href="#%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3">9 セキュリティ</a></h3><h4 id="basic認証"><a class="anchorlink" href="#basic%E8%AA%8D%E8%A8%BC">9.1 BASIC認証</a></h4><p>このブログアプリケーションをオンラインで公開すると、このままでは誰でも記事を追加/編集/削除したり、コメントを削除したりできてしまいます。</p><p>Railsではこのような場合に便利な、非常にシンプルなHTTP認証システムが用意されています。</p><p><code>ArticlesController</code>では、認証されていない人物がアクションに触れないようにブロックする必要があります。そこで、Railsの<code>http_basic_authenticate_with</code>メソッドを使用することで、このメソッドが許可する場合に限って、リクエストされたアクションにアクセスできるようにすることができます。</p><p>この認証システムを使用するには、<code>ArticlesController</code>コントローラの最初の部分で指定します。今回は、<code>index</code>アクションと<code>show</code>アクションは自由にアクセスできるようにし、それ以外のアクションには認証を要求するようにしたいと思います。そこで、<code>app/controllers/articles_controller.rb</code>に次の記述を追加してください。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ArticlesController &lt; ApplicationController
 
@@ -1485,7 +1487,7 @@ class CommentsController &lt; ApplicationController
 
 </pre>
 </div>
-<p>ここで記事を新規作成しようとすると、以下のようなBASIC http認証ダイアログが表示されます。</p><p><img src="images/getting_started/challenge.png" alt="Basic HTTP Authentication Challenge"></p><p>もちろん、Railsでは他の認証方法を使用することもできます。Railsにはさまざまな認証システムがありますが、その中で人気が高い認証システムは<a href="https://github.com/plataformatec/devise">Devise</a>と<a href="https://github.com/binarylogic/authlogic">Authlogic</a> gemの2つです。</p><h4 id="その他のセキュリティ対策"><a href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%AF%BE%E7%AD%96">9.2 その他のセキュリティ対策</a></h4><p>セキュリティ、それもWebアプリケーションのセキュリティは非常に幅広く、かつ詳細に渡っています。Railsアプリケーションのセキュリティの詳細については、本ガイドの<a href="security.html">Railsセキュリティガイド</a>を参照してください。</p><h3 id="次に学ぶべきこと"><a href="#%E6%AC%A1%E3%81%AB%E5%AD%A6%E3%81%B6%E3%81%B9%E3%81%8D%E3%81%93%E3%81%A8">10 次に学ぶべきこと</a></h3><p>以上で、Railsアプリケーションを初めて作るという試みは終わりです。この後は自由に更新したり実験を重ねたりできます。もちろん、何の助けもなしにWebアプリケーションを作らなければならないなどということはありません。Railsを使用してWebアプリケーションを立ち上げたり実行したりするうえで助けが必要になったら、以下のサポート用リソースを自由に参照できます。</p>
+<p>ここで記事を新規作成しようとすると、以下のようなBASIC http認証ダイアログが表示されます。</p><p><img src="images/getting_started/challenge.png" alt="Basic HTTP Authentication Challenge"></p><p>もちろん、Railsでは他の認証方法を使用することもできます。Railsにはさまざまな認証システムがありますが、その中で人気が高い認証システムは<a href="https://github.com/plataformatec/devise">Devise</a>と<a href="https://github.com/binarylogic/authlogic">Authlogic</a> gemの2つです。</p><h4 id="その他のセキュリティ対策"><a class="anchorlink" href="#%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%AF%BE%E7%AD%96">9.2 その他のセキュリティ対策</a></h4><p>セキュリティ、それもWebアプリケーションのセキュリティは非常に幅広く、かつ詳細に渡っています。Railsアプリケーションのセキュリティの詳細については、本ガイドの<a href="security.html">Railsセキュリティガイド</a>を参照してください。</p><h3 id="次に学ぶべきこと"><a class="anchorlink" href="#%E6%AC%A1%E3%81%AB%E5%AD%A6%E3%81%B6%E3%81%B9%E3%81%8D%E3%81%93%E3%81%A8">10 次に学ぶべきこと</a></h3><p>以上で、Railsアプリケーションを初めて作るという試みは終わりです。この後は自由に更新したり実験を重ねたりできます。もちろん、何の助けもなしにWebアプリケーションを作らなければならないなどということはありません。Railsを使用してWebアプリケーションを立ち上げたり実行したりするうえで助けが必要になったら、以下のサポート用リソースを自由に参照できます。</p>
 <ul>
 <li>
 <a href="http://railsguides.jp">Ruby on Railsガイド</a> -- 本書です</li>
@@ -1500,12 +1502,12 @@ class CommentsController &lt; ApplicationController
 <li>
 <code>rake doc:rails</code>を実行すると、Rails APIドキュメントの完全なコピーがアプリケーションの<code>doc/api</code>フォルダに生成されます。ブラウザで<code>doc/api/index.html</code>を開いてAPIドキュメントを参照できます。</li>
 </ul>
-<div class="info"><p><code>doc:guides</code> rakeタスクを使用してRailsガイドをローカル生成するには、RedCloth gemをインストールする必要があります。RedCloth gemを<code>Gemfile</code>に追記して<code>bundle install</code>を実行することで利用できるようになります。</p></div><h3 id="設定の落とし穴"><a href="#%E8%A8%AD%E5%AE%9A%E3%81%AE%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">11 設定の落とし穴</a></h3><p>Railsでの無用なトラブルを避けるための最も初歩的な方法は、外部データを常にUTF-8で保存することです。このとおりにしないと、RubyライブラリやRailsはネイティブデータをたびたびUTF-8に変換しなければならず、しかもときに失敗することがあります。外部データを常にUTF-8にしておくことをぜひお勧めします。</p><p>外部データのエンコードが不統一な場合によく起きる症状としては、たとえば画面に黒い菱型◆と疑問符が表示されるというものがあります。他にも、"ü"という文字のはずが"Ã¼"という文字に変わっている、などの症状もあります。Railsではこうした問題を緩和するため、問題の原因を自動的に検出して修正するために内部で多くの手順を行っています。しかし、UTF-8で保存されていない外部データがあると、Railsによる自動検出/修正が効かずに文字化けが発生することがあります。</p><p>UTF-8でないデータの主な原因は以下の2つです。</p>
+<div class="info"><p><code>doc:guides</code> rakeタスクを使用してRailsガイドをローカル生成するには、RedCloth gemをインストールする必要があります。RedCloth gemを<code>Gemfile</code>に追記して<code>bundle install</code>を実行することで利用できるようになります。</p></div><h3 id="設定の落とし穴"><a class="anchorlink" href="#%E8%A8%AD%E5%AE%9A%E3%81%AE%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">11 設定の落とし穴</a></h3><p>Railsでの無用なトラブルを避けるための最も初歩的な方法は、外部データを常にUTF-8で保存することです。このとおりにしないと、RubyライブラリやRailsはネイティブデータをたびたびUTF-8に変換しなければならず、しかもときに失敗することがあります。外部データを常にUTF-8にしておくことをぜひお勧めします。</p><p>外部データのエンコードが不統一な場合によく起きる症状としては、たとえば画面に黒い菱型◆と疑問符が表示されるというものがあります。他にも、"ü"という文字のはずが"Ã¼"という文字に変わっている、などの症状もあります。Railsではこうした問題を緩和するため、問題の原因を自動的に検出して修正するために内部で多くの手順を行っています。しかし、UTF-8で保存されていない外部データがあると、Railsによる自動検出/修正が効かずに文字化けが発生することがあります。</p><p>UTF-8でないデータの主な原因は以下の2つです。</p>
 <ul>
 <li>テキストエディタ: TextMateを含む多くのテキストエディタは、デフォルトでUTF-8エンコードでテキストを保存してくれます。使用しているテキストエディタがこのようになっていない場合、テンプレートを表示する時にéなどの特殊文字が◆?のような感じでブラウザで表示されることがあります。これはi18n(国際化)用の翻訳ファイルで発生することもあります。一部のDreamweaverのようにUTF-8保存がデフォルトでないエディタであっても、デフォルトをUTF-8に変更する方法は用意されているはずです。エンコードはUTF-8に変えてください。</li>
 <li>データベース: Railsはデータベースから読みだしたデータを境界上でUTF-8に変換します。しかし、使用しているデータベースの内部エンコード設定がUTF-8になっていない場合、UTF-8の文字の一部をデータベースにそのまま保存できないことがあります。たとえばデータベースの内部エンコードがLatin-1になっていると、ロシア語・ヘブライ語・日本語などの文字をデータベースに保存したときにこれらの情報は永久に失われてしまいます。できるかぎり、データベースの内部エンコードはUTF-8にしておいてください。</li>
 </ul>
-<h3 id="参考資料"><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">12 参考資料</a></h3>
+<h3 id="参考資料"><a class="anchorlink" href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">12 参考資料</a></h3>
         <ul>
 <li><a href="http://qiita.com/yui-knk/items/4b4aaf4b8dea049efe6e">Ruby on Rails ガイドのすすめ</a></li>
 </ul>
@@ -1526,16 +1528,7 @@ class CommentsController &lt; ApplicationController
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -1563,8 +1556,6 @@ class CommentsController &lt; ApplicationController
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -1580,17 +1571,19 @@ class CommentsController &lt; ApplicationController
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -1598,9 +1591,9 @@ class CommentsController &lt; ApplicationController
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -1615,13 +1608,11 @@ class CommentsController &lt; ApplicationController
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

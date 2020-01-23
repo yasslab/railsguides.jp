@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Caching with Rails: An overview | Rails ガイド</title>
+    <title>Caching with Rails: An overview - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -260,6 +254,14 @@
 <li><a href="#conditional-get-support">Conditional GET support</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -267,14 +269,14 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="basic-caching"><a href="#basic-caching">1 Basic Caching</a></h3><p>This is an introduction to three types of caching techniques: page, action and fragment caching. Rails provides by default fragment caching. In order to use page and action caching, you will need to add <code>actionpack-page_caching</code> and <code>actionpack-action_caching</code> to your Gemfile.</p><p>To start playing with caching you'll want to ensure that <code>config.action_controller.perform_caching</code> is set to <code>true</code>, if you're running in development mode. This flag is normally set in the corresponding <code>config/environments/*.rb</code> and caching is disabled by default for development and test, and enabled for production.</p><div class="code_container">
+        <h3 id="basic-caching"><a class="anchorlink" href="#basic-caching">1 Basic Caching</a></h3><p>This is an introduction to three types of caching techniques: page, action and fragment caching. Rails provides by default fragment caching. In order to use page and action caching, you will need to add <code>actionpack-page_caching</code> and <code>actionpack-action_caching</code> to your Gemfile.</p><p>To start playing with caching you'll want to ensure that <code>config.action_controller.perform_caching</code> is set to <code>true</code>, if you're running in development mode. This flag is normally set in the corresponding <code>config/environments/*.rb</code> and caching is disabled by default for development and test, and enabled for production.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.action_controller.perform_caching = true
 
 </pre>
 </div>
-<h4 id="page-caching"><a href="#page-caching">1.1 Page Caching</a></h4><p>Page caching is a Rails mechanism which allows the request for a generated page to be fulfilled by the webserver (i.e. Apache or nginx), without ever having to go through the Rails stack at all. Obviously, this is super-fast. Unfortunately, it can't be applied to every situation (such as pages that need authentication) and since the webserver is literally just serving a file from the filesystem, cache expiration is an issue that needs to be dealt with.</p><div class="info"><p>Page Caching has been removed from Rails 4. See the <a href="https://github.com/rails/actionpack-page_caching">actionpack-page_caching gem</a>. See <a href="http://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works">DHH's key-based cache expiration overview</a> for the newly-preferred method.</p></div><h4 id="action-caching"><a href="#action-caching">1.2 Action Caching</a></h4><p>Page Caching cannot be used for actions that have before filters - for example, pages that require authentication. This is where Action Caching comes in. Action Caching works like Page Caching except the incoming web request hits the Rails stack so that before filters can be run on it before the cache is served. This allows authentication and other restrictions to be run while still serving the result of the output from a cached copy.</p><div class="info"><p>Action Caching has been removed from Rails 4. See the <a href="https://github.com/rails/actionpack-action_caching">actionpack-action_caching gem</a>. See <a href="http://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works">DHH's key-based cache expiration overview</a> for the newly-preferred method.</p></div><h4 id="fragment-caching"><a href="#fragment-caching">1.3 Fragment Caching</a></h4><p>Life would be perfect if we could get away with caching the entire contents of a page or action and serving it out to the world. Unfortunately, dynamic web applications usually build pages with a variety of components not all of which have the same caching characteristics. In order to address such a dynamically created page where different parts of the page need to be cached and expired differently, Rails provides a mechanism called Fragment Caching.</p><p>Fragment Caching allows a fragment of view logic to be wrapped in a cache block and served out of the cache store when the next request comes in.</p><p>As an example, if you wanted to show all the orders placed on your website in real time and didn't want to cache that part of the page, but did want to cache the part of the page which lists all products available, you could use this piece of code:</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="page-caching"><a class="anchorlink" href="#page-caching">1.1 Page Caching</a></h4><p>Page caching is a Rails mechanism which allows the request for a generated page to be fulfilled by the webserver (i.e. Apache or nginx), without ever having to go through the Rails stack at all. Obviously, this is super-fast. Unfortunately, it can't be applied to every situation (such as pages that need authentication) and since the webserver is literally just serving a file from the filesystem, cache expiration is an issue that needs to be dealt with.</p><div class="info"><p>Page Caching has been removed from Rails 4. See the <a href="https://github.com/rails/actionpack-page_caching">actionpack-page_caching gem</a>. See <a href="http://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works">DHH's key-based cache expiration overview</a> for the newly-preferred method.</p></div><h4 id="action-caching"><a class="anchorlink" href="#action-caching">1.2 Action Caching</a></h4><p>Page Caching cannot be used for actions that have before filters - for example, pages that require authentication. This is where Action Caching comes in. Action Caching works like Page Caching except the incoming web request hits the Rails stack so that before filters can be run on it before the cache is served. This allows authentication and other restrictions to be run while still serving the result of the output from a cached copy.</p><div class="info"><p>Action Caching has been removed from Rails 4. See the <a href="https://github.com/rails/actionpack-action_caching">actionpack-action_caching gem</a>. See <a href="http://signalvnoise.com/posts/3113-how-key-based-cache-expiration-works">DHH's key-based cache expiration overview</a> for the newly-preferred method.</p></div><h4 id="fragment-caching"><a class="anchorlink" href="#fragment-caching">1.3 Fragment Caching</a></h4><p>Life would be perfect if we could get away with caching the entire contents of a page or action and serving it out to the world. Unfortunately, dynamic web applications usually build pages with a variety of components not all of which have the same caching characteristics. In order to address such a dynamically created page where different parts of the page need to be cached and expired differently, Rails provides a mechanism called Fragment Caching.</p><p>Fragment Caching allows a fragment of view logic to be wrapped in a cache block and served out of the cache store when the next request comes in.</p><p>As an example, if you wanted to show all the orders placed on your website in real time and didn't want to cache that part of the page, but did want to cache the part of the page which lists all products available, you could use this piece of code:</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% Order.find_recent.each do |o| %&gt;
   &lt;%= o.buyer.name %&gt; bought &lt;%= o.product.name %&gt;
 &lt;% end %&gt;
@@ -289,7 +291,7 @@ config.action_controller.perform_caching = true
 </pre>
 </div>
 <p>The cache block in our example will bind to the action that called it and is written out to the same place as the Action Cache, which means that if you want to cache multiple fragments per action, you should provide an <code>action_suffix</code> to the cache call:</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% cache(action: 'recent', action_suffix: 'all_products') do %&gt;
   All available products:
 
@@ -366,7 +368,7 @@ end
 
 </pre>
 </div>
-<p>It's called "Russian Doll Caching" because it nests multiple fragments. The advantage is that if a single product is updated, all the other inner fragments can be reused when regenerating the outer fragment.</p><h4 id="low-level-caching"><a href="#low-level-caching">1.4 Low-Level Caching</a></h4><p>Sometimes you need to cache a particular value or query result, instead of caching view fragments. Rails caching mechanism works great for storing <strong>any</strong> kind of information.</p><p>The most efficient way to implement low-level caching is using the <code>Rails.cache.fetch</code> method. This method does both reading and writing to the cache. When passed only a single argument, the key is fetched and value from the cache is returned. If a block is passed, the result of the block will be cached to the given key and the result is returned.</p><p>Consider the following example. An application has a <code>Product</code> model with an instance method that looks up the product’s price on a competing website. The data returned by this method would be perfect for low-level caching:</p><div class="code_container">
+<p>It's called "Russian Doll Caching" because it nests multiple fragments. The advantage is that if a single product is updated, all the other inner fragments can be reused when regenerating the outer fragment.</p><h4 id="low-level-caching"><a class="anchorlink" href="#low-level-caching">1.4 Low-Level Caching</a></h4><p>Sometimes you need to cache a particular value or query result, instead of caching view fragments. Rails caching mechanism works great for storing <strong>any</strong> kind of information.</p><p>The most efficient way to implement low-level caching is using the <code>Rails.cache.fetch</code> method. This method does both reading and writing to the cache. When passed only a single argument, the key is fetched and value from the cache is returned. If a block is passed, the result of the block will be cached to the given key and the result is returned.</p><p>Consider the following example. An application has a <code>Product</code> model with an instance method that looks up the product’s price on a competing website. The data returned by this method would be perfect for low-level caching:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
   def competing_price
@@ -378,7 +380,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>Notice that in this example we used <code>cache_key</code> method, so the resulting cache-key will be something like <code>products/233-20140225082222765838000/competing_price</code>. <code>cache_key</code> generates a string based on the model’s <code>id</code> and <code>updated_at</code> attributes. This is a common convention and has the benefit of invalidating the cache whenever the product is updated. In general, when you use low-level caching for instance level information, you need to generate a cache key.</p></div><h4 id="sql-caching"><a href="#sql-caching">1.5 SQL Caching</a></h4><p>Query caching is a Rails feature that caches the result set returned by each query so that if Rails encounters the same query again for that request, it will use the cached result set as opposed to running the query against the database again.</p><p>For example:</p><div class="code_container">
+<div class="note"><p>Notice that in this example we used <code>cache_key</code> method, so the resulting cache-key will be something like <code>products/233-20140225082222765838000/competing_price</code>. <code>cache_key</code> generates a string based on the model’s <code>id</code> and <code>updated_at</code> attributes. This is a common convention and has the benefit of invalidating the cache whenever the product is updated. In general, when you use low-level caching for instance level information, you need to generate a cache key.</p></div><h4 id="sql-caching"><a class="anchorlink" href="#sql-caching">1.5 SQL Caching</a></h4><p>Query caching is a Rails feature that caches the result set returned by each query so that if Rails encounters the same query again for that request, it will use the cached result set as opposed to running the query against the database again.</p><p>For example:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProductsController &lt; ApplicationController
 
@@ -396,13 +398,13 @@ end
 
 </pre>
 </div>
-<h3 id="cache-stores"><a href="#cache-stores">2 Cache Stores</a></h3><p>Rails provides different stores for the cached data created by <b>action</b> and <b>fragment</b> caches.</p><div class="info"><p>Page caches are always stored on disk.</p></div><h4 id="configuration"><a href="#configuration">2.1 Configuration</a></h4><p>You can set up your application's default cache store by calling <code>config.cache_store=</code> in the Application definition inside your <code>config/application.rb</code> file or in an Application.configure block in an environment specific configuration file (i.e. <code>config/environments/*.rb</code>). The first argument will be the cache store to use and the rest of the argument will be passed as arguments to the cache store constructor.</p><div class="code_container">
+<h3 id="cache-stores"><a class="anchorlink" href="#cache-stores">2 Cache Stores</a></h3><p>Rails provides different stores for the cached data created by <b>action</b> and <b>fragment</b> caches.</p><div class="info"><p>Page caches are always stored on disk.</p></div><h4 id="configuration"><a class="anchorlink" href="#configuration">2.1 Configuration</a></h4><p>You can set up your application's default cache store by calling <code>config.cache_store=</code> in the Application definition inside your <code>config/application.rb</code> file or in an Application.configure block in an environment specific configuration file (i.e. <code>config/environments/*.rb</code>). The first argument will be the cache store to use and the rest of the argument will be passed as arguments to the cache store constructor.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :memory_store
 
 </pre>
 </div>
-<div class="note"><p>Alternatively, you can call <code>ActionController::Base.cache_store</code> outside of a configuration block.</p></div><p>You can access the cache by calling <code>Rails.cache</code>.</p><h4 id="activesupport-cache-store"><a href="#activesupport-cache-store">2.2 ActiveSupport::Cache::Store</a></h4><p>This class provides the foundation for interacting with the cache in Rails. This is an abstract class and you cannot use it on its own. Rather you must use a concrete implementation of the class tied to a storage engine. Rails ships with several implementations documented below.</p><p>The main methods to call are <code>read</code>, <code>write</code>, <code>delete</code>, <code>exist?</code>, and <code>fetch</code>. The fetch method takes a block and will either return an existing value from the cache, or evaluate the block and write the result to the cache if no value exists.</p><p>There are some common options used by all cache implementations. These can be passed to the constructor or the various methods to interact with entries.</p>
+<div class="note"><p>Alternatively, you can call <code>ActionController::Base.cache_store</code> outside of a configuration block.</p></div><p>You can access the cache by calling <code>Rails.cache</code>.</p><h4 id="activesupport-cache-store"><a class="anchorlink" href="#activesupport-cache-store">2.2 ActiveSupport::Cache::Store</a></h4><p>This class provides the foundation for interacting with the cache in Rails. This is an abstract class and you cannot use it on its own. Rather you must use a concrete implementation of the class tied to a storage engine. Rails ships with several implementations documented below.</p><p>The main methods to call are <code>read</code>, <code>write</code>, <code>delete</code>, <code>exist?</code>, and <code>fetch</code>. The fetch method takes a block and will either return an existing value from the cache, or evaluate the block and write the result to the cache if no value exists.</p><p>There are some common options used by all cache implementations. These can be passed to the constructor or the various methods to interact with entries.</p>
 <ul>
 <li><p><code>:namespace</code> - This option can be used to create a namespace within the cache store. It is especially useful if your application shares a cache with other applications.</p></li>
 <li><p><code>:compress</code> - This option can be used to indicate that compression should be used in the cache. This can be useful for transferring large cache entries over a slow network.</p></li>
@@ -410,25 +412,25 @@ config.cache_store = :memory_store
 <li><p><code>:expires_in</code> - This option sets an expiration time in seconds for the cache entry when it will be automatically removed from the cache.</p></li>
 <li><p><code>:race_condition_ttl</code> - This option is used in conjunction with the <code>:expires_in</code> option. It will prevent race conditions when cache entries expire by preventing multiple processes from simultaneously regenerating the same entry (also known as the dog pile effect). This option sets the number of seconds that an expired entry can be reused while a new value is being regenerated. It's a good practice to set this value if you use the <code>:expires_in</code> option.</p></li>
 </ul>
-<h4 id="activesupport-cache-memorystore"><a href="#activesupport-cache-memorystore">2.3 ActiveSupport::Cache::MemoryStore</a></h4><p>This cache store keeps entries in memory in the same Ruby process. The cache store has a bounded size specified by the <code>:size</code> options to the initializer (default is 32Mb). When the cache exceeds the allotted size, a cleanup will occur and the least recently used entries will be removed.</p><div class="code_container">
+<h4 id="activesupport-cache-memorystore"><a class="anchorlink" href="#activesupport-cache-memorystore">2.3 ActiveSupport::Cache::MemoryStore</a></h4><p>This cache store keeps entries in memory in the same Ruby process. The cache store has a bounded size specified by the <code>:size</code> options to the initializer (default is 32Mb). When the cache exceeds the allotted size, a cleanup will occur and the least recently used entries will be removed.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :memory_store, { size: 64.megabytes }
 
 </pre>
 </div>
-<p>If you're running multiple Ruby on Rails server processes (which is the case if you're using mongrel_cluster or Phusion Passenger), then your Rails server process instances won't be able to share cache data with each other. This cache store is not appropriate for large application deployments, but can work well for small, low traffic sites with only a couple of server processes or for development and test environments.</p><h4 id="activesupport-cache-filestore"><a href="#activesupport-cache-filestore">2.4 ActiveSupport::Cache::FileStore</a></h4><p>This cache store uses the file system to store entries. The path to the directory where the store files will be stored must be specified when initializing the cache.</p><div class="code_container">
+<p>If you're running multiple Ruby on Rails server processes (which is the case if you're using mongrel_cluster or Phusion Passenger), then your Rails server process instances won't be able to share cache data with each other. This cache store is not appropriate for large application deployments, but can work well for small, low traffic sites with only a couple of server processes or for development and test environments.</p><h4 id="activesupport-cache-filestore"><a class="anchorlink" href="#activesupport-cache-filestore">2.4 ActiveSupport::Cache::FileStore</a></h4><p>This cache store uses the file system to store entries. The path to the directory where the store files will be stored must be specified when initializing the cache.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :file_store, "/path/to/cache/directory"
 
 </pre>
 </div>
-<p>With this cache store, multiple server processes on the same host can share a cache. Servers processes running on different hosts could share a cache by using a shared file system, but that set up would not be ideal and is not recommended. The cache store is appropriate for low to medium traffic sites that are served off one or two hosts.</p><p>Note that the cache will grow until the disk is full unless you periodically clear out old entries.</p><p>This is the default cache store implementation.</p><h4 id="activesupport-cache-memcachestore"><a href="#activesupport-cache-memcachestore">2.5 ActiveSupport::Cache::MemCacheStore</a></h4><p>This cache store uses Danga's <code>memcached</code> server to provide a centralized cache for your application. Rails uses the bundled <code>dalli</code> gem by default. This is currently the most popular cache store for production websites. It can be used to provide a single, shared cache cluster with very high performance and redundancy.</p><p>When initializing the cache, you need to specify the addresses for all memcached servers in your cluster. If none is specified, it will assume memcached is running on the local host on the default port, but this is not an ideal set up for larger sites.</p><p>The <code>write</code> and <code>fetch</code> methods on this cache accept two additional options that take advantage of features specific to memcached. You can specify <code>:raw</code> to send a value directly to the server with no serialization. The value must be a string or number. You can use memcached direct operation like <code>increment</code> and <code>decrement</code> only on raw values. You can also specify <code>:unless_exist</code> if you don't want memcached to overwrite an existing entry.</p><div class="code_container">
+<p>With this cache store, multiple server processes on the same host can share a cache. Servers processes running on different hosts could share a cache by using a shared file system, but that set up would not be ideal and is not recommended. The cache store is appropriate for low to medium traffic sites that are served off one or two hosts.</p><p>Note that the cache will grow until the disk is full unless you periodically clear out old entries.</p><p>This is the default cache store implementation.</p><h4 id="activesupport-cache-memcachestore"><a class="anchorlink" href="#activesupport-cache-memcachestore">2.5 ActiveSupport::Cache::MemCacheStore</a></h4><p>This cache store uses Danga's <code>memcached</code> server to provide a centralized cache for your application. Rails uses the bundled <code>dalli</code> gem by default. This is currently the most popular cache store for production websites. It can be used to provide a single, shared cache cluster with very high performance and redundancy.</p><p>When initializing the cache, you need to specify the addresses for all memcached servers in your cluster. If none is specified, it will assume memcached is running on the local host on the default port, but this is not an ideal set up for larger sites.</p><p>The <code>write</code> and <code>fetch</code> methods on this cache accept two additional options that take advantage of features specific to memcached. You can specify <code>:raw</code> to send a value directly to the server with no serialization. The value must be a string or number. You can use memcached direct operation like <code>increment</code> and <code>decrement</code> only on raw values. You can also specify <code>:unless_exist</code> if you don't want memcached to overwrite an existing entry.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.com"
 
 </pre>
 </div>
-<h4 id="activesupport-cache-ehcachestore"><a href="#activesupport-cache-ehcachestore">2.6 ActiveSupport::Cache::EhcacheStore</a></h4><p>If you are using JRuby you can use Terracotta's Ehcache as the cache store for your application. Ehcache is an open source Java cache that also offers an enterprise version with increased scalability, management, and commercial support. You must first install the jruby-ehcache-rails3 gem (version 1.1.0 or later) to use this cache store.</p><div class="code_container">
+<h4 id="activesupport-cache-ehcachestore"><a class="anchorlink" href="#activesupport-cache-ehcachestore">2.6 ActiveSupport::Cache::EhcacheStore</a></h4><p>If you are using JRuby you can use Terracotta's Ehcache as the cache store for your application. Ehcache is an open source Java cache that also offers an enterprise version with increased scalability, management, and commercial support. You must first install the jruby-ehcache-rails3 gem (version 1.1.0 or later) to use this cache store.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :ehcache_store
 
@@ -479,26 +481,26 @@ caches_action :index, expires_in: 60.seconds, unless_exist: true
 </pre>
 </div>
 <p>For more information about Ehcache, see <a href="http://ehcache.org/">http://ehcache.org/</a> .
-For more information about Ehcache for JRuby and Rails, see <a href="http://ehcache.org/documentation/jruby.html">http://ehcache.org/documentation/jruby.html</a></p><h4 id="activesupport-cache-nullstore"><a href="#activesupport-cache-nullstore">2.7 ActiveSupport::Cache::NullStore</a></h4><p>This cache store implementation is meant to be used only in development or test environments and it never stores anything. This can be very useful in development when you have code that interacts directly with <code>Rails.cache</code>, but caching may interfere with being able to see the results of code changes. With this cache store, all <code>fetch</code> and <code>read</code> operations will result in a miss.</p><div class="code_container">
+For more information about Ehcache for JRuby and Rails, see <a href="http://ehcache.org/documentation/jruby.html">http://ehcache.org/documentation/jruby.html</a></p><h4 id="activesupport-cache-nullstore"><a class="anchorlink" href="#activesupport-cache-nullstore">2.7 ActiveSupport::Cache::NullStore</a></h4><p>This cache store implementation is meant to be used only in development or test environments and it never stores anything. This can be very useful in development when you have code that interacts directly with <code>Rails.cache</code>, but caching may interfere with being able to see the results of code changes. With this cache store, all <code>fetch</code> and <code>read</code> operations will result in a miss.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = :null_store
 
 </pre>
 </div>
-<h4 id="custom-cache-stores"><a href="#custom-cache-stores">2.8 Custom Cache Stores</a></h4><p>You can create your own custom cache store by simply extending <code>ActiveSupport::Cache::Store</code> and implementing the appropriate methods. In this way, you can swap in any number of caching technologies into your Rails application.</p><p>To use a custom cache store, simple set the cache store to a new instance of the class.</p><div class="code_container">
+<h4 id="custom-cache-stores"><a class="anchorlink" href="#custom-cache-stores">2.8 Custom Cache Stores</a></h4><p>You can create your own custom cache store by simply extending <code>ActiveSupport::Cache::Store</code> and implementing the appropriate methods. In this way, you can swap in any number of caching technologies into your Rails application.</p><p>To use a custom cache store, simple set the cache store to a new instance of the class.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.cache_store = MyCacheStore.new
 
 </pre>
 </div>
-<h4 id="cache-keys"><a href="#cache-keys">2.9 Cache Keys</a></h4><p>The keys used in a cache can be any object that responds to either <code>:cache_key</code> or to <code>:to_param</code>. You can implement the <code>:cache_key</code> method on your classes if you need to generate custom keys. Active Record will generate keys based on the class name and record id.</p><p>You can use Hashes and Arrays of values as cache keys.</p><div class="code_container">
+<h4 id="cache-keys"><a class="anchorlink" href="#cache-keys">2.9 Cache Keys</a></h4><p>The keys used in a cache can be any object that responds to either <code>:cache_key</code> or to <code>:to_param</code>. You can implement the <code>:cache_key</code> method on your classes if you need to generate custom keys. Active Record will generate keys based on the class name and record id.</p><p>You can use Hashes and Arrays of values as cache keys.</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # This is a legal cache key
 Rails.cache.read(site: "mysite", owners: [owner_1, owner_2])
 
 </pre>
 </div>
-<p>The keys you use on <code>Rails.cache</code> will not be the same as those actually used with the storage engine. They may be modified with a namespace or altered to fit technology backend constraints. This means, for instance, that you can't save values with <code>Rails.cache</code> and then try to pull them out with the <code>memcache-client</code> gem. However, you also don't need to worry about exceeding the memcached size limit or violating syntax rules.</p><h3 id="conditional-get-support"><a href="#conditional-get-support">3 Conditional GET support</a></h3><p>Conditional GETs are a feature of the HTTP specification that provide a way for web servers to tell browsers that the response to a GET request hasn't changed since the last request and can be safely pulled from the browser cache.</p><p>They work by using the <code>HTTP_IF_NONE_MATCH</code> and <code>HTTP_IF_MODIFIED_SINCE</code> headers to pass back and forth both a unique content identifier and the timestamp of when the content was last changed. If the browser makes a request where the content identifier (etag) or last modified since timestamp matches the server's version then the server only needs to send back an empty response with a not modified status.</p><p>It is the server's (i.e. our) responsibility to look for a last modified timestamp and the if-none-match header and determine whether or not to send back the full response. With conditional-get support in Rails this is a pretty easy task:</p><div class="code_container">
+<p>The keys you use on <code>Rails.cache</code> will not be the same as those actually used with the storage engine. They may be modified with a namespace or altered to fit technology backend constraints. This means, for instance, that you can't save values with <code>Rails.cache</code> and then try to pull them out with the <code>memcache-client</code> gem. However, you also don't need to worry about exceeding the memcached size limit or violating syntax rules.</p><h3 id="conditional-get-support"><a class="anchorlink" href="#conditional-get-support">3 Conditional GET support</a></h3><p>Conditional GETs are a feature of the HTTP specification that provide a way for web servers to tell browsers that the response to a GET request hasn't changed since the last request and can be safely pulled from the browser cache.</p><p>They work by using the <code>HTTP_IF_NONE_MATCH</code> and <code>HTTP_IF_MODIFIED_SINCE</code> headers to pass back and forth both a unique content identifier and the timestamp of when the content was last changed. If the browser makes a request where the content identifier (etag) or last modified since timestamp matches the server's version then the server only needs to send back an empty response with a not modified status.</p><p>It is the server's (i.e. our) responsibility to look for a last modified timestamp and the if-none-match header and determine whether or not to send back the full response. With conditional-get support in Rails this is a pretty easy task:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProductsController &lt; ApplicationController
 
@@ -566,16 +568,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -603,8 +596,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -620,17 +611,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -638,9 +631,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -655,13 +648,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

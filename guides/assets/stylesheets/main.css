@@ -8,7 +8,7 @@
 --------------------------------------- */
 
 .announce {
-    margin: -20px 0px 20px 0px;
+    margin: 0px 0px 20px 0px;
     padding: 0.001em 10px 0.001em 10px;
 //    height: 18px;
     width: auto;
@@ -46,11 +46,13 @@
 .snsb li {
     float: left;
     margin-right: 4px;
+    line-height:  0;
     list-style-type: none;
 }
 .snsb iframe {
     margin: 0 !important;
 }
+
 .sitemap{
   margin-left: 13px;
 }
@@ -70,6 +72,18 @@
   margin-top: 10px;
 }
 
+.trademark {
+    overflow: hidden;
+    clear: left;
+    margin-left: 13px;
+}
+.trademark li {
+    float: left;
+    margin-right: 4px;
+    list-style-type: none;
+}
+
+
 .left {float: left; margin-right: 1em;}
 .right {float: right; margin-left: 1em;}
 @media screen and (max-width: 480px) {
@@ -79,7 +93,6 @@
 .large {font-size: larger;}
 .hide {display: none;}
 
-li ul, li ol { margin:0 1.5em; }
 ul, ol { margin: 0 1.5em 1.5em 1.5em; }
 
 ul { list-style-type: disc; }
@@ -97,7 +110,7 @@ pre, code {
   overflow: auto;
   color: #222;
 }
-pre,tt,code,.note>p {
+pre, tt, code {
  white-space: pre-wrap;       /* css-3 */
  white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
  white-space: -pre-wrap;      /* Opera 4-6 */
@@ -158,7 +171,7 @@ body {
   text-align: center;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 87.5%;
-  line-height: 1.5em;
+  line-height: 1.8em; // Changed for better reading in Japanese
   background: #fff;
   color: #999;
 }
@@ -278,7 +291,7 @@ body {
     width: 100%;
     height: 100%;
     text-decoration: none;
-    text-transform: uppercase;
+    //text-transform: uppercase; // Changes for Japanese characters
   }
 }
 
@@ -299,13 +312,21 @@ body {
 }
 
 #container {
+  overflow: hidden;
   color: #333;
   padding: 0.5em 0 1.0em 0;
 }
 
 #mainCol {
-  max-width: 630px;
-  margin-left: 2em;
+  float:left;
+  width: 630px;
+  /*margin-left: 2em;*/
+}
+@media screen and (max-width: 920px) {
+  #mainCol {
+    clear:both;
+    width: 100%;
+  }
 }
 
 #subCol {
@@ -321,8 +342,11 @@ body {
   margin-right: 1em;
 }
 
+#subCol.remove-bg-color {
+  background: unset;
+}
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol {
     position: static;
     width: inherit;
@@ -334,6 +358,26 @@ body {
 
 #extraCol {display: none;}
 
+aside#toppage {
+  float:right;
+  width:220px;
+}
+aside#toppage img.bnr-proplan {
+  border: 1px solid #e9e1bd;
+  margin-bottom:10px;
+}
+@media screen and (max-width: 920px) {
+  aside#toppage {
+    float:unset;
+    width:100%;
+    clear:both;
+    text-align: center;
+  }
+  aside#toppage img{
+    max-width:300px;
+  }
+}
+
 #footer {
   padding: 2em 0;
   background: #222 url(../images/footer_tile.gif) repeat-x;
@@ -343,10 +387,12 @@ body {
   max-width: 960px;
 }
 
-#header .wrapper, #topNav .wrapper, #feature .wrapper {padding-left: 1em; max-width: 960px;}
+#header .wrapper, #topNav .wrapper, #feature .wrapper {
+  padding-left: 1em; max-width: 960px;
+}
 #feature .wrapper {max-width: 640px; padding-right: 23em; position: relative; z-index: 0;}
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #feature .wrapper { padding-right: 0; }
 }
 
@@ -360,6 +406,10 @@ a, a:link, a:visited {
 
 #mainCol a, #subCol a, #feature a {color: #980905;}
 #mainCol a code, #subCol a code, #feature a code {color: #980905;}
+
+#mainCol a.anchorlink, #mainCol a.anchorlink code {color: #333;}
+#mainCol a.anchorlink { text-decoration: none; }
+#mainCol a.anchorlink:hover { text-decoration: underline; }
 
 /* Navigation
 --------------------------------------- */
@@ -619,10 +669,11 @@ h6 code {
 
 #header h1 {
   float: left;
-  background: url(../images/rails_guides_logo.gif) no-repeat;
-  width: 297px;
+  background: url(../images/railsguidesjp_logo.png) no-repeat;
+  background-size: contain;
+  width: 282px;
   text-indent: -9999em;
-  margin: 0;
+  margin: 8px 0 -8px;
   padding: 0;
 }
 
@@ -721,6 +772,8 @@ h6 code {
   font-weight: normal;
 }
 
+#subCol li ul, li ol { margin:0 1.5em; }
+
 div.code_container {
   background: #EEE url(../images/tab_grey.gif) no-repeat left top;
   padding: 0.25em 1em 0.5em 48px;
@@ -777,7 +830,7 @@ div.code_container {
   -moz-border-radius: 1em;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   .top #subCol {
     min-height: 491px;
     margin-right: 6px;
@@ -796,7 +849,7 @@ div.code_container {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   .top #subCol dd.work-in-progress, #subCol dd.kindle {
     margin-left: 215px;
   }
@@ -837,7 +890,7 @@ div.code_container {
   cursor: pointer;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol .ebook {
     width: 100%;
     margin: 0px;
@@ -883,7 +936,7 @@ div.code_container {
   display:none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   #subCol .ebook img {
     width: 47%;
     float: left;
@@ -1177,4 +1230,19 @@ table td, table th { padding: 9px 10px; text-align: left; }
   table.responsive td, table.responsive th { position: relative; white-space: nowrap; overflow: hidden; }
   table.responsive th:first-child, table.responsive td:first-child, table.responsive td:first-child, table.responsive.pinned td { display: none; }
 
+}
+/* banner
+--------------------------------------- */
+.bnr-pro-team { 
+  display:flex;
+  justify-content:space-between; 
+}
+@media screen and (max-width: 630px) {
+.bnr-pro-team {
+  flex-direction:column; 
+  }
+}
+.bnr-pro-team img {
+  max-width: 100%;
+  border:5px solid #fff;
 }

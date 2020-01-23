@@ -12,8 +12,8 @@ destination: ./_site
 
 # Build settings
 markdown: kramdown
+plugins:  ['kramdown']
 exclude:
-  - unicorn.rb
   - README.md
   - Procfile
   - Gemfile

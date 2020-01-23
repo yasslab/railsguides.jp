@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>レイアウトとレンダリング | Rails ガイド</title>
+    <title>レイアウトとレンダリング - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -255,6 +249,14 @@
 </li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -262,7 +264,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="概要-部品を組み上げる"><a href="#%E6%A6%82%E8%A6%81-%E9%83%A8%E5%93%81%E3%82%92%E7%B5%84%E3%81%BF%E4%B8%8A%E3%81%92%E3%82%8B">1 概要: 部品を組み上げる</a></h3><p>本ガイドでは、コントローラ、ビュー、モデルによって形成される三角形のうち、コントローラとビューの間でのやりとりを中心に扱います。ご存じのように、Railsのコントローラはリクエストを扱うプロセス全体の流れを組織的に調整する責任を負い、(ビジネスロジックのような) 重い処理はモデルの方で行なうのが普通です。モデル側での処理が完了し、ユーザーに結果を表示する時がきたら、コントローラは処理結果をビューに渡します。このときの、コントローラからビューへの結果の渡し方こそが本ガイドの主なトピックです。</p><p>大きな流れとしては、ユーザーへのレスポンスとして送信すべき内容を決定することと、ユーザーへのレスポンスを作成するために適切なメソッドを呼び出すこともこの作業に含まれます。ユーザーに返すレスポンス画面を完全なビューにするのであれば、Railsはそのビューをさらに別のレイアウトでラッピングし、パーシャルビューとして取り出すでしょう。以後本ガイドではこれらの方法をすべて紹介します(訳注: 本ガイドではrenderを一般的な意味では「出力」、具体的な動作を指す場合は「レンダリング」と訳しています)。</p><h3 id="レスポンスを作成する"><a href="#%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 レスポンスを作成する</a></h3><p>コントローラ側から見ると、HTTPレスポンスの作成方法は以下の3とおりあります。</p>
+        <h3 id="概要-部品を組み上げる"><a class="anchorlink" href="#%E6%A6%82%E8%A6%81-%E9%83%A8%E5%93%81%E3%82%92%E7%B5%84%E3%81%BF%E4%B8%8A%E3%81%92%E3%82%8B">1 概要: 部品を組み上げる</a></h3><p>本ガイドでは、コントローラ、ビュー、モデルによって形成される三角形のうち、コントローラとビューの間でのやりとりを中心に扱います。ご存じのように、Railsのコントローラはリクエストを扱うプロセス全体の流れを組織的に調整する責任を負い、(ビジネスロジックのような) 重い処理はモデルの方で行なうのが普通です。モデル側での処理が完了し、ユーザーに結果を表示する時がきたら、コントローラは処理結果をビューに渡します。このときの、コントローラからビューへの結果の渡し方こそが本ガイドの主なトピックです。</p><p>大きな流れとしては、ユーザーへのレスポンスとして送信すべき内容を決定することと、ユーザーへのレスポンスを作成するために適切なメソッドを呼び出すこともこの作業に含まれます。ユーザーに返すレスポンス画面を完全なビューにするのであれば、Railsはそのビューをさらに別のレイアウトでラッピングし、パーシャルビューとして取り出すでしょう。以後本ガイドではこれらの方法をすべて紹介します(訳注: 本ガイドではrenderを一般的な意味では「出力」、具体的な動作を指す場合は「レンダリング」と訳しています)。</p><h3 id="レスポンスを作成する"><a class="anchorlink" href="#%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 レスポンスを作成する</a></h3><p>コントローラ側から見ると、HTTPレスポンスの作成方法は以下の3とおりあります。</p>
 <ul>
 <li>
 <code>render</code>を呼び出し、ブラウザに返す完全なレスポンスを作成する</li>
@@ -271,7 +273,7 @@
 <li>
 <code>head</code>を呼び出し、HTTPヘッダーのみで構成されたレスポンスを作成してブラウザに送信する</li>
 </ul>
-<h4 id="デフォルトの出力-アクションにおける「設定より規約」"><a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B-%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%80%8C%E8%A8%AD%E5%AE%9A%E3%82%88%E3%82%8A%E8%A6%8F%E7%B4%84%E3%80%8D">2.1 デフォルトの出力: アクションにおける「設定より規約」</a></h4><p>Railsでは「設定より規約 (CoC: convention over configuration)」というポリシーが推奨されていることをご存じかと思います。デフォルトの出力結果は、CoCのよい例でもあります。Railsのコントローラは、デフォルトでは正しいルーティングに対応する名前を持つビューを自動的に選び、それを使用してレスポンスを出力します。たとえば、<code>BooksController</code>というコントローラに以下のコードがあるとします。</p><div class="code_container">
+<h4 id="デフォルトの出力-アクションにおける「設定より規約」"><a class="anchorlink" href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B-%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%80%8C%E8%A8%AD%E5%AE%9A%E3%82%88%E3%82%8A%E8%A6%8F%E7%B4%84%E3%80%8D">2.1 デフォルトの出力: アクションにおける「設定より規約」</a></h4><p>Railsでは「設定より規約 (CoC: convention over configuration)」というポリシーが推奨されていることをご存じかと思います。デフォルトの出力結果は、CoCのよい例でもあります。Railsのコントローラは、デフォルトでは正しいルーティングに対応する名前を持つビューを自動的に選び、それを使用してレスポンスを出力します。たとえば、<code>BooksController</code>というコントローラに以下のコードがあるとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class BooksController &lt; ApplicationController
 end
@@ -285,7 +287,7 @@ end
 </pre>
 </div>
 <p><code>app/views/books/index.html.erb</code>ビューファイルの内容が以下のようになっているとします。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Books are coming soon!&lt;/h1&gt;
 
 </pre>
@@ -301,7 +303,7 @@ end
 </pre>
 </div>
 <p>上のコードでご注目いただきたいのは、「設定より規約」の原則が利いているおかげでindexアクションの最後で明示的に画面出力を指示する必要がないという点です。ここでの原則は、「コントローラのアクションの最終部分で明示的な画面出力が指示されていない場合は、コントローラが使用できるビューのパスから<code>アクション名.html.erb</code>というビューテンプレートを探し、それを使用して自動的に出力する」というものです。従って、この場合は<code>app/views/books/index.html.erb</code>ファイルが出力されます。</p><p>ビューですべての本の属性を表示したい場合は、以下のようにERBを書くことができます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Listing Books&lt;/h1&gt;
 
 &lt;table&gt;
@@ -330,7 +332,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>実際のレンダリングは、<code>ActionView::TemplateHandlers</code>のサブクラスで行われます。本ガイドではレンダリングの詳細については触れませんが、テンプレートハンドラの選択がビューテンプレートファイルの拡張子によって制御されているという重要な点は理解しておいてください。Rails 2以降におけるビューテンプレートの標準拡張子は、ERB (HTML + eMbedded RuBy) でレンダリングする場合は<code>.erb</code>、Builder (XMLジェネレータ) でレンダリングする場合は<code>.builder</code>です。</p></div><h4 id="renderを使用する"><a href="#render%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2 <code>render</code>を使用する</a></h4><p>アプリケーションがブラウザで表示するコンテンツのレンダリング (出力) という力仕事は、<code>ActionController::Base#render</code>メソッドがほぼ一手に引き受けています。<code>render</code>メソッドはさまざまな方法でカスタマイズできます。Railsテンプレートのデフォルトビューを出力することもできますし、特定のテンプレート、ファイル、インラインコードを指定して出力したり、何も出力しないこともできます。テキスト、JSON、XMLを出力することもできます。出力されるレスポンスのcontent typeやHTTPステータスを指定することもできます。</p><div class="info"><p>出力結果をブラウザで表示して調べることなく、<code>render</code>呼び出しの正確な結果を取得したい場合は、<code>render_to_string</code>を呼び出すことができます。このメソッドの動作は<code>render</code>と完全に同じであり、出力結果をブラウザに返さずに文字列を返す点だけが異なります。</p></div><h5 id="何も出力しない方法"><a href="#%E4%BD%95%E3%82%82%E5%87%BA%E5%8A%9B%E3%81%97%E3%81%AA%E3%81%84%E6%96%B9%E6%B3%95">2.2.1 何も出力しない方法</a></h5><p><code>render</code>メソッドでできる最も単純な動作は、何も出力しないことでしょう。</p><div class="code_container">
+<div class="note"><p>実際のレンダリングは、<code>ActionView::TemplateHandlers</code>のサブクラスで行われます。本ガイドではレンダリングの詳細については触れませんが、テンプレートハンドラの選択がビューテンプレートファイルの拡張子によって制御されているという重要な点は理解しておいてください。Rails 2以降におけるビューテンプレートの標準拡張子は、ERB (HTML + eMbedded RuBy) でレンダリングする場合は<code>.erb</code>、Builder (XMLジェネレータ) でレンダリングする場合は<code>.builder</code>です。</p></div><h4 id="renderを使用する"><a class="anchorlink" href="#render%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2 <code>render</code>を使用する</a></h4><p>アプリケーションがブラウザで表示するコンテンツのレンダリング (出力) という力仕事は、<code>ActionController::Base#render</code>メソッドがほぼ一手に引き受けています。<code>render</code>メソッドはさまざまな方法でカスタマイズできます。Railsテンプレートのデフォルトビューを出力することもできますし、特定のテンプレート、ファイル、インラインコードを指定して出力したり、何も出力しないこともできます。テキスト、JSON、XMLを出力することもできます。出力されるレスポンスのcontent typeやHTTPステータスを指定することもできます。</p><div class="info"><p>出力結果をブラウザで表示して調べることなく、<code>render</code>呼び出しの正確な結果を取得したい場合は、<code>render_to_string</code>を呼び出すことができます。このメソッドの動作は<code>render</code>と完全に同じであり、出力結果をブラウザに返さずに文字列を返す点だけが異なります。</p></div><h5 id="何も出力しない方法"><a class="anchorlink" href="#%E4%BD%95%E3%82%82%E5%87%BA%E5%8A%9B%E3%81%97%E3%81%AA%E3%81%84%E6%96%B9%E6%B3%95">2.2.1 何も出力しない方法</a></h5><p><code>render</code>メソッドでできる最も単純な動作は、何も出力しないことでしょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render nothing: true
 
@@ -352,7 +354,7 @@ $
 
 </pre>
 </div>
-<p>レスポンスの内容は空欄になっています (<code>Cache-Control</code>行以降にデータがない) が、ステータスコートが200 OKになっているのでリクエストが成功していることがわかります。renderメソッドの<code>:status</code>オプションを設定することでレスポンスを変更できます。何も出力しないというレスポンスは、Ajaxリクエストを使用する時に便利です。これを使用することで、リクエストが成功したという確認応答だけをブラウザに送り返すことができるからです。</p><div class="info"><p>200 OKヘッダーだけを送信したいのであれば、ここでご紹介した<code>render :nothing</code>よりも、本ガイドで後述する<code>head</code>メソッドを使用する方がおそらくよいでしょう。<code>head</code>メソッドは<code>render :nothing</code>よりも柔軟性が高く、HTTPヘッダーだけを生成していることが明確になるからです。</p></div><h5 id="action-viewを出力する"><a href="#action-view%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.2 Action Viewを出力する</a></h5><p>同じコントローラで、デフォルトと異なるテンプレートに対応するビューを出力したい場合は、<code>render</code>メソッドでビュー名を指定することができます。</p><div class="code_container">
+<p>レスポンスの内容は空欄になっています (<code>Cache-Control</code>行以降にデータがない) が、ステータスコートが200 OKになっているのでリクエストが成功していることがわかります。renderメソッドの<code>:status</code>オプションを設定することでレスポンスを変更できます。何も出力しないというレスポンスは、Ajaxリクエストを使用する時に便利です。これを使用することで、リクエストが成功したという確認応答だけをブラウザに送り返すことができるからです。</p><div class="info"><p>200 OKヘッダーだけを送信したいのであれば、ここでご紹介した<code>render :nothing</code>よりも、本ガイドで後述する<code>head</code>メソッドを使用する方がおそらくよいでしょう。<code>head</code>メソッドは<code>render :nothing</code>よりも柔軟性が高く、HTTPヘッダーだけを生成していることが明確になるからです。</p></div><h5 id="action-viewを出力する"><a class="anchorlink" href="#action-view%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.2 Action Viewを出力する</a></h5><p>同じコントローラで、デフォルトと異なるテンプレートに対応するビューを出力したい場合は、<code>render</code>メソッドでビュー名を指定することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def update
   @book = Book.find(params[:id])
@@ -378,7 +380,7 @@ end
 
 </pre>
 </div>
-<h5 id="別のコントローラからアクションのテンプレートを出力する"><a href="#%E5%88%A5%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%81%8B%E3%82%89%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.3 別のコントローラからアクションのテンプレートを出力する</a></h5><p>あるコントローラのアクションから、まったく別のコントローラの配下にあるテンプレートを使用して出力することは可能でしょうか。これも<code>render</code>メソッドだけで行なうことができます。<code>render</code>メソッドには<code>app/views</code>を起点とするフルパスを渡すことができますので、出力したいテンプレートをフルパスで指定します。たとえば、<code>app/controllers/admin</code>に置かれている<code>AdminProducts</code>コントローラのコードを実行しているとすると、<code>app/views/products</code>に置かれているビューテンプレートに対するアクションの実行結果を出力するには以下のようにします。</p><div class="code_container">
+<h5 id="別のコントローラからアクションのテンプレートを出力する"><a class="anchorlink" href="#%E5%88%A5%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%81%8B%E3%82%89%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.3 別のコントローラからアクションのテンプレートを出力する</a></h5><p>あるコントローラのアクションから、まったく別のコントローラの配下にあるテンプレートを使用して出力することは可能でしょうか。これも<code>render</code>メソッドだけで行なうことができます。<code>render</code>メソッドには<code>app/views</code>を起点とするフルパスを渡すことができますので、出力したいテンプレートをフルパスで指定します。たとえば、<code>app/controllers/admin</code>に置かれている<code>AdminProducts</code>コントローラのコードを実行しているとすると、<code>app/views/products</code>に置かれているビューテンプレートに対するアクションの実行結果を出力するには以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render "products/show"
 
@@ -390,7 +392,7 @@ render template: "products/show"
 
 </pre>
 </div>
-<h5 id="任意のファイルを使用して出力する"><a href="#%E4%BB%BB%E6%84%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.4 任意のファイルを使用して出力する</a></h5><p><code>render</code>メソッドで指定するビューは、現在のアプリケーションディレクトリの外部にあっても構いません (2つのRailsアプリケーションでビューを共有しているなどの場合)。</p><div class="code_container">
+<h5 id="任意のファイルを使用して出力する"><a class="anchorlink" href="#%E4%BB%BB%E6%84%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.4 任意のファイルを使用して出力する</a></h5><p><code>render</code>メソッドで指定するビューは、現在のアプリケーションディレクトリの外部にあっても構いません (2つのRailsアプリケーションでビューを共有しているなどの場合)。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render "/u/apps/warehouse_app/current/app/views/products/show"
 
@@ -402,7 +404,7 @@ render file: "/u/apps/warehouse_app/current/app/views/products/show"
 
 </pre>
 </div>
-<p><code>:file</code>オプションに与えるパスは、ファイルシステムの絶対パスです。当然ながら、コンテンツを出力したいファイルに対して適切なアクセス権が与えられている必要があります。</p><div class="note"><p>ファイルを出力する場合、デフォルトでは現在のレイアウトが適用されません。ファイルの出力を現在のレイアウト内で行いたい場合は、<code>layout: true</code>オプションを追加する必要があります。</p></div><div class="info"><p>Microsoft Windows上でRailsを実行している場合、ファイルを出力する際に<code>:file</code>オプションを省略できません。Windowsのファイル名フォーマットはUnixのファイル名と同じではないためです。</p></div><h5 id="まとめ"><a href="#%E3%81%BE%E3%81%A8%E3%82%81">2.2.5 まとめ</a></h5><p>これまでご紹介した3通りの出力方法 (コントローラ内の別テンプレートを使用、別のコントローラのテンプレートを使用、ファイルシステム上の任意のファイルを使用) は、実際には同一のアクションのバリエーションにすぎません。</p><p>実のところ、たとえばBooksControllerクラスのupdateアクション内で、本の更新に失敗したらeditテンプレートを出力したいとすると、以下のどのレンダリング呼び出しを行っても最終的には必ず<code>views/books</code>ディレクトリの<code>edit.html.erb</code>を使用して出力が行われます。</p><div class="code_container">
+<p><code>:file</code>オプションに与えるパスは、ファイルシステムの絶対パスです。当然ながら、コンテンツを出力したいファイルに対して適切なアクセス権が与えられている必要があります。</p><div class="note"><p>ファイルを出力する場合、デフォルトでは現在のレイアウトが適用されません。ファイルの出力を現在のレイアウト内で行いたい場合は、<code>layout: true</code>オプションを追加する必要があります。</p></div><div class="info"><p>Microsoft Windows上でRailsを実行している場合、ファイルを出力する際に<code>:file</code>オプションを省略できません。Windowsのファイル名フォーマットはUnixのファイル名と同じではないためです。</p></div><h5 id="まとめ"><a class="anchorlink" href="#%E3%81%BE%E3%81%A8%E3%82%81">2.2.5 まとめ</a></h5><p>これまでご紹介した3通りの出力方法 (コントローラ内の別テンプレートを使用、別のコントローラのテンプレートを使用、ファイルシステム上の任意のファイルを使用) は、実際には同一のアクションのバリエーションにすぎません。</p><p>実のところ、たとえばBooksControllerクラスのupdateアクション内で、本の更新に失敗したらeditテンプレートを出力したいとすると、以下のどのレンダリング呼び出しを行っても最終的には必ず<code>views/books</code>ディレクトリの<code>edit.html.erb</code>を使用して出力が行われます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render :edit
 render action: :edit
@@ -421,7 +423,7 @@ render file: "/path/to/rails/app/views/books/edit.html.erb"
 
 </pre>
 </div>
-<p>どの呼び出しを使用するかはコーディングのスタイルと規則の問題でしかありませんが、経験上なるべくシンプルな記法を使用する方がコードがわかりやすくなるでしょう。</p><h5 id="renderで-inlineオプションを使用する"><a href="#render%E3%81%A7-inline%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2.6 <code>render</code>で<code>:inline</code>オプションを使用する</a></h5><p><code>render</code>メソッドは、メソッド呼び出しの際に<code>:inline</code>オプションを使用してERBを与えると、ビューがまったくない状態でも実行することができます。これは完全に有効な方法です。</p><div class="code_container">
+<p>どの呼び出しを使用するかはコーディングのスタイルと規則の問題でしかありませんが、経験上なるべくシンプルな記法を使用する方がコードがわかりやすくなるでしょう。</p><h5 id="renderで-inlineオプションを使用する"><a class="anchorlink" href="#render%E3%81%A7-inline%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.2.6 <code>render</code>で<code>:inline</code>オプションを使用する</a></h5><p><code>render</code>メソッドは、メソッド呼び出しの際に<code>:inline</code>オプションを使用してERBを与えると、ビューがまったくない状態でも実行することができます。これは完全に有効な方法です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render inline: "&lt;% products.each do |p| %&gt;&lt;p&gt;&lt;%= p.name %&gt;&lt;/p&gt;&lt;% end %&gt;"
 
@@ -433,57 +435,57 @@ render inline: "xml.p {'Horrid coding practice!'}", type: :builder
 
 </pre>
 </div>
-<h5 id="テキストを出力する"><a href="#%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.7 テキストを出力する</a></h5><p><code>render</code>で<code>:plain</code>オプションを使用すると、平文テキストをマークアップせずにブラウザに送信することができます。</p><div class="code_container">
+<h5 id="テキストを出力する"><a class="anchorlink" href="#%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.7 テキストを出力する</a></h5><p><code>render</code>で<code>:plain</code>オプションを使用すると、平文テキストをマークアップせずにブラウザに送信することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render plain: "OK"
 
 </pre>
 </div>
-<div class="info"><p>平文テキストの出力は、AjaxやWebサービスリクエストに応答するときに最も有用です。これらではHTML以外の応答を期待しています。</p></div><div class="note"><p>デフォルトでは、<code>:plain</code>オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、<code>layout: true</code>オプションを追加する必要があります。</p></div><h5 id="htmlを出力する"><a href="#html%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.8 HTMLを出力する</a></h5><p><code>render</code>で<code>:html</code>オプションを使用すると、HTML文字列を直接ブラウザに送信することができます。</p><div class="code_container">
+<div class="info"><p>平文テキストの出力は、AjaxやWebサービスリクエストに応答するときに最も有用です。これらではHTML以外の応答を期待しています。</p></div><div class="note"><p>デフォルトでは、<code>:plain</code>オプションを使用すると出力結果に現在のレイアウトが適用されません。テキストの出力を現在のレイアウト内で行いたい場合は、<code>layout: true</code>オプションを追加する必要があります。</p></div><h5 id="htmlを出力する"><a class="anchorlink" href="#html%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.8 HTMLを出力する</a></h5><p><code>render</code>で<code>:html</code>オプションを使用すると、HTML文字列を直接ブラウザに送信することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render html: "&lt;strong&gt;Not Found&lt;/strong&gt;".html_safe
 
 </pre>
 </div>
 <div class="info"><p>この手法は、HTMLコードのごく小規模なスニペットを出力したい場合に便利です。
-スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。</p></div><div class="note"><p>このオプションを使用すると、文字列が「HTML safe」でない場合にHTML要素をエスケープします。</p></div><h5 id="jsonを出力する"><a href="#json%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.9 JSONを出力する</a></h5><p>JSONはJavaScriptのデータ形式の一種で、多くのAjaxライブラリで使用されています。Railsでは、オブジェクトからJSON形式への変換と、変換されたJSONをブラウザに送信する機能がビルトインでサポートされています。</p><div class="code_container">
+スニペットのマークアップが複雑になるようであれば、早めにテンプレートファイルに移行することをご検討ください。</p></div><div class="note"><p>このオプションを使用すると、文字列が「HTML safe」でない場合にHTML要素をエスケープします。</p></div><h5 id="jsonを出力する"><a class="anchorlink" href="#json%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.9 JSONを出力する</a></h5><p>JSONはJavaScriptのデータ形式の一種で、多くのAjaxライブラリで使用されています。Railsでは、オブジェクトからJSON形式への変換と、変換されたJSONをブラウザに送信する機能がビルトインでサポートされています。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render json: @product
 
 </pre>
 </div>
-<div class="info"><p>出力するオブジェクトに対して<code>to_json</code>を呼び出す必要はありません。<code>:json</code>オプションが指定されていれば、<code>render</code>によって<code>to_json</code>が自動的に呼び出されるようになっています。</p></div><h5 id="xmlを出力する"><a href="#xml%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.10 XMLを出力する</a></h5><p>Railsでは、オブジェクトからXML形式への変換と、変換されたXMLをブラウザに送信する機能がビルトインでサポートされています。</p><div class="code_container">
+<div class="info"><p>出力するオブジェクトに対して<code>to_json</code>を呼び出す必要はありません。<code>:json</code>オプションが指定されていれば、<code>render</code>によって<code>to_json</code>が自動的に呼び出されるようになっています。</p></div><h5 id="xmlを出力する"><a class="anchorlink" href="#xml%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.10 XMLを出力する</a></h5><p>Railsでは、オブジェクトからXML形式への変換と、変換されたXMLをブラウザに送信する機能がビルトインでサポートされています。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render xml: @product
 
 </pre>
 </div>
-<div class="info"><p>出力するオブジェクトに対して<code>to_xml</code>を呼び出す必要はありません。<code>:xml</code>オプションが指定されていれば、<code>render</code>によって<code>to_xml</code>が自動的に呼び出されるようになっています。</p></div><h5 id="vanilla-javascriptを出力する"><a href="#vanilla-javascript%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.11 Vanilla JavaScriptを出力する</a></h5><p>Railsはvanilla JavaScriptを出力することもできます。</p><div class="code_container">
+<div class="info"><p>出力するオブジェクトに対して<code>to_xml</code>を呼び出す必要はありません。<code>:xml</code>オプションが指定されていれば、<code>render</code>によって<code>to_xml</code>が自動的に呼び出されるようになっています。</p></div><h5 id="vanilla-javascriptを出力する"><a class="anchorlink" href="#vanilla-javascript%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.11 Vanilla JavaScriptを出力する</a></h5><p>Railsはvanilla JavaScriptを出力することもできます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render js: "alert('Hello Rails');"
 
 </pre>
 </div>
-<p>上のコードは、引数で与えられた文字列をMIMEタイプ<code>text/javascript</code>でブラウザに送信します。</p><h5 id="生のコンテンツを出力する"><a href="#%E7%94%9F%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.12 生のコンテンツを出力する</a></h5><p><code>render</code>で<code>:body</code>オプションを指定することで、content typeを一切指定しない生のコンテンツをブラウザに送信することができます。</p><div class="code_container">
+<p>上のコードは、引数で与えられた文字列をMIMEタイプ<code>text/javascript</code>でブラウザに送信します。</p><h5 id="生のコンテンツを出力する"><a class="anchorlink" href="#%E7%94%9F%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%82%92%E5%87%BA%E5%8A%9B%E3%81%99%E3%82%8B">2.2.12 生のコンテンツを出力する</a></h5><p><code>render</code>で<code>:body</code>オプションを指定することで、content typeを一切指定しない生のコンテンツをブラウザに送信することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render body: "raw"
 
 </pre>
 </div>
-<div class="info"><p>このオプションを使用するのは、レスポンスのcontent typeがどんなものであってもよい場合のみにしてください。ほとんどの場合、<code>:plain</code>や<code>:html</code>などを使用する方が適切です。</p></div><div class="note"><p>このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り<code>text/html</code>が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。</p></div><h5 id="renderのオプション"><a href="#render%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13 <code>render</code>のオプション</a></h5><p><code>render</code>メソッドに対する呼び出しでは、一般に以下の4つのオプションが使用できます。</p>
+<div class="info"><p>このオプションを使用するのは、レスポンスのcontent typeがどんなものであってもよい場合のみにしてください。ほとんどの場合、<code>:plain</code>や<code>:html</code>などを使用する方が適切です。</p></div><div class="note"><p>このオプションを使用してブラウザに送信されるレスポンスは、上書きされない限り<code>text/html</code>が使用されます。これはAction Dispatchによるレスポンスのデフォルトのcontent typeであるためです。</p></div><h5 id="renderのオプション"><a class="anchorlink" href="#render%E3%81%AE%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13 <code>render</code>のオプション</a></h5><p><code>render</code>メソッドに対する呼び出しでは、一般に以下の4つのオプションが使用できます。</p>
 <ul>
 <li><code>:content_type</code></li>
 <li><code>:layout</code></li>
 <li><code>:location</code></li>
 <li><code>:status</code></li>
 </ul>
-<h6 id="content-typeオプション"><a href="#content-type%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.1 <code>:content_type</code>オプション</a></h6><p>Railsがデフォルトで出力する結果のMIME content-typeは、デフォルトで<code>text/html</code>になります (ただし<code>:json</code>を指定した場合には<code>application/json</code>、<code>:xml</code>を使用した場合は<code>application/xml</code>になります)。content-typeを変更したい場合は、<code>:content_type</code>オプションを指定します。</p><div class="code_container">
+<h6 id="content-typeオプション"><a class="anchorlink" href="#content-type%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.1 <code>:content_type</code>オプション</a></h6><p>Railsがデフォルトで出力する結果のMIME content-typeは、デフォルトで<code>text/html</code>になります (ただし<code>:json</code>を指定した場合には<code>application/json</code>、<code>:xml</code>を使用した場合は<code>application/xml</code>になります)。content-typeを変更したい場合は、<code>:content_type</code>オプションを指定します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render file: filename, content_type: "application/rss"
 
 </pre>
 </div>
-<h6 id="layoutオプション"><a href="#layout%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.2 <code>:layout</code>オプション</a></h6><p><code>render</code>で指定できるほとんどのオプションでは、出力されるコンテンツは現在のレイアウトの一部としてブラウザ上で表示されます。これより、レイアウトの詳細と利用法について本ガイドで説明します。</p><p><code>:layout</code>オプションを指定すると、現在のアクションに対して特定のファイルをレイアウトとして使用します。</p><div class="code_container">
+<h6 id="layoutオプション"><a class="anchorlink" href="#layout%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.2 <code>:layout</code>オプション</a></h6><p><code>render</code>で指定できるほとんどのオプションでは、出力されるコンテンツは現在のレイアウトの一部としてブラウザ上で表示されます。これより、レイアウトの詳細と利用法について本ガイドで説明します。</p><p><code>:layout</code>オプションを指定すると、現在のアクションに対して特定のファイルをレイアウトとして使用します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render layout: "special_layout"
 
@@ -495,13 +497,13 @@ render layout: false
 
 </pre>
 </div>
-<h6 id="locationオプション"><a href="#location%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.3 <code>:location</code>オプション</a></h6><p><code>:location</code>を使用することで、HTTPの<code>Location</code>ヘッダーを設定できます。</p><div class="code_container">
+<h6 id="locationオプション"><a class="anchorlink" href="#location%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.3 <code>:location</code>オプション</a></h6><p><code>:location</code>を使用することで、HTTPの<code>Location</code>ヘッダーを設定できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render xml: photo, location: photo_url(photo)
 
 </pre>
 </div>
-<h6 id="statusオプション"><a href="#status%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.4 <code>:status</code>オプション</a></h6><p>Railsが返すレスポンスのHTTPステータスコードは自動的に生成されます (ほとんどの場合<code>200 OK</code>となります)。<code>:status</code>オプションを使用することで、レスポンスのステータスコードを変更できます。</p><div class="code_container">
+<h6 id="statusオプション"><a class="anchorlink" href="#status%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">2.2.13.4 <code>:status</code>オプション</a></h6><p>Railsが返すレスポンスのHTTPステータスコードは自動的に生成されます (ほとんどの場合<code>200 OK</code>となります)。<code>:status</code>オプションを使用することで、レスポンスのステータスコードを変更できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render status: 500
 render status: :forbidden
@@ -810,7 +812,7 @@ render status: :forbidden
 </tr>
 </tbody>
 </table>
-<h5 id="レイアウトの探索順序"><a href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E6%8E%A2%E7%B4%A2%E9%A0%86%E5%BA%8F">2.2.14 レイアウトの探索順序</a></h5><p>Railsは現在のレイアウトを探索する場合、最初に現在のコントローラと同じ基本名を持つレイアウトが<code>app/views/layouts</code>ディレクトリにあるかどうかを調べます。たとえば、<code>PhotosController</code>クラスのアクションから出力するのであれば、<code>app/views/layouts/photos.html.erb</code>または<code>app/views/layouts/photos.builder</code>を探します。該当のコントローラに属するレイアウトがない場合、<code>app/views/layouts/application.html.erb</code>または<code>app/views/layouts/application.builder</code>を使用します。<code>.erb</code>レイアウトがない場合、<code>.builder</code>レイアウトがあればそれを使用します。Railsには、各コントローラやアクションに割り当てる特定のレイアウトをもっと正確に指定する方法がいくつも用意されています。</p><h6 id="コントローラ用のレイアウトを指定する"><a href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E7%94%A8%E3%81%AE%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B">2.2.14.1 コントローラ用のレイアウトを指定する</a></h6><p><code>layout</code>宣言を使用することで、デフォルトのレイアウト名ルールを上書きすることができます。例: </p><div class="code_container">
+<h5 id="レイアウトの探索順序"><a class="anchorlink" href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E6%8E%A2%E7%B4%A2%E9%A0%86%E5%BA%8F">2.2.14 レイアウトの探索順序</a></h5><p>Railsは現在のレイアウトを探索する場合、最初に現在のコントローラと同じ基本名を持つレイアウトが<code>app/views/layouts</code>ディレクトリにあるかどうかを調べます。たとえば、<code>PhotosController</code>クラスのアクションから出力するのであれば、<code>app/views/layouts/photos.html.erb</code>または<code>app/views/layouts/photos.builder</code>を探します。該当のコントローラに属するレイアウトがない場合、<code>app/views/layouts/application.html.erb</code>または<code>app/views/layouts/application.builder</code>を使用します。<code>.erb</code>レイアウトがない場合、<code>.builder</code>レイアウトがあればそれを使用します。Railsには、各コントローラやアクションに割り当てる特定のレイアウトをもっと正確に指定する方法がいくつも用意されています。</p><h6 id="コントローラ用のレイアウトを指定する"><a class="anchorlink" href="#%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E7%94%A8%E3%81%AE%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B">2.2.14.1 コントローラ用のレイアウトを指定する</a></h6><p><code>layout</code>宣言を使用することで、デフォルトのレイアウト名ルールを上書きすることができます。例: </p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProductsController &lt; ApplicationController
   layout "inventory"
@@ -828,7 +830,7 @@ end
 
 </pre>
 </div>
-<p>この宣言によって、アプリケーションのすべてのビューで使用されるレイアウトは<code>app/views/layouts/main.html.erb</code>になります。</p><h6 id="実行時にレイアウトを指定する"><a href="#%E5%AE%9F%E8%A1%8C%E6%99%82%E3%81%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B">2.2.14.2 実行時にレイアウトを指定する</a></h6><p>レイアウトの指定にシンボルを使用することで、リクエストが実際に処理されるときまでレイアウトを確定せず、選択を遅延することができます。</p><div class="code_container">
+<p>この宣言によって、アプリケーションのすべてのビューで使用されるレイアウトは<code>app/views/layouts/main.html.erb</code>になります。</p><h6 id="実行時にレイアウトを指定する"><a class="anchorlink" href="#%E5%AE%9F%E8%A1%8C%E6%99%82%E3%81%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B">2.2.14.2 実行時にレイアウトを指定する</a></h6><p>レイアウトの指定にシンボルを使用することで、リクエストが実際に処理されるときまでレイアウトを確定せず、選択を遅延することができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProductsController &lt; ApplicationController
   layout :products_layout
@@ -854,7 +856,7 @@ end
 
 </pre>
 </div>
-<h6 id="条件付きレイアウト"><a href="#%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">2.2.14.3 条件付きレイアウト</a></h6><p>コントローラレベルで指定されたレイアウトでは、<code>:only</code>オプションと<code>:except</code>オプションがサポートされています。これらのオプションは、単一のメソッド名またはメソッド名の配列を引数として受け取ります。渡すメソッド名はコントローラ内のメソッド名に対応します。</p><div class="code_container">
+<h6 id="条件付きレイアウト"><a class="anchorlink" href="#%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">2.2.14.3 条件付きレイアウト</a></h6><p>コントローラレベルで指定されたレイアウトでは、<code>:only</code>オプションと<code>:except</code>オプションがサポートされています。これらのオプションは、単一のメソッド名またはメソッド名の配列を引数として受け取ります。渡すメソッド名はコントローラ内のメソッド名に対応します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class ProductsController &lt; ApplicationController
   layout "product", except: [:index, :rss]
@@ -862,7 +864,7 @@ end
 
 </pre>
 </div>
-<p>上の宣言によって、<code>rss</code>メソッドと<code>index</code>メソッド以外のすべてのメソッドに<code>product</code>レイアウトが適用されます。</p><h6 id="レイアウトの継承"><a href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E7%B6%99%E6%89%BF">2.2.14.4 レイアウトの継承</a></h6><p>レイアウト宣言は下の階層に継承されます。下の階層、つまりより具体的なレイアウト宣言は、上の階層、つまりより一般的なレイアウトよりも常に優先されます。例: </p>
+<p>上の宣言によって、<code>rss</code>メソッドと<code>index</code>メソッド以外のすべてのメソッドに<code>product</code>レイアウトが適用されます。</p><h6 id="レイアウトの継承"><a class="anchorlink" href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E7%B6%99%E6%89%BF">2.2.14.4 レイアウトの継承</a></h6><p>レイアウト宣言は下の階層に継承されます。下の階層、つまりより具体的なレイアウト宣言は、上の階層、つまりより一般的なレイアウトよりも常に優先されます。例: </p>
 <ul>
 <li>
 <p><code>application_controller.rb</code></p>
@@ -930,7 +932,7 @@ end
 <li>
 <code>OldPostsController#index</code>では<code>old</code>レイアウトが使用されます。</li>
 </ul>
-<h5 id="二重レンダリングエラーを避ける"><a href="#%E4%BA%8C%E9%87%8D%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92%E9%81%BF%E3%81%91%E3%82%8B">2.2.15 二重レンダリングエラーを避ける</a></h5><p>Rails開発をやっていれば、一度は "Can only render or redirect once per action" エラーに遭遇したことがあるでしょう。いまいましいエラーですが、修正は比較的簡単です。このエラーはほとんどの場合、開発者が<code>render</code>メソッドの基本的な動作を誤って理解していることが原因です。</p><p>このエラーを発生する以下のコードを例にとって説明しましょう。</p><div class="code_container">
+<h5 id="二重レンダリングエラーを避ける"><a class="anchorlink" href="#%E4%BA%8C%E9%87%8D%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92%E9%81%BF%E3%81%91%E3%82%8B">2.2.15 二重レンダリングエラーを避ける</a></h5><p>Rails開発をやっていれば、一度は "Can only render or redirect once per action" エラーに遭遇したことがあるでしょう。いまいましいエラーですが、修正は比較的簡単です。このエラーはほとんどの場合、開発者が<code>render</code>メソッドの基本的な動作を誤って理解していることが原因です。</p><p>このエラーを発生する以下のコードを例にとって説明しましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def show
   @book = Book.find(params[:id])
@@ -965,7 +967,7 @@ end
 
 </pre>
 </div>
-<p>上のコードは、ある本が<code>special?</code>である場合にのみ<code>special_show</code>テンプレートを使用して出力します。それ以外の場合は<code>show</code>テンプレートを使用して出力します。</p><h4 id="redirect-toを使用する"><a href="#redirect-to%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.3 <code>redirect_to</code>を使用する</a></h4><p>HTTPリクエストにレスポンスを返すもう一つの方法は、<code>redirect_to</code>を使用することです。前述のとおり、<code>render</code>はレスポンス構成時にどのビュー (または他のアセット) を使用するかを指定するためのものです。<code>redirect_to</code>メソッドは、この点において<code>render</code>メソッドと根本的に異なります。<code>redirect_to</code>メソッドは、別のURLに対して改めてリクエストを再送信するよう、ブラウザに指令を出すためのものです。たとえば以下の呼び出しを行なうと、アプリケーションで現在どのページが表示されていても、写真のインデックス表示ページにリダイレクトされます。</p><div class="code_container">
+<p>上のコードは、ある本が<code>special?</code>である場合にのみ<code>special_show</code>テンプレートを使用して出力します。それ以外の場合は<code>show</code>テンプレートを使用して出力します。</p><h4 id="redirect-toを使用する"><a class="anchorlink" href="#redirect-to%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">2.3 <code>redirect_to</code>を使用する</a></h4><p>HTTPリクエストにレスポンスを返すもう一つの方法は、<code>redirect_to</code>を使用することです。前述のとおり、<code>render</code>はレスポンス構成時にどのビュー (または他のアセット) を使用するかを指定するためのものです。<code>redirect_to</code>メソッドは、この点において<code>render</code>メソッドと根本的に異なります。<code>redirect_to</code>メソッドは、別のURLに対して改めてリクエストを再送信するよう、ブラウザに指令を出すためのものです。たとえば以下の呼び出しを行なうと、アプリケーションで現在どのページが表示されていても、写真のインデックス表示ページにリダイレクトされます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 redirect_to photos_url
 
@@ -977,13 +979,13 @@ redirect_to :back
 
 </pre>
 </div>
-<h5 id="リダイレクトのステータスコードを変更する"><a href="#%E3%83%AA%E3%83%80%E3%82%A4%E3%83%AC%E3%82%AF%E3%83%88%E3%81%AE%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">2.3.1 リダイレクトのステータスコードを変更する</a></h5><p><code>redirect_to</code>を呼び出すと、一時的なリダイレクトを意味するHTTPステータスコード302がブラウザに返され、ブラウザはそれに基いてリダイレクトを行います。別のステータスコード (301: 恒久的なリダイレクトがよく使われます) に変更するには<code>:status</code>オプションを使用します。</p><div class="code_container">
+<h5 id="リダイレクトのステータスコードを変更する"><a class="anchorlink" href="#%E3%83%AA%E3%83%80%E3%82%A4%E3%83%AC%E3%82%AF%E3%83%88%E3%81%AE%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E5%A4%89%E6%9B%B4%E3%81%99%E3%82%8B">2.3.1 リダイレクトのステータスコードを変更する</a></h5><p><code>redirect_to</code>を呼び出すと、一時的なリダイレクトを意味するHTTPステータスコード302がブラウザに返され、ブラウザはそれに基いてリダイレクトを行います。別のステータスコード (301: 恒久的なリダイレクトがよく使われます) に変更するには<code>:status</code>オプションを使用します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 redirect_to photos_path, status: 301
 
 </pre>
 </div>
-<p><code>render</code>の<code>:status</code>オプションの場合と同様、<code>redirect_to</code>の<code>:status</code>もヘッダーを指定する時に数値の他にシンボルも使用できます。</p><h5 id="renderとredirect-toの違い"><a href="#render%E3%81%A8redirect-to%E3%81%AE%E9%81%95%E3%81%84">2.3.2 <code>render</code>と<code>redirect_to</code>の違い</a></h5><p>ときおり、<code>redirect_to</code>を一種の<code>goto</code>コマンドとして理解している開発初心者を見かけます。Railsコードの実行位置をある場所から別の場所に移動するコマンドであると考えているわけです。これは <em>正しくありません</em> 。<code>redirect_to</code>を実行した後、コードはそこで実行を終了し、ブラウザからの次のリクエストを待ちます (通常のスタンバイ状態)。その直後、<code>redirect_to</code>でブラウザに送信したHTTPステータスコード302に従って、ブラウザから別のURLへのリクエストがサーバーに送信され、サーバーはそのリクエストを改めて処理します。それ以外のことは行っていません。</p><p><code>render</code>と<code>redirect_to</code>の違いを以下のアクションで比較してみましょう。</p><div class="code_container">
+<p><code>render</code>の<code>:status</code>オプションの場合と同様、<code>redirect_to</code>の<code>:status</code>もヘッダーを指定する時に数値の他にシンボルも使用できます。</p><h5 id="renderとredirect-toの違い"><a class="anchorlink" href="#render%E3%81%A8redirect-to%E3%81%AE%E9%81%95%E3%81%84">2.3.2 <code>render</code>と<code>redirect_to</code>の違い</a></h5><p>ときおり、<code>redirect_to</code>を一種の<code>goto</code>コマンドとして理解している開発初心者を見かけます。Railsコードの実行位置をある場所から別の場所に移動するコマンドであると考えているわけです。これは <em>正しくありません</em> 。<code>redirect_to</code>を実行した後、コードはそこで実行を終了し、ブラウザからの次のリクエストを待ちます (通常のスタンバイ状態)。その直後、<code>redirect_to</code>でブラウザに送信したHTTPステータスコード302に従って、ブラウザから別のURLへのリクエストがサーバーに送信され、サーバーはそのリクエストを改めて処理します。それ以外のことは行っていません。</p><p><code>render</code>と<code>redirect_to</code>の違いを以下のアクションで比較してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def index
   @books = Book.all
@@ -1030,7 +1032,7 @@ end
 
 </pre>
 </div>
-<p>上のコードの動作は次のとおりです。指定されたidを持つ本が見つからない場合は、モデル内のすべての蔵書リストを<code>@books</code>インスタンス変数に保存します。続いてflashによる警告メッセージを追加し、さらに<code>index.html.erb</code>テンプレートを直接レンダリングしてから出力結果をブラウザに送り返します。</p><h4 id="headでヘッダのみのレスポンスを生成する"><a href="#head%E3%81%A7%E3%83%98%E3%83%83%E3%83%80%E3%81%AE%E3%81%BF%E3%81%AE%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">2.4 <code>head</code>でヘッダのみのレスポンスを生成する</a></h4><p><code>head</code>メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。このメソッド名は<code>render :nothing</code>よりも動作を明確に表しています。<code>head</code>メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます (<a href="#status%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">参照テーブル</a> 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。</p><div class="code_container">
+<p>上のコードの動作は次のとおりです。指定されたidを持つ本が見つからない場合は、モデル内のすべての蔵書リストを<code>@books</code>インスタンス変数に保存します。続いてflashによる警告メッセージを追加し、さらに<code>index.html.erb</code>テンプレートを直接レンダリングしてから出力結果をブラウザに送り返します。</p><h4 id="headでヘッダのみのレスポンスを生成する"><a class="anchorlink" href="#head%E3%81%A7%E3%83%98%E3%83%83%E3%83%80%E3%81%AE%E3%81%BF%E3%81%AE%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">2.4 <code>head</code>でヘッダのみのレスポンスを生成する</a></h4><p><code>head</code>メソッドを使用することで、ヘッダだけで本文 (body) のないレスポンスをブラウザに送信できます。このメソッド名は<code>render :nothing</code>よりも動作を明確に表しています。<code>head</code>メソッドには、HTTPステータスコードを示す多くのシンボルを引数として指定できます (<a href="#status%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">参照テーブル</a> 参照)。オプションの引数はヘッダ名と値をペアにしたハッシュ値として解釈されます。たとえば、以下のコードはエラーヘッダーのみのレスポンスを返すことができます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 head :bad_request
 
@@ -1069,7 +1071,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<h3 id="レイアウトを構成する"><a href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%A7%8B%E6%88%90%E3%81%99%E3%82%8B">3 レイアウトを構成する</a></h3><p>Railsがビューからレスポンスを出力するときには、そのビューには現在のレイアウトも組み込まれます。現在のレイアウトを探索するときのルールは、本ガイドで既に説明したものが使用されます。レイアウト内では、さまざまな出力の断片を組み合わせて最終的なレスポンス出力を得るための3つのツールを利用できます。</p>
+<h3 id="レイアウトを構成する"><a class="anchorlink" href="#%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E6%A7%8B%E6%88%90%E3%81%99%E3%82%8B">3 レイアウトを構成する</a></h3><p>Railsがビューからレスポンスを出力するときには、そのビューには現在のレイアウトも組み込まれます。現在のレイアウトを探索するときのルールは、本ガイドで既に説明したものが使用されます。レイアウト内では、さまざまな出力の断片を組み合わせて最終的なレスポンス出力を得るための3つのツールを利用できます。</p>
 <ul>
 <li>Asset tags</li>
 <li>
@@ -1077,7 +1079,7 @@ Cache-Control: no-cache
 </li>
 <li>Partials</li>
 </ul>
-<h4 id="アセットタグヘルパー"><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%BF%E3%82%B0%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">3.1 アセットタグヘルパー</a></h4><p>アセットタグヘルパーが提供するメソッドは、フィード、JavaScript、スタイルシート、画像、動画および音声のビューにリンクするHTMLを生成するためのものです。Railsでは以下の6つのアセットタグヘルパーが利用できます。</p>
+<h4 id="アセットタグヘルパー"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%82%BF%E3%82%B0%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">3.1 アセットタグヘルパー</a></h4><p>アセットタグヘルパーが提供するメソッドは、フィード、JavaScript、スタイルシート、画像、動画および音声のビューにリンクするHTMLを生成するためのものです。Railsでは以下の6つのアセットタグヘルパーが利用できます。</p>
 <ul>
 <li><code>auto_discovery_link_tag</code></li>
 <li><code>javascript_include_tag</code></li>
@@ -1086,7 +1088,7 @@ Cache-Control: no-cache
 <li><code>video_tag</code></li>
 <li><code>audio_tag</code></li>
 </ul>
-<p>これらのタグは、レイアウトや別のビューで使用することもできます。このうち、<code>auto_discovery_link_tag</code>、<code>javascript_include_tag</code>、<code>stylesheet_link_tag</code>はレイアウトの<code>&lt;head&gt;</code>セクションで使用するのが普通です。</p><div class="warning"><p>これらのアセットタグヘルパーは、指定の場所にアセットがあるかどうかを <em>検証しません</em> 。</p></div><h5 id="auto-discovery-link-tagを使用してフィードにリンクする"><a href="#auto-discovery-link-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.1 <code>auto_discovery_link_tag</code>を使用してフィードにリンクする</a></h5><p><code>auto_discovery_link_tag</code>ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (<code>:rss</code>または<code>:atom</code>)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。</p><div class="code_container">
+<p>これらのタグは、レイアウトや別のビューで使用することもできます。このうち、<code>auto_discovery_link_tag</code>、<code>javascript_include_tag</code>、<code>stylesheet_link_tag</code>はレイアウトの<code>&lt;head&gt;</code>セクションで使用するのが普通です。</p><div class="warning"><p>これらのアセットタグヘルパーは、指定の場所にアセットがあるかどうかを <em>検証しません</em> 。</p></div><h5 id="auto-discovery-link-tagを使用してフィードにリンクする"><a class="anchorlink" href="#auto-discovery-link-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%95%E3%82%A3%E3%83%BC%E3%83%89%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.1 <code>auto_discovery_link_tag</code>を使用してフィードにリンクする</a></h5><p><code>auto_discovery_link_tag</code>ヘルパーを使用すると、多くのブラウザやフィードリーダーでRSSフィードやAtomフィードを検出できるHTMLが生成されます。このメソッドが受け取れる引数は、リンクの種類 (<code>:rss</code>または<code>:atom</code>)、url_forで渡されるオプションのハッシュ、およびタグのハッシュです。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= auto_discovery_link_tag(:rss, {action: "feed"},
   {title: "RSS Feed"}) %&gt;
@@ -1102,7 +1104,7 @@ Cache-Control: no-cache
 <li>
 <code>:title</code>はリンクのタイトルを指定します。デフォルト値は<code>:type</code>値を大文字にしたものです ("ATOM" や "RSS" など)。</li>
 </ul>
-<h5 id="javascript-include-tagを使用してjavascriptファイルにリンクする"><a href="#javascript-include-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6javascript%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.2 <code>javascript_include_tag</code>を使用してJavaScriptファイルにリンクする</a></h5><p><code>javascript_include_tag</code>ヘルパーは、指定されたソースごとにHTML <code>script</code>タグを返します。</p><p>Railsで<a href="asset_pipeline.html">アセットパイプライン</a> を有効にしている場合、JavaScriptへのリンク先は旧Railsの<code>public/javascripts</code>ではなく<code>/assets/javascripts/</code>になります。その後このリンクはアセットパイプラインによって利用可能になります。</p><p>Railsアプリケーション内やRailsエンジン内のJavaScriptファイルは、<code>app/assets</code>、<code>lib/assets</code>、<code>vendor/assets</code>のいずれかの場所に置かれます。これらの置き場所の詳細については、<a href="asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">アセットパイプラインガイドの「アセットの編成」</a> を参照してください。</p><p>好みに応じて、ドキュメントルートからの相対フルパスやURLを指定することもできます。たとえば、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>の下にある<code>javascripts</code>の下にあるJavaScriptファイルにリンクしたい場合は以下のようにします。</p><div class="code_container">
+<h5 id="javascript-include-tagを使用してjavascriptファイルにリンクする"><a class="anchorlink" href="#javascript-include-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6javascript%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.2 <code>javascript_include_tag</code>を使用してJavaScriptファイルにリンクする</a></h5><p><code>javascript_include_tag</code>ヘルパーは、指定されたソースごとにHTML <code>script</code>タグを返します。</p><p>Railsで<a href="asset_pipeline.html">アセットパイプライン</a> を有効にしている場合、JavaScriptへのリンク先は旧Railsの<code>public/javascripts</code>ではなく<code>/assets/javascripts/</code>になります。その後このリンクはアセットパイプラインによって利用可能になります。</p><p>Railsアプリケーション内やRailsエンジン内のJavaScriptファイルは、<code>app/assets</code>、<code>lib/assets</code>、<code>vendor/assets</code>のいずれかの場所に置かれます。これらの置き場所の詳細については、<a href="asset_pipeline.html#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%AE%E7%B7%A8%E6%88%90">アセットパイプラインガイドの「アセットの編成」</a> を参照してください。</p><p>好みに応じて、ドキュメントルートからの相対フルパスやURLを指定することもできます。たとえば、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>の下にある<code>javascripts</code>の下にあるJavaScriptファイルにリンクしたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= javascript_include_tag "main" %&gt;
 
@@ -1132,7 +1134,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<h5 id="stylesheet-link-tagを使用してcssファイルにリンクする"><a href="#stylesheet-link-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6css%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.3 <code>stylesheet_link_tag</code>を使用してCSSファイルにリンクする</a></h5><p><code>stylesheet_link_tag</code>ヘルパーは、提供されたソースごとにHTML <code>&lt;link&gt;</code>タグを返します。</p><p>Railsでアセットパイプラインを有効にしている場合、このヘルパーは<code>/assets/stylesheets/</code>へのリンクを生成します。その後このリンクはSprockets gemによって処理されます。スタイルシートファイルは、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>のいずれかの場所に置かれます。</p><p>ドキュメントルートからの相対フルパスやURLを指定することもできます。たとえば、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>の下にある<code>stylesheets</code>の下にあるスタイルシートファイルにリンクしたい場合は以下のようにします。</p><div class="code_container">
+<h5 id="stylesheet-link-tagを使用してcssファイルにリンクする"><a class="anchorlink" href="#stylesheet-link-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6css%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.3 <code>stylesheet_link_tag</code>を使用してCSSファイルにリンクする</a></h5><p><code>stylesheet_link_tag</code>ヘルパーは、提供されたソースごとにHTML <code>&lt;link&gt;</code>タグを返します。</p><p>Railsでアセットパイプラインを有効にしている場合、このヘルパーは<code>/assets/stylesheets/</code>へのリンクを生成します。その後このリンクはSprockets gemによって処理されます。スタイルシートファイルは、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>のいずれかの場所に置かれます。</p><p>ドキュメントルートからの相対フルパスやURLを指定することもできます。たとえば、<code>app/assets</code>、<code>lib/assets</code>、または<code>vendor/assets</code>の下にある<code>stylesheets</code>の下にあるスタイルシートファイルにリンクしたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= stylesheet_link_tag "main" %&gt;
 
@@ -1162,7 +1164,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<h5 id="image-tagを使用して画像にリンクする"><a href="#image-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E7%94%BB%E5%83%8F%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.4 <code>image_tag</code>を使用して画像にリンクする</a></h5><p><code>image_tag</code>は、特定のファイルを指すHTML <code>&lt;img /&gt;</code>タグを生成します。デフォルトでは、ファイルは<code>public/images</code>以下から読み込まれます。</p><div class="warning"><p>画像ファイルの拡張子は省略できません。</p></div><div class="code_container">
+<h5 id="image-tagを使用して画像にリンクする"><a class="anchorlink" href="#image-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E7%94%BB%E5%83%8F%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.4 <code>image_tag</code>を使用して画像にリンクする</a></h5><p><code>image_tag</code>は、特定のファイルを指すHTML <code>&lt;img /&gt;</code>タグを生成します。デフォルトでは、ファイルは<code>public/images</code>以下から読み込まれます。</p><div class="warning"><p>画像ファイルの拡張子は省略できません。</p></div><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= image_tag "header.png" %&gt;
 
@@ -1201,7 +1203,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<h5 id="video-tagを使用してビデオにリンクする"><a href="#video-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%93%E3%83%87%E3%82%AA%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.5 <code>video_tag</code>を使用してビデオにリンクする</a></h5><p><code>video_tag</code>ヘルパーは、指定されたファイルを指すHTML 5 <code>&lt;video&gt;</code>タグを生成します。デフォルトでは、ファイルは<code>public/videos</code>から読み込まれます。</p><div class="code_container">
+<h5 id="video-tagを使用してビデオにリンクする"><a class="anchorlink" href="#video-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%93%E3%83%87%E3%82%AA%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.5 <code>video_tag</code>を使用してビデオにリンクする</a></h5><p><code>video_tag</code>ヘルパーは、指定されたファイルを指すHTML 5 <code>&lt;video&gt;</code>タグを生成します。デフォルトでは、ファイルは<code>public/videos</code>から読み込まれます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= video_tag "movie.ogg" %&gt;
 
@@ -1238,7 +1240,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<h5 id="audio-tagを使用して音声ファイルにリンクする"><a href="#audio-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E9%9F%B3%E5%A3%B0%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.6 <code>audio_tag</code>を使用して音声ファイルにリンクする</a></h5><p><code>audio_tag</code>は、指定されたファイルを指すHTML 5 <code>&lt;audio&gt;</code>タグを生成します。デフォルトでは、これらのファイルは<code>public/audios</code>以下から読み込まれます。</p><div class="code_container">
+<h5 id="audio-tagを使用して音声ファイルにリンクする"><a class="anchorlink" href="#audio-tag%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E9%9F%B3%E5%A3%B0%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AB%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%99%E3%82%8B">3.1.6 <code>audio_tag</code>を使用して音声ファイルにリンクする</a></h5><p><code>audio_tag</code>は、指定されたファイルを指すHTML 5 <code>&lt;audio&gt;</code>タグを生成します。デフォルトでは、これらのファイルは<code>public/audios</code>以下から読み込まれます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= audio_tag "music.mp3" %&gt;
 
@@ -1259,8 +1261,8 @@ Cache-Control: no-cache
 <li>
 <code>autobuffer: true</code>は、ページ読み込み時にすぐ再生できるように音声ファイルを事前に読み込んでおきます。</li>
 </ul>
-<h4 id="yieldを理解する"><a href="#yield%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B">3.2 <code>yield</code>を理解する</a></h4><p><code>yield</code>メソッドは、レイアウトのコンテキストでビューを挿入すべき場所を指定するのに使用します。<code>yield</code>の最も単純な使用法は、<code>yield</code>を1つだけ使用して、現在レンダリングされているビューのコンテンツ全体をその場所に挿入するというものです。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="yieldを理解する"><a class="anchorlink" href="#yield%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B">3.2 <code>yield</code>を理解する</a></h4><p><code>yield</code>メソッドは、レイアウトのコンテキストでビューを挿入すべき場所を指定するのに使用します。<code>yield</code>の最も単純な使用法は、<code>yield</code>を1つだけ使用して、現在レンダリングされているビューのコンテンツ全体をその場所に挿入するというものです。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;html&gt;
   &lt;head&gt;
   &lt;/head&gt;
@@ -1272,7 +1274,7 @@ Cache-Control: no-cache
 </pre>
 </div>
 <p><code>yield</code>を行なう領域を複数使用するレイアウトを作成することもできます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;html&gt;
   &lt;head&gt;
   &lt;%= yield :head %&gt;
@@ -1284,8 +1286,8 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p>ビューのメイン部分は常に「名前のない」<code>yield</code>としてレンダリングされます。コンテンツを名前付きの<code>yield</code>としてレンダリングするには、<code>content_for</code>メソッドを使用します。</p><h4 id="content-forを使用する"><a href="#content-for%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.3 <code>content_for</code>を使用する</a></h4><p><code>content_for</code>メソッドを使用することで、コンテンツを名前付きの<code>yield</code>ブロックとしてレイアウトに挿入できます。たとえば、以下のビューのレンダリング結果は上で紹介したレイアウト内に挿入されます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<p>ビューのメイン部分は常に「名前のない」<code>yield</code>としてレンダリングされます。コンテンツを名前付きの<code>yield</code>としてレンダリングするには、<code>content_for</code>メソッドを使用します。</p><h4 id="content-forを使用する"><a class="anchorlink" href="#content-for%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.3 <code>content_for</code>を使用する</a></h4><p><code>content_for</code>メソッドを使用することで、コンテンツを名前付きの<code>yield</code>ブロックとしてレイアウトに挿入できます。たとえば、以下のビューのレンダリング結果は上で紹介したレイアウト内に挿入されます。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% content_for :head do %&gt;
   &lt;title&gt;A simple page&lt;/title&gt;
 &lt;% end %&gt;
@@ -1295,7 +1297,7 @@ Cache-Control: no-cache
 </pre>
 </div>
 <p>このページのレンダリング結果がレイアウトに挿入されると、最終的に以下のHTMLが出力されます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;html&gt;
   &lt;head&gt;
   &lt;title&gt;A simple page&lt;/title&gt;
@@ -1307,7 +1309,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p><code>content_for</code>メソッドは、たとえばレイアウトが「サイドバー」や「フッター」などの領域に分かれていて、それらに異なるコンテンツを挿入したいような場合に大変便利です。あるいは、多くのページで使用する共通のヘッダーがあり、このヘッダーに特定のページでのみJavaScriptやCSSファイルを挿入したい場合にも便利です。</p><h4 id="パーシャルを使用する"><a href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.4 パーシャルを使用する</a></h4><p>部分テンプレートは通常単にパーシャルと呼ばれます。パーシャルは、上とは異なる方法でレンダリング処理を扱いやすい単位に分割するためのしくみです。パーシャルを使用すると、レスポンスで表示するページの特定部分をレンダリングするためのコードを別ファイルに保存しておくことができます。</p><h5 id="パーシャルに名前を与える"><a href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%81%AB%E5%90%8D%E5%89%8D%E3%82%92%E4%B8%8E%E3%81%88%E3%82%8B">3.4.1 パーシャルに名前を与える</a></h5><p>パーシャルをビューの一部に含めて出力するには、ビュー内で<code>render</code>メソッドを使用します。</p><div class="code_container">
+<p><code>content_for</code>メソッドは、たとえばレイアウトが「サイドバー」や「フッター」などの領域に分かれていて、それらに異なるコンテンツを挿入したいような場合に大変便利です。あるいは、多くのページで使用する共通のヘッダーがあり、このヘッダーに特定のページでのみJavaScriptやCSSファイルを挿入したい場合にも便利です。</p><h4 id="パーシャルを使用する"><a class="anchorlink" href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.4 パーシャルを使用する</a></h4><p>部分テンプレートは通常単にパーシャルと呼ばれます。パーシャルは、上とは異なる方法でレンダリング処理を扱いやすい単位に分割するためのしくみです。パーシャルを使用すると、レスポンスで表示するページの特定部分をレンダリングするためのコードを別ファイルに保存しておくことができます。</p><h5 id="パーシャルに名前を与える"><a class="anchorlink" href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%81%AB%E5%90%8D%E5%89%8D%E3%82%92%E4%B8%8E%E3%81%88%E3%82%8B">3.4.1 パーシャルに名前を与える</a></h5><p>パーシャルをビューの一部に含めて出力するには、ビュー内で<code>render</code>メソッドを使用します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 &lt;%= render "menu" %&gt;
 
@@ -1319,7 +1321,7 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p>上のコードは、<code>app/views/shared/_menu.html.erb</code>パーシャルの内容をその場所でレンダリングします。</p><h5 id="シンプルなビューでパーシャルを使用する"><a href="#%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E3%83%93%E3%83%A5%E3%83%BC%E3%81%A7%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.4.2 シンプルなビューでパーシャルを使用する</a></h5><p>パーシャルの使用方法の1つは、パーシャルを一種のサブルーチンのようにみなすことです。詳細な表示内容をパーシャル化してビューから追い出し、コードを読みやすくします。例として、以下のようなビューがあるとします。</p><div class="code_container">
+<p>上のコードは、<code>app/views/shared/_menu.html.erb</code>パーシャルの内容をその場所でレンダリングします。</p><h5 id="シンプルなビューでパーシャルを使用する"><a class="anchorlink" href="#%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E3%83%93%E3%83%A5%E3%83%BC%E3%81%A7%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.4.2 シンプルなビューでパーシャルを使用する</a></h5><p>パーシャルの使用方法の1つは、パーシャルを一種のサブルーチンのようにみなすことです。詳細な表示内容をパーシャル化してビューから追い出し、コードを読みやすくします。例として、以下のようなビューがあるとします。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= render "shared/ad_banner" %&gt;
 
@@ -1332,18 +1334,18 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p>上のコードの<code>_ad_banner.html.erb</code>パーシャルと<code>_footer.html.erb</code>パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。</p><div class="info"><p>すべてのページで共有されているコンテンツであれば、パーシャルをレイアウトで使用することができます。</p></div><h5 id="パーシャルレイアウト"><a href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">3.4.3 パーシャルレイアウト</a></h5><p>ビューにレイアウトがあるのと同様、パーシャルでも独自のレイアウトファイルを使用することができます。たとえば、以下のようなパーシャルを呼び出すとします。</p><div class="code_container">
+<p>上のコードの<code>_ad_banner.html.erb</code>パーシャルと<code>_footer.html.erb</code>パーシャルに含まれるコンテンツは、アプリケーションの多くのページと共有できます。あるページを開発中、パーシャルの部分については詳細を気にせずに済みます。</p><div class="info"><p>すべてのページで共有されているコンテンツであれば、パーシャルをレイアウトで使用することができます。</p></div><h5 id="パーシャルレイアウト"><a class="anchorlink" href="#%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">3.4.3 パーシャルレイアウト</a></h5><p>ビューにレイアウトがあるのと同様、パーシャルでも独自のレイアウトファイルを使用することができます。たとえば、以下のようなパーシャルを呼び出すとします。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= render partial: "link_area", layout: "graybar" %&gt;
 
 </pre>
 </div>
-<p>上のコードは、<code>_link_area.html.erb</code>という名前のパーシャルを探し、<code>_graybar.html.erb</code>という名前のレイアウトを使用してレンダリングを行います。パーシャルレイアウトは、対応する通常のパーシャルと同様、名前の先頭にアンダースコアを追加する必要があります。そして、パーシャルとそれに対応するパーシャルレイアウトは同じディレクトリに置く必要があります。パーシャルレイアウトは<code>layouts</code>フォルダーには置けませんのでご注意ください。</p><p><code>:layout</code>などの追加オプションを渡す場合は、<code>:partial</code>オプションを明示的に指定する必要がある点にもご注意ください。</p><h5 id="ローカル変数を渡す"><a href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E5%A4%89%E6%95%B0%E3%82%92%E6%B8%A1%E3%81%99">3.4.4 ローカル変数を渡す</a></h5><p>パーシャルにローカル変数を引数として渡し、パーシャルをさらに強力かつ柔軟にすることもできます。たとえば、newページとeditページの違いがごくわずかしかないのであれば、この手法を使用してコードの重複を解消することができます。</p>
+<p>上のコードは、<code>_link_area.html.erb</code>という名前のパーシャルを探し、<code>_graybar.html.erb</code>という名前のレイアウトを使用してレンダリングを行います。パーシャルレイアウトは、対応する通常のパーシャルと同様、名前の先頭にアンダースコアを追加する必要があります。そして、パーシャルとそれに対応するパーシャルレイアウトは同じディレクトリに置く必要があります。パーシャルレイアウトは<code>layouts</code>フォルダーには置けませんのでご注意ください。</p><p><code>:layout</code>などの追加オプションを渡す場合は、<code>:partial</code>オプションを明示的に指定する必要がある点にもご注意ください。</p><h5 id="ローカル変数を渡す"><a class="anchorlink" href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E5%A4%89%E6%95%B0%E3%82%92%E6%B8%A1%E3%81%99">3.4.4 ローカル変数を渡す</a></h5><p>パーシャルにローカル変数を引数として渡し、パーシャルをさらに強力かつ柔軟にすることもできます。たとえば、newページとeditページの違いがごくわずかしかないのであれば、この手法を使用してコードの重複を解消することができます。</p>
 <ul>
 <li>
 <p><code>new.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;New zone&lt;/h1&gt;
 &lt;%= render partial: "form", locals: {zone: @zone} %&gt;
 
@@ -1353,7 +1355,7 @@ Cache-Control: no-cache
 <li>
 <p><code>edit.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Editing zone&lt;/h1&gt;
 &lt;%= render partial: "form", locals: {zone: @zone} %&gt;
 
@@ -1363,7 +1365,7 @@ Cache-Control: no-cache
 <li>
 <p><code>_form.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for(zone) do |f| %&gt;
   &lt;p&gt;
     &lt;b&gt;Zone name&lt;/b&gt;&lt;br&gt;
@@ -1390,12 +1392,12 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p>上のコードでは、<code>@customer</code>インスタンス変数に<code>Customer</code>モデルのインスタンスが含まれているとします。この場合レンダリングには<code>_customer.html.erb</code>パーシャルが使用され、このパーシャルには<code>customer</code>ローカル変数が渡されます。この<code>customer</code>ローカル変数は、親ビューにある<code>@customer</code>インスタンス変数を指します。</p><h5 id="コレクションをレンダリングする"><a href="#%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B">3.4.5 コレクションをレンダリングする</a></h5><p>パーシャルはデータの繰り返し (コレクション) を出力する場合にもきわめて便利です。<code>:collection</code>オプションを使用してパーシャルにコレクションを渡すと、コレクションのメンバごとにパーシャルがレンダリングされて挿入されます。</p>
+<p>上のコードでは、<code>@customer</code>インスタンス変数に<code>Customer</code>モデルのインスタンスが含まれているとします。この場合レンダリングには<code>_customer.html.erb</code>パーシャルが使用され、このパーシャルには<code>customer</code>ローカル変数が渡されます。この<code>customer</code>ローカル変数は、親ビューにある<code>@customer</code>インスタンス変数を指します。</p><h5 id="コレクションをレンダリングする"><a class="anchorlink" href="#%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B">3.4.5 コレクションをレンダリングする</a></h5><p>パーシャルはデータの繰り返し (コレクション) を出力する場合にもきわめて便利です。<code>:collection</code>オプションを使用してパーシャルにコレクションを渡すと、コレクションのメンバごとにパーシャルがレンダリングされて挿入されます。</p>
 <ul>
 <li>
 <p><code>index.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Products&lt;/h1&gt;
 &lt;%= render partial: "product", collection: @products %&gt;
 
@@ -1405,7 +1407,7 @@ Cache-Control: no-cache
 <li>
 <p><code>_product.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;Product Name: &lt;%= product.name %&gt;&lt;/p&gt;
 
 </pre>
@@ -1413,7 +1415,7 @@ Cache-Control: no-cache
 </li>
 </ul>
 <p>パーシャルを呼び出す時に指定するコレクションが複数形の場合、パーシャルの個別のインスタンスから、出力するコレクションの個別のメンバにアクセスが行われます。このとき、パーシャル名に基づいた名前を持つ変数が使用されます。上の場合、パーシャルの名前は<code>_product</code>であり、この<code>_product</code>パーシャル内で<code>product</code>という名前の変数を使用して、出力されるインスタンスを取得できます。</p><p>このメソッドには略記法もあります。<code>@products</code>が<code>product</code>インスタンスのコレクションであるとすると、<code>index.html.erb</code>に以下のように書くことで同じ結果を得られます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Products&lt;/h1&gt;
 &lt;%= render @products %&gt;
 
@@ -1424,7 +1426,7 @@ Cache-Control: no-cache
 <li>
 <p><code>index.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Contacts&lt;/h1&gt;
 &lt;%= render [customer1, employee1, customer2, employee2] %&gt;
 
@@ -1434,7 +1436,7 @@ Cache-Control: no-cache
 <li>
 <p><code>customers/_customer.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;Customer: &lt;%= customer.name %&gt;&lt;/p&gt;
 
 </pre>
@@ -1443,7 +1445,7 @@ Cache-Control: no-cache
 <li>
 <p><code>employees/_employee.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;Employee: &lt;%= employee.name %&gt;&lt;/p&gt;
 
 </pre>
@@ -1451,13 +1453,13 @@ Cache-Control: no-cache
 </li>
 </ul>
 <p>上のコードでは、コレクションのメンバに応じて、customerパーシャルまたはemployeeパーシャルが自動的に選択されます。</p><p>コレクションが空の場合、<code>render</code>はnilを返します。以下のような簡単な方法でもよいので、代わりのコンテンツを表示するようにしましょう。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Products&lt;/h1&gt;
 &lt;%= render(@products) || "There are no products available." %&gt;
 
 </pre>
 </div>
-<h5 id="ローカル変数"><a href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E5%A4%89%E6%95%B0">3.4.6 ローカル変数</a></h5><p>パーシャル内のローカル変数をカスタマイズしたい場合は、パーシャルの呼び出し時に<code>:as</code>オプションを指定します。</p><div class="code_container">
+<h5 id="ローカル変数"><a class="anchorlink" href="#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E5%A4%89%E6%95%B0">3.4.6 ローカル変数</a></h5><p>パーシャル内のローカル変数をカスタマイズしたい場合は、パーシャルの呼び出し時に<code>:as</code>オプションを指定します。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= render partial: "product", collection: @products, as: :item %&gt;
 
@@ -1470,24 +1472,24 @@ Cache-Control: no-cache
 
 </pre>
 </div>
-<p>上の場合、<code>title</code>という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。</p><div class="info"><p>コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、コレクション名の後ろに<code>_counter</code>を追加した名前になります。たとえば、パーシャル内で<code>@products</code>をレンダリングした回数を<code>product_counter</code>変数で参照できます。ただし、このオプションは<code>as: :value</code>オプションと併用できません。</p></div><p><code>:spacer_template</code>オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。</p><h5 id="スペーサーテンプレート"><a href="#%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B5%E3%83%BC%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88">3.4.7 スペーサーテンプレート</a></h5><div class="code_container">
+<p>上の場合、<code>title</code>という名前のローカル変数に"Products Page"という値が含まれており、パーシャルからこの値にアクセスできます。</p><div class="info"><p>コレクションによって呼び出されるパーシャル内でカウンタ変数を使用することもできます。このカウンタ変数は、コレクション名の後ろに<code>_counter</code>を追加した名前になります。たとえば、パーシャル内で<code>@products</code>をレンダリングした回数を<code>product_counter</code>変数で参照できます。ただし、このオプションは<code>as: :value</code>オプションと併用できません。</p></div><p><code>:spacer_template</code>オプションを使用することで、メインパーシャルのインスタンスと交互にレンダリングされるセカンドパーシャルを指定することもできます。</p><h5 id="スペーサーテンプレート"><a class="anchorlink" href="#%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B5%E3%83%BC%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88">3.4.7 スペーサーテンプレート</a></h5><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= render partial: @products, spacer_template: "product_ruler" %&gt;
 
 </pre>
 </div>
-<p>上のコードでは、<code>_product</code>パーシャルと<code>_product</code>パーシャルの合間に<code>_product_ruler</code>パーシャル (引数なし) をレンダリングします。</p><h5 id="コレクションパーシャルレイアウト"><a href="#%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">3.4.8 コレクションパーシャルレイアウト</a></h5><p>コレクションをレンダリングするときにも<code>:layout</code>オプションを指定できます。</p><div class="code_container">
+<p>上のコードでは、<code>_product</code>パーシャルと<code>_product</code>パーシャルの合間に<code>_product_ruler</code>パーシャル (引数なし) をレンダリングします。</p><h5 id="コレクションパーシャルレイアウト"><a class="anchorlink" href="#%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%91%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">3.4.8 コレクションパーシャルレイアウト</a></h5><p>コレクションをレンダリングするときにも<code>:layout</code>オプションを指定できます。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= render partial: "product", collection: @products, layout: "special_layout" %&gt;
 
 </pre>
 </div>
-<p>このレイアウトは、コレクション内の各項目をレンダリングするたびに一緒にレンダリングされます。パーシャル内の場合と同様、このレイアウトでも現在のオブジェクトと(オブジェクト名)_counter変数を使用できます。</p><h4 id="ネストしたレイアウトを使用する"><a href="#%E3%83%8D%E3%82%B9%E3%83%88%E3%81%97%E3%81%9F%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.5 ネストしたレイアウトを使用する</a></h4><p>特定のコントローラをサポートするために、アプリケーションの標準レイアウトとの違いがごくわずかしかないようなレイアウトを使いたくなることがあります。ネストしたレイアウト (サブテンプレートと呼ばれることもあります) を使用することで、メインのレイアウトを複製して編集したりせずにこれを実現できます。例: </p><p>以下の<code>ApplicationController</code>レイアウトがあるとします。</p>
+<p>このレイアウトは、コレクション内の各項目をレンダリングするたびに一緒にレンダリングされます。パーシャル内の場合と同様、このレイアウトでも現在のオブジェクトと(オブジェクト名)_counter変数を使用できます。</p><h4 id="ネストしたレイアウトを使用する"><a class="anchorlink" href="#%E3%83%8D%E3%82%B9%E3%83%88%E3%81%97%E3%81%9F%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">3.5 ネストしたレイアウトを使用する</a></h4><p>特定のコントローラをサポートするために、アプリケーションの標準レイアウトとの違いがごくわずかしかないようなレイアウトを使いたくなることがあります。ネストしたレイアウト (サブテンプレートと呼ばれることもあります) を使用することで、メインのレイアウトを複製して編集したりせずにこれを実現できます。例: </p><p>以下の<code>ApplicationController</code>レイアウトがあるとします。</p>
 <ul>
 <li>
 <p><code>app/views/layouts/application.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;&lt;%= @page_title or "Page Title" %&gt;&lt;/title&gt;
@@ -1510,7 +1512,7 @@ Cache-Control: no-cache
 <li>
 <p><code>app/views/layouts/news.html.erb</code></p>
 <div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% content_for :stylesheets do %&gt;
   #top_menu {display: none}
   #right_menu {float: right; background-color: yellow; color: black}
@@ -1543,16 +1545,7 @@ Cache-Control: no-cache
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -1580,8 +1573,6 @@ Cache-Control: no-cache
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -1597,17 +1588,19 @@ Cache-Control: no-cache
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -1615,9 +1608,9 @@ Cache-Control: no-cache
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -1632,13 +1625,11 @@ Cache-Control: no-cache
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

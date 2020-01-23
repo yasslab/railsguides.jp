@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Rails アプリケーションのデバッグ | Rails ガイド</title>
+    <title>Rails アプリケーションのデバッグ - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -289,6 +283,14 @@
 <li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -296,14 +298,14 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="デバッグに利用できるビューヘルパー"><a href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%AB%E5%88%A9%E7%94%A8%E3%81%A7%E3%81%8D%E3%82%8B%E3%83%93%E3%83%A5%E3%83%BC%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">1 デバッグに利用できるビューヘルパー</a></h3><p>変数にどんな値が入っているかを確認する作業は何かと必要になります。Rails では以下の3つのメソッドを利用できます。</p>
+        <h3 id="デバッグに利用できるビューヘルパー"><a class="anchorlink" href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%AB%E5%88%A9%E7%94%A8%E3%81%A7%E3%81%8D%E3%82%8B%E3%83%93%E3%83%A5%E3%83%BC%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC">1 デバッグに利用できるビューヘルパー</a></h3><p>変数にどんな値が入っているかを確認する作業は何かと必要になります。Rails では以下の3つのメソッドを利用できます。</p>
 <ul>
 <li><code>debug</code></li>
 <li><code>to_yaml</code></li>
 <li><code>inspect</code></li>
 </ul>
-<h4 id="debug"><a href="#debug">1.1 <code>debug</code></a></h4><p><code>debug</code>ヘルパーは&lt;pre&gt;タグを返します。このタグの中にYAML形式でオブジェクトが出力されます。これにより、あらゆるオブジェクトを人間が読めるデータに変換できます。たとえば、以下のコードがビューにあるとします。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="debug"><a class="anchorlink" href="#debug">1.1 <code>debug</code></a></h4><p><code>debug</code>ヘルパーは&lt;pre&gt;タグを返します。このタグの中にYAML形式でオブジェクトが出力されます。これにより、あらゆるオブジェクトを人間が読めるデータに変換できます。たとえば、以下のコードがビューにあるとします。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= debug @article %&gt;
 &lt;p&gt;
   &lt;b&gt;Title:&lt;/b&gt;
@@ -329,8 +331,8 @@ Title: Rails debugging guide
 
 </pre>
 </div>
-<h4 id="to-yaml"><a href="#to-yaml">1.2 <code>to_yaml</code></a></h4><p>インスタンス変数や、その他のあらゆるオブジェクトやメソッドをYAML形式で表示します。以下のような感じで使用します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="to-yaml"><a class="anchorlink" href="#to-yaml">1.2 <code>to_yaml</code></a></h4><p>インスタンス変数や、その他のあらゆるオブジェクトやメソッドをYAML形式で表示します。以下のような感じで使用します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= simple_format @article.to_yaml %&gt;
 &lt;p&gt;
   &lt;b&gt;Title:&lt;/b&gt;
@@ -355,8 +357,8 @@ Title: Rails debugging guide
 
 </pre>
 </div>
-<h4 id="inspect"><a href="#inspect">1.3 <code>inspect</code></a></h4><p>オブジェクトの値を表示するのに便利なメソッドとして<code>inspect</code>も利用できます。特に、配列やハッシュを扱うときに便利です。このメソッドはオブジェクトの値を文字列として出力します。以下に例を示します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="inspect"><a class="anchorlink" href="#inspect">1.3 <code>inspect</code></a></h4><p>オブジェクトの値を表示するのに便利なメソッドとして<code>inspect</code>も利用できます。特に、配列やハッシュを扱うときに便利です。このメソッドはオブジェクトの値を文字列として出力します。以下に例を示します。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= [1, 2, 3, 4, 5].inspect %&gt;
 &lt;p&gt;
   &lt;b&gt;Title:&lt;/b&gt;
@@ -373,7 +375,7 @@ Title: Rails debugging guide
 
 </pre>
 </div>
-<h3 id="ロガー"><a href="#%E3%83%AD%E3%82%AC%E3%83%BC">2 ロガー</a></h3><p>実行時に情報をログに保存できるとさらに便利です。Railsは実行環境ごとに異なるログファイルを出力するようになっています。</p><h4 id="ロガーについて"><a href="#%E3%83%AD%E3%82%AC%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">2.1 ロガーについて</a></h4><p>Railsは<code>ActiveSupport::Logger</code>クラスを利用してログ情報を出力します。必要に応じて、<code>Log4r</code>など別のロガーに差し替えることもできます。</p><p>別のロガーの指定は、<code>environment.rb</code>または環境ごとの設定ファイルで行います。</p><div class="code_container">
+<h3 id="ロガー"><a class="anchorlink" href="#%E3%83%AD%E3%82%AC%E3%83%BC">2 ロガー</a></h3><p>実行時に情報をログに保存できるとさらに便利です。Railsは実行環境ごとに異なるログファイルを出力するようになっています。</p><h4 id="ロガーについて"><a class="anchorlink" href="#%E3%83%AD%E3%82%AC%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">2.1 ロガーについて</a></h4><p>Railsは<code>ActiveSupport::Logger</code>クラスを利用してログ情報を出力します。必要に応じて、<code>Log4r</code>など別のロガーに差し替えることもできます。</p><p>別のロガーの指定は、<code>environment.rb</code>または環境ごとの設定ファイルで行います。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Rails.logger = Logger.new(STDOUT)
 Rails.logger = Log4r::Logger.new("Application Log")
@@ -387,14 +389,14 @@ config.logger = Log4r::Logger.new("Application Log")
 
 </pre>
 </div>
-<div class="info"><p>ログの保存場所は、デフォルトでは<code>Rails.root/log/</code>になります。ログのファイル名は、アプリケーションが実行されるときの環境 (development/test/productionなど) が使用されます。</p></div><h4 id="ログの出力レベル"><a href="#%E3%83%AD%E3%82%B0%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%AC%E3%83%99%E3%83%AB">2.2 ログの出力レベル</a></h4><p>ログに出力されるメッセージのログレベルが、設定済みのログレベル以上になった場合に、対応するログファイルにそのメッセージが出力されます。現在のログレベルを知りたい場合は、<code>Rails.logger.level</code>メソッドを呼び出します。</p><p>指定可能なログレベルは<code>:debug</code>、<code>:info</code>、<code>:warn</code>、<code>:error</code>、<code>:fatal</code>、<code>:unknown</code>の6つであり、それぞれ0から5までの数字に対応します。デフォルトのログレベルを変更するには以下のようにします。</p><div class="code_container">
+<div class="info"><p>ログの保存場所は、デフォルトでは<code>Rails.root/log/</code>になります。ログのファイル名は、アプリケーションが実行されるときの環境 (development/test/productionなど) が使用されます。</p></div><h4 id="ログの出力レベル"><a class="anchorlink" href="#%E3%83%AD%E3%82%B0%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%AC%E3%83%99%E3%83%AB">2.2 ログの出力レベル</a></h4><p>ログに出力されるメッセージのログレベルが、設定済みのログレベル以上になった場合に、対応するログファイルにそのメッセージが出力されます。現在のログレベルを知りたい場合は、<code>Rails.logger.level</code>メソッドを呼び出します。</p><p>指定可能なログレベルは<code>:debug</code>、<code>:info</code>、<code>:warn</code>、<code>:error</code>、<code>:fatal</code>、<code>:unknown</code>の6つであり、それぞれ0から5までの数字に対応します。デフォルトのログレベルを変更するには以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.log_level = :warn # 環境ごとのイニシャライザで使用可能
 Rails.logger.level = 0 # いつでも使用可能
 
 </pre>
 </div>
-<p>これは、development環境やstating環境ではログを出力し、production環境では不要な情報をログに出力したくない場合などに便利です。</p><div class="info"><p>Railsのデフォルトログレベルは全環境で<code>debug</code>です。</p></div><h4 id="メッセージ送信"><a href="#%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E9%80%81%E4%BF%A1">2.3 メッセージ送信</a></h4><p>コントローラ、モデル、メイラーから現在のログに書き込みたい場合は、<code>logger.(debug|info|warn|error|fatal)</code>を使用します。</p><div class="code_container">
+<p>これは、development環境やstating環境ではログを出力し、production環境では不要な情報をログに出力したくない場合などに便利です。</p><div class="info"><p>Railsのデフォルトログレベルは全環境で<code>debug</code>です。</p></div><h4 id="メッセージ送信"><a class="anchorlink" href="#%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E9%80%81%E4%BF%A1">2.3 メッセージ送信</a></h4><p>コントローラ、モデル、メイラーから現在のログに書き込みたい場合は、<code>logger.(debug|info|warn|error|fatal)</code>を使用します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 logger.debug "Person attributes hash: #{@person.attributes.inspect}"
 logger.info "Processing the request..."
@@ -446,7 +448,7 @@ Completed in 0.01224 (81 reqs/sec) | DB: 0.00044 (3%) | 302 Found [http://localh
 
 </pre>
 </div>
-<p>このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが意味のない大量のメッセージでうずまることのないよう、適切なログレベルを使用するようにしてください。</p><h4 id="タグ付きログの出力"><a href="#%E3%82%BF%E3%82%B0%E4%BB%98%E3%81%8D%E3%83%AD%E3%82%B0%E3%81%AE%E5%87%BA%E5%8A%9B">2.4 タグ付きログの出力</a></h4><p>ユーザーとアカウントを多数使用するアプリケーションを実行するときに、何らかのカスタムルールを設定してログをフィルタできると便利です。Active Supportの<code>TaggedLogging</code>を使用すれば、サブドメインやリクエストIDなどを指定してログを絞り込むことができ、このようなアプリケーションのデバッグがはかどります。</p><div class="code_container">
+<p>このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが意味のない大量のメッセージでうずまることのないよう、適切なログレベルを使用するようにしてください。</p><h4 id="タグ付きログの出力"><a class="anchorlink" href="#%E3%82%BF%E3%82%B0%E4%BB%98%E3%81%8D%E3%83%AD%E3%82%B0%E3%81%AE%E5%87%BA%E5%8A%9B">2.4 タグ付きログの出力</a></h4><p>ユーザーとアカウントを多数使用するアプリケーションを実行するときに、何らかのカスタムルールを設定してログをフィルタできると便利です。Active Supportの<code>TaggedLogging</code>を使用すれば、サブドメインやリクエストIDなどを指定してログを絞り込むことができ、このようなアプリケーションのデバッグがはかどります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 logger.tagged("BCX") { logger.info "Stuff" }                            # Logs "[BCX] Stuff"
@@ -455,7 +457,7 @@ logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "
 
 </pre>
 </div>
-<h4 id="ログがパフォーマンスに与える影響"><a href="#%E3%83%AD%E3%82%B0%E3%81%8C%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%81%AB%E4%B8%8E%E3%81%88%E3%82%8B%E5%BD%B1%E9%9F%BF">2.5 ログがパフォーマンスに与える影響</a></h4><p>ログ出力がRailsアプリのパフォーマンスに与える影響は常にわずかです。ログをディスクに保存する場合は特にそうです。ただし、場合によってはそうとは言い切れないことがあります。</p><p>ログレベル<code>:debug</code>は、<code>:fatal</code>と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。</p><p>他にも、以下のように<code>Logger</code>の呼び出しを多数実行した場合には落とし穴に注意する必要があります。</p><div class="code_container">
+<h4 id="ログがパフォーマンスに与える影響"><a class="anchorlink" href="#%E3%83%AD%E3%82%B0%E3%81%8C%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%81%AB%E4%B8%8E%E3%81%88%E3%82%8B%E5%BD%B1%E9%9F%BF">2.5 ログがパフォーマンスに与える影響</a></h4><p>ログ出力がRailsアプリのパフォーマンスに与える影響は常にわずかです。ログをディスクに保存する場合は特にそうです。ただし、場合によってはそうとは言い切れないことがあります。</p><p>ログレベル<code>:debug</code>は、<code>:fatal</code>と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。</p><p>他にも、以下のように<code>Logger</code>の呼び出しを多数実行した場合には落とし穴に注意する必要があります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 logger.debug "Person attributes hash: #{@person.attributes.inspect}"
 
@@ -468,8 +470,8 @@ logger.debug {"Person attributes hash: #{@person.attributes.inspect}"}
 
 </pre>
 </div>
-<p>渡したブロックの内容 (ここでは文字列の式展開) は、debug が有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。</p><h3 id="byebug-gemを使用してデバッグする"><a href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B">3 <code>byebug</code> gemを使用してデバッグする</a></h3><p>コードが期待どおりに動作しない場合は、ログやコンソールに出力して問題を診断することができます。ただし、この方法ではエラー追跡を何度も繰り返さねばならず、根本的な原因を突き止めるには能率がよいとは言えません。
-実行中のコードに探りを入れる必要があるのであれば、最も頼りになるのはやはりデバッガーです。</p><p>デバッガーは、Railsのソースコードを追うときに、そのコードをどこで開始するのかがを知りたいときにも有用です。アプリケーションへのリクエストをすべてデバッグし、自分が書いたコードからRailsのもっと深いところへダイブする方法を本ガイドから学びましょう。</p><h4 id="セットアップ"><a href="#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">3.1 セットアップ</a></h4><p><code>byebug</code> gemを使用すると、Railsコードにブレークポイントを設定してステップ実行できます。次を実行するだけでインストールできます。</p><div class="code_container">
+<p>渡したブロックの内容 (ここでは文字列の式展開) は、debug が有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。</p><h3 id="byebug-gemを使用してデバッグする"><a class="anchorlink" href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B">3 <code>byebug</code> gemを使用してデバッグする</a></h3><p>コードが期待どおりに動作しない場合は、ログやコンソールに出力して問題を診断することができます。ただし、この方法ではエラー追跡を何度も繰り返さねばならず、根本的な原因を突き止めるには能率がよいとは言えません。
+実行中のコードに探りを入れる必要があるのであれば、最も頼りになるのはやはりデバッガーです。</p><p>デバッガーは、Railsのソースコードを追うときに、そのコードをどこで開始するのかがを知りたいときにも有用です。アプリケーションへのリクエストをすべてデバッグし、自分が書いたコードからRailsのもっと深いところへダイブする方法を本ガイドから学びましょう。</p><h4 id="セットアップ"><a class="anchorlink" href="#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">3.1 セットアップ</a></h4><p><code>byebug</code> gemを使用すると、Railsコードにブレークポイントを設定してステップ実行できます。次を実行するだけでインストールできます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ gem install byebug
 
@@ -486,7 +488,7 @@ end
 
 </pre>
 </div>
-<h4 id="シェル"><a href="#%E3%82%B7%E3%82%A7%E3%83%AB">3.2 シェル</a></h4><p>アプリケーションで<code>byebug</code>を呼び出すと、アプリケーションサーバーを実行しているターミナルウィンドウ内のデバッガーシェルで即座にデバッガーが起動し、<code>(byebug)</code>というプロンプトが表示されます。
+<h4 id="シェル"><a class="anchorlink" href="#%E3%82%B7%E3%82%A7%E3%83%AB">3.2 シェル</a></h4><p>アプリケーションで<code>byebug</code>を呼び出すと、アプリケーションサーバーを実行しているターミナルウィンドウ内のデバッガーシェルで即座にデバッガーが起動し、<code>(byebug)</code>というプロンプトが表示されます。
 実行しようとしている行の前後のコードがプロンプトの前に表示され、'=&gt;'で現在の行が示されます。以下に例を示します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 [1, 10] in /PathTo/project/app/controllers/articles_controller.rb
@@ -593,7 +595,7 @@ continue   edit     frame   kill       pp      reload    skip     undisplay
 
 </pre>
 </div>
-<h4 id="コンテキスト"><a href="#%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88">3.3 コンテキスト</a></h4><p>アプリケーションのデバッグ中は、通常と異なる「コンテキスト」に置かれます。具体的には、スタックの別の部分を通って進むコンテキストです。</p><p>デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を使用して、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行います。また、デバッグ中のプログラムが停止している位置の情報もコンテキストに含まれます。</p><p><code>backtrace</code>コマンド (またはそのエイリアスである<code>where</code>コマンド) を使用すれば、いつでもアプリケーションのバックトレースを出力できます。これは、コードのその位置に至るまでの経過を知るうえで非常に便利です。コードのある行にたどりついたとき、その経緯を知りたければ<code>backtrace</code>でわかります。</p><div class="code_container">
+<h4 id="コンテキスト"><a class="anchorlink" href="#%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88">3.3 コンテキスト</a></h4><p>アプリケーションのデバッグ中は、通常と異なる「コンテキスト」に置かれます。具体的には、スタックの別の部分を通って進むコンテキストです。</p><p>デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を使用して、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行います。また、デバッグ中のプログラムが停止している位置の情報もコンテキストに含まれます。</p><p><code>backtrace</code>コマンド (またはそのエイリアスである<code>where</code>コマンド) を使用すれば、いつでもアプリケーションのバックトレースを出力できます。これは、コードのその位置に至るまでの経過を知るうえで非常に便利です。コードのある行にたどりついたとき、その経緯を知りたければ<code>backtrace</code>でわかります。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 (byebug) where
 --&gt; #0  ArticlesController.index
@@ -628,7 +630,7 @@ continue   edit     frame   kill       pp      reload    skip     undisplay
 
 </pre>
 </div>
-<p>コードを1行ずつ実行していた場合、利用できる変数は同一です。つまり、これこそがデバッグという作業です。</p><p><code>up [n]</code> (短縮形の<code>u</code>も可) コマンドや<code>down [n]</code>コマンドを使用して、スタックを <em>n</em> フレーム上または下に移動し、コンテキストを切り替えることもできます。upはスタックフレーム番号の大きい方に進み、downは小さい方に進みます。</p><h4 id="スレッド"><a href="#%E3%82%B9%E3%83%AC%E3%83%83%E3%83%89">3.4 スレッド</a></h4><p>デバッガーで<code>thread</code>(短縮形は<code>th</code>) コマンドを使用すると、スレッド実行中にスレッドのリスト表示/停止/再開/切り替えを行えます。このコマンドには以下のささやかなオプションがあります。</p>
+<p>コードを1行ずつ実行していた場合、利用できる変数は同一です。つまり、これこそがデバッグという作業です。</p><p><code>up [n]</code> (短縮形の<code>u</code>も可) コマンドや<code>down [n]</code>コマンドを使用して、スタックを <em>n</em> フレーム上または下に移動し、コンテキストを切り替えることもできます。upはスタックフレーム番号の大きい方に進み、downは小さい方に進みます。</p><h4 id="スレッド"><a class="anchorlink" href="#%E3%82%B9%E3%83%AC%E3%83%83%E3%83%89">3.4 スレッド</a></h4><p>デバッガーで<code>thread</code>(短縮形は<code>th</code>) コマンドを使用すると、スレッド実行中にスレッドのリスト表示/停止/再開/切り替えを行えます。このコマンドには以下のささやかなオプションがあります。</p>
 <ul>
 <li>
 <code>thread</code>は現在のスレッドを表示します。</li>
@@ -641,7 +643,7 @@ continue   edit     frame   kill       pp      reload    skip     undisplay
 <li>
 <code>thread switch</code><em>n</em> は現在のスレッドコンテキストを <em>n</em> に切り替えます。</li>
 </ul>
-<p>このコマンドは他の場合にも非常に便利です。同時実行スレッドのデバッグ中に、競合状態が発生していないかどうかを確認する必要がある場合にも使えます。</p><h4 id="byebug-gemを使用してデバッグする-変数の検査"><a href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B-%E5%A4%89%E6%95%B0%E3%81%AE%E6%A4%9C%E6%9F%BB">3.5 変数の検査</a></h4><p>すべての式は、現在のコンテキストで評価されます。式を評価するには、単にその式を入力します。</p><p>次の例では、現在のコンテキスト内で定義されたインスタンス変数を出力する方法を示しています。</p><div class="code_container">
+<p>このコマンドは他の場合にも非常に便利です。同時実行スレッドのデバッグ中に、競合状態が発生していないかどうかを確認する必要がある場合にも使えます。</p><h4 id="byebug-gemを使用してデバッグする-変数の検査"><a class="anchorlink" href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B-%E5%A4%89%E6%95%B0%E3%81%AE%E6%A4%9C%E6%9F%BB">3.5 変数の検査</a></h4><p>すべての式は、現在のコンテキストで評価されます。式を評価するには、単にその式を入力します。</p><p>次の例では、現在のコンテキスト内で定義されたインスタンス変数を出力する方法を示しています。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 [3, 12] in /PathTo/project/app/controllers/articles_controller.rb
     3:
@@ -728,7 +730,7 @@ Rubyの式を評価し、変数の値をコンソールに出力することが�
 
 </pre>
 </div>
-<p>スタック内で移動するたびに、そのときの変数と値のリストが出力されます。変数の表示を止めるには、<code>undisplay</code><em>n</em> (<em>n</em> は変数番号) を実行します。上の例では変数番号は 1 になっています。</p><h4 id="ステップ実行"><a href="#%E3%82%B9%E3%83%86%E3%83%83%E3%83%97%E5%AE%9F%E8%A1%8C">3.6 ステップ実行</a></h4><p>これで、トレース実行中に現在の実行位置を確認し、利用可能な変数をいつでも確認できるようになりました。アプリケーションの実行について引き続き学んでみましょう。</p><p><code>step</code>コマンド (短縮形は<code>s</code>) を使用すると、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。</p><p><code>step</code>とよく似た<code>next</code>を使用することももちろんできますが、<code>next</code>はそのコードの行に関数やメソッドがあっても止まらずにそれらの関数やメソッドを実行してしまう点が異なります。</p><div class="info"><p><code>step n</code>や<code>next n</code>と入力することで、<code>n</code>ステップずつ進めることもできます。</p></div><p><code>next</code>と<code>step</code>の違いは次のとおりです。<code>step</code>は次のコード行を実行したらそこで止まるので、常に一度に1行だけを実行します。<code>next</code>はメソッドがあってもその中に潜らずに次の行に進みます。</p><p>たとえば、次のような状況を考えてみましょう</p><div class="code_container">
+<p>スタック内で移動するたびに、そのときの変数と値のリストが出力されます。変数の表示を止めるには、<code>undisplay</code><em>n</em> (<em>n</em> は変数番号) を実行します。上の例では変数番号は 1 になっています。</p><h4 id="ステップ実行"><a class="anchorlink" href="#%E3%82%B9%E3%83%86%E3%83%83%E3%83%97%E5%AE%9F%E8%A1%8C">3.6 ステップ実行</a></h4><p>これで、トレース実行中に現在の実行位置を確認し、利用可能な変数をいつでも確認できるようになりました。アプリケーションの実行について引き続き学んでみましょう。</p><p><code>step</code>コマンド (短縮形は<code>s</code>) を使用すると、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。</p><p><code>step</code>とよく似た<code>next</code>を使用することももちろんできますが、<code>next</code>はそのコードの行に関数やメソッドがあっても止まらずにそれらの関数やメソッドを実行してしまう点が異なります。</p><div class="info"><p><code>step n</code>や<code>next n</code>と入力することで、<code>n</code>ステップずつ進めることもできます。</p></div><p><code>next</code>と<code>step</code>の違いは次のとおりです。<code>step</code>は次のコード行を実行したらそこで止まるので、常に一度に1行だけを実行します。<code>next</code>はメソッドがあってもその中に潜らずに次の行に進みます。</p><p>たとえば、次のような状況を考えてみましょう</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Started GET "/" for 127.0.0.1 at 2014-04-11 13:39:23 +0200
 Processing by ArticlesController#index as HTML
@@ -788,7 +790,7 @@ Processing by ArticlesController#index as HTML
 
 </pre>
 </div>
-<p>これは自分のコードの、ひいてはRuby on Railsのバグを見つけ出す方法として非常に優れています。</p><h4 id="ブレークポイント"><a href="#%E3%83%96%E3%83%AC%E3%83%BC%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">3.7 ブレークポイント</a></h4><p>ブレークポイントとは、アプリケーションの実行がプログラムの特定の場所に達した時に停止する位置を指します。そしてその場所でデバッガーシェルが起動します。</p><p><code>break</code> (または<code>b</code>) コマンドを使用してブレークポイントを動的に追加できます。
+<p>これは自分のコードの、ひいてはRuby on Railsのバグを見つけ出す方法として非常に優れています。</p><h4 id="ブレークポイント"><a class="anchorlink" href="#%E3%83%96%E3%83%AC%E3%83%BC%E3%82%AF%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">3.7 ブレークポイント</a></h4><p>ブレークポイントとは、アプリケーションの実行がプログラムの特定の場所に達した時に停止する位置を指します。そしてその場所でデバッガーシェルが起動します。</p><p><code>break</code> (または<code>b</code>) コマンドを使用してブレークポイントを動的に追加できます。
 手動でブレークポイントを追加する方法は次の 3 とおりです。</p>
 <ul>
 <li>
@@ -841,19 +843,19 @@ No breakpoints.
 <li>
 <code>disable breakpoints</code>: <em>breakpoints</em>で指定したブレークポイントのリストで停止しなくなります。</li>
 </ul>
-<h4 id="例外のキャッチ"><a href="#%E4%BE%8B%E5%A4%96%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%83%81">3.8 例外のキャッチ</a></h4><p><code>catch exception-name</code> (省略形は <code>cat exception-name</code>) を使用すると、例外を受けるハンドラが他にないと考えられる場合に、<em>exception-name</em>で例外の種類を指定してインターセプトできます。</p><p>例外のキャッチポイントをすべてリスト表示するには単に<code>catch</code>と入力します。</p><h4 id="実行再開"><a href="#%E5%AE%9F%E8%A1%8C%E5%86%8D%E9%96%8B">3.9 実行再開</a></h4><p>デバッガーで停止したアプリケーションの再開方法は2種類あります。</p>
+<h4 id="例外のキャッチ"><a class="anchorlink" href="#%E4%BE%8B%E5%A4%96%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%83%81">3.8 例外のキャッチ</a></h4><p><code>catch exception-name</code> (省略形は <code>cat exception-name</code>) を使用すると、例外を受けるハンドラが他にないと考えられる場合に、<em>exception-name</em>で例外の種類を指定してインターセプトできます。</p><p>例外のキャッチポイントをすべてリスト表示するには単に<code>catch</code>と入力します。</p><h4 id="実行再開"><a class="anchorlink" href="#%E5%AE%9F%E8%A1%8C%E5%86%8D%E9%96%8B">3.9 実行再開</a></h4><p>デバッガーで停止したアプリケーションの再開方法は2種類あります。</p>
 <ul>
 <li>
 <code>continue</code> [line-specification] (または<code>c</code>): スクリプトが直前に停止していたアドレスからプログラムの実行を再開します。このとき、それまで設定されていたブレークポイントはすべて無視されます。オプションとして、特定の行番号をワンタイムブレークポイントとして[line-specification]で指定できます。このワンタイムブレークポイントに達するとブレークポイントは削除されます。</li>
 <li>
 <code>finish</code> [frame-number] (or <code>fin</code>): 指定のスタックフレームが返るまで実行を続けます。frame-numberが指定されていない場合は、現在選択しているフレームが返るまで実行を続けます。フレーム位置が指定されていない (upやdownやフレーム番号指定が行われていない) 場合は、現在の位置から最も近いフレームまたは0フレームから開始します。フレーム番号を指定すると、そのフレームが返るまで実行を続けます。</li>
 </ul>
-<h4 id="編集"><a href="#%E7%B7%A8%E9%9B%86">3.10 編集</a></h4><p>デバッガー上のコードをエディタで開くためのコマンドは2種類あります。</p>
+<h4 id="編集"><a class="anchorlink" href="#%E7%B7%A8%E9%9B%86">3.10 編集</a></h4><p>デバッガー上のコードをエディタで開くためのコマンドは2種類あります。</p>
 <ul>
 <li>
 <code>edit [file:line]</code>: <em>file</em>をエディタで開きます。エディタはEDITOR環境変数で指定します。<em>line</em>で行数を指定することもできます。</li>
 </ul>
-<h4 id="終了"><a href="#%E7%B5%82%E4%BA%86">3.11 終了</a></h4><p>デバッガーを終了するには、<code>quit</code>コマンド (短縮形は <code>q</code>) または別名の<code>exit</code>を使用します。</p><p>quitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。</p><h4 id="byebug-gemを使用してデバッグする-設定"><a href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B-%E8%A8%AD%E5%AE%9A">3.12 設定</a></h4><p><code>byebug</code>の振る舞いを変更するためのオプションがいくつかあります。</p>
+<h4 id="終了"><a class="anchorlink" href="#%E7%B5%82%E4%BA%86">3.11 終了</a></h4><p>デバッガーを終了するには、<code>quit</code>コマンド (短縮形は <code>q</code>) または別名の<code>exit</code>を使用します。</p><p>quitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。</p><h4 id="byebug-gemを使用してデバッグする-設定"><a class="anchorlink" href="#byebug-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E3%81%99%E3%82%8B-%E8%A8%AD%E5%AE%9A">3.12 設定</a></h4><p><code>byebug</code>の振る舞いを変更するためのオプションがいくつかあります。</p>
 <ul>
 <li>
 <code>set autoreload</code>: ソースコードが変更されると再読み込みします (デフォルト: true)。</li>
@@ -872,7 +874,7 @@ set listsize 25
 
 </pre>
 </div>
-<h3 id="web-console-gemを使用するデバッグ"><a href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0">4 <code>web-console</code> gemを使用するデバッグ</a></h3><p>Web Consoleは<code>byebug</code>と似ていますが、ブラウザ上で動作する点が異なります。開発中のどのページでも、ビューやコントローラのコンテキストでコンソールをリクエストできます。コンソールは、HTMLコンテンツの隣に表示されます。</p><h4 id="console"><a href="#console">4.1 Console</a></h4><p><code>console</code>メソッドを呼び出すことで、任意のコントローラのアクションやビューでいつでもコンソールを呼び出せます。</p><p>たとえば、コントローラで以下のように呼び出せます。</p><div class="code_container">
+<h3 id="web-console-gemを使用するデバッグ"><a class="anchorlink" href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0">4 <code>web-console</code> gemを使用するデバッグ</a></h3><p>Web Consoleは<code>byebug</code>と似ていますが、ブラウザ上で動作する点が異なります。開発中のどのページでも、ビューやコントローラのコンテキストでコンソールをリクエストできます。コンソールは、HTMLコンテンツの隣に表示されます。</p><h4 id="console"><a class="anchorlink" href="#console">4.1 Console</a></h4><p><code>console</code>メソッドを呼び出すことで、任意のコントローラのアクションやビューでいつでもコンソールを呼び出せます。</p><p>たとえば、コントローラで以下のように呼び出せます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ApplicationController
   def new
@@ -884,21 +886,21 @@ end
 </pre>
 </div>
 <p>ビューでも以下のように呼び出せます。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% console %&gt;
 
 &lt;h2&gt;New Post&lt;/h2&gt;
 
 </pre>
 </div>
-<p>上のコードは、ビューの内部でコンソールを出力します。<code>console</code>を呼び出す位置を気にする必要はありません。コンソールは、呼び出し位置にかかわらず、HTMLコンテンツの隣りに出力されます。</p><p>コンソールでは純粋なRubyコードを実行できます。ここでカスタムクラスの定義やインスタンス化を行ったり、新しいモデルを作成したり、変数を検査したりすることができます。</p><div class="note"><p>一回のリクエストで出力できるコンソールは1つだけです。<code>console</code>呼び出しを2回以上行うと<code>web-console</code>でエラーが発生します。</p></div><h4 id="web-console-gemを使用するデバッグ-変数の検査"><a href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0-%E5%A4%89%E6%95%B0%E3%81%AE%E6%A4%9C%E6%9F%BB">4.2 変数の検査</a></h4><p><code>instance_variables</code>を呼び出すと、コンテキストで利用可能なインスタンス変数をすべてリスト表示できます。すべてのローカル変数をリスト表示したい場合は、<code>local_variables</code>を使用します。</p><h4 id="web-console-gemを使用するデバッグ-設定"><a href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0-%E8%A8%AD%E5%AE%9A">4.3 設定</a></h4>
+<p>上のコードは、ビューの内部でコンソールを出力します。<code>console</code>を呼び出す位置を気にする必要はありません。コンソールは、呼び出し位置にかかわらず、HTMLコンテンツの隣りに出力されます。</p><p>コンソールでは純粋なRubyコードを実行できます。ここでカスタムクラスの定義やインスタンス化を行ったり、新しいモデルを作成したり、変数を検査したりすることができます。</p><div class="note"><p>一回のリクエストで出力できるコンソールは1つだけです。<code>console</code>呼び出しを2回以上行うと<code>web-console</code>でエラーが発生します。</p></div><h4 id="web-console-gemを使用するデバッグ-変数の検査"><a class="anchorlink" href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0-%E5%A4%89%E6%95%B0%E3%81%AE%E6%A4%9C%E6%9F%BB">4.2 変数の検査</a></h4><p><code>instance_variables</code>を呼び出すと、コンテキストで利用可能なインスタンス変数をすべてリスト表示できます。すべてのローカル変数をリスト表示したい場合は、<code>local_variables</code>を使用します。</p><h4 id="web-console-gemを使用するデバッグ-設定"><a class="anchorlink" href="#web-console-gem%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%90%E3%83%83%E3%82%B0-%E8%A8%AD%E5%AE%9A">4.3 設定</a></h4>
 <ul>
 <li>
 <code>config.web_console.whitelisted_ips</code>: 認証済みの IPv4/IPv6アドレスとネットワークのリストです (デフォルト値: <code>127.0.0.1/8、::1</code>).</li>
 <li>
 <code>config.web_console.whiny_requests</code>: コンソール出力が抑制されている場合にメッセージをログ出力します (デフォルト値: <code>true</code>).</li>
 </ul>
-<p><code>web-console</code>はサーバー上の純粋なRubyコードをリモート評価できるので、production環境では絶対に使用しないください。</p><h3 id="メモリーリークのデバッグ"><a href="#%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC%E3%83%AA%E3%83%BC%E3%82%AF%E3%81%AE%E3%83%87%E3%83%90%E3%83%83%E3%82%B0">5 メモリーリークのデバッグ</a></h3><p>Railsに限らず、Rubyアプリケーションではメモリーリークが発生することがあります。リークはRubyコードレベルのこともあれば、Cコードレベルであることもあります。</p><p>このセクションでは、Valgrindなどのツールを使用してこうしたメモリーリークの検出と修正を行う方法をご紹介します。</p><h4 id="valgrind"><a href="#valgrind">5.1 Valgrind</a></h4><p><a href="http://valgrind.org/">Valgrind</a>はLinux専用のアプリケーションであり、Cコードベースのメモリーリークや競合状態の検出を行います。</p><p>Valgrindには、さまざまなメモリー管理上のバグやスレッドバグなどを自動検出し、プログラムの詳細なプロファイリングを行うための各種ツールがあります。たとえば、インタプリタ内にあるC拡張機能が<code>malloc()</code>を呼び出した後<code>free()</code>を正しく呼び出さなかった場合、このメモリーはアプリケーションが終了するまで利用できなくなります。</p><p>Valgrindのインストール方法とRuby内での使用方法については、<a href="http://blog.evanweaver.com/articles/2008/02/05/valgrind-and-ruby/">ValgrindとRuby</a>(Evan Weaver著、英語) を参照してください。</p><h3 id="デバッグ用プラグイン"><a href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E7%94%A8%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3">6 デバッグ用プラグイン</a></h3><p>アプリケーションのエラーを検出し、デバッグするためのRailsプラグインがあります。デバッグ用に便利なプラグインのリストを以下にご紹介します。</p>
+<p><code>web-console</code>はサーバー上の純粋なRubyコードをリモート評価できるので、production環境では絶対に使用しないください。</p><h3 id="メモリーリークのデバッグ"><a class="anchorlink" href="#%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC%E3%83%AA%E3%83%BC%E3%82%AF%E3%81%AE%E3%83%87%E3%83%90%E3%83%83%E3%82%B0">5 メモリーリークのデバッグ</a></h3><p>Railsに限らず、Rubyアプリケーションではメモリーリークが発生することがあります。リークはRubyコードレベルのこともあれば、Cコードレベルであることもあります。</p><p>このセクションでは、Valgrindなどのツールを使用してこうしたメモリーリークの検出と修正を行う方法をご紹介します。</p><h4 id="valgrind"><a class="anchorlink" href="#valgrind">5.1 Valgrind</a></h4><p><a href="http://valgrind.org/">Valgrind</a>はLinux専用のアプリケーションであり、Cコードベースのメモリーリークや競合状態の検出を行います。</p><p>Valgrindには、さまざまなメモリー管理上のバグやスレッドバグなどを自動検出し、プログラムの詳細なプロファイリングを行うための各種ツールがあります。たとえば、インタプリタ内にあるC拡張機能が<code>malloc()</code>を呼び出した後<code>free()</code>を正しく呼び出さなかった場合、このメモリーはアプリケーションが終了するまで利用できなくなります。</p><p>Valgrindのインストール方法とRuby内での使用方法については、<a href="http://blog.evanweaver.com/articles/2008/02/05/valgrind-and-ruby/">ValgrindとRuby</a>(Evan Weaver著、英語) を参照してください。</p><h3 id="デバッグ用プラグイン"><a class="anchorlink" href="#%E3%83%87%E3%83%90%E3%83%83%E3%82%B0%E7%94%A8%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3">6 デバッグ用プラグイン</a></h3><p>アプリケーションのエラーを検出し、デバッグするためのRailsプラグインがあります。デバッグ用に便利なプラグインのリストを以下にご紹介します。</p>
 <ul>
 <li>
 <a href="https://github.com/josevalim/rails-footnotes">Footnotes</a>: すべてのRailsページに脚注を追加し、リクエスト情報を表示したり、TextMateでソースを開くためのリンクを表示したりします。</li>
@@ -914,7 +916,7 @@ end
 <a href="https://github.com/dejan/rails_panel">RailsPanel</a>: Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
 db時間、レンダリング時間、トータル時間、パラメータリスト、出力したビューなども表示されます。</li>
 </ul>
-<h3 id="参考資料"><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">7 参考資料</a></h3>
+<h3 id="参考資料"><a class="anchorlink" href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">7 参考資料</a></h3>
 <ul>
 <li>
 <a href="http://bashdb.sourceforge.net/ruby-debug/home-page.html">ruby-debugホームページ</a>(英語)</li>
@@ -953,16 +955,7 @@ db時間、レンダリング時間、トータル時間、パラメータリス
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -990,8 +983,6 @@ db時間、レンダリング時間、トータル時間、パラメータリス
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -1007,17 +998,19 @@ db時間、レンダリング時間、トータル時間、パラメータリス
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -1025,9 +1018,9 @@ db時間、レンダリング時間、トータル時間、パラメータリス
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -1042,13 +1035,11 @@ db時間、レンダリング時間、トータル時間、パラメータリス
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

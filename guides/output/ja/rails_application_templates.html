@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Rails のアプリケーションテンプレート | Rails ガイド</title>
+    <title>Rails のアプリケーションテンプレート - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -260,6 +254,14 @@
 <li><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">高度な利用法</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -267,7 +269,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h4 id="使用法"><a href="#%E4%BD%BF%E7%94%A8%E6%B3%95">1 使用法</a></h4>
+        <h4 id="使用法"><a class="anchorlink" href="#%E4%BD%BF%E7%94%A8%E6%B3%95">1 使用法</a></h4>
 <hr>
 <p>アプリケーションテンプレートを適用するためには、-mオプションを使用してテンプレートの場所を指定する必要があります。ファイルパスまたはURLのどちらでも使用できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
@@ -283,7 +285,7 @@ $ bin/rake rails:template LOCATION=http://example.com/template.rb
 
 </pre>
 </div>
-<h3 id="テンプレートapi"><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88api">2 テンプレートAPI</a></h3><p>RailsのテンプレートAPIはわかりやすく設計されています。以下は代表的なRailsアプリケーションテンプレートです。</p><div class="code_container">
+<h3 id="テンプレートapi"><a class="anchorlink" href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88api">2 テンプレートAPI</a></h3><p>RailsのテンプレートAPIはわかりやすく設計されています。以下は代表的なRailsアプリケーションテンプレートです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # template.rb
 generate(:scaffold, "person name:string")
@@ -298,7 +300,7 @@ end
 
 </pre>
 </div>
-<p>以下のセクションで、APIで提供される主なメソッドの概要を解説します。</p><h4 id="gem-args"><a href="#gem-args">2.1 gem(*args)</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定された<code>gem</code>のエントリを追加します。</p><p>たとえば、Railsアプリケーションが<code>bj</code>と<code>nokogiri</code> gemに依存しているとします。</p><div class="code_container">
+<p>以下のセクションで、APIで提供される主なメソッドの概要を解説します。</p><h4 id="gem-args"><a class="anchorlink" href="#gem-args">2.1 gem(*args)</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定された<code>gem</code>のエントリを追加します。</p><p>たとえば、Railsアプリケーションが<code>bj</code>と<code>nokogiri</code> gemに依存しているとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem "bj"
 gem "nokogiri"
@@ -311,7 +313,7 @@ bundle install
 
 </pre>
 </div>
-<h4 id="gem-group-names-block"><a href="#gem-group-names-block">2.2 gem_group(*names, &amp;block)</a></h4><p>gemのエントリを指定のグループに含めます。</p><p>たとえば、<code>rspec-rails</code> gemを<code>development</code>グループと<code>test</code>グループだけで読み込みたい場合は以下のようにします。</p><div class="code_container">
+<h4 id="gem-group-names-block"><a class="anchorlink" href="#gem-group-names-block">2.2 gem_group(*names, &amp;block)</a></h4><p>gemのエントリを指定のグループに含めます。</p><p>たとえば、<code>rspec-rails</code> gemを<code>development</code>グループと<code>test</code>グループだけで読み込みたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem_group :development, :test do
   gem "rspec-rails"
@@ -319,19 +321,19 @@ end
 
 </pre>
 </div>
-<h4 id="add-source-source-options"><a href="#add-source-source-options">2.3 add_source(source, options = {})</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定されたソースを追加します。</p><p>たとえば、<code>"http://code.whytheluckystiff.net"</code>にあるgemをソースとして使用したい場合は以下のようにします。</p><div class="code_container">
+<h4 id="add-source-source-options"><a class="anchorlink" href="#add-source-source-options">2.3 add_source(source, options = {})</a></h4><p>生成された<code>Gemfile</code>ファイルに、指定されたソースを追加します。</p><p>たとえば、<code>"http://code.whytheluckystiff.net"</code>にあるgemをソースとして使用したい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 add_source "http://code.whytheluckystiff.net"
 
 </pre>
 </div>
-<h4 id="environment-application-data-nil-options-block"><a href="#environment-application-data-nil-options-block">2.4 environment/application(data=nil, options={}, &amp;block)</a></h4><p><code>config/application.rb</code>ファイルの<code>Application</code>クラスの内側に指定の行を追加します。</p><p><code>options[:env]</code>が指定されている場合は、<code>config/environments</code>ディレクトリに置かれている同等のファイルに追加します。</p><div class="code_container">
+<h4 id="environment-application-data-nil-options-block"><a class="anchorlink" href="#environment-application-data-nil-options-block">2.4 environment/application(data=nil, options={}, &amp;block)</a></h4><p><code>config/application.rb</code>ファイルの<code>Application</code>クラスの内側に指定の行を追加します。</p><p><code>options[:env]</code>が指定されている場合は、<code>config/environments</code>ディレクトリに置かれている同等のファイルに追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 environment 'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}', env: 'production'
 
 </pre>
 </div>
-<p><code>data</code>引数の代わりにブロックをひとつ渡すこともできます。</p><h4 id="vendor-lib-file-initializer-filename-data-nil-block"><a href="#vendor-lib-file-initializer-filename-data-nil-block">2.5 vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></h4><p>生成されたRailsアプリケーションの<code>config/initializers</code>ディレクトリにイニシャライザをひとつ追加します。</p><p>たとえば、<code>Object#not_nil?</code>と<code>Object#not_blank?</code>というメソッドを使用したい場合は以下のようにします。</p><div class="code_container">
+<p><code>data</code>引数の代わりにブロックをひとつ渡すこともできます。</p><h4 id="vendor-lib-file-initializer-filename-data-nil-block"><a class="anchorlink" href="#vendor-lib-file-initializer-filename-data-nil-block">2.5 vendor/lib/file/initializer(filename, data = nil, &amp;block)</a></h4><p>生成されたRailsアプリケーションの<code>config/initializers</code>ディレクトリにイニシャライザをひとつ追加します。</p><p>たとえば、<code>Object#not_nil?</code>と<code>Object#not_blank?</code>というメソッドを使用したい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 initializer 'bloatlol.rb', &lt;&lt;-CODE
   class Object
@@ -356,7 +358,7 @@ CODE
 
 </pre>
 </div>
-<p>上のコードは<code>app/components</code>ディレクトリを作成し、その中に<code>foo.rb</code>ファイルを置きます。</p><h4 id="rakefile-filename-data-nil-block"><a href="#rakefile-filename-data-nil-block">2.6 rakefile(filename, data = nil, &amp;block)</a></h4><p>指定されたタスクを含むrakeファイルを<code>lib/tasks</code>の下に作成します。</p><div class="code_container">
+<p>上のコードは<code>app/components</code>ディレクトリを作成し、その中に<code>foo.rb</code>ファイルを置きます。</p><h4 id="rakefile-filename-data-nil-block"><a class="anchorlink" href="#rakefile-filename-data-nil-block">2.6 rakefile(filename, data = nil, &amp;block)</a></h4><p>指定されたタスクを含むrakeファイルを<code>lib/tasks</code>の下に作成します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rakefile("bootstrap.rake") do
   &lt;&lt;-TASK
@@ -370,19 +372,19 @@ end
 
 </pre>
 </div>
-<p>上のコードは<code>lib/tasks/bootstrap.rake</code>ファイルを作成し、その中に<code>boot:strap</code> rakeタスクを置きます。</p><h4 id="generate-what-args"><a href="#generate-what-args">2.7 generate(what, *args)</a></h4><p>引数を渡してRailsジェネレータを実行します。</p><div class="code_container">
+<p>上のコードは<code>lib/tasks/bootstrap.rake</code>ファイルを作成し、その中に<code>boot:strap</code> rakeタスクを置きます。</p><h4 id="generate-what-args"><a class="anchorlink" href="#generate-what-args">2.7 generate(what, *args)</a></h4><p>引数を渡してRailsジェネレータを実行します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 generate(:scaffold, "person", "name:string", "address:text", "age:number")
 
 </pre>
 </div>
-<h4 id="run-command"><a href="#run-command">2.8 run(command)</a></h4><p>任意のコマンドを実行します。いわゆるバッククォートと同等です。たとえば<code>README.rdoc</code>ファイルを削除する場合は以下のようにします。</p><div class="code_container">
+<h4 id="run-command"><a class="anchorlink" href="#run-command">2.8 run(command)</a></h4><p>任意のコマンドを実行します。いわゆるバッククォートと同等です。たとえば<code>README.rdoc</code>ファイルを削除する場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 run "rm README.rdoc"
 
 </pre>
 </div>
-<h4 id="rake-command-options"><a href="#rake-command-options">2.9 rake(command, options = {})</a></h4><p>Railsアプリケーション内にあるrakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。</p><div class="code_container">
+<h4 id="rake-command-options"><a class="anchorlink" href="#rake-command-options">2.9 rake(command, options = {})</a></h4><p>Railsアプリケーション内にあるrakeタスクを指定して実行します。たとえばデータベースのマイグレーションを行うには以下のように書きます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rake "db:migrate"
 
@@ -394,13 +396,13 @@ rake "db:migrate", env: 'production'
 
 </pre>
 </div>
-<h4 id="route-routing-code"><a href="#route-routing-code">2.10 route(routing_code)</a></h4><p>ルーティングエントリを<code>config/routes.rb</code>ファイルにひとつ追加します。上の手順では、scaffoldでpersonを生成し、続けて<code>README.rdoc</code>を削除しました。今度は以下のようにして<code>PeopleController#index</code>をアプリケーションのデフォルトページにします。</p><div class="code_container">
+<h4 id="route-routing-code"><a class="anchorlink" href="#route-routing-code">2.10 route(routing_code)</a></h4><p>ルーティングエントリを<code>config/routes.rb</code>ファイルにひとつ追加します。上の手順では、scaffoldでpersonを生成し、続けて<code>README.rdoc</code>を削除しました。今度は以下のようにして<code>PeopleController#index</code>をアプリケーションのデフォルトページにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 route "root to: 'person#index'"
 
 </pre>
 </div>
-<h4 id="inside-dir"><a href="#inside-dir">2.11 inside(dir)</a></h4><p>ディレクトリを指定してコマンドをひとつ実行します。たとえば、edge railsのコピーがあり、アプリケーションからそこにシンボリックリンクを張るには以下のようにします。</p><div class="code_container">
+<h4 id="inside-dir"><a class="anchorlink" href="#inside-dir">2.11 inside(dir)</a></h4><p>ディレクトリを指定してコマンドをひとつ実行します。たとえば、edge railsのコピーがあり、アプリケーションからそこにシンボリックリンクを張るには以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 inside('vendor') do
   run "ln -s ~/commit-rails/rails rails"
@@ -408,7 +410,7 @@ end
 
 </pre>
 </div>
-<h4 id="ask-question"><a href="#ask-question">2.12 ask(question)</a></h4><p><code>ask()</code>はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使用します。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。</p><div class="code_container">
+<h4 id="ask-question"><a class="anchorlink" href="#ask-question">2.12 ask(question)</a></h4><p><code>ask()</code>はユーザーからのフィードバックを受け取ってテンプレートで利用するのに使用します。たとえば、追加される新品のライブラリに付ける名前をユーザーに入力してもらうには、以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 lib_name = ask("ライブラリに付ける名前を入力してください")
 lib_name &lt;&lt; ".rb" unless lib_name.index(".rb")
@@ -420,14 +422,14 @@ CODE
 
 </pre>
 </div>
-<h4 id="yes-questionmark-question-or-no-questionmark-question"><a href="#yes-questionmark-question-or-no-questionmark-question">2.13 yes?(question) or no?(question)</a></h4><p>テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみrailsをfreezeしたい場合は以下のようにします。</p><div class="code_container">
+<h4 id="yes-questionmark-question-or-no-questionmark-question"><a class="anchorlink" href="#yes-questionmark-question-or-no-questionmark-question">2.13 yes?(question) or no?(question)</a></h4><p>テンプレートでユーザーからの入力に基いて処理の流れを変えたい場合に使用します。たとえば、指定があった場合にのみrailsをfreezeしたい場合は以下のようにします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 rake("rails:freeze:gems") if yes?("Freeze rails gems?")
 # no?(question) はyes?と逆の動作
 
 </pre>
 </div>
-<h4 id="git-command"><a href="#git-command">2.14 git(:command)</a></h4><p>Railsテンプレートで任意のgitコマンドを実行します。</p><div class="code_container">
+<h4 id="git-command"><a class="anchorlink" href="#git-command">2.14 git(:command)</a></h4><p>Railsテンプレートで任意のgitコマンドを実行します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 git :init
 git add: "."
@@ -435,7 +437,7 @@ git commit: "-a -m 'Initial commit'"
 
 </pre>
 </div>
-<h4 id="after-bundle-block"><a href="#after-bundle-block">2.15 after_bundle(&amp;block)</a></h4><p>gemのバンドルとbinstub生成の完了後に実行したいコールバックを登録します。生成したファイルをバージョン管理するところまで自動化したい場合に便利です。</p><div class="code_container">
+<h4 id="after-bundle-block"><a class="anchorlink" href="#after-bundle-block">2.15 after_bundle(&amp;block)</a></h4><p>gemのバンドルとbinstub生成の完了後に実行したいコールバックを登録します。生成したファイルをバージョン管理するところまで自動化したい場合に便利です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 after_bundle do
   git :init
@@ -445,7 +447,7 @@ end
 
 </pre>
 </div>
-<p>これらのコールバックは<code>--skip-bundle</code>や<code>--skip-spring</code>を指定した場合でもスキップされずに実行されます。</p><h3 id="高度な利用法"><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">3 高度な利用法</a></h3><p>アプリケーションテンプレートは、<code>Rails::Generators::AppGenerator</code>インスタンスのコンテキストで評価されます。ここで使用される<code>apply</code>アクションは<a href="https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207">Thor</a>が提供しています。
+<p>これらのコールバックは<code>--skip-bundle</code>や<code>--skip-spring</code>を指定した場合でもスキップされずに実行されます。</p><h3 id="高度な利用法"><a class="anchorlink" href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E5%88%A9%E7%94%A8%E6%B3%95">3 高度な利用法</a></h3><p>アプリケーションテンプレートは、<code>Rails::Generators::AppGenerator</code>インスタンスのコンテキストで評価されます。ここで使用される<code>apply</code>アクションは<a href="https://github.com/erikhuda/thor/blob/master/lib/thor/actions.rb#L207">Thor</a>が提供しています。
 これにより、このインスタンスを必要に応じて拡張したり変更したりできます。</p><p>たとえば、<code>source_paths</code>メソッドを上書きしてテンプレートの位置を指定することができます。これにより、<code>copy_file</code>などのメソッドでテンプレートの位置からの相対パスを指定できるようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 def source_paths
@@ -472,16 +474,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -509,8 +502,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -526,17 +517,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -544,9 +537,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -561,13 +554,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

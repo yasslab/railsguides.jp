@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Rails エンジン入門 | Rails ガイド</title>
+    <title>Rails エンジン入門 - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -279,6 +273,14 @@
 </li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -286,7 +288,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="railsにおけるエンジンの役割"><a href="#rails%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E5%BD%B9%E5%89%B2">1 Railsにおけるエンジンの役割</a></h3><p>エンジン (engine) とは、アプリケーションのミニチュアのようなものであり、ホストアプリケーションに機能を提供します。Railsアプリケーションは実際にはエンジンに「ターボをかけた」ようなものにすぎず、<code>Rails::Application</code>クラスは<code>Rails::Engine</code>から多くの振る舞いを継承しています。</p><p>従って、エンジンとアプリケーションは、細かな違いを除けばほぼ同じものであると考えていただいてよいでしょう。本ガイドでもこの点をたびたび確認します。エンジンとアプリケーションは、同じ構造を共有しています。</p><p>エンジンは、プラグインとも密接に関連します。エンジンもプラグインも、共通の<code>lib</code>ディレクトリ構造を共有し、どちらも<code>rails plugin new</code>ジェネレータを使用して生成されます。両者に違いがあるとすれば、Railsはエンジンを一種の「完全なプラグイン」とみなしている点です。これは、エンジンを生成するにはジェネレータコマンドで<code>--full</code>を与えることからもわかります。実際にはこのガイドでは<code>--mountable</code>オプションを使用します。これは<code>--full</code>のオプション以外にもいくつかの機能を追加してくれます。以後本ガイドでは「完全なプラグイン (full plugin)」を単に「エンジン」と呼びます。エンジンはプラグインになることもでき、プラグインがエンジンになることもできます。</p><p>本ガイドで説明のために作成するエンジンに "blorgh" (blogのもじり) という名前を付けます。このエンジンはブログ機能をホストアプリケーションに追加し、記事とコメントを作成できます。本ガイドでは、最初にこのエンジンを単体で動作するようにし、後にこのエンジンをアプリケーションにフックします。</p><p>エンジンはホストアプリケーションと混じらないよう分離しておくこともできます。これは、あるアプリケーションが<code>articles_path</code>のようなルーティングヘルパーによってパスを提供できるとすると、そのアプリケーションのエンジンも同じく<code>articles_path</code>というヘルパーによってパスを提供でき、しかも両者が衝突しないということを意味します。これにともない、コントローラ名、モデル名、テーブル名はいずれも名前空間化されます。これについては本ガイドで後述します。</p><p>ここが重要です。アプリケーションは <strong>いかなる場合も</strong> エンジンよりも優先されます。ある環境において、最終的な決定権を持つのはアプリケーション自身です。エンジンはアプリケーションの動作を大幅に変更するものではなく、アプリケーションを単に拡張するものです。</p><p>その他のエンジンに関するドキュメントについては、<a href="https://github.com/plataformatec/devise">Devise</a> (親アプリケーションに認証機能を提供するエンジン) や <a href="https://github.com/radar/forem">Forem</a> (フォーラム機能を提供するエンジン) を参照してください。この他に、<a href="https://github.com/spree/spree">Spree</a> (eコマースプラットフォーム) や<a href="https://github.com/refinery/refinerycms">RefineryCMS</a> (CMSエンジン) などもあります。</p><p>追伸。エンジン機能はJames Adam、Piotr Sarnacki、Railsコアチーム、そして多くの人々の助けなしではできあがらなかったでしょう。彼らに会うことがあったら、ぜひお礼を述べてやってください。</p><h3 id="エンジンを生成する"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">2 エンジンを生成する</a></h3><p>エンジンを生成するには、プラグインジェネレータを実行し、必要に応じてオプションをジェネレータに渡します。"blorgh"の場合はマウント可能なエンジンとして生成するので、ターミナルで以下のコマンドを実行します。</p><div class="code_container">
+        <h3 id="railsにおけるエンジンの役割"><a class="anchorlink" href="#rails%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E5%BD%B9%E5%89%B2">1 Railsにおけるエンジンの役割</a></h3><p>エンジン (engine) とは、アプリケーションのミニチュアのようなものであり、ホストアプリケーションに機能を提供します。Railsアプリケーションは実際にはエンジンに「ターボをかけた」ようなものにすぎず、<code>Rails::Application</code>クラスは<code>Rails::Engine</code>から多くの振る舞いを継承しています。</p><p>従って、エンジンとアプリケーションは、細かな違いを除けばほぼ同じものであると考えていただいてよいでしょう。本ガイドでもこの点をたびたび確認します。エンジンとアプリケーションは、同じ構造を共有しています。</p><p>エンジンは、プラグインとも密接に関連します。エンジンもプラグインも、共通の<code>lib</code>ディレクトリ構造を共有し、どちらも<code>rails plugin new</code>ジェネレータを使用して生成されます。両者に違いがあるとすれば、Railsはエンジンを一種の「完全なプラグイン」とみなしている点です。これは、エンジンを生成するにはジェネレータコマンドで<code>--full</code>を与えることからもわかります。実際にはこのガイドでは<code>--mountable</code>オプションを使用します。これは<code>--full</code>のオプション以外にもいくつかの機能を追加してくれます。以後本ガイドでは「完全なプラグイン (full plugin)」を単に「エンジン」と呼びます。エンジンはプラグインになることもでき、プラグインがエンジンになることもできます。</p><p>本ガイドで説明のために作成するエンジンに "blorgh" (blogのもじり) という名前を付けます。このエンジンはブログ機能をホストアプリケーションに追加し、記事とコメントを作成できます。本ガイドでは、最初にこのエンジンを単体で動作するようにし、後にこのエンジンをアプリケーションにフックします。</p><p>エンジンはホストアプリケーションと混じらないよう分離しておくこともできます。これは、あるアプリケーションが<code>articles_path</code>のようなルーティングヘルパーによってパスを提供できるとすると、そのアプリケーションのエンジンも同じく<code>articles_path</code>というヘルパーによってパスを提供でき、しかも両者が衝突しないということを意味します。これにともない、コントローラ名、モデル名、テーブル名はいずれも名前空間化されます。これについては本ガイドで後述します。</p><p>ここが重要です。アプリケーションは <strong>いかなる場合も</strong> エンジンよりも優先されます。ある環境において、最終的な決定権を持つのはアプリケーション自身です。エンジンはアプリケーションの動作を大幅に変更するものではなく、アプリケーションを単に拡張するものです。</p><p>その他のエンジンに関するドキュメントについては、<a href="https://github.com/plataformatec/devise">Devise</a> (親アプリケーションに認証機能を提供するエンジン) や <a href="https://github.com/radar/forem">Forem</a> (フォーラム機能を提供するエンジン) を参照してください。この他に、<a href="https://github.com/spree/spree">Spree</a> (eコマースプラットフォーム) や<a href="https://github.com/refinery/refinerycms">RefineryCMS</a> (CMSエンジン) などもあります。</p><p>追伸。エンジン機能はJames Adam、Piotr Sarnacki、Railsコアチーム、そして多くの人々の助けなしではできあがらなかったでしょう。彼らに会うことがあったら、ぜひお礼を述べてやってください。</p><h3 id="エンジンを生成する"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">2 エンジンを生成する</a></h3><p>エンジンを生成するには、プラグインジェネレータを実行し、必要に応じてオプションをジェネレータに渡します。"blorgh"の場合はマウント可能なエンジンとして生成するので、ターミナルで以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails plugin new blorgh --mountable
 
@@ -361,7 +363,7 @@ mount Blorgh::Engine =&gt; "/blorgh"
 
 </pre>
 </div>
-<h4 id="エンジンの内部"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E5%86%85%E9%83%A8">2.1 エンジンの内部</a></h4><h5 id="重要なファイル"><a href="#%E9%87%8D%E8%A6%81%E3%81%AA%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">2.1.1 重要なファイル</a></h5><p>新しく作成したエンジンのルートディレクトリには、<code>blorgh.gemspec</code>というファイルが置かれます。アプリケーションにこのエンジンを後からインクルードするには、<code>Gemfile</code>に以下の行を追加します。</p><div class="code_container">
+<h4 id="エンジンの内部"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E5%86%85%E9%83%A8">2.1 エンジンの内部</a></h4><h5 id="重要なファイル"><a class="anchorlink" href="#%E9%87%8D%E8%A6%81%E3%81%AA%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">2.1.1 重要なファイル</a></h5><p>新しく作成したエンジンのルートディレクトリには、<code>blorgh.gemspec</code>というファイルが置かれます。アプリケーションにこのエンジンを後からインクルードするには、<code>Gemfile</code>に以下の行を追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem 'blorgh', path: "vendor/engines/blorgh"
 
@@ -386,13 +388,13 @@ end
 
 </pre>
 </div>
-<p><code>Rails::Engine</code>クラスを継承することによって、指定されたパスにエンジンがあることがgemからRailsに通知され、アプリケーションの内部にエンジンが正しくマウントされます。そして、エンジンの<code>app</code>ディレクトリをモデル/メイラー/コントローラ/ビューの読み込みパスに追加します。</p><p>ここで、<code>isolate_namespace</code>メソッドについて特別な注意が必要です。このメソッドの呼び出しは、エンジンのコントローラ/モデル/ルーティングなどが持つ固有の名前空間を、アプリケーション内部のコンポーネントが持つ類似の名前空間から分離する役目を担います。この呼び出しが行われないと、エンジンのコンポーネントがアプリケーション側に「漏れ出す」リスクが生じ、思わぬ動作が発生したり、エンジンの重要なコンポーネントが同じような名前のアプリケーション側コンポーネントによって上書きされてしまったりする可能性があります。名前の衝突の例として、ヘルパーを取り上げましょう。<code>isolate_namespace</code>が呼び出されないと、エンジンのヘルパーがアプリケーションのコントローラにインクルードされてしまう可能性があります。</p><div class="note"><p><code>Engine</code>クラスの定義に含まれる<code>isolate_namespace</code>の行を変更/削除しないことを <strong>強く</strong> 推奨します。この行が変更されると、生成されたエンジン内のクラスがアプリケーションと衝突する <strong>可能性があります</strong> 。</p></div><p>名前空間を分離するということは、<code>bin/rails g model</code>の実行によって生成されたモデル (ここでは <code>bin/rails g model article</code>を実行したとします) は<code>Article</code>にならず、名前空間化されて<code>Blorgh::Article</code>になるということです。さらにモデルのテーブルも名前空間化され、単なる<code>articles</code>ではなく<code>blorgh_articles</code>になります。コントローラもモデルと同様に名前空間化されます。<code>ArticlesController</code>というコントローラは<code>Blorgh::ArticlesController</code>になり、このコントローラのビューは<code>app/views/articles</code>ではなく<code>app/views/blorgh/articles</code>に置かれます。メイラーも同様に名前空間化されます。</p><p>最後に、ルーティングもエンジン内で分離されます。これは名前空間化の最も肝心な部分であり、これについては本ガイドの<a href="#%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0">ルーティング</a>セクションで後述します。</p><h5 id="appディレクトリ"><a href="#app%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.2 <code>app</code>ディレクトリ</a></h5><p>エンジンの<code>app</code>ディレクトリの中には、通常のアプリケーションでおなじみの標準の<code>assets</code>、<code>controllers</code>、<code>helpers</code>、<code>mailers</code>、<code>models</code>、<code>views</code>ディレクトリが置かれます。このうち<code>helpers</code>、<code>mailers</code>、<code>models</code>ディレクトリにはデフォルトでは何も置かれないので、本セクションでは解説しません。モデルについては、エンジンの作成について解説するセクションで後述します。</p><p>エンジンの<code>app/assets</code>ディレクトリの下にも、通常のアプリケーションと同様に<code>images</code>、<code>javascripts</code>、<code>stylesheets</code>ディレクトリがそれぞれあります。通常のアプリケーションと異なる点は、これらのディレクトリの下にはさらにエンジン名を持つサブディレクトリがあることです。これは、エンジンが名前空間化されるのと同様、エンジンのアセットも同様に名前空間化される必要があるからです。</p><p><code>app/controllers</code>ディレクトリの下には<code>blorgh</code>ディレクトリが置かれます。この中には<code>application_controller.rb</code>というファイルが1つ置かれます。このファイルはエンジンのコントローラ共通の機能を提供するためのものです。この<code>blorgh</code>ディレクトリには、エンジンで使用するその他のコントローラを置きます。これらのファイルを名前空間化されたディレクトリに配置することで、他のエンジンやアプリケーションに同じ名前のコントローラがあっても名前の衝突を避ける事ができます。</p><div class="note"><p>あるエンジンに含まれる<code>ApplicationController</code>というクラスの名前は、アプリケーションそのものが持つクラスと同じ名前になっています。これは、アプリケーションをエンジンに変換しやすくするためです。</p></div><p>最後に、<code>app/views</code>ディレクトリの下には<code>layouts</code>フォルダがあります。ここには<code>blorgh/application.html.erb</code>というファイルが置かれます。このファイルは、エンジンで使用するレイアウトを指定するためのものです。エンジンが単体のエンジンとして使用されるのであれば、このファイルを使用していくらでも好きなようにレイアウトをカスタマイズできます。そのためにアプリケーション自身の<code>app/views/layouts/application.html.erb</code>ファイルを変更する必要はありません。</p><p>エンジンのレイアウトをユーザーに強制したくない場合は、このファイルを削除し、エンジンのコントローラでは別のレイアウトを参照するように変更してください。</p><h5 id="binディレクトリ"><a href="#bin%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.3 <code>bin</code>ディレクトリ</a></h5><p>このディレクトリには<code>bin/rails</code>というファイルが1つだけ置かれます。これはアプリケーション内で使用しているのと似た<code>rails</code>サブコマンドであり、ジェネレータです。このような構成になっていることで、このエンジンで利用するための独自のコントローラやモデルを以下のように簡単に生成することができます。</p><div class="code_container">
+<p><code>Rails::Engine</code>クラスを継承することによって、指定されたパスにエンジンがあることがgemからRailsに通知され、アプリケーションの内部にエンジンが正しくマウントされます。そして、エンジンの<code>app</code>ディレクトリをモデル/メイラー/コントローラ/ビューの読み込みパスに追加します。</p><p>ここで、<code>isolate_namespace</code>メソッドについて特別な注意が必要です。このメソッドの呼び出しは、エンジンのコントローラ/モデル/ルーティングなどが持つ固有の名前空間を、アプリケーション内部のコンポーネントが持つ類似の名前空間から分離する役目を担います。この呼び出しが行われないと、エンジンのコンポーネントがアプリケーション側に「漏れ出す」リスクが生じ、思わぬ動作が発生したり、エンジンの重要なコンポーネントが同じような名前のアプリケーション側コンポーネントによって上書きされてしまったりする可能性があります。名前の衝突の例として、ヘルパーを取り上げましょう。<code>isolate_namespace</code>が呼び出されないと、エンジンのヘルパーがアプリケーションのコントローラにインクルードされてしまう可能性があります。</p><div class="note"><p><code>Engine</code>クラスの定義に含まれる<code>isolate_namespace</code>の行を変更/削除しないことを <strong>強く</strong> 推奨します。この行が変更されると、生成されたエンジン内のクラスがアプリケーションと衝突する <strong>可能性があります</strong> 。</p></div><p>名前空間を分離するということは、<code>bin/rails g model</code>の実行によって生成されたモデル (ここでは <code>bin/rails g model article</code>を実行したとします) は<code>Article</code>にならず、名前空間化されて<code>Blorgh::Article</code>になるということです。さらにモデルのテーブルも名前空間化され、単なる<code>articles</code>ではなく<code>blorgh_articles</code>になります。コントローラもモデルと同様に名前空間化されます。<code>ArticlesController</code>というコントローラは<code>Blorgh::ArticlesController</code>になり、このコントローラのビューは<code>app/views/articles</code>ではなく<code>app/views/blorgh/articles</code>に置かれます。メイラーも同様に名前空間化されます。</p><p>最後に、ルーティングもエンジン内で分離されます。これは名前空間化の最も肝心な部分であり、これについては本ガイドの<a href="#%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0">ルーティング</a>セクションで後述します。</p><h5 id="appディレクトリ"><a class="anchorlink" href="#app%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.2 <code>app</code>ディレクトリ</a></h5><p>エンジンの<code>app</code>ディレクトリの中には、通常のアプリケーションでおなじみの標準の<code>assets</code>、<code>controllers</code>、<code>helpers</code>、<code>mailers</code>、<code>models</code>、<code>views</code>ディレクトリが置かれます。このうち<code>helpers</code>、<code>mailers</code>、<code>models</code>ディレクトリにはデフォルトでは何も置かれないので、本セクションでは解説しません。モデルについては、エンジンの作成について解説するセクションで後述します。</p><p>エンジンの<code>app/assets</code>ディレクトリの下にも、通常のアプリケーションと同様に<code>images</code>、<code>javascripts</code>、<code>stylesheets</code>ディレクトリがそれぞれあります。通常のアプリケーションと異なる点は、これらのディレクトリの下にはさらにエンジン名を持つサブディレクトリがあることです。これは、エンジンが名前空間化されるのと同様、エンジンのアセットも同様に名前空間化される必要があるからです。</p><p><code>app/controllers</code>ディレクトリの下には<code>blorgh</code>ディレクトリが置かれます。この中には<code>application_controller.rb</code>というファイルが1つ置かれます。このファイルはエンジンのコントローラ共通の機能を提供するためのものです。この<code>blorgh</code>ディレクトリには、エンジンで使用するその他のコントローラを置きます。これらのファイルを名前空間化されたディレクトリに配置することで、他のエンジンやアプリケーションに同じ名前のコントローラがあっても名前の衝突を避ける事ができます。</p><div class="note"><p>あるエンジンに含まれる<code>ApplicationController</code>というクラスの名前は、アプリケーションそのものが持つクラスと同じ名前になっています。これは、アプリケーションをエンジンに変換しやすくするためです。</p></div><p>最後に、<code>app/views</code>ディレクトリの下には<code>layouts</code>フォルダがあります。ここには<code>blorgh/application.html.erb</code>というファイルが置かれます。このファイルは、エンジンで使用するレイアウトを指定するためのものです。エンジンが単体のエンジンとして使用されるのであれば、このファイルを使用していくらでも好きなようにレイアウトをカスタマイズできます。そのためにアプリケーション自身の<code>app/views/layouts/application.html.erb</code>ファイルを変更する必要はありません。</p><p>エンジンのレイアウトをユーザーに強制したくない場合は、このファイルを削除し、エンジンのコントローラでは別のレイアウトを参照するように変更してください。</p><h5 id="binディレクトリ"><a class="anchorlink" href="#bin%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.3 <code>bin</code>ディレクトリ</a></h5><p>このディレクトリには<code>bin/rails</code>というファイルが1つだけ置かれます。これはアプリケーション内で使用しているのと似た<code>rails</code>サブコマンドであり、ジェネレータです。このような構成になっていることで、このエンジンで利用するための独自のコントローラやモデルを以下のように簡単に生成することができます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails g model
 
 </pre>
 </div>
-<p>言うまでもなく、<code>Engine</code>クラスに<code>isolate_namespace</code>を持つエンジンでこのbin/railsを使用して生成したものはすべて名前空間化されることにご注意ください。</p><h5 id="testディレクトリ"><a href="#test%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.4 <code>test</code>ディレクトリ</a></h5><p><code>test</code>ディレクトリは、エンジンがテストを行なうための場所です。エンジンをテストするために、<code>test/dummy</code>ディレクトリに埋め込まれた縮小版のRailsアプリケーションが用意されます。このアプリケーションはエンジンを<code>test/dummy/config/routes.rb</code>ファイル内で以下のようにマウントします。</p><div class="code_container">
+<p>言うまでもなく、<code>Engine</code>クラスに<code>isolate_namespace</code>を持つエンジンでこのbin/railsを使用して生成したものはすべて名前空間化されることにご注意ください。</p><h5 id="testディレクトリ"><a class="anchorlink" href="#test%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2.1.4 <code>test</code>ディレクトリ</a></h5><p><code>test</code>ディレクトリは、エンジンがテストを行なうための場所です。エンジンをテストするために、<code>test/dummy</code>ディレクトリに埋め込まれた縮小版のRailsアプリケーションが用意されます。このアプリケーションはエンジンを<code>test/dummy/config/routes.rb</code>ファイル内で以下のようにマウントします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Rails.application.routes.draw do
   mount Blorgh::Engine =&gt; "/blorgh"
@@ -400,7 +402,7 @@ end
 
 </pre>
 </div>
-<p>上の行によって、<code>/blorgh</code>パスにあるエンジンがマウントされ、アプリケーションのこのパスを通じてのみアクセス可能になります。</p><p>testディレクトリの下には<code>test/integration</code>ディレクトリがあります。ここにはエンジンの結合テストが置かれます。<code>test</code>ディレクトリに他のディレクトリを作成することもできます。たとえば、モデルのテスト用に<code>test/models</code>ディレクトリを作成しても構いません。</p><h3 id="エンジンの機能を提供する"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%A9%9F%E8%83%BD%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B">3 エンジンの機能を提供する</a></h3><p>本ガイドで説明のために作成するエンジンには、記事とコメントの送信機能があります。基本的には<a href="getting_started.html">Railsをはじめよう</a>とよく似たスレッドに従いますが、多少の新味も加えられています。</p><h4 id="articleリソースを生成する"><a href="#article%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">3.1 Articleリソースを生成する</a></h4><p>ブログエンジンで最初に生成すべきは<code>Article</code>モデルとそれに関連するコントローラです。これらを手軽に生成するために、Railsのscaffoldジェネレータを使用します。</p><div class="code_container">
+<p>上の行によって、<code>/blorgh</code>パスにあるエンジンがマウントされ、アプリケーションのこのパスを通じてのみアクセス可能になります。</p><p>testディレクトリの下には<code>test/integration</code>ディレクトリがあります。ここにはエンジンの結合テストが置かれます。<code>test</code>ディレクトリに他のディレクトリを作成することもできます。たとえば、モデルのテスト用に<code>test/models</code>ディレクトリを作成しても構いません。</p><h3 id="エンジンの機能を提供する"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%A9%9F%E8%83%BD%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B">3 エンジンの機能を提供する</a></h3><p>本ガイドで説明のために作成するエンジンには、記事とコメントの送信機能があります。基本的には<a href="getting_started.html">Railsをはじめよう</a>とよく似たスレッドに従いますが、多少の新味も加えられています。</p><h4 id="articleリソースを生成する"><a class="anchorlink" href="#article%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">3.1 Articleリソースを生成する</a></h4><p>ブログエンジンで最初に生成すべきは<code>Article</code>モデルとそれに関連するコントローラです。これらを手軽に生成するために、Railsのscaffoldジェネレータを使用します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate scaffold article title:string text:text
 
@@ -488,7 +490,7 @@ root to: "articles#index"
 
 </pre>
 </div>
-<p>これで、ユーザーが (<code>/articles</code>ではなく) エンジンのルートパスに移動すると記事の一覧が表示されるようになりました。つまり、<code>http://localhost:3000/blorgh/articles</code>に移動しなくても<code>http://localhost:3000/blorgh</code>に移動すれば済むということです。</p><h4 id="commentsリソースを生成する"><a href="#comments%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">3.2 commentsリソースを生成する</a></h4><p>エンジンで記事を新規作成できるようになりましたので、今度は記事にコメントを追加する機能も付けてみましょう。これを行なうには、commentモデルとcommentsコントローラを生成し、articles scaffoldを変更してコメントを表示できるようにし、それから新規コメントを作成できるようにします。</p><p>アプリケーションのルート・ディレクトリで、モデルのジェネレータを実行します。このとき、<code>Comment</code>モデルを生成すること、integer型の<code>article_id</code>カラムとtext型の<code>text</code>カラムを持つテーブルと関連付けることを指示します。</p><div class="code_container">
+<p>これで、ユーザーが (<code>/articles</code>ではなく) エンジンのルートパスに移動すると記事の一覧が表示されるようになりました。つまり、<code>http://localhost:3000/blorgh/articles</code>に移動しなくても<code>http://localhost:3000/blorgh</code>に移動すれば済むということです。</p><h4 id="commentsリソースを生成する"><a class="anchorlink" href="#comments%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B">3.2 commentsリソースを生成する</a></h4><p>エンジンで記事を新規作成できるようになりましたので、今度は記事にコメントを追加する機能も付けてみましょう。これを行なうには、commentモデルとcommentsコントローラを生成し、articles scaffoldを変更してコメントを表示できるようにし、それから新規コメントを作成できるようにします。</p><p>アプリケーションのルート・ディレクトリで、モデルのジェネレータを実行します。このとき、<code>Comment</code>モデルを生成すること、integer型の<code>article_id</code>カラムとtext型の<code>text</code>カラムを持つテーブルと関連付けることを指示します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails generate model Comment article_id:integer text:text
 
@@ -512,7 +514,7 @@ $ rake db:migrate
 </pre>
 </div>
 <p>記事のコメントを表示できるようにするために、<code>app/views/blorgh/articles/show.html.erb</code>を編集して以下の行を"Edit"リンクの直前に追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h3&gt;Comments&lt;/h3&gt;
 &lt;%= render @article.comments %&gt;
 
@@ -541,7 +543,7 @@ end
 </pre>
 </div>
 <p>続いて、この行を出力に含めるためのパーシャル (部分テンプレート) も必要です。<code>app/views/blorgh/comments</code>にディレクトリを作成し、<code>_form.html.erb</code>というファイルを作成します。このファイルの中に以下のパーシャルを記述します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h3&gt;New comment&lt;/h3&gt;
 &lt;%= form_for [@article, @article.comments.build] do |f| %&gt;
   &lt;p&gt;
@@ -615,7 +617,7 @@ Missing partial blorgh/comments/comment with {:handlers=&gt;[:erb, :builder],
 
 </pre>
 </div>
-<p><code>&lt;%= render @article.comments %&gt;</code>呼び出しによって<code>comment_counter</code>ローカル変数が返されます。この変数は自動的に定義され、コメントをiterateするたびにカウントアップします。この例では、作成されたコメントの横に小さな数字を表示するのに使用しています。</p><p>これでブログエンジンのコメント機能ができました。今度はこの機能をアプリケーションの中で使用してみましょう。</p><h3 id="アプリケーションにフックする"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AB%E3%83%95%E3%83%83%E3%82%AF%E3%81%99%E3%82%8B">4 アプリケーションにフックする</a></h3><p>エンジンをアプリケーションで利用するのはきわめて簡単です。本セクションでは、エンジンをアプリケーションにマウントして必要な初期設定を行い、アプリケーションが提供する<code>User</code>クラスにエンジンをリンクして、エンジン内の記事とコメントに所有者を与えるところまでをカバーします。</p><h4 id="エンジンをマウントする"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E3%83%9E%E3%82%A6%E3%83%B3%E3%83%88%E3%81%99%E3%82%8B">4.1 エンジンをマウントする</a></h4><p>最初に、使用するエンジンをアプリケーションの<code>Gemfile</code>に記述する必要があります。テストに使用できる手頃なアプリケーションが見当たらない場合は、エンジンのディレクトリの外で以下の<code>rails new</code>コマンドを実行してアプリケーションを作成してください。</p><div class="code_container">
+<p><code>&lt;%= render @article.comments %&gt;</code>呼び出しによって<code>comment_counter</code>ローカル変数が返されます。この変数は自動的に定義され、コメントをiterateするたびにカウントアップします。この例では、作成されたコメントの横に小さな数字を表示するのに使用しています。</p><p>これでブログエンジンのコメント機能ができました。今度はこの機能をアプリケーションの中で使用してみましょう。</p><h3 id="アプリケーションにフックする"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AB%E3%83%95%E3%83%83%E3%82%AF%E3%81%99%E3%82%8B">4 アプリケーションにフックする</a></h3><p>エンジンをアプリケーションで利用するのはきわめて簡単です。本セクションでは、エンジンをアプリケーションにマウントして必要な初期設定を行い、アプリケーションが提供する<code>User</code>クラスにエンジンをリンクして、エンジン内の記事とコメントに所有者を与えるところまでをカバーします。</p><h4 id="エンジンをマウントする"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E3%83%9E%E3%82%A6%E3%83%B3%E3%83%88%E3%81%99%E3%82%8B">4.1 エンジンをマウントする</a></h4><p>最初に、使用するエンジンをアプリケーションの<code>Gemfile</code>に記述する必要があります。テストに使用できる手頃なアプリケーションが見当たらない場合は、エンジンのディレクトリの外で以下の<code>rails new</code>コマンドを実行してアプリケーションを作成してください。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new unicorn
 
@@ -639,7 +641,7 @@ mount Blorgh::Engine, at: "/blog"
 
 </pre>
 </div>
-<p>この行を記述することで、エンジンがアプリケーションの<code>/blog</code>パスにマウントされます。<code>rails server</code>を実行してRailsを起動すること、<code>http://localhost:3000/blog</code>にアクセスできるようになります。</p><div class="note"><p>Deviseなどの他のエンジンではこの点が若干異なり、ルーティングで (<code>devise_for</code>などの) カスタムヘルパーを指定するものがあります。これらのヘルパーの動作は完全に同じです。事前に定義されたカスタマイズ可能なパスにエンジンの機能の一部をマウントします。</p></div><h4 id="エンジンの設定"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A">4.2 エンジンの設定</a></h4><p>作成したエンジンには<code>blorgh_articles</code>テーブルと<code>blorgh_comments</code>テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、以下のコマンドを実行します。</p><div class="code_container">
+<p>この行を記述することで、エンジンがアプリケーションの<code>/blog</code>パスにマウントされます。<code>rails server</code>を実行してRailsを起動すること、<code>http://localhost:3000/blog</code>にアクセスできるようになります。</p><div class="note"><p>Deviseなどの他のエンジンではこの点が若干異なり、ルーティングで (<code>devise_for</code>などの) カスタムヘルパーを指定するものがあります。これらのヘルパーの動作は完全に同じです。事前に定義されたカスタマイズ可能なパスにエンジンの機能の一部をマウントします。</p></div><h4 id="エンジンの設定"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A">4.2 エンジンの設定</a></h4><p>作成したエンジンには<code>blorgh_articles</code>テーブルと<code>blorgh_comments</code>テーブル用のマイグレーションが含まれます。これらのテーブルをアプリケーションのデータベースに作成し、エンジンのモデルからこれらのテーブルにアクセスできるようにする必要があります。これらのマイグレーションをアプリケーションにコピーするには、以下のコマンドを実行します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rake blorgh:install:migrations
 
@@ -670,14 +672,14 @@ rake db:migrate SCOPE=blorgh VERSION=0
 
 </pre>
 </div>
-<h4 id="アプリケーションが提供するクラスを使用する"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%8C%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3 アプリケーションが提供するクラスを使用する</a></h4><h5 id="アプリケーションが提供するモデルを使用する"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%8C%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3.1 アプリケーションが提供するモデルを使用する</a></h5><p>エンジンをひとつ作成すると、やがてエンジンの部品とアプリケーションの部品を連携させるために、アプリケーションの特定のクラスをエンジンから利用したくなるでしょう。この<code>blorgh</code>エンジンであれば、記事とコメントの作者の情報がある方がずっとわかりやすくなります。</p><p>普通のアプリケーションであれば、記事やコメントの作者を表すための<code>User</code>クラスが備わっているでしょう。しかしクラス名がUserとは限りません。アプリケーションによっては<code>Person</code>というクラスであるかもしれません。このような状況に対応するために、このエンジンでは<code>User</code>クラスとの関連付けをハードコードしないようにすべきです。</p><p>ここでは話を簡単にするため、アプリケーションがユーザーを表すために持つクラスは<code>User</code>であるとします (この後でもっとカスタマイズしやすくします)。このクラスは、アプリケーションで以下のコマンドを実行して生成できます。</p><div class="code_container">
+<h4 id="アプリケーションが提供するクラスを使用する"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%8C%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3 アプリケーションが提供するクラスを使用する</a></h4><h5 id="アプリケーションが提供するモデルを使用する"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%8C%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3.1 アプリケーションが提供するモデルを使用する</a></h5><p>エンジンをひとつ作成すると、やがてエンジンの部品とアプリケーションの部品を連携させるために、アプリケーションの特定のクラスをエンジンから利用したくなるでしょう。この<code>blorgh</code>エンジンであれば、記事とコメントの作者の情報がある方がずっとわかりやすくなります。</p><p>普通のアプリケーションであれば、記事やコメントの作者を表すための<code>User</code>クラスが備わっているでしょう。しかしクラス名がUserとは限りません。アプリケーションによっては<code>Person</code>というクラスであるかもしれません。このような状況に対応するために、このエンジンでは<code>User</code>クラスとの関連付けをハードコードしないようにすべきです。</p><p>ここでは話を簡単にするため、アプリケーションがユーザーを表すために持つクラスは<code>User</code>であるとします (この後でもっとカスタマイズしやすくします)。このクラスは、アプリケーションで以下のコマンドを実行して生成できます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 rails g model user name:string
 
 </pre>
 </div>
 <p>今後<code>users</code>テーブルをアプリケーションで使用できるようにするために、ここで<code>rake db:migrate</code>を実行する必要があります。</p><p>話を簡単にするため、記事のフォームのテキストフィールドは<code>author_name</code>とすることにします。記事を書くユーザーがここに自分の名前を入れられるようにします。エンジンはこの名前を使用して<code>User</code>オブジェクトを新規作成するか、その名前が既にあるかどうかを調べます。続いて、エンジンは作成または見つけた<code>User</code>オブジェクトを記事と関連付けます。</p><p>最初に、<code>author_name</code>テキストフィールドをエンジンのパーシャル<code>app/views/blorgh/articles/_form.html.erb</code>に追加する必要があります。そこで、以下のコードを<code>title</code>フィールドのすぐ上に追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;div class="field"&gt;
   &lt;%= f.label :author_name %&gt;&lt;br&gt;
   &lt;%= f.text_field :author_name %&gt;
@@ -732,7 +734,7 @@ $ rake db:migrate
 </pre>
 </div>
 <p>これですべての部品が定位置に置かれ、ある記事 (article) を、<code>users</code>テーブルのレコードで表される作者 (author) に関連付けるアクションが実行されるようになりました。この記事は<code>blorgh_articles</code>テーブルで表されます。</p><p>最後に、作者名を記事のページに表示しましょう。以下のコードを<code>app/views/blorgh/articles/show.html.erb</code>の"Title"出力の上に追加します。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;p&gt;
   &lt;b&gt;Author:&lt;/b&gt;
   &lt;%= @article.author %&gt;
@@ -754,14 +756,14 @@ end
 
 </pre>
 </div>
-<p>これでRubyの生のオブジェクト出力が整形され、作者名が表示されるようになります。</p><h5 id="アプリケーションのコントローラを使用する"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3.2 アプリケーションのコントローラを使用する</a></h5><p>Railsのコントローラでは、認証やセッション変数へのアクセスに関するコードをアプリケーション全体で共有するのが一般的です。従って、このようなコードはデフォルトで<code>ApplicationController</code>から継承します。しかし、Railsのエンジンは基本的にメインとなるアプリケーションから独立しているので、エンジンが利用できる<code>ApplicationController</code>はスコープで制限されています。名前空間が導入されていることでコードの衝突は回避されますが、エンジンのコントローラからメインアプリケーションの<code>ApplicationController</code>のメソッドにアクセスする必要も頻繁に発生します。エンジンのコントローラからメインアプリケーションの<code>ApplicationController</code>へのアクセスを提供するには、エンジンが所有するスコープ付きの<code>ApplicationController</code>に変更を加え、メインアプリケーションの<code>ApplicationController</code>を継承するのが簡単な方法です。Blorghエンジンの場合、<code>app/controllers/blorgh/application_controller.rb</code>を以下のように変更します。</p><div class="code_container">
+<p>これでRubyの生のオブジェクト出力が整形され、作者名が表示されるようになります。</p><h5 id="アプリケーションのコントローラを使用する"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B">4.3.2 アプリケーションのコントローラを使用する</a></h5><p>Railsのコントローラでは、認証やセッション変数へのアクセスに関するコードをアプリケーション全体で共有するのが一般的です。従って、このようなコードはデフォルトで<code>ApplicationController</code>から継承します。しかし、Railsのエンジンは基本的にメインとなるアプリケーションから独立しているので、エンジンが利用できる<code>ApplicationController</code>はスコープで制限されています。名前空間が導入されていることでコードの衝突は回避されますが、エンジンのコントローラからメインアプリケーションの<code>ApplicationController</code>のメソッドにアクセスする必要も頻繁に発生します。エンジンのコントローラからメインアプリケーションの<code>ApplicationController</code>へのアクセスを提供するには、エンジンが所有するスコープ付きの<code>ApplicationController</code>に変更を加え、メインアプリケーションの<code>ApplicationController</code>を継承するのが簡単な方法です。Blorghエンジンの場合、<code>app/controllers/blorgh/application_controller.rb</code>を以下のように変更します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Blorgh::ApplicationController &lt; ApplicationController
 end
 
 </pre>
 </div>
-<p>エンジンのコントローラはデフォルトで<code>Blorgh::ApplicationController</code>を継承します。上の変更を行なうことで、あたかもエンジンがアプリケーションの一部であるかのように、エンジンのコントローラで<code>ApplicationController</code>にアクセスできるようになります。</p><p>この変更を行なうには、エンジンをホストするRailsアプリケーションに<code>ApplicationController</code>という名前のコントローラが存在する必要があります。</p><h4 id="エンジンを設定する"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">4.4 エンジンを設定する</a></h4><p>このセクションでは、<code>User</code>クラスをカスタマイズ可能にする方法を解説し、続いてエンジンの一般的な設定方法について解説します。</p><h5 id="アプリケーションの設定を行なう"><a href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%82%92%E8%A1%8C%E3%81%AA%E3%81%86">4.4.1 アプリケーションの設定を行なう</a></h5><p>これより、アプリケーションで<code>User</code>を表すクラスをエンジンからカスタマイズ可能にする方法について説明します。カスタマイズしたいクラスは、前述の<code>User</code>のようなクラスばかりとは限りません。このクラスの設定をカスタマイズ可能にするには、エンジン内部に<code>author_class</code>という名前の設定が必要です。この設定は、親アプリケーション内部でユーザーを表すクラスがどれであるかを指定するためのものです。</p><p>この設定を定義するには、エンジンで使用する<code>Blorgh</code>モジュール内部に<code>mattr_accessor</code>というアクセッサを置く必要があります。エンジンにある<code>lib/blorgh.rb</code>に以下の行を追加します。</p><div class="code_container">
+<p>エンジンのコントローラはデフォルトで<code>Blorgh::ApplicationController</code>を継承します。上の変更を行なうことで、あたかもエンジンがアプリケーションの一部であるかのように、エンジンのコントローラで<code>ApplicationController</code>にアクセスできるようになります。</p><p>この変更を行なうには、エンジンをホストするRailsアプリケーションに<code>ApplicationController</code>という名前のコントローラが存在する必要があります。</p><h4 id="エンジンを設定する"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">4.4 エンジンを設定する</a></h4><p>このセクションでは、<code>User</code>クラスをカスタマイズ可能にする方法を解説し、続いてエンジンの一般的な設定方法について解説します。</p><h5 id="アプリケーションの設定を行なう"><a class="anchorlink" href="#%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%82%92%E8%A1%8C%E3%81%AA%E3%81%86">4.4.1 アプリケーションの設定を行なう</a></h5><p>これより、アプリケーションで<code>User</code>を表すクラスをエンジンからカスタマイズ可能にする方法について説明します。カスタマイズしたいクラスは、前述の<code>User</code>のようなクラスばかりとは限りません。このクラスの設定をカスタマイズ可能にするには、エンジン内部に<code>author_class</code>という名前の設定が必要です。この設定は、親アプリケーション内部でユーザーを表すクラスがどれであるかを指定するためのものです。</p><p>この設定を定義するには、エンジンで使用する<code>Blorgh</code>モジュール内部に<code>mattr_accessor</code>というアクセッサを置く必要があります。エンジンにある<code>lib/blorgh.rb</code>に以下の行を追加します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 mattr_accessor :author_class
 
@@ -805,7 +807,7 @@ Blorgh.author_class = "User"
 
 </pre>
 </div>
-<div class="warning"><p>このクラス名は必ず<code>String</code>で (=引用符で囲んで) 表してください。クラス自身を使用しないでください。クラス自身が使用されていると、Railsはそのクラスを読み込んで関連するテーブルを参照しようとします。このとき参照先のテーブルが存在しないと問題が発生する可能性があります。このため、クラス名は<code>String</code>で表し、後にエンジンが<code>constantize</code>でクラスに変換する必要があります。</p></div><p>続いて、新しい記事を1つ作成してみることにしましょう。記事の作成はこれまでとまったく同様に行えます。1つだけ異なるのは、今回はクラスの動作を学ぶために<code>config/initializers/blorgh.rb</code>の設定をエンジンで使用する点です。</p><p>使用するクラスがそのためのAPIさえ備えていれば、使用するクラスに厳密に依存することはありません。エンジンで使用するクラスで必須となるメソッドは<code>find_or_create_by</code>のみです。このメソッドはそのクラスのオブジェクトを1つ返します。もちろん、このオブジェクトは何らかの形で参照可能な識別子 (id) を持つ必要があります。</p><h5 id="一般的なエンジンの設定"><a href="#%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A">4.4.2 一般的なエンジンの設定</a></h5><p>エンジンを使ううちに、その中でイニシャライザや国際化などの機能オプションを使用したくなることでしょう。うれしいことに、RailsエンジンはRailsアプリケーションと大半の機能を共有しているので、これらは完全に実現可能です。実際、Railsアプリケーションが持つ機能はエンジンが持つ機能のスーパーセットなのです。</p><p>たとえばイニシャライザ (エンジンが読み込まれる前に実行されるコード) を使用したいのであれば、そのための場所である<code>config/initializers</code>フォルダに置きます。このディレクトリの機能については『Railsアプリケーションを設定する』ガイドの<a href="configuring.html#%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">イニシャライザファイルを使用する</a>を参照してください。エンジンのイニシャライザは、アプリケーションの<code>config/initializers</code>ディレクトリに置かれているイニシャライザとまったく同様に動作します。標準のイニシャライザを使用したい場合も同様です。</p><p>ロケールファイルも、アプリケーションの場合と同様<code>config/locales</code>ディレクトリに置けばよいようになっています。</p><h3 id="エンジンをテストする"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">5 エンジンをテストする</a></h3><p>エンジンが生成されると、<code>test/dummy</code>ディレクトリの下に小規模なダミーアプリケーションが自動的に配置されます。このダミーアプリケーションはエンジンのマウント場所として使用されるので、エンジンのテストがきわめてシンプルになります。このディレクトリ内でコントローラやモデル、ビューを生成してアプリケーションを拡張し、続いてこれらを使用してエンジンをテストできます。</p><p><code>test</code>ディレクトリは、通常のRailsにおけるtesting環境と同様に扱う必要があります。Railsのtesting環境では単体テスト、機能テスト、結合テストを行なうことができます。</p><h4 id="機能テスト"><a href="#%E6%A9%9F%E8%83%BD%E3%83%86%E3%82%B9%E3%83%88">5.1 機能テスト</a></h4><p>特に機能テストを作成する際には、テストが実行されるのはエンジンではなく<code>test/dummy</code>に置かれるダミーアプリケーション上であるという点に留意する必要があります。このようになっているのは、testing環境がそのように設定されているためです。エンジンの主要な機能、特にコントローラをテストするには、エンジンをホストするアプリケーションが必要です。コントローラの機能は、通常であればたとえば以下のように<code>GET</code>をコントローラに送信することでテストするでしょう。</p><div class="code_container">
+<div class="warning"><p>このクラス名は必ず<code>String</code>で (=引用符で囲んで) 表してください。クラス自身を使用しないでください。クラス自身が使用されていると、Railsはそのクラスを読み込んで関連するテーブルを参照しようとします。このとき参照先のテーブルが存在しないと問題が発生する可能性があります。このため、クラス名は<code>String</code>で表し、後にエンジンが<code>constantize</code>でクラスに変換する必要があります。</p></div><p>続いて、新しい記事を1つ作成してみることにしましょう。記事の作成はこれまでとまったく同様に行えます。1つだけ異なるのは、今回はクラスの動作を学ぶために<code>config/initializers/blorgh.rb</code>の設定をエンジンで使用する点です。</p><p>使用するクラスがそのためのAPIさえ備えていれば、使用するクラスに厳密に依存することはありません。エンジンで使用するクラスで必須となるメソッドは<code>find_or_create_by</code>のみです。このメソッドはそのクラスのオブジェクトを1つ返します。もちろん、このオブジェクトは何らかの形で参照可能な識別子 (id) を持つ必要があります。</p><h5 id="一般的なエンジンの設定"><a class="anchorlink" href="#%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A">4.4.2 一般的なエンジンの設定</a></h5><p>エンジンを使ううちに、その中でイニシャライザや国際化などの機能オプションを使用したくなることでしょう。うれしいことに、RailsエンジンはRailsアプリケーションと大半の機能を共有しているので、これらは完全に実現可能です。実際、Railsアプリケーションが持つ機能はエンジンが持つ機能のスーパーセットなのです。</p><p>たとえばイニシャライザ (エンジンが読み込まれる前に実行されるコード) を使用したいのであれば、そのための場所である<code>config/initializers</code>フォルダに置きます。このディレクトリの機能については『Railsアプリケーションを設定する』ガイドの<a href="configuring.html#%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">イニシャライザファイルを使用する</a>を参照してください。エンジンのイニシャライザは、アプリケーションの<code>config/initializers</code>ディレクトリに置かれているイニシャライザとまったく同様に動作します。標準のイニシャライザを使用したい場合も同様です。</p><p>ロケールファイルも、アプリケーションの場合と同様<code>config/locales</code>ディレクトリに置けばよいようになっています。</p><h3 id="エンジンをテストする"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%99%E3%82%8B">5 エンジンをテストする</a></h3><p>エンジンが生成されると、<code>test/dummy</code>ディレクトリの下に小規模なダミーアプリケーションが自動的に配置されます。このダミーアプリケーションはエンジンのマウント場所として使用されるので、エンジンのテストがきわめてシンプルになります。このディレクトリ内でコントローラやモデル、ビューを生成してアプリケーションを拡張し、続いてこれらを使用してエンジンをテストできます。</p><p><code>test</code>ディレクトリは、通常のRailsにおけるtesting環境と同様に扱う必要があります。Railsのtesting環境では単体テスト、機能テスト、結合テストを行なうことができます。</p><h4 id="機能テスト"><a class="anchorlink" href="#%E6%A9%9F%E8%83%BD%E3%83%86%E3%82%B9%E3%83%88">5.1 機能テスト</a></h4><p>特に機能テストを作成する際には、テストが実行されるのはエンジンではなく<code>test/dummy</code>に置かれるダミーアプリケーション上であるという点に留意する必要があります。このようになっているのは、testing環境がそのように設定されているためです。エンジンの主要な機能、特にコントローラをテストするには、エンジンをホストするアプリケーションが必要です。コントローラの機能は、通常であればたとえば以下のように<code>GET</code>をコントローラに送信することでテストするでしょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 get :index
 
@@ -825,7 +827,7 @@ end
 
 </pre>
 </div>
-<p>こうすることで、エンジン用のURLヘルパーもテストで期待どおりに動作します。</p><h3 id="エンジンの機能を改良する"><a href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%A9%9F%E8%83%BD%E3%82%92%E6%94%B9%E8%89%AF%E3%81%99%E3%82%8B">6 エンジンの機能を改良する</a></h3><p>このセクションでは、エンジンのMVC機能をメインのRailsアプリケーションに追加またはオーバーライドする方法について解説します。</p><h4 id="モデルとコントローラをオーバーライドする"><a href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%81%A8%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%89%E3%81%99%E3%82%8B">6.1 モデルとコントローラをオーバーライドする</a></h4><p>エンジンのモデルクラスとコントローラクラスは、オープンクラスとしてメインのRailsアプリケーションで拡張可能です。Railsのモデルクラスとコントローラクラスは、Rails特有の機能を継承しているほかは通常のRubyクラスと変わりありません。エンジンのクラスをオープンクラス化 (open classing) することで、メインのアプリケーションで使用できるように再定義されます。これは、デザインパターンで言うdecoratorパターンとして実装するのが普通です。</p><p>クラスの変更内容が単純であれば、<code>Class#class_eval</code>を使用します。クラスの変更が複雑な場合は、<code>ActiveSupport::Concern</code>の使用をご検討ください。</p><h5 id="デコレータとコードの読み込みに関するメモ"><a href="#%E3%83%87%E3%82%B3%E3%83%AC%E3%83%BC%E3%82%BF%E3%81%A8%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E3%83%A1%E3%83%A2">6.1.1 デコレータとコードの読み込みに関するメモ</a></h5><p>Railsアプリケーション自身はこれらのデコレータを参照することはないので、Railsの自動読み込み機能ではこれらのデコレータを読み込んだり起動したりできません。つまり、デコレータは手動でrequireする必要があるということです。</p><p>これを行なうためのサンプルコードをいくつか掲載します。</p><div class="code_container">
+<p>こうすることで、エンジン用のURLヘルパーもテストで期待どおりに動作します。</p><h3 id="エンジンの機能を改良する"><a class="anchorlink" href="#%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%A9%9F%E8%83%BD%E3%82%92%E6%94%B9%E8%89%AF%E3%81%99%E3%82%8B">6 エンジンの機能を改良する</a></h3><p>このセクションでは、エンジンのMVC機能をメインのRailsアプリケーションに追加またはオーバーライドする方法について解説します。</p><h4 id="モデルとコントローラをオーバーライドする"><a class="anchorlink" href="#%E3%83%A2%E3%83%87%E3%83%AB%E3%81%A8%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%92%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%89%E3%81%99%E3%82%8B">6.1 モデルとコントローラをオーバーライドする</a></h4><p>エンジンのモデルクラスとコントローラクラスは、オープンクラスとしてメインのRailsアプリケーションで拡張可能です。Railsのモデルクラスとコントローラクラスは、Rails特有の機能を継承しているほかは通常のRubyクラスと変わりありません。エンジンのクラスをオープンクラス化 (open classing) することで、メインのアプリケーションで使用できるように再定義されます。これは、デザインパターンで言うdecoratorパターンとして実装するのが普通です。</p><p>クラスの変更内容が単純であれば、<code>Class#class_eval</code>を使用します。クラスの変更が複雑な場合は、<code>ActiveSupport::Concern</code>の使用をご検討ください。</p><h5 id="デコレータとコードの読み込みに関するメモ"><a class="anchorlink" href="#%E3%83%87%E3%82%B3%E3%83%AC%E3%83%BC%E3%82%BF%E3%81%A8%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E3%83%A1%E3%83%A2">6.1.1 デコレータとコードの読み込みに関するメモ</a></h5><p>Railsアプリケーション自身はこれらのデコレータを参照することはないので、Railsの自動読み込み機能ではこれらのデコレータを読み込んだり起動したりできません。つまり、デコレータは手動でrequireする必要があるということです。</p><p>これを行なうためのサンプルコードをいくつか掲載します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # lib/blorgh/engine.rb
 module Blorgh
@@ -842,7 +844,7 @@ end
 
 </pre>
 </div>
-<p>上のコードは、デコレータだけではなく、メインのアプリケーションから参照されないすべてのエンジンのコードを読み込みます。</p><h5 id="class-class-evalを使用してdecoratorパターンを実装する"><a href="#class-class-eval%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6decorator%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">6.1.2 Class#class_evalを使用してdecoratorパターンを実装する</a></h5><p><code>Article#time_since_created</code>を<strong>追加する</strong>場合:</p><div class="code_container">
+<p>上のコードは、デコレータだけではなく、メインのアプリケーションから参照されないすべてのエンジンのコードを読み込みます。</p><h5 id="class-class-evalを使用してdecoratorパターンを実装する"><a class="anchorlink" href="#class-class-eval%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6decorator%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">6.1.2 Class#class_evalを使用してdecoratorパターンを実装する</a></h5><p><code>Article#time_since_created</code>を<strong>追加する</strong>場合:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # MyApp/app/decorators/models/blorgh/article_decorator.rb
 
@@ -889,7 +891,7 @@ end
 
 </pre>
 </div>
-<h5 id="activesupport-concernを使用してdecoratorパターンを実装する"><a href="#activesupport-concern%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6decorator%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">6.1.3 ActiveSupport::Concernを使用してdecoratorパターンを実装する</a></h5><p><code>Class#class_eval</code>は単純な調整には大変便利ですが、クラスの変更が複雑になるのであれば<a href="http://edgeapi.rubyonrails.org/classes/ActiveSupport/Concern.html"><code>ActiveSupport::Concern</code></a>をご検討ください。ActiveSupport::Concernは、相互にリンクしている依存モジュールおよび依存クラスの実行時読み込み順序を管理し、コードのモジュール化を高めます。</p><p><code>Article#time_since_created</code>を<strong>追加</strong>して<code>Article#summary</code>を<strong>オーバーライド</strong>する場合:</p><div class="code_container">
+<h5 id="activesupport-concernを使用してdecoratorパターンを実装する"><a class="anchorlink" href="#activesupport-concern%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6decorator%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%99%E3%82%8B">6.1.3 ActiveSupport::Concernを使用してdecoratorパターンを実装する</a></h5><p><code>Class#class_eval</code>は単純な調整には大変便利ですが、クラスの変更が複雑になるのであれば<a href="http://edgeapi.rubyonrails.org/classes/ActiveSupport/Concern.html"><code>ActiveSupport::Concern</code></a>をご検討ください。ActiveSupport::Concernは、相互にリンクしている依存モジュールおよび依存クラスの実行時読み込み順序を管理し、コードのモジュール化を高めます。</p><p><code>Article#time_since_created</code>を<strong>追加</strong>して<code>Article#summary</code>を<strong>オーバーライド</strong>する場合:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # MyApp/app/models/blorgh/article.rb
 
@@ -952,8 +954,8 @@ end
 
 </pre>
 </div>
-<h4 id="ビューをオーバーライドする"><a href="#%E3%83%93%E3%83%A5%E3%83%BC%E3%82%92%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%89%E3%81%99%E3%82%8B">6.2 ビューをオーバーライドする</a></h4><p>Railsは出力すべきビューを探索する際に、アプリケーションの<code>app/views</code>ディレクトリを最初に探索します。探しているビューがそこにない場合、続いてそのディレクトリを持つすべてのエンジンの<code>app/views</code>ディレクトリを探索します。</p><p>たとえば、アプリケーションが<code>Blorgh::ArticlesController</code>のindexアクションの結果を出力するためのビューを探索する際には、最初にアプリケーション自身の<code>app/views/blorgh/articles/index.html.erb</code>を探索します。そこに見つからない場合は、続いてエンジンの中を探索します。</p><p><code>app/views/blorgh/articles/index.html.erb</code>というファイルを作成することで、上の動作を上書きすることができます。こうすることで、通常のビューでの出力結果を完全に変えることができます。</p><p><code>app/views/blorgh/articles/index.html.erb</code>というファイルを作成して以下のコードを追加するとします。</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<h4 id="ビューをオーバーライドする"><a class="anchorlink" href="#%E3%83%93%E3%83%A5%E3%83%BC%E3%82%92%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%89%E3%81%99%E3%82%8B">6.2 ビューをオーバーライドする</a></h4><p>Railsは出力すべきビューを探索する際に、アプリケーションの<code>app/views</code>ディレクトリを最初に探索します。探しているビューがそこにない場合、続いてそのディレクトリを持つすべてのエンジンの<code>app/views</code>ディレクトリを探索します。</p><p>たとえば、アプリケーションが<code>Blorgh::ArticlesController</code>のindexアクションの結果を出力するためのビューを探索する際には、最初にアプリケーション自身の<code>app/views/blorgh/articles/index.html.erb</code>を探索します。そこに見つからない場合は、続いてエンジンの中を探索します。</p><p><code>app/views/blorgh/articles/index.html.erb</code>というファイルを作成することで、上の動作を上書きすることができます。こうすることで、通常のビューでの出力結果を完全に変えることができます。</p><p><code>app/views/blorgh/articles/index.html.erb</code>というファイルを作成して以下のコードを追加するとします。</p><div class="code_container">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;h1&gt;Articles&lt;/h1&gt;
 &lt;%= link_to "New Article", new_article_path %&gt;
 &lt;% @articles.each do |article| %&gt;
@@ -965,7 +967,7 @@ end
 
 </pre>
 </div>
-<h4 id="ルーティング"><a href="#%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0">6.3 ルーティング</a></h4><p>デフォルトでは、エンジン内部のルーティングはアプリケーションのルーティングから分離されています。これは、<code>Engine</code>クラス内の<code>isolate_namespace</code>呼び出しによって実現されます。これは本質的に、アプリケーションとエンジンが完全に同一の名前のルーティングを持つことができ、しかも衝突しないということを意味します。</p><p>エンジン内部のルーティングは、以下のように<code>config/routes.rb</code>の<code>Engine</code>クラスによって構成されます。</p><div class="code_container">
+<h4 id="ルーティング"><a class="anchorlink" href="#%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0">6.3 ルーティング</a></h4><p>デフォルトでは、エンジン内部のルーティングはアプリケーションのルーティングから分離されています。これは、<code>Engine</code>クラス内の<code>isolate_namespace</code>呼び出しによって実現されます。これは本質的に、アプリケーションとエンジンが完全に同一の名前のルーティングを持つことができ、しかも衝突しないということを意味します。</p><p>エンジン内部のルーティングは、以下のように<code>config/routes.rb</code>の<code>Engine</code>クラスによって構成されます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Blorgh::Engine.routes.draw do
   resources :articles
@@ -991,7 +993,7 @@ end
 
 </pre>
 </div>
-<p>上のコードをエンジン内で使用すると、行き先は<strong>常に</strong>アプリケーションのルートになります。この<code>main_app</code>ルーティングプロキシメソッドを呼び出しを省略すると、行き先は呼び出された場所によってアプリケーションまたはエンジンのいずれかとなって確定しません。</p><p>ルーティングプロキシメソッド呼び出しを省略したこのようなアプリケーションルーティングヘルパーメソッドを、エンジン内でレンダリングされるテンプレートから呼び出そうとすると、未定義メソッド呼び出しエラーが発生することがあります。このような問題が発生した場合は、アプリケーションのルーティングメソッドを、<code>main_app</code>というプレフィックスを付けずにエンジンから呼びだそうとしていないかどうかを確認してください。</p><h4 id="アセット"><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88">6.4 アセット</a></h4><p>エンジンのアセットは、通常のアプリケーションで使用されるアセットとまったく同じように機能します。エンジンのクラスは<code>Rails::Engine</code>を継承しているので、アプリケーションはエンジンの'app/assets'ディレクトリと'lib/assets'ディレクトリを探索対象として認識します。</p><p>エンジン内の他のコンポーネントと同様、アセットも名前空間化される必要があります。たとえば、<code>style.css</code>というアセットは、<code>app/assets/stylesheets/style.css</code>ではなく<code>app/assets/stylesheets/[エンジン名]/style.css</code>に置かれる必要があります。アセットが名前空間化されないと、ホストアプリケーションに同じ名前のアセットが存在する場合にアプリケーションのアセットが使用されてエンジンのアセットが使用されないということが発生する可能性があります。</p><p><code>app/assets/stylesheets/blorgh/style.css</code>というアセットを例にとって説明します。このアセットをアプリケーションに含めるには、<code>stylesheet_link_tag</code>を使用してアセットがあたかもエンジン内部にあるかのように参照します。</p><div class="code_container">
+<p>上のコードをエンジン内で使用すると、行き先は<strong>常に</strong>アプリケーションのルートになります。この<code>main_app</code>ルーティングプロキシメソッドを呼び出しを省略すると、行き先は呼び出された場所によってアプリケーションまたはエンジンのいずれかとなって確定しません。</p><p>ルーティングプロキシメソッド呼び出しを省略したこのようなアプリケーションルーティングヘルパーメソッドを、エンジン内でレンダリングされるテンプレートから呼び出そうとすると、未定義メソッド呼び出しエラーが発生することがあります。このような問題が発生した場合は、アプリケーションのルーティングメソッドを、<code>main_app</code>というプレフィックスを付けずにエンジンから呼びだそうとしていないかどうかを確認してください。</p><h4 id="アセット"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88">6.4 アセット</a></h4><p>エンジンのアセットは、通常のアプリケーションで使用されるアセットとまったく同じように機能します。エンジンのクラスは<code>Rails::Engine</code>を継承しているので、アプリケーションはエンジンの'app/assets'ディレクトリと'lib/assets'ディレクトリを探索対象として認識します。</p><p>エンジン内の他のコンポーネントと同様、アセットも名前空間化される必要があります。たとえば、<code>style.css</code>というアセットは、<code>app/assets/stylesheets/style.css</code>ではなく<code>app/assets/stylesheets/[エンジン名]/style.css</code>に置かれる必要があります。アセットが名前空間化されないと、ホストアプリケーションに同じ名前のアセットが存在する場合にアプリケーションのアセットが使用されてエンジンのアセットが使用されないということが発生する可能性があります。</p><p><code>app/assets/stylesheets/blorgh/style.css</code>というアセットを例にとって説明します。このアセットをアプリケーションに含めるには、<code>stylesheet_link_tag</code>を使用してアセットがあたかもエンジン内部にあるかのように参照します。</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= stylesheet_link_tag "blorgh/style.css" %&gt;
 
@@ -1005,7 +1007,7 @@ end
 
 </pre>
 </div>
-<div class="info"><p>SassやCoffeeScriptなどの言語を使用する場合は、必要なライブラリを<code>.gemspec</code>に追加する必要があります。</p></div><h4 id="アセットとプリコンパイルを分離する"><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%A8%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E9%9B%A2%E3%81%99%E3%82%8B">6.5 アセットとプリコンパイルを分離する</a></h4><p>エンジンが持つアセットは、ホスト側のアプリケーションでは必ずしも必要ではないことがあります。たとえば、エンジンでしか使用しない管理機能を作成したとしましょう。この場合、ホストアプリケーションでは<code>admin.css</code>や<code>admin.js</code>は不要です。これらのアセットを必要とするのは、gemのadminレイアウトしかないからです。ホストアプリケーションから見れば、自分が持つスタイルシートに<code>"blorgh/admin.css"</code>を追加する意味はありません。このような場合、これらのアセットを明示的にプリコンパイルする必要があります。それにより、<code>rake assets:precompile</code>が実行されたときにエンジンのアセットを追加するようsprocketsに指示されます。</p><p>プリコンパイルの対象となるアセットは<code>engine.rb</code>で定義できます。</p><div class="code_container">
+<div class="info"><p>SassやCoffeeScriptなどの言語を使用する場合は、必要なライブラリを<code>.gemspec</code>に追加する必要があります。</p></div><h4 id="アセットとプリコンパイルを分離する"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%81%A8%E3%83%97%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E9%9B%A2%E3%81%99%E3%82%8B">6.5 アセットとプリコンパイルを分離する</a></h4><p>エンジンが持つアセットは、ホスト側のアプリケーションでは必ずしも必要ではないことがあります。たとえば、エンジンでしか使用しない管理機能を作成したとしましょう。この場合、ホストアプリケーションでは<code>admin.css</code>や<code>admin.js</code>は不要です。これらのアセットを必要とするのは、gemのadminレイアウトしかないからです。ホストアプリケーションから見れば、自分が持つスタイルシートに<code>"blorgh/admin.css"</code>を追加する意味はありません。このような場合、これらのアセットを明示的にプリコンパイルする必要があります。それにより、<code>rake assets:precompile</code>が実行されたときにエンジンのアセットを追加するようsprocketsに指示されます。</p><p>プリコンパイルの対象となるアセットは<code>engine.rb</code>で定義できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 initializer "blorgh.assets.precompile" do |app|
   app.config.assets.precompile += %w(admin.css admin.js)
@@ -1013,7 +1015,7 @@ end
 
 </pre>
 </div>
-<p>詳細については、<a href="asset_pipeline.html">アセットパイプライン</a>ガイドを参照してください。</p><h4 id="他のgemとの依存関係"><a href="#%E4%BB%96%E3%81%AEgem%E3%81%A8%E3%81%AE%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82">6.6 他のgemとの依存関係</a></h4><p>エンジンが依存するgemについては、エンジンのルートディレクトリの<code>.gemspec</code>に記述する必要があります。エンジンはgemとしてインストールされるので、このようにする必要があります。依存関係を<code>Gemfile</code>に指定したのでは伝統的なgemインストールで依存関係が認識されないので、必要なgemが自動的にインストールされず、エンジンが正常に機能しなくなります。</p><p>伝統的な<code>gem install</code>コマンド実行時に同時にインストールされる必要のあるgemを指定するには、以下のようにエンジンの<code>.gemspec</code>ファイルにある<code>Gem::Specification</code>ブロックの内側に記述します。</p><div class="code_container">
+<p>詳細については、<a href="asset_pipeline.html">アセットパイプライン</a>ガイドを参照してください。</p><h4 id="他のgemとの依存関係"><a class="anchorlink" href="#%E4%BB%96%E3%81%AEgem%E3%81%A8%E3%81%AE%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82">6.6 他のgemとの依存関係</a></h4><p>エンジンが依存するgemについては、エンジンのルートディレクトリの<code>.gemspec</code>に記述する必要があります。エンジンはgemとしてインストールされるので、このようにする必要があります。依存関係を<code>Gemfile</code>に指定したのでは伝統的なgemインストールで依存関係が認識されないので、必要なgemが自動的にインストールされず、エンジンが正常に機能しなくなります。</p><p>伝統的な<code>gem install</code>コマンド実行時に同時にインストールされる必要のあるgemを指定するには、以下のようにエンジンの<code>.gemspec</code>ファイルにある<code>Gem::Specification</code>ブロックの内側に記述します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 s.add_dependency "moo"
 
@@ -1055,16 +1057,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -1092,8 +1085,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -1109,17 +1100,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -1127,9 +1120,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -1144,13 +1137,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

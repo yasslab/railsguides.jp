@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Rails nested model forms | Rails ガイド</title>
+    <title>Rails nested model forms - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -246,6 +240,14 @@
 </li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -253,7 +255,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <div class="note"><p>This guide assumes the user knows how to use the <a href="form_helpers.html">Rails form helpers</a> in general. Also, it's <strong>not</strong> an API reference. For a complete reference please visit <a href="http://api.rubyonrails.org/">the Rails API documentation</a>.</p></div><h3 id="model-setup"><a href="#model-setup">1 Model setup</a></h3><p>To be able to use the nested model functionality in your forms, the model will need to support some basic operations.</p><p>First of all, it needs to define a writer method for the attribute that corresponds to the association you are building a nested model form for. The <code>fields_for</code> form helper will look for this method to decide whether or not a nested model form should be built.</p><p>If the associated object is an array, a form builder will be yielded for each object, else only a single form builder will be yielded.</p><p>Consider a Person model with an associated Address. When asked to yield a nested FormBuilder for the <code>:address</code> attribute, the <code>fields_for</code> form helper will look for a method on the Person instance named <code>address_attributes=</code>.</p><h4 id="activerecord-base-model"><a href="#activerecord-base-model">1.1 ActiveRecord::Base model</a></h4><p>For an ActiveRecord::Base model and association this writer method is commonly defined with the <code>accepts_nested_attributes_for</code> class method:</p><h5 id="has-one"><a href="#has-one">1.1.1 has_one</a></h5><div class="code_container">
+        <div class="note"><p>This guide assumes the user knows how to use the <a href="form_helpers.html">Rails form helpers</a> in general. Also, it's <strong>not</strong> an API reference. For a complete reference please visit <a href="http://edgeapi.rubyonrails.org/">the Rails API documentation</a>.</p></div><h3 id="model-setup"><a class="anchorlink" href="#model-setup">1 Model setup</a></h3><p>To be able to use the nested model functionality in your forms, the model will need to support some basic operations.</p><p>First of all, it needs to define a writer method for the attribute that corresponds to the association you are building a nested model form for. The <code>fields_for</code> form helper will look for this method to decide whether or not a nested model form should be built.</p><p>If the associated object is an array, a form builder will be yielded for each object, else only a single form builder will be yielded.</p><p>Consider a Person model with an associated Address. When asked to yield a nested FormBuilder for the <code>:address</code> attribute, the <code>fields_for</code> form helper will look for a method on the Person instance named <code>address_attributes=</code>.</p><h4 id="activerecord-base-model"><a class="anchorlink" href="#activerecord-base-model">1.1 ActiveRecord::Base model</a></h4><p>For an ActiveRecord::Base model and association this writer method is commonly defined with the <code>accepts_nested_attributes_for</code> class method:</p><h5 id="has-one"><a class="anchorlink" href="#has-one">1.1.1 has_one</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   has_one :address
@@ -262,7 +264,7 @@ end
 
 </pre>
 </div>
-<h5 id="belongs-to"><a href="#belongs-to">1.1.2 belongs_to</a></h5><div class="code_container">
+<h5 id="belongs-to"><a class="anchorlink" href="#belongs-to">1.1.2 belongs_to</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   belongs_to :firm
@@ -271,7 +273,7 @@ end
 
 </pre>
 </div>
-<h5 id="has-many-has-and-belongs-to-many"><a href="#has-many-has-and-belongs-to-many">1.1.3 has_many / has_and_belongs_to_many</a></h5><div class="code_container">
+<h5 id="has-many-has-and-belongs-to-many"><a class="anchorlink" href="#has-many-has-and-belongs-to-many">1.1.3 has_many / has_and_belongs_to_many</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person &lt; ActiveRecord::Base
   has_many :projects
@@ -280,7 +282,7 @@ end
 
 </pre>
 </div>
-<h4 id="custom-model"><a href="#custom-model">1.2 Custom model</a></h4><p>As you might have inflected from this explanation, you <em>don't</em> necessarily need an ActiveRecord::Base model to use this functionality. The following examples are sufficient to enable the nested model form behavior:</p><h5 id="single-associated-object"><a href="#single-associated-object">1.2.1 Single associated object</a></h5><div class="code_container">
+<h4 id="custom-model"><a class="anchorlink" href="#custom-model">1.2 Custom model</a></h4><p>As you might have inflected from this explanation, you <em>don't</em> necessarily need an ActiveRecord::Base model to use this functionality. The following examples are sufficient to enable the nested model form behavior:</p><h5 id="single-associated-object"><a class="anchorlink" href="#single-associated-object">1.2.1 Single associated object</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   def address
@@ -294,7 +296,7 @@ end
 
 </pre>
 </div>
-<h5 id="association-collection"><a href="#association-collection">1.2.2 Association collection</a></h5><div class="code_container">
+<h5 id="association-collection"><a class="anchorlink" href="#association-collection">1.2.2 Association collection</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Person
   def projects
@@ -308,7 +310,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>See (TODO) in the advanced section for more information on how to deal with the CRUD operations in your custom model.</p></div><h3 id="views"><a href="#views">2 Views</a></h3><h4 id="controller-code"><a href="#controller-code">2.1 Controller code</a></h4><p>A nested model form will <em>only</em> be built if the associated object(s) exist. This means that for a new model instance you would probably want to build the associated object(s) first.</p><p>Consider the following typical RESTful controller which will prepare a new Person instance and its <code>address</code> and <code>projects</code> associations before rendering the <code>new</code> template:</p><div class="code_container">
+<div class="note"><p>See (TODO) in the advanced section for more information on how to deal with the CRUD operations in your custom model.</p></div><h3 id="views"><a class="anchorlink" href="#views">2 Views</a></h3><h4 id="controller-code"><a class="anchorlink" href="#controller-code">2.1 Controller code</a></h4><p>A nested model form will <em>only</em> be built if the associated object(s) exist. This means that for a new model instance you would probably want to build the associated object(s) first.</p><p>Consider the following typical RESTful controller which will prepare a new Person instance and its <code>address</code> and <code>projects</code> associations before rendering the <code>new</code> template:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PeopleController &lt; ApplicationController
   def new
@@ -327,7 +329,7 @@ end
 
 </pre>
 </div>
-<div class="note"><p>Obviously the instantiation of the associated object(s) can become tedious and not DRY, so you might want to move that into the model itself. ActiveRecord::Base provides an <code>after_initialize</code> callback which is a good way to refactor this.</p></div><h4 id="form-code"><a href="#form-code">2.2 Form code</a></h4><p>Now that you have a model instance, with the appropriate methods and associated object(s), you can start building the nested model form.</p><h5 id="standard-form"><a href="#standard-form">2.2.1 Standard form</a></h5><p>Start out with a regular RESTful form:</p><div class="code_container">
+<div class="note"><p>Obviously the instantiation of the associated object(s) can become tedious and not DRY, so you might want to move that into the model itself. ActiveRecord::Base provides an <code>after_initialize</code> callback which is a good way to refactor this.</p></div><h4 id="form-code"><a class="anchorlink" href="#form-code">2.2 Form code</a></h4><p>Now that you have a model instance, with the appropriate methods and associated object(s), you can start building the nested model form.</p><h5 id="standard-form"><a class="anchorlink" href="#standard-form">2.2.1 Standard form</a></h5><p>Start out with a regular RESTful form:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -343,7 +345,7 @@ end
 
 </pre>
 </div>
-<h5 id="nested-form-for-a-single-associated-object"><a href="#nested-form-for-a-single-associated-object">2.2.2 Nested form for a single associated object</a></h5><p>Now add a nested form for the <code>address</code> association:</p><div class="code_container">
+<h5 id="nested-form-for-a-single-associated-object"><a class="anchorlink" href="#nested-form-for-a-single-associated-object">2.2.2 Nested form for a single associated object</a></h5><p>Now add a nested form for the <code>address</code> association:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -378,7 +380,7 @@ end
 
 </pre>
 </div>
-<p>That's it. The controller will simply pass this hash on to the model from the <code>create</code> action. The model will then handle building the <code>address</code> association for you and automatically save it when the parent (<code>person</code>) is saved.</p><h5 id="nested-form-for-a-collection-of-associated-objects"><a href="#nested-form-for-a-collection-of-associated-objects">2.2.3 Nested form for a collection of associated objects</a></h5><p>The form code for an association collection is pretty similar to that of a single associated object:</p><div class="code_container">
+<p>That's it. The controller will simply pass this hash on to the model from the <code>create</code> action. The model will then handle building the <code>address</code> association for you and automatically save it when the parent (<code>person</code>) is saved.</p><h5 id="nested-form-for-a-collection-of-associated-objects"><a class="anchorlink" href="#nested-form-for-a-collection-of-associated-objects">2.2.3 Nested form for a collection of associated objects</a></h5><p>The form code for an association collection is pretty similar to that of a single associated object:</p><div class="code_container">
 <pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;%= form_for @person do |f| %&gt;
   &lt;%= f.text_field :name %&gt;
@@ -433,16 +435,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -470,8 +463,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -487,17 +478,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -505,9 +498,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -522,13 +515,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

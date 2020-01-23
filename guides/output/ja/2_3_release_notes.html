@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Ruby on Rails 2.3 Release Notes | Rails ガイド</title>
+    <title>Rails 2.3 - 2009/03 [未訳] - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -220,7 +214,7 @@
   <hr class="hide" />
   <div id="feature">
   <div class="wrapper">
-      <h2>Ruby on Rails 2.3 Release Notes</h2><p>Rails 2.3 delivers a variety of new and improved features, including pervasive Rack integration, refreshed support for Rails Engines, nested transactions for Active Record, dynamic and default scopes, unified rendering, more efficient routing, application templates, and quiet backtraces. This list covers the major upgrades, but doesn&#39;t include every little bug fix and change. If you want to see everything, check out the <a href="http://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub or review the <code>CHANGELOG</code> files for the individual Rails components.</p>
+      <h2>Rails 2.3 - 2009/03 [未訳]</h2><p>Rails 2.3 delivers a variety of new and improved features, including pervasive Rack integration, refreshed support for Rails Engines, nested transactions for Active Record, dynamic and default scopes, unified rendering, more efficient routing, application templates, and quiet backtraces. This list covers the major upgrades, but doesn&#39;t include every little bug fix and change. If you want to see everything, check out the <a href="http://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub or review the <code>CHANGELOG</code> files for the individual Rails components.</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
             <ol class="chapters">
@@ -309,6 +303,14 @@
 <li><a href="#credits">Credits</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -316,7 +318,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="application-architecture"><a href="#application-architecture">1 Application Architecture</a></h3><p>There are two major changes in the architecture of Rails applications: complete integration of the <a href="http://rack.rubyforge.org/">Rack</a> modular web server interface, and renewed support for Rails Engines.</p><h4 id="rack-integration"><a href="#rack-integration">1.1 Rack Integration</a></h4><p>Rails has now broken with its CGI past, and uses Rack everywhere. This required and resulted in a tremendous number of internal changes (but if you use CGI, don't worry; Rails now supports CGI through a proxy interface.) Still, this is a major change to Rails internals. After upgrading to 2.3, you should test on your local environment and your production environment. Some things to test:</p>
+        <h3 id="application-architecture"><a class="anchorlink" href="#application-architecture">1 Application Architecture</a></h3><p>There are two major changes in the architecture of Rails applications: complete integration of the <a href="http://rack.rubyforge.org/">Rack</a> modular web server interface, and renewed support for Rails Engines.</p><h4 id="rack-integration"><a class="anchorlink" href="#rack-integration">1.1 Rack Integration</a></h4><p>Rails has now broken with its CGI past, and uses Rack everywhere. This required and resulted in a tremendous number of internal changes (but if you use CGI, don't worry; Rails now supports CGI through a proxy interface.) Still, this is a major change to Rails internals. After upgrading to 2.3, you should test on your local environment and your production environment. Some things to test:</p>
 <ul>
 <li>Sessions</li>
 <li>Cookies</li>
@@ -357,12 +359,12 @@
 <li>Instead of <code>config.action_controller.session = { :session_key =&gt; 'foo', ...</code> use <code>config.action_controller.session = { :key =&gt; 'foo', ...</code>.</li>
 <li>Using the <code>ParamsParser</code> middleware preprocesses any XML, JSON, or YAML requests so they can be read normally with any <code>Rack::Request</code> object after it.</li>
 </ul>
-<h4 id="renewed-support-for-rails-engines"><a href="#renewed-support-for-rails-engines">1.2 Renewed Support for Rails Engines</a></h4><p>After some versions without an upgrade, Rails 2.3 offers some new features for Rails Engines (Rails applications that can be embedded within other applications). First, routing files in engines are automatically loaded and reloaded now, just like your <code>routes.rb</code> file (this also applies to routing files in other plugins). Second, if your plugin has an app folder, then app/[models|controllers|helpers] will automatically be added to the Rails load path. Engines also support adding view paths now, and Action Mailer as well as Action View will use views from engines and other plugins.</p><h3 id="documentation"><a href="#documentation">2 Documentation</a></h3><p>The <a href="http://guides.rubyonrails.org/">Ruby on Rails guides</a> project has published several additional guides for Rails 2.3. In addition, a <a href="http://edgeguides.rubyonrails.org/">separate site</a> maintains updated copies of the Guides for Edge Rails. Other documentation efforts include a relaunch of the <a href="http://newwiki.rubyonrails.org/">Rails wiki</a> and early planning for a Rails Book.</p>
+<h4 id="renewed-support-for-rails-engines"><a class="anchorlink" href="#renewed-support-for-rails-engines">1.2 Renewed Support for Rails Engines</a></h4><p>After some versions without an upgrade, Rails 2.3 offers some new features for Rails Engines (Rails applications that can be embedded within other applications). First, routing files in engines are automatically loaded and reloaded now, just like your <code>routes.rb</code> file (this also applies to routing files in other plugins). Second, if your plugin has an app folder, then app/[models|controllers|helpers] will automatically be added to the Rails load path. Engines also support adding view paths now, and Action Mailer as well as Action View will use views from engines and other plugins.</p><h3 id="documentation"><a class="anchorlink" href="#documentation">2 Documentation</a></h3><p>The <a href="http://guides.rubyonrails.org/">Ruby on Rails guides</a> project has published several additional guides for Rails 2.3. In addition, a <a href="http://edgeguides.rubyonrails.org/">separate site</a> maintains updated copies of the Guides for Edge Rails. Other documentation efforts include a relaunch of the <a href="http://newwiki.rubyonrails.org/">Rails wiki</a> and early planning for a Rails Book.</p>
 <ul>
 <li>More Information: <a href="http://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.">Rails Documentation Projects</a>
 </li>
 </ul>
-<h3 id="ruby-1-9-1-support"><a href="#ruby-1-9-1-support">3 Ruby 1.9.1 Support</a></h3><p>Rails 2.3 should pass all of its own tests whether you are running on Ruby 1.8 or the now-released Ruby 1.9.1. You should be aware, though, that moving to 1.9.1 entails checking all of the data adapters, plugins, and other code that you depend on for Ruby 1.9.1 compatibility, as well as Rails core.</p><h3 id="active-record"><a href="#active-record">4 Active Record</a></h3><p>Active Record gets quite a number of new features and bug fixes in Rails 2.3. The highlights include nested attributes, nested transactions, dynamic and default scopes, and batch processing.</p><h4 id="nested-attributes"><a href="#nested-attributes">4.1 Nested Attributes</a></h4><p>Active Record can now update the attributes on nested models directly, provided you tell it to do so:</p><div class="code_container">
+<h3 id="ruby-1-9-1-support"><a class="anchorlink" href="#ruby-1-9-1-support">3 Ruby 1.9.1 Support</a></h3><p>Rails 2.3 should pass all of its own tests whether you are running on Ruby 1.8 or the now-released Ruby 1.9.1. You should be aware, though, that moving to 1.9.1 entails checking all of the data adapters, plugins, and other code that you depend on for Ruby 1.9.1 compatibility, as well as Rails core.</p><h3 id="active-record"><a class="anchorlink" href="#active-record">4 Active Record</a></h3><p>Active Record gets quite a number of new features and bug fixes in Rails 2.3. The highlights include nested attributes, nested transactions, dynamic and default scopes, and batch processing.</p><h4 id="nested-attributes"><a class="anchorlink" href="#nested-attributes">4.1 Nested Attributes</a></h4><p>Active Record can now update the attributes on nested models directly, provided you tell it to do so:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Book &lt; ActiveRecord::Base
   has_one :author
@@ -387,7 +389,7 @@ accepts_nested_attributes_for :author,
 <li>More Information: <a href="http://weblog.rubyonrails.org/2009/1/26/nested-model-forms">Nested Model Forms</a>
 </li>
 </ul>
-<h4 id="nested-transactions"><a href="#nested-transactions">4.2 Nested Transactions</a></h4><p>Active Record now supports nested transactions, a much-requested feature. Now you can write code like this:</p><div class="code_container">
+<h4 id="nested-transactions"><a class="anchorlink" href="#nested-transactions">4.2 Nested Transactions</a></h4><p>Active Record now supports nested transactions, a much-requested feature. Now you can write code like this:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 User.transaction do
   User.create(:username =&gt; 'Admin')
@@ -406,7 +408,7 @@ User.find(:all)  # =&gt; Returns only Admin
 <li>Lead Contributors: <a href="http://www.workingwithrails.com/person/4985-jonathan-viney">Jonathan Viney</a> and <a href="http://izumi.plan99.net/blog/">Hongli Lai</a>
 </li>
 </ul>
-<h4 id="dynamic-scopes"><a href="#dynamic-scopes">4.3 Dynamic Scopes</a></h4><p>You know about dynamic finders in Rails (which allow you to concoct methods like <code>find_by_color_and_flavor</code> on the fly) and named scopes (which allow you to encapsulate reusable query conditions into friendly names like <code>currently_active</code>). Well, now you can have dynamic scope methods. The idea is to put together syntax that allows filtering on the fly <em>and</em> method chaining. For example:</p><div class="code_container">
+<h4 id="dynamic-scopes"><a class="anchorlink" href="#dynamic-scopes">4.3 Dynamic Scopes</a></h4><p>You know about dynamic finders in Rails (which allow you to concoct methods like <code>find_by_color_and_flavor</code> on the fly) and named scopes (which allow you to encapsulate reusable query conditions into friendly names like <code>currently_active</code>). Well, now you can have dynamic scope methods. The idea is to put together syntax that allows filtering on the fly <em>and</em> method chaining. For example:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Order.scoped_by_customer_id(12)
 Order.scoped_by_customer_id(12).find(:all,
@@ -422,13 +424,13 @@ Order.scoped_by_customer_id(12).scoped_by_status("open")
 <li>More Information: <a href="http://ryandaigle.com/articles/2008/12/29/what-s-new-in-edge-rails-dynamic-scope-methods.">What's New in Edge Rails: Dynamic Scope Methods</a>
 </li>
 </ul>
-<h4 id="default-scopes"><a href="#default-scopes">4.4 Default Scopes</a></h4><p>Rails 2.3 will introduce the notion of <em>default scopes</em> similar to named scopes, but applying to all named scopes or find methods within the model. For example, you can write <code>default_scope :order =&gt; 'name ASC'</code> and any time you retrieve records from that model they'll come out sorted by name (unless you override the option, of course).</p>
+<h4 id="default-scopes"><a class="anchorlink" href="#default-scopes">4.4 Default Scopes</a></h4><p>Rails 2.3 will introduce the notion of <em>default scopes</em> similar to named scopes, but applying to all named scopes or find methods within the model. For example, you can write <code>default_scope :order =&gt; 'name ASC'</code> and any time you retrieve records from that model they'll come out sorted by name (unless you override the option, of course).</p>
 <ul>
 <li>Lead Contributor: Paweł Kondzior</li>
 <li>More Information: <a href="http://ryandaigle.com/articles/2008/11/18/what-s-new-in-edge-rails-default-scoping">What's New in Edge Rails: Default Scoping</a>
 </li>
 </ul>
-<h4 id="batch-processing"><a href="#batch-processing">4.5 Batch Processing</a></h4><p>You can now process large numbers of records from an Active Record model with less pressure on memory by using <code>find_in_batches</code>:</p><div class="code_container">
+<h4 id="batch-processing"><a class="anchorlink" href="#batch-processing">4.5 Batch Processing</a></h4><p>You can now process large numbers of records from an Active Record model with less pressure on memory by using <code>find_in_batches</code>:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Customer.find_in_batches(:conditions =&gt; {:active =&gt; true}) do |customer_group|
   customer_group.each { |customer| customer.update_account_balance! }
@@ -454,7 +456,7 @@ end
 </ul>
 </li>
 </ul>
-<h4 id="multiple-conditions-for-callbacks"><a href="#multiple-conditions-for-callbacks">4.6 Multiple Conditions for Callbacks</a></h4><p>When using Active Record callbacks, you can now combine <code>:if</code> and <code>:unless</code> options on the same callback, and supply multiple conditions as an array:</p><div class="code_container">
+<h4 id="multiple-conditions-for-callbacks"><a class="anchorlink" href="#multiple-conditions-for-callbacks">4.6 Multiple Conditions for Callbacks</a></h4><p>When using Active Record callbacks, you can now combine <code>:if</code> and <code>:unless</code> options on the same callback, and supply multiple conditions as an array:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 before_save :update_credit_rating, :if =&gt; :active,
   :unless =&gt; [:admin, :cash_only]
@@ -465,7 +467,7 @@ before_save :update_credit_rating, :if =&gt; :active,
 <ul>
 <li>Lead Contributor: L. Caviola</li>
 </ul>
-<h4 id="find-with-having"><a href="#find-with-having">4.7 Find with having</a></h4><p>Rails now has a <code>:having</code> option on find (as well as on <code>has_many</code> and <code>has_and_belongs_to_many</code> associations) for filtering records in grouped finds. As those with heavy SQL backgrounds know, this allows filtering based on grouped results:</p><div class="code_container">
+<h4 id="find-with-having"><a class="anchorlink" href="#find-with-having">4.7 Find with having</a></h4><p>Rails now has a <code>:having</code> option on find (as well as on <code>has_many</code> and <code>has_and_belongs_to_many</code> associations) for filtering records in grouped finds. As those with heavy SQL backgrounds know, this allows filtering based on grouped results:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 developers = Developer.find(:all, :group =&gt; "salary",
   :having =&gt; "sum(salary) &gt; 10000", :select =&gt; "salary")
@@ -477,7 +479,7 @@ developers = Developer.find(:all, :group =&gt; "salary",
 <li>Lead Contributor: <a href="http://github.com/miloops">Emilio Tagua</a>
 </li>
 </ul>
-<h4 id="reconnecting-mysql-connections"><a href="#reconnecting-mysql-connections">4.8 Reconnecting MySQL Connections</a></h4><p>MySQL supports a reconnect flag in its connections - if set to true, then the client will try reconnecting to the server before giving up in case of a lost connection. You can now set <code>reconnect = true</code> for your MySQL connections in <code>database.yml</code> to get this behavior from a Rails application. The default is <code>false</code>, so the behavior of existing applications doesn't change.</p>
+<h4 id="reconnecting-mysql-connections"><a class="anchorlink" href="#reconnecting-mysql-connections">4.8 Reconnecting MySQL Connections</a></h4><p>MySQL supports a reconnect flag in its connections - if set to true, then the client will try reconnecting to the server before giving up in case of a lost connection. You can now set <code>reconnect = true</code> for your MySQL connections in <code>database.yml</code> to get this behavior from a Rails application. The default is <code>false</code>, so the behavior of existing applications doesn't change.</p>
 <ul>
 <li>Lead Contributor: <a href="http://twitter.com/dubek">Dov Murik</a>
 </li>
@@ -489,7 +491,7 @@ developers = Developer.find(:all, :group =&gt; "salary",
 </ul>
 </li>
 </ul>
-<h4 id="other-active-record-changes"><a href="#other-active-record-changes">4.9 Other Active Record Changes</a></h4>
+<h4 id="other-active-record-changes"><a class="anchorlink" href="#other-active-record-changes">4.9 Other Active Record Changes</a></h4>
 <ul>
 <li>An extra <code>AS</code> was removed from the generated SQL for <code>has_and_belongs_to_many</code> preloading, making it work better for some databases.</li>
 <li>
@@ -507,7 +509,7 @@ developers = Developer.find(:all, :group =&gt; "salary",
 <li>
 <code>ActiveRecord::Base#invalid?</code> now works as the opposite of <code>ActiveRecord::Base#valid?</code>.</li>
 </ul>
-<h3 id="action-controller"><a href="#action-controller">5 Action Controller</a></h3><p>Action Controller rolls out some significant changes to rendering, as well as improvements in routing and other areas, in this release.</p><h4 id="unified-rendering"><a href="#unified-rendering">5.1 Unified Rendering</a></h4><p><code>ActionController::Base#render</code> is a lot smarter about deciding what to render. Now you can just tell it what to render and expect to get the right results. In older versions of Rails, you often need to supply explicit information to render:</p><div class="code_container">
+<h3 id="action-controller"><a class="anchorlink" href="#action-controller">5 Action Controller</a></h3><p>Action Controller rolls out some significant changes to rendering, as well as improvements in routing and other areas, in this release.</p><h4 id="unified-rendering"><a class="anchorlink" href="#unified-rendering">5.1 Unified Rendering</a></h4><p><code>ActionController::Base#render</code> is a lot smarter about deciding what to render. Now you can just tell it what to render and expect to get the right results. In older versions of Rails, you often need to supply explicit information to render:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 render :file =&gt; '/tmp/random_file.erb'
 render :template =&gt; 'other_controller/action'
@@ -524,7 +526,7 @@ render :show
 
 </pre>
 </div>
-<p>Rails chooses between file, template, and action depending on whether there is a leading slash, an embedded slash, or no slash at all in what's to be rendered. Note that you can also use a symbol instead of a string when rendering an action. Other rendering styles (<code>:inline</code>, <code>:text</code>, <code>:update</code>, <code>:nothing</code>, <code>:json</code>, <code>:xml</code>, <code>:js</code>) still require an explicit option.</p><h4 id="application-controller-renamed"><a href="#application-controller-renamed">5.2 Application Controller Renamed</a></h4><p>If you're one of the people who has always been bothered by the special-case naming of <code>application.rb</code>, rejoice! It's been reworked to be application_controller.rb in Rails 2.3. In addition, there's a new rake task, <code>rake rails:update:application_controller</code> to do this automatically for you - and it will be run as part of the normal <code>rake rails:update</code> process.</p>
+<p>Rails chooses between file, template, and action depending on whether there is a leading slash, an embedded slash, or no slash at all in what's to be rendered. Note that you can also use a symbol instead of a string when rendering an action. Other rendering styles (<code>:inline</code>, <code>:text</code>, <code>:update</code>, <code>:nothing</code>, <code>:json</code>, <code>:xml</code>, <code>:js</code>) still require an explicit option.</p><h4 id="application-controller-renamed"><a class="anchorlink" href="#application-controller-renamed">5.2 Application Controller Renamed</a></h4><p>If you're one of the people who has always been bothered by the special-case naming of <code>application.rb</code>, rejoice! It's been reworked to be application_controller.rb in Rails 2.3. In addition, there's a new rake task, <code>rake rails:update:application_controller</code> to do this automatically for you - and it will be run as part of the normal <code>rake rails:update</code> process.</p>
 <ul>
 <li>More Information:
 
@@ -534,7 +536,7 @@ render :show
 </ul>
 </li>
 </ul>
-<h4 id="http-digest-authentication-support"><a href="#http-digest-authentication-support">5.3 HTTP Digest Authentication Support</a></h4><p>Rails now has built-in support for HTTP digest authentication. To use it, you call <code>authenticate_or_request_with_http_digest</code> with a block that returns the user's password (which is then hashed and compared against the transmitted credentials):</p><div class="code_container">
+<h4 id="http-digest-authentication-support"><a class="anchorlink" href="#http-digest-authentication-support">5.3 HTTP Digest Authentication Support</a></h4><p>Rails now has built-in support for HTTP digest authentication. To use it, you call <code>authenticate_or_request_with_http_digest</code> with a block that returns the user's password (which is then hashed and compared against the transmitted credentials):</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ApplicationController
   Users = {"dhh" =&gt; "secret"}
@@ -562,12 +564,12 @@ end
 <li>More Information: <a href="http://ryandaigle.com/articles/2009/1/30/what-s-new-in-edge-rails-http-digest-authentication">What's New in Edge Rails: HTTP Digest Authentication</a>
 </li>
 </ul>
-<h4 id="more-efficient-routing"><a href="#more-efficient-routing">5.4 More Efficient Routing</a></h4><p>There are a couple of significant routing changes in Rails 2.3. The <code>formatted_</code> route helpers are gone, in favor just passing in <code>:format</code> as an option. This cuts down the route generation process by 50% for any resource - and can save a substantial amount of memory (up to 100MB on large applications). If your code uses the <code>formatted_</code> helpers, it will still work for the time being - but that behavior is deprecated and your application will be more efficient if you rewrite those routes using the new standard. Another big change is that Rails now supports multiple routing files, not just <code>routes.rb</code>. You can use <code>RouteSet#add_configuration_file</code> to bring in more routes at any time - without clearing the currently-loaded routes. While this change is most useful for Engines, you can use it in any application that needs to load routes in batches.</p>
+<h4 id="more-efficient-routing"><a class="anchorlink" href="#more-efficient-routing">5.4 More Efficient Routing</a></h4><p>There are a couple of significant routing changes in Rails 2.3. The <code>formatted_</code> route helpers are gone, in favor just passing in <code>:format</code> as an option. This cuts down the route generation process by 50% for any resource - and can save a substantial amount of memory (up to 100MB on large applications). If your code uses the <code>formatted_</code> helpers, it will still work for the time being - but that behavior is deprecated and your application will be more efficient if you rewrite those routes using the new standard. Another big change is that Rails now supports multiple routing files, not just <code>routes.rb</code>. You can use <code>RouteSet#add_configuration_file</code> to bring in more routes at any time - without clearing the currently-loaded routes. While this change is most useful for Engines, you can use it in any application that needs to load routes in batches.</p>
 <ul>
 <li>Lead Contributors: <a href="http://blog.hungrymachine.com/">Aaron Batalion</a>
 </li>
 </ul>
-<h4 id="rack-based-lazy-loaded-sessions"><a href="#rack-based-lazy-loaded-sessions">5.5 Rack-based Lazy-loaded Sessions</a></h4><p>A big change pushed the underpinnings of Action Controller session storage down to the Rack level. This involved a good deal of work in the code, though it should be completely transparent to your Rails applications (as a bonus, some icky patches around the old CGI session handler got removed). It's still significant, though, for one simple reason: non-Rails Rack applications have access to the same session storage handlers (and therefore the same session) as your Rails applications. In addition, sessions are now lazy-loaded (in line with the loading improvements to the rest of the framework). This means that you no longer need to explicitly disable sessions if you don't want them; just don't refer to them and they won't load.</p><h4 id="mime-type-handling-changes"><a href="#mime-type-handling-changes">5.6 MIME Type Handling Changes</a></h4><p>There are a couple of changes to the code for handling MIME types in Rails. First, <code>MIME::Type</code> now implements the <code>=~</code> operator, making things much cleaner when you need to check for the presence of a type that has synonyms:</p><div class="code_container">
+<h4 id="rack-based-lazy-loaded-sessions"><a class="anchorlink" href="#rack-based-lazy-loaded-sessions">5.5 Rack-based Lazy-loaded Sessions</a></h4><p>A big change pushed the underpinnings of Action Controller session storage down to the Rack level. This involved a good deal of work in the code, though it should be completely transparent to your Rails applications (as a bonus, some icky patches around the old CGI session handler got removed). It's still significant, though, for one simple reason: non-Rails Rack applications have access to the same session storage handlers (and therefore the same session) as your Rails applications. In addition, sessions are now lazy-loaded (in line with the loading improvements to the rest of the framework). This means that you no longer need to explicitly disable sessions if you don't want them; just don't refer to them and they won't load.</p><h4 id="mime-type-handling-changes"><a class="anchorlink" href="#mime-type-handling-changes">5.6 MIME Type Handling Changes</a></h4><p>There are a couple of changes to the code for handling MIME types in Rails. First, <code>MIME::Type</code> now implements the <code>=~</code> operator, making things much cleaner when you need to check for the presence of a type that has synonyms:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 if content_type &amp;&amp; Mime::JS =~ content_type
   # do something cool
@@ -583,12 +585,12 @@ Mime::JS =~ "application/javascript" =&gt; true
 <li>Lead Contributor: <a href="http://www.workingwithrails.com/person/5510-seth-fitzsimmons">Seth Fitzsimmons</a>
 </li>
 </ul>
-<h4 id="optimization-of-respond-to"><a href="#optimization-of-respond-to">5.7 Optimization of <code>respond_to</code></a></h4><p>In some of the first fruits of the Rails-Merb team merger, Rails 2.3 includes some optimizations for the <code>respond_to</code> method, which is of course heavily used in many Rails applications to allow your controller to format results differently based on the MIME type of the incoming request. After eliminating a call to <code>method_missing</code> and some profiling and tweaking, we're seeing an 8% improvement in the number of requests per second served with a simple <code>respond_to</code> that switches between three formats. The best part? No change at all required to the code of your application to take advantage of this speedup.</p><h4 id="improved-caching-performance"><a href="#improved-caching-performance">5.8 Improved Caching Performance</a></h4><p>Rails now keeps a per-request local cache of read from the remote cache stores, cutting down on unnecessary reads and leading to better site performance. While this work was originally limited to <code>MemCacheStore</code>, it is available to any remote store than implements the required methods.</p>
+<h4 id="optimization-of-respond-to"><a class="anchorlink" href="#optimization-of-respond-to">5.7 Optimization of <code>respond_to</code></a></h4><p>In some of the first fruits of the Rails-Merb team merger, Rails 2.3 includes some optimizations for the <code>respond_to</code> method, which is of course heavily used in many Rails applications to allow your controller to format results differently based on the MIME type of the incoming request. After eliminating a call to <code>method_missing</code> and some profiling and tweaking, we're seeing an 8% improvement in the number of requests per second served with a simple <code>respond_to</code> that switches between three formats. The best part? No change at all required to the code of your application to take advantage of this speedup.</p><h4 id="improved-caching-performance"><a class="anchorlink" href="#improved-caching-performance">5.8 Improved Caching Performance</a></h4><p>Rails now keeps a per-request local cache of read from the remote cache stores, cutting down on unnecessary reads and leading to better site performance. While this work was originally limited to <code>MemCacheStore</code>, it is available to any remote store than implements the required methods.</p>
 <ul>
 <li>Lead Contributor: <a href="http://www.motionstandingstill.com/">Nahum Wild</a>
 </li>
 </ul>
-<h4 id="localized-views"><a href="#localized-views">5.9 Localized Views</a></h4><p>Rails can now provide localized views, depending on the locale that you have set. For example, suppose you have a <code>Posts</code> controller with a <code>show</code> action. By default, this will render <code>app/views/posts/show.html.erb</code>. But if you set <code>I18n.locale = :da</code>, it will render <code>app/views/posts/show.da.html.erb</code>. If the localized template isn't present, the undecorated version will be used. Rails also includes <code>I18n#available_locales</code> and <code>I18n::SimpleBackend#available_locales</code>, which return an array of the translations that are available in the current Rails project.</p><p>In addition, you can use the same scheme to localize the rescue files in the <code>public</code> directory: <code>public/500.da.html</code> or <code>public/404.en.html</code> work, for example.</p><h4 id="partial-scoping-for-translations"><a href="#partial-scoping-for-translations">5.10 Partial Scoping for Translations</a></h4><p>A change to the translation API makes things easier and less repetitive to write key translations within partials. If you call <code>translate(".foo")</code> from the <code>people/index.html.erb</code> template, you'll actually be calling <code>I18n.translate("people.index.foo")</code> If you don't prepend the key with a period, then the API doesn't scope, just as before.</p><h4 id="other-action-controller-changes"><a href="#other-action-controller-changes">5.11 Other Action Controller Changes</a></h4>
+<h4 id="localized-views"><a class="anchorlink" href="#localized-views">5.9 Localized Views</a></h4><p>Rails can now provide localized views, depending on the locale that you have set. For example, suppose you have a <code>Posts</code> controller with a <code>show</code> action. By default, this will render <code>app/views/posts/show.html.erb</code>. But if you set <code>I18n.locale = :da</code>, it will render <code>app/views/posts/show.da.html.erb</code>. If the localized template isn't present, the undecorated version will be used. Rails also includes <code>I18n#available_locales</code> and <code>I18n::SimpleBackend#available_locales</code>, which return an array of the translations that are available in the current Rails project.</p><p>In addition, you can use the same scheme to localize the rescue files in the <code>public</code> directory: <code>public/500.da.html</code> or <code>public/404.en.html</code> work, for example.</p><h4 id="partial-scoping-for-translations"><a class="anchorlink" href="#partial-scoping-for-translations">5.10 Partial Scoping for Translations</a></h4><p>A change to the translation API makes things easier and less repetitive to write key translations within partials. If you call <code>translate(".foo")</code> from the <code>people/index.html.erb</code> template, you'll actually be calling <code>I18n.translate("people.index.foo")</code> If you don't prepend the key with a period, then the API doesn't scope, just as before.</p><h4 id="other-action-controller-changes"><a class="anchorlink" href="#other-action-controller-changes">5.11 Other Action Controller Changes</a></h4>
 <ul>
 <li>ETag handling has been cleaned up a bit: Rails will now skip sending an ETag header when there's no body to the response or when sending files with <code>send_file</code>.</li>
 <li>The fact that Rails checks for IP spoofing can be a nuisance for sites that do heavy traffic with cell phones, because their proxies don't generally set things up right. If that's you, you can now set <code>ActionController::Base.ip_spoofing_check = false</code> to disable the check entirely.</li>
@@ -604,7 +606,7 @@ Mime::JS =~ "application/javascript" =&gt; true
 <li>
 <code>polymorphic_url</code> does a better job of handling objects with irregular plural names.</li>
 </ul>
-<h3 id="action-view"><a href="#action-view">6 Action View</a></h3><p>Action View in Rails 2.3 picks up nested model forms, improvements to <code>render</code>, more flexible prompts for the date select helpers, and a speedup in asset caching, among other things.</p><h4 id="nested-object-forms"><a href="#nested-object-forms">6.1 Nested Object Forms</a></h4><p>Provided the parent model accepts nested attributes for the child objects (as discussed in the Active Record section), you can create nested forms using <code>form_for</code> and <code>field_for</code>. These forms can be nested arbitrarily deep, allowing you to edit complex object hierarchies on a single view without excessive code. For example, given this model:</p><div class="code_container">
+<h3 id="action-view"><a class="anchorlink" href="#action-view">6 Action View</a></h3><p>Action View in Rails 2.3 picks up nested model forms, improvements to <code>render</code>, more flexible prompts for the date select helpers, and a speedup in asset caching, among other things.</p><h4 id="nested-object-forms"><a class="anchorlink" href="#nested-object-forms">6.1 Nested Object Forms</a></h4><p>Provided the parent model accepts nested attributes for the child objects (as discussed in the Active Record section), you can create nested forms using <code>form_for</code> and <code>field_for</code>. These forms can be nested arbitrarily deep, allowing you to edit complex object hierarchies on a single view without excessive code. For example, given this model:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Customer &lt; ActiveRecord::Base
   has_many :orders
@@ -615,7 +617,7 @@ end
 </pre>
 </div>
 <p>You can write this view in Rails 2.3:</p><div class="code_container">
-<pre class="brush: plain; gutter: false; toolbar: false">
+<pre class="brush: ruby; html-script: true; gutter: false; toolbar: false">
 &lt;% form_for @customer do |customer_form| %&gt;
   &lt;div&gt;
     &lt;%= customer_form.label :name, 'Customer Name:' %&gt;
@@ -660,7 +662,7 @@ end
 </ul>
 </li>
 </ul>
-<h4 id="smart-rendering-of-partials"><a href="#smart-rendering-of-partials">6.2 Smart Rendering of Partials</a></h4><p>The render method has been getting smarter over the years, and it's even smarter now. If you have an object or a collection and an appropriate partial, and the naming matches up, you can now just render the object and things will work. For example, in Rails 2.3, these render calls will work in your view (assuming sensible naming):</p><div class="code_container">
+<h4 id="smart-rendering-of-partials"><a class="anchorlink" href="#smart-rendering-of-partials">6.2 Smart Rendering of Partials</a></h4><p>The render method has been getting smarter over the years, and it's even smarter now. If you have an object or a collection and an appropriate partial, and the naming matches up, you can now just render the object and things will work. For example, in Rails 2.3, these render calls will work in your view (assuming sensible naming):</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Equivalent of render :partial =&gt; 'articles/_article',
 # :object =&gt; @article
@@ -677,7 +679,7 @@ render @articles
 <li>More Information: <a href="http://ryandaigle.com/articles/2008/11/20/what-s-new-in-edge-rails-render-stops-being-high-maintenance">What's New in Edge Rails: render Stops Being High-Maintenance</a>
 </li>
 </ul>
-<h4 id="prompts-for-date-select-helpers"><a href="#prompts-for-date-select-helpers">6.3 Prompts for Date Select Helpers</a></h4><p>In Rails 2.3, you can supply custom prompts for the various date select helpers (<code>date_select</code>, <code>time_select</code>, and <code>datetime_select</code>), the same way you can with collection select helpers. You can supply a prompt string or a hash of individual prompt strings for the various components. You can also just set <code>:prompt</code> to <code>true</code> to use the custom generic prompt:</p><div class="code_container">
+<h4 id="prompts-for-date-select-helpers"><a class="anchorlink" href="#prompts-for-date-select-helpers">6.3 Prompts for Date Select Helpers</a></h4><p>In Rails 2.3, you can supply custom prompts for the various date select helpers (<code>date_select</code>, <code>time_select</code>, and <code>datetime_select</code>), the same way you can with collection select helpers. You can supply a prompt string or a hash of individual prompt strings for the various components. You can also just set <code>:prompt</code> to <code>true</code> to use the custom generic prompt:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 select_datetime(DateTime.now, :prompt =&gt; true)
 
@@ -695,12 +697,12 @@ select_datetime(DateTime.now, :prompt =&gt;
 <li>Lead Contributor: <a href="http://samoliver.com/">Sam Oliver</a>
 </li>
 </ul>
-<h4 id="assettag-timestamp-caching"><a href="#assettag-timestamp-caching">6.4 AssetTag Timestamp Caching</a></h4><p>You're likely familiar with Rails' practice of adding timestamps to static asset paths as a "cache buster." This helps ensure that stale copies of things like images and stylesheets don't get served out of the user's browser cache when you change them on the server. You can now modify this behavior with the <code>cache_asset_timestamps</code> configuration option for Action View. If you enable the cache, then Rails will calculate the timestamp once when it first serves an asset, and save that value. This means fewer (expensive) file system calls to serve static assets - but it also means that you can't modify any of the assets while the server is running and expect the changes to get picked up by clients.</p><h4 id="asset-hosts-as-objects"><a href="#asset-hosts-as-objects">6.5 Asset Hosts as Objects</a></h4><p>Asset hosts get more flexible in edge Rails with the ability to declare an asset host as a specific object that responds to a call. This allows you to implement any complex logic you need in your asset hosting.</p>
+<h4 id="assettag-timestamp-caching"><a class="anchorlink" href="#assettag-timestamp-caching">6.4 AssetTag Timestamp Caching</a></h4><p>You're likely familiar with Rails' practice of adding timestamps to static asset paths as a "cache buster." This helps ensure that stale copies of things like images and stylesheets don't get served out of the user's browser cache when you change them on the server. You can now modify this behavior with the <code>cache_asset_timestamps</code> configuration option for Action View. If you enable the cache, then Rails will calculate the timestamp once when it first serves an asset, and save that value. This means fewer (expensive) file system calls to serve static assets - but it also means that you can't modify any of the assets while the server is running and expect the changes to get picked up by clients.</p><h4 id="asset-hosts-as-objects"><a class="anchorlink" href="#asset-hosts-as-objects">6.5 Asset Hosts as Objects</a></h4><p>Asset hosts get more flexible in edge Rails with the ability to declare an asset host as a specific object that responds to a call. This allows you to implement any complex logic you need in your asset hosting.</p>
 <ul>
 <li>More Information: <a href="http://github.com/dhh/asset-hosting-with-minimum-ssl/tree/master">asset-hosting-with-minimum-ssl</a>
 </li>
 </ul>
-<h4 id="grouped-options-for-select-helper-method"><a href="#grouped-options-for-select-helper-method">6.6 grouped_options_for_select Helper Method</a></h4><p>Action View already had a bunch of helpers to aid in generating select controls, but now there's one more: <code>grouped_options_for_select</code>. This one accepts an array or hash of strings, and converts them into a string of <code>option</code> tags wrapped with <code>optgroup</code> tags. For example:</p><div class="code_container">
+<h4 id="grouped-options-for-select-helper-method"><a class="anchorlink" href="#grouped-options-for-select-helper-method">6.6 grouped_options_for_select Helper Method</a></h4><p>Action View already had a bunch of helpers to aid in generating select controls, but now there's one more: <code>grouped_options_for_select</code>. This one accepts an array or hash of strings, and converts them into a string of <code>option</code> tags wrapped with <code>optgroup</code> tags. For example:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 grouped_options_for_select([["Hats", ["Baseball Cap","Cowboy Hat"]]],
   "Cowboy Hat", "Choose a product...")
@@ -717,7 +719,7 @@ grouped_options_for_select([["Hats", ["Baseball Cap","Cowboy Hat"]]],
 
 </pre>
 </div>
-<h4 id="disabled-option-tags-for-form-select-helpers"><a href="#disabled-option-tags-for-form-select-helpers">6.7 Disabled Option Tags for Form Select Helpers</a></h4><p>The form select helpers (such as <code>select</code> and <code>options_for_select</code>) now support a <code>:disabled</code> option, which can take a single value or an array of values to be disabled in the resulting tags:</p><div class="code_container">
+<h4 id="disabled-option-tags-for-form-select-helpers"><a class="anchorlink" href="#disabled-option-tags-for-form-select-helpers">6.7 Disabled Option Tags for Form Select Helpers</a></h4><p>The form select helpers (such as <code>select</code> and <code>options_for_select</code>) now support a <code>:disabled</code> option, which can take a single value or an array of values to be disabled in the resulting tags:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 select(:post, :category, Post::CATEGORIES, :disabled =&gt; 'private')
 
@@ -747,13 +749,13 @@ options_from_collection_for_select(@product.sizes, :name, :id, :disabled =&gt; l
 <li>More Information: <a href="http://tekin.co.uk/2009/03/new-in-rails-23-disabled-option-tags-and-lambdas-for-selecting-and-disabling-options-from-collections/">New in rails 2.3 - disabled option tags and lambdas for selecting and disabling options from collections</a>
 </li>
 </ul>
-<h4 id="a-note-about-template-loading"><a href="#a-note-about-template-loading">6.8 A Note About Template Loading</a></h4><p>Rails 2.3 includes the ability to enable or disable cached templates for any particular environment. Cached templates give you a speed boost because they don't check for a new template file when they're rendered - but they also mean that you can't replace a template "on the fly" without restarting the server.</p><p>In most cases, you'll want template caching to be turned on in production, which you can do by making a setting in your <code>production.rb</code> file:</p><div class="code_container">
+<h4 id="a-note-about-template-loading"><a class="anchorlink" href="#a-note-about-template-loading">6.8 A Note About Template Loading</a></h4><p>Rails 2.3 includes the ability to enable or disable cached templates for any particular environment. Cached templates give you a speed boost because they don't check for a new template file when they're rendered - but they also mean that you can't replace a template "on the fly" without restarting the server.</p><p>In most cases, you'll want template caching to be turned on in production, which you can do by making a setting in your <code>production.rb</code> file:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.action_view.cache_template_loading = true
 
 </pre>
 </div>
-<p>This line will be generated for you by default in a new Rails 2.3 application. If you've upgraded from an older version of Rails, Rails will default to caching templates in production and test but not in development.</p><h4 id="other-action-view-changes"><a href="#other-action-view-changes">6.9 Other Action View Changes</a></h4>
+<p>This line will be generated for you by default in a new Rails 2.3 application. If you've upgraded from an older version of Rails, Rails will default to caching templates in production and test but not in development.</p><h4 id="other-action-view-changes"><a class="anchorlink" href="#other-action-view-changes">6.9 Other Action View Changes</a></h4>
 <ul>
 <li>Token generation for CSRF protection has been simplified; now Rails uses a simple random string generated by <code>ActiveSupport::SecureRandom</code> rather than mucking around with session IDs.</li>
 <li>
@@ -762,12 +764,12 @@ config.action_view.cache_template_loading = true
 <li>
 <code>current_page?</code> now works properly even when there are multiple query parameters in the URL.</li>
 </ul>
-<h3 id="active-support"><a href="#active-support">7 Active Support</a></h3><p>Active Support has a few interesting changes, including the introduction of <code>Object#try</code>.</p><h4 id="object-try"><a href="#object-try">7.1 Object#try</a></h4><p>A lot of folks have adopted the notion of using try() to attempt operations on objects. It's especially helpful in views where you can avoid nil-checking by writing code like <code>&lt;%= @person.try(:name) %&gt;</code>. Well, now it's baked right into Rails. As implemented in Rails, it raises <code>NoMethodError</code> on private methods and always returns <code>nil</code> if the object is nil.</p>
+<h3 id="active-support"><a class="anchorlink" href="#active-support">7 Active Support</a></h3><p>Active Support has a few interesting changes, including the introduction of <code>Object#try</code>.</p><h4 id="object-try"><a class="anchorlink" href="#object-try">7.1 Object#try</a></h4><p>A lot of folks have adopted the notion of using try() to attempt operations on objects. It's especially helpful in views where you can avoid nil-checking by writing code like <code>&lt;%= @person.try(:name) %&gt;</code>. Well, now it's baked right into Rails. As implemented in Rails, it raises <code>NoMethodError</code> on private methods and always returns <code>nil</code> if the object is nil.</p>
 <ul>
 <li>More Information: <a href="http://ozmm.org/posts/try.html.">try()</a>
 </li>
 </ul>
-<h4 id="object-tap-backport"><a href="#object-tap-backport">7.2 Object#tap Backport</a></h4><p><code>Object#tap</code> is an addition to <a href="http://www.ruby-doc.org/core-1.9/classes/Object.html#M000309">Ruby 1.9</a> and 1.8.7 that is similar to the <code>returning</code> method that Rails has had for a while: it yields to a block, and then returns the object that was yielded. Rails now includes code to make this available under older versions of Ruby as well.</p><h4 id="swappable-parsers-for-xmlmini"><a href="#swappable-parsers-for-xmlmini">7.3 Swappable Parsers for XMLmini</a></h4><p>The support for XML parsing in Active Support has been made more flexible by allowing you to swap in different parsers. By default, it uses the standard REXML implementation, but you can easily specify the faster LibXML or Nokogiri implementations for your own applications, provided you have the appropriate gems installed:</p><div class="code_container">
+<h4 id="object-tap-backport"><a class="anchorlink" href="#object-tap-backport">7.2 Object#tap Backport</a></h4><p><code>Object#tap</code> is an addition to <a href="http://www.ruby-doc.org/core-1.9/classes/Object.html#M000309">Ruby 1.9</a> and 1.8.7 that is similar to the <code>returning</code> method that Rails has had for a while: it yields to a block, and then returns the object that was yielded. Rails now includes code to make this available under older versions of Ruby as well.</p><h4 id="swappable-parsers-for-xmlmini"><a class="anchorlink" href="#swappable-parsers-for-xmlmini">7.3 Swappable Parsers for XMLmini</a></h4><p>The support for XML parsing in Active Support has been made more flexible by allowing you to swap in different parsers. By default, it uses the standard REXML implementation, but you can easily specify the faster LibXML or Nokogiri implementations for your own applications, provided you have the appropriate gems installed:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 XmlMini.backend = 'LibXML'
 
@@ -780,7 +782,7 @@ XmlMini.backend = 'LibXML'
 <li>Lead Contributor: <a href="http://tenderlovemaking.com/">Aaron Patterson</a>
 </li>
 </ul>
-<h4 id="fractional-seconds-for-timewithzone"><a href="#fractional-seconds-for-timewithzone">7.4 Fractional seconds for TimeWithZone</a></h4><p>The <code>Time</code> and <code>TimeWithZone</code> classes include an <code>xmlschema</code> method to return the time in an XML-friendly string. As of Rails 2.3, <code>TimeWithZone</code> supports the same argument for specifying the number of digits in the fractional second part of the returned string that <code>Time</code> does:</p><div class="code_container">
+<h4 id="fractional-seconds-for-timewithzone"><a class="anchorlink" href="#fractional-seconds-for-timewithzone">7.4 Fractional seconds for TimeWithZone</a></h4><p>The <code>Time</code> and <code>TimeWithZone</code> classes include an <code>xmlschema</code> method to return the time in an XML-friendly string. As of Rails 2.3, <code>TimeWithZone</code> supports the same argument for specifying the number of digits in the fractional second part of the returned string that <code>Time</code> does:</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 &gt;&gt; Time.zone.now.xmlschema(6)
 =&gt; "2009-01-16T13:00:06.13653Z"
@@ -792,7 +794,7 @@ XmlMini.backend = 'LibXML'
 <li>Lead Contributor: <a href="http://www.workingwithrails.com/person/13536-nicholas-dainty">Nicholas Dainty</a>
 </li>
 </ul>
-<h4 id="json-key-quoting"><a href="#json-key-quoting">7.5 JSON Key Quoting</a></h4><p>If you look up the spec on the "json.org" site, you'll discover that all keys in a JSON structure must be strings, and they must be quoted with double quotes. Starting with Rails 2.3, we do the right thing here, even with numeric keys.</p><h4 id="other-active-support-changes"><a href="#other-active-support-changes">7.6 Other Active Support Changes</a></h4>
+<h4 id="json-key-quoting"><a class="anchorlink" href="#json-key-quoting">7.5 JSON Key Quoting</a></h4><p>If you look up the spec on the "json.org" site, you'll discover that all keys in a JSON structure must be strings, and they must be quoted with double quotes. Starting with Rails 2.3, we do the right thing here, even with numeric keys.</p><h4 id="other-active-support-changes"><a class="anchorlink" href="#other-active-support-changes">7.6 Other Active Support Changes</a></h4>
 <ul>
 <li>You can use <code>Enumerable#none?</code> to check that none of the elements match the supplied block.</li>
 <li>If you're using Active Support <a href="http://afreshcup.com/2008/10/19/coming-in-rails-22-delegate-prefixes/,">delegates</a> the new <code>:allow_nil</code> option lets you return <code>nil</code> instead of raising an exception when the target object is nil.</li>
@@ -809,7 +811,7 @@ XmlMini.backend = 'LibXML'
 <li>
 <code>ActiveSupport::Json.decode</code> now handles <code>\u0000</code> style escape sequences.</li>
 </ul>
-<h3 id="railties"><a href="#railties">8 Railties</a></h3><p>In addition to the Rack changes covered above, Railties (the core code of Rails itself) sports a number of significant changes, including Rails Metal, application templates, and quiet backtraces.</p><h4 id="rails-metal"><a href="#rails-metal">8.1 Rails Metal</a></h4><p>Rails Metal is a new mechanism that provides superfast endpoints inside of your Rails applications. Metal classes bypass routing and Action Controller to give you raw speed (at the cost of all the things in Action Controller, of course). This builds on all of the recent foundation work to make Rails a Rack application with an exposed middleware stack. Metal endpoints can be loaded from your application or from plugins.</p>
+<h3 id="railties"><a class="anchorlink" href="#railties">8 Railties</a></h3><p>In addition to the Rack changes covered above, Railties (the core code of Rails itself) sports a number of significant changes, including Rails Metal, application templates, and quiet backtraces.</p><h4 id="rails-metal"><a class="anchorlink" href="#rails-metal">8.1 Rails Metal</a></h4><p>Rails Metal is a new mechanism that provides superfast endpoints inside of your Rails applications. Metal classes bypass routing and Action Controller to give you raw speed (at the cost of all the things in Action Controller, of course). This builds on all of the recent foundation work to make Rails a Rack application with an exposed middleware stack. Metal endpoints can be loaded from your application or from plugins.</p>
 <ul>
 <li>More Information:
 
@@ -821,7 +823,7 @@ XmlMini.backend = 'LibXML'
 </ul>
 </li>
 </ul>
-<h4 id="application-templates"><a href="#application-templates">8.2 Application Templates</a></h4><p>Rails 2.3 incorporates Jeremy McAnally's <a href="http://github.com/jeremymcanally/rg/tree/master">rg</a> application generator. What this means is that we now have template-based application generation built right into Rails; if you have a set of plugins you include in every application (among many other use cases), you can just set up a template once and use it over and over again when you run the <code>rails</code> command. There's also a rake task to apply a template to an existing application:</p><div class="code_container">
+<h4 id="application-templates"><a class="anchorlink" href="#application-templates">8.2 Application Templates</a></h4><p>Rails 2.3 incorporates Jeremy McAnally's <a href="http://github.com/jeremymcanally/rg/tree/master">rg</a> application generator. What this means is that we now have template-based application generation built right into Rails; if you have a set of plugins you include in every application (among many other use cases), you can just set up a template once and use it over and over again when you run the <code>rails</code> command. There's also a rake task to apply a template to an existing application:</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 rake rails:template LOCATION=~/template.rb
 
@@ -834,12 +836,12 @@ rake rails:template LOCATION=~/template.rb
 <li>More Info:<a href="http://m.onkey.org/2008/12/4/rails-templates">Rails templates</a>
 </li>
 </ul>
-<h4 id="quieter-backtraces"><a href="#quieter-backtraces">8.3 Quieter Backtraces</a></h4><p>Building on Thoughtbot's <a href="https://github.com/thoughtbot/quietbacktrace">Quiet Backtrace</a> plugin, which allows you to selectively remove lines from <code>Test::Unit</code> backtraces, Rails 2.3 implements <code>ActiveSupport::BacktraceCleaner</code> and <code>Rails::BacktraceCleaner</code> in core. This supports both filters (to perform regex-based substitutions on backtrace lines) and silencers (to remove backtrace lines entirely). Rails automatically adds silencers to get rid of the most common noise in a new application, and builds a <code>config/backtrace_silencers.rb</code> file to hold your own additions. This feature also enables prettier printing from any gem in the backtrace.</p><h4 id="faster-boot-time-in-development-mode-with-lazy-loading-autoload"><a href="#faster-boot-time-in-development-mode-with-lazy-loading-autoload">8.4 Faster Boot Time in Development Mode with Lazy Loading/Autoload</a></h4><p>Quite a bit of work was done to make sure that bits of Rails (and its dependencies) are only brought into memory when they're actually needed. The core frameworks - Active Support, Active Record, Action Controller, Action Mailer and Action View - are now using <code>autoload</code> to lazy-load their individual classes. This work should help keep the memory footprint down and improve overall Rails performance.</p><p>You can also specify (by using the new <code>preload_frameworks</code> option) whether the core libraries should be autoloaded at startup. This defaults to <code>false</code> so that Rails autoloads itself piece-by-piece, but there are some circumstances where you still need to bring in everything at once - Passenger and JRuby both want to see all of Rails loaded together.</p><h4 id="rake-gem-task-rewrite"><a href="#rake-gem-task-rewrite">8.5 rake gem Task Rewrite</a></h4><p>The internals of the various <code>rake gem</code> tasks have been substantially revised, to make the system work better for a variety of cases. The gem system now knows the difference between development and runtime dependencies, has a more robust unpacking system, gives better information when querying for the status of gems, and is less prone to "chicken and egg" dependency issues when you're bringing things up from scratch. There are also fixes for using gem commands under JRuby and for dependencies that try to bring in external copies of gems that are already vendored.</p>
+<h4 id="quieter-backtraces"><a class="anchorlink" href="#quieter-backtraces">8.3 Quieter Backtraces</a></h4><p>Building on Thoughtbot's <a href="https://github.com/thoughtbot/quietbacktrace">Quiet Backtrace</a> plugin, which allows you to selectively remove lines from <code>Test::Unit</code> backtraces, Rails 2.3 implements <code>ActiveSupport::BacktraceCleaner</code> and <code>Rails::BacktraceCleaner</code> in core. This supports both filters (to perform regex-based substitutions on backtrace lines) and silencers (to remove backtrace lines entirely). Rails automatically adds silencers to get rid of the most common noise in a new application, and builds a <code>config/backtrace_silencers.rb</code> file to hold your own additions. This feature also enables prettier printing from any gem in the backtrace.</p><h4 id="faster-boot-time-in-development-mode-with-lazy-loading-autoload"><a class="anchorlink" href="#faster-boot-time-in-development-mode-with-lazy-loading-autoload">8.4 Faster Boot Time in Development Mode with Lazy Loading/Autoload</a></h4><p>Quite a bit of work was done to make sure that bits of Rails (and its dependencies) are only brought into memory when they're actually needed. The core frameworks - Active Support, Active Record, Action Controller, Action Mailer and Action View - are now using <code>autoload</code> to lazy-load their individual classes. This work should help keep the memory footprint down and improve overall Rails performance.</p><p>You can also specify (by using the new <code>preload_frameworks</code> option) whether the core libraries should be autoloaded at startup. This defaults to <code>false</code> so that Rails autoloads itself piece-by-piece, but there are some circumstances where you still need to bring in everything at once - Passenger and JRuby both want to see all of Rails loaded together.</p><h4 id="rake-gem-task-rewrite"><a class="anchorlink" href="#rake-gem-task-rewrite">8.5 rake gem Task Rewrite</a></h4><p>The internals of the various <code>rake gem</code> tasks have been substantially revised, to make the system work better for a variety of cases. The gem system now knows the difference between development and runtime dependencies, has a more robust unpacking system, gives better information when querying for the status of gems, and is less prone to "chicken and egg" dependency issues when you're bringing things up from scratch. There are also fixes for using gem commands under JRuby and for dependencies that try to bring in external copies of gems that are already vendored.</p>
 <ul>
 <li>Lead Contributor: <a href="http://www.workingwithrails.com/person/12240-david-dollar">David Dollar</a>
 </li>
 </ul>
-<h4 id="other-railties-changes"><a href="#other-railties-changes">8.6 Other Railties Changes</a></h4>
+<h4 id="other-railties-changes"><a class="anchorlink" href="#other-railties-changes">8.6 Other Railties Changes</a></h4>
 <ul>
 <li>The instructions for updating a CI server to build Rails have been updated and expanded.</li>
 <li>Internal Rails testing has been switched from <code>Test::Unit::TestCase</code> to <code>ActiveSupport::TestCase</code>, and the Rails core requires Mocha to test.</li>
@@ -855,7 +857,7 @@ rake rails:template LOCATION=~/template.rb
 <li>If any configured gems are missing, the gem rake tasks will skip loading much of the environment. This should solve many of the "chicken-and-egg" problems where rake gems:install couldn't run because gems were missing.</li>
 <li>Gems are now unpacked exactly once. This fixes issues with gems (hoe, for instance) which are packed with read-only permissions on the files.</li>
 </ul>
-<h3 id="deprecated"><a href="#deprecated">9 Deprecated</a></h3><p>A few pieces of older code are deprecated in this release:</p>
+<h3 id="deprecated"><a class="anchorlink" href="#deprecated">9 Deprecated</a></h3><p>A few pieces of older code are deprecated in this release:</p>
 <ul>
 <li>If you're one of the (fairly rare) Rails developers who deploys in a fashion that depends on the inspector, reaper, and spawner scripts, you'll need to know that those scripts are no longer included in core Rails. If you need them, you'll be able to pick up copies via the <a href="http://github.com/rails/irs_process_scripts/tree">irs_process_scripts</a> plugin.</li>
 <li>
@@ -872,7 +874,7 @@ rake rails:template LOCATION=~/template.rb
 <li>The <code>:connector</code> and <code>:skip_last_comma</code> options of <code>to_sentence</code> have been replaced by <code>:words_connnector</code>, <code>:two_words_connector</code>, and <code>:last_word_connector</code> options.</li>
 <li>Posting a multipart form with an empty <code>file_field</code> control used to submit an empty string to the controller. Now it submits a nil, due to differences between Rack's multipart parser and the old Rails one.</li>
 </ul>
-<h3 id="credits"><a href="#credits">10 Credits</a></h3><p>Release notes compiled by <a href="http://afreshcup.com.">Mike Gunderloy</a> This version of the Rails 2.3 release notes was compiled based on RC2 of Rails 2.3.</p>
+<h3 id="credits"><a class="anchorlink" href="#credits">10 Credits</a></h3><p>Release notes compiled by <a href="http://afreshcup.com.">Mike Gunderloy</a> This version of the Rails 2.3 release notes was compiled based on RC2 of Rails 2.3.</p>
         
 
         <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
@@ -890,16 +892,7 @@ rake rails:template LOCATION=~/template.rb
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -927,8 +920,6 @@ rake rails:template LOCATION=~/template.rb
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -944,17 +935,19 @@ rake rails:template LOCATION=~/template.rb
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -962,9 +955,9 @@ rake rails:template LOCATION=~/template.rb
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -979,13 +972,11 @@ rake rails:template LOCATION=~/template.rb
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Ruby on Rails 3.1 Release Notes | Rails ガイド</title>
+    <title>Ruby on Rails 3.1 リリースノート - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -220,40 +214,40 @@
   <hr class="hide" />
   <div id="feature">
   <div class="wrapper">
-      <h2>Ruby on Rails 3.1 Release Notes</h2><p>Highlights in Rails 3.1:</p>
+      <h2>Ruby on Rails 3.1 リリースノート</h2><p>Rails 3.1の注目ポイント</p>
 <ul>
-<li>Streaming</li>
-<li>Reversible Migrations</li>
-<li>Assets Pipeline</li>
-<li>jQuery as the default JavaScript library</li>
+<li>ストリーミング</li>
+<li>逆進可能なマイグレーション</li>
+<li>アセットパイプラリン</li>
+<li>jQueryがデフォルトのJavaScriptライブラリになった</li>
 </ul>
-<p>This release notes cover the major changes, but don&#39;t include every little bug fix and change. If you want to see everything, check out the <a href="https://github.com/rails/rails/commits/master">list of commits</a> in the main Rails repository on GitHub.</p>
+<p>本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある<a href="https://github.com/rails/rails/commits/3-1-stable">コミットリスト</a>のchangelogを参照してください。</p>
                 <div id="subCol">
             <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />目次</h3>
             <ol class="chapters">
 <li>
-<a href="#upgrading-to-rails-3-1">Upgrading to Rails 3.1</a>
+<a href="#rails-3-1%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">Rails 3.1へのアップグレード</a>
 
 <ul>
-<li><a href="#rails-3-1-requires-at-least-ruby-1-8-7">Rails 3.1 requires at least Ruby 1.8.7</a></li>
-<li><a href="#what-to-update-in-your-apps">What to update in your apps</a></li>
+<li><a href="#rails-3-1%E3%81%A7%E3%81%AFruby-1-8-7%E4%BB%A5%E4%B8%8A%E3%81%8C%E5%BF%85%E8%A6%81">Rails 3.1ではRuby 1.8.7以上が必要</a></li>
+<li><a href="#rails%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E6%96%B9%E6%B3%95">Railsのアップグレード方法</a></li>
 </ul>
 </li>
 <li>
-<a href="#creating-a-rails-3-1-application">Creating a Rails 3.1 application</a>
+<a href="#rails-3-1%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">Rails 3.1アプリケーションを作成する</a>
 
 <ul>
-<li><a href="#vendoring-gems">Vendoring Gems</a></li>
-<li><a href="#living-on-the-edge">Living on the Edge</a></li>
+<li><a href="#gem%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B">gemに移行する</a></li>
+<li><a href="#%E6%9C%80%E6%96%B0%E3%81%AEgem%E3%82%92%E4%BD%BF%E3%81%86">最新のgemを使う</a></li>
 </ul>
 </li>
 <li>
-<a href="#rails-architectural-changes">Rails Architectural Changes</a>
+<a href="#rails%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%81%AE%E5%A4%89%E6%9B%B4%E7%82%B9">Railsアーキテクチャの変更点</a>
 
 <ul>
-<li><a href="#assets-pipeline">Assets Pipeline</a></li>
-<li><a href="#http-streaming">HTTP Streaming</a></li>
-<li><a href="#default-js-library-is-now-jquery">Default JS library is now jQuery</a></li>
+<li><a href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3">アセットパイプライン</a></li>
+<li><a href="#http%E3%82%B9%E3%83%88%E3%83%AA%E3%83%BC%E3%83%9F%E3%83%B3%E3%82%B0">HTTPストリーミング</a></li>
+<li><a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AEjs%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%8Cjquery%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F">デフォルトのJSライブラリがjQueryになった</a></li>
 <li><a href="#identity-map">Identity Map</a></li>
 </ul>
 </li>
@@ -271,9 +265,17 @@
 <li><a href="#active-model">Active Model</a></li>
 <li><a href="#active-resource">Active Resource</a></li>
 <li><a href="#active-support">Active Support</a></li>
-<li><a href="#credits">Credits</a></li>
+<li><a href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">クレジット表記</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -281,27 +283,27 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="upgrading-to-rails-3-1"><a href="#upgrading-to-rails-3-1">1 Upgrading to Rails 3.1</a></h3><p>If you're upgrading an existing application, it's a great idea to have good test coverage before going in. You should also first upgrade to Rails 3 in case you haven't and make sure your application still runs as expected before attempting to update to Rails 3.1. Then take heed of the following changes:</p><h4 id="rails-3-1-requires-at-least-ruby-1-8-7"><a href="#rails-3-1-requires-at-least-ruby-1-8-7">1.1 Rails 3.1 requires at least Ruby 1.8.7</a></h4><p>Rails 3.1 requires Ruby 1.8.7 or higher. Support for all of the previous Ruby versions has been dropped officially and you should upgrade as early as possible. Rails 3.1 is also compatible with Ruby 1.9.2.</p><div class="info"><p>Note that Ruby 1.8.7 p248 and p249 have marshaling bugs that crash Rails. Ruby Enterprise Edition have these fixed since release 1.8.7-2010.02 though. On the 1.9 front, Ruby 1.9.1 is not usable because it outright segfaults, so if you want to use 1.9.x jump on 1.9.2 for smooth sailing.</p></div><h4 id="what-to-update-in-your-apps"><a href="#what-to-update-in-your-apps">1.2 What to update in your apps</a></h4><p>The following changes are meant for upgrading your application to Rails 3.1.3, the latest 3.1.x version of Rails.</p><h5 id="gemfile"><a href="#gemfile">1.2.1 Gemfile</a></h5><p>Make the following changes to your <code>Gemfile</code>.</p><div class="code_container">
+        <h3 id="rails-3-1へのアップグレード"><a class="anchorlink" href="#rails-3-1%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89">1 Rails 3.1へのアップグレード</a></h3><p>既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 3までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 3.1にアップデートしてください。以下の注意点を参照してからアップデートしてください。</p><h4 id="rails-3-1ではruby-1-8-7以上が必要"><a class="anchorlink" href="#rails-3-1%E3%81%A7%E3%81%AFruby-1-8-7%E4%BB%A5%E4%B8%8A%E3%81%8C%E5%BF%85%E8%A6%81">1.1 Rails 3.1ではRuby 1.8.7以上が必要</a></h4><p>Rails 3.1ではRuby 1.8.7以上が必須です。これより前のバージョンのRubyのサポートは公式に廃止されたため、速やかにRubyをアップグレードすべきです。Rails 3.1はRuby 1.9.2とも互換性があります。</p><div class="info"><p>Ruby 1.8.7のp248とp249には、Railsクラッシュの原因となるマーシャリングのバグがあります。なおRuby Enterprise Editionでは1.8.7-2010.02のリリースでこの問題が修正されました。現行のRuby 1.9のうち、Ruby 1.9.1はセグメンテーションフォールト（segfault）で完全にダウンするため利用できません。Railsをスムーズに動かすため、Ruby 1.9.xを使いたい場合は1.9.2をお使いください。</p></div><h4 id="railsのアップグレード方法"><a class="anchorlink" href="#rails%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E6%96%B9%E6%B3%95">1.2 Railsのアップグレード方法</a></h4><p>以下の変更点は、アプリケーションをRail 3.1.x系の中で最新のRails 3.1.3にアップグレードする場合を想定しています。</p><h5 id="gemfile"><a class="anchorlink" href="#gemfile">1.2.1 Gemfile</a></h5><p><code>Gemfile</code>を以下のように変更します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 gem 'rails', '= 3.1.3'
 gem 'mysql2'
 
-# Needed for the new asset pipeline
+# 新しいアセットパイプラインで必要
 group :assets do
   gem 'sass-rails',   "~&gt; 3.1.5"
   gem 'coffee-rails', "~&gt; 3.1.1"
   gem 'uglifier',     "&gt;= 1.0.3"
 end
 
-# jQuery is the default JavaScript library in Rails 3.1
+# Rails 3.1ではjQueryがデフォルトのJavaScriptライブラリとなる
 gem 'jquery-rails'
 
 </pre>
 </div>
-<h5 id="config-application-rb"><a href="#config-application-rb">1.2.2 config/application.rb</a></h5>
+<h5 id="config-application-rb"><a class="anchorlink" href="#config-application-rb">1.2.2 config/application.rb</a></h5>
 <ul>
 <li>
-<p>The asset pipeline requires the following additions:</p>
+<p>アセットパイプラインのために以下の追加が必要です。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 config.assets.enabled = true
@@ -311,85 +313,86 @@ config.assets.version = '1.0'
 </div>
 </li>
 <li>
-<p>If your application is using the "/assets" route for a resource you may want change the prefix used for assets to avoid conflicts:</p>
+<p>アプリケーションで、リソースへのルーティングに"/assets"を使っている場合、必要に応じてプレフィックスを変更してアセットのコンフリクトを避けてください。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-# Defaults to '/assets'
+# デフォルトは'/assets'
 config.assets.prefix = '/asset-files'
 
 </pre>
 </div>
 </li>
 </ul>
-<h5 id="config-environments-development-rb"><a href="#config-environments-development-rb">1.2.3 config/environments/development.rb</a></h5>
+<h5 id="config-environments-development-rb"><a class="anchorlink" href="#config-environments-development-rb">1.2.3 config/environments/development.rb</a></h5>
 <ul>
-<li><p>Remove the RJS setting <code>config.action_view.debug_rjs = true</code>.</p></li>
+<li><p>RJSの設定<code>config.action_view.debug_rjs = true</code>を削除します。</p></li>
 <li>
-<p>Add the following, if you enable the asset pipeline.</p>
+<p>アセットパイプラインを有効にする場合は以下を追加します。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-# Do not compress assets
+# アセットを圧縮しない
 config.assets.compress = false
 
-# Expands the lines which load the assets
+# アセットを読み込む行を拡大する
 config.assets.debug = true
 
 </pre>
 </div>
 </li>
 </ul>
-<h5 id="config-environments-production-rb"><a href="#config-environments-production-rb">1.2.4 config/environments/production.rb</a></h5>
+<h5 id="config-environments-production-rb"><a class="anchorlink" href="#config-environments-production-rb">1.2.4 config/environments/production.rb</a></h5>
 <ul>
 <li>
-<p>Again, most of the changes below are for the asset pipeline. You can read more about these in the <a href="asset_pipeline.html">Asset Pipeline</a> guide.</p>
+<p>以下の変更のほとんどもアセットパイプライン用です。詳しくは<a href="asset_pipeline.html">アセットパイプライン</a>ガイドを参照してください。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-# Compress JavaScripts and CSS
+# JavaScriptsとCSSの圧縮
 config.assets.compress = true
 
-# Don't fallback to assets pipeline if a precompiled asset is missed
+# プリコンパイル済みアセットがない場合はアセットパイプラインにフォールバックしない
 config.assets.compile = false
 
-# Generate digests for assets URLs
+# アセットURL用のダイジェストを生成する
 config.assets.digest = true
 
-# Defaults to Rails.root.join("public/assets")
+# デフォルトはRails.root.join("public/assets")
 # config.assets.manifest = YOUR_PATH
 
-# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+# 追加のアセットをプリコンパイルする（application.js、application.css、およびすべてのnon-JS/CSSは既に追加済み）
 # config.assets.precompile `= %w( search.js )
 
-# Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+# アプリへの全アクセスのSSL、Strict-Transport-Security、secure cookieを強制する
 # config.force_ssl = true
 
 </pre>
 </div>
 </li>
 </ul>
-<h5 id="config-environments-test-rb"><a href="#config-environments-test-rb">1.2.5 config/environments/test.rb</a></h5><div class="code_container">
+<h5 id="config-environments-test-rb"><a class="anchorlink" href="#config-environments-test-rb">1.2.5 config/environments/test.rb</a></h5><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-# Configure static asset server for tests with Cache-Control for performance
+# テストの静的アセットサーバーをCache-Controlで構成（パフォーマンス向上用）
 config.serve_static_assets = true
 config.static_cache_control = "public, max-age=3600"
 
 </pre>
 </div>
-<h5 id="config-initializers-wrap-parameters-rb"><a href="#config-initializers-wrap-parameters-rb">1.2.6 config/initializers/wrap_parameters.rb</a></h5>
+<h5 id="config-initializers-wrap-parameters-rb"><a class="anchorlink" href="#config-initializers-wrap-parameters-rb">1.2.6 config/initializers/wrap_parameters.rb</a></h5>
 <ul>
 <li>
-<p>Add this file with the following contents, if you wish to wrap parameters into a nested hash. This is on by default in new applications.</p>
+<p>パラメータをラップしてネスト済みハッシュにしたい場合は、以下の内容のファイルを追加します。新規アプリケーションでは今後これがデフォルトになります。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-# Be sure to restart your server when you modify this file.
-# This file contains settings for ActionController::ParamsWrapper which
-# is enabled by default.
+# このファイルを変更したら必ずサーバーをリスタートすること
+# このファイルに含まれるActionController::ParamsWrapperの設定は
+# デフォルトで有効になる
 
-# Enable parameter wrapping for JSON. You can disable this by setting :format to an empty array.
+# JSONパラメーターのラップを有効にする
+# 空配列に:formatを設定すると無効にできる
 ActiveSupport.on_load(:action_controller) do
   wrap_parameters :format =&gt; [:json]
 end
 
-# Disable root element in JSON by default.
+# JSONのroot要素を無効にする（デフォルト）
 ActiveSupport.on_load(:active_record) do
   self.include_root_in_json = false
 end
@@ -398,63 +401,63 @@ end
 </div>
 </li>
 </ul>
-<h5 id="remove-cache-and-concat-options-in-asset-helpers-references-in-views"><a href="#remove-cache-and-concat-options-in-asset-helpers-references-in-views">1.2.7 Remove :cache and :concat options in asset helpers references in views</a></h5>
+<h5 id="ビューのアセットヘルパー参照から-cacheと-concatオプションを削除する"><a class="anchorlink" href="#%E3%83%93%E3%83%A5%E3%83%BC%E3%81%AE%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC%E5%8F%82%E7%85%A7%E3%81%8B%E3%82%89-cache%E3%81%A8-concat%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%89%8A%E9%99%A4%E3%81%99%E3%82%8B">1.2.7 ビューのアセットヘルパー参照から<code>:cache</code>と<code>:concat</code>オプションを削除する</a></h5>
 <ul>
-<li>With the Asset Pipeline the :cache and :concat options aren't used anymore, delete these options from your views.</li>
+<li>アセットパイプラインの<code>:cache</code>と<code>:concat</code>オプションは今後使われないので、このオプションをビューから削除します。</li>
 </ul>
-<h3 id="creating-a-rails-3-1-application"><a href="#creating-a-rails-3-1-application">2 Creating a Rails 3.1 application</a></h3><div class="code_container">
+<h3 id="rails-3-1アプリケーションを作成する"><a class="anchorlink" href="#rails-3-1%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">2 Rails 3.1アプリケーションを作成する</a></h3><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
-# You should have the 'rails' RubyGem installed
+# 以下を実行する前に'rails RubyGemをインストールしておくこと
 $ rails new myapp
 $ cd myapp
 
 </pre>
 </div>
-<h4 id="vendoring-gems"><a href="#vendoring-gems">2.1 Vendoring Gems</a></h4><p>Rails now uses a <code>Gemfile</code> in the application root to determine the gems you require for your application to start. This <code>Gemfile</code> is processed by the <a href="https://github.com/carlhuda/bundler">Bundler</a> gem, which then installs all your dependencies. It can even install all the dependencies locally to your application so that it doesn't depend on the system gems.</p><p>More information: - <a href="http://gembundler.com">bundler homepage</a></p><h4 id="living-on-the-edge"><a href="#living-on-the-edge">2.2 Living on the Edge</a></h4><p><code>Bundler</code> and <code>Gemfile</code> makes freezing your Rails application easy as pie with the new dedicated <code>bundle</code> command. If you want to bundle straight from the Git repository, you can pass the <code>--edge</code> flag:</p><div class="code_container">
+<h4 id="gemに移行する"><a class="anchorlink" href="#gem%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B">2.1 gemに移行する</a></h4><p>現在のRailsでは、アプリケーションのルートディレクトリに置かれる<code>Gemfile</code>を使って、アプリケーションの起動に必要なgemを指定します。この<code>Gemfile</code>は<a href="https://github.com/carlhuda/bundler">Bundler</a>というgemによって処理され、依存関係のある必要なgemをすべてインストールします。依存するgemをそのアプリケーションの中にだけインストールして、OS環境にある既存のgemに影響を与えないようにすることもできます。</p><p>詳細情報: <a href="https://bundler.io/">Bundlerホームページ</a></p><h4 id="最新のgemを使う"><a class="anchorlink" href="#%E6%9C%80%E6%96%B0%E3%81%AEgem%E3%82%92%E4%BD%BF%E3%81%86">2.2 最新のgemを使う</a></h4><p><code>Bundler</code>と<code>Gemfile</code>のおかげで、専用の<code>bundle</code>コマンド一発でRailsアプリケーションのgemを簡単に安定させることができます。Gitリポジトリから直接bundleしたい場合は<code>--edge</code>フラグを追加します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp --edge
 
 </pre>
 </div>
-<p>If you have a local checkout of the Rails repository and want to generate an application using that, you can pass the <code>--dev</code> flag:</p><div class="code_container">
+<p>Railsアプリケーションのリポジトリをローカルにチェックアウトしたものがあり、それを使ってアプリケーションを生成したい場合は、<code>--dev</code>フラグを追加します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ ruby /path/to/rails/railties/bin/rails new myapp --dev
 
 </pre>
 </div>
-<h3 id="rails-architectural-changes"><a href="#rails-architectural-changes">3 Rails Architectural Changes</a></h3><h4 id="assets-pipeline"><a href="#assets-pipeline">3.1 Assets Pipeline</a></h4><p>The major change in Rails 3.1 is the Assets Pipeline. It makes CSS and JavaScript first-class code citizens and enables proper organization, including use in plugins and engines.</p><p>The assets pipeline is powered by <a href="https://github.com/sstephenson/sprockets">Sprockets</a> and is covered in the <a href="asset_pipeline.html">Asset Pipeline</a> guide.</p><h4 id="http-streaming"><a href="#http-streaming">3.2 HTTP Streaming</a></h4><p>HTTP Streaming is another change that is new in Rails 3.1. This lets the browser download your stylesheets and JavaScript files while the server is still generating the response. This requires Ruby 1.9.2, is opt-in and requires support from the web server as well, but the popular combo of nginx and unicorn is ready to take advantage of it.</p><h4 id="default-js-library-is-now-jquery"><a href="#default-js-library-is-now-jquery">3.3 Default JS library is now jQuery</a></h4><p>jQuery is the default JavaScript library that ships with Rails 3.1. But if you use Prototype, it's simple to switch.</p><div class="code_container">
+<h3 id="railsアーキテクチャの変更点"><a class="anchorlink" href="#rails%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%81%AE%E5%A4%89%E6%9B%B4%E7%82%B9">3 Railsアーキテクチャの変更点</a></h3><h4 id="アセットパイプライン"><a class="anchorlink" href="#%E3%82%A2%E3%82%BB%E3%83%83%E3%83%88%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3">3.1 アセットパイプライン</a></h4><p>アセットパイプライン（Assets Pipeline）はRails 3.1の大きな変更点です。アセットパイプラインは、CSSやJavaScriptのコードを第一級市民として扱い、プラグインやエンジンの利用を含めて正式に編成できるようにします。</p><p>アセットパイプラインは<a href="https://github.com/sstephenson/sprockets">Sprockets</a>によって強化されています。また、<a href="asset_pipeline.html">アセットパイプライン</a>ガイドに解説があります。</p><h4 id="httpストリーミング"><a class="anchorlink" href="#http%E3%82%B9%E3%83%88%E3%83%AA%E3%83%BC%E3%83%9F%E3%83%B3%E3%82%B0">3.2 HTTPストリーミング</a></h4><p>HTTPストリーミングもRails 3.1の変更点のひとつです。これにより、サーバーがレスポンス生成の途中でもスタイルシートやJavaScriptファイルをブラウザからダウンロードできるようになります。利用にはRuby 1.9.2の他に、Webサーバーでのサポートも必要ですが、よく使われているNginxとUnicornの組み合わせで利用可能です。</p><h4 id="デフォルトのjsライブラリがjqueryになった"><a class="anchorlink" href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AEjs%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%8Cjquery%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F">3.3 デフォルトのJSライブラリがjQueryになった</a></h4><p>Rails 3.1で同梱されるデフォルトのJavaScriptがjQueryになりました。Prototype.jsを使いたい場合は以下のように簡単に切り替えられます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ rails new myapp -j prototype
 
 </pre>
 </div>
-<h4 id="identity-map"><a href="#identity-map">3.4 Identity Map</a></h4><p>Active Record has an Identity Map in Rails 3.1. An identity map keeps previously instantiated records and returns the object associated with the record if accessed again. The identity map is created on a per-request basis and is flushed at request completion.</p><p>Rails 3.1 comes with the identity map turned off by default.</p><h3 id="railties"><a href="#railties">4 Railties</a></h3>
+<h4 id="identity-map"><a class="anchorlink" href="#identity-map">3.4 Identity Map</a></h4><p>Rails 3.1のActive RecordにIdentity Mapが搭載されました。Identity Mapは直前にインスタンス化された複数のレコードを保持し、次のアクセス時にそのレコードに関連付けられたオブジェクトを返します。Identity Mapはリクエストごとに作成され、リクエストの完了時に破棄されます。</p><p>Rails 3.1のIdentity Mapはデフォルトでオフになっています（訳注: Identity Mapはその後Rails 4.0で削除されました）。</p><h3 id="railties"><a class="anchorlink" href="#railties">4 Railties</a></h3>
 <ul>
-<li><p>jQuery is the new default JavaScript library.</p></li>
-<li><p>jQuery and Prototype are no longer vendored and is provided from now on by the jquery-rails and prototype-rails gems.</p></li>
-<li><p>The application generator accepts an option <code>-j</code> which can be an arbitrary string. If passed "foo", the gem "foo-rails" is added to the <code>Gemfile</code>, and the application JavaScript manifest requires "foo" and "foo_ujs". Currently only "prototype-rails" and "jquery-rails" exist and provide those files via the asset pipeline.</p></li>
-<li><p>Generating an application or a plugin runs <code>bundle install</code> unless <code>--skip-gemfile</code> or <code>--skip-bundle</code> is specified.</p></li>
-<li><p>The controller and resource generators will now automatically produce asset stubs (this can be turned off with <code>--skip-assets</code>). These stubs will use CoffeeScript and Sass, if those libraries are available.</p></li>
-<li><p>Scaffold and app generators use the Ruby 1.9 style hash when running on Ruby 1.9. To generate old style hash, <code>--old-style-hash</code> can be passed.</p></li>
-<li><p>Scaffold controller generator creates format block for JSON instead of XML.</p></li>
-<li><p>Active Record logging is directed to STDOUT and shown inline in the console.</p></li>
-<li><p>Added <code>config.force_ssl</code> configuration which loads <code>Rack::SSL</code> middleware and force all requests to be under HTTPS protocol.</p></li>
-<li><p>Added <code>rails plugin new</code> command which generates a Rails plugin with gemspec, tests and a dummy application for testing.</p></li>
-<li><p>Added <code>Rack::Etag</code> and <code>Rack::ConditionalGet</code> to the default middleware stack.</p></li>
-<li><p>Added <code>Rack::Cache</code> to the default middleware stack.</p></li>
-<li><p>Engines received a major update - You can mount them at any path, enable assets, run generators etc.</p></li>
+<li><p>jQueryが新たにデフォルトのJavaScriptライブラリになりました。</p></li>
+<li><p>jQueryやPrototype.jsは今後ベンダリングされません。代わりにjquery-rails gemやprototype-rails gemで提供されます。</p></li>
+<li><p>アプリケーションジェネレータで、任意の文字列を取れる<code>-j</code>オプションを使えるようになりました。"foo"を渡すと<code>Gemfile</code>に"foo-rails" gemが追加され、アプリケーションのJavaScriptマニフェストで"foo"と"foo_ujs"がrequireされます。現時点では"prototype-rails"と"jquery-rails"のみが存在し、それらのファイルはアセットパイプライン経由で提供されます。</p></li>
+<li><p>アプリやプラグインの生成時に<code>--skip-gemfile</code>や<code>--skip-bundle</code>を指定しない場合、<code>bundle install</code>を実行します。</p></li>
+<li><p>コントローラやリソースをジェネレータで生成すると、アセットのスタブが自動で作成されるようになりました（<code>--skip-assets</code>でオフにできます）。CoffeeScriptやSassのライブラリが利用可能な場合、生成されたスタブでCoffeeScriptやSassが使われます。</p></li>
+<li><p>scaffoldやアプリをRuby 1.9で生成すると、ハッシュのスタイルがRuby 1.9のスタイルになります。<code>--old-style-hash</code>を渡すと従来のハッシュスタイルで生成できます。</p></li>
+<li><p>scaffoldのコントローラジェネレータが、XMLフォーマットブロックに代えてJSONフォーマットブロックを生成するようになりました。</p></li>
+<li><p>コンソールでActive RecordログがSTDOUTにインライン出力されるようになりました。</p></li>
+<li><p>設定に<code>config.force_ssl</code>が追加されました。これは<code>Rack::SSL</code>ミドルウェアを読み込んであらゆるリクエストを強制的にHTTPSプロトコルにします。</p></li>
+<li><p>Railsプラグインを生成する<code>rails plugin new</code>コマンドが追加されました。生成されるプラグインにはgemspec、テスト、テスト用ダミーアプリケーションが含まれます。</p></li>
+<li><p><code>Rack::Etag</code>と<code>Rack::ConditionalGet</code>がデフォルトのミドルウェアスタックに追加されました。</p></li>
+<li><p><code>Rack::Cache</code>がデフォルトのミドルウェアスタックに追加されます。</p></li>
+<li><p>エンジンでメジャーアップデートが行われました。任意のパスをマウントする、アセットの有効化、ジェネレータの実行などを含みます。</p></li>
 </ul>
-<h3 id="action-pack"><a href="#action-pack">5 Action Pack</a></h3><h4 id="action-controller"><a href="#action-controller">5.1 Action Controller</a></h4>
+<h3 id="action-pack"><a class="anchorlink" href="#action-pack">5 Action Pack</a></h3><h4 id="action-controller"><a class="anchorlink" href="#action-controller">5.1 Action Controller</a></h4>
 <ul>
-<li><p>A warning is given out if the CSRF token authenticity cannot be verified.</p></li>
-<li><p>Specify <code>force_ssl</code> in a controller to force the browser to transfer data via HTTPS protocol on that particular controller. To limit to specific actions, <code>:only</code> or <code>:except</code> can be used.</p></li>
-<li><p>Sensitive query string parameters specified in <code>config.filter_parameters</code> will now be filtered out from the request paths in the log.</p></li>
-<li><p>URL parameters which return <code>nil</code> for <code>to_param</code> are now removed from the query string.</p></li>
-<li><p>Added <code>ActionController::ParamsWrapper</code> to wrap parameters into a nested hash, and will be turned on for JSON request in new applications by default. This can be customized in <code>config/initializers/wrap_parameters.rb</code>.</p></li>
-<li><p>Added <code>config.action_controller.include_all_helpers</code>. By default <code>helper :all</code> is done in <code>ActionController::Base</code>, which includes all the helpers by default. Setting <code>include_all_helpers</code> to <code>false</code> will result in including only application_helper and the helper corresponding to controller (like foo_helper for foo_controller).</p></li>
-<li><p><code>url_for</code> and named url helpers now accept <code>:subdomain</code> and <code>:domain</code> as options.</p></li>
+<li><p>CSRFトークンの認証を照合できない場合にwarningが出力されるようになりました。</p></li>
+<li><p>特定のコントローラで<code>force_ssl</code>を指定すると、そのコントローラからブラウザにHTTPSプロトコルによるデータ通信を強制できるようになりました。HTTPSを特定のアクションに限定する<code>:only</code>や<code>:except</code>も利用できます。</p></li>
+<li><p>（個人情報などの）重要な情報を含むクエリ文字列パラメータを<code>config.filter_parameters</code>で指定すると、そのリクエストパスをクエリのログから除外できるようになりました。</p></li>
+<li><p><code>to_param</code>すると<code>nil</code>を返すURLパラメータは、クエリ文字列から削除されるようになりました。</p></li>
+<li><p>パラメータをラップしてnestedハッシュにする<code>ActionController::ParamsWrapper</code>が追加されました。かつ、新しいアプリのJSONリクエストではこの機能がデフォルトでオンになります。<code>config/initializers/wrap_parameters.rb</code>でカスタマイズできます。</p></li>
+<li><p><code>config.action_controller.include_all_helpers</code>が追加されました。デフォルトでは、<code>ActionController::Base</code>で<code>helper :all</code>が適用されます（デフォルトですべてのヘルパーを含む）。<code>include_all_helpers</code>設定を<code>false</code>にすると、<code>application_helper</code>と、コントローラ名に対応するヘルパー（例: foo_controllerの場合はfoo_helper）だけが含まれます。</p></li>
+<li><p><code>url_for</code>や名前付きURLヘルパーで<code>:subdomain</code>オプションや<code>:domain</code>オプションを指定できるようになりました。</p></li>
 <li>
-<p>Added <code>Base.http_basic_authenticate_with</code> to do simple http basic authentication with a single class method call.</p>
+<p><code>Base.http_basic_authenticate_with</code>が追加されました。このクラスメソッドを1度呼び出すだけでシンプルなHTTP BASIC認証を行えます。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ApplicationController
@@ -463,11 +466,11 @@ class PostsController &lt; ApplicationController
   before_filter :authenticate, :except =&gt; [ :index ]
 
   def index
-    render :text =&gt; "Everyone can see me!"
+    render :text =&gt; "ここは誰でも見える！"
   end
 
   def edit
-    render :text =&gt; "I'm only accessible if you know the password"
+    render :text =&gt; "ここはパスワードを知らないと見えない"
   end
 
   private
@@ -480,18 +483,18 @@ end
 
 </pre>
 </div>
-<p>..can now be written as</p>
+<p>上のコードは以下のように書けます。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ApplicationController
   http_basic_authenticate_with :name =&gt; "dhh", :password =&gt; "secret", :except =&gt; :index
 
   def index
-    render :text =&gt; "Everyone can see me!"
+    render :text =&gt; "ここは誰でも見える！"
   end
 
   def edit
-    render :text =&gt; "I'm only accessible if you know the password"
+    render :text =&gt; "ここはパスワードを知らないと見えない"
   end
 end
 
@@ -499,7 +502,7 @@ end
 </div>
 </li>
 <li>
-<p>Added streaming support, you can enable it with:</p>
+<p>ストリーミングのサポートが追加されました。有効にするには以下のようにします。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ActionController::Base
@@ -508,29 +511,29 @@ end
 
 </pre>
 </div>
-<p>You can restrict it to some actions by using <code>:only</code> or <code>:except</code>. Please read the docs at <a href="http://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html"><code>ActionController::Streaming</code></a> for more information.</p>
+<p><code>:only</code>や<code>:except</code>を用いてストリーミングを特定のアクションに限定できます。詳しくは<a href="https://api.rubyonrails.org/v3.1.0/classes/ActionController/Streaming.html"><code>ActionController::Streaming</code></a>を参照してください。</p>
 </li>
-<li><p>The redirect route method now also accepts a hash of options which will only change the parts of the url in question, or an object which responds to call, allowing for redirects to be reused.</p></li>
+<li><p>ルーティングの<code>redirect</code>メソッドが、対象URLの一部のみを変更するオプションハッシュを1つ受け取ることも、呼び出しに応答できるオブジェクト（リダイレクトで再利用できる）を1つ受け取ることもできるようになりました。</p></li>
 </ul>
-<h4 id="action-dispatch"><a href="#action-dispatch">5.2 Action Dispatch</a></h4>
+<h4 id="action-dispatch"><a class="anchorlink" href="#action-dispatch">5.2 Action Dispatch</a></h4>
 <ul>
-<li><p><code>config.action_dispatch.x_sendfile_header</code> now defaults to <code>nil</code> and <code>config/environments/production.rb</code> doesn't set any particular value for it. This allows servers to set it through <code>X-Sendfile-Type</code>.</p></li>
-<li><p><code>ActionDispatch::MiddlewareStack</code> now uses composition over inheritance and is no longer an array.</p></li>
-<li><p>Added <code>ActionDispatch::Request.ignore_accept_header</code> to ignore accept headers.</p></li>
-<li><p>Added <code>Rack::Cache</code> to the default stack.</p></li>
-<li><p>Moved etag responsibility from <code>ActionDispatch::Response</code> to the middleware stack.</p></li>
-<li><p>Rely on <code>Rack::Session</code> stores API for more compatibility across the Ruby world. This is backwards incompatible since <code>Rack::Session</code> expects <code>#get_session</code> to accept four arguments and requires <code>#destroy_session</code> instead of simply <code>#destroy</code>.</p></li>
-<li><p>Template lookup now searches further up in the inheritance chain.</p></li>
+<li><p><code>config.action_dispatch.x_sendfile_header</code>がデフォルトで<code>nil</code>になりました。なおこの設定は<code>config/environments/production.rb</code>にはデフォルトで値が設定されません。サーバーは<code>X-Sendfile-Type</code>で値を設定できます。</p></li>
+<li><p><code>ActionDispatch::MiddlewareStack</code>が「継承よりコンポジション」を採用し、配列を使わなくなりました。</p></li>
+<li><p>acceptヘッダーを無視できる<code>ActionDispatch::Request.ignore_accept_header</code>が追加されました。</p></li>
+<li><p><code>Rack::Cache</code>がデフォルトスタックに追加されました。</p></li>
+<li><p>etagの責務が<code>ActionDispatch::Response</code>ミドルウェアスタックに移動しました。</p></li>
+<li><p>Ruby世界全体との互換性を高めるAPIを含む<code>Rack::Session</code>依存するようになりました。これにより後方互換性が失われます。理由は<code>Rack::Session</code>が<code>#get_session</code>で引数を4つ受け取ることを期待するのと、単なる<code>#destroy</code>ではなく<code>#destroy_session</code>が必須であるためです。</p></li>
+<li><p>テンプレートが継承チェインまで深く探索するようになりました。</p></li>
 </ul>
-<h4 id="action-view"><a href="#action-view">5.3 Action View</a></h4>
+<h4 id="action-view"><a class="anchorlink" href="#action-view">5.3 Action View</a></h4>
 <ul>
-<li><p>Added an <code>:authenticity_token</code> option to <code>form_tag</code> for custom handling or to omit the token by passing <code>:authenticity_token =&gt; false</code>.</p></li>
-<li><p>Created <code>ActionView::Renderer</code> and specified an API for <code>ActionView::Context</code>.</p></li>
-<li><p>In place <code>SafeBuffer</code> mutation is prohibited in Rails 3.1.</p></li>
-<li><p>Added HTML5 <code>button_tag</code> helper.</p></li>
-<li><p><code>file_field</code> automatically adds <code>:multipart =&gt; true</code> to the enclosing form.</p></li>
+<li><p><code>:authenticity_token</code>オプションが<code>form_tag</code>に追加されました。これはカスタムハンドリングに使ったり、<code>:authenticity_token =&gt; false</code>を渡してトークンを省略したりできます。</p></li>
+<li><p><code>ActionView::Renderer</code>を作成し、<code>ActionView::Context</code>のAPIを指定しました。</p></li>
+<li><p><code>SafeBuffer</code>をインプレースで改変することはRuby 3.1で禁止されました。</p></li>
+<li><p>HTML5の<code>button_tag</code>ヘルパーが追加されました。</p></li>
+<li><p><code>file_field</code>に、<code>:multipart =&gt; true</code>が自動的に同封フォームに追加されるようになりました。</p></li>
 <li>
-<p>Added a convenience idiom to generate HTML5 data-* attributes in tag helpers from a <code>:data</code> hash of options:</p>
+<p>オプションの<code>:data</code>ハッシュでHTML5の<code>data-*</code>属性を追加するのに便利なイディオムがタグヘルパーに追加されました。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 tag("div", :data =&gt; {:name =&gt; 'Stephen', :city_state =&gt; %w(Chicago IL)})
@@ -540,22 +543,22 @@ tag("div", :data =&gt; {:name =&gt; 'Stephen', :city_state =&gt; %w(Chicago IL)}
 </div>
 </li>
 </ul>
-<p>Keys are dasherized. Values are JSON-encoded, except for strings and symbols.</p>
+<p>キーはハイフンつなぎに変換され、値は文字列とシンボルを除いてJSONエンコードされます。</p>
 <ul>
-<li><p><code>csrf_meta_tag</code> is renamed to <code>csrf_meta_tags</code> and aliases <code>csrf_meta_tag</code> for backwards compatibility.</p></li>
-<li><p>The old template handler API is deprecated and the new API simply requires a template handler to respond to call.</p></li>
-<li><p>rhtml and rxml are finally removed as template handlers.</p></li>
-<li><p><code>config.action_view.cache_template_loading</code> is brought back which allows to decide whether templates should be cached or not.</p></li>
-<li><p>The submit form helper does not generate an id "object_name_id" anymore.</p></li>
-<li><p>Allows <code>FormHelper#form_for</code> to specify the <code>:method</code> as a direct option instead of through the <code>:html</code> hash. <code>form_for(@post, remote: true, method: :delete)</code> instead of <code>form_for(@post, remote: true, html: { method: :delete })</code>.</p></li>
-<li><p>Provided <code>JavaScriptHelper#j()</code> as an alias for <code>JavaScriptHelper#escape_javascript()</code>. This supersedes the <code>Object#j()</code> method that the JSON gem adds within templates using the JavaScriptHelper.</p></li>
-<li><p>Allows AM/PM format in datetime selectors.</p></li>
-<li><p><code>auto_link</code> has been removed from Rails and extracted into the <a href="https://github.com/tenderlove/rails_autolink">rails_autolink gem</a></p></li>
+<li><p><code>csrf_meta_tag</code>が<code>csrf_meta_tags</code>にリネームされ、後方互換性のために<code>csrf_meta_tag</code>エイリアスが置かれました。</p></li>
+<li><p>旧来のテンプレートハンドラAPIは非推奨となり、新しいAPIでは単にcallに応答するテンプレートハンドラが要求されるようになりました。</p></li>
+<li><p>テンプレートハンドラのrhtmlやrxmlが最終的に削除されました。</p></li>
+<li><p>テンプレートをキャッシュすべきかどうかを指定する<code>config.action_view.cache_template_loading</code>が復活しました。</p></li>
+<li><p>submitフォームヘルパーで"object_name_id"というidは今後生成されません。</p></li>
+<li><p><code>FormHelper#form_for</code>で、<code>:method</code>を<code>:html</code>ハッシュではなく直接のオプションとして指定できるようになりました。<code>form_for(@post, remote: true, html: { method: :delete })</code>ではなく、<code>form_for(@post, remote: true, method: :delete)</code>のように指定します。</p></li>
+<li><p><code>JavaScriptHelper#escape_javascript()</code>のエイリアス<code>JavaScriptHelper#j()</code>が提供されました。これは、JSON gemがJavaScriptHelperを用いるテンプレート内に追加する<code>Object#j()</code>メソッドに代わる後継メソッドとなります。</p></li>
+<li><p>日時セレクタでAM/PM形式が利用できるようになりました。</p></li>
+<li><p><code>auto_link</code>がRailsから削除され、<a href="https://github.com/tenderlove/rails_autolink">rails_autolink</a> gemに切り出されました。</p></li>
 </ul>
-<h3 id="active-record"><a href="#active-record">6 Active Record</a></h3>
+<h3 id="active-record"><a class="anchorlink" href="#active-record">6 Active Record</a></h3>
 <ul>
 <li>
-<p>Added a class method <code>pluralize_table_names</code> to singularize/pluralize table names of individual models. Previously this could only be set globally for all models through <code>ActiveRecord::Base.pluralize_table_names</code>.</p>
+<p>個別のモデルのテーブル名を単数形や複数形にする<code>pluralize_table_names</code>というクラスメソッドが追加されました。従来は<code>ActiveRecord::Base.pluralize_table_names</code>を用いて全モデルでグローバルにしか設定できませんでした。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class User &lt; ActiveRecord::Base
@@ -566,7 +569,7 @@ end
 </div>
 </li>
 <li>
-<p>Added block setting of attributes to singular associations. The block will get called after the instance is initialized.</p>
+<p>単一の関連付け（<code>has_one</code>や<code>belongs_to</code>）に属性を設定するブロックが追加されました。このブロックはインスタンスが初期化された後に呼び出されます。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class User &lt; ActiveRecord::Base
@@ -578,10 +581,10 @@ user.build_account{ |a| a.credit_limit = 100.0 }
 </pre>
 </div>
 </li>
-<li><p>Added <code>ActiveRecord::Base.attribute_names</code> to return a list of attribute names. This will return an empty array if the model is abstract or the table does not exist.</p></li>
-<li><p>CSV Fixtures are deprecated and support will be removed in Rails 3.2.0.</p></li>
+<li><p>属性名のリストを返す<code>ActiveRecord::Base.attribute_names</code>が追加されました。抽象モデルの場合やモデルにテーブルがない場合は空の配列を返します。</p></li>
+<li><p>CSVフィクスチャーが非推奨になりました。同サポートはRails 3.2.0で削除される予定です。</p></li>
 <li>
-<p><code>ActiveRecord#new</code>, <code>ActiveRecord#create</code> and <code>ActiveRecord#update_attributes</code> all accept a second hash as an option that allows you to specify which role to consider when assigning attributes. This is built on top of Active Model's new mass assignment capabilities:</p>
+<p><code>ActiveRecord#new</code>、<code>ActiveRecord#create</code>、<code>ActiveRecord#update_attributes</code>がすべてオプションハッシュをもうひとつ取れるようになりました。この第2ハッシュを用いて、属性への代入時に考慮されるロールを指定できます。この機能は、Active Modelの新しいマスアサインメント機能の上に構築されます。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Post &lt; ActiveRecord::Base
@@ -594,15 +597,15 @@ Post.new(params[:post], :as =&gt; :admin)
 </pre>
 </div>
 </li>
-<li><p><code>default_scope</code> can now take a block, lambda, or any other object which responds to call for lazy evaluation.</p></li>
-<li><p>Default scopes are now evaluated at the latest possible moment, to avoid problems where scopes would be created which would implicitly contain the default scope, which would then be impossible to get rid of via Model.unscoped.</p></li>
-<li><p>PostgreSQL adapter only supports PostgreSQL version 8.2 and higher.</p></li>
-<li><p><code>ConnectionManagement</code> middleware is changed to clean up the connection pool after the rack body has been flushed.</p></li>
-<li><p>Added an <code>update_column</code> method on Active Record. This new method updates a given attribute on an object, skipping validations and callbacks. It is recommended to use <code>update_attributes</code> or <code>update_attribute</code> unless you are sure you do not want to execute any callback, including the modification of the <code>updated_at</code> column. It should not be called on new records.</p></li>
-<li><p>Associations with a <code>:through</code> option can now use any association as the through or source association, including other associations which have a <code>:through</code> option and <code>has_and_belongs_to_many</code> associations.</p></li>
-<li><p>The configuration for the current database connection is now accessible via <code>ActiveRecord::Base.connection_config</code>.</p></li>
+<li><p><code>default_scope</code>がブロックやlambdaや（遅延評価の呼び出しに応答する）任意のオブジェクトを1つ取れるようになりました。</p></li>
+<li><p>デフォルトスコープが、可能な限り最新のタイミングで評価されるようになりました。これは、デフォルトスコープを含むスコープが暗黙で作成されると<code>Model.unscoped</code>を用いてスコープが削除できなくなることがある問題を回避するためのものです。</p></li>
+<li><p>PostgreSQLアダプタでサポートされるPostgreSQLバージョンが8.2以降のみとなりました。</p></li>
+<li><p><code>ConnectionManagement</code>ミドルウェアが変更され、rackの本体が破棄された後でコネクションプールをクリーンアップするようになりました。</p></li>
+<li><p>Active Recordに<code>update_column</code>メソッドが新たに追加されました。これはオブジェクト上で指定の属性を更新し、バリデーションやコールバックをスキップしますが、（<code>updated_at</code>カラムの変更を含む）コールバックを一切実行したくない事情があるのでなければ、この<code>update_column</code>ではなく<code>update_attributes</code>か<code>update_attribute</code>をおすすめします。新規レコードに対して<code>update_column</code>メソッドを呼び出すべきではありません。</p></li>
+<li><p><code>:through</code>オプションを用いる関連付けで、（<code>:through</code>オプションと<code>has_and_belongs_to_many</code>関連付けの両方を持つ関連付けなどを含む）任意の関連付けをthrough関連付けやsource関連付けとして利用できるようになりました。</p></li>
+<li><p><code>ActiveRecord::Base.connection_config</code>で現在のデータベース接続の設定にアクセスできるようになりました。</p></li>
 <li>
-<p>limits and offsets are removed from COUNT queries unless both are supplied.</p>
+<p>COUNTクエリで<code>limit</code>と<code>offset</code>を両方指定しない限り、LIMITとOFFSETが削除されるようになりました。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 People.limit(1).count           # =&gt; 'SELECT COUNT(*) FROM people'
@@ -612,15 +615,15 @@ People.limit(1).offset(1).count # =&gt; 'SELECT COUNT(*) FROM people LIMIT 1 OFF
 </pre>
 </div>
 </li>
-<li><p><code>ActiveRecord::Associations::AssociationProxy</code> has been split. There is now an <code>Association</code> class (and subclasses) which are responsible for operating on associations, and then a separate, thin wrapper called <code>CollectionProxy</code>, which proxies collection associations. This prevents namespace pollution, separates concerns, and will allow further refactorings.</p></li>
-<li><p>Singular associations (<code>has_one</code>, <code>belongs_to</code>) no longer have a proxy and simply returns the associated record or <code>nil</code>. This means that you should not use undocumented methods such as <code>bob.mother.create</code> - use <code>bob.create_mother</code> instead.</p></li>
-<li><p>Support the <code>:dependent</code> option on <code>has_many :through</code> associations. For historical and practical reasons, <code>:delete_all</code> is the default deletion strategy employed by <code>association.delete(*records)</code>, despite the fact that the default strategy is <code>:nullify</code> for regular has_many. Also, this only works at all if the source reflection is a belongs_to. For other situations, you should directly modify the through association.</p></li>
-<li><p>The behavior of <code>association.destroy</code> for <code>has_and_belongs_to_many</code> and <code>has_many :through</code> is changed. From now on, 'destroy' or 'delete' on an association will be taken to mean 'get rid of the link', not (necessarily) 'get rid of the associated records'.</p></li>
-<li><p>Previously, <code>has_and_belongs_to_many.destroy(*records)</code> would destroy the records themselves. It would not delete any records in the join table. Now, it deletes the records in the join table.</p></li>
-<li><p>Previously, <code>has_many_through.destroy(*records)</code> would destroy the records themselves, and the records in the join table. [Note: This has not always been the case; previous version of Rails only deleted the records themselves.] Now, it destroys only the records in the join table.</p></li>
-<li><p>Note that this change is backwards-incompatible to an extent, but there is unfortunately no way to 'deprecate' it before changing it. The change is being made in order to have consistency as to the meaning of 'destroy' or 'delete' across the different types of associations. If you wish to destroy the records themselves, you can do <code>records.association.each(&amp;:destroy)</code>.</p></li>
+<li><p><code>ActiveRecord::Associations::AssociationProxy</code>が分割されました。<code>Association</code>クラス（およびサブクラス）は関連付けへの操作を担当し、それとは別の<code>CollectionProxy</code>というラッパーはコレクション関連付けをプロキシします。これによって名前空間の汚染を防止し、concernsが分離されるので、リファクタリングをさらに進められるようになります。</p></li>
+<li><p>単一の関連付け（<code>has_one</code>や<code>belongs_to</code>）にプロキシが含まれなくなり、関連付けられたレコードか<code>nil</code>のいずれかを単に返すようになりました。これは、<code>bob.mother.create</code>のようなドキュメントのないメソッドを使うべきではないという意図を表しています。今後は<code>bob.create_mother</code>などをお使いください。</p></li>
+<li><p><code>has_many :through</code>関連付けで<code>:dependent</code>オプションがサポートされるようになりました。通常のhas_many関連付けでは<code>:nullify</code>がデフォルトの削除ストラテジーですが、歴史的な理由と実用上の理由によって、<code>association.delete(*records)</code>の<code>:delete_all</code>がデフォルトの削除ストラテジーとなっています。また、この機能をすべて使えるのは、ソースリフレクションがbelongs_toの場合に限られます。それ以外の場合は、through関連付けを直接変更すべきです。</p></li>
+<li><p><code>has_and_belongs_to_many</code>や<code>has_many :through</code>における<code>association.destroy</code>の振る舞いが変更されました。今後、ある関連付けにおけるdestroyやdeleteは、「関連付けられたそのレコードを必ず削除する」ではなく、「そのリンクを削除する」と認識されます。</p></li>
+<li><p>従来の<code>has_and_belongs_to_many.destroy(*records)</code>はレコードそのものをdestroyし、joinテーブルのレコードは削除しませんでした。今後はjoinテーブルのレコードを削除します。</p></li>
+<li><p>従来の<code>has_many_through.destroy(*records)</code>はレコードそのものをdestroyし、joinテーブルのレコードは削除しませんでした[メモ: これは常にそうとは限りませんでした。従来バージョンのRailsではレコードそのものだけが削除されました]。今後はjoinテーブルのレコードだけを削除します。</p></li>
+<li><p>この変更によって後方互換性がある程度失われますが、残念ながら、この変更を実施する前に「非推奨化する」方法がありません。この変更は、さまざまな関連付けの種類全体でdestroyやdeleteの意味を統一するために実施中です。レコードそのものをdestroyしたい場合は<code>records.association.each(&amp;:destroy)</code>が使えます。</p></li>
 <li>
-<p>Add <code>:bulk =&gt; true</code> option to <code>change_table</code> to make all the schema changes defined in a block using a single ALTER statement.</p>
+<p><code>:bulk =&gt; true</code>オプションが<code>change_table</code>に追加されました。これはあらゆるスキーマ変更を、ブロック内で1つのALTERステートメントを用いて定義します。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 change_table(:users, :bulk =&gt; true) do |t|
@@ -631,10 +634,10 @@ end
 </pre>
 </div>
 </li>
-<li><p>Removed support for accessing attributes on a <code>has_and_belongs_to_many</code> join table. <code>has_many :through</code> needs to be used.</p></li>
-<li><p>Added a <code>create_association!</code> method for <code>has_one</code> and <code>belongs_to</code> associations.</p></li>
+<li><p><code>has_and_belongs_to_many</code>のjoinテーブルで属性にアクセスするためのサポートが削除されました。<code>has_many :through</code>を利用する必要があります。</p></li>
+<li><p><code>create_association!</code>メソッドが追加されました。<code>has_one</code>関連付けや<code>belongs_to</code>関連付けで利用できます。</p></li>
 <li>
-<p>Migrations are now reversible, meaning that Rails will figure out how to reverse your migrations. To use reversible migrations, just define the <code>change</code> method.</p>
+<p>マイグレーションがリバース（巻き戻し）可能になりました。つまりRailsがマイグレーションをリバースする方法を認識できるということです。リバース可能なマイグレーションを利用するには、以下のように単に<code>change</code>メソッドを定義します。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class MyMigration &lt; ActiveRecord::Migration
@@ -649,13 +652,13 @@ end
 </pre>
 </div>
 </li>
-<li><p>Some things cannot be automatically reversed for you. If you know how to reverse those things, you should define <code>up</code> and <code>down</code> in your migration. If you define something in change that cannot be reversed, an <code>IrreversibleMigration</code> exception will be raised when going down.</p></li>
+<li><p>自動的にはリバース可能にならないものもあります。リバースする方法を自分が知っているのであれば、マイグレーションで<code>up</code>や<code>down</code>を定義すべきです。<code>change</code>の中にリバースできないものがあると、リバース中に<code>IrreversibleMigration</code>例外が発生します。</p></li>
 <li>
-<p>Migrations now use instance methods rather than class methods:</p>
+<p>マイグレーションで、クラスメソッドではなくインスタンスメソッドが使われるようになりました。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class FooMigration &lt; ActiveRecord::Migration
-  def up # Not self.up
+  def up # self.upではなくなった
     ...
   end
 end
@@ -663,18 +666,18 @@ end
 </pre>
 </div>
 </li>
-<li><p>Migration files generated from model and constructive migration generators (for example, add_name_to_users) use the reversible migration's <code>change</code> method instead of the ordinary <code>up</code> and <code>down</code> methods.</p></li>
+<li><p>モデルから生成したマイグレーションファイルや、構成可能なマイグレーションジェネレータで生成したマイグレーションファイル（add_name_to_usersなど）で、通常の<code>up</code>メソッドや<code>down</code>メソッドではなく、リバース可能な<code>change</code>メソッドが使われるようになりました。</p></li>
 <li>
-<p>Removed support for interpolating string SQL conditions on associations. Instead, a proc should be used.</p>
+<p>関連付けで文字列のSQL条件を展開する機能のサポートが削除されました。今後は<code>proc</code>を使うべきです。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
-has_many :things, :conditions =&gt; 'foo = #{bar}'          # before
-has_many :things, :conditions =&gt; proc { "foo = #{bar}" } # after
+has_many :things, :conditions =&gt; 'foo = #{bar}'          # 従来
+has_many :things, :conditions =&gt; proc { "foo = #{bar}" } # 今後
 
 </pre>
 </div>
-<p>Inside the proc, <code>self</code> is the object which is the owner of the association, unless you are eager loading the association, in which case <code>self</code> is the class which the association is within.</p>
-<p>You can have any "normal" conditions inside the proc, so the following will work too:</p>
+<p><code>proc</code>の内部では、関連付けをeager loadingしない限り、関連付けのオーナーは<code>self</code>というオブジェクトになります。ここで<code>self</code>は、関連付けを含んでいるクラスを表します。</p>
+<p><code>proc</code>の内部では「通常の」条件を何でも使えるので、以下も機能します。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 has_many :things, :conditions =&gt; proc { ["foo = ?", bar] }
@@ -682,9 +685,9 @@ has_many :things, :conditions =&gt; proc { ["foo = ?", bar] }
 </pre>
 </div>
 </li>
-<li><p>Previously <code>:insert_sql</code> and <code>:delete_sql</code> on <code>has_and_belongs_to_many</code> association allowed you to call 'record' to get the record being inserted or deleted. This is now passed as an argument to the proc.</p></li>
+<li><p>従来は<code>has_and_belongs_to_many</code>関連付けの<code>:insert_sql</code>メソッドや<code>:delete_sql</code>メソッドで「レコード」を呼び出すことで、挿入されるレコードや削除されるレコードを取得できました。今後これらのレコードは引数としてそのprocに渡されるようになりました。</p></li>
 <li>
-<p>Added <code>ActiveRecord::Base#has_secure_password</code> (via <code>ActiveModel::SecurePassword</code>) to encapsulate dead-simple password usage with BCrypt encryption and salting.</p>
+<p><code>ActiveRecord::Base#has_secure_password</code>（<code>ActiveModel::SecurePassword</code>を利用）が追加されました。BCrypt暗号化やsalt追加が使える極めてシンプルなパスワード利用機能がこのメソッドにカプセル化されています。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # Schema: User(name:string, password_digest:string, password_salt:string)
@@ -695,26 +698,26 @@ end
 </pre>
 </div>
 </li>
-<li><p>When a model is generated <code>add_index</code> is added by default for <code>belongs_to</code> or <code>references</code> columns.</p></li>
-<li><p>Setting the id of a <code>belongs_to</code> object will update the reference to the object.</p></li>
-<li><p><code>ActiveRecord::Base#dup</code> and <code>ActiveRecord::Base#clone</code> semantics have changed to closer match normal Ruby dup and clone semantics.</p></li>
-<li><p>Calling <code>ActiveRecord::Base#clone</code> will result in a shallow copy of the record, including copying the frozen state. No callbacks will be called.</p></li>
-<li><p>Calling <code>ActiveRecord::Base#dup</code> will duplicate the record, including calling after initialize hooks. Frozen state will not be copied, and all associations will be cleared. A duped record will return <code>true</code> for <code>new_record?</code>, have a <code>nil</code> id field, and is saveable.</p></li>
-<li><p>The query cache now works with prepared statements. No changes in the applications are required.</p></li>
+<li><p>モデルを生成するときに、<code>belongs_to</code>や<code>references</code>カラムにデフォルトで<code>add_index</code>が追加されるようになりました。</p></li>
+<li><p><code>belongs_to</code>オブジェクトのidを設定すると、そのオブジェクトの参照が更新されるようになりました。</p></li>
+<li><p><code>ActiveRecord::Base#dup</code>や<code>ActiveRecord::Base#clone</code>のセマンティクス（意味付け）が変更され、Rubyの通常の<code>dup</code>や<code>clone</code>のセマンティクスに近くなりました。</p></li>
+<li><p><code>ActiveRecord::Base#clone</code>を呼ぶと、frozenされたステートのコピーを含むレコードの浅い（shallow）コピーが返されます。コールバックは呼ばれません。</p></li>
+<li><p><code>ActiveRecord::Base#dup</code>を呼ぶとレコードが複製され、after_initializeフックも呼び出されます。frozenなステートはコピーされず、関連付けはすべてクリアされます。<code>dup</code>されたレコードは<code>new_record?</code>で<code>true</code>を返し、idフィールドは<code>nil</code>に設定され、かつ保存可能になります。</p></li>
+<li><p>クエリキャッシュがprepared statmentで使えるようになりました。アプリケーションの変更は不要です。</p></li>
 </ul>
-<h3 id="active-model"><a href="#active-model">7 Active Model</a></h3>
+<h3 id="active-model"><a class="anchorlink" href="#active-model">7 Active Model</a></h3>
 <ul>
-<li><p><code>attr_accessible</code> accepts an option <code>:as</code> to specify a role.</p></li>
-<li><p><code>InclusionValidator</code>, <code>ExclusionValidator</code>, and <code>FormatValidator</code> now accepts an option which can be a proc, a lambda, or anything that respond to <code>call</code>. This option will be called with the current record as an argument and returns an object which respond to <code>include?</code> for <code>InclusionValidator</code> and <code>ExclusionValidator</code>, and returns a regular expression object for <code>FormatValidator</code>.</p></li>
-<li><p>Added <code>ActiveModel::SecurePassword</code> to encapsulate dead-simple password usage with BCrypt encryption and salting.</p></li>
-<li><p><code>ActiveModel::AttributeMethods</code> allows attributes to be defined on demand.</p></li>
-<li><p>Added support for selectively enabling and disabling observers.</p></li>
-<li><p>Alternate <code>I18n</code> namespace lookup is no longer supported.</p></li>
+<li><p><code>attr_accessible</code>で<code>:as</code>オプションを用いてロールを指定できるようになりました。</p></li>
+<li><p><code>InclusionValidator</code>、<code>ExclusionValidator</code>、<code>FormatValidator</code>が、ブロックやlambda、または<code>call</code>に応答する任意のオブジェクトをオプションとして1つ取れるようになりました。このオプションは現在のレコードを引数として呼び出され、<code>InclusionValidator</code>や<code>ExclusionValidator</code>の場合は<code>include?</code>に応答するオブジェクトを1つ返し、<code>FormatValidator</code>の場合は正規表現オブジェクトを1つ返します。</p></li>
+<li><p><code>ActiveModel::SecurePassword</code>が追加されました。BCrypt暗号化やsalt追加が使える極めてシンプルなパスワード利用機能がこのメソッドにカプセル化されています。</p></li>
+<li><p><code>ActiveModel::AttributeMethods</code>で属性を必要に応じて定義できるようになりました。</p></li>
+<li><p>オブザーバー（observer）を選択的に有効にしたり無効にしたりする機能が追加されました。</p></li>
+<li><p><code>I18n</code>名前空間を交互に探索する機能はサポートされなくなりました。</p></li>
 </ul>
-<h3 id="active-resource"><a href="#active-resource">8 Active Resource</a></h3>
+<h3 id="active-resource"><a class="anchorlink" href="#active-resource">8 Active Resource</a></h3>
 <ul>
 <li>
-<p>The default format has been changed to JSON for all requests. If you want to continue to use XML you will need to set <code>self.format = :xml</code> in the class. For example,</p>
+<p>すべてのリクエストでデフォルトのフォーマットがJSONに変更されました。XMLを使い続けたい場合は、次のようにこのクラスで<code>self.format = :xml</code>を設定する必要があります。</p>
 <div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class User &lt; ActiveResource::Base
@@ -725,25 +728,25 @@ end
 </div>
 </li>
 </ul>
-<h3 id="active-support"><a href="#active-support">9 Active Support</a></h3>
+<h3 id="active-support"><a class="anchorlink" href="#active-support">9 Active Support</a></h3>
 <ul>
-<li><p><code>ActiveSupport::Dependencies</code> now raises <code>NameError</code> if it finds an existing constant in <code>load_missing_constant</code>.</p></li>
-<li><p>Added a new reporting method <code>Kernel#quietly</code> which silences both <code>STDOUT</code> and <code>STDERR</code>.</p></li>
-<li><p>Added <code>String#inquiry</code> as a convenience method for turning a String into a <code>StringInquirer</code> object.</p></li>
-<li><p>Added <code>Object#in?</code> to test if an object is included in another object.</p></li>
-<li><p><code>LocalCache</code> strategy is now a real middleware class and no longer an anonymous class.</p></li>
-<li><p><code>ActiveSupport::Dependencies::ClassCache</code> class has been introduced for holding references to reloadable classes.</p></li>
-<li><p><code>ActiveSupport::Dependencies::Reference</code> has been refactored to take direct advantage of the new <code>ClassCache</code>.</p></li>
-<li><p>Backports <code>Range#cover?</code> as an alias for <code>Range#include?</code> in Ruby 1.8.</p></li>
-<li><p>Added <code>weeks_ago</code> and <code>prev_week</code> to Date/DateTime/Time.</p></li>
-<li><p>Added <code>before_remove_const</code> callback to <code>ActiveSupport::Dependencies.remove_unloadable_constants!</code>.</p></li>
+<li><p><code>ActiveSupport::Dependencies</code>で既存の定数が<code>load_missing_constant</code>にある場合に<code>NameError</code>をraiseするようになりました。</p></li>
+<li><p>レポート用メソッド<code>Kernel#quietly</code>が新たに追加されました。これは<code>STDOUT</code>と<code>STDERR</code>を両方とも抑制します。</p></li>
+<li><p><code>String#inquiry</code>が追加されました。これは文字列を<code>StringInquirer</code>オブジェクトに変換するのに便利です。</p></li>
+<li><p><code>Object#in?</code>が追加されました。これはオブジェクトが別のオブジェクトに含まれているかどうかをテストします。</p></li>
+<li><p><code>LocalCache</code>ストラテジーが、無名クラスではなくミドルウェアに実在するクラスになりました。</p></li>
+<li><p><code>ActiveSupport::Dependencies::ClassCache</code>クラスが導入されました。再読み込み可能なクラスへの参照がこのクラスに保持されます。</p></li>
+<li><p><code>ActiveSupport::Dependencies::Reference</code>がリファクタリングされ、新しい<code>ClassCache</code>を直接利用するようになりました。</p></li>
+<li><p><code>Range#cover?</code>がRuby 1.8の<code>Range#include?</code>のエイリアスとしてバックポートされました。</p></li>
+<li><p>Date/DateTime/Timeに<code>weeks_ago</code>と<code>prev_week</code>が追加されました。</p></li>
+<li><p><code>before_remove_const</code>コールバックが<code>ActiveSupport::Dependencies.remove_unloadable_constants!</code>に追加されました。</p></li>
 </ul>
-<p>Deprecations:</p>
+<p>非推奨化:</p>
 <ul>
 <li>
-<code>ActiveSupport::SecureRandom</code> is deprecated in favor of <code>SecureRandom</code> from the Ruby standard library.</li>
+<code>ActiveSupport::SecureRandom</code>が非推奨化されました。今後はRuby標準ライブラリの<code>SecureRandom</code>が推奨されます。</li>
 </ul>
-<h3 id="credits"><a href="#credits">10 Credits</a></h3><p>See the <a href="http://contributors.rubyonrails.org/">full list of contributors to Rails</a> for the many people who spent many hours making Rails, the stable and robust framework it is. Kudos to all of them.</p><p>Rails 3.1 Release Notes were compiled by <a href="https://github.com/vijaydev.">Vijay Dev</a></p>
+<h3 id="クレジット表記"><a class="anchorlink" href="#%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E8%A1%A8%E8%A8%98">10 クレジット表記</a></h3><p>Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、<a href="https://contributors.rubyonrails.org/">Railsコントリビューターの完全なリスト</a>を参照してください。これらの方々全員に敬意を表明いたします。</p><p>Rails 3.1リリースノートの編集は<a href="https://github.com/vijaydev">Vijay Dev</a>が担当しました。</p>
         
 
         <h3 id="feedback"><a href="#feedback">フィードバックについて</a></h3>
@@ -761,16 +764,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -798,8 +792,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -815,17 +807,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -833,9 +827,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -850,13 +844,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

@@ -2,72 +2,77 @@
 yes
 <% end %>
 
-﻿<% content_for :page_title do %>
+<% content_for :page_title do %>
 Ruby on Rails ガイド：体系的に Rails を学ぼう
 <% end %>
 
 <% content_for :header_section do %>
-  <h2>Ruby on Rails ガイド (4.2 対応)</h2> <!--(<%= @edge ? @version[0, 7] : @version %>)-->
+  <h2>Ruby on Rails ガイド</h2> <!--(<%= @edge ? @edge[0, 7] : @version %>)-->
   <% if @edge %>
-    本ガイドはEdge Guidesであり、現時点のmasterブランチをベースとしています。
-    安定版のガイドが必要な場合は、http://guides.rubyonrails.orgを参照ください。
+    Railsガイドは <a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a> に基づいた大型リファレンスガイドです。Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
   <% else %>
-    Railsガイドは、<a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a>に基づいた大型リファレンスガイドです。Rails開発の生産性を高めたいときや、Railsの各機能を体系的に学びたいときに役立ちます。
+    Railsガイドは <a href="http://guides.rubyonrails.org/">Ruby on Rails Guides</a> に基づいた大型リファレンスガイドです。Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
   <% end %>
 <% end %>
 
 <% content_for :index_section do %>
-<br />
-<br />
-これからRailsを学び始める場合は<a href="http://railstutorial.jp/">Railsチュートリアル：実例を使ってRailsを学ぼう</a>が役に立ちます。本ガイドを副読本として参考にしつつ、Railsチュートリアルから読み進めることをオススメします。
-<br />
-<br />
-気になる文章や間違ったコードを見つけたら <a href="https://twitter.com/yasulab">@yasulab</a> または <a href="https://github.com/yasslab/railsguides.jp/issues">GitHub Issue</a> にてお気軽にご連絡ください。本ガイドの品質向上に向けてご協力して頂けると幸いです :)
-<br />
-<br />
+<br><br>
+これからプロダクト開発を学び始める場合は<a href="https://railstutorial.jp/">Railsチュートリアル</a>がオススメです。プロダクト開発の流れを掴んだら、より実践的な本ガイドをご活用してください。
+<br><br>
+気になる文章や間違ったコードを見つけたら GitHub の <a href="https://github.com/yasslab/railsguides.jp">yasslab/railsguides.jp</a> までお知らせください。本ガイドの品質向上に向けてご協力して頂けると嬉しいです :)
+<br><br>
 <ol class="snsb" style="margin-left: 0px">
-  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
-  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
-  <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-  <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="simple-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+  <li><div class="fb-like" data-href="https://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
+  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+  <li><a href="https://b.hatena.ne.jp/entry/s/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう" data-hatena-bookmark-layout="simple-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+  <li><a class="github-button" href="https://github.com/yasslab/railsguides.jp" data-show-count="true" aria-label="Star yasslab/railsguides.jp on GitHub">Star</a></li>
 </ol>
-<div id="subCol">
-    <div class="ebook">
-      <a href="/options.html"><img id="ebook-ribbon" src="/images/rails_guides_ribbon.png"></a>
-      <a href="/options.html"><img id="ebook-left"   src="/images/rails_guides_ebook_left.png"></a>
-      <a href="/options.html"><img id="ebook-right"  src="/images/rails_guides_ebook_right.png"></a>
-      <!--
-      <a href="/options.html"><img id="ebook-left-discount"   src="/images/rails_guides_ebook_discount.png"></a>
-      <a href="/options.html"><img id="ebook-right"  src="/images/rails_guides_ebook_2_discount.png"></a>
-      -->
-      <div class="ebook-button"><a href="/options.html">電子書籍版はコチラから</a></div>
-    </div>
+
+<div id="subCol" class="remove-bg-color">
+  <aside id="toppage">
+    <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" /></a>
+  </aside>
+  <!--
+  <div class="ebook">
+    <a href="/options.html"><img id="ebook-ribbon" src="/images/rails_guides_ribbon.png"></a>
+    <a href="/options.html"><img id="ebook-left"   src="/images/rails_guides_ebook_left.png"></a>
+    <a href="/options.html"><img id="ebook-right"  src="/images/rails_guides_ebook_right.png"></a>
+	  <a href="/options.html"><img id="ebook-left-discount"   src="/images/rails_guides_ebook_discount.png"></a>
+	  <a href="/options.html"><img id="ebook-right"  src="/images/rails_guides_ebook_2_discount.png"></a>
+    <div class="ebook-button"><a href="/options.html">電子書籍版はコチラから</a></div>
+  </div>
+  -->
 </div>
 <% end %>
-<div class="announce">
-  <h6><a href="http://rebuild.fm/100/">Rebuild.fm Episode #100</a> でRailsガイドを紹介して頂きました :)</h4>
-</div>
 
-<dl>
-  <dd class="work-in-progress">このアイコンが付いているガイドは現在作業中 (Work in progress) であり、上部のガイド目次からは参照できません。作業中のガイドはそれなりに有用ではありますが、不完全な情報やエラーが含まれている可能性があります。</dd>
+<!--
+<div class="announce">
+  <h6>🚀✨ より早く、より生産的に。全文検索サービス『<a href="https://railsguides.jp/pro">Proプラン</a>』と『<a href="https://railsguides.jp/team">Teamプラン</a>』をリリースしました ;)</h6>
+</div>
+-->
+
+<dl style='padding-top: 15px;'>
+  <dd class="work-in-progress">このアイコンが付いているガイドは現在作業中 (WIP: Work In Progress) です。作業中のガイドはそれなりに有用ではありますが、不完全な情報やエラーが含まれている可能性があります。</dd>
 </dl>
-<% documents_by_section.each do |section| %><h3><%= section['name'] %></h3>
-  <% section['documents'].each do |document| %>
-    <%= guide(document['name'], document['url'],
-	work_in_progress: document['work_in_progress']) do %>
-      <%= document['description'] %>
+<% documents_by_section.each do |section| %><h3>
+  <%= section['name'] %></h3>
+  <dl>
+    <% section['documents'].each do |document| %>
+      <%= guide(document['name'], document['url'], work_in_progress: document['work_in_progress']) do %>
+        <p><%= document['description'] %></p>
+      <% end %>
     <% end %>
-  <% end %>
+  </dl>
 <% end %>
 
 <h3 id="contributors"><a href="#contributors">協力者</a></h3>
 <p>Railsガイドは、次の方々の支援によって支えられております。</p>
 
 <ul style="list-style: none;">
-  <li>翻訳 (共同発起人): <a href="https://www.linkedin.com/pub/shozo-hatta/11/349/930">八田 昌三</a> (<a href="https://twitter.com/hachi8833">@hachi8833</a>)</li>
-  <li>開発 (共同発起人): <a href="https://www.facebook.com/yasulab">安川 要平</a> (<a href="http://twitter.com/yasulab">@yasulab</a>)</li>
-  <li>訳著チェック: <a href="https://github.com/yui-knk">金子 雄一郎</a> (<a href="https://twitter.com/spikeolaf">@spikeolaf</a>)</li>
-  <li>誤訳などを指摘して頂いた多くの方々:
+  <li>共同発起人 (翻訳): <a href="https://www.linkedin.com/pub/shozo-hatta/11/349/930">八田 昌三</a> (<a href="https://twitter.com/hachi8833">@hachi8833</a>)</li>
+  <li>共同発起人 (開発): <a href="https://www.facebook.com/yasulab">安川 要平</a> (<a href="https://twitter.com/yasulab">@yasulab</a>)</li>
+  <li>コミッターの皆さん: <a href="https://twitter.com/spikeolaf">@spikeolaf</a>, <a href="https://twitter.com/dev_shia">@dev_shia</a>, <a href="https://twitter.com/netwillnet">@netwillnet</a></li>
+  <li>誤訳などを指摘して頂いた皆さん:
     <ul>
       <li><a href="https://github.com/yasslab/railsguides.jp/issues?utf8=%E2%9C%93&q=is%3Aissue"
 	     target="_blank">Issues</a></li>
@@ -75,14 +80,11 @@ Ruby on Rails ガイド：体系的に Rails を学ぼう
 	     target="_blank">Pull Requests</a></li>
     </ul>
   </li>
-  <li>スペシャルサンクス: <a href='http://usagee.co.jp/'>株式会社ウサギィ</a><br />
-    Rails 3.0版のRailsガイドについては、ウサギィさんが提供する<br />
-    <a href="http://wiki.usagee.co.jp/ruby/rails/RailsGuides%E3%82%92%E3%82%86%E3%81%A3%E3%81%8F%E3%82%8A%E5%92%8C%E8%A8%B3%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F%E3%82%88">RailsGuidesをゆっくり和訳してみたよ</a>を参照してください。</li>
-  <li>運営:<br />
-    <a href="http://yasslab.jp/" target="_blank"><img src="/images/logos/YassLab.png"
-						      alt="ヤスラボ" width="320px" /></a>
+  <li>運営:<br>
+    <a href="https://yasslab.jp/" target="_blank"><img src="/images/logos/YassLab.png"
+						       alt="YassLab 株式会社" width="320px" /></a>
   </li>
-  <li>後援:<br />
+  <li>後援:<br>
     <a href="http://www.railscp.com/"><img src="/images/railscp_logo.png"
 					   alt="Rails技術者認定試験" width="320px" /></a>
   </li>

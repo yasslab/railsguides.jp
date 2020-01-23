@@ -1,0 +1,57 @@
+source 'https://rubygems.org'
+ruby "2.6.2"
+
+# Required gems to build Rails Guides (same as rails/rails)
+gem "rake"
+gem 'rails-html-sanitizer'
+gem 'rack-test'
+gem 'erubi'
+group :doc do
+  gem "sdoc"
+  gem "redcarpet" #, "~> 3.2.3", platforms: :ruby
+  gem "w3c_validators"
+  gem "kindlerb" #, "~> 1.2.0"
+end
+
+# Required gems to host yasslab/railsguides.jp
+gem "jekyll"
+gem "rack-jekyll"
+gem "kramdown"
+
+# Test HTML files by: `bundle exec rake test`
+# Required as well in production to check deployment
+gem "html-proofer"
+
+group :development do
+  gem "docset" # For generating docset (Dash)
+
+  # TODO: We don't use GTT now. Delete this line
+  #       with other GTT-associated codes.
+  #gem "gtt-downloader"
+end
+
+group :development, :test do
+  gem "pry-byebug"  # For debugging codes
+end
+
+group :test do
+
+  # Required to exec: `bundle exec rspec spec/features/`
+  gem "rspec"
+  gem "capybara"
+  gem "turnip"
+end
+
+group :production do
+  # Enable HTTP caching for Rack-based applications
+  gem "rack-cache" #, "~> 1.2"
+
+  # Monitoring tools
+  gem "newrelic_rpm"
+
+  # SSL in Production
+  gem "puma"
+  gem "acme_challenge"
+  gem "rack-rewrite" #, "~> 1.5.0"
+  gem "rack-contrib"
+end

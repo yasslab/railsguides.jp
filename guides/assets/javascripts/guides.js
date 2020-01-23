@@ -52,12 +52,6 @@ var guidesIndex = {
   }
 };
 
-// Disable autolink inside example code blocks of guides.
-$(document).ready(function() {
-  SyntaxHighlighter.defaults['auto-links'] = false;
-  SyntaxHighlighter.all();
-});
-
 // Link to 特設ページ
 jQuery('.ebook-button').click(function() {
   window.location=$(this).find("a").attr("href");

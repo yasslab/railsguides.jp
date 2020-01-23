@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>Active Record の基礎 | Rails ガイド</title>
+    <title>Active Record の基礎 - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -266,6 +260,14 @@
 <li><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">マイグレーション</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -273,7 +275,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="active-recordについて"><a href="#active-record%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1 Active Recordについて</a></h3><p>Active Recordとは、<a href="http://ja.wikipedia.org/wiki/Model_View_Controller">MVC</a>で言うところのM、つまりモデルに相当するものであり、ビジネスデータとビジネスロジックを表すシステムの階層です。Active Recordは、データベースに恒久的に保存される必要のあるビジネスオブジェクトの作成と利用を円滑に行なえるようにします。Active Recordは、ORM (オブジェクトリレーショナルマッピング) システムに記述されている「Active Recordパターン」を実装したものであり、同じ名前が付けられています。</p><h4 id="active-recordパターン"><a href="#active-record%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">1.1 Active Recordパターン</a></h4><p><a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Active RecordはMartin Fowlerによって</a> <em>Patterns of Enterprise Application Architecture</em> という書籍で記述されました。Active Recordにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordでは、データアクセスのロジックを確実なものにすることは、そのオブジェクトの利用者にデータベースへの読み書き方法を教育することの一部である、という意見を採用しています。</p><h4 id="o-rマッピング"><a href="#o-r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">1.2 O/Rマッピング</a></h4><p>オブジェクトリレーショナルマッピング (O/RマッピングやORMと略されることもあります)とは、アプリケーションが持つリッチなオブジェクトをリレーショナルデータベース(RDBMS)のテーブルに接続するものです。ORMを使用することで、SQL文を直接書く代りにわずかなアクセスコードを書くだけで、アプリケーションにおけるオブジェクトの属性やリレーションシップをデータベースに保存したりデータベースから読み出したりすることができるようになります。</p><h4 id="ormフレームワークとしてのactive-record"><a href="#orm%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AEactive-record">1.3 ORMフレームワークとしてのActive Record</a></h4><p>Active Recordにはさまざまな機能が搭載されており、その中でも以下のものが特に重要です。</p>
+        <h3 id="active-recordについて"><a class="anchorlink" href="#active-record%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1 Active Recordについて</a></h3><p>Active Recordとは、<a href="http://ja.wikipedia.org/wiki/Model_View_Controller">MVC</a>で言うところのM、つまりモデルに相当するものであり、ビジネスデータとビジネスロジックを表すシステムの階層です。Active Recordは、データベースに恒久的に保存される必要のあるビジネスオブジェクトの作成と利用を円滑に行なえるようにします。Active Recordは、ORM (オブジェクトリレーショナルマッピング) システムに記述されている「Active Recordパターン」を実装したものであり、同じ名前が付けられています。</p><h4 id="active-recordパターン"><a class="anchorlink" href="#active-record%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">1.1 Active Recordパターン</a></h4><p><a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">Active RecordはMartin Fowlerによって</a> <em>Patterns of Enterprise Application Architecture</em> という書籍で記述されました。Active Recordにおいて、オブジェクトとは永続的なデータであり、そのデータに対する振る舞いでもあります。Active Recordでは、データアクセスのロジックを確実なものにすることは、そのオブジェクトの利用者にデータベースへの読み書き方法を教育することの一部である、という意見を採用しています。</p><h4 id="o-rマッピング"><a class="anchorlink" href="#o-r%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0">1.2 O/Rマッピング</a></h4><p>オブジェクトリレーショナルマッピング (O/RマッピングやORMと略されることもあります)とは、アプリケーションが持つリッチなオブジェクトをリレーショナルデータベース(RDBMS)のテーブルに接続するものです。ORMを使用することで、SQL文を直接書く代りにわずかなアクセスコードを書くだけで、アプリケーションにおけるオブジェクトの属性やリレーションシップをデータベースに保存したりデータベースから読み出したりすることができるようになります。</p><h4 id="ormフレームワークとしてのactive-record"><a class="anchorlink" href="#orm%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AEactive-record">1.3 ORMフレームワークとしてのActive Record</a></h4><p>Active Recordにはさまざまな機能が搭載されており、その中でも以下のものが特に重要です。</p>
 <ul>
 <li>モデルおよびモデル内のデータを表現する</li>
 <li>モデル間の関連付け(アソシエーション)を表現する</li>
@@ -281,7 +283,7 @@
 <li>データがデータベースに永続的に保存される前に検証(validation)を行なう</li>
 <li>オブジェクト指向の表記方法でデータベースを操作する</li>
 </ul>
-<h3 id="active-recordにおけるcoc-convention-over-configuration"><a href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc-convention-over-configuration">2 Active RecordにおけるCoC(Convention over Configuration)</a></h3><p>他のプログラミング言語やフレームワークを使用してアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsに適合するルールに従っていれば、Active Recordモデルを作成するときに、設定のために書かなければならないコードは最小限で済みます。場合によっては設定のためのコードが完全に不要であることすらあります。これは、アプリケーションの設定がほとんどの場合で同じならば、それをデフォルトにすべきであるという考えに基づいています。つまり、明示的な設定が必要となるのは標準のルールだけでは不足がある場合のみということです。</p><h4 id="命名ルール"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB">2.1 命名ルール</a></h4><p>Active Recordには、モデルとデータベースのテーブルとのマッピング作成時に従うべきルールがいくつかあります。Railsでは、データベースのテーブル名を見つけるときに、モデルのクラス名を複数形にしたものを使用します。つまり、<code>Book</code>というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の<strong>books</strong>になります。Railsの複数形化メカニズムは非常に強力で、不規則な語であっても複数形にしたり単数形にしたりできます(person &lt;-&gt; peopleなど)。モデルのクラス名が2語以上の複合語である場合、Rubyの慣習であるキャメルケース(CamelCaseのように語頭を大文字にしてスペースなしでつなぐ)に従ってください。一方、テーブル名は(camel_caseなどのように)小文字かつアンダースコアで区切られなければなりません。以下の例を参照ください。</p>
+<h3 id="active-recordにおけるcoc-convention-over-configuration"><a class="anchorlink" href="#active-record%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bcoc-convention-over-configuration">2 Active RecordにおけるCoC(Convention over Configuration)</a></h3><p>他のプログラミング言語やフレームワークを使用してアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsに適合するルールに従っていれば、Active Recordモデルを作成するときに、設定のために書かなければならないコードは最小限で済みます。場合によっては設定のためのコードが完全に不要であることすらあります。これは、アプリケーションの設定がほとんどの場合で同じならば、それをデフォルトにすべきであるという考えに基づいています。つまり、明示的な設定が必要となるのは標準のルールだけでは不足がある場合のみということです。</p><h4 id="命名ルール"><a class="anchorlink" href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB">2.1 命名ルール</a></h4><p>Active Recordには、モデルとデータベースのテーブルとのマッピング作成時に従うべきルールがいくつかあります。Railsでは、データベースのテーブル名を見つけるときに、モデルのクラス名を複数形にしたものを使用します。つまり、<code>Book</code>というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の<strong>books</strong>になります。Railsの複数形化メカニズムは非常に強力で、不規則な語であっても複数形にしたり単数形にしたりできます(person &lt;-&gt; peopleなど)。モデルのクラス名が2語以上の複合語である場合、Rubyの慣習であるキャメルケース(CamelCaseのように語頭を大文字にしてスペースなしでつなぐ)に従ってください。一方、テーブル名は(camel_caseなどのように)小文字かつアンダースコアで区切られなければなりません。以下の例を参照ください。</p>
 <ul>
 <li>データベースのテーブル - 複数形であり、語はアンダースコアで区切られる (例: <code>book_clubs</code>)</li>
 <li>モデルのクラス - 単数形であり、語頭を大文字にする (例: <code>BookClub</code>)</li>
@@ -317,7 +319,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="スキーマのルール"><a href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB">2.2 スキーマのルール</a></h4><p>Active Recordでは、データベースのテーブルで使用されるカラムの名前についても、利用目的に応じてルールがあります。</p>
+<h4 id="スキーマのルール"><a class="anchorlink" href="#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E3%81%AE%E3%83%AB%E3%83%BC%E3%83%AB">2.2 スキーマのルール</a></h4><p>Active Recordでは、データベースのテーブルで使用されるカラムの名前についても、利用目的に応じてルールがあります。</p>
 <ul>
 <li><p><strong>外部キー</strong> - このカラムは <code>テーブル名の単数形_id</code> にする必要があります (例 <code>item_id</code>、<code>order_id</code>)これらのカラムは、Active Recordがモデル間の関連付けを作成するときに参照されます。</p></li>
 <li><p><strong>主キー</strong> - デフォルトでは <code>id</code> という名前を持つintegerのカラムをテーブルの主キーとして使用します。このカラムは、<a href="active_record_migrations.html">Active Recordマイグレーション</a>を使用してテーブルを作成するときに自動的に作成されます。</p></li>
@@ -329,15 +331,15 @@
 <li>
 <code>updated_at</code> - レコードが更新されたときに現在の日付時刻が自動的に設定されます</li>
 <li>
-<code>lock_version</code> - モデルに<a href="http://api.rubyonrails.org/classes/ActiveRecord/Locking.html">optimistic locking</a>を追加します</li>
+<code>lock_version</code> - モデルに<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/Locking.html">optimistic locking</a>を追加します</li>
 <li>
-<code>type</code> - モデルで<a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>を使用する場合に指定します</li>
+<code>type</code> - モデルで<a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>を使用する場合に指定します</li>
 <li>
 <code>関連付け名_type</code> - <a href="association_basics.html#%E3%83%9D%E3%83%AA%E3%83%A2%E3%83%BC%E3%83%95%E3%82%A3%E3%83%83%E3%82%AF%E9%96%A2%E9%80%A3%E4%BB%98%E3%81%91">ポリモーフィック関連付け</a>の種類を保存します</li>
 <li>
 <code>テーブル名_count</code> - 関連付けにおいて、所属しているオブジェクトの数をキャッシュするのに使用されます。たとえば、<code>Post</code>クラスに<code>comments_count</code>というカラムがあり、そこに<code>Comment</code>のインスタンスが多数あると、ポストごとのコメント数がここにキャッシュされます。</li>
 </ul>
-<div class="note"><p>これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、<code>type</code>という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。</p></div><h3 id="active-recordのモデルを作成する"><a href="#active-record%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Active Recordのモデルを作成する</a></h3><p>Active Recordモデルの作成は非常に簡単です。以下のように<code>ActiveRecord::Base</code>クラスのサブクラスを作成するだけで完了します。</p><div class="code_container">
+<div class="note"><p>これらのカラム名は必須ではありませんが、Active Recordに予約されています。特殊なことをするのでなければ、これらの予約済みカラム名の使用は避けてください。たとえば、<code>type</code>という語はテーブルでSingle Table Inheritance (STI)を指定するために予約されています。STIを使用しないとしても、予約語より先にまず"context"などのような、モデルのデータを適切に表す語を検討してください。</p></div><h3 id="active-recordのモデルを作成する"><a class="anchorlink" href="#active-record%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B">3 Active Recordのモデルを作成する</a></h3><p>Active Recordモデルの作成は非常に簡単です。以下のように<code>ActiveRecord::Base</code>クラスのサブクラスを作成するだけで完了します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
 end
@@ -362,7 +364,7 @@ puts p.name # "Some Book"
 
 </pre>
 </div>
-<h3 id="命名ルールを上書きする"><a href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB%E3%82%92%E4%B8%8A%E6%9B%B8%E3%81%8D%E3%81%99%E3%82%8B">4 命名ルールを上書きする</a></h3><p>Railsアプリケーションで別の命名ルールを使用しなければならない、レガシデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。</p><p><code>ActiveRecord::Base.table_name=</code>メソッドを使用して、使用すべきテーブル名を明示的に指定できます。</p><div class="code_container">
+<h3 id="命名ルールを上書きする"><a class="anchorlink" href="#%E5%91%BD%E5%90%8D%E3%83%AB%E3%83%BC%E3%83%AB%E3%82%92%E4%B8%8A%E6%9B%B8%E3%81%8D%E3%81%99%E3%82%8B">4 命名ルールを上書きする</a></h3><p>Railsアプリケーションで別の命名ルールを使用しなければならない、レガシデータベースを使用してRailsアプリケーションを作成しないといけないなどの場合にはどうすればよいでしょうか。そんなときにはデフォルトの命名ルールを簡単にオーバーライドできます。</p><p><code>ActiveRecord::Base.table_name=</code>メソッドを使用して、使用すべきテーブル名を明示的に指定できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class Product &lt; ActiveRecord::Base
   self.table_name = "PRODUCT"
@@ -388,7 +390,7 @@ end
 
 </pre>
 </div>
-<h3 id="crud-データの読み書き"><a href="#crud-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">5 CRUD: データの読み書き</a></h3><p>CRUDとは、4つのデータベース操作を表す <strong>C</strong> reate、 <strong>R</strong> ead、 <strong>U</strong> pdate、 <strong>D</strong> eleteの頭字語です。Active Recordはこれらのメソッドを自動的に作成し、これによってアプリケーションはテーブルに保存されているデータを操作することができます。</p><h4 id="create"><a href="#create">5.1 Create</a></h4><p>Active Recordのオブジェクトはハッシュやブロックから作成することができます。また、作成後に属性を手動で追加できます。<code>new</code>メソッドを実行すると単に新しいオブジェクトが返されますが、<code>create</code>を実行すると新しいオブジェクトが返され、さらにデータベースに保存されます。</p><p>たとえば、<code>User</code>というモデルに<code>name</code>と<code>occupation</code>という属性があるとすると、<code>create</code>メソッドを実行すると新しいレコードが1つ作成され、データベースに保存されます。</p><div class="code_container">
+<h3 id="crud-データの読み書き"><a class="anchorlink" href="#crud-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E6%9B%B8%E3%81%8D">5 CRUD: データの読み書き</a></h3><p>CRUDとは、4つのデータベース操作を表す <strong>C</strong> reate、 <strong>R</strong> ead、 <strong>U</strong> pdate、 <strong>D</strong> eleteの頭字語です。Active Recordはこれらのメソッドを自動的に作成し、これによってアプリケーションはテーブルに保存されているデータを操作することができます。</p><h4 id="create"><a class="anchorlink" href="#create">5.1 Create</a></h4><p>Active Recordのオブジェクトはハッシュやブロックから作成することができます。また、作成後に属性を手動で追加できます。<code>new</code>メソッドを実行すると単に新しいオブジェクトが返されますが、<code>create</code>を実行すると新しいオブジェクトが返され、さらにデータベースに保存されます。</p><p>たとえば、<code>User</code>というモデルに<code>name</code>と<code>occupation</code>という属性があるとすると、<code>create</code>メソッドを実行すると新しいレコードが1つ作成され、データベースに保存されます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.create(name: "David", occupation: "Code Artist")
 
@@ -411,7 +413,7 @@ end
 
 </pre>
 </div>
-<h4 id="read"><a href="#read">5.2 Read</a></h4><p>Active Recordは、データベース内のデータにアクセスするためのリッチなAPIを提供します。以下は、Active Recordによって提供されるさまざまなデータアクセスメソッドのほんの一例です。</p><div class="code_container">
+<h4 id="read"><a class="anchorlink" href="#read">5.2 Read</a></h4><p>Active Recordは、データベース内のデータにアクセスするためのリッチなAPIを提供します。以下は、Active Recordによって提供されるさまざまなデータアクセスメソッドのほんの一例です。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # すべてのユーザーのコレクションを返す
 users = User.all
@@ -439,7 +441,7 @@ users = User.where(name: 'David', occupation: 'Code Artist').order('created_at D
 
 </pre>
 </div>
-<p>Active Recordモデルへのクエリについては<a href="active_record_querying.html">Active Recordクエリインターフェイス</a>ガイドで詳細を説明します。</p><h4 id="update"><a href="#update">5.3 Update</a></h4><p>Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースに保存できるようになります。</p><div class="code_container">
+<p>Active Recordモデルへのクエリについては<a href="active_record_querying.html">Active Recordクエリインターフェイス</a>ガイドで詳細を説明します。</p><h4 id="update"><a class="anchorlink" href="#update">5.3 Update</a></h4><p>Active Recordオブジェクトをひとたび取得すると、オブジェクトの属性を変更してデータベースに保存できるようになります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.find_by(name: 'David')
 user.name = 'Dave'
@@ -460,14 +462,14 @@ User.update_all "max_login_attempts = 3, must_change_password = 'true'"
 
 </pre>
 </div>
-<h4 id="delete"><a href="#delete">5.4 Delete</a></h4><p>他のメソッドと同様、Active Recordオブジェクトをひとたび取得すれば、そのオブジェクトをdestroyすることでデータベースから削除できます。</p><div class="code_container">
+<h4 id="delete"><a class="anchorlink" href="#delete">5.4 Delete</a></h4><p>他のメソッドと同様、Active Recordオブジェクトをひとたび取得すれば、そのオブジェクトをdestroyすることでデータベースから削除できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 user = User.find_by(name: 'David')
 user.destroy
 
 </pre>
 </div>
-<h3 id="検証-validation"><a href="#%E6%A4%9C%E8%A8%BC-validation">6 検証(validation)</a></h3><p>Active Recordを使用して、モデルがデータベースに書き込まれる前にモデルの状態を検証することができます。モデルをチェックするためのさまざまなメソッドが用意されています。属性が空でないこと、一意であること、既にデータベースにないこと、特定のフォーマットに従っていることなど、多岐にわたった検証が行えます。</p><p>検証は、データベースを永続化するうえで極めて重要です。そのため、<code>create</code>、<code>save</code>、<code>update</code>メソッドは、検証に失敗した場合に<code>false</code>を返します。このとき実際のデータベース操作は行われません。上の3つのメソッドにはそれぞれ破壊的なバージョン (<code>create!</code>、<code>save!</code>、<code>update!</code>)があり、こちらは検証に失敗した場合にさらに厳しい対応、つまり<code>ActiveRecord::RecordInvalid</code>例外を発生します。
+<h3 id="検証-validation"><a class="anchorlink" href="#%E6%A4%9C%E8%A8%BC-validation">6 検証(validation)</a></h3><p>Active Recordを使用して、モデルがデータベースに書き込まれる前にモデルの状態を検証することができます。モデルをチェックするためのさまざまなメソッドが用意されています。属性が空でないこと、一意であること、既にデータベースにないこと、特定のフォーマットに従っていることなど、多岐にわたった検証が行えます。</p><p>検証は、データベースを永続化するうえで極めて重要です。そのため、<code>create</code>、<code>save</code>、<code>update</code>メソッドは、検証に失敗した場合に<code>false</code>を返します。このとき実際のデータベース操作は行われません。上の3つのメソッドにはそれぞれ破壊的なバージョン (<code>create!</code>、<code>save!</code>、<code>update!</code>)があり、こちらは検証に失敗した場合にさらに厳しい対応、つまり<code>ActiveRecord::RecordInvalid</code>例外を発生します。
 以下の例で簡単に説明します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class User &lt; ActiveRecord::Base
@@ -479,7 +481,7 @@ User.create! # =&gt; ActiveRecord::RecordInvalid: Validation failed: Name can't 
 
 </pre>
 </div>
-<p>検証の詳細については<a href="active_record_validations.html">Active Record検証ガイド</a>を参照してください。</p><h3 id="コールバック"><a href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">7 コールバック</a></h3><p>Active Recordコールバックを使用することで、モデルのライフサイクルにおける特定のイベント実行時にコードをアタッチして実行することができます。これにより、モデルで特定のイベントが発生したときにコードが透過的に実行されるようになります。レコードの作成、更新、削除などさまざまなイベントに対してコールバックを設定できます。コールバックの詳細については<a href="active_record_callbacks.html">Active Recordコールバックガイド</a>を参照してください。</p><h3 id="マイグレーション"><a href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">8 マイグレーション</a></h3><p>Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。<code>rake</code>を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。</p><div class="code_container">
+<p>検証の詳細については<a href="active_record_validations.html">Active Record検証ガイド</a>を参照してください。</p><h3 id="コールバック"><a class="anchorlink" href="#%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%90%E3%83%83%E3%82%AF">7 コールバック</a></h3><p>Active Recordコールバックを使用することで、モデルのライフサイクルにおける特定のイベント実行時にコードをアタッチして実行することができます。これにより、モデルで特定のイベントが発生したときにコードが透過的に実行されるようになります。レコードの作成、更新、削除などさまざまなイベントに対してコールバックを設定できます。コールバックの詳細については<a href="active_record_callbacks.html">Active Recordコールバックガイド</a>を参照してください。</p><h3 id="マイグレーション"><a class="anchorlink" href="#%E3%83%9E%E3%82%A4%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">8 マイグレーション</a></h3><p>Railsにはデータベーススキーマを管理するためのドメイン固有言語(DSL: Domain Specific Language)があり、マイグレーション(migration)と呼ばれています。マイグレーションはファイルに保存されます。<code>rake</code>を実行すると、Active Recordがサポートするあらゆるデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class CreatePublications &lt; ActiveRecord::Migration
   def change
@@ -517,16 +519,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -554,8 +547,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -571,17 +562,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -589,9 +582,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -606,13 +599,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>

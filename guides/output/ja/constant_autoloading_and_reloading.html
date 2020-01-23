@@ -24,7 +24,7 @@
     <meta name="twitter:image" content="http://railsguides.jp/images/cover_for_twitter.png" />
     <meta name="twitter:url"   content="http://railsguides.jp/" />
 
-    <title>定数の自動読み込みと再読み込み | Rails ガイド</title>
+    <title>定数の自動読み込みと再読み込み - Railsガイド</title>
     <meta name="apple-mobile-web-app-title" content="Railsガイド" />
     <meta name="application-name"           content="Railsガイド" />
 
@@ -64,16 +64,8 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=614116885378153&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-  <div id="topNav">
-    <div class="wrapper">
-      <strong class="more-info-label">関連サイト: </strong>
-      <span class="red-button more-info-button">関連URL</span>
-      <ul class="more-info-links s-hidden">
-        <li class="more-info"><a href="http://guides.rubyonrails.org/">原著 (英語)</a></li>
-        <li class="more-info"><a href="https://github.com/yasslab/railsguides.jp">ソースコード (GitHub)</a></li>
-        <li class="more-info"><a href="http://railstutorial.jp/">Rails チュートリアル</a></li>
-      </ul>
-    </div>
+  <div>
+    <img src="images/edge_badge.png" alt="edge-badge" id="edge-badge" />
   </div>
   <div id="header">
     <div class="wrapper clearfix">
@@ -84,63 +76,65 @@
           <a href="index.html" id="guidesMenu" class="guides-index-item nav-item">ガイド目次</a>
           <div id="guides" class="clearfix" style="display: none;">
             <hr />
-              <dl class="L">
-                <dt>はじめに</dt>
-                <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
-                <dt>モデル</dt>
-                <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
-                <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
-                <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
-                <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
-                <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
-                <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
-                <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
-                <dt>ビュー</dt>
-                <dd><a href="action_view_overview.html">Action View の概要</a></dd>
-                <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
-                <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
-                <dt>コントローラ</dt>
-                <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
-                <dd><a href="routing.html">Rails ルーティング</a></dd>
-              </dl>
-              <dl class="R">
-                <dt>高度なトピック</dt>
-                <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
-                <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
-                <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
-                <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
-                <dd><a href="testing.html">Rails テスティングガイド</a></dd>
-                <dd><a href="security.html">Rails セキュリティガイド</a></dd>
-                <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
-                <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
-                <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
-                <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
-                <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
-                <dd><a href="engines.html">Rails エンジン入門</a></dd>
-                <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
-                <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
-                <dt>Rails を拡張する</dt>
-                <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
-                <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
-                <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-                <dt>Ruby on Rails に貢献する</dt>
-                <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
-                <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
-                <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
-                <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
-                <dt>メンテナンスポリシー</dt>
-                <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
-                <dt>リリースノート</dt>
-                <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
-                <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
-                <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
-                <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-                <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-                <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-                <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
-                <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
-                <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
-              </dl>
+            <div class='guides-scroll'>
+                <dl class="L">
+                  <dt>はじめに</dt>
+                  <dd><a href="getting_started.html">Rails をはじめよう</a></dd>
+                  <dt>モデル</dt>
+                  <dd><a href="active_record_basics.html">Active Record の基礎</a></dd>
+                  <dd><a href="active_record_migrations.html">Active Record マイグレーション</a></dd>
+                  <dd><a href="active_record_validations.html">Active Record バリデーション</a></dd>
+                  <dd><a href="active_record_callbacks.html">Active Record コールバック</a></dd>
+                  <dd><a href="association_basics.html">Active Record の関連付け</a></dd>
+                  <dd><a href="active_record_querying.html">Active Record クエリインターフェイス</a></dd>
+                  <dd><a href="active_model_basics.html">Active Model の基礎</a></dd>
+                  <dt>ビュー</dt>
+                  <dd><a href="action_view_overview.html">Action View の概要</a></dd>
+                  <dd><a href="layouts_and_rendering.html">レイアウトとレンダリング</a></dd>
+                  <dd><a href="form_helpers.html">Action View フォームヘルパー</a></dd>
+                  <dt>コントローラ</dt>
+                  <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
+                  <dd><a href="routing.html">Rails ルーティング</a></dd>
+                  <dt>高度なトピック</dt>
+                  <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
+                  <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
+                  <dd><a href="action_mailer_basics.html">Action Mailer の基礎</a></dd>
+                  <dd><a href="active_job_basics.html">Active Job の基礎</a></dd>
+                  <dd><a href="testing.html">Rails テスティングガイド</a></dd>
+                  <dd><a href="security.html">Rails セキュリティガイド</a></dd>
+                  <dd><a href="debugging_rails_applications.html">Rails アプリケーションのデバッグ</a></dd>
+                  <dd><a href="configuring.html">Rails アプリケーションを設定する</a></dd>
+                  <dd><a href="command_line.html">コマンドラインツールと Rake タスク</a></dd>
+                  <dd><a href="asset_pipeline.html">アセットパイプライン</a></dd>
+                  <dd><a href="working_with_javascript_in_rails.html">Rails で JavaScript を使用する</a></dd>
+                  <dd><a href="engines.html">Rails エンジン入門</a></dd>
+                  <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
+                  <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+                </dl>
+                <dl class="R">
+                  <dt>Rails を拡張する</dt>
+                  <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
+                  <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
+                  <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
+                  <dt>Ruby on Rails に貢献する</dt>
+                  <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
+                  <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
+                  <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
+                  <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+                  <dt>メンテナンスポリシー</dt>
+                  <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
+                  <dt>リリースノート</dt>
+                  <dd><a href="upgrading_ruby_on_rails.html">Rails アップグレードガイド</a></dd>
+                  <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
+                  <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
+                  <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
+                  <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+                  <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+                  <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
+                  <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
+                  <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
+                </dl>
+            </div>
           </div>
         </li>
         <li><a class="nav-item" href="https://github.com/yasslab/railsguides.jp#readme">翻訳に貢献する</a></li>
@@ -205,9 +199,9 @@
                   <option value="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</option>
                   <option value="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</option>
                   <option value="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</option>
-                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</option>
-                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</option>
-                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</option>
+                  <option value="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</option>
+                  <option value="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</option>
+                  <option value="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</option>
                   <option value="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</option>
                   <option value="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</option>
               </optgroup>
@@ -284,6 +278,14 @@
 <li><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">参考資料</a></li>
 </ol>
 
+            <aside id="toppage">
+              <div>
+              <a href="https://railsguides.jp/pro"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>
+              </div>
+              <div>
+              <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" /></a>
+              </div>
+            </aside>
           </div>
 </div>
   </div>
@@ -291,7 +293,7 @@
   <div id="container">
     <div class="wrapper">
       <div id="mainCol">
-        <h3 id="はじめに"><a href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3><p>Ruby on Railsでコードを書き換えると、開発者がサーバーを再起動しなくても、あたかも既にアプリケーションに読み込み済みであるかのように動作します。</p><p>通常のRubyプログラムのクラスであれば、依存関係のあるプログラムを明示的に読み込む必要があります。</p><div class="code_container">
+        <h3 id="はじめに"><a class="anchorlink" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">1 はじめに</a></h3><p>Ruby on Railsでコードを書き換えると、開発者がサーバーを再起動しなくても、あたかも既にアプリケーションに読み込み済みであるかのように動作します。</p><p>通常のRubyプログラムのクラスであれば、依存関係のあるプログラムを明示的に読み込む必要があります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 require 'application_controller'
 require 'post'
@@ -314,7 +316,7 @@ end
 
 </pre>
 </div>
-<p>本章ではこの機能の仕組みについて解説します。</p><h3 id="定数更新"><a href="#%E5%AE%9A%E6%95%B0%E6%9B%B4%E6%96%B0">2 定数更新</a></h3><p>多くのプログラミング言語において、定数はさほど重要な位置を占めていませんが、ことRubyにおいては定数に関する話題が非常に豊富です。</p><p>Ruby言語の定数についての解説は本ガイドの範疇を超えますので深入りはしませんが、定数に関してはいくつかの重要な点にスポットライトを当てたいと思います。以降の章を十分に理解することは、Railsにおける定数の自動読み込みと再読み込みを理解するための頼もしい武器となることでしょう。</p><h4 id="ネスト"><a href="#%E3%83%8D%E3%82%B9%E3%83%88">2.1 ネスト</a></h4><p>クラスおよびモジュールの定義をネストすることで名前空間を作成できます。</p><div class="code_container">
+<p>本章ではこの機能の仕組みについて解説します。</p><h3 id="定数更新"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E6%9B%B4%E6%96%B0">2 定数更新</a></h3><p>多くのプログラミング言語において、定数はさほど重要な位置を占めていませんが、ことRubyにおいては定数に関する話題が非常に豊富です。</p><p>Ruby言語の定数についての解説は本ガイドの範疇を超えますので深入りはしませんが、定数に関してはいくつかの重要な点にスポットライトを当てたいと思います。以降の章を十分に理解することは、Railsにおける定数の自動読み込みと再読み込みを理解するための頼もしい武器となることでしょう。</p><h4 id="ネスト"><a class="anchorlink" href="#%E3%83%8D%E3%82%B9%E3%83%88">2.1 ネスト</a></h4><p>クラスおよびモジュールの定義をネストすることで名前空間を作成できます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 module XML
   class SAXParser
@@ -368,7 +370,7 @@ end
 <li><p><code>*_eval</code>で終わるメソッドが文字列を1つ引数に取って呼び出されると、そのレシーバの特異クラスはevalされたコードのネストにプッシュされる。</p></li>
 <li><p><code>Kernel#load</code>によって解釈されるコードのトップレベルにあるネストは空になる。ただし<code>load</code>呼び出しが第2引数としてtrueという値を受け取る場合を除く。この値が指定されると、無名モジュールが新たに作成されてRubyによってスタックにプッシュされる。</p></li>
 </ul>
-<p>ここで興味深いのは、ブロックがスタックに何の影響も与えないという事実です。特に、<code>Class.new</code>や<code>Module.new</code>に渡される可能性のあるブロックは、<code>new</code>メソッドによって定義されるクラスやモジュールをネストにプッシュしません。この点が、ブロックを使用せずに何らかの形でクラスやモジュールを定義する場合と異なる点の一つです。</p><p><code>Module.nesting</code>を使用することで、任意の位置にあるネストを検査 (inspect) することができます。</p><h4 id="クラスやモジュールの定義とは定数への代入のこと"><a href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%84%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%AE%E5%AE%9A%E7%BE%A9%E3%81%A8%E3%81%AF%E5%AE%9A%E6%95%B0%E3%81%B8%E3%81%AE%E4%BB%A3%E5%85%A5%E3%81%AE%E3%81%93%E3%81%A8">2.2 クラスやモジュールの定義とは定数への代入のこと</a></h4><p>以下のスニペットを実行するとクラスが (再オープンではなく) 新規作成されるとします。</p><div class="code_container">
+<p>ここで興味深いのは、ブロックがスタックに何の影響も与えないという事実です。特に、<code>Class.new</code>や<code>Module.new</code>に渡される可能性のあるブロックは、<code>new</code>メソッドによって定義されるクラスやモジュールをネストにプッシュしません。この点が、ブロックを使用せずに何らかの形でクラスやモジュールを定義する場合と異なる点の一つです。</p><p><code>Module.nesting</code>を使用することで、任意の位置にあるネストを検査 (inspect) することができます。</p><h4 id="クラスやモジュールの定義とは定数への代入のこと"><a class="anchorlink" href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%84%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%AE%E5%AE%9A%E7%BE%A9%E3%81%A8%E3%81%AF%E5%AE%9A%E6%95%B0%E3%81%B8%E3%81%AE%E4%BB%A3%E5%85%A5%E3%81%AE%E3%81%93%E3%81%A8">2.2 クラスやモジュールの定義とは定数への代入のこと</a></h4><p>以下のスニペットを実行するとクラスが (再オープンではなく) 新規作成されるとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class C
 end
@@ -423,7 +425,7 @@ end
 
 </pre>
 </div>
-<p>上のコードの<code>Post</code>はクラスのための文法ではありません。そうではなく、<code>Post</code>はRubyにおける通常の定数です。何も問題がなければ、この定数は<code>all</code>メソッドをもつオブジェクトとして評価されます。</p><p>ここまで<em>定数</em>の自動読み込みについて詳細に解説したのはこのような理由からです。Railsは定数を必要に応じて読み込む機能を持っています。</p><h4 id="定数はモジュールに保存される"><a href="#%E5%AE%9A%E6%95%B0%E3%81%AF%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%82%8B">2.3 定数はモジュールに保存される</a></h4><p>Rubyの定数は、まったく文字通りに「モジュールに属します」。クラスとモジュールには定数テーブルがあります。これはハッシュテーブルのようなものと考えることができます。</p><p>これがどういうことなのかを十分理解するために、ひとつ例を示して分析してみましょう。"この<code>String</code>クラス"のようなあいまいな表現は説明する側にとっては便利ですが、ここでは教育的な見地から厳密に説明することにします。</p><p>以下のモジュール定義について考察してみましょう。</p><div class="code_container">
+<p>上のコードの<code>Post</code>はクラスのための文法ではありません。そうではなく、<code>Post</code>はRubyにおける通常の定数です。何も問題がなければ、この定数は<code>all</code>メソッドをもつオブジェクトとして評価されます。</p><p>ここまで<em>定数</em>の自動読み込みについて詳細に解説したのはこのような理由からです。Railsは定数を必要に応じて読み込む機能を持っています。</p><h4 id="定数はモジュールに保存される"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E3%81%AF%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%AB%E4%BF%9D%E5%AD%98%E3%81%95%E3%82%8C%E3%82%8B">2.3 定数はモジュールに保存される</a></h4><p>Rubyの定数は、まったく文字通りに「モジュールに属します」。クラスとモジュールには定数テーブルがあります。これはハッシュテーブルのようなものと考えることができます。</p><p>これがどういうことなのかを十分理解するために、ひとつ例を示して分析してみましょう。"この<code>String</code>クラス"のようなあいまいな表現は説明する側にとっては便利ですが、ここでは教育的な見地から厳密に説明することにします。</p><p>以下のモジュール定義について考察してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 module Colors
   RED = '0xff0000'
@@ -433,13 +435,13 @@ end
 </div>
 <p>最初に<code>module</code>キーワードが処理されると、Rubyインタプリタは<code>Object</code>定数に保存されているクラスオブジェクトの定数テーブルに新しいエントリを1つ作成します。
 このエントリは、"Colors"という名前と、新しく作られたモジュールオブジェクトを関連付けます。
-さらに、Rubyインタプリタは新しいモジュールオブジェクトの名前を"Colors"という文字列として設定します。</p><p>後に、このモジュール定義の本体がRubyインタプリタによって解釈されると、<code>Colors</code>定数の中に保存されたモジュールオブジェクトの定数テーブルの中に新しいエントリが1つ作成されます。このエントリは、"RED"という名前を"0xff0000"という文字列に対応付けます。</p><p>特にこの<code>Colors::RED</code>は、他のクラスオブジェクトやモジュールオブジェクトの中にあるかもしれない他の<code>RED</code>定数とは何の関連もないことにご注意ください。もし仮に他の<code>RED</code>定数がたまたま存在しているとしたら、それは独自の定数テーブルの中に異なるエントリとして存在するはずです。</p><p>前述の段落の説明を読む際には、クラスオブジェクト、モジュールオブジェクト、定数名、定数テーブルに関連付けられている値オブジェクトをそれぞれ混同しないように十分注意してください。</p><h4 id="解決アルゴリズム"><a href="#%E8%A7%A3%E6%B1%BA%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4 解決アルゴリズム</a></h4><h5 id="相対定数を解決するアルゴリズム"><a href="#%E7%9B%B8%E5%AF%BE%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4.1 相対定数を解決するアルゴリズム</a></h5><p>ネストが空でなければその最初の要素、空の場合には<code>Object</code>を、コードの任意の場所での<em>cref</em>というようにしましょう (訳注: crefはRuby内部におけるクラス参照 (class reference) の略であり、Rubyの定数が持つ暗黙のコンテキストです -- <a href="http://yugui.jp/articles/846">関連記事</a> )。</p><p>詳細についてはここでは述べませんが、相対的な定数参照を解決するアルゴリズムは以下のようになります。</p>
+さらに、Rubyインタプリタは新しいモジュールオブジェクトの名前を"Colors"という文字列として設定します。</p><p>後に、このモジュール定義の本体がRubyインタプリタによって解釈されると、<code>Colors</code>定数の中に保存されたモジュールオブジェクトの定数テーブルの中に新しいエントリが1つ作成されます。このエントリは、"RED"という名前を"0xff0000"という文字列に対応付けます。</p><p>特にこの<code>Colors::RED</code>は、他のクラスオブジェクトやモジュールオブジェクトの中にあるかもしれない他の<code>RED</code>定数とは何の関連もないことにご注意ください。もし仮に他の<code>RED</code>定数がたまたま存在しているとしたら、それは独自の定数テーブルの中に異なるエントリとして存在するはずです。</p><p>前述の段落の説明を読む際には、クラスオブジェクト、モジュールオブジェクト、定数名、定数テーブルに関連付けられている値オブジェクトをそれぞれ混同しないように十分注意してください。</p><h4 id="解決アルゴリズム"><a class="anchorlink" href="#%E8%A7%A3%E6%B1%BA%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4 解決アルゴリズム</a></h4><h5 id="相対定数を解決するアルゴリズム"><a class="anchorlink" href="#%E7%9B%B8%E5%AF%BE%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4.1 相対定数を解決するアルゴリズム</a></h5><p>ネストが空でなければその最初の要素、空の場合には<code>Object</code>を、コードの任意の場所での<em>cref</em>というようにしましょう (訳注: crefはRuby内部におけるクラス参照 (class reference) の略であり、Rubyの定数が持つ暗黙のコンテキストです -- <a href="http://yugui.jp/articles/846">関連記事</a> )。</p><p>詳細についてはここでは述べませんが、相対的な定数参照を解決するアルゴリズムは以下のようになります。</p>
 <ol>
 <li><p>ネストが存在する場合、この定数はそのネストの要素の中で順に探索される。それらの要素の先祖は探索されない (訳注: 本章で言う先祖 (ancestors) とは<a href="http://docs.ruby-lang.org/ja/2.2.0/method/Module/i/ancestors.html">クラス、モジュールのスーパークラスとインクルードしているモジュール</a>のことです)。</p></li>
 <li><p>見つからない場合は、crefの先祖チェーン (継承チェーン) を探索する。</p></li>
 <li><p>見つからない場合、crefに対して<code>const_missing</code>が呼び出される。<code>const_missing</code>のデフォルトの実装は<code>NameError</code>を発生するが、これはオーバーライド可能。</p></li>
 </ol>
-<p>Railsの自動読み込みは<strong>このアルゴリズムをエミュレートしているわけではない</strong>ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、cref自身です。詳細については<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">相対参照</a>を参照してください。</p><h5 id="修飾済み定数を解決するアルゴリズム"><a href="#%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4.2 修飾済み定数を解決するアルゴリズム</a></h5><p>修飾済み (qualified) 定数は以下のようなものです。</p><div class="code_container">
+<p>Railsの自動読み込みは<strong>このアルゴリズムをエミュレートしているわけではない</strong>ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、cref自身です。詳細については<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">相対参照</a>を参照してください。</p><h5 id="修飾済み定数を解決するアルゴリズム"><a class="anchorlink" href="#%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">2.4.2 修飾済み定数を解決するアルゴリズム</a></h5><p>修飾済み (qualified) 定数は以下のようなものです。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 Billing::Invoice
 
@@ -450,7 +452,7 @@ Billing::Invoice
 <li><p>この定数はその親と先祖の中から探索される。</p></li>
 <li><p>探索の結果何も見つからない場合、親の<code>const_missing</code>が呼び出される。<code>const_missing</code>のデフォルトの実装は<code>NameError</code>を発生するが、これはオーバーライド可能。</p></li>
 </ol>
-<p>見てのとおり、この探索アルゴリズムは相対定数の場合よりもシンプルです。特に、ネストが何の影響も与えていない点にご注意ください。また、モジュールは特別扱いされておらず、モジュール自身またはモジュールの先祖のどちらにも定数がない場合には<code>Object</code>は<strong>チェックされない</strong>点にもご注意ください。</p><p>Railsの自動読み込みは<strong>このアルゴリズムをエミュレートしているわけではない</strong>ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、その親です。詳細については<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">修飾済み参照</a>を参照してください。</p><h3 id="用語説明"><a href="#%E7%94%A8%E8%AA%9E%E8%AA%AC%E6%98%8E">3 用語説明</a></h3><h4 id="親の名前空間"><a href="#%E8%A6%AA%E3%81%AE%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93">3.1 親の名前空間</a></h4><p>定数パスで与えられた文字列を使用して、<em>親の名前空間</em> (parent namespace) が定義されます。親の名前空間は、定数パスからその右端のセグメントのみを除去した文字列になります。</p><p>たとえば、"A::B::C" という文字列の親の名前空間は "A::B" という文字列となり、"A::B" という文字列の親の名前空間は "A" となり、"A" という文字列の親の名前空間は "" となります。</p><p>しかし、クラスやモジュールについて考察する場合、親の名前空間の解釈にトリッキーな点が生じるので注意が必要です。例として、"A::B"という名前を持つモジュールMについて考察してみましょう。</p>
+<p>見てのとおり、この探索アルゴリズムは相対定数の場合よりもシンプルです。特に、ネストが何の影響も与えていない点にご注意ください。また、モジュールは特別扱いされておらず、モジュール自身またはモジュールの先祖のどちらにも定数がない場合には<code>Object</code>は<strong>チェックされない</strong>点にもご注意ください。</p><p>Railsの自動読み込みは<strong>このアルゴリズムをエミュレートしているわけではない</strong>ことにご注意ください。ただし探索の開始ポイントは、自動読み込みされる定数の名前と、その親です。詳細については<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">修飾済み参照</a>を参照してください。</p><h3 id="用語説明"><a class="anchorlink" href="#%E7%94%A8%E8%AA%9E%E8%AA%AC%E6%98%8E">3 用語説明</a></h3><h4 id="親の名前空間"><a class="anchorlink" href="#%E8%A6%AA%E3%81%AE%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93">3.1 親の名前空間</a></h4><p>定数パスで与えられた文字列を使用して、<em>親の名前空間</em> (parent namespace) が定義されます。親の名前空間は、定数パスからその右端のセグメントのみを除去した文字列になります。</p><p>たとえば、"A::B::C" という文字列の親の名前空間は "A::B" という文字列となり、"A::B" という文字列の親の名前空間は "A" となり、"A" という文字列の親の名前空間は "" となります。</p><p>しかし、クラスやモジュールについて考察する場合、親の名前空間の解釈にトリッキーな点が生じるので注意が必要です。例として、"A::B"という名前を持つモジュールMについて考察してみましょう。</p>
 <ul>
 <li><p>親の名前空間 "A" は、与えられた位置におけるネストの状態を反映していない可能性がある。</p></li>
 <li><p><code>A</code>という定数は既に存在しなくなっている可能性がある。この定数は何らかのコードによって<code>Object</code>から削除されているかもしれない。</p></li>
@@ -458,7 +460,7 @@ Billing::Invoice
 <li><p>そのような状況で<code>A</code>という同じ名前の定数が再度代入されると、その<code>A</code>は同じく"A"という名前を持つ別の新しいクラスまたはモジュールを指す可能性すらありうる。</p></li>
 <li><p>上述のシナリオが発生した場合、<code>A::B</code>という名前でMというモジュールを参照することはできなくなってしまうが、Mというモジュールオブジェクト自身は"A::B"という名前を持ったまま、削除されることもなくどこかに生きている可能性がある。</p></li>
 </ul>
-<p>この「親の名前空間」は自動読み込みアルゴリズムの中核となるアイディアであり、アルゴリズム開発上の意図を直感的に説明するのに役立ちますが、このメタファーだけでは説明しきれない部分が多くあります。エッジケースでどのようなことが起きるかを十分理解するために、本章で説明されている「親の名前空間」という概念とその意味を正確に理解したうえで、親の名前空間を常に意識しながら読み進めてください。</p><h4 id="読み込みのメカニズム"><a href="#%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%83%A1%E3%82%AB%E3%83%8B%E3%82%BA%E3%83%A0">3.2 読み込みのメカニズム</a></h4><p><code>config.cache_classes</code>がfalseに設定されていると、<code>Kernel#load</code>を使用して読み込みが行われます。これはdevelopmentモードにおけるデフォルトの設定です。他方、<code>Kernel#require</code>を使用する読み込みは、productionモードにおけるデフォルトの設定です。</p><p><a href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">定数の再読み込み</a>が有効になっていると、<code>Kernel#load</code>が使用され、ファイルを繰り返し読み込めるようになります。</p><p>本章では「読み込み」(load)という言葉を、指定されたファイルがRailsによって解釈されるという程度の緩やかな意味で使用していますが、実際のメカニズムとしてはフラグに応じて<code>Kernel#load</code>や<code>Kernel#require</code>が使用されます。</p><h3 id="自動読み込みが可能となる状況"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%8C%E5%8F%AF%E8%83%BD%E3%81%A8%E3%81%AA%E3%82%8B%E7%8A%B6%E6%B3%81">4 自動読み込みが可能となる状況</a></h3><p>Railsは、そのための環境が設定されていれば常に自動読み込みを行います。たとえば、以下の<code>runner</code>コマンドを実行すると自動読み込みが行われます。</p><div class="code_container">
+<p>この「親の名前空間」は自動読み込みアルゴリズムの中核となるアイディアであり、アルゴリズム開発上の意図を直感的に説明するのに役立ちますが、このメタファーだけでは説明しきれない部分が多くあります。エッジケースでどのようなことが起きるかを十分理解するために、本章で説明されている「親の名前空間」という概念とその意味を正確に理解したうえで、親の名前空間を常に意識しながら読み進めてください。</p><h4 id="読み込みのメカニズム"><a class="anchorlink" href="#%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%83%A1%E3%82%AB%E3%83%8B%E3%82%BA%E3%83%A0">3.2 読み込みのメカニズム</a></h4><p><code>config.cache_classes</code>がfalseに設定されていると、<code>Kernel#load</code>を使用して読み込みが行われます。これはdevelopmentモードにおけるデフォルトの設定です。他方、<code>Kernel#require</code>を使用する読み込みは、productionモードにおけるデフォルトの設定です。</p><p><a href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">定数の再読み込み</a>が有効になっていると、<code>Kernel#load</code>が使用され、ファイルを繰り返し読み込めるようになります。</p><p>本章では「読み込み」(load)という言葉を、指定されたファイルがRailsによって解釈されるという程度の緩やかな意味で使用していますが、実際のメカニズムとしてはフラグに応じて<code>Kernel#load</code>や<code>Kernel#require</code>が使用されます。</p><h3 id="自動読み込みが可能となる状況"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%8C%E5%8F%AF%E8%83%BD%E3%81%A8%E3%81%AA%E3%82%8B%E7%8A%B6%E6%B3%81">4 自動読み込みが可能となる状況</a></h3><p>Railsは、そのための環境が設定されていれば常に自動読み込みを行います。たとえば、以下の<code>runner</code>コマンドを実行すると自動読み込みが行われます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 $ bin/rails runner 'p User.column_names'
 ["id", "email", "created_at", "updated_at"]
@@ -472,7 +474,7 @@ end
 
 </pre>
 </div>
-<p><code>app/models/beach_house.rb</code>は事前一括読み込みされているにもかかわらず<code>House</code>が見つからなかった場合、Railsはこれについて自動読み込みを行います。</p><h3 id="autoload-paths"><a href="#autoload-paths">5 autoload_paths</a></h3><p>これについてはご存じの方も多いことでしょう。以下のように<code>require</code>で相対的なファイル名を指定したとします。</p><div class="code_container">
+<p><code>app/models/beach_house.rb</code>は事前一括読み込みされているにもかかわらず<code>House</code>が見つからなかった場合、Railsはこれについて自動読み込みを行います。</p><h3 id="autoload-paths"><a class="anchorlink" href="#autoload-paths">5 autoload_paths</a></h3><p>これについてはご存じの方も多いことでしょう。以下のように<code>require</code>で相対的なファイル名を指定したとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 require 'erb'
 
@@ -504,7 +506,7 @@ $ bin/rails r 'puts ActiveSupport::Dependencies.autoload_paths'
 
 </pre>
 </div>
-<div class="info"><p><code>autoload_paths</code>は初期化中に算出され、キャッシュされます。ディレクトリ構造が少しでも変更された場合、変更を反映するにはアプリケーションを再起動する必要があります。</p></div><h3 id="自動読み込みのアルゴリズム"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">6 自動読み込みのアルゴリズム</a></h3><h4 id="自動読み込みのアルゴリズム-相対参照"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">6.1 相対参照</a></h4><p>定数の相対的な参照は、以下のようにさまざまな場所で行われます。</p><div class="code_container">
+<div class="info"><p><code>autoload_paths</code>は初期化中に算出され、キャッシュされます。ディレクトリ構造が少しでも変更された場合、変更を反映するにはアプリケーションを再起動する必要があります。</p></div><h3 id="自動読み込みのアルゴリズム"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">6 自動読み込みのアルゴリズム</a></h3><h4 id="自動読み込みのアルゴリズム-相対参照"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">6.1 相対参照</a></h4><p>定数の相対的な参照は、以下のようにさまざまな場所で行われます。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class PostsController &lt; ApplicationController
   def index
@@ -514,13 +516,13 @@ end
 
 </pre>
 </div>
-<p>上のコードで使用されている3つの定数はすべて相対参照されています。</p><h5 id="classおよびmoduleキーワードの後に置かれる定数"><a href="#class%E3%81%8A%E3%82%88%E3%81%B3module%E3%82%AD%E3%83%BC%E3%83%AF%E3%83%BC%E3%83%89%E3%81%AE%E5%BE%8C%E3%81%AB%E7%BD%AE%E3%81%8B%E3%82%8C%E3%82%8B%E5%AE%9A%E6%95%B0">6.1.1 <code>class</code>および<code>module</code>キーワードの後に置かれる定数</a></h5><p>Rubyは<code>class</code>や<code>module</code>キーワードの後ろに置かれる定数を探索します。その目的は、それらのクラスやモジュールがその場所で初めて作成されるのか、再度オープンされるのかを確認することです。</p><p>その時点で定数が未定義である場合、Rubyは定数が見つからないとは見なさないので、自動読み込みはトリガーされません。</p><p>前述の例で言うと、ファイルがRubyインタプリタによって解釈される時点で<code>PostsController</code>が定義されていない場合、Railsの自動読み込みはトリガーされず、Rubyは単にコントローラを定義します。</p><h5 id="トップレベルの定数"><a href="#%E3%83%88%E3%83%83%E3%83%97%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AE%E5%AE%9A%E6%95%B0">6.1.2 トップレベルの定数</a></h5><p>逆に、<code>ApplicationController</code>がそれまでに出現していなかった場合、この定数は「見つからない」ものと見なされ、Railsによって自動読み込みがトリガーされます。</p><p>Railsは、<code>ApplicationController</code>を読み込むために<code>autoload_paths</code>にあるパスを順に処理します。最初に<code>app/assets/application_controller.rb</code>が存在するかどうかを確認します。見つからない場合 (これが通常です)、次のパスで<code>app/controllers/application_controller.rb</code>の探索を続行します。</p><p>見つかったファイルで<code>ApplicationController</code>が定義されていればOKです。定義されていない場合は<code>LoadError</code>が発生します。</p><div class="code_container">
+<p>上のコードで使用されている3つの定数はすべて相対参照されています。</p><h5 id="classおよびmoduleキーワードの後に置かれる定数"><a class="anchorlink" href="#class%E3%81%8A%E3%82%88%E3%81%B3module%E3%82%AD%E3%83%BC%E3%83%AF%E3%83%BC%E3%83%89%E3%81%AE%E5%BE%8C%E3%81%AB%E7%BD%AE%E3%81%8B%E3%82%8C%E3%82%8B%E5%AE%9A%E6%95%B0">6.1.1 <code>class</code>および<code>module</code>キーワードの後に置かれる定数</a></h5><p>Rubyは<code>class</code>や<code>module</code>キーワードの後ろに置かれる定数を探索します。その目的は、それらのクラスやモジュールがその場所で初めて作成されるのか、再度オープンされるのかを確認することです。</p><p>その時点で定数が未定義である場合、Rubyは定数が見つからないとは見なさないので、自動読み込みはトリガーされません。</p><p>前述の例で言うと、ファイルがRubyインタプリタによって解釈される時点で<code>PostsController</code>が定義されていない場合、Railsの自動読み込みはトリガーされず、Rubyは単にコントローラを定義します。</p><h5 id="トップレベルの定数"><a class="anchorlink" href="#%E3%83%88%E3%83%83%E3%83%97%E3%83%AC%E3%83%99%E3%83%AB%E3%81%AE%E5%AE%9A%E6%95%B0">6.1.2 トップレベルの定数</a></h5><p>逆に、<code>ApplicationController</code>がそれまでに出現していなかった場合、この定数は「見つからない」ものと見なされ、Railsによって自動読み込みがトリガーされます。</p><p>Railsは、<code>ApplicationController</code>を読み込むために<code>autoload_paths</code>にあるパスを順に処理します。最初に<code>app/assets/application_controller.rb</code>が存在するかどうかを確認します。見つからない場合 (これが通常です)、次のパスで<code>app/controllers/application_controller.rb</code>の探索を続行します。</p><p>見つかったファイルで<code>ApplicationController</code>が定義されていればOKです。定義されていない場合は<code>LoadError</code>が発生します。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 unable to autoload constant ApplicationController, expected &lt;application_controller.rbへのフルパス&gt; to define it (LoadError)
 
 </pre>
 </div>
-<div class="info"><p>Railsでは、自動読み込みされた定数の値がクラスオブジェクトやモジュールオブジェクトである必要はありません。たとえば、<code>app/models/max_clients.rb</code>というファイルで<code>MAX_CLIENTS = 100</code>と定義されている場合、<code>MAX_CLIENTS</code>の自動読み込みは問題なく行われます。</p></div><h5 id="名前空間"><a href="#%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93">6.1.3 名前空間</a></h5><p><code>ApplicationController</code>の自動読み込みは、それが行われる箇所のネストが空であるため、<code>autoload_paths</code>のディレクトリの下で直接行われているように見えます。<code>Post</code>の状況はこれとは異なります。その行におけるネストは<code>[PostsController]</code>であり、名前空間のサポートが効力を発揮し始めます。</p><p>基本的な考え方を以下に示します。</p><div class="code_container">
+<div class="info"><p>Railsでは、自動読み込みされた定数の値がクラスオブジェクトやモジュールオブジェクトである必要はありません。たとえば、<code>app/models/max_clients.rb</code>というファイルで<code>MAX_CLIENTS = 100</code>と定義されている場合、<code>MAX_CLIENTS</code>の自動読み込みは問題なく行われます。</p></div><h5 id="名前空間"><a class="anchorlink" href="#%E5%90%8D%E5%89%8D%E7%A9%BA%E9%96%93">6.1.3 名前空間</a></h5><p><code>ApplicationController</code>の自動読み込みは、それが行われる箇所のネストが空であるため、<code>autoload_paths</code>のディレクトリの下で直接行われているように見えます。<code>Post</code>の状況はこれとは異なります。その行におけるネストは<code>[PostsController]</code>であり、名前空間のサポートが効力を発揮し始めます。</p><p>基本的な考え方を以下に示します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 module Admin
   class BaseController &lt; ApplicationController
@@ -576,7 +578,7 @@ app/models/post.rb
 
 </pre>
 </div>
-<p>やっとマッチするファイル<code>app/models/post.rb</code>が見つかりました。探索はここで終了し、ファイルが読み込まれます。<code>Post</code>がこのファイルで実際に定義されていればすべてOKです。定義されていない場合は<code>LoadError</code>が発生します。</p><h4 id="自動読み込みのアルゴリズム-修飾済み参照"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">6.2 修飾済み参照</a></h4><p>修飾済み (qualified) 定数が見つからない場合、この定数は親の名前空間では探索されません。しかしここで注意すべき点がひとつあります。定数が見つからない場合、Railsはそのトリガーが相対的な参照であるか、修飾済み参照であるかを判定できなくなります。</p><p>以下の例について考察してみましょう。</p><div class="code_container">
+<p>やっとマッチするファイル<code>app/models/post.rb</code>が見つかりました。探索はここで終了し、ファイルが読み込まれます。<code>Post</code>がこのファイルで実際に定義されていればすべてOKです。定義されていない場合は<code>LoadError</code>が発生します。</p><h4 id="自動読み込みのアルゴリズム-修飾済み参照"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">6.2 修飾済み参照</a></h4><p>修飾済み (qualified) 定数が見つからない場合、この定数は親の名前空間では探索されません。しかしここで注意すべき点がひとつあります。定数が見つからない場合、Railsはそのトリガーが相対的な参照であるか、修飾済み参照であるかを判定できなくなります。</p><p>以下の例について考察してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 module Admin
   User
@@ -608,7 +610,7 @@ end
 
 </pre>
 </div>
-<p>そうでなければRubyは<code>User</code>を解決でき、そもそも最初の位置で自動読み込みは行われないはずです。この場合Railsはこの定数が修飾済み参照であると仮定し、<code>admin/user.rb</code>ファイルと<code>admin/user</code>ディレクトリが唯一の正当なオプションであるとみなします。</p><p>そのネストがすべての親名前空間にそれぞれマッチし、かつそのルールを適用させる定数の存在がその時点でRubyに認識されていれば、この方法は実用上機能します。</p><p>しかし、自動読み込みは要求に応じて発生するものです。その時点でたまたまトップレベルの<code>User</code>が読み込まれていなければ、Railsはこのヒューリスティックに従って定数を相対参照であると仮定します。</p><p>このような名前の競合は実際にはめったに発生しませんが、もし発生した場合は、<code>require_dependency</code>を使用して、競合の発生する場所でこのヒューリスティックを発動する必要のある定数が定義されるようにできます。</p><h4 id="自動モジュール"><a href="#%E8%87%AA%E5%8B%95%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">6.3 自動モジュール</a></h4><p>モジュールがひとつの名前空間のように振る舞う場合、Railsアプリケーションではそのモジュールのためのファイルを定義する必要はありません。その名前空間にマッチするディレクトリがあれば十分です。</p><p>あるRailsアプリケーションに管理機能があり、そのためのコントローラが<code>app/controllers/admin</code>に保存されているとします。この<code>Admin</code>モジュールが読み込まれていない状態で<code>Admin::UsersController</code>へのアクセスが発生する場合は、Railsは最初に<code>Admin</code>という定数を自動読み込みしておく必要があります。</p><p><code>admin.rb</code>というファイルが<code>autoload_paths</code>のパスに含まれている場合は、Railsによって読み込まれます。しかしそのようなファイルが見つからず、<code>admin</code>というディレクトリが見つかった場合は、Railsによって空のモジュールがひとつ作成され、<code>Admin</code>定数にその場で代入されます。</p><h4 id="一般的な手順"><a href="#%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E6%89%8B%E9%A0%86">6.4 一般的な手順</a></h4><p>相対参照は、それらがヒットしたcrefからは見つからないと報告されます。修飾済み参照はその親からは見つからないと報告されます。(<em>cref</em>の定義については本章の<a href="#%E7%9B%B8%E5%AF%BE%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">相対定数を解決するアルゴリズム</a>を、<em>parent</em>の定義については同じく<a href="#%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">修飾済み定数を解決するアルゴリズム</a>を参照してください)</p><p>定数<code>C</code>を任意の状況で自動読み込みする手順を擬似言語で表現すると以下のようになります。 </p><div class="code_container">
+<p>そうでなければRubyは<code>User</code>を解決でき、そもそも最初の位置で自動読み込みは行われないはずです。この場合Railsはこの定数が修飾済み参照であると仮定し、<code>admin/user.rb</code>ファイルと<code>admin/user</code>ディレクトリが唯一の正当なオプションであるとみなします。</p><p>そのネストがすべての親名前空間にそれぞれマッチし、かつそのルールを適用させる定数の存在がその時点でRubyに認識されていれば、この方法は実用上機能します。</p><p>しかし、自動読み込みは要求に応じて発生するものです。その時点でたまたまトップレベルの<code>User</code>が読み込まれていなければ、Railsはこのヒューリスティックに従って定数を相対参照であると仮定します。</p><p>このような名前の競合は実際にはめったに発生しませんが、もし発生した場合は、<code>require_dependency</code>を使用して、競合の発生する場所でこのヒューリスティックを発動する必要のある定数が定義されるようにできます。</p><h4 id="自動モジュール"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB">6.3 自動モジュール</a></h4><p>モジュールがひとつの名前空間のように振る舞う場合、Railsアプリケーションではそのモジュールのためのファイルを定義する必要はありません。その名前空間にマッチするディレクトリがあれば十分です。</p><p>あるRailsアプリケーションに管理機能があり、そのためのコントローラが<code>app/controllers/admin</code>に保存されているとします。この<code>Admin</code>モジュールが読み込まれていない状態で<code>Admin::UsersController</code>へのアクセスが発生する場合は、Railsは最初に<code>Admin</code>という定数を自動読み込みしておく必要があります。</p><p><code>admin.rb</code>というファイルが<code>autoload_paths</code>のパスに含まれている場合は、Railsによって読み込まれます。しかしそのようなファイルが見つからず、<code>admin</code>というディレクトリが見つかった場合は、Railsによって空のモジュールがひとつ作成され、<code>Admin</code>定数にその場で代入されます。</p><h4 id="一般的な手順"><a class="anchorlink" href="#%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E6%89%8B%E9%A0%86">6.4 一般的な手順</a></h4><p>相対参照は、それらがヒットしたcrefからは見つからないと報告されます。修飾済み参照はその親からは見つからないと報告されます。(<em>cref</em>の定義については本章の<a href="#%E7%9B%B8%E5%AF%BE%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">相対定数を解決するアルゴリズム</a>を、<em>parent</em>の定義については同じく<a href="#%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0">修飾済み定数を解決するアルゴリズム</a>を参照してください)</p><p>定数<code>C</code>を任意の状況で自動読み込みする手順を擬似言語で表現すると以下のようになります。 </p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 if「定数Cが見つからないクラスまたはモジュール」がオブジェクトである
   let ns = ''
@@ -663,7 +665,7 @@ end
 
 </pre>
 </div>
-<h3 id="require-dependency"><a href="#require-dependency">7 require_dependency</a></h3><p>定数の自動読み込みは必要に応じて自動的に行なわれるので、利用の際に定義済みである定数もあれば自動読み込みをトリガーする定数もあり、その動作は一定ではありません。自動読み込みは実行パスに依存しますが、実行パスはアプリケーションの実行中に変わることもありますのでやはり一定ではありません。</p><p>しかし、こうした定数の動作を確定させたくなることもしばしばあります。特定のコードを実行する時にそこにある定数が既知となるようにし、自動読み込みが発生しないようにできないものでしょうか。このような場合には<code>require_dependency</code>を使用します。これはその時点での<a href="#%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%83%A1%E3%82%AB%E3%83%8B%E3%82%BA%E3%83%A0">読み込みのメカニズム</a>を使用してファイルを読み込むことができ、必要に応じてそのファイルで定義されている定数をあたかも事前に読み込み済みであるかのように追跡することもできます。</p><p><code>require_dependency</code>が必要になることはめったにありませんが、<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">自動読み込みとSTI</a>や<a href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">定数がトリガーされない場合</a>でいくつかの実例を参照できます。</p><div class="warning"><p><code>require_dependency</code>は自動読み込みと異なり、そのファイルで特定の定数が定義されていることを前提としません。この動作に依存するのはよくありませんが、ファイルと定数のパスは一致する必要があります。</p></div><h3 id="定数の再読み込み"><a href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">8 定数の再読み込み</a></h3><p><code>config.cache_classes</code>がfalseの場合、Railsは自動読み込み済みの定数を再読み込みできるようになります。</p><p>たとえば、Railsのコンソールセッションを開いている状態で、いくつかのファイルがバックグラウンドで更新された場合、<code>reload!</code>コマンドを使用して定数を再読み込みできます。</p><div class="code_container">
+<h3 id="require-dependency"><a class="anchorlink" href="#require-dependency">7 require_dependency</a></h3><p>定数の自動読み込みは必要に応じて自動的に行なわれるので、利用の際に定義済みである定数もあれば自動読み込みをトリガーする定数もあり、その動作は一定ではありません。自動読み込みは実行パスに依存しますが、実行パスはアプリケーションの実行中に変わることもありますのでやはり一定ではありません。</p><p>しかし、こうした定数の動作を確定させたくなることもしばしばあります。特定のコードを実行する時にそこにある定数が既知となるようにし、自動読み込みが発生しないようにできないものでしょうか。このような場合には<code>require_dependency</code>を使用します。これはその時点での<a href="#%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AE%E3%83%A1%E3%82%AB%E3%83%8B%E3%82%BA%E3%83%A0">読み込みのメカニズム</a>を使用してファイルを読み込むことができ、必要に応じてそのファイルで定義されている定数をあたかも事前に読み込み済みであるかのように追跡することもできます。</p><p><code>require_dependency</code>が必要になることはめったにありませんが、<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">自動読み込みとSTI</a>や<a href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">定数がトリガーされない場合</a>でいくつかの実例を参照できます。</p><div class="warning"><p><code>require_dependency</code>は自動読み込みと異なり、そのファイルで特定の定数が定義されていることを前提としません。この動作に依存するのはよくありませんが、ファイルと定数のパスは一致する必要があります。</p></div><h3 id="定数の再読み込み"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">8 定数の再読み込み</a></h3><p><code>config.cache_classes</code>がfalseの場合、Railsは自動読み込み済みの定数を再読み込みできるようになります。</p><p>たとえば、Railsのコンソールセッションを開いている状態で、いくつかのファイルがバックグラウンドで更新された場合、<code>reload!</code>コマンドを使用して定数を再読み込みできます。</p><div class="code_container">
 <pre class="brush: plain; gutter: false; toolbar: false">
 &gt; reload!
 
@@ -676,7 +678,7 @@ end
 <li><p><code>autoload_paths</code>以下のパスにあるRubyファイル</p></li>
 <li><p><code>db/schema.rb</code>および<code>db/structure.sql</code>ファイル</p></li>
 </ul>
-<p>これらのいずれかで変更が発生すると、ミドルウェアが変更を検出してコードを再読み込みします。</p><p>自動読み込みされた定数は、自動読み込みのインフラによって監視されます。再読み込みの具体的な実装では、<code>Module#remove_const</code>メソッドを呼び出して関連するクラスとモジュールをいったんすべて削除します。これにより、そのコードが実行されるとそれらの定数が再び未知の状態になり、必要に応じてファイルが再読み込みされます。</p><div class="info"><p>この動作は「オール・オア・ナッシング」です。Railsのクラスやモジュールの間にはきわめて微妙な依存関係があるため、変更が生じたクラスやモジュールだけを部分的に再読み込みすることはありません。クラスやモジュールは、変更が検出されるたびにすべてクリーンアップされます。</p></div><h3 id="module-autoloadが関与しない場合"><a href="#module-autoload%E3%81%8C%E9%96%A2%E4%B8%8E%E3%81%97%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">9 Module#autoloadが関与しない場合</a></h3><p><code>Module#autoload</code>は定数の遅延読み込み機能を提供します。この機能はRubyの定数探索アルゴリズムや動的定数APIなどと完全に統合されています。この動作はきわめて透過的です。</p><p>Rails内部では、ブートプロセス以後の作業を可能な限り遅延するためにこの機能が広く使用されています。ただし、Railsの定数自動読み込みでは<code>Module#autoload</code>を使用して実装されているわけでは<strong>ありません</strong>。</p><p>実装で<code>Module#autoload</code>を使用するのであれば、たとえばアプリケーションのツリーをすべてスキャンし、既存のファイル名と従来の定数名を関連付けるために<code>autoload</code>を呼び出すという方法が考えられます。</p><p>Railsでこのような実装を避けているのにはいくつかの理由があります。</p><p>たとえば、<code>Module#autoload</code>は<code>require</code>を使用するファイル読み込みしか行えないため、再読み込みには利用できないことがあります。しかも、このモジュールの内部では<code>Kernel#require</code>とは別の<code>require</code>が使用されています。</p><p>そのため、このモジュールではファイルが削除された場合にその宣言を削除する方法が提供されていません。定数を<code>Module#remove_const</code>で削除すると、以後<code>autoload</code>がトリガーされなくなってしまいます。また、このモジュールでは修飾名がサポートされていません。アプリケーションのツリーをスキャンして個別の<code>autoload</code>呼び出しをインストールする際に名前空間を解釈する必要がありますが、それらのファイルの定数参照がその時点でまだ構成されていない可能性があります。</p><p><code>Module#autoload</code>を使用して素直に自動読み込みを実装できればよいのですが、上述のとおり現時点では不可能です。実際にはRailsの定数自動読み込みは<code>Module#const_missing</code>を使用して実装されています。そのような独自の用法がある理由は本章で述べているとおりです。</p><h3 id="よくある落とし穴"><a href="#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">10 よくある落とし穴</a></h3><h4 id="ネストと修飾済み定数"><a href="#%E3%83%8D%E3%82%B9%E3%83%88%E3%81%A8%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0">10.1 ネストと修飾済み定数</a></h4><p>以下の2つについて考察してみましょう。</p><div class="code_container">
+<p>これらのいずれかで変更が発生すると、ミドルウェアが変更を検出してコードを再読み込みします。</p><p>自動読み込みされた定数は、自動読み込みのインフラによって監視されます。再読み込みの具体的な実装では、<code>Module#remove_const</code>メソッドを呼び出して関連するクラスとモジュールをいったんすべて削除します。これにより、そのコードが実行されるとそれらの定数が再び未知の状態になり、必要に応じてファイルが再読み込みされます。</p><div class="info"><p>この動作は「オール・オア・ナッシング」です。Railsのクラスやモジュールの間にはきわめて微妙な依存関係があるため、変更が生じたクラスやモジュールだけを部分的に再読み込みすることはありません。クラスやモジュールは、変更が検出されるたびにすべてクリーンアップされます。</p></div><h3 id="module-autoloadが関与しない場合"><a class="anchorlink" href="#module-autoload%E3%81%8C%E9%96%A2%E4%B8%8E%E3%81%97%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">9 Module#autoloadが関与しない場合</a></h3><p><code>Module#autoload</code>は定数の遅延読み込み機能を提供します。この機能はRubyの定数探索アルゴリズムや動的定数APIなどと完全に統合されています。この動作はきわめて透過的です。</p><p>Rails内部では、ブートプロセス以後の作業を可能な限り遅延するためにこの機能が広く使用されています。ただし、Railsの定数自動読み込みでは<code>Module#autoload</code>を使用して実装されているわけでは<strong>ありません</strong>。</p><p>実装で<code>Module#autoload</code>を使用するのであれば、たとえばアプリケーションのツリーをすべてスキャンし、既存のファイル名と従来の定数名を関連付けるために<code>autoload</code>を呼び出すという方法が考えられます。</p><p>Railsでこのような実装を避けているのにはいくつかの理由があります。</p><p>たとえば、<code>Module#autoload</code>は<code>require</code>を使用するファイル読み込みしか行えないため、再読み込みには利用できないことがあります。しかも、このモジュールの内部では<code>Kernel#require</code>とは別の<code>require</code>が使用されています。</p><p>そのため、このモジュールではファイルが削除された場合にその宣言を削除する方法が提供されていません。定数を<code>Module#remove_const</code>で削除すると、以後<code>autoload</code>がトリガーされなくなってしまいます。また、このモジュールでは修飾名がサポートされていません。アプリケーションのツリーをスキャンして個別の<code>autoload</code>呼び出しをインストールする際に名前空間を解釈する必要がありますが、それらのファイルの定数参照がその時点でまだ構成されていない可能性があります。</p><p><code>Module#autoload</code>を使用して素直に自動読み込みを実装できればよいのですが、上述のとおり現時点では不可能です。実際にはRailsの定数自動読み込みは<code>Module#const_missing</code>を使用して実装されています。そのような独自の用法がある理由は本章で述べているとおりです。</p><h3 id="よくある落とし穴"><a class="anchorlink" href="#%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%90%BD%E3%81%A8%E3%81%97%E7%A9%B4">10 よくある落とし穴</a></h3><h4 id="ネストと修飾済み定数"><a class="anchorlink" href="#%E3%83%8D%E3%82%B9%E3%83%88%E3%81%A8%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%AE%9A%E6%95%B0">10.1 ネストと修飾済み定数</a></h4><p>以下の2つについて考察してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 module Admin
   class UsersController &lt; ApplicationController
@@ -710,7 +712,7 @@ end
 
 </pre>
 </div>
-<h4 id="自動読み込みとsti"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">10.2 自動読み込みとSTI</a></h4><p>単一テーブル継承 (STI: Single Table Inheritance) はActive Recordの機能のひとつであり、モデルの階層構造を1つのテーブルに保存することができます。このようなモデルのAPIは階層構造を認識し、よく使われる要素がそこにカプセル化されます。たとえば以下のクラスがあるとします。</p><div class="code_container">
+<h4 id="自動読み込みとsti"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">10.2 自動読み込みとSTI</a></h4><p>単一テーブル継承 (STI: Single Table Inheritance) はActive Recordの機能のひとつであり、モデルの階層構造を1つのテーブルに保存することができます。このようなモデルのAPIは階層構造を認識し、よく使われる要素がそこにカプセル化されます。たとえば以下のクラスがあるとします。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/models/polygon.rb
 class Polygon &lt; ActiveRecord::Base
@@ -764,7 +766,7 @@ require_dependency ‘square’
 
 </pre>
 </div>
-<p>この方法で明示的に読み込む必要があるのは、<strong>孫またはそれ以下</strong>のleafだけで十分です。直下のサブクラスである子については事前読み込みは不要です。階層構造が子よりも深い場合、階層の途中にあるクラスの定義で定数がスーパークラスとして記述されているので、途中のクラスは再帰的に自動読み込みされます。</p><h4 id="自動読み込みとrequire"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8require">10.3 自動読み込みと<code>require</code></a></h4><p>自動読み込みされる定数を定義するファイルは<code>require</code>すべきではありません。</p><div class="code_container">
+<p>この方法で明示的に読み込む必要があるのは、<strong>孫またはそれ以下</strong>のleafだけで十分です。直下のサブクラスである子については事前読み込みは不要です。階層構造が子よりも深い場合、階層の途中にあるクラスの定義で定数がスーパークラスとして記述されているので、途中のクラスは再帰的に自動読み込みされます。</p><h4 id="自動読み込みとrequire"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8require">10.3 自動読み込みと<code>require</code></a></h4><p>自動読み込みされる定数を定義するファイルは<code>require</code>すべきではありません。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 require 'user' # これを行ってはならない
 
@@ -779,7 +781,7 @@ end
 <li><p>この<code>require</code>が実行されるより前に<code>User</code>が自動読み込みされると、<code>$LOADED_FEATURES</code>が<code>load</code>によって更新されないので、<code>app/models/user.rb</code>が再度実行されてしまいます。</p></li>
 <li><p>この<code>require</code>が最初に実行されると、Railsは<code>User</code>を自動読み込み済み定数としてマーキングしないので、<code>app/models/user.rb</code>の変更は再読み込みされなくなってしまいます。</p></li>
 </ol>
-<p>フローに従って、「常に」定数の自動読み込みを使用してください。自動読み込みと<code>require</code>は決して併用してはいけません。やむを得ない事情から、ファイルに特定のファイルをどうしても読み込んでおきたい場合は、最後の手段として、<code>require_dependency</code>を使用して定数の自動読み込みと調和させてください。このオプションが実際に必要になることはほぼないはずです。</p><p>もちろん、通常のサードパーティのライブラリについては、自動読み込みされるファイルの中で<code>require</code>で読み込んでも問題ありません。Railsはサードパーティのライブラリの定数を区別するので、これらは自動読み込みの対象としてマークされません。</p><h4 id="自動読み込みとイニシャライザ"><a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">10.4 自動読み込みとイニシャライザ</a></h4><p><code>config/initializers/set_auth_service.rb</code>で以下の代入を行った場合について考察してみましょう。</p><div class="code_container">
+<p>フローに従って、「常に」定数の自動読み込みを使用してください。自動読み込みと<code>require</code>は決して併用してはいけません。やむを得ない事情から、ファイルに特定のファイルをどうしても読み込んでおきたい場合は、最後の手段として、<code>require_dependency</code>を使用して定数の自動読み込みと調和させてください。このオプションが実際に必要になることはほぼないはずです。</p><p>もちろん、通常のサードパーティのライブラリについては、自動読み込みされるファイルの中で<code>require</code>で読み込んでも問題ありません。Railsはサードパーティのライブラリの定数を区別するので、これらは自動読み込みの対象としてマークされません。</p><h4 id="自動読み込みとイニシャライザ"><a class="anchorlink" href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">10.4 自動読み込みとイニシャライザ</a></h4><p><code>config/initializers/set_auth_service.rb</code>で以下の代入を行った場合について考察してみましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 AUTH_SERVICE = if Rails.env.production?
   RealAuthService
@@ -823,7 +825,7 @@ end
 
 </pre>
 </div>
-<p>さらにアプリケーションで<code>AuthService.instance</code>を代りに使用するという方法があります。<code>AuthService</code>は必要に応じて読み込まれ、自動読み込みとよく調和します。</p><h4 id="require-dependencyとイニシャライザ"><a href="#require-dependency%E3%81%A8%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">10.5 <code>require_dependency</code>とイニシャライザ</a></h4><p>前述のとおり、<code>require_dependency</code>は自動読み込みと調和するようにファイルを読み込みます。しかし、このような呼び出しはイニシャライザ内では意味がないのが普通です。</p><p>イニシャライザ内で<a href="#require-dependency"><code>require_dependency</code></a>呼び出しを使用することで、たとえば<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">自動読み込みとSTI</a>の問題を修正しようとしたときと同様に特定の定数を確実に事前読み込みできます。</p><p>この方法の問題は、developmentモードでは、関連する変更がファイルシステム上で生じていなかった場合に<a href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">自動読み込みされた定数が完全にクリーンアップされてしまう</a>という点です。イニシャライザでのこのような定数の完全削除はぜひとも避けたいところです。</p><p>自動読み込みが行われる箇所で<code>require_dependency</code>を使用する場合は、十分戦略を練っておく必要があります。</p><h4 id="定数がトリガーされない場合"><a href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">10.6 定数がトリガーされない場合</a></h4><h5 id="定数がトリガーされない場合-相対参照"><a href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">10.6.1 相対参照</a></h5><p>フライトシミュレータについて考察してみましょう。このアプリケーションには以下のデフォルトのフライトモデルが1つあります。</p><div class="code_container">
+<p>さらにアプリケーションで<code>AuthService.instance</code>を代りに使用するという方法があります。<code>AuthService</code>は必要に応じて読み込まれ、自動読み込みとよく調和します。</p><h4 id="require-dependencyとイニシャライザ"><a class="anchorlink" href="#require-dependency%E3%81%A8%E3%82%A4%E3%83%8B%E3%82%B7%E3%83%A3%E3%83%A9%E3%82%A4%E3%82%B6">10.5 <code>require_dependency</code>とイニシャライザ</a></h4><p>前述のとおり、<code>require_dependency</code>は自動読み込みと調和するようにファイルを読み込みます。しかし、このような呼び出しはイニシャライザ内では意味がないのが普通です。</p><p>イニシャライザ内で<a href="#require-dependency"><code>require_dependency</code></a>呼び出しを使用することで、たとえば<a href="#%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%A8sti">自動読み込みとSTI</a>の問題を修正しようとしたときと同様に特定の定数を確実に事前読み込みできます。</p><p>この方法の問題は、developmentモードでは、関連する変更がファイルシステム上で生じていなかった場合に<a href="#%E5%AE%9A%E6%95%B0%E3%81%AE%E5%86%8D%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF">自動読み込みされた定数が完全にクリーンアップされてしまう</a>という点です。イニシャライザでのこのような定数の完全削除はぜひとも避けたいところです。</p><p>自動読み込みが行われる箇所で<code>require_dependency</code>を使用する場合は、十分戦略を練っておく必要があります。</p><h4 id="定数がトリガーされない場合"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88">10.6 定数がトリガーされない場合</a></h4><h5 id="定数がトリガーされない場合-相対参照"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88-%E7%9B%B8%E5%AF%BE%E5%8F%82%E7%85%A7">10.6.1 相対参照</a></h5><p>フライトシミュレータについて考察してみましょう。このアプリケーションには以下のデフォルトのフライトモデルが1つあります。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/models/flight_model.rb
 class FlightModel
@@ -876,7 +878,7 @@ end
 
 </pre>
 </div>
-<h5 id="定数がトリガーされない場合-修飾済み参照"><a href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">10.6.2 修飾済み参照</a></h5><p>以下の例について考察します。</p><div class="code_container">
+<h5 id="定数がトリガーされない場合-修飾済み参照"><a class="anchorlink" href="#%E5%AE%9A%E6%95%B0%E3%81%8C%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88-%E4%BF%AE%E9%A3%BE%E6%B8%88%E3%81%BF%E5%8F%82%E7%85%A7">10.6.2 修飾済み参照</a></h5><p>以下の例について考察します。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/models/hotel.rb
 class Hotel
@@ -915,7 +917,7 @@ warning: toplevel constant Image referenced by Hotel::Image
 
 </pre>
 </div>
-<div class="warning"><p>この落とし穴を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。<code>Object</code>はモジュールの先祖ではないからです。</p></div><h4 id="特異クラス内で自動読み込みを行う"><a href="#%E7%89%B9%E7%95%B0%E3%82%AF%E3%83%A9%E3%82%B9%E5%86%85%E3%81%A7%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%82%92%E8%A1%8C%E3%81%86">10.7 特異クラス内で自動読み込みを行う</a></h4><p>以下のクラス定義があるとしましょう。</p><div class="code_container">
+<div class="warning"><p>この落とし穴を実際に観察するのであれば、名前空間の修飾はクラスである必要があります。<code>Object</code>はモジュールの先祖ではないからです。</p></div><h4 id="特異クラス内で自動読み込みを行う"><a class="anchorlink" href="#%E7%89%B9%E7%95%B0%E3%82%AF%E3%83%A9%E3%82%B9%E5%86%85%E3%81%A7%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%82%92%E8%A1%8C%E3%81%86">10.7 特異クラス内で自動読み込みを行う</a></h4><p>以下のクラス定義があるとしましょう。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 # app/models/hotel/services.rb
 module Hotel
@@ -946,7 +948,7 @@ end
 
 </pre>
 </div>
-<h4 id="basicobjectの中で自動読み込みする"><a href="#basicobject%E3%81%AE%E4%B8%AD%E3%81%A7%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%99%E3%82%8B">10.8 <code>BasicObject</code>の中で自動読み込みする</a></h4><p><code>BasicObject</code>の直系の子孫については、その先祖に<code>Object</code>がないためトップレベルの定数を解決できません。</p><div class="code_container">
+<h4 id="basicobjectの中で自動読み込みする"><a class="anchorlink" href="#basicobject%E3%81%AE%E4%B8%AD%E3%81%A7%E8%87%AA%E5%8B%95%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%99%E3%82%8B">10.8 <code>BasicObject</code>の中で自動読み込みする</a></h4><p><code>BasicObject</code>の直系の子孫については、その先祖に<code>Object</code>がないためトップレベルの定数を解決できません。</p><div class="code_container">
 <pre class="brush: ruby; gutter: false; toolbar: false">
 class C &lt; BasicObject
   String # NameError: uninitialized constant C::String
@@ -984,7 +986,7 @@ end
 
 </pre>
 </div>
-<h3 id="参考資料"><a href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">11 参考資料</a></h3>
+<h3 id="参考資料"><a class="anchorlink" href="#%E5%8F%82%E8%80%83%E8%B3%87%E6%96%99">11 参考資料</a></h3>
         <ul>
 <li><a href="http://qiita.com/yui-knk/items/8f7e693b89423d983097">Railsガイドを読む(定数の自動読み込みと再読み込み)</a></li>
 </ul>
@@ -1005,16 +1007,7 @@ end
 	  <li><div class="fb-like" data-href="http://railsguides.jp/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div></li>
 	  <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://railsguides.jp/" data-text="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-lang="en" data-hashtags="Railsガイド" data-via="RailsGuidesJP" width="100">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
           <li><iframe src="http://ghbtns.com/github-btn.html?user=yasslab&repo=railsguides.jp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
-          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>          
-	  <li><div class="g-plusone" data-size="medium" data-lang="ja"></div>
-	    <script type="text/javascript">
-	      (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/plusone.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	      })();
-	    </script>
-	  </li>
+          <li><a href="http://b.hatena.ne.jp/entry/railsguides.jp" class="hatena-bookmark-button" data-hatena-bookmark-title="Ruby on Rails ガイド：体系的に Rails を学ぼう (Rails 4.2 対応)" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
         </ol>
       </div>
     </div>
@@ -1042,8 +1035,6 @@ end
             <dt>コントローラ</dt>
               <dd><a href="action_controller_overview.html">Action Controller の概要</a></dd>
               <dd><a href="routing.html">Rails ルーティング</a></dd>
-          </dl>
-          <dl class="C">
             <dt>高度なトピック</dt>
               <dd><a href="active_support_core_extensions.html">Active Support コア拡張機能</a></dd>
               <dd><a href="i18n.html">Rails 国際化 (i18n) API</a></dd>
@@ -1059,17 +1050,19 @@ end
               <dd><a href="engines.html">Rails エンジン入門</a></dd>
               <dd><a href="initialization.html">Rails の初期化プロセス</a></dd>
               <dd><a href="constant_autoloading_and_reloading.html">定数の自動読み込みと再読み込み</a></dd>
+          </dl>
+          <dl class="C">
             <dt>Rails を拡張する</dt>
               <dd><a href="plugins.html">Rails プラグイン作成入門</a></dd>
               <dd><a href="rails_on_rack.html">Rails と Rack</a></dd>
               <dd><a href="generators.html">Rails ジェネレータとテンプレート入門</a></dd>
-          </dl>
-          <dl class="R">
             <dt>Ruby on Rails に貢献する</dt>
               <dd><a href="contributing_to_ruby_on_rails.html">Ruby on Rails に貢献する方法</a></dd>
               <dd><a href="development_dependencies_install.html">Rails コア開発環境の構築方法</a></dd>
               <dd><a href="api_documentation_guidelines.html">APIドキュメント作成ガイドライン</a></dd>
               <dd><a href="ruby_on_rails_guides_guidelines.html">Rails ガイドのガイドライン</a></dd>
+          </dl>
+          <dl class="R">
             <dt>メンテナンスポリシー</dt>
               <dd><a href="maintenance_policy.html">メンテナンスポリシー</a></dd>
             <dt>リリースノート</dt>
@@ -1077,9 +1070,9 @@ end
               <dd><a href="4_2_release_notes.html">Ruby on Rails 4.2 リリースノート</a></dd>
               <dd><a href="4_1_release_notes.html">Ruby on Rails 4.1 リリースノート</a></dd>
               <dd><a href="4_0_release_notes.html">Ruby on Rails 4.0 リリースノート</a></dd>
-              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 Release Notes [未着手]</a></dd>
-              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 Release Notes [未着手]</a></dd>
-              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 Release Notes [未着手]</a></dd>
+              <dd><a href="3_2_release_notes.html">Ruby on Rails 3.2 リリースノート</a></dd>
+              <dd><a href="3_1_release_notes.html">Ruby on Rails 3.1 リリースノート</a></dd>
+              <dd><a href="3_0_release_notes.html">Ruby on Rails 3.0 リリースノート</a></dd>
               <dd><a href="2_3_release_notes.html">Ruby on Rails 2.3 Release Notes [未着手]</a></dd>
               <dd><a href="2_2_release_notes.html">Ruby on Rails 2.2 Release Notes [未着手]</a></dd>
           </dl>
@@ -1094,13 +1087,11 @@ end
   <script type="text/javascript" src="javascripts/jquery.min.js"></script>
   <script type="text/javascript" src="javascripts/responsive-tables.js"></script>
   <script type="text/javascript" src="javascripts/guides.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shCore.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushRuby.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushXml.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushSql.js"></script>
-  <script type="text/javascript" src="javascripts/syntaxhighlighter/shBrushPlain.js"></script>
+  <script type="text/javascript" src="javascripts/syntaxhighlighter.js"></script>
   <script type="text/javascript">
-    SyntaxHighlighter.all();
+    syntaxhighlighterConfig = {
+      autoLinks: false,
+    };
     $(guidesIndex.bind);
   </script>
   <script>
