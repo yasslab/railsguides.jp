@@ -1,0 +1,49 @@
+# Don't put *.swp, *.bak, etc here; those belong in a global ~/.gitignore.
+# Check out https://help.github.com/articles/ignoring-files for how to set that up.
+
+.Gemfile
+.byebug_history
+debug.log
+pkg
+/.bundle
+/dist
+/doc/rdoc
+/*/doc
+/*/test/tmp
+/activerecord/sqlnet.log
+/activemodel/test/fixtures/fixture_database.sqlite3
+/activesupport/test/fixtures/isolation_test
+/activestorage/test/service/configurations.yml
+/railties/test/500.html
+/railties/test/fixtures/tmp
+/railties/test/initializer/root/log
+/railties/doc
+/railties/tmp
+/guides/output
+node_modules/
+/actionview/log
+
+### https://raw.github.com/github/gitignore/master/Jekyll.gitignore
+
+_site/
+vendor/
+
+## rack log
+log/
+
+## wraith
+shots/
+
+## Ignore needless files to host
+guides/output/kindle
+guides/output/dash
+guides/archive
+
+# Ignore for direnv
+.envrc
+
+## Ignore github template files
+.github
+
+## Ignore contributing guide
+CONTRIBUTING.md
