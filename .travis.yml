@@ -1,8 +1,0 @@
-language: ruby
-
-rvm:
-  - 2.3.0
-
-sudo: false
-
-script: "bundle exec rspec spec/features/"
