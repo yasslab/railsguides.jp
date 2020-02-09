@@ -1091,15 +1091,17 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true }
 # selfはActiveRecord::Baseを指す
 ```
 
-## 利用可能なフック
+## 利用できるフック
 
-利用可能なフックのリストは以下のとおりです。
+利用できるフックのリストは以下のとおりです。
 
 クラスの初期化プロセスをフックしたい場合は、以下のクラスに対応するフックを使います。
 
-| クラス                             | 対応するフック                      |
+| クラス                             | 対応するフック                          |
 | --------------------------------- | ------------------------------------ |
 | `ActionCable`                     | `action_cable`                       |
+| `ActionCable::Channel::Base`      | `action_cable_channel`               |
+| `ActionCable::Connection::Base`   | `action_cable_connection`            |
 | `ActionController::API`           | `action_controller_api`              |
 | `ActionController::API`           | `action_controller`                  |
 | `ActionController::Base`          | `action_controller_base`             |
@@ -1107,13 +1109,20 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true }
 | `ActionController::TestCase`      | `action_controller_test_case`        |
 | `ActionDispatch::IntegrationTest` | `action_dispatch_integration_test`   |
 | `ActionDispatch::SystemTestCase`  | `action_dispatch_system_test_case`   |
+| `ActionMailbox::Base`             | `action_mailbox`                     |
+| `ActionMailbox::InboundEmail`     | `action_mailbox_inbound_email`       |
+| `ActionMailbox::TestCase`         | `action_mailbox_test_case`           |
 | `ActionMailer::Base`              | `action_mailer`                      |
 | `ActionMailer::TestCase`          | `action_mailer_test_case`            |
+| `ActionText::Content`             | `action_text_content`                |
+| `ActionText::RichText`            | `action_text_rich_text`              |
 | `ActionView::Base`                | `action_view`                        |
 | `ActionView::TestCase`            | `action_view_test_case`              |
 | `ActiveJob::Base`                 | `active_job`                         |
 | `ActiveJob::TestCase`             | `active_job_test_case`               |
 | `ActiveRecord::Base`              | `active_record`                      |
+| `ActiveStorage::Attachment`       | `active_storage_attachment`          |
+| `ActiveStorage::Blob`             | `active_storage_blob`                |
 | `ActiveSupport::TestCase`         | `active_support_test_case`           |
 | `i18n`                            | `i18n`                               |
 
@@ -1121,13 +1130,16 @@ ActiveSupport.on_load(:active_record) { self.include_root_in_json = true }
 
 設定用フックのリストは以下のとおりです。設定用フックは特定のフレームワークにはフックせず、アプリケーション全体のコンテキストで実行されます。
 
-| フック                   | ユースケース                                                                              |
-| ---------------------- | ------------------------------------------------------------------------------------- |
-| `before_configuration` | 最初に実行される設定フックです。あらゆる初期化より先に呼びされます。              |
-| `before_initialize`    | 次に実行される設定フックです。フレームワークの初期化の直前で呼び出されます。                |
-| `before_eager_load`    | 初期化後に実行される設定フックです。`config.eager_load`がfalseの場合は実行されません。 |
-| `after_initialize`     | 最後に実行される設定フックです。 フレームワークの初期化後に呼び出しされます。                   |
+| フック                   | ユースケース                                                               |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `before_configuration` | 最初に実行される設定フックです。あらゆる初期化より先に呼びされます。                   |
+| `before_initialize`    | 次に実行される設定フックです。フレームワークの初期化の直前で呼び出されます。             |
+| `before_eager_load`    | 初期化後に実行される設定フックです。`config.eager_load`がfalseの場合は実行されません。|
+| `after_initialize`     | 最後に実行される設定フックです。 フレームワークの初期化後に呼び出しされます。            |
 
 ### 例
 
-`config.before_configuration { puts 'I am called before any initializers' }`
+
+```ruby
+config.before_configuration { puts 'I am called before any initializers' }
+```

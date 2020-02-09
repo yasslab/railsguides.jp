@@ -145,7 +145,6 @@ APIアプリケーションでは、デフォルトで以下のミドルウェ�
 - `Rack::Head`
 - `Rack::ConditionalGet`
 - `Rack::ETag`
-- `MyApi::Application::Routes`
 
 詳しくは、Rackガイドの「[Rails と Rack - ミドルウェアスタックの内容](rails_on_rack.html#ミドルウェアスタックの内部)」をご覧ください。
 
@@ -279,7 +278,6 @@ APIアプリケーション（`ActionController::API`を利用）には、デフ
 - `ActionController::ConditionalGet`: `stale?`のサポート
 - `ActionController::BasicImplicitRender`: 指定がない限り、空のレスポンスを返す
 - `ActionController::StrongParameters`: パラメータのホワイトリストをサポート（Active Modelのマスアサインメントと連携）
-- `ActionController::ForceSSL`: `force_ssl`のサポート
 - `ActionController::DataStreaming`: `send_file`や`send_data`のサポート
 - `AbstractController::Callbacks`: `before_action`などのヘルパーをサポート
 - `ActionController::Rescue`: `rescue_from`をサポート
@@ -309,11 +307,19 @@ Action Controllerのどのモジュールも、自身が依存するモジュー
 
 - `AbstractController::Translation`: ローカライズ用の`l`メソッドや、翻訳用の`t`メソッド
 - HTTPのBasic認証、ダイジェスト認証、トークン認証:
-  * `ActionController::HttpAuthentication::Basic::ControllerMethods`
-  * `ActionController::HttpAuthentication::Digest::ControllerMethods`
+  * `ActionController::HttpAuthentication::Basic::ControllerMethods`,
+  * `ActionController::HttpAuthentication::Digest::ControllerMethods`,
   * `ActionController::HttpAuthentication::Token::ControllerMethods`
 - `ActionView::Layouts`: レンダリングのレイアウトをサポート
 - `ActionController::MimeResponds`: `respond_to`をサポート
 - `ActionController::Cookies`: `cookies`のサポート（署名や暗号化も含む）。cookiesミドルウェアが必要。
+- `ActionController::Caching`: APIコントローラ向けのビューキャッシングをサポート。ただし以下のようにコントローラ内部でキャッシュストアを手動で指定する必要がある点に注意。
+  ```ruby
+  class ApplicationController < ActionController::API
+    include ::ActionController::Caching
+    self.cache_store = :mem_cache_store
+  end
+  ```
+  Railsはこの設定を**自動では渡しません**。
 
 モジュールは`ApplicationController`に追加するのが最適ですが、個別のコントローラに追加しても構いません。
