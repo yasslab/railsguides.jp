@@ -38,8 +38,10 @@ issueレポートには、最低でもタイトルとissueの明快な説明が�
 
 自分のissueを再現する方法を用意することは、他の開発者がissueを確認、調査、そして修正する上で大変役立ちます。そのための方法は、実行可能なテストケースを提供することです。この作業を少しでも簡単にするために、Railsチームはバグレポートのテンプレートを多数用意しています。これを元に作業を開始できます。
 
-* Active Record (モデル、データベース) issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_master.rb)
-* Action Pack (コントローラ、ルーティング) issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_master.rb)
+* Active Record（モデル、データベース）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_master.rb)
+* Active Record テスト（マイグレーション）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_migrations_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_migrations_master.rb)
+* Action Pack（コントローラ、ルーティング）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_master.rb)
+* Active Job issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_job_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_job_master.rb)
 * その他の一般的なissue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/generic_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/generic_master.rb)
 
 テンプレートには「ボイラープレート(boilerplate)」と呼ばれる一種のひな形コードが含まれており、これを使用してRailsのリリースバージョン(`*_gem.rb`)やedge Rails (`*_master.rb`)に対するテストケースを設定することができます。
@@ -54,9 +56,9 @@ WARNING: セキュリティ脆弱性に関する問題は、一般公開され�
 
 ### 機能リクエストについて
 
-GitHubのIssueには「機能リクエスト」を記入しないでください。Ruby on Railsで欲しい機能があるなら、自分でコードを書いてください。あるいは、誰かにお願いしてコードを書いてもらってください。Ruby on Rails用のパッチを提案する方法については後述します。たとえGitHubのissueにこのような「欲しい機能リスト」をコードも添えずに書き込んだところで、Issueをチェックした人によって早晩「無効」とマーキングされて終わるでしょう。
+GitHubのIssueには「機能リクエスト」を記入しないでください。Ruby on Railsで欲しい機能があるなら、自分でコードを書くか、誰かにお願いしてコードを書いてもらってください。Ruby on Rails用のパッチを提案する方法については後述します。たとえGitHubのissueにこのような「欲しい機能リスト」をコードも添えずに書き込んだところで、Issueをチェックした人によって早晩「無効」とマーキングされて終わるでしょう。
 
-その一方、「バグ」と「機能」の線引きはそう簡単ではないこともあります。一般に、「機能」はアプリケーションに新しい振る舞いを追加するものであり、バグとは既存の振る舞いが期待どおりでないことを示します。コアチームは、必要に応じてバグか機能かを審査するための招集をかけることもあります。とはいうものの、バグか機能かの違いは、送っていただいたパッチを (ボツにするかどうかというよりは)、どのリリースに反映するかという扱いの違いでしかないことがほとんどです。バグ修正は早めにリリースされ、機能追加は大きなリリース変更のときに反映されるといった具合です。私たちは、修正パッチと同様に機能追加も大歓迎しています。送っていただいた機能追加をメンテナンス用ブランチに押し込めておしまい、というようなことはしていません。
+その一方「バグ」と「機能」の線引きはそう簡単ではないこともあります。一般に、「機能」はアプリケーションに新しい振る舞いを追加するものであり、バグとは既存の振る舞いが期待どおりでないことを示します。コアチームは、必要に応じてバグか機能かを審査するための招集をかけることもあります。とはいうものの、バグか機能かの違いは、送っていただいたパッチを (ボツにするかどうかというよりは)、どのリリースに反映するかという扱いの違いでしかないことがほとんどです。バグ修正は早めにリリースされ、機能追加は大きなリリース変更のときに反映されるといった具合です。私たちは、修正パッチと同様に機能追加も大歓迎しています。送っていただいた機能追加をメンテナンス用ブランチに押し込めておしまい、というようなことはしません。
 
 機能追加用のパッチを送信する前に自分のアイディアに意見を募りたい場合は、[rails-coreメーリングリスト](https://groups.google.com/forum/?fromgroups#!forum/rubyonrails-core)にメールを送信してください。もし誰からも返信がなければ、自分のアイディアに誰も関心を持っていないということがわかります。あるいは、自分のアイディアに興味を示してくれる人が返信してくれるかもしれません。あるいは「悪いけどそれは採用できそうにないね」という返信かもしれません。しかしこのメーリングリストは、こうしたアイディアについて議論するために用意された場所です。逆にGitHubのissueは、こうした新しいアイディアのために必要な議論 (ときには長期かつ複雑になることもあるでしょう) を行うための場所ではありません。
 
@@ -66,7 +68,7 @@ GitHubのIssueには「機能リクエスト」を記入しないでください
 
 issueのレポートの次の段階となる貢献方法として、既存のissueにフィードバックすることでコアチームによるissue解決を手伝うこともできます。Railsのコア開発経験がない方にとってはまたとない初期の貢献となるでしょうし、Railsのコードベースや問題解決の手順に親しむチャンスにもなります。
 
-Githubのissueにあがっている[issueのリスト] (https://github.com/rails/rails/issues)を見てみると、注目を集めているissueがたくさん見つかります。自分も何かissueに貢献できる方法はあるでしょうか。もちろんあります。それもいろんな方法があります。
+Githubのissueにあがっている[issueのリスト](https://github.com/rails/rails/issues)を見てみると、注目を集めているissueがたくさん見つかります。自分も何かissueに貢献できる方法はあるでしょうか。もちろんあります。それもいろんな方法があります。
 
 ### バグレポートの確認
 
@@ -117,14 +119,14 @@ Ruby on Railsには2種類のドキュメントがあります。ひとつはこ
 
 ドキュメント関連で貢献したい場合は、[API ドキュメント作成のガイドライン](api_documentation_guidelines.html) と[Rails ガイドのガイドライン](ruby_on_rails_guides_guidelines.html) をよく読んでからにしてください。
 
-NOTE: RailsのCI (継続的インテグレーション: Continuous Integration) サーバーの負荷を減らすために、ドキュメント関連のコミットメッセージには[ci skip]と記入してください。こうすることで、コミット時のビルドはスキップされます。[ci skip] は「ドキュメントのみの変更」以外では使用できません。コードの変更には絶対使用しないでください。
+NOTE: RailsのCI (継続的インテグレーション: Continuous Integration) サーバーの負荷を減らすために、ドキュメント関連のコミットメッセージには`[ci skip]`と記入してください。こうすることで、コミット時のビルドはスキップされます。`[ci skip]` は「ドキュメントのみの変更」以外では使用できません。コードの変更には絶対使用しないでください。
 
 Railsガイドの翻訳に貢献する
 ------------------------
 
 Railsガイドを翻訳してくださるボランティアも歓迎いたします。次の手順に沿ってください。
 
-* https://github.com/rails/rails をforkします。
+* [https://github.com/rails/rails](https://github.com/rails/rails) をforkします。
 * 翻訳先の言語名に対応するフォルダをsourceフォルダの下に追加します。たとえば、イタリア語であればguides/source/it-ITフォルダを追加します。
 * *guides/source*に置かれているコンテンツファイルをそのフォルダ内にコピーして翻訳します。
 * HTMLファイルは**翻訳しないでください**（自動生成されます）。
@@ -281,6 +283,24 @@ $ cd actionmailer
 $ bundle exec rake test
 ```
 
+#### 特定のディレクトリをテストする
+
+特定のディレクトリでテストを実行したい場合は、`TEST_DIR`環境変数を用います。たとえば、`railties/test/generators`ディレクトリのみをテストするには以下を実行します。
+
+```bash
+$ cd railties
+$ TEST_DIR=generators bundle exec rake test
+```
+
+#### 特定のファイルをテストする
+
+特定のファイルについてのテストは、以下のように実行できます。
+
+```bash
+$ cd actionpack
+$ bundle exec ruby -w -Itest test/template/form_helper_test.rb
+```
+
 #### 単一のテストを実行する
 
 Rubyで単一のテストを実行することができます。たとえば次のようになります。
@@ -291,7 +311,6 @@ $ ruby -w -Itest test/mail_layout_test.rb -n test_explicit_class_layout
 ```
 
 `-n`オプションを指定すると、ファイル全体ではなく指定した単一のメソッドだけを実行します。
-
 
 #### 特定のseedでテストを実行する
 
@@ -313,7 +332,9 @@ $ SEED=15002 bundle exec ruby -w -Itest test/mail_layout_test.rb
 
 #### Active Recordをテストする
 
-最初に、必要なデータベースを作成します。MySQLやPostgreSQLを使用するのであれば、SQL文「`create database activerecord_unittest`」と「`create database activerecord_unittest2`」で十分です。SQLite3の場合は不要です。
+最初に、必要なデータベースを作成します。必要なテーブル名、ユーザー名、パスワードのリストは`activerecord/test/config.example.yml`で見つけられます。
+
+MySQLやPostgreSQLを使用するのであれば、SQL文「`create database activerecord_unittest`」と「`create database activerecord_unittest2`」で十分です。この手順はSQLite3の場合は不要です。
 
 以下の手順で、SQLite3のみを対象にActive Recordのテストを実行します。
 
