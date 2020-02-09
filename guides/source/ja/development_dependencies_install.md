@@ -8,12 +8,10 @@ Rails コア開発環境の構築方法
 このガイドの内容:
 
 * 自分のPCをRails開発用にセットアップする方法
-* Railsのテストスイートの中から特定のグループを実行する方法
-* RailsテストスイートのうちActive Recordに関する部分の動作
 
 --------------------------------------------------------------------------------
 
-おすすめの方法
+簡単な方法
 ------------
 
 [Rails development box](https://github.com/rails/rails-dev-box)にあるできあいのdevelopment環境を入手するのがおすすめです。
@@ -42,193 +40,122 @@ $ git clone https://github.com/rails/rails.git
 $ cd rails
 ```
 
-### セットアップとテストを行う
+### 追加のツールやサービスをインストールする
 
-リポジトリに送信されるコードは、テストスイートにパスしなければなりません。自分でパッチを書いた場合や、他の人が書いたパッチを詳しく評価する場合にも、テストを実行できるようにしておく必要があります。
+Railsのテストの中には、特定のテストを実行する前にツールをインストールしておく必要が生じるものもあります。
 
-最初にSQLite3をインストールし、`sqlite3` gem用のSQLite3開発ファイルもインストールします。macOSの場合は以下を実行します。
+以下は、gemごとの追加の依存関係のリストです。
+
+* Action CableはRedisに依存します。
+* Active RecordはSQLite3、MySQL、PostgreSQLに依存します。
+* Active StorageはYarn（Yarnはさらに[Node.js](https://nodejs.org/)）、ImageMagick、FFmpeg、muPDFに依存します。macOSの場合はXQuartzとPopplerにも依存します。
+* Active SupportはmemcachedとRedisに依存します。
+* RailtiesはJavaScriptランタイム環境に依存します（[Node.js](https://nodejs.org/)などのインストールが必要）。
+
+変更するすべてのgemを正しくテストするのに必要なサービスをすべてインストールします。
+
+NOTE: Redisのドキュメントでは、パッケージマネージャによるインストールは、Redisが古くなっていることが多いため行わないよう指示されています。ソースからインストールしてサーバーを立ち上げるのが素直な方法であり、[Redisのドキュメント](https://redis.io/download#installation)にも手順が詳しく記載されています。
+
+NOTE: Active Recordのテストは、少なくともMySQL、PostgreSQL、SQLite3で**パスしなければなりません**。Railsではこれまで多くのパッチが、1つのデータベースアダプタでテストした限りでは問題ないように見えても、さまざまなアダプタごとのわずかな挙動の違いによって却下されてきました。
+
+OSごとの追加ツールのインストール方法については以下の手順をご覧ください。
+
+#### macOSの場合
+
+macOSでは[Homebrew](https://brew.sh/)ですべての追加ツールをインストールできます。
+
+すべてをインストールするには以下を実行します。
 
 ```bash
-$ brew install sqlite3
+$ brew bundle
 ```
 
-Ubuntuなら以下で行えます。
+インストールした各サービスを起動する必要もあります。利用可能なサービスのリストは以下で表示できます。
 
 ```bash
-$ sudo apt-get install libsqlite3x libsqlite3x-devel
+$ brew services list
 ```
 
-FedoraやCentOSの場合は以下を実行します。
+続いて、各サービスを以下のように1つずつ起動します。
 
 ```bash
-$ sudo yum install sqlite3 sqlite3-devel
+$ brew services start mysql
 ```
 
-Arch Linuxなら以下を実行する必要があります。
+上の`mysql`の部分は、起動するサービス名に置き換えてください。
+
+#### Ubuntuの場合
+
+すべてをインストールするには以下を実行します。
+
+```bash
+$ sudo apt-get update
+$ sudo apt-get install sqlite3 libsqlite3-dev
+    mysql-server libmysqlclient-dev
+    postgresql postgresql-client postgresql-contrib libpq-dev
+    redis-server memcached imagemagick ffmpeg mupdf mupdf-tools
+
+# Yarnのインストール
+$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$ sudo apt-get install yarn
+```
+
+#### FedoraまたはCentOSの場合
+
+すべてをインストールするには以下を実行します。
+
+```bash
+$ sudo dnf install sqlite-devel sqlite-libs
+    mysql-server mysql-devel
+    postgresql-server postgresql-devel
+    redis memcached imagemagick ffmpeg mupdf
+
+# Yarnのインストール
+# Node.jsがインストールされていない場合はこのコマンドを使う
+$ curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+# Node.jsがインストール済みの場合は代わりに以下を実行する
+$ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+$ sudo dnf install yarn
+```
+
+#### Arch Linuxの場合
+
+すべてをインストールするには以下を実行します。
 
 ```bash
 $ sudo pacman -S sqlite
+    mariadb libmariadbclient mariadb-clients
+    postgresql postgresql-libs
+    redis memcached imagemagick ffmpeg mupdf mupdf-tools poppler
+    yarn
+$ sudo systemctl start redis
 ```
 
-FreeBSDの場合は以下を実行します。
+NOTE: MySQLはArch Linuxでのサポートが終了したため、代わりにMariaDBをインストールする必要があります（[お知らせ](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)を参照）。
+
+#### FreeBSDの場合
+
+すべてをインストールするには以下を実行します。
 
 ```bash
 # pkg install sqlite3
+    mysql80-client mysql80-server
+    postgresql11-client postgresql11-server
+    memcached imagemagick ffmpeg mupdf
+    yarn
+# portmaster databases/redis
 ```
 
-あるいは`databases/sqlite3`のportsをコンパイルします。
+あるいはportsですべてをインストールします（これらのパッケージは`database`フォルダの下に置かれます）。
 
-[Bundler](https://bundler.io/)の最新バージョンを入手します。
+NOTE: MySQLのインストール中に問題が発生した場合は、[このMySQLドキュメント](https://dev.mysql.com/doc/refman/8.0/en/freebsd-installation.html)を参照してください。
 
-```bash
-$ gem install bundler
-$ gem update bundler
-```
+### データベースを設定する
 
-続いて以下を実行します。
+Active Recordをテストするのに必要なデータベースエンジンを設定するにはさらにいくつかの手順が必要です。
 
-```bash
-$ bundle install --without db
-```
-
-このコマンドによって、MySQLとPostgreSQL用のRubyドライバを除いて必要なファイルがすべてインストールされます。続きは後ほど行います。
-
-NOTE: memcachedを使用するテストを実行したい場合は、memcachedがインストールされ、実行可能であることを確認する必要があります。
-
-macOSの場合、[Homebrew](https://brew.sh/)を使ってmemcachedをインストールできます。
-
-```bash
-$ brew install memcached
-```
-
-Ubuntuの場合はapt-getを使用できます。
-
-```bash
-$ sudo apt-get install memcached
-```
-
-FedoraやCentOSの場合はyumを使用します。
-
-```bash
-$ sudo yum install memcached
-```
-
-Arch Linuxの場合は以下のようにします。
-
-```bash
-$ sudo pacman -S memcached
-```
-
-FreeBSDの場合は以下のようにします。
-
-```bash
-# pkg install memcached
-```
-
-あるいは`databases/memocached`のportsをコンパイルすることもできます。
-
-依存ファイルのインストールがこれで終わったので、以下のコマンドでテストスイートを実行します。
-
-```bash
-$ bundle exec rake test
-```
-
-Action Packなど、特定のコンポーネントのテストだけを実行することもできます。該当のディレクトリに移動して同じコマンドを実行します。
-
-```bash
-$ cd actionpack
-$ bundle exec rake test
-```
-
-特定のディレクトリにあるテストを実行したい場合、`TEST_DIR`環境変数を指定できます。たとえば、`railties/test/generators`ディレクトリのテストだけを実行したい場合は以下のようにします。
-
-```bash
-$ cd railties
-$ TEST_DIR=generators bundle exec rake test
-```
-
-以下の方法で特定のテストだけを実行することもできます。
-
-```bash
-$ cd actionpack
-$ bundle exec ruby -Itest test/template/form_helper_test.rb
-```
-
-特定のファイルに含まれるひとつのテストだけを実行するには以下のようにします。
-
-```bash
-$ cd actionpack
-$ bundle exec ruby -Itest path/to/test.rb -n test_name
-```
-
-### Railtiesをセットアップする
-
-Railtiesテストの一部はJavaScriptランタイム環境に依存しています（[Node.js](https://nodejs.org/)をインストールする前提など）。
-
-### Active Recordをセットアップする
-
-Active Recordのテストスイートの実行は3回試みられます。SQLite3で1回、MySQLで1回、PostgreSQLで1回です。それぞれについて環境構築方法を解説します。
-
-WARNING: Active Recordのコードに手を付ける場合、最低でもMySQL、PostgreSQL、SQLite3のテストにはすべてパスしなければなりません。MySQLでしかテストを行なっていないようなパッチは、一見問題なさそうに見えても、さまざまなアダプタごとの微妙な違いに対応しきれていないことが非常に多く、ほとんどの場合受理されません。
-
-#### データベースの設定
-
-Active Recordテストスイートでは、`activerecord/test/config.yml`というカスタム設定ファイルが必要です。設定例は`activerecord/test/config.example.yml`に記載されているので、これをコピーして各環境で使用できます。
-
-#### MySQLとPostgreSQL
-
-MySQLとPostgreSQLに対してテストスイートを実行できるようにするには、そのためのgemも必要です。最初にサーバーをインストールし、次にクライアントライブラリをインストール、そして開発用ファイルをインストールします。
-
-macOSの場合、以下を実行できます。
-
-```bash
-$ brew install mysql
-$ brew install postgresql
-```
-
-詳しくはHomebrewのヘルプを参照してください。
-
-Ubuntuの場合は以下を実行します。
-
-```bash
-$ sudo apt-get install mysql-server libmysqlclient-dev
-$ sudo apt-get install postgresql postgresql-client postgresql-contrib libpq-dev
-```
-
-FedoraやCentOSの場合は以下を実行します。
-
-```bash
-$ sudo yum install mysql-server mysql-devel
-$ sudo yum install postgresql94-server postgresql94-devel
-```
-
-Arch LinuxではMySQLがサポート対象外になったため、MariaDBを代わりに使用します (詳細は[MariaDB replaces MySQL in repositories](https://www.archlinux.org/news/mariadb-replaces-mysql-in-repositories/)を参照)。
-
-```bash
-$ sudo pacman -S mariadb libmariadbclient mariadb-clients
-$ sudo pacman -S postgresql postgresql-libs
-```
-
-FreeBSDの場合は以下を実行する必要があります。
-
-```bash
-# pkg install mysql56-client mysql56-server
-# pkg install postgresql93-client postgresql93-server
-```
-
-Portsを使用してインストールすることもできます (`databases`フォルダの下に置かれます)。
-MySQLのインストール中に問題が生じた場合は、[MySQLドキュメント](http://dev.mysql.com/doc/refman/5.1/en/freebsd-installation.html) (英語) を参照してください。
-
-以上の設定が終わったら、以下を実行します。
-
-```bash
-$ rm .bundle/config
-$ bundle install
-```
-
-最初に、`.bundle/config`を削除します。これは、インストールしたくない"db"グループのファイルをBundlerが覚えてしまっているのを消去するためです。ファイルを削除する代わりに編集しても構いません。
-
-MySQLでテストスイートを実行できるようにするには、データベースに`rails`というユーザーアカウントを作成し、このアカウントにtestデータベースへのアクセス権を与える必要があります。
+MySQLでテストスイートを実行できる状態にするには、testデータベースで`rails`という名前の特権付きユーザーを作成する必要があります。
 
 ```bash
 $ mysql -uroot -p
@@ -242,14 +169,7 @@ mysql> GRANT ALL PRIVILEGES ON inexistent_activerecord_unittest.*
        to 'rails'@'localhost';
 ```
 
-続いてtestデータベースを作成します。
-
-```bash
-$ cd activerecord
-$ bundle exec rake db:mysql:build
-```
-
-PostgreSQLでは認証方法が異なります。LinuxやBSDでdevelop環境にdevelopmentアカウントを設定するには、以下を実行します。
+PostgreSQLの認証方法は異なります。LinuxやBSDのdevelopment環境で開発用アカウントをセットアップするには、以下を実行する必要があります。
 
 ```bash
 $ sudo -u postgres createuser --superuser $USER
@@ -261,105 +181,65 @@ macOSの場合は以下を実行します。
 $ createuser --superuser $USER
 ```
 
-続いて以下を実行してtestデータベースを作成します。
-
-```bash
-$ cd activerecord
-$ bundle exec rake db:postgresql:build
-```
-
-PostgreSQLとMySQLの両方を使用するデータベースをビルドすることもできます。
+続いて、MySQLとPostgreSQLでtestデータベースを作成するために以下を実行します。
 
 ```bash
 $ cd activerecord
 $ bundle exec rake db:create
 ```
 
-データベースを消去(drop)するには以下を実行します。
+NOTE: PostgreSQL 9.1.x以前では、HStore拡張を有効にする途中で"WARNING: => is deprecated as an operator"という警告が表示されます。
+
+データベースエンジンごとにtestデータベースを作成することもできます。
+
+```bash
+$ cd activerecord
+$ bundle exec rake db:mysql:build
+$ bundle exec rake db:postgresql:build
+```
+
+以下を実行すればデータベースを削除できます。
 
 ```bash
 $ cd activerecord
 $ bundle exec rake db:drop
 ```
 
-NOTE: testデータベースの作成にはRakeタスクを使用してください。これにより、文字セットと照合順序が正しく設定されます。
+NOTE: rakeタスクでデータベースを作成する前に、文字セットやコレーション（collation: 照合順序）が正しく設定されていることを確認してください。
 
-NOTE: PostgreSQL 9.1.x 以前のHStore拡張機能を有効にしようとすると次のような警告 (メッセージはローカライズされることもあります) が表示されます: 「WARNING: => is deprecated as an operator」
+別のデータベースを使う場合は、`activerecord/test/config.yml`ファイルか`activerecord/test/config.example.yml`ファイルでデフォルトの接続情報をチェックします。必要であれば`activerecord/test/config.yml`を編集して別のcredentialを設定することもできますが、当然ながらそうした変更をRailsリポジトリにpushすべきではありません。
 
-他のデータベースを採用する場合は、`activerecord/test/config.yml`や`activerecord/test/config.example.yml`にデフォルトの接続情報があることをチェックしてください。必要であれば`activerecord/test/config.yml`を編集して、認証情報を別のものに変更することもできます。ただし、この臨時の認証情報をRailsのリポジトリに反映しないよう気を付けてください。
+### JavaScriptの依存関係をインストールする
 
-### Action Cableのセットアップ
-
-Action CableではデフォルトのサブスクリプションアダプタとしてRedisを用います（[詳細](action_cable_overview.html#ブロードキャスト)）。このため、Action CableのテストがパスするにはRedisをインストールして実行中にしておく必要があります。
-
-#### Redisをソースからインストールする
-
-Redisのドキュメントに記載されている、パッケージマネージャによるインストール方法は古いものが多い点が残念です。ソースからインストールしてサーバーを立ち上げる方式の方が単純明快であり、[Redisのドキュメント](https://redis.io/download#installation)にも詳しく記載されています。
-
-#### Redisをパッケージマネージャでインストールする
-
-macOSの場合は以下を実行できます。
+Yarnがインストール済みの場合は、以下の方法でJavaScriptの依存関係をインストールする必要があります。
 
 ```bash
-$ brew install redis
+$ yarn install
 ```
 
-後はHomebrewが表示する指示に従って進めます。
+### Bundler gemをインストールする
 
-Ubuntuの場合は以下を実行するだけで完了します。
+以下の手順で[Bundler](https://bundler.io/)の最新バージョンを入手します。
 
 ```bash
-$ sudo apt-get install redis-server
+$ gem install bundler
+$ gem update bundler
 ```
 
-FedoraまたはCentOSの場合は以下を実行します（EPELを有効にする必要があります）。
+続いて以下を実行します。
 
 ```bash
-$ sudo yum install redis
+$ bundle install
 ```
 
-Arch Linuxを実行している場合は、以下を実行します。
+あるいは以下を実行します。
 
 ```bash
-$ sudo pacman -S redis
-$ sudo systemctl start redis
+$ bundle install --without db
 ```
 
-FreeBSDユーザーは以下を実行しなければなりません。
+（Active Recordのテストを実行する必要がない場合）
 
-```bash
-# portmaster databases/redis
-```
+### Railsに貢献する
 
-### Active Storageのセットアップ
-
-Active Storageを使う場合、コードベースのセクションで使われているJavaScript依存関係のインストールが必要である点を押さえておくことが重要です。依存関係をインストールするには、YarnというNode.jsパッケージマネージャをシステムで使えるようにしておく必要があります。このパッケージをインストールするには、あらかじめ[Node.js](https://nodejs.org)をインストールしておく必要があります。
-
-macOSでは以下を実行できます。
-
-```bash
-brew install yarn
-```
-
-Ubuntuでは以下を実行できます。
-
-```bash
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo apt-get update && sudo apt-get install yarn
-```
-
-FedoraまたはCentOSの場合は以下を実行します。
-
-```bash
-sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
-
-sudo yum install yarn
-```
-
-Yarnのインストールが終わったら、最後に`activestorage`ディレクトリの下で以下のコマンドを実行して、依存関係をインストールする必要があります。
-
-```bash
-yarn install
-```
+セットアップが完了したら、[Ruby on Rails に貢献する方法](contributing_to_ruby_on_rails.html#ローカルブランチでアプリケーションを実行する)ガイドをお読みください。
