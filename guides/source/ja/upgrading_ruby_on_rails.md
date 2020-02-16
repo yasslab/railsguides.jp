@@ -184,7 +184,9 @@ Rails.autoloaders.main
 互換性については、以下のように`zeitwerk:check`タスクでチェックできます。
 
 ```
-bin/rails zeitwerk:check
+$ bin/rails zeitwerk:check
+Hold on, I am eager loading the application.
+All is good!
 ```
 
 #### `require_dependency`について
@@ -277,6 +279,8 @@ end
 Hotel = Class.new
 ```
 
+または
+
 ```ruby
 Hotel = Struct.new
 ```
@@ -338,11 +342,13 @@ Bootsnapのバージョンは1.4.2以上にするべきです。
 
 #### `config.add_autoload_paths_to_load_path`
 
-以下の新しい設定は、後方互換性のためデフォルトで`true`になっていますが、これを使って`$LOAD_PATH`に追加されるオートロードパスを減らせます。
+以下の新しい設定について説明します。
 
 ```ruby
 config.add_autoload_paths_to_load_path
 ```
+
+上は後方互換性のためデフォルトで`true`になっていますが、これを使って`$LOAD_PATH`に追加されるオートロードパスを減らせます。
 
 これは、ほとんどのアプリケーションにとって合理的です（`app/models`内のファイルをrequireするような行為は決してすべきではないので）。しかも、Zeitwerkは内部で絶対パスだけを使います。
 
@@ -474,14 +480,6 @@ Rails.application.secrets[:smtp_settings]["address"]
 ```ruby
 Rails.application.secrets[:smtp_settings][:address]
 ```
-
-### 非推奨化された`render :text`と`render :nothing`サポートの削除
-
-ビューの`render :text`は今後利用できません。MIME typeを「`text/plain`」にしてテキストをレンダリングする新しい方法は`render :plain`を使うことです。
-
-`render :nothing`も同様に削除されますので、今後ヘッダーのみのレスポンスを返すには`head`メソッドをお使いください。
-例: `head :ok`は、bodyをレンダリングせずにresponse 200を返します。
-
 
 Rails 4.2からRails 5.0へのアップグレード
 -------------------------------------
