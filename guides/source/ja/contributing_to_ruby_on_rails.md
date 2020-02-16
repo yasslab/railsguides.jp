@@ -40,9 +40,6 @@ issueレポートには、最低でもタイトルとissueの明快な説明が�
 
 * Active Record（モデル、データベース）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_master.rb)
 * Active Record テスト（マイグレーション）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_migrations_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_record_migrations_master.rb)
-* Action Pack（コントローラ、ルーティング）issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_master.rb)
-* Active Job issue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_job_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/active_job_master.rb)
-* その他の一般的なissue用テンプレート: [gem](https://github.com/rails/rails/blob/master/guides/bug_report_templates/generic_gem.rb) / [master](https://github.com/rails/rails/blob/master/guides/bug_report_templates/generic_master.rb)
 
 テンプレートには「ボイラープレート(boilerplate)」と呼ばれる一種のひな形コードが含まれており、これを使用してRailsのリリースバージョン(`*_gem.rb`)やedge Rails (`*_master.rb`)に対するテストケースを設定することができます。
 
@@ -282,35 +279,6 @@ Action Packなど、特定のコンポーネントのテストのみを実行す
 $ cd actionmailer
 $ bundle exec rake test
 ```
-
-#### 特定のディレクトリをテストする
-
-特定のディレクトリでテストを実行したい場合は、`TEST_DIR`環境変数を用います。たとえば、`railties/test/generators`ディレクトリのみをテストするには以下を実行します。
-
-```bash
-$ cd railties
-$ TEST_DIR=generators bundle exec rake test
-```
-
-#### 特定のファイルをテストする
-
-特定のファイルについてのテストは、以下のように実行できます。
-
-```bash
-$ cd actionpack
-$ bundle exec ruby -w -Itest test/template/form_helper_test.rb
-```
-
-#### 単一のテストを実行する
-
-Rubyで単一のテストを実行することができます。たとえば次のようになります。
-
-```bash
-$ cd actionmailer
-$ ruby -w -Itest test/mail_layout_test.rb -n test_explicit_class_layout
-```
-
-`-n`オプションを指定すると、ファイル全体ではなく指定した単一のメソッドだけを実行します。
 
 #### 特定のseedでテストを実行する
 
