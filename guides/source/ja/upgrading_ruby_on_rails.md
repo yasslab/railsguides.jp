@@ -93,9 +93,9 @@ rails webpacker:install
 
 ### 署名済みまたは暗号化済みcookieのpurpose情報がcookie内部に埋め込まれるようになった
 
-Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
+Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できます。
 
-新たに埋め込まれるこのpurpose情報によって、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
+このpurpose情報が新たに埋め込まれることで、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
 
 cookieを引き続きRails 5.2以前でも読み取れるようにする必要がある場合や、6.0のデプロイを検証中で前のバージョンに戻せるようにしたい場合は、`Rails.application.config.action_dispatch.use_cookies_with_metadata`に`false`を設定してください。
 
@@ -930,7 +930,7 @@ xhr :get, :index, format: :js
 
 NOTE: 自サイトの`<script>`はクロス参照の出発点として扱われるため、同様にブロックされます。JavaScriptを実際に`<script>`タグから読み込む場合は、そのアクションでCSRF保護を明示的にスキップしてください。
 
-### Spring
+### Spring gemについて
 
 アプリケーションのプリローダーとしてSpringを使う場合は、以下を行う必要があります。
 
