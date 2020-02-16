@@ -725,18 +725,18 @@ Ruby 2.4を利用している場合、`to_time`の呼び出しでレシーバの
 
     ActiveSupport.to_time_preserves_timezone = false
 
-### JSON/JSONBのシリアライズに関する変更点
+### JSON/JSONBのシリアライズの変更点
 
 Rails 5.0では、JSON属性やJSONB属性がシリアライズ/デシリアライズされる方法が変更されました。これにより、たとえばActive Recordで`String`に等しいカラムを設定しても、その文字列を`Hash`に変換せず、その文字列のみを返すようになります。この変更はモデル同士がやりとりするコードに限定されず、`db/schema.rb`で設定される`:default`カラムにも影響します。`String`に等しいカラムを設定せず、`Hash`を渡すようにしてください。これにより、JSON文字列への変換や逆変換が自動で行われるようになります。
 
 Rails 4.1からRails 4.2へのアップグレード
 -------------------------------------
 
-### Web Console gem
+### Web Console gemについて
 
 最初に、`Gemfile`の`development`グループに`gem 'web-console', '~> 2.0'`を追加し、`bundle install`を実行してください (このgemはRailsを過去のバージョンからアップグレードした場合には含まれないので、手動で追加する必要があります)。gemのインストール完了後、`<%= console %>`などのコンソールヘルパーへの参照をビューに追加するだけで、どのビューでもコンソールを利用できるようになります。このコンソールは、development環境のビューで表示されるすべてのエラーページにも表示されます。
 
-### Responders gem
+### Responders gemについて
 
 `respond_with`およびクラスレベルの`respond_to`メソッドは、`responders` gemに移転しました。これらのメソッドを使いたい場合は、`Gemfile`に`gem 'responders', '~> 2.0'`と記述するだけで利用できます。今後、`respond_with`呼び出し、およびクラスレベルの`respond_to`呼び出しは、`responders` gemなしでは動作しません。
 
@@ -771,7 +771,7 @@ end
 
 詳しくは[#16526](https://github.com/rails/rails/pull/16526)を参照してください。
 
-### トランザクションコールバックのエラー処理
+### トランザクションコールバックのエラー処理について
 
 現在のActive Recordでは、`after_rollback`や`after_commit`コールバックでの例外を抑制しており、例外時にはログ出力のみが行われます。次のバージョンからは、これらのエラーは抑制されなくなりますのでご注意ください。今後は他のActive Recordコールバックと同様のエラー処理を行います。
 
@@ -781,7 +781,7 @@ end
 
 詳しくは、[#14488](https://github.com/rails/rails/pull/14488)および[#16537](https://github.com/rails/rails/pull/16537)を参照してください。
 
-### テストケースの実行順序
+### テストケースの実行順序について
 
 Rails 5.0のテストケースは、デフォルトでランダムに実行されるようになる予定です。この変更に備えて、テスト実行順を明示的に指定する`active_support.test_order`という新しい設定オプションがRails 4.2に導入されました。このオプションを使うと、たとえばテスト実行順を現行の仕様のままにしておきたい場合は`:sorted`を指定したり、ランダム実行を今のうちに導入したい場合は`:random`を指定したりすることができます。
 
@@ -794,11 +794,11 @@ Rails.application.configure do
 end
 ```
 
-### シリアル化属性
+### シリアル化属性について
 
 `serialize :metadata, JSON`などのカスタムコーダーを使っている場合に、シリアル化属性 (serialized attribute) に`nil`を割り当てると、コーダー内で`nil`値を渡すのではなく、データベースに`NULL`として保存されるようになりました (`JSON`コーダーを使っている場合の`"null"`など)。
 
-### Productionログのレベル
+### Productionログのレベルについて
 
 Rails 5のproduction環境では、デフォルトのログレベルが`:info`から`:debug`に変更される予定です。現在のログレベルを変更したくない場合は`production.rb`に以下の行を追加してください。
 
@@ -808,7 +808,7 @@ Rails 5のproduction環境では、デフォルトのログレベルが`:info`�
 config.log_level = :info
 ```
 
-### Railsテンプレートの`after_bundle`
+### Railsテンプレートの`after_bundle`について
 
 Railsテンプレートを利用し、かつすべてのファイルを (Gitなどで) バージョン管理している場合、生成されたbinstubをバージョン管理システムに追加できません。これは、binstubの生成がBundlerの実行前に行われるためです。
 
@@ -838,7 +838,7 @@ after_bundle do
 end
 ```
 
-### RailsのHTMLサニタイザ
+### RailsのHTMLサニタイザについて
 
 アプリケーションでHTMLの断片をサニタイズする方法に新しい選択肢が1つ増えました。従来の伝統的なHTMLスキャンによるサニタイズは公式に非推奨化されました。現在推奨される方法は[`Rails HTMLサニタイザ`](https://github.com/rails/rails-html-sanitizer)です。
 
@@ -858,16 +858,16 @@ end
 gem 'rails-deprecated_sanitizer'
 ```
 
-### RailsのDOMのテスト
+### Rails DOMのテスト
 
 `assert_tag`などを含む[`TagAssertions`モジュール](https://api.rubyonrails.org/classes/ActionDispatch/Assertions/TagAssertions.html)は[非推奨](https://github.com/rails/rails/blob/6061472b8c310158a2a2e8e9a6b81a1aef6b60fe/actionpack/lib/action_dispatch/testing/assertions/dom.rb)になりました。今後推奨されるのは、ActionViewから[rails-dom-testing gem](https://github.com/rails/rails-dom-testing)に移行した`SelectorAssertions`モジュールの`assert_select`メソッドです。
 
 
-### マスク済み真正性トークン
+### マスク済み真正性トークンについて
 
 SSL攻撃を緩和するために、`form_authenticity_token`がマスクされるようになりました。これにより、このトークンはリクエストごとに変更されます。トークンの検証はマスク解除 (unmasking)とそれに続く復号化 (decrypting) によって行われます。この変更が行われたことにより、railsアプリケーション以外のフォームから送信される、静的なセッションCSRFトークンに依存するリクエストを検証する際には、このマスク済み真正性トークンのことを常に考慮する必要がありますのでご注意ください。
 
-### Action Mailer
+### Action Mailerについて
 
 従来は、メイラークラスでメイラーメソッドを呼び出すと、該当するインスタンスメソッドが直接実行されました。Active Jobと`#deliver_later`メソッドの導入に伴い、この動作が変更されました。Rails 4.2では、これらのインスタンスメソッド呼び出しは`deliver_now`や`deliver_later`が呼び出されるまで実行延期されます。以下に例を示します。
 
@@ -893,7 +893,7 @@ class Notifier < ActionMailer::Base
 end
 ```
 
-### 外部キーのサポート
+### 外部キーのサポートについて
 
 マイグレーションDSLが拡張され、外部キー定義をサポートするようになりました。Foreigner gemを使っていた場合は、この機会に削除するとよいでしょう。Railsの外部キーサポートは、Foreignerの全機能ではなく、一部のみである点にご注意ください。このため、Foreignerの定義を必ずしもRailsのマイグレーションDSLに置き換えられないことがあります。
 
@@ -908,7 +908,7 @@ end
 Rails 4.0からRails 4.1へのアップグレード
 -------------------------------------
 
-### リモート`<script>`タグにCSRF保護を実施
+### リモート `<script>` タグにCSRF保護を実施
 
 これを行わないと、「なぜかテストがとおらない...orz」「`<script>`ウィジェットがおかしい！」などという結果になりかねません。
 
