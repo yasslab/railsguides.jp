@@ -928,7 +928,7 @@ xhr :get, :index, format: :js
 
 `XmlHttpRequest`を明示的にテストしてください。
 
-NOTE: 自サイトの`<script>`はクロス参照の出発点として扱われるため、同様にブロックされます。JavaScriptを実際に`<script>`タグから読み込む場合は、そのアクションでCSRF保護を明示的にスキップしてください。
+NOTE: 自サイトの`<script>`はクロス参照の出発点として扱われるため、同様にブロックされます。JavaScriptを実際に`<script>`タグから読み込む場合は、そのアクションで明示的にCSRF保護をスキップしてください。
 
 ### Spring gem
 
