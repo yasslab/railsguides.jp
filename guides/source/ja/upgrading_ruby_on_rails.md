@@ -486,12 +486,12 @@ Rails 4.2からRails 5.0へのアップグレード
 
 Rails 5.0 の変更点の詳細は[リリースノート](5_0_release_notes.html)を参照してください。
 
-### Ruby 2.2.2以上が必須
+### Rubyは2.2.2以上が必須
 
 Ruby on Rails 5.0以降は、バージョン2.2.2以降の Ruby だけをサポートします。
 Rubyのバージョンが2.2.2以降であることを確認してから手順を進めてください。
 
-### Active Record モデルは今後デフォルトで ApplicationRecord を継承する
+### Active Record モデルは今後デフォルトでApplicationRecordを継承する
 
 Rails 4.2のActive Recordモデルは`ActiveRecord::Base`を継承していました。Rails 5.0では、すべてのモデルが`ApplicationRecord`を継承するようになりました。
 
@@ -507,7 +507,7 @@ end
 
 最後に、すべてのモデルが`ApplicationRecord`を継承するように変更し、動作を確認してください。
 
-### `throw(:abort)`でコールバックチェーンを停止する
+### `throw(:abort)`でコールバックチェーンを停止すること
 
 Rails 4.2では、Active RecordやActive Modelで「before」系コールバックが`false`を返すと、すべてのコールバックチェーンが停止する仕様でした。この場合、以後「before」系コールバックは実行されず、コールバック内にラップされているアクションも実行されません。
 
@@ -523,7 +523,7 @@ Active Supportのコールバックはこのオプションの影響を受けな
 
 詳しくは[#17227](https://github.com/rails/rails/pull/17227)を参照してください。
 
-### ActiveJob は今後デフォルトで ApplicationJob を継承する
+### ActiveJob は今後デフォルトでApplicationJobを継承する
 
 Rails 4.2のActive Jobは`ActiveJob::Base`を継承しますが、Rails 5.0ではデフォルトで`ApplicationJob`を継承するよう変更されました。
 
@@ -538,7 +538,7 @@ end
 
 詳しくは[#19034](https://github.com/rails/rails/pull/19034)を参照してください。
 
-### Rails コントローラのテスト
+### Railsコントローラのテスト
 
 #### ヘルパーメソッドの一部を`rails-controller-testing`に移転
 
@@ -552,7 +552,7 @@ end
 
 詳しくは[#26404](https://github.com/rails/rails/issues/26404)を参照してください。
 
-### production環境での起動後は自動読み込みが無効になる
+### production環境は起動後に自動読み込みが無効になる
 
 今後Railsがproduction環境で起動されると、自動読み込みがデフォルトで無効になります。
 
@@ -562,19 +562,19 @@ end
 
 ほとんどのアプリケーションでは、この変更に関して特別な対応は不要です。めったにないと思われますが、productionモードで動作するアプリケーションで自動読み込みが必要な場合は、`Rails.application.config.enable_dependency_loading`をtrueに設定してください。
 
-### XMLシリアライズのgem化
+### XMLシリアライズがgem化された
 
 Railsの`ActiveModel::Serializers::Xml`は`activemodel-serializers-xml` gemに移転しました。アプリケーションで今後もXMLシリアライズを使うには、`Gemfile`に`gem 'activemodel-serializers-xml'`を追加してください。
 
-### 古い`mysql`データベースアダプタのサポートを終了
+### 古い`mysql`データベースアダプタのサポート終了
 
 Rails 5で古い`mysql`データベース アダプタのサポートが終了しました。原則として`mysql2`をお使いください。今後古いアダプタのメンテナンス担当者が決まった場合、アダプタは別のgemに切り出されます。
 
-### デバッガのサポートを終了
+### デバッガのサポート終了
 
 Rails 5が必要とするRuby 2.2では、`debugger`はサポートされていません。代わりに、今後は`byebug`をお使いください。
 
-### タスクやテストの実行には`rails`を使うこと
+### タスクやテストの実行には`rails`を使う
 
 Rails 5では、rakeに代わって`bin/rails`でタスクやテストを実行できるようになりました。原則として、多くのタスクやテストはrakeでも引き続き実行できますが、一部のタスクやテストは完全に`bin/rails`に移行しました。
 
@@ -584,23 +584,23 @@ Rails 5では、rakeに代わって`bin/rails`でタスクやテストを実行�
 
 アプリケーションディレクトリの下で`rails`を実行すると、利用可能なコマンドリストを表示できます。
 
-### `ActionController::Parameters`は今後`HashWithIndifferentAccess`を継承しない
+### `ActionController::Parameters`が`HashWithIndifferentAccess`を継承しなくなる
 
 アプリケーションで`params`を呼び出すと、今後はハッシュではなくオブジェクトが返ります。現在使っているパラメーターがRailsで既に利用できている場合、変更は不要です。`permitted?`の状態にかかわらずハッシュを読み取れることが前提のメソッド（`slice`メソッドなど）にコードが依存している場合、まずアプリケーションをアップグレードして`permit`を指定し、それからハッシュに変換する必要があります。
 
     params.permit([:proceed_to, :return_to]).to_h
 
-### `protect_from_forgery`は今後デフォルトで`prepend: false`に設定される
+### `protect_from_forgery`がデフォルトで`prepend: false`に設定される
 
 `protect_from_forgery`は今後デフォルトで`prepend: false`に設定されます。これにより、`protect_from_forgery`はアプリケーションで呼び出される時点でコールバックチェーンに挿入されます。`protect_from_forgery`を常に最初に実行したい場合は、アプリケーションの設定で`protect_from_forgery prepend: true`を指定する必要があります。
 
-### デフォルトのテンプレート ハンドラは今後RAWになる
+### デフォルトのテンプレート ハンドラがRAWになる
 
 拡張子がテンプレートハンドラになっていないファイルは、今後rawハンドラで出力されるようになります。従来のRailsでは、このような場合にはERBテンプレートハンドラで出力されました。
 
 ファイルをrawハンドラで出力したくない場合は、ファイルに明示的に拡張子を与え、適切なテンプレート ハンドラで処理されるようにしてください。
 
-### テンプレート依存関係の指定でワイルドカードマッチングが追加された
+### テンプレート依存関係の指定でワイルドカードマッチングが追加
 
 テンプレート依存関係をワイルドカードマッチングで指定できるようになりました。以下のテンプレートを例に説明します。
 
@@ -616,7 +616,7 @@ Rails 5では、rakeに代わって`bin/rails`でタスクやテストを実行�
 <% # Template Dependency: recordings/threads/events/* %>
 ```
 
-### `ActionView::Helpers::RecordTagHelper`は外部のgemに移動（`record_tag_helper`）
+### `ActionView::Helpers::RecordTagHelper`は外部gemに移動（`record_tag_helper`）
 
 `content_tag_for`と`div_for`が削除され、`content_tag`のみの利用が推奨されます。これらの古いメソッドを使い続けたい場合、`record_tag_helper` gemを`Gemfile`に追加してください。
 
@@ -626,15 +626,15 @@ gem 'record_tag_helper', '~> 1.0'
 
 詳しくは[#18411](https://github.com/rails/rails/pull/18411)を参照してください。
 
-### `protected_attributes` gemのサポートを終了
+### `protected_attributes`gemのサポート終了
 
 `protected_attributes` gemのサポートはRails 5で終了しました。
 
-### `activerecord-deprecated_finders` gemのサポートを終了
+### `activerecord-deprecated_finders`gemのサポート終了
 
 `activerecord-deprecated_finders` gemのサポートはRails 5で終了しました。
 
-### `ActiveSupport::TestCase`でのテストは今後デフォルトでランダムに実行される
+### `ActiveSupport::TestCase`でのテストがデフォルトでランダムに実行される
 
 アプリケーションのテストのデフォルトの実行順序は、従来の`:sorted`から`:random`に変更されました。`:sorted`に戻すには以下のオプションを指定します。
 
@@ -645,7 +645,7 @@ Rails.application.configure do
 end
 ```
 
-### `ActionController::Live` は`Concern`に変更された
+### `ActionController::Live`が`Concern`に変更された
 
 コントローラにincludeされている別のモジュールに`ActionController::Live`がincludeされている場合、`ActiveSupport::Concern`をextendするコードの追加も必要です。または、`StreamingSupport`がincludeされてから、`self.included`フックを使って`ActionController::Live`をコントローラに直接includeすることもできます。
 
@@ -671,7 +671,7 @@ class StreamingSupport
 end
 ```
 
-### フレームワークの新しいデフォルト設定
+### フレームワークの新しいデフォルト設定について
 
 #### Active Recordの`belongs_to`はデフォルトオプションで必須
 
@@ -908,7 +908,7 @@ end
 Rails 4.0からRails 4.1へのアップグレード
 -------------------------------------
 
-### リモート `<script>` タグにCSRF保護を実施
+### リモート`<script>`タグにCSRF保護を実施する
 
 これを行わないと、「なぜかテストがとおらない...orz」「`<script>`ウィジェットがおかしい！」などという結果になりかねません。
 
