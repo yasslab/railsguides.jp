@@ -95,8 +95,6 @@ rails webpacker:install
 
 Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
 
-新たに埋め込まれるこのpurpose情報によって、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
-
 cookieを引き続きRails 5.2以前でも読み取れるようにする必要がある場合や、6.0のデプロイを検証中で前のバージョンに戻せるようにしたい場合は、`Rails.application.config.action_dispatch.use_cookies_with_metadata`に`false`を設定してください。
 
 ### Action Cable JavaScript APIの変更
