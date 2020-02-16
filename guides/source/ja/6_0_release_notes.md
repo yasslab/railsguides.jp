@@ -721,8 +721,6 @@ Active Support
     ([Pull Request](https://github.com/rails/rails/pull/32185))
 
 *   入力でUnicode文字とエスケープ文字が混在している場合に`URI.unescape`が失敗するバグを修正
-*   Fix bug where `URI.unescape` would fail with mixed Unicode/escaped character
-    input.
     ([Pull Request](https://github.com/rails/rails/pull/32183))
 
 *   圧縮が有効な場合に`ActiveSupport::Cache`のストレージサイズが激増するバグを修正
