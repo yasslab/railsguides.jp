@@ -1432,7 +1432,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
 * Rails 4.0では、`secret_key_base`が設定されているとcookieベースのセッションの内容が暗号化されます。Rails 3.xではcookieベースのセッションへの署名は行われますが暗号化は行われません。署名付きcookiesは、そのRailsアプリケーションで生成されたことが確認でき、不正が防止されるという意味では安全です。しかしセッションの内容はエンドユーザーから見えてしまいます。内容を暗号化することで懸念を取り除くことができ、パフォーマンスの低下もそれほどありません。
 
-セッションcookiesを暗号化する方法の詳しくは[Pull Request #9978](https://github.com/rails/rails/pull/9978) を参照してください。
+セッションcookiesを暗号化する方法について詳しくは[Pull Request #9978](https://github.com/rails/rails/pull/9978) を参照してください。
 
 * Rails 4.0では`ActionController::Base.asset_path`オプションが廃止されました。代りにアセットパイプライン機能をご利用ください。
 
@@ -1442,7 +1442,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
 * Rails 4.0からXMLパラメータパーサーが取り除かれました。この機能が必要な場合は`actionpack-xml_parser` gemを追加する必要があります。
 
-Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルトの`layout`ルックアップ設定が変更されました。動作を「no layout」にするには、nilではなくfalseを返すようにします。
+* Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルトの`layout`ルックアップ設定が変更されました。動作を「no layout」にするには、nilではなくfalseを返すようにします。
 
 * Rails 4.0のデフォルトのmemcachedクライアントが`memcache-client`から`dalli`に変更されました。アップグレードするには、単に`gem 'dalli'`を`Gemfile`に追加します。
 
