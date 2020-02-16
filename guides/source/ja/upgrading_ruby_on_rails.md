@@ -93,9 +93,7 @@ rails webpacker:install
 
 ### 署名済みまたは暗号化済みcookieのpurpose情報がcookie内部に埋め込まれるようになった
 
-Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。
-
-これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
+Railsではセキュリティ向上のため、または署名済み暗号化済みcookie値のpurpose情報を埋め込みます。これにより、Railsはcookieの署名済み/暗号化済みの値をコピーして別のcookieで流用することを阻止できるようになります。
 
 新たに埋め込まれるこのpurpose情報によって、Rails 6.0のcookieはそれより前のバージョンのcookieとの互換性が失われます。
 
