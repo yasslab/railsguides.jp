@@ -288,7 +288,6 @@ Action View
     ([Pull Request](https://github.com/rails/rails/pull/32125))
 
 *   localeキーで`submit_tag`をサポートするI18nキースタイルをサポート
-*   Add I18n key style support for locale keys to submit tags.
     ([Pull Request](https://github.com/rails/rails/pull/26799))
 
 Action Mailer
