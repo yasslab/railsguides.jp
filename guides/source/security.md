@@ -611,9 +611,9 @@ NOTE: _When sanitizing, protecting, or verifying something, prefer permitted lis
 A restricted list can be a list of bad e-mail addresses, non-public actions or bad HTML tags. This is opposed to a permitted list which lists the good e-mail addresses, public actions, good HTML tags, and so on. Although sometimes it is not possible to create a permitted list (in a SPAM filter, for example), _prefer to use permitted list approaches_:
 
 * Use before_action except: [...] instead of only: [...] for security-related actions. This way you don't forget to enable security checks for newly added actions.
-* Allow &lt;strong&gt; instead of removing &lt;script&gt; against Cross-Site Scripting (XSS). See below for details.
+* Allow `<strong>` instead of removing `<script>` against Cross-Site Scripting (XSS). See below for details.
 * Don't try to correct user input using restricted lists:
-    * This will make the attack work: "&lt;sc&lt;script&gt;ript&gt;".gsub("&lt;script&gt;", "")
+    * This will make the attack work: `"<sc<script>ript>".gsub("<script>", "")`
     * But reject malformed input
 
 Permitted lists are also a good approach against the human factor of forgetting something in the restricted list.
