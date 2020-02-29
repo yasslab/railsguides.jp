@@ -994,9 +994,9 @@ config.action_dispatch.default_headers.clear
 
 よく使われるヘッダーのリストを以下に示します。
 
-* `X-Frame-Options`: **Railsではデフォルトで'SAMEORIGIN'が指定されます**。このヘッダーは、同一ドメインでのフレーミングを許可します。'DENY'を指定するとすべてのフレーミングが不許可になります。すべてのWebサイトについてフレーミングを許可するには'ALLOWALL'を指定します。
-* `X-XSS-Protection`: **Railsではデフォルトで'1; mode=block'が指定されます**。XSS攻撃が検出された場合は、XSS Auditorとブロックページをお使いください。XSS Auditorをオフにしたい場合は'0;'を指定します(レスポンスがリクエストパラメータからのスクリプトを含んでいる場合に便利です)。
-* `X-Content-Type-Options`: **'nosniff'はRailsではデフォルトです**。このヘッダーは、ブラウザがファイルのMIMEタイプを推測しないようにします。
+* `X-Frame-Options`: **Railsではデフォルトで`SAMEORIGIN`が指定されます**。このヘッダーは、同一ドメインでのフレーミングを許可します。'DENY'を指定するとすべてのフレーミングが不許可になります。すべてのWebサイトについてフレーミングを許可するには'ALLOWALL'を指定します。
+* `X-XSS-Protection`: **Railsではデフォルトで`1; mode=block`が指定されます**。XSS攻撃が検出された場合は、XSS Auditorとブロックページをお使いください。XSS Auditorをオフにしたい場合は'0;'を指定します(レスポンスがリクエストパラメータからのスクリプトを含んでいる場合に便利です)。
+* `X-Content-Type-Options`: **Railsではデフォルトで`nosniff`です**。このヘッダーは、ブラウザがファイルのMIMEタイプを推測しないようにします。
 * `X-Content-Security-Policy`: [コンテンツタイプを読み込む元のサイトを制御するための強力なメカニズムです](http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html)
 * `Access-Control-Allow-Origin`: このヘッダーは、同一生成元ポリシーのバイパスとクロスオリジン(cross-origin)リクエストをサイトごとに許可します。
 * `Strict-Transport-Security`: [ブラウザからサイトへの接続をセキュアなものに限って許可するかどうかを指定します](https://ja.wikipedia.org/wiki/HTTP_Strict_Transport_Security)
