@@ -146,7 +146,7 @@ TIP: **`CookieStore`を扱うのであれば、もう一つの攻撃方法であ
 
 NOTE: **ユーザーのセッションIDを盗む代りに、攻撃者が意図的にセッションIDを既知のものに固定するという方法があります。この手法はセッション固定 (session fixation) と呼ばれます。**
 
-![Session fixation](images/session_fixation.png)
+![Session fixation](images/security/session_fixation.png)
 
 この攻撃では、ブラウザ上のユーザーのセッションIDを攻撃者が知っているセッションidに密かに固定しておき、ブラウザを使うユーザーが気付かないうちにそのセッションIDを強制的に使わせます。この方法であれば、セッションIDを盗み出す必要すらありません。攻撃方法は次のとおりです。
 
@@ -997,9 +997,9 @@ config.action_dispatch.default_headers.clear
 * `X-Frame-Options`: **Railsではデフォルトで'SAMEORIGIN'が指定されます**。このヘッダーは、同一ドメインでのフレーミングを許可します。'DENY'を指定するとすべてのフレーミングが不許可になります。すべてのWebサイトについてフレーミングを許可するには'ALLOWALL'を指定します。
 * `X-XSS-Protection`: **Railsではデフォルトで'1; mode=block'が指定されます**。XSS攻撃が検出された場合は、XSS Auditorとブロックページをお使いください。XSS Auditorをオフにしたい場合は'0;'を指定します(レスポンスがリクエストパラメータからのスクリプトを含んでいる場合に便利です)。
 * `X-Content-Type-Options`: **'nosniff'はRailsではデフォルトです**。このヘッダーは、ブラウザがファイルのMIMEタイプを推測しないようにします。
-* `X-Content-Security-Policy`: このヘッダーは、[コンテンツタイプを読み込む元のサイトを制御するための強力なメカニズム](http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html)です。
+* `X-Content-Security-Policy`: [コンテンツタイプを読み込む元のサイトを制御するための強力なメカニズムです](http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html)
 * `Access-Control-Allow-Origin`: このヘッダーは、同一生成元ポリシーのバイパスとクロスオリジン(cross-origin)リクエストをサイトごとに許可します。
-* `Strict-Transport-Security`: このヘッダーは、[ブラウザからサイトへの接続をセキュアなものに限って許可するかどうかを指定します](https://ja.wikipedia.org/wiki/HTTP_Strict_Transport_Security)。
+* `Strict-Transport-Security`: [ブラウザからサイトへの接続をセキュアなものに限って許可するかどうかを指定します](https://ja.wikipedia.org/wiki/HTTP_Strict_Transport_Security)
 
 ### Content Security Policy（CSP）
 
