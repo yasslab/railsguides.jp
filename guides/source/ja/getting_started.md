@@ -149,7 +149,7 @@ TIP: JavaScriptによるアセットの圧縮にはJavaScriptランタイムが�
 
 Railsで起動されるWebサーバーは、Railsにデフォルトで付属している[Puma](http://puma.io/)です。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて [http://localhost:3000](http://localhost:3000) を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
 
-![Welcome aboard screenshot](../images/getting_started/rails_welcome.png)
+![Welcome画面のスクリーンショット](images/getting_started/rails_welcome.png)
 
 TIP: Webサーバーを停止するには、実行されているターミナルのウィンドウでCtrl + Cキーを押します。コマンドプロンプトのカーソルがふたたび表示されれば、サーバーは停止しています。macOSを含む多くのUnix系OSではプロンプトとしてドル記号`$`が使われます。一般に、Railsの開発モードではファイルに変更を加えた場合でもサーバーを再起動する必要はありません。ファイルの変更は自動的にサーバーに反映されます(訳注: libファイルやapplication.rbなど一部の設定ファイルなどはサーバーを再起動しないと読み込まれません)。
 
@@ -265,7 +265,7 @@ welcome_index GET    /welcome/index(.:format)     welcome#index
 
 次の節では、アプリケーションで新しい記事を作成してそれを表示する機能を追加しましょう。これはCRUDでいう「C(作成)」と「R(読み出し)」の操作に相当します。作成するフォームは以下のような感じになります。
 
-![The new article form](../images/getting_started/new_article.png)
+![新規記事投稿フォーム](images/getting_started/new_article.png)
 
 これだけでは飾り気がなさすぎる感じもしますが、今はこれでよしとします。スタイルの追加はその後に行います。
 
@@ -273,7 +273,7 @@ welcome_index GET    /welcome/index(.:format)     welcome#index
 
 最初に、新規記事を作成するための場所がアプリケーション内に必要です。置き場所はやはり`/articles/new`でしょう。ルーティングは既に定義されているので、リクエストはアプリケーションの`/articles/new`に送られます。ブラウザで[http://localhost:3000/articles/new](http://localhost:3000/articles/new)を開くと、今はルーティングエラーが表示されます。
 
-![Another routing error, uninitialized constant ArticlesController](../images/getting_started/routing_error_no_controller.png)
+![Another routing error, uninitialized constant ArticlesController](images/getting_started/routing_error_no_controller.png)
 
 このエラーが発生したのは、ルーティングで指定された先に、リクエストを処理するように定義されたコントローラが見つからないためです。この問題を解決するには、それに対応する`ArticlesController`を作成すればよいのです。以下のコマンドを実行して解決します。
 
@@ -294,7 +294,7 @@ NOTE: Rubyのメソッドは`public`、`private`、`protected`に分けられま
 
 ブラウザの[http://localhost:3000/articles/new](http://localhost:3000/articles/new)を再表示すると、今度は別のエラーが表示されます。
 
-![Unknown action new for ArticlesController!](../images/getting_started/unknown_action_new_for_articles.png)
+![Unknown action new for ArticlesController!](images/getting_started/unknown_action_new_for_articles.png)
 
 生成した`ArticlesController`コントローラに`new`アクションが見つからないというエラーです。これは、Railsでアクションを指定せずに生成したコントローラは中身が空のままになるためです。
 
@@ -594,7 +594,7 @@ class ArticlesController < ApplicationController
 上のように変更したことで、新しい記事の作成がようやくできるようになりました。
 [http://localhost:3000/articles/new](http://localhost:3000/articles/new)をブラウザで開いて試してみましょう。
 
-![Show action for articles](../images/getting_started/show_action_for_articles.png)
+![Show action for articles](images/getting_started/show_action_for_articles.png)
 
 ### すべての記事を一覧表示する
 
@@ -790,7 +790,7 @@ TIP: Railsでは、エラーメッセージを含むフィールドは自動的�
 
 これで、[http://localhost:3000/articles/new](http://localhost:3000/articles/new)のフォームで新しい記事を保存する時にタイトルがなかった場合に、適切なエラーメッセージが表示されるようになりました。
 
-![Form With Errors](../images/getting_started/form_with_errors.png)
+![Form With Errors](images/getting_started/form_with_errors.png)
 
 ### 記事を更新する
 
@@ -917,7 +917,7 @@ TIP: `update`にすべての属性をもれなく渡す必要はありません�
 
 ここまでの変更で、アプリケーションの外観は以下のような感じになっているはずです。
 
-![Index action with edit link](../images/getting_started/index_action_with_edit_link.png)
+![Index action with edit link](images/getting_started/index_action_with_edit_link.png)
 
 ### パーシャルでビューの重複コードを解消する
 
@@ -1092,7 +1092,7 @@ end
 
 上で追加したコードでは、`link_to`メソッドの使い方がこれまでと違っていることにご注意ください。2番目の引数で名前付きルートを渡している点はこれまでと同じですが、その後に別の引数があります。この`method: :delete`オプションと`data: { confirm: 'Are you sure?' }`オプションはHTML5の属性です。このリンクをクリックすると、本当に削除してよいかどうかを確認するメッセージを表示し、その後`delete`メソッドとリンクを送信します。このダイアログボックスの表示は`rails-ujs`というJavaScriptファイルによって自動的に行われます。このファイルはアプリケーションの生成時に自動的にアプリケーションレイアウト (`app/views/layouts/application.html.erb`) に含まれます。このJavaScriptファイルがないと、ダイアログボックスは表示されません。
 
-![Confirm Dialog](../images/getting_started/confirm_dialog.png)
+![Confirm Dialog](images/getting_started/confirm_dialog.png)
 
 TIP: Unobtrusive JavaScript（UJS）について詳しくは[Rails で JavaScript を使う](working_with_javascript_in_rails.html)を参照してください。
 
@@ -1331,7 +1331,7 @@ end
 
 以上で、ブログに記事やコメントを自由に追加して、それらを正しい場所に表示できるようになりました。
 
-![Article with Comments](../images/getting_started/article_with_comments.png)
+![Article with Comments](images/getting_started/article_with_comments.png)
 
 ## リファクタリング
 
@@ -1540,7 +1540,7 @@ class CommentsController < ApplicationController
 
 ここで記事を新規作成しようとすると、以下のようなBASIC http認証ダイアログが表示されます。
 
-![Basic HTTP Authentication Challenge](../images/getting_started/challenge.png)
+![Basic HTTP Authentication Challenge](images/getting_started/challenge.png)
 
 もちろん、Railsでは他の認証方法も使えます。Railsにはさまざまな認証システムがありますが、その中で人気が高い認証システムは[Devise](https://github.com/plataformatec/devise)と[Authlogic](https://github.com/binarylogic/authlogic) gemの2つです。
 
