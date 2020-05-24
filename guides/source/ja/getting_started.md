@@ -20,7 +20,7 @@
 Railsとは、Rubyプログラミング言語の上で動作するWebアプリケーションフレームワークです。
 Rubyの経験がまったくない場合、Railsを学ぶのはかなり大変な作業になるでしょう。Rubyを学ぶための精選されたオンラインリソース一覧はたくさんありますので、その中から以下をご紹介します。
 
-- [Rubyプログラミング言語公式Webサイトの情報](https://www.ruby-lang.org/en/documentation/)
+- [Rubyプログラミング言語公式Webサイトの情報](https://www.ruby-lang.org/ja/documentation/)
 - [無料のプログラミング学習用書籍一覧 (英語)](https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#ruby)
 
 これらはいずれもよくできていますが、中にはRubyのバージョンが1.6など古いものもありますのでご注意ください。また、バージョン1.8を対象にしているものが多く、Railsでの日常的な開発に使う新しい文法が含まれていないこともあります。
@@ -917,7 +917,7 @@ TIP: `update`にすべての属性をもれなく渡す必要はありません�
 
 ここまでの変更で、アプリケーションの外観は以下のような感じになっているはずです。
 
-![Index action with edit link](images/getting_started/index_action_with_edit_link.png)
+![Editリンクが追加されたindexアクション](images/getting_started/index_action_with_edit_link.png)
 
 ### パーシャルでビューの重複コードを解消する
 
@@ -998,7 +998,7 @@ DELETE /articles/:id(.:format)      articles#destroy
 <a href='http://example.com/articles/1/destroy'>look at this cat!</a>
 ```
 
-リソースの削除に`delete`メソッドが使われ、このルーティングが`destroy`アクションに割り当てられる流れになります。この`destroy`アクションはまだ作成してなかったのでここで以下の内容で作成しましょう。{code3}destroy{/code3}メソッドは一般にコントローラのCRUDアクションの末尾、{code4}private{/code4}メソッドや{code5}protected{/code5}メソッドより上に置きます。
+リソースの削除に`delete`メソッドが使われ、このルーティングが`destroy`アクションに割り当てられる流れになります。この`destroy`アクションはまだ作成してなかったのでここで以下の内容で作成しましょう。`destroy`メソッドは一般にコントローラのCRUDアクションの末尾、`private`メソッドや`protected`メソッドより上に置きます。
 
 ```ruby
 def destroy
@@ -1331,7 +1331,7 @@ end
 
 以上で、ブログに記事やコメントを自由に追加して、それらを正しい場所に表示できるようになりました。
 
-![Article with Comments](images/getting_started/article_with_comments.png)
+![記事にコメントが追加されたところ](images/getting_started/article_with_comments.png)
 
 ## リファクタリング
 
