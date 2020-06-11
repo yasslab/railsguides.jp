@@ -763,6 +763,13 @@ div.code_container {
 
 .note code, .info code, .todo code {border:none; background: none; padding: 0;}
 
+p code {
+  background-color: $gray-lighter;
+  border-radius: 2px;
+  padding: 1px 0.5em;
+  margin: 0 0.2em;
+}
+
 #mainCol ul li {
   list-style:none;
   background: url(../images/grey_bullet.gif) no-repeat left 0.5em;
