@@ -735,9 +735,11 @@ h6 {
 #subCol h3.chapter img {vertical-align: text-bottom;}
 #subCol li ul, li ol { margin:0 1.5em; }
 
-div.code_container {
-  background: #EEE url(../images/tab_grey.gif) no-repeat left top;
-  padding: 0.25em 1em 0.5em 48px;
+.code_container {
+  background: $gray-lighter;
+  border: solid #e6e6e6 2px;
+  border-radius: 2px;
+  padding: 0.25em 1em 0.5em;
 }
 
 .note {
