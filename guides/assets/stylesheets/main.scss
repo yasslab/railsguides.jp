@@ -349,9 +349,13 @@ body {
 aside#toppage {
   float:right;
   width:220px;
-  img.bnr-proplan {
-    //border: 1px solid #e9e1bd;
-    margin-bottom:10px;
+}
+.bnr-proplan {
+  //border: 1px solid #e9e1bd;
+  margin-bottom:8px;
+  border-radius: 5px;
+  &:hover {
+    opacity: .8;
   }
 }
 @media screen and (max-width: 920px) {
