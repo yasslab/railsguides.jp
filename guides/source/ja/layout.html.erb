@@ -58,7 +58,7 @@
     <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
   </head>
-  
+
   <body class="guide">
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
@@ -187,17 +187,25 @@
 	<div id="footer">
 	  <div class="wrapper">
 	    <div class="sitemap">
-              <% %w(L C R).each do |position| %>
-		<dl class="<%= position %>">
-		  <% docs_for_sitemap(position).each do |section| %>
-		    <dt><%= section['name'] %></dt>
-		    <% finished_documents(section['documents']).each do |document| %>
-		      <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
-		    <% end %>
-		  <% end %>
-		</dl>
-              <% end %>
-	    </div>
+        <% %w(L C R).each do |position| %>
+	    <dl class="<%= position %>">
+	      <% docs_for_sitemap(position).each do |section| %>
+          <dt><%= section['name'] %></dt>
+          <% finished_documents(section['documents']).each do |document| %>
+            <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
+          <% end %>
+	      <% end %>
+	      <% if position == 'R' %>
+      		<dt>運営に関する情報</dt>
+      		<dd><a href="https://yasslab.jp/ja/" target="_blank" rel="noopener">運営会社</a></dd>
+      		<dd><a href="https://railsguides.jp/term-of-service">利用規約</a></dd>
+      		<dd><a href="https://railsguides.jp/policy">特定商取引法に基づく表記</a></dd>
+      		<dd><a href="https://yasslab.jp/ja/privacy" target="_blank" rel="noopener">プライバシーポリシー</a></dd>
+          <dd><a href="https://railsguides.jp/contact">お問い合わせ</a></dd>
+	      <% end %>
+	    </dl>
+          <% end %>
+    	</div>
 
 	    <ol class="trademark" style="padding-top: 20px">
 	      <li>本ガイドは<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。また、「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。</li>
