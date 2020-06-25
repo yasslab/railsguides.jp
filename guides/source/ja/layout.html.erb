@@ -58,7 +58,7 @@
     <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
   </head>
-  
+
   <body class="guide">
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
@@ -195,6 +195,14 @@
 		      <dd><a href="<%= document['url'] %>"><%= document['name'] %></a></dd>
 		    <% end %>
 		  <% end %>
+      <% if position == 'R' %>
+    		<dt>運営に関する情報</dt>
+    		<dd><a href="https://yasslab.jp/ja/" target="_blank" rel="noopener">運営会社</a></dd>
+    		<dd><a href="https://railsguides.jp/term-of-service">利用規約</a></dd>
+    		<dd><a href="https://railsguides.jp/policy">特定商取引法に基づく表記</a></dd>
+    		<dd><a href="https://yasslab.jp/ja/privacy" target="_blank" rel="noopener">プライバシーポリシー</a></dd>
+        <dd><a href="https://railsguides.jp/contact">お問い合わせ</a></dd>
+	      <% end %>
 		</dl>
               <% end %>
 	    </div>
