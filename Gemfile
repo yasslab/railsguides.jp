@@ -180,3 +180,6 @@ gem "wdm", ">= 0.1.0", platforms: [:mingw, :mswin, :x64_mingw, :mswin64]
 # platforms :ruby_25 do
 #   gem "mathn"
 # end
+
+# SyntaxHighlight
+gem "rouge"

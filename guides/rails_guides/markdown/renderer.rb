@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'rouge'
 
 module RailsGuides
   class Markdown
@@ -8,8 +9,8 @@ module RailsGuides
       def block_code(code, language)
         <<-HTML
 <div class="code_container">
-<pre class="brush: #{brush_for(language)}; gutter: false; toolbar: false">
-#{ERB::Util.h(code)}
+<pre class="highlight">
+#{Rouge::Formatters::HTML.new.format(Rouge::Lexers.const_get(brush_for(language)).new.lex(code)).chop}
 </pre>
 </div>
 HTML
@@ -58,14 +59,18 @@ HTML
 
         def brush_for(code_type)
           case code_type
-          when "ruby", "sql", "plain"
-            code_type
+          when "ruby"
+            "Ruby"
+          when "sql"
+            "SQL"
           when "erb", "html+erb"
-            "ruby; html-script: true"
+            "ERB"
           when "html"
-            "xml" # HTML is understood, but there are .xml rules in the CSS
+            "XML" # HTML is understood, but there are .xml rules in the CSS
+          when "bash"
+            "ConsoleLexer"
           else
-            "plain"
+            "PlainText"
           end
         end
 
