@@ -22,7 +22,7 @@ gem "rack-contrib", github: "bigcartel/rack-contrib", branch: "master"
 gem "html-proofer"
 
 group :doc do
-  gem "sdoc", github: "robin850/sdoc", branch: "upgrade"
+  gem "sdoc"
   gem "redcarpet", "~> 3.2.3", platforms: :ruby
   gem "w3c_validators"
   gem "kindlerb", "~> 1.2.0"
