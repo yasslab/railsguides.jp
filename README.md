@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/yasslab/railsguides.jp.svg?branch=master)](https://travis-ci.org/yasslab/railsguides.jp)
+[![Build Status](https://github.com/yasslab/railsguides.jp/actions/workflows/test.yml/badge.svg)](https://github.com/yasslab/railsguides.jp/actions)
 
 [![Ruby on Rails ガイド - 体系的に Rails を学ぼう](/guides/assets/images/header-railsguides.png)](https://railsguides.jp/)
 
@@ -59,10 +59,11 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 ### 3. Pull Request (PR) と Continuous Integration (CI)
 
-- PR が送られると、[railsguides.jp の Travis CI](https://travis-ci.org/yasslab/railsguides.jp) が走ります。
-- CI が通らなかった場合は、該当箇所を修正してください。
+- PR が送られると、[railsguides.jp の GitHub Actions](https://github.com/yasslab/railsguides.jp/actions) が走ります。
+- CI が通らなかった場合は、該当箇所を修正してください。（`bundle exec rake test`でローカル環境でも確認できます）
 - マージされない限り本番環境には反映されないので、PR は気軽に送っていただければ ;)
 
+<!--
 ## 翻訳方法の変遷
 
 以下はこれまでの翻訳フロー改善の流れを過去ログとしてまとめています。   
@@ -114,16 +115,17 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 - NOTE: 行頭にある`(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]`は、`guides:generate:html` で使われるタグです。 **これらのタグは訳さないでください。**
 
 </details>
+-->
 
 ## 運営チーム
 
 本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
-📣 【PR】YassLab 社では法人・チーム向けサービスを提供しています。興味あればお気軽にご相談ください :pray: :sparkling_heart: 
+📣 【PR】YassLab 社では法人向け研修支援サービスなどを提供しています。ぜひお気軽にご相談ください :pray: :sparkling_heart: 
 
 <div>
   <a href="https://yasslab.jp/ja/#for-team">
-    <img width="100%" src="/guides/assets/images/yasslab-pr.png"
+    <img width="100%" src="/guides/assets/images/yasslab_pr.png"
          alt="Services for Teams by YassLab Inc." />
   </a>
   <p>【PR END】詳細：<a href="https://yasslab.jp/ja/#for-team">法人・チーム向けサービス - YassLab 株式会社</a></p>
@@ -145,25 +147,14 @@ YassLab 社以外にも、次の方々が協力してくれました! 🤝✨
   - [@willnet](https://github.com/willnet)
 - 👏 他、[Issues](https://github.com/yasslab/railsguides.jp/issues) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors) を送ってくださった多くの方々。
 
-### 相談部屋
-
-[idobata.io](https://idobata.io) の [yasslab/railsguides-public](https://idobata.io/#/organization/yasslab/room/railsguides-public) 部屋にて、Rails ガイドに関する情報交換しています。   
-覗いてみるだけの方も歓迎なので、是非お気軽に立ち寄ってみてください :D
-
-<a href="https://idobata.io/#/organization/yasslab/room/railsguides-public">
-  <img width="60%" alt="Idobata でのチャット例"
-   src="https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/idobata-screenshot.png"
-  />
-</a>
-
 
 ## ライセンス
 
 [![CC BY-SA International](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/CC-BY-SA.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)
 
-Railsガイドのコンテンツ部分の著作権は[クリエイティブ・コモンズ 表示-継承 4.0 国際](https://creativecommons.org/licenses/by-sa/4.0/deed.ja) (CC BY-SA 4.0) ライセンスに基づいて公開されています。
+Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.jp/tree/master/guides/source)は[クリエイティブ・コモンズ 表示-継承 4.0 国際](https://creativecommons.org/licenses/by-sa/4.0/deed.ja) (CC BY-SA 4.0) ライセンスに基づいて公開されています。
 
-ただし『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は [David Heinemeier Hansson の登録商標](https://rubyonrails.org/trademarks/)であり、本ライセンスの[対象ではありません](https://creativecommons.org/licenses/by-sa/4.0/legalcode#s2b)。
+ただし『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は [David Heinemeier Hansson の登録商標](https://rubyonrails.org/trademarks/)であり、本ライセンスの[対象ではありません](https://creativecommons.org/licenses/by-sa/4.0/legalcode#s2b)。また、本サイトのロゴ画像などの一部は [YassLab 社の著作物](https://yasslab.jp/ja/news/japanese-railsguides-logo)です。
 
 [Ruby on Rails のソースコード](https://github.com/rails/rails)は [MIT ライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
 
