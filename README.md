@@ -1,15 +1,16 @@
-[![Build Status](https://travis-ci.org/yasslab/railsguides.jp.svg?branch=master)](https://travis-ci.org/yasslab/railsguides.jp)
+[![Build Status](https://github.com/yasslab/railsguides.jp/actions/workflows/test.yml/badge.svg)](https://github.com/yasslab/railsguides.jp/actions)
 
-## 日本語訳について
+[![Ruby on Rails ガイド - 体系的に Rails を学ぼう](/guides/assets/images/header-railsguides.png)](https://railsguides.jp/)
 
-本リポジトリは[Ruby on Rails Guides](http://guides.rubyonrails.org/)を日本語に訳したものです。   
-Railsガイドでは、Railsの各機能の仕組みや最新の機能、リリース情報などがまとまっています。
+## 『Railsガイド』とは？
+
+『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。   
+Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
 
 Ruby on Rails ガイド   
 https://railsguides.jp/
 
-これからRailsを勉強する方は「Railsチュートリアル」がオススメです。   
-Railsガイドと同様に、RailsチュートリアルもWeb版は無料で読めます :)
+これから Rails を勉強する方は『Railsチュートリアル』がオススメです。   
 
 Ruby on Rails チュートリアル：実例を使ってRailsを学ぼう   
 https://railstutorial.jp/
@@ -17,15 +18,15 @@ https://railstutorial.jp/
 
 ## フィードバックについて
 
-本ガイドを読んで、誤字・脱字・誤訳などを見かけましたら、本リポジトリの [Issue](https://github.com/yasslab/railsguides.jp/issues) にてお気軽に報告して頂けると幸いです。「直接Pull Request を送りたい!」という場合には、下記の「Railsガイドの生成方法」を参照してください。
+Railsガイドを読んで、誤字・脱字・誤訳などを見かけましたら、本リポジトリの [Issue](https://github.com/yasslab/railsguides.jp/issues) にてお気軽に報告して頂けると幸いです。「Pull Request を送ってみたい!」という場合は、下記の『[Railsガイドの生成方法](https://github.com/yasslab/railsguides.jp#rails%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AE%E7%94%9F%E6%88%90%E6%96%B9%E6%B3%95)』を参照してください。
 
-もし原著の間違いを見つけましたら、本ガイドの[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B) を参考にしてください。
+もし原著の間違いを見つけましたら、Railsガイドの『[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B)』を参考にしてください。
 
-本ガイドの品質向上に向けて、皆さまのご協力が得られれば幸いです。よろしくお願い致します。
+『[Railsガイド](https://railsguides.jp/)』および『[Rails Guides](https://guides.rubyonrails.org/)』の品質向上に向けて、皆さまのご協力が得られれば嬉しいです ;)
 
-### ブラウザでRailsガイドの修正を提案する
+### ブラウザでRailsガイドの修正を提案する (オススメ)
 
-多分これが一番簡単だと思います。
+多分これが一番簡単だと思います...!! 😆
 
 1. ブラウザ上で [guides/source/ja](https://github.com/yasslab/railsguides.jp/tree/master/guides/source/ja) を開く
 2. 直したいファイルを開く (例: [upgrading_ruby_on_rails.md](https://github.com/yasslab/railsguides.jp/blob/master/guides/source/ja/upgrading_ruby_on_rails.md))
@@ -38,11 +39,10 @@ https://railstutorial.jp/
 
 ## Railsガイドの生成方法
 
-本リポジトリにPull Requestを送付したい方は、下記を参照してください。    
+Pull Request を送る前に生成結果を確認したい場合は下記をご参照ください。   
+(生成結果を確認せずに Pull Request を送って頂いても大丈夫です! 😆👌)
 
 ### 1. 既存のHTMLファイルをローカルで生成および確認(Jekyll)
-
-(rubyのバージョンは[.ruby_version](https://github.com/yasslab/railsguides.jp/blob/master/.ruby-version)に記載があります。)
 
 1. `$ bundle install`
 2. `$ bundle exec rake assets:precompile`
@@ -55,17 +55,19 @@ https://railstutorial.jp/
 2. `$ bundle exec rake assets:precompile` 
 3. `$ bundle exec jekyll server`
 4. localhost:4000 から変更結果を確認する
-5. (問題なければ) PRを送付する
+5. (問題なければ) PR を送付する
 
-### 3. CI と Heroku
+### 3. Pull Request (PR) と Continuous Integration (CI)
 
-- PRが送られると、[railsguides.jpのTravis CI](https://travis-ci.org/yasslab/railsguides.jp) が走ります。
-- CIが通らなかった場合は、該当箇所を修正してください。
-- マージされない限り本番環境 (Heroku) には反映されないので、気軽にPRを送っていただいて大丈夫です。
+- PR が送られると、[railsguides.jp の GitHub Actions](https://github.com/yasslab/railsguides.jp/actions) が走ります。
+- CI が通らなかった場合は、該当箇所を修正してください。（`bundle exec rake test`でローカル環境でも確認できます）
+- マージされない限り本番環境には反映されないので、PR は気軽に送っていただければ ;)
 
+<!--
 ## 翻訳方法の変遷
 
-以下は原著へのフィードバックや、翻訳に関するより詳細な情報です。必要に応じてご参照ください ;)
+以下はこれまでの翻訳フロー改善の流れを過去ログとしてまとめています。   
+基本的に読む必要はありませんが、もし興味あれば適宜ご参照ください ;)
 
 <details>
   <summary><strong>継続的翻訳システムについて (現在移行中)</strong></summary>
@@ -89,7 +91,7 @@ https://railstutorial.jp/
 <details>
   <summary><strong>原著との差分を更新する方法</strong></summary>
 
-- [bin/merge-upstream](https://github.com/yasslab/railsguides.jp/blob/master/railsguides.jp/bin/merge-upstream) を実行すると最新版が `guides/source` 内に取り込まれます。
+- [bin/merge-upstream](https://github.com/yasslab/railsguides.jp/blob/master/railsguides.jp/bin/merge-upstrepam) を実行すると最新版が `guides/source` 内に取り込まれます。
 - 特に、原著を手元で確認したいとき、原著にPRを送付したいときに便利です。
 - 原著にPRを送るときは、事前に[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B)に目を通しておくとよいです :)
 
@@ -113,46 +115,52 @@ https://railstutorial.jp/
 - NOTE: 行頭にある`(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]`は、`guides:generate:html` で使われるタグです。 **これらのタグは訳さないでください。**
 
 </details>
+-->
 
 ## 運営チーム
 
-本リポジトリは、Ruby/Railsの開発を支援する [YassLab](https://yasslab.jp/ja/) 社によってメンテナンスされております。
+本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
-公式ドキュメントを支えるチームで、御社のプロジェクトを支援します。お気軽にお問い合わせください。
+📣 【PR】YassLab 社では法人向け研修支援サービスなどを提供しています。ぜひお気軽にご相談ください :pray: :sparkling_heart: 
 
-Ruby/Rails の開発支援サービス - YassLab 株式会社  
-[https://yasslab.jp/ja/agile](https://yasslab.jp/ja/agile)
+<div>
+  <a href="https://yasslab.jp/ja/#for-team">
+    <img width="100%" src="/guides/assets/images/yasslab_pr.png"
+         alt="Services for Teams by YassLab Inc." />
+  </a>
+  <p>【PR END】詳細：<a href="https://yasslab.jp/ja/#for-team">法人・チーム向けサービス - YassLab 株式会社</a></p>
+</div>
 
-[![Logo of YassLab Inc.](https://yasslab.jp/img/logo_rect.png)](https://yasslab.jp/ja/)
+　
+
+YassLab 社以外にも、次の方々が協力してくれました! 🤝✨    
+様々なご意見・フィードバックありがとうございます! (＞人＜ )✨
 
 ### 協力者
 
-- [@hachi8833](https://github.com/hachi8833) (共同発起人)
-- [@yasulab](https://github.com/yasulab) (共同発起人)
-- [@yui-knk](https://github.com/yui-knk) (コミッター)
-- [@riseshia](https://github.com/riseshia) (コミッター)
-- [@willnet](https://github.com/willnet) (コミッター)
-- 他，[Issues](https://github.com/yasslab/railsguides.jp/issues?q=) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors)  を送ってくださった多くの方々。
+- 👥 共同発起人 
+  - [@hachi8833](https://github.com/hachi8833)
+  - [@yasulab](https://github.com/yasulab)
+- 💎 コミッターの皆さん
+  - [@yui-knk](https://github.com/yui-knk)
+  - [@riseshia](https://github.com/riseshia)
+  - [@willnet](https://github.com/willnet)
+- 👏 他、[Issues](https://github.com/yasslab/railsguides.jp/issues) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors) を送ってくださった多くの方々。
 
-### 相談部屋
-
-[idobata.io](https://idobata.io) の [yasslab/railsguides.jp](https://idobata.io/#/organization/yasslab/room/railsguides) 部屋にて、Rails ガイドに関する情報交換しています。   
-覗いてみるだけの方も歓迎なので、是非お気軽に立ち寄ってみてください :D
-
-[![井戸端会議の風景](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/idobata-ss.png)](https://idobata.io/#/organization/yasslab/room/railsguides)
 
 ## ライセンス
 
 [![CC BY-SA International](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/CC-BY-SA.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)
 
-本ガイドは[クリエイティブ・コモンズ 表示-継承 4.0 国際](https://creativecommons.org/licenses/by-sa/4.0/deed.ja) (CC BY-SA 4.0) ライセンスに基づいて公開されています。
+Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.jp/tree/master/guides/source)は[クリエイティブ・コモンズ 表示-継承 4.0 国際](https://creativecommons.org/licenses/by-sa/4.0/deed.ja) (CC BY-SA 4.0) ライセンスに基づいて公開されています。
 
-「Rails」および「Ruby on Rails」という名称、そして Rails のロゴは、David Heinemeier Hansson による登録商標で、すべての権利を有しています。
+ただし『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は [David Heinemeier Hansson の登録商標](https://rubyonrails.org/trademarks/)であり、本ライセンスの[対象ではありません](https://creativecommons.org/licenses/by-sa/4.0/legalcode#s2b)。また、本サイトのロゴ画像などの一部は [YassLab 社の著作物](https://yasslab.jp/ja/news/japanese-railsguides-logo)です。
 
-[Ruby on Rails](http://rubyonrails.org/)は[MITライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
+[Ruby on Rails のソースコード](https://github.com/rails/rails)は [MIT ライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
 
 ### クレジット
 
-- 原著: http://guides.rubyonrails.org/credits.html
-- 本書: [@hachi8833](https://github.com/hachi8833), [@yasulab](https://github.com/yasulab)
+- 原著: [https://edgeguides.rubyonrails.org/#footer](https://edgeguides.rubyonrails.org/#footer)
+- 本書: [https://railsguides.jp/#contributors](https://railsguides.jp/#contributors)
 
+[![YassLab Inc.](https://yasslab.jp/img/logos/800x200.png)](https://yasslab.jp/ja/)
