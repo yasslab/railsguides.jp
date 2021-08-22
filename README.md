@@ -1,17 +1,16 @@
-[![Build Status](https://travis-ci.org/yasslab/railsguides.jp.svg?branch=master)](https://travis-ci.org/yasslab/railsguides.jp)
+[![Build Status](https://github.com/yasslab/railsguides.jp/actions/workflows/test.yml/badge.svg)](https://github.com/yasslab/railsguides.jp/actions)
 
-[![Banner of Railsガイド](https://yasslab.jp/img/header-railsguides.png)](https://railsguides.jp/)
+[![Ruby on Rails ガイド - 体系的に Rails を学ぼう](/guides/assets/images/header-railsguides.png)](https://railsguides.jp/)
 
 ## 『Railsガイド』とは？
 
-『Railsガイド』は [Ruby on Rails Guides](http://guides.rubyonrails.org/) の[公式の日本語版](https://guides.rubyonrails.org/contributing_to_ruby_on_rails.html#translating-rails-guides)です。   
-Rails の各機能の仕組みや最新の機能、リリース情報などがまとまっています。
+『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。   
+Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
 
 Ruby on Rails ガイド   
 https://railsguides.jp/
 
 これから Rails を勉強する方は『Railsチュートリアル』がオススメです。   
-Railsガイドと同様に、『Railsチュートリアル』もWeb版は無料で読めます :)
 
 Ruby on Rails チュートリアル：実例を使ってRailsを学ぼう   
 https://railstutorial.jp/
@@ -25,7 +24,7 @@ Railsガイドを読んで、誤字・脱字・誤訳などを見かけました
 
 『[Railsガイド](https://railsguides.jp/)』および『[Rails Guides](https://guides.rubyonrails.org/)』の品質向上に向けて、皆さまのご協力が得られれば嬉しいです ;)
 
-### ブラウザでRailsガイドの修正を提案する
+### ブラウザでRailsガイドの修正を提案する (オススメ)
 
 多分これが一番簡単だと思います...!! 😆
 
@@ -60,10 +59,11 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 ### 3. Pull Request (PR) と Continuous Integration (CI)
 
-- PR が送られると、[railsguides.jp の Travis CI](https://travis-ci.org/yasslab/railsguides.jp) が走ります。
-- CI が通らなかった場合は、該当箇所を修正してください。
+- PR が送られると、[railsguides.jp の GitHub Actions](https://github.com/yasslab/railsguides.jp/actions) が走ります。
+- CI が通らなかった場合は、該当箇所を修正してください。（`bundle exec rake test`でローカル環境でも確認できます）
 - マージされない限り本番環境には反映されないので、PR は気軽に送っていただければ ;)
 
+<!--
 ## 翻訳方法の変遷
 
 以下はこれまでの翻訳フロー改善の流れを過去ログとしてまとめています。   
@@ -115,23 +115,20 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 - NOTE: 行頭にある`(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]`は、`guides:generate:html` で使われるタグです。 **これらのタグは訳さないでください。**
 
 </details>
+-->
 
 ## 運営チーム
 
-本リポジトリは Ruby/Rails の開発を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
+本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
-📣 【PR】YassLab 社では開発支援も承っております。もし興味あればお気軽にご相談ください ;)
+📣 【PR】YassLab 社では法人向け研修支援サービスなどを提供しています。ぜひお気軽にご相談ください :pray: :sparkling_heart: 
 
 <div>
-  <a href="https://yasslab.jp/ja/agile">
-    <img width="60%" src="https://yasslab.jp/img/team.png"
-         alt="YassLab Images" />
+  <a href="https://yasslab.jp/ja/#for-team">
+    <img width="100%" src="/guides/assets/images/yasslab_pr.png"
+         alt="Services for Teams by YassLab Inc." />
   </a>
-  <a href="https://yasslab.jp/ja/agile">
-    <img width="60%" src="https://yasslab.jp/img/skills.png"
-         alt="YassLab Skills" />
-  </a>
-  <p>【PR END】詳細：<a href="https://yasslab.jp/ja/agile">Ruby/Rails の開発支援サービス - YassLab 株式会社</a></p>
+  <p>【PR END】詳細：<a href="https://yasslab.jp/ja/#for-team">法人・チーム向けサービス - YassLab 株式会社</a></p>
 </div>
 
 　
@@ -160,7 +157,6 @@ Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.
 ただし『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は [David Heinemeier Hansson の登録商標](https://rubyonrails.org/trademarks/)であり、本ライセンスの[対象ではありません](https://creativecommons.org/licenses/by-sa/4.0/legalcode#s2b)。また、本サイトのロゴ画像などの一部は [YassLab 社の著作物](https://yasslab.jp/ja/news/japanese-railsguides-logo)です。
 
 [Ruby on Rails のソースコード](https://github.com/rails/rails)は [MIT ライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
-
 
 ### クレジット
 
