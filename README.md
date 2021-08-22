@@ -125,7 +125,7 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 <div>
   <a href="https://yasslab.jp/ja/#for-team">
-    <img width="100%" src="/guides/assets/images/yasslab_pr.png"
+    <img width="100%" src="https://raw.githubusercontent.com/yasslab/railsguides.jp/master/guides/assets/images/yasslab_pr.png"
          alt="Services for Teams by YassLab Inc." />
   </a>
   <p>【PR END】詳細：<a href="https://yasslab.jp/ja/#for-team">法人・チーム向けサービス - YassLab 株式会社</a></p>
