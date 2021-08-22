@@ -150,17 +150,6 @@ YassLab 社以外にも、次の方々が協力してくれました! 🤝✨
   - [@willnet](https://github.com/willnet)
 - 👏 他、[Issues](https://github.com/yasslab/railsguides.jp/issues) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors) を送ってくださった多くの方々。
 
-### 相談部屋
-
-[idobata.io](https://idobata.io) の [yasslab/railsguides-public](https://idobata.io/#/organization/yasslab/room/railsguides-public) 部屋にて、Rails ガイドに関する情報交換しています。   
-覗いてみるだけの方も歓迎なので、是非お気軽に立ち寄ってみてください :D
-
-<a href="https://idobata.io/#/organization/yasslab/room/railsguides-public">
-  <img width="60%" alt="Idobata でのチャット例"
-   src="https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/idobata-screenshot.png"
-  />
-</a>
-
 
 ## ライセンス
 
