@@ -188,18 +188,41 @@ ActiveRecord::Base.connected_to(role: :reading) do
 end
 ```
 
+```ruby
+AnimalsRecord.connected_to(role: :reading) do
+  Dog.first # Reads from animals_replica
+  Person.first  # Reads from primary
+end
+```
 
-`connected_to`呼び出しの「ロール」では、そのコネクションハンドラ（またはロール）で接続されたコネクションを探索します。`reading`コネクションハンドラは、`reading`というロール名を持つ`connects_to`を介して接続されたすべてのコネクションを維持します。
+また、シャードに対して細かく接続をスワップできます。
 
-ここで注意したいのは、ロールを設定した`connected_to`では、既存のコネクションの探索や切り替えにそのコネクションのspecification名が用いられることです。つまり、`connected_to(role: :nonexistent)`のように不明なロールを渡すと、`ActiveRecord::ConnectionNotEstablished (No connection pool with 'AnimalsBase' found
-for the 'nonexistent' role.)`エラーが発生します。
+```ruby
+AnimalsRecord.connected_to(role: :reading, shard: :shard_one) do
+  Dog.first # Will read from shard_one_replica. If no connection exists for shard_one_replica,
+  # a ConnectionNotEstablished error will be raised
+  Person.first # Will read from primary writer
+end
+```
 
+primaryデータベース群のみを切り替えたい場合は`ApplicationRecord`を使用してください:
+
+```ruby
+ApplicationRecord.connected_to(role: :reading, shard: :shard_one) do
+  Person.first # Reads from primary_shard_one_replica
+  Dog.first # Reads from animals_primary
+end
+```
+
+`ActiveRecord::Base.connected_to`はグローバルに接続を切り替える機能を管理します。
 
 ## 注意点
 
-### シャーディング
+### 水平シャーディングのための自動スワップ
 
-最初に申し上げておきたいのは、現時点のRailsではシャーディング（sharding）はまだサポートされていないという点です。私たちはRails 6.0でマルチプルデータベースをサポートするために膨大な作業をこなさなければなりませんでした。シャーディングのサポートを忘れていたわけではありませんが、そのために必要な追加作業は6.0では間に合いませんでした。さしあたってシャーディングが必要なのであれば、シャーディングをサポートするさまざまなgemのどれかを引き続き利用するのがおすすめと言えるかもしれません。
+現在Railsはシャードへの接続や、シャードの接続をスワップするAPIをサポートしていますが、
+自動スワップ戦略はまだサポートしていません。
+ミドルウェアか`around_action`を介して、アプリケーション内で手動でシャードスワップを行う必要があります。
 
 ### replicaのロードバランシング
 
@@ -207,7 +230,9 @@ replicaのロードバランシングはインフラストラクチャに強く�
 
 ### データベースをまたがるJOIN
 
-アプリケーションは複数のデータベースにまたがるJOINを行えません。Rails 6.1では、JOINの代わりに`has_many`リレーションシップを用いて2つのクエリを作成することをサポートする予定ですが、Rails 6.0ではJOINを手動で2つのSELECT文に分ける必要があります。
+アプリケーションは複数のデータベースにまたがるJOINを行えません。
+現時点では、ユーザ自身が手動で2つのセレクト文を書き、joinを分割する必要があります。
+将来のバージョンでは、Railsがjoinを分割してくれるようになります。
 
 ### スキーマキャッシュ
 
