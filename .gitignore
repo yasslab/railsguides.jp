@@ -43,7 +43,7 @@ guides/archive
 .envrc
 
 ## Ignore github template files
-.github
+#.github
 
 ## Ignore contributing guide
 CONTRIBUTING.md
