@@ -124,7 +124,7 @@ Rails.logger = Logger.new(STDOUT)
 Rails.logger = Log4r::Logger.new("Application Log")
 ```
 
-TIP: ログの保存場所は、デフォルトでは`Rails.root/log/`になります。ログのファイル名は、アプリケーションが実行されるときの環境 (development/test/productionなど) が使われます。
+TIP: ログの保存場所は、デフォルトでは`Rails.root/log/`になります。ログのファイル名は、アプリケーションが実行されるときの環境（development、test、productionなど）が使われます。
 
 ### ログの出力レベル
 
@@ -163,7 +163,6 @@ logger.fatal "Terminating application, raised unrecoverable error!!!"
     logger.debug "記事が正しいかどうか: #{@article.valid?}"
 
     if @article.save
-      flash[:notice] =  'Article was successfully created.'
       logger.debug "記事は正常に保存され、ユーザーをリダイレクト中..."
       redirect_to @article, notice: '記事は正常に作成されました。'
     else
@@ -172,7 +171,7 @@ logger.fatal "Terminating application, raised unrecoverable error!!!"
   end
 
   # ...
-  
+
   private
     def article_params
       params.require(:article).permit(:title, :body, :published)
@@ -182,21 +181,58 @@ end
 
 上のコントローラのアクションを実行すると、以下のようなログが生成されます。
 
-``` 
-Started POST "/articles" for 127.0.0.1 at 2017-08-20 20:53:10 +0900
+```
+Started POST "/articles" for 127.0.0.1 at 2018-10-18 20:09:23 -0400
 Processing by ArticlesController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"xhuIbSBFytHCE1agHgvrlKnSVIOGD6jltW2tO+P6a/ACjQ3igjpV4OdbsZjIhC98QizWH9YdKokrqxBCJrtoqQ==", "article"=>{"title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!", "published"=>"0"}, "commit"=>"Create Article"}
-New article: {"id"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs!!!", "published"=>false, "created_at"=>nil, "updated_at"=>nil}
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"XLveDrKzF1SwaiNRPTaMtkrsTzedtebPPkmxEFIU0ordLjICSnXsSNfrdMa4ccyBjuGwnnEiQhEoMN6H1Gtz3A==", "article"=>{"title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs.", "published"=>"0"}, "commit"=>"Create Article"}
+新しい記事: {"id"=>nil, "title"=>"Debugging Rails", "body"=>"I'm learning how to print in logs.", "published"=>false, "created_at"=>nil, "updated_at"=>nil}
 記事が正しいかどうか: true
-   (0.1ms)  BEGIN
- SQL (0.4ms)  INSERT INTO "articles" ("title", "body", "published", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["title", "Debugging Rails"], ["body", "I'm learning how to print in logs!!!"], ["published", "f"], ["created_at", "2017-08-20 11:53:10.010435"], ["updated_at", "2017-08-20 11:53:10.010435"]]
-   (0.3ms)  COMMIT
+   (0.0ms)  begin transaction
+  ↳ app/controllers/articles_controller.rb:31
+  Article Create (0.5ms)  INSERT INTO "articles" ("title", "body", "published", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["title", "Debugging Rails"], ["body", "I'm learning how to print in logs."], ["published", 0], ["created_at", "2018-10-19 00:09:23.216549"], ["updated_at", "2018-10-19 00:09:23.216549"]]
+  ↳ app/controllers/articles_controller.rb:31
+   (2.3ms)  commit transaction
+  ↳ app/controllers/articles_controller.rb:31
 記事は正常に保存され、ユーザーをリダイレクト中...
 Redirected to http://localhost:3000/articles/1
 Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
 ```
 
-このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが意味のない大量のメッセージでうずまることのないよう、適切なログレベルを使うようにしてください。
+このようにログに独自の情報を追加すると、予想外の異常な動作をログで見つけやすくなります。ログに独自の情報を追加する場合は、productionログが無意味な大量のメッセージでうずまらないよう、適切なログレベルを使うようにしてください。
+
+### 詳細なクエリログ
+
+データベースクエリのログを見ただけでは、1個のメソッドを呼び出したときに大量のデータベースクエリがトリガーされる理由がすぐにわからないこともあります。
+
+```
+irb(main):001:0> Article.pamplemousse
+  Article Load (0.4ms)  SELECT "articles".* FROM "articles"
+  Comment Load (0.2ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+=> #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
+```
+
+`bin/rails console`セッションで`ActiveRecord::Base.verbose_query_logs = true`を実行すると詳細クエリログモードが有効になります。同じメソッドをもう一度実行すると、大量のデータベース呼び出しを生成しているコード行がどこにあるかががわかるようになります。
+
+```
+irb(main):003:0> Article.pamplemousse
+  Article Load (0.2ms)  SELECT "articles".* FROM "articles"
+  ↳ app/models/article.rb:5
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 1]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 2]]
+  ↳ app/models/article.rb:6
+  Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = ?  [["article_id", 3]]
+  ↳ app/models/article.rb:6
+=> #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
+```
+
+各データベースステートメントの下には、データベースを呼び出したメソッドがあるソースファイル名と行番号が`app/models/article.rb:6`のように表示されています。これはN+1クエリ（1個のデータベースクエリが多数の追加クエリを生成する問題）が原因となるパフォーマンス問題を突き止めて対処するときに有用です。
+
+Rails 5.2以降は、developmentモードで詳細クエリモードがデフォルトで有効になります。
+
+WARNING: production環境では詳細クエリモードを有効にしないことをおすすめします。この設定はRubyの`Kernel#caller`メソッドに依存しており、メソッド呼び出しのスタックトレース生成で大量のメモリをアロケーションする傾向があります。
 
 ### タグ付きログの出力
 
@@ -204,14 +240,14 @@ Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
 
 ```ruby
 logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-logger.tagged("BCX") { logger.info "Stuff" }                            # Logs "[BCX] Stuff"
-logger.tagged("BCX", "Jason") { logger.info "Stuff" }                   # Logs "[BCX] [Jason] Stuff"
-logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "[BCX] [Jason] Stuff"
+logger.tagged("BCX") { logger.info "Stuff" }                            # "[BCX] Stuff"を出力
+logger.tagged("BCX", "Jason") { logger.info "Stuff" }                   # "[BCX] [Jason] Stuff"を出力
+logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # "[BCX] [Jason] Stuff"を出力
 ```
 
 ### ログがパフォーマンスに与える影響
 
-ログ出力はRailsアプリケーションのパフォーマンスに小さな影響を常に与えます。ログをディスクに保存する場合は特にそうです。さらに、場合によっては小さな影響とは言い切れないことがあります。
+ログ出力は、Railsアプリケーションのパフォーマンスに常に小さな影響を与えます。ログをディスクに保存する場合は特にそうです。さらに、場合によっては小さな影響とは言い切れないこともあります。
 
 ログレベル`:debug`は、`:fatal`と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。
 
@@ -221,539 +257,229 @@ logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # Logs "
 logger.debug "Person attributes hash: #{@person.attributes.inspect}"
 ```
 
-上の例では、たとえログ出力レベルをdebugにしなかった場合でもパフォーマンスが低下します。その理由は、上のコードでは文字列を評価する必要があり、その際に比較的動作が重い`String`オブジェクトのインスタンス化と、実行に時間のかかる変数の式展開 (interpolation) が行われているからです。
-したがって、ロガーメソッドに渡すものはブロックの形にしておくことをお勧めします。ブロックとして渡しておけば、ブロックの評価は出力レベルが設定レベル以上になった場合にしか行われない (遅延読み込みなど) ためです。これに従って上のコードを書き直すと以下のようになります。
+上の例では、たとえログ出力レベルをdebugにしなかった場合でもパフォーマンスが低下します。その理由は、上のコードでは文字列を評価する必要があり、その際に比較的動作が重い`String`オブジェクトのインスタンス化と、実行に時間のかかる変数の式展開（interpolation）が行われているからです。
+したがって、ロガーメソッドに渡すものはブロック形式にすることをおすすめします。ブロックとして渡しておけば、ブロックの評価は出力レベルが設定レベル以上になった場合にしか行われないようになる（遅延読み込みされる）ためです。これに従って上のコードを書き直すと以下のようになります。
 
 ```ruby
 logger.debug {"Person attributes hash: #{@person.attributes.inspect}"}
 ```
 
-渡したブロックの内容 (ここでは文字列の式展開) は、debug が有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。
+渡したブロックの内容（ここでは文字列の式展開）は、debug が有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。
 
-`byebug` gemでデバッグする
+INFO: 本セクションは[StackOverflowでのJon Cairnsによる回答](https://stackoverflow.com/questions/16546730/logging-in-rails-is-there-any-performance-hit/16546935#16546935)として書かれたものであり、[cc by-sa 4.0](https://creativecommons.org/licenses/by-sa/4.0/)ライセンスに基づいています。
+
+`debug` gemでデバッグする
 ---------------------------------
 
-コードが期待どおりに動作しない場合は、ログやコンソールに出力して問題を診断することができます。ただし、この方法ではエラー追跡を何度も繰り返さねばならず、根本的な原因を突き止めるには能率がよいとは言えません。
+コードが期待どおりに動作しない場合は、ログやコンソールに出力して問題を診断できます。ただし、この方法ではエラー追跡を何度も繰り返さねばならず、根本的な原因を突き止めるには能率がよいとは言えません。
 実行中のコードに探りを入れる必要があるのであれば、最も頼りになるのはやはりデバッガーです。
 
 デバッガーは、Railsのソースコードを追うときに、そのコードをどこで開始するのかがを知りたいときにも有用です。アプリケーションへのリクエストをすべてデバッグし、自分が書いたコードからRailsのもっと深いところへダイブする方法を本ガイドから学びましょう。
 
-### セットアップ
+Rails 7では、CRubyで生成した新しいアプリケーションの`Gemfile`に`debug` gemが含まれるようになりました。デフォルトでは、`development`環境と`test`環境でこのgemをすぐに利用できます。使い方について詳しくは`debug` gemの[ドキュメント](https://github.com/ruby/debug)を参照してください。
 
-`byebug` gemを使うと、Railsコードにブレークポイントを設定してステップ実行できます。次を実行するだけでインストールできます。
+### デバッグセッションに入る
 
-```bash
-$ gem install byebug
-```
+デフォルトでは、`debug`ライブラリが`require`された後でデバッグセッションが開始されます。これはアプリの起動中に行われます。しかしデバッグセッションがあなたのプログラムを邪魔することはないので心配は無用です。
 
-後はRailsアプリケーション内で`byebug`メソッドを呼び出せばいつでもデバッガーを起動できます。
-
-以下に例を示します。
+デバッグセッションに入るには、`binding.break`（またはエイリアスの`binding.b`や`debugger`）を利用できます。以下の例では`debugger`を使います。
 
 ```ruby
-class PeopleController < ApplicationController
-  def new
-    byebug
-    @person = Person.new
+class PostsController < ApplicationController
+  before_action :set_post, only: %i[ show edit update destroy ]
+
+  # GET /posts or /posts.json
+  def index
+    @posts = Post.all
+    debugger
   end
+  # ...
 end
-``` 
-
-### シェル
-
-アプリケーションで`byebug`を呼び出すと、アプリケーションサーバーを実行しているターミナルウィンドウ内のデバッガーシェルで即座にデバッガーが起動し、`(byebug)`というプロンプトが表示されます。
-実行しようとしている行の前後のコードがプロンプトの前に表示され、'=>'で現在の行が示されます。以下に例を示します。
-
-``` 
-[1, 10] in /PathTo/project/app/controllers/articles_controller.rb
-    3:
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     byebug
-=>  8:     @articles = Article.find_recent
-    9:
-   10:     respond_to do |format|
-   11:       format.html # index.html.erb
-   12:       format.json { render json: @articles }
-
-(byebug)
 ```
 
-ブラウザからのリクエストによってデバッグ行に到達した場合、リクエストしたブラウザのタブ上の処理は、デバッガが終了してリクエストの処理が完全に終了するまで中断します。
+`debugger`ステートメントがアプリで評価されると、デバッグセッションが開始されます。
 
-以下に例を示します。
-
-```bash
-=> Booting Puma
-=> Rails 5.1.0 application starting in development on http://0.0.0.0:3000
-=> Run `rails server -h` for more startup options
-Puma starting in single mode...
-* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
-* Min threads: 5, max threads: 5
-* Environment: development
-* Listening on tcp://localhost:3000
-Use Ctrl-C to stop
-Started GET "/" for 127.0.0.1 at 2014-04-11 13:11:48 +0200
-  ActiveRecord::SchemaMigration Load (0.2ms)  SELECT "schema_migrations".* FROM "schema_migrations"
-Processing by ArticlesController#index as HTML
-
-[3, 12] in /PathTo/project/app/controllers/articles_controller.rb
-    3:
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     byebug
-=>  8:     @articles = Article.find_recent
-    9:
-   10:     respond_to do |format|
-   11:       format.html # index.html.erb
-   12:       format.json { render json: @articles }
-
-(byebug)
-```
-
-それではアプリケーションをもっと詳しく見てみましょう。まずはデバッガーのヘルプを表示してみるのがよいでしょう。`help`と入力します。
-
-``` 
-(byebug) help
-  break      -- Sets breakpoints in the source code
-  catch      -- Handles exception catchpoints
-  condition  -- Sets conditions on breakpoints
-  continue   -- Runs until program ends, hits a breakpoint or reaches a line
-  debug      -- Spawns a subdebugger
-  delete     -- Deletes breakpoints
-  disable    -- Disables breakpoints or displays
-  display    -- Evaluates expressions every time the debugger stops
-  down       -- Moves to a lower frame in the stack trace
-  edit       -- Edits source files
-  enable     -- Enables breakpoints or displays
-  finish     -- Runs the program until frame returns
-  frame      -- Moves to a frame in the call stack
-  help       -- Helps you using byebug
-  history    -- Shows byebug's history of commands
-  info       -- Shows several informations about the program being debugged
-  interrupt  -- Interrupts the program
-  irb        -- Starts an IRB session
-  kill       -- Sends a signal to the current process
-  list       -- Lists lines of source code
-  method     -- Shows methods of an object, class or module
-  next       -- Runs one or more lines of code
-  pry        -- Starts a Pry session
-  quit       -- Exits byebug
-  restart    -- Restarts the debugged program
-  save       -- Saves current byebug session to a file
-  set        -- Modifies byebug settings
-  show       -- Shows byebug settings
-  source     -- Restores a previously saved byebug session
-  step       -- Steps into blocks or methods one or more times
-  thread     -- Commands to manipulate threads
-  tracevar   -- Enables tracing of a global variable
-  undisplay  -- Stops displaying all or some expressions when program stops
-  untracevar -- Stops tracing a global variable
-  up         -- Moves to a higher frame in the stack trace
-  var        -- Shows variables and its values
-  where      -- Displays the backtrace
-
-(byebug)
-```
-
-前の10行を表示するには、`list-` (または `l-`) と入力します。
-
-```
-(byebug) l-
-
-[1, 10] in /PathTo/project/app/controllers/articles_controller.rb
-   1  class ArticlesController < ApplicationController
-   2    before_action :set_article, only: [:show, :edit, :update, :destroy]
-   3
-   4    # GET /articles
-   5    # GET /articles.json
-   6    def index
-   7      byebug
-   8      @articles = Article.find_recent
-   9
-   10     respond_to do |format|
-```
-
-上に示したように、該当のファイルに移動して、`byebug`呼び出しを追加した行の前を表示できます。最後に、`list=`と入力して現在の位置を再び表示してみましょう。
-
-```
-(byebug) list=
-
-[3, 12] in /PathTo/project/app/controllers/articles_controller.rb
-    3:
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     byebug
-=>  8:     @articles = Article.find_recent
-    9:
-   10:     respond_to do |format|
-   11:       format.html # index.html.erb
-   12:       format.json { render json: @articles }
-(byebug)
+```ruby
+Processing by PostsController#index as HTML
+[2, 11] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
+     2|   before_action :set_post, only: %i[ show edit update destroy ]
+     3|
+     4|   # GET /posts or /posts.json
+     5|   def index
+     6|     @posts = Post.all
+=>   7|     debugger
+     8|   end
+     9|
+    10|   # GET /posts/1 or /posts/1.json
+    11|   def show
+=>#0    PostsController#index at ~/projects/rails-guide-example/app/controllers/posts_controller.rb:7
+  #1    ActionController::BasicImplicitRender#send_action(method="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/action_controller/metal/basic_implicit_render.rb:6
+  # and 72 frames (use `bt' command for all frames)
+(rdbg)
 ```
 
 ### コンテキスト
 
-アプリケーションのデバッグ中は、通常と異なる「コンテキスト」に置かれます。具体的には、スタックの別の部分を通って進むコンテキストです。
+デバッグセッションに入ると、RailsコンソールやIRBと同様にRubyコードを入力できます。
 
-デバッガーは、停止位置やイベントに到達するときに「コンテキスト」を作成します。作成されたコンテキストには、中断しているプログラムに関する情報が含まれており、デバッガーはこの情報を用いて、フレームスタックの検査やデバッグ中のプログラムにおける変数の評価を行い、デバッグ中のプログラムが停止している位置の情報を認識します。
-
-`backtrace`コマンド (またはそのエイリアスである`where`コマンド) を使えば、いつでもアプリケーションのバックトレースを出力できます。これは、コードのその位置に至るまでの経過を知るうえで非常に便利です。コードのある行にたどりついたとき、その経緯を知りたければ`backtrace`でわかります。
-
-```
-(byebug) where
---> #0  ArticlesController.index
-      at /PathToProject/app/controllers/articles_controller.rb:8
-    #1  ActionController::BasicImplicitRender.send_action(method#String, *args#Array)
-      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/basic_implicit_render.rb:4
-    #2  AbstractController::Base.process_action(action#NilClass, *args#Array)
-      at /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb:181
-    #3  ActionController::Rendering.process_action(action, *args)
-      at /PathToGems/actionpack-5.1.0/lib/action_controller/metal/rendering.rb:30
-...
+```ruby
+(rdbg) @posts    # ruby
+[]
+(rdbg) self
+#<PostsController:0x0000000000aeb0>
+(rdbg)
 ```
 
-現在のフレームは`-->`で示されます。`frame n`コマンド (**n**はフレーム番号) を使えば、トレース内のどのコンテキストにも自由に移動できます。このコマンドを実行すると、`byebug`は新しいコンテキストを表示します。
+`p`コマンドや`pp`コマンドでRubyの式を評価できます（変数名がデバッガのコマンドと衝突しているときなど）。
 
-```
-(byebug) frame 2
-
-[176, 185] in /PathToGems/actionpack-5.1.0/lib/abstract_controller/base.rb
-   176:       # is the intended way to override action dispatching.
-   177:       #
-   178:       # Notice that the first argument is the method to be dispatched
-   179:       # which is *not* necessarily the same as the action name.
-   180:       def process_action(method_name, *args)
-=> 181:         send_action(method_name, *args)
-   182:       end
-   183:
-   184:       # Actually call the method associated with the action. Override
-   185:       # this method if you wish to change how action methods are called,
-(byebug)
+```ruby
+(rdbg) p headers    # コマンド
+=> {"X-Frame-Options"=>"SAMEORIGIN", "X-XSS-Protection"=>"1; mode=block", "X-Content-Type-Options"=>"nosniff", "X-Download-Options"=>"noopen", "X-Permitted-Cross-Domain-Policies"=>"none", "Referrer-Policy"=>"strict-origin-when-cross-origin"}
+(rdbg) pp headers    # コマンド
+{"X-Frame-Options"=>"SAMEORIGIN",
+ "X-XSS-Protection"=>"1; mode=block",
+ "X-Content-Type-Options"=>"nosniff",
+ "X-Download-Options"=>"noopen",
+ "X-Permitted-Cross-Domain-Policies"=>"none",
+ "Referrer-Policy"=>"strict-origin-when-cross-origin"}
+(rdbg)
 ```
 
-コードを1行ずつ実行していた場合、利用できる変数は同一です。つまり、これこそがデバッグという作業です。
+デバッガでは、直接の評価に加えて、さまざまなコマンドで豊富な情報を取り出せます。ここではそのいくつかについてのみご紹介します。
 
-`up [n]` (短縮形の`u`も可) コマンドや`down [n]`コマンドを使って、スタックを **n**フレーム上または下に移動し、コンテキストを切り替えることもできます。upはスタックフレーム番号の大きい方に進み、downは小さい方に進みます。
+- `info`（`i`）: 現在のフレームに関する情報を表示する
+- `backtrace`（`bt`）: バックトレースと付加情報を表示する
+- `outline` (or `o`, `ls`): 現在のスコープで利用可能なメソッド、定数、ローカル変数、インスタンス変数を表示する
 
-### スレッド
+#### infoコマンド
 
-デバッガーで`thread`(短縮形は`th`) コマンドを使うと、スレッド実行中にスレッドのリスト表示/停止/再開/切り替えを行えます。このコマンドには以下のささやかなオプションがあります。
+現在のフレームで参照可能なローカル変数やインスタンス変数の値に関する概要を表示します。
 
-* `thread`は現在のスレッドを表示します。
-* `thread list`はすべてのスレッドのリストをステータス付きで表示します。現在実行中のスレッドは「+」記号と数字で示されます。
-* `thread stop n`はスレッド**n_を停止します。
-* `thread resume n`はスレッド**n**を再開します。
-* `thread switch n`は現在のスレッドコンテキストを**n**に切り替えます。
-
-このコマンドは、同時実行（コンカレント）スレッドのデバッグ中に、コードで競合状態が発生していないかどうかの確認が必要な場合にも非常に便利です。
-
-### 変数の検査
-
-すべての式は、現在のコンテキストで評価されます。式を評価するには、単にその式を入力します。
-
-次の例では、現在のコンテキスト内で定義されたインスタンス変数を出力する方法を示しています。
-
-```
-[3, 12] in /PathTo/project/app/controllers/articles_controller.rb
-    3:
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     byebug
-=>  8:     @articles = Article.find_recent
-    9:
-   10:     respond_to do |format|
-   11:       format.html # index.html.erb
-   12:       format.json { render json: @articles }
-
-(byebug) instance_variables
-[:@_action_has_layout, :@_routes, :@_request, :@_response, :@_lookup_context,
- :@_action_name, :@_response_body, :@marked_for_same_origin_verification,
- :@_config]
+```ruby
+(rdbg) info    # command
+%self = #<PostsController:0x0000000000af78>
+@_action_has_layout = true
+@_action_name = "index"
+@_config = {}
+@_lookup_context = #<ActionView::LookupContext:0x00007fd91a037e38 @details_key=nil, @digest_cache=...
+@_request = #<ActionDispatch::Request GET "http://localhost:3000/posts" for 127.0.0.1>
+@_response = #<ActionDispatch::Response:0x00007fd91a03ea08 @mon_data=#<Monitor:0x00007fd91a03e8c8>...
+@_response_body = nil
+@_routes = nil
+@marked_for_same_origin_verification = true
+@posts = []
+@rendered_format = nil
 ```
 
-見ての通り、コントローラからアクセスできるすべての変数が表示されています。表示される変数リストは、コードの実行に伴って動的に更新されます。
-たとえば、`next`コマンドで次の行に進んだとします (このコマンドの詳細については後述します)。
+#### backtraceコマンド
 
-```
-(byebug) next
+オプションなしで実行すると、以下のようにスタックのフレームをすべて表示します。
 
-[5, 14] in /PathTo/project/app/controllers/articles_controller.rb
-   5     # GET /articles.json
-   6     def index
-   7       byebug
-   8       @articles = Article.find_recent
-   9
-=> 10      respond_to do |format|
-   11        format.html # index.html.erb
-   12        format.json { render json: @articles }
-   13      end
-   14    end
-   15
-(byebug)
+```ruby
+=>#0    PostsController#index at ~/projects/rails-guide-example/app/controllers/posts_controller.rb:7
+  #1    ActionController::BasicImplicitRender#send_action(method="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/action_controller/metal/basic_implicit_render.rb:6
+  #2    AbstractController::Base#process_action(method_name="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/abstract_controller/base.rb:214
+  #3    ActionController::Rendering#process_action(#arg_rest=nil) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/action_controller/metal/rendering.rb:53
+  #4    block in process_action at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/abstract_controller/callbacks.rb:221
+  #5    block in run_callbacks at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-7.0.0.alpha2/lib/active_support/callbacks.rb:118
+  #6    ActionText::Rendering::ClassMethods#with_renderer(renderer=#<PostsController:0x0000000000af78>) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-7.0.0.alpha2/lib/action_text/rendering.rb:20
+  #7    block {|controller=#<PostsController:0x0000000000af78>, action=#<Proc:0x00007fd91985f1c0 /Users/st0012/...|} in <class:Engine> (4 levels) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-7.0.0.alpha2/lib/action_text/engine.rb:69
+  #8    [C] BasicObject#instance_exec at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-7.0.0.alpha2/lib/active_support/callbacks.rb:127
+  ..... and more
 ```
 
-それではinstance_variablesをもう一度調べてみましょう。
+すべてのフレームには以下の情報が付加されます。
 
-```
-(byebug) instance_variables
-[:@_action_has_layout, :@_routes, :@_request, :@_response, :@_lookup_context,
- :@_action_name, :@_response_body, :@marked_for_same_origin_verification,
- :@_config, :@articles]
-```
+- フレームID
+- 呼び出しの場所
+- 付加情報（ブロックかメソッド引数か、など）
 
-定義行が実行されたことによって、今度は`@articles`もインスタンス変数に表示されます。
+これらの情報で、アプリ内で起こっていることが手に取るようにわかります。しかし、やがて以下のことに気づくでしょう。
 
-TIP: `irb`コマンドを使うことで、**irb**モードで実行できます。
-これにより、呼び出し中のコンテキスト内でirbセッションが開始されます。
+- フレーム数が多すぎる（Railsアプリでは50を超えることが多い）
+- フレームのほとんどはRails由来または別のライブラリ由来
 
-変数と値のリストを表示するのに便利なのは何と言っても`var`メソッドでしょう。
-`byebug`でこのメソッドを使ってみましょう。
+ご心配なく。`backtrace`コマンドはフレームを絞り込む2つのフィルタオプションを提供しています。
 
-```
-(byebug) help var
+- `backtrace [num]`: `num`でフレーム番号を指定する（`backtrace 10`など）
+- `backtrace /pattern/`: 識別子やファイルパスがパターンにマッチするフレームだけを表示する（`backtrace /MyModel/`など）
 
-  [v]ar <subcommand>
- 
-  Shows variables and its values
+`backtrace [num] /pattern/`のように、2つのオプションを同時に指定することも可能です。
 
+#### outlineコマンド
 
-  var all      -- Shows local, global and instance variables of self.
-  var args     -- Information about arguments of the current scope
-  var const    -- Shows constants of an object.
-  var global   -- Shows global variables.
-  var instance -- Shows instance variables of self or a specific object.
-  var local    -- Shows local variables in current scope.
-```
+このコマンドは、`pry`や`irb`の`ls`コマンドに似ています。以下のような、現在のスコープでアクセス可能なものを表示します。
 
-このメソッドは、現在のコンテキストでの変数の値を検査するのにうってつけの方法です。たとえば、現時点でローカル変数が何も定義されていないことを確認してみましょう。
+- ローカル変数
+- インスタンス変数
+- クラス変数
+- メソッド名とそのソースコード
+- （その他）
 
-```
-(byebug) var local
-(byebug)
-```
+```ruby
+ActiveSupport::Configurable#methods: config
+AbstractController::Base#methods:
+  action_methods  action_name  action_name=  available_action?  controller_path  inspect
+  response_body
+ActionController::Metal#methods:
+  content_type       content_type=  controller_name  dispatch          headers
+  location           location=      media_type       middleware_stack  middleware_stack=
+  middleware_stack?  performed?     request          request=          reset_session
+  response           response=      response_body=   response_code     session
+  set_request!       set_response!  status           status=           to_a
+ActionView::ViewPaths#methods:
+  _prefixes  any_templates?  append_view_path   details_for_lookup  formats     formats=  locale
+  locale=    lookup_context  prepend_view_path  template_exists?    view_paths
+AbstractController::Rendering#methods: view_assigns
 
-以下の方法でオブジェクトのメソッドを検査することもできます。
+# .....
 
-```
-(byebug) var instance Article.new
-@_start_transaction_state = {}
-@aggregation_cache = {}
-@association_cache = {}
-@attributes = #<ActiveRecord::AttributeSet:0x007fd0682a9b18 @attributes={"id"=>#<ActiveRecord::Attribute::FromDatabase:0x007fd0682a9a00 @name="id", @value_be...
-@destroyed = false
-@destroyed_by_association = nil
-@marked_for_destruction = false
-@new_record = true
-@readonly = false
-@transaction_state = nil
+PostsController#methods: create  destroy  edit  index  new  show  update
+instance variables:
+  @_action_has_layout  @_action_name    @_config  @_lookup_context                      @_request
+  @_response           @_response_body  @_routes  @marked_for_same_origin_verification  @posts
+  @rendered_format
+class variables: @@raise_on_missing_translations  @@raise_on_open_redirects
 ```
 
-`display`コマンドを使って変数をウォッチすることもできます。これは、デバッガーで実行を進めながら変数の値の移り変わりを追跡するのに大変便利です。
+その他のコマンドや設定オプションについて詳しくは`debug` gemの[ドキュメント](https://github.com/ruby/debug)を参照してください。
 
-```
-(byebug) display @articles
-1: @articles = nil
-```
+#### オートローディングの注意点
 
-スタック内で移動するたびに、そのときの変数と値のリストが出力されます。変数の表示を止めるには、`undisplay n`(_n_ は変数番号) を実行します。上の例では変数番号は 1 になっています。
+`debug` gemによるデバッグはほとんどの場面で有効ですが、ひとつエッジケースがあります。ファイルで定義されている名前空間をオートロードする式をコンソール上で評価すると、その名前空間にある定数を見つけられません。
 
-### ステップ実行
+たとえば、アプリケーションに以下の2つのファイルがあるとします。
 
-これで、トレース実行中に現在の実行位置を確認し、利用可能な変数をいつでも確認できるようになりました。アプリケーションの実行について引き続き学んでみましょう。
+```ruby
+# hotel.rb
+class Hotel
+end
 
-`step`コマンド (短縮形は`s`) を使うと、プログラムの実行を継続し、次の論理的な停止行まで進んだらデバッガーに制御を返します。`next`は`step`と似ていますが、`step`がコードを1ステップだけ実行して次の行で停止するのに対し、`next`は次の行に進む際にメソッド内の呼び出し先に移動しない点が異なります。
-
-たとえば、次のような状況を考えてみましょう
-
-```
-Started GET "/" for 127.0.0.1 at 2014-04-11 13:39:23 +0200
-Processing by ArticlesController#index as HTML
-
-[1, 6] in /PathToProject/app/models/article.rb
-   1: class Article < ApplicationRecord
-   2:   def self.find_recent(limit = 10)
-   3:     byebug
-=> 4:     where('created_at > ?', 1.week.ago).limit(limit)
-   5:   end
-   6: end
-
-(byebug)
+# hotel/pricing.rb
+module Hotel::Pricing
+end
 ```
 
-`next`を使うと、メソッドの呼び出し先は表示されません。byebugはその代わりに、単に同じコンテキストの次の行に進みます。この例の場合、次の行とは現在のメソッドの最終行になります。つまり、`byebug`は呼び出し元メソッドの次の行に戻ります。
+この`Hotel`がまだ読み込まれていないとします。
 
 ```
-(byebug) next
-[4, 13] in /PathToProject/app/controllers/articles_controller.rb
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     @articles = Article.find_recent
-    8:
-=>  9:     respond_to do |format|
-   10:       format.html # index.html.erb
-   11:       format.json { render json: @articles }
-   12:     end
-   13:   end
-
-(byebug)
+(rdbg) p Hotel::Pricing
 ```
 
-同じ状況で`step`を使うと、`byebug`は文字通り「Rubyコードの、次に実行すべき行」に進みます。ここではActive Supportの`week`メソッドにジャンプして進むことになります。
+このとき上を実行すると`NameError`が発生します。場合によっては、Rubyが別のスコープにある予想外の定数に解決してしまうこともあります。
 
-```
-(byebug) step
+このような場合は、`config.eager_load = true`でeager loadingを有効にしてからデバッグセッションを再起動してください。
 
-[49, 58] in /PathToGems/activesupport-5.1.0/lib/active_support/core_ext/numeric/time.rb
-   49:
-   50:   # Returns a Duration instance matching the number of weeks provided.
-   51:   #
-   52:   #   2.weeks # => 14 days
-   53:   def weeks
-=> 54:     ActiveSupport::Duration.weeks(self)
-   55:   end
-   56:   alias :week :weeks
-   57:
-   58:   # Returns a Duration instance matching the number of fortnights provided.
-(byebug)
-```
+この問題は、`next`や`continue`などのステップ実行コマンドでは発生しません。サブディレクトリ内のみで暗黙で定義されている名前空間も、この問題の対象外です。
 
-これは自分のコードのバグを見つけ出す方法として非常に優れています。
-
-TIP: `n`ステップ進めたい場合は、`step n`や`next n`でステップ数を指定できます。
-
-### ブレークポイント
-
-ブレークポイントとは、アプリケーションの実行がプログラムの特定の場所に達した時に停止する位置を指します。そしてその場所でデバッガーシェルが起動します。
-
-`break` (または`b`) コマンドを使ってブレークポイントを動的に追加できます。
-手動でブレークポイントを追加する方法は次の3とおりです。
-
-* `break n`: 現在のソースファイルの**n**行目に示された行にブレークポイントを設定します。
-* `break ファイル名:n [if 式]`: **ファイル名**の**n**行目にブレークポイントを設定します。**式**を指定すると、この式が**true**と評価された場合にのみデバッガが起動します。
-* `break class(.|\#)method [if 式]`: **class**に定義されている**method**にブレークポイントを設定します (「.」と「\#」はそれぞれクラスとインスタンスメソッドを指す)。**式**の動作は`ファイル名:n`の場合と同じです。
-
-
-さっきと同じ状況を例に説明します。
-
-```
-[4, 13] in /PathToProject/app/controllers/articles_controller.rb
-    4:   # GET /articles
-    5:   # GET /articles.json
-    6:   def index
-    7:     @articles = Article.find_recent
-    8:
-=>  9:     respond_to do |format|
-   10:       format.html # index.html.erb
-   11:       format.json { render json: @articles }
-   12:     end
-   13:   end
-
-(byebug) break 11
-Successfully created breakpoint with id 1
-
-```
-
-ブレークポイントをリスト表示するには、`info breakpoints`を使います。番号を指定すると、その番号のブレークポイントをリスト表示します。番号を指定しない場合は、すべてのブレークポイントをリスト表示します。
-
-```
-(byebug) info breakpoints
-Num Enb What
-1   y   at /PathToProject/app/controllers/articles_controller.rb:11
-```
-
-`delete n`コマンドを使うと**n**番のブレークポイントを削除できます。番号を指定しない場合、現在有効なブレークポイントをすべて削除します。
-
-```
-(byebug) delete 1
-(byebug) info breakpoints
-No breakpoints.
-```
-
-ブレークポイントを有効にしたり、無効にしたりすることもできます。
-
-* `enable ブレークポイント [n [m [...]]]`: 指定したブレークポイントのリスト (無指定の場合はすべてのブレークポイント) でのプログラムの停止を有効にします。ブレークポイントを作成するとデフォルトでこの状態になります。
-* `disable breakpoints [n [m [...]]]`: 指定した（指定しない場合はすべての）ブレークポイントのリストで停止しなくなります。
-
-### 例外のキャッチ
-
-`catch exception-name` (省略形は `cat exception-name`) を使うと、例外を受けるハンドラが他にないと考えられる場合に、**exception-name**で例外の種類を指定してインターセプトできます。
-
-例外のキャッチポイントをすべてリスト表示するには単に`catch`と入力します。
-
-### 実行再開
-
-デバッガーで停止したアプリケーションの再開方法は2種類あります。
-
-* `continue [n]`: スクリプトが直前に停止していたアドレスからプログラムの実行を再開します。このとき、そのアドレスに設定されていたブレークポイントはすべて無視されます。オプションとして、特定の行番号`n`をワンタイムブレークポイントとして指定できます。このブレークポイントは、ワンタイムブレークポイントに達すると削除されます。
-* `finish [n]`: 指定のスタックフレームが返るまで実行を続けます。フレーム番号が指定されていない場合は、現在選択しているフレームが返るまで実行を続けます。現在選択しているフレームは直近のフレームから開始され、フレーム位置の指定操作(upやdownやフレーム番号指定など)が行われていない場合は0から開始されます。フレーム番号を指定すると、そのフレームが返るまで実行を続けます。
-
-### 編集
-
-デバッガー上のコードをエディタで開くためのコマンドは2種類あります。
-
-* `edit [file:n]`: ファイル名**file**をエディタで開きます。エディタはEDITOR環境変数で指定します。n行で行数を指定することもできます。
-
-### 終了
-
-デバッガーを終了するには、`quit`コマンド (短縮形は `q`) を使います。`q!`と入力すると、「Really quit? (y/n)」というプロンプトをスキップして無条件に終了します。
-
-単にquitを実行すると、事実上すべてのスレッドを終了しようとします。これによりサーバーが停止するので、サーバーを再起動する必要があります。
-
-### 設定
-
-`byebug`の振る舞いを変更するためのオプションがいくつかあります。
-
-```
-(byebug) help set
-
-  set <setting> <value>
-
-  Modifies byebug settings
-
-  Boolean values take "on", "off", "true", "false", "1" or "0". If you
-  don't specify a value, the boolean setting will be enabled. Conversely,
-  you can use "set no<setting>" to disable them.
-
-  You can see these environment settings with the "show" command.
-  List of supported settings:
-
-  autosave       -- Automatically save command history record on exit
-  autolist       -- Invoke list command on every stop
-  width          -- Number of characters per line in byebug's output
-  autoirb        -- Invoke IRB on every stop
-  basename       -- <file>:<line> information after every stop uses short paths
-  linetrace      -- Enable line execution tracing
-  autopry        -- Invoke Pry on every stop
-  stack_on_error -- Display stack trace when `eval` raises an exception
-  fullpath       -- Display full file names in backtraces
-  histfile       -- File where cmd history is saved to. Default: ./.byebug_history
-  listsize       -- Set number of source lines to list by default
-  post_mortem    -- Enable/disable post-mortem mode
-  callstyle      -- Set how you want method call parameters to be displayed
-  histsize       -- Maximum number of commands that can be stored in byebug history
-  savefile       -- File where settings are saved to. Default: ~/.byebug_save
-```
-
-TIP: これらの設定は、ホームディレクトリの`.byebugrc`ファイルに保存しておくことができます。
-デバッガーが起動すると、この設定がグローバルに適用されます。以下に例を示します。
-
-```bash
-set callstyle short
-set listsize 25
-```
+詳しくは[ruby/debug#408](https://github.com/ruby/debug/issues/408)を参照してください。
 
 `web-console` gemによるデバッグ
 ------------------------------------
 
-Web Consoleは`byebug`と似ていますが、ブラウザ上で動作する点が異なります。開発中のどのページでも、ビューやコントローラのコンテキストでコンソールをリクエストできます。コンソールは、HTMLコンテンツの隣に表示されます。
+Web Consoleは`debug`と似ていますが、ブラウザ上で動作する点が異なります。開発中の任意のページで、ビューやコントローラのコンテキストでコンソールをリクエストできます。コンソールは、HTMLコンテンツの隣に表示されます。
 
-### Console
+### console
 
 `console`メソッドを呼び出すことで、任意のコントローラのアクションやビューでいつでもコンソールを呼び出せます。
 
@@ -778,9 +504,9 @@ end
 
 上のコードは、ビューの内部でコンソールを出力します。`console`を呼び出す位置を気にする必要はありません。コンソールは、呼び出し位置にかかわらず、HTMLコンテンツの隣りに出力されます。
 
-コンソールでは純粋なRubyコードを実行できます。ここでカスタムクラスの定義やインスタンス化を行ったり、新しいモデルを作成したり、変数を検査したりすることができます。
+コンソールでは純粋なRubyコードを実行できます。ここでカスタムクラスの定義やインスタンス化を行うことも、新しいモデルを作成することも、変数を検査したりすることもできます。
 
-NOTE: 一回のリクエストで出力できるコンソールは1つだけです。`console`呼び出しを2回以上行うと`web-console`でエラーが発生します。
+NOTE: 1回のリクエストで出力できるコンソールは1つだけです。`console`を2回以上呼び出すと、`web-console`でエラーが発生します。
 
 ### 変数の検査
 
@@ -788,25 +514,25 @@ NOTE: 一回のリクエストで出力できるコンソールは1つだけで�
 
 ### 設定
 
-* `config.web_console.whitelisted_ips`: 認証済みの IPv4/IPv6アドレスとネットワークのリストです (デフォルト値: `127.0.0.1/8、::1`).
-* `config.web_console.whiny_requests`: コンソール出力が抑制されている場合にメッセージをログ出力します (デフォルト値: `true`).
+* `config.web_console.whitelisted_ips`: 認証済みの IPv4/IPv6アドレスとネットワークのリストです（デフォルト値: `127.0.0.1/8、::1`）。
+* `config.web_console.whiny_requests`: コンソール出力が抑制されている場合にメッセージをログ出力します（デフォルト値: `true`）。
 
 `web-console`はサーバー上の純粋なRubyコードをリモート評価できるので、production環境では絶対に使わないください。
 
 メモリーリークのデバッグ
 ----------------------
 
-Railsに限らず、Rubyアプリケーションではメモリーリークが発生することがあります。リークはRubyコードレベルのこともあれば、Cコードレベルであることもあります。
+Railsに限らず、Rubyアプリケーションではメモリーリークが発生することがあります。リークはRubyコードレベルのこともあれば、Cコードレベルのこともあります。
 
 このセクションでは、Valgrindなどのツールを使ってこうしたメモリーリークの検出と修正を行う方法をご紹介します。
 
 ### Valgrind
 
-[Valgrind](http://valgrind.org/)はアプリケーションであり、Cコードベースのメモリーリークや競合状態の検出を行います。
+[Valgrind](http://valgrind.org/)は、メモリーリークや競合状態の検出を行うCコードベースのアプリケーションです。
 
 Valgrindには、さまざまなメモリー管理上のバグやスレッドバグなどを自動検出し、プログラムの詳細なプロファイリングを行うための各種ツールがあります。たとえば、インタプリタ内にあるC拡張機能が`malloc()`を呼び出した後`free()`を正しく呼び出さなかった場合、このメモリーはアプリケーションが終了するまで利用できなくなります。
 
-Valgrindのインストール方法とRuby内での利用方法については、[ValgrindとRuby](http://blog.evanweaver.com/articles/2008/02/05/valgrind-and-ruby/)(Evan Weaver著、英語) を参照してください。
+Valgrindのインストール方法とRuby内での利用方法について詳しくは、[ValgrindとRuby](http://blog.evanweaver.com/articles/2008/02/05/valgrind-and-ruby/)（Evan Weaver著、英語）を参照してください。
 
 デバッグ用プラグイン
 ---------------------
@@ -825,5 +551,5 @@ db時間、レンダリング時間、トータル時間、パラメータリス
 参考資料
 ----------
 
-* [byebugホームページ](https://github.com/deivid-rodriguez/byebug)(英語)
-* [web-consoleホームページ](https://github.com/rails/web-console)(英語)
+* [web-consoleホームページ](https://github.com/rails/web-console)（英語）
+* [debugホームページ](https://github.com/ruby/debug)（英語）
