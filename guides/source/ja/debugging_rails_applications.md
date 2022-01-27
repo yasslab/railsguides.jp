@@ -465,7 +465,7 @@ class variables: @@raise_on_missing_translations  @@raise_on_open_redirects
 
 **指定の行番号にブレークポイントを設定する（例: `b 28`）**
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -484,7 +484,7 @@ class variables: @@raise_on_missing_translations  @@raise_on_open_redirects
 #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controllers/posts_controller.rb:28 (line)
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [23, 32] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     23|   def create
@@ -506,7 +506,7 @@ Stop by #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controller
 
 **指定のメソッド呼び出しにブレークポイントを設定する（例: `b @post.save`）**
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -526,7 +526,7 @@ Stop by #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controller
 
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [39, 48] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/suppressor.rb
     39|         SuppressorRegistry.suppressed[name] = previous_state
@@ -550,7 +550,7 @@ Stop by #0  BP - Method  @post.save at /Users/st0012/.rbenv/versions/3.0.1/lib/r
 
 **例外発生時に停止する（例: `catch ActiveRecord::RecordInvalid`）**
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -569,7 +569,7 @@ Stop by #0  BP - Method  @post.save at /Users/st0012/.rbenv/versions/3.0.1/lib/r
 #1  BP - Catch  "ActiveRecord::RecordInvalid"
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [75, 84] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/validations.rb
     75|     def default_validation_context
@@ -593,7 +593,7 @@ Stop by #1  BP - Catch  "ActiveRecord::RecordInvalid"
 
 **インスタンス変数の変更時に停止する（例: `watch @_response_body`）**
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -612,7 +612,7 @@ Stop by #1  BP - Catch  "ActiveRecord::RecordInvalid"
 #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body =
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [173, 182] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/action_controller/metal.rb
    173|       body = [body] unless body.nil? || body.respond_to?(:each)
@@ -648,7 +648,7 @@ Stop by #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body = 
 
 最初の3つのオプション「`do:`」「`pre:`」「`if:`」については、以下のように前述の`debugger`ステートメントのオプションとしても利用できます。
 
-```rb
+```ruby
 [2, 11] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
      2|   before_action :set_post, only: %i[ show edit update destroy ]
      3|
@@ -682,7 +682,7 @@ Stop by #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body = 
 
 上述のオプションを利用すると、以下のようにデバッグのワークフローをスクリプト化できます。
 
-```rb
+```ruby
 def create
   debugger(do: "catch ActiveRecord::RecordInvalid do: bt 10")
   # ...
@@ -691,7 +691,7 @@ end
 
 これで、スクリプト化されたコマンドをデバッガーが実行して`catch`ブレークポイントを挿入します。
 
-```rb
+```ruby
 (rdbg:binding.break) catch ActiveRecord::RecordInvalid do: bt 10
 #0  BP - Catch  "ActiveRecord::RecordInvalid"
 [75, 84] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/validations.rb
@@ -712,7 +712,7 @@ end
 
 `catch`ブレークポイントがトリガーされると、スタックフレームが出力されます。
 
-```rb
+```ruby
 Stop by #0  BP - Catch  "ActiveRecord::RecordInvalid"
 
 (rdbg:catch) bt 10
