@@ -17,7 +17,7 @@ env_value = ->(name) { ENV[name].presence }
 env_flag  = ->(name) { "1" == env_value[name] }
 
 version = env_value["RAILS_VERSION"]
-edge    = `git ls-remote https://github.com/rails/rails HEAD`.split(' ').first unless version
+edge    = `git ls-remote git@github.com:rails/rails HEAD`.split(' ').first unless version
 
 RailsGuides::GeneratorJa.new(
   edge:     edge,
