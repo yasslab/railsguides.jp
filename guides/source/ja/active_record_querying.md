@@ -573,7 +573,7 @@ TIP: SQLインジェクションの詳細については[Ruby on Railsセキュ�
 
 ```ruby
 Book.where("created_at >= :start_date AND created_at <= :end_date",
-  {start_date: params[:start_date], end_date: params[:end_date]})
+  { start_date: params[:start_date], end_date: params[:end_date] })
 ```
 
 このように書くことで、条件で多数の変数を使うコードが読みやすくなります。
