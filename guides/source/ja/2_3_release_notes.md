@@ -1,72 +1,76 @@
-Rails 2.3 - 2009/03 [未訳]
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
+Ruby on Rails 2.3 リリースノート
 ===============================
 
-Rails 2.3 delivers a variety of new and improved features, including pervasive Rack integration, refreshed support for Rails Engines, nested transactions for Active Record, dynamic and default scopes, unified rendering, more efficient routing, application templates, and quiet backtraces. This list covers the major upgrades, but doesn't include every little bug fix and change. If you want to see everything, check out the [list of commits](http://github.com/rails/rails/commits/master) in the main Rails repository on GitHub or review the `CHANGELOG` files for the individual Rails components.
+Rails 2.3では、Rackの広範な統合、Railsエンジンのサポートの刷新、Active Recordのネストされたトランザクション、ダイナミックスコープとデフォルトスコープ、統一レンダリング、より効率のよいルーティング、アプリケーションテンプレート、静かなバックトレースといったさまざまな新機能や改善機能が提供されています。このリストは主要なアップグレードをカバーしていますが、すべての小さなバグフィックスや変更を含んでいるわけではありません。すべてを見たい場合は、GitHubのメインRailsリポジトリの[コミットリスト](https://github.com/rails/rails/commits/2-3-stable) をチェックするか、個別のRailsコンポーネントの `CHANGELOG` ファイルを確認してください。
 
 --------------------------------------------------------------------------------
 
-Application Architecture
+
+アプリケーションアーキテクチャ
 ------------------------
 
-There are two major changes in the architecture of Rails applications: complete integration of the [Rack](http://rack.rubyforge.org/) modular web server interface, and renewed support for Rails Engines.
+Railsアプリケーションのアーキテクチャには、モジュール式Webサーバインターフェースである[Rack](https://rack.github.io/)の完全統合と、Railsエンジンの新たなサポートという2つの大きな変更があります。
 
-### Rack Integration
+### Rackの統合
 
-Rails has now broken with its CGI past, and uses Rack everywhere. This required and resulted in a tremendous number of internal changes (but if you use CGI, don't worry; Rails now supports CGI through a proxy interface.) Still, this is a major change to Rails internals. After upgrading to 2.3, you should test on your local environment and your production environment. Some things to test:
+Railsは、これまでのCGIと決別し、あらゆる場所でRackを使うようになりました。このため、非常に多くの内部変更が必要となり、その結果、Railsはプロキシインタフェースを通じてCGIをサポートするようになりました（ただし、CGIを使っている人も心配ありません）。それでも、これはRails内部に対する大きな変更です。2.3にアップグレードしたら、ローカル環境と本番環境でテストする必要があります。以下などについてテストが必要です。
 
-* Sessions
-* Cookies
-* File uploads
-* JSON/XML APIs
+* セッション
+* Cookie
+* ファイルアップロード
+* JSON/XML API
 
-Here's a summary of the rack-related changes:
+以下はRack関連の変更点の概要です。
 
-* `script/server` has been switched to use Rack, which means it supports any Rack compatible server. `script/server` will also pick up a rackup configuration file if one exists. By default, it will look for a `config.ru` file, but you can override this with the `-c` switch.
-* The FCGI handler goes through Rack.
-* `ActionController::Dispatcher` maintains its own default middleware stack. Middlewares can be injected in, reordered, and removed. The stack is compiled into a chain on boot. You can configure the middleware stack in `environment.rb`.
-* The `rake middleware` task has been added to inspect the middleware stack. This is useful for debugging the order of the middleware stack.
-* The integration test runner has been modified to execute the entire middleware and application stack. This makes integration tests perfect for testing Rack middleware.
-* `ActionController::CGIHandler` is a backwards compatible CGI wrapper around Rack. The `CGIHandler` is meant to take an old CGI object and convert its environment information into a Rack compatible form.
-* `CgiRequest` and `CgiResponse` have been removed.
-* Session stores are now lazy loaded. If you never access the session object during a request, it will never attempt to load the session data (parse the cookie, load the data from memcache, or lookup an Active Record object).
-* You no longer need to use `CGI::Cookie.new` in your tests for setting a cookie value. Assigning a `String` value to request.cookies["foo"] now sets the cookie as expected.
-* `CGI::Session::CookieStore` has been replaced by `ActionController::Session::CookieStore`.
-* `CGI::Session::MemCacheStore` has been replaced by `ActionController::Session::MemCacheStore`.
-* `CGI::Session::ActiveRecordStore` has been replaced by `ActiveRecord::SessionStore`.
-* You can still change your session store with `ActionController::Base.session_store = :active_record_store`.
-* Default sessions options are still set with `ActionController::Base.session = { :key => "..." }`. However, the `:session_domain` option has been renamed to `:domain`.
-* The mutex that normally wraps your entire request has been moved into middleware, `ActionController::Lock`.
-* `ActionController::AbstractRequest` and `ActionController::Request` have been unified. The new `ActionController::Request` inherits from `Rack::Request`. This affects access to `response.headers['type']` in test requests. Use `response.content_type` instead.
-* `ActiveRecord::QueryCache` middleware is automatically inserted onto the middleware stack if `ActiveRecord` has been loaded. This middleware sets up and flushes the per-request Active Record query cache.
-* The Rails router and controller classes follow the Rack spec. You can call a controller directly with `SomeController.call(env)`. The router stores the routing parameters in `rack.routing_args`.
-* `ActionController::Request` inherits from `Rack::Request`.
-* Instead of `config.action_controller.session = { :session_key => 'foo', ...` use `config.action_controller.session = { :key => 'foo', ...`.
-* Using the `ParamsParser` middleware preprocesses any XML, JSON, or YAML requests so they can be read normally with any `Rack::Request` object after it.
+* `script/server` は rackup 設定ファイルが存在すれば、それを取得します。これは Rack と互換性のある全てのサーバをサポートすることを意味します。デフォルトでは `config.ru` ファイルを探索しますが、`-c` スイッチでこれを上書きできます。
+* FCGIハンドラはRackを経由します。
+* `ActionController::Dispatcher` は独自のデフォルトミドルウェアスタックを保持しています。ミドルウェアは注入・並べ替え・削除できます。ミドルウェアスタックは起動時にチェーンにコンパイルされます。ミドルウェアスタックは `environment.rb` で設定できます。
+* ミドルウェアスタックを調べられる`rake middleware`タスクが追加されました。これはミドルウェアスタックの読み込み順序をデバッグするのに便利です。
+* 結合テストのランナーが、ミドルウェアとアプリケーションのスタック全体を実行するように変更されました。これにより、結合テストは Rack ミドルウェアのテストに最適になりました。
+* `ActionController::CGIHandler` は Rack の後方互換性のある CGI ラッパーです。`CGIHandler` は古い CGI オブジェクトを受け取り、その環境情報を Rack と互換性のある形に変換します。
+* `CgiRequest` と `CgiResponse` は削除されました。
+* セッションストアがlazy loading（遅延読み込み）されるようになりました。リクエスト中に一度もセッションオブジェクトにアクセスしなかった場合、セッションデータを読み込むことはなくなりました（cookieの解析、memcacheからのデータ読み込み、Active Recordオブジェクトの探索）。
+* クッキーの値を設定するテストで `CGI::Cookie.new` が不要になりました。`request.cookies["foo"]`に`String`値を代入すれば期待どおりcookieが設定されます。
+* `CGI::Session::CookieStore` が `ActionController::Session::CookieStore` に置き換えられました。
+* `CGI::Session::MemCacheStore` が `ActionController::Session::MemCacheStore` に置き換えられました。
+* `CGI::Session::ActiveRecordStore` が `ActiveRecord::SessionStore` に置き換えられました。
+* セッションストアは引き続き `ActionController::Base.session_store = :active_record_store` で変更できます。
+* デフォルトのセッションオプションは引き続き `ActionController::Base.session = { :key => "..." }` で設定できます。ただし `:session_domain` オプション名は `:domain` に変更されました。
+* 従来リクエスト全体をラップしていたミューテックスは、 `ActionController::Lock` ミドルウェアに移動しました。
+* `ActionController::AbstractRequest` と `ActionController::Request` は統合されました。新しい `ActionController::Request` は `Rack::Request` を継承しています。これは、テストリクエストにおける `response.headers['type']` へのアクセスに影響します。代わりに `response.content_type` をお使いください。
+* `ActiveRecord::QueryCache` ミドルウェアは、 `ActiveRecord` がロードされると自動的にミドルウェアスタックに挿入されます。このミドルウェアは、リクエストごとの Active Record クエリキャッシュのセットアップやクリアを行います。
+* RailsのルータとコントローラのクラスはRackの仕様に準拠するようになりました。コントローラを直接呼び出すには、 `SomeController.call(env)` を使います。ルータはルーティングパラメータを `rack.routing_args` に保存します。
+* `ActionController::Request` は `Rack::Request` を継承するようになりました。
+* `config.action_controller.session = { :session_key => 'foo', ...` の代わりに、 `config.action_controller.session = { :key => 'foo', ...` をお使い下さい。
+* ミドルウェア `ParamsParser` を使うと、XML、JSON、または YAML リクエストを前処理して、任意の `Rack::Request` オブジェクトで正常に読み込めるようになりました。
 
-### Renewed Support for Rails Engines
+### Railsエンジンを新たにサポート
 
-After some versions without an upgrade, Rails 2.3 offers some new features for Rails Engines (Rails applications that can be embedded within other applications). First, routing files in engines are automatically loaded and reloaded now, just like your `routes.rb` file (this also applies to routing files in other plugins). Second, if your plugin has an app folder, then app/[models|controllers|helpers] will automatically be added to the Rails load path. Engines also support adding view paths now, and Action Mailer as well as Action View will use views from engines and other plugins.
+ここしばらくアップグレードがありませんでしたが、Rails 2.3ではRailsエンジン（他のアプリケーションに組み込めるRailsアプリケーション）にいくつかの新機能が追加されました。まず、エンジン内のルーティングファイルは `routes.rb` ファイルと同様に自動的にロード・リロードされるようになりました（これは他のプラグイン内のルーティングファイルについても同様です）。次に、プラグインにappフォルダがある場合、`app/[models|controllers|helpers]`は自動的にRailsの読み込みパスに追加されます。エンジンもビューパスの追加をサポートするようになり、Action MailerやAction Viewはエンジンや他のプラグインからのビューを利用するようになりました。
 
-Documentation
+ドキュメント
 -------------
 
-The [Ruby on Rails guides](http://guides.rubyonrails.org/) project has published several additional guides for Rails 2.3. In addition, a [separate site](http://edgeguides.rubyonrails.org/) maintains updated copies of the Guides for Edge Rails. Other documentation efforts include a relaunch of the [Rails wiki](http://newwiki.rubyonrails.org/) and early planning for a Rails Book.
+[Railsガイド](https://railsguides.jp/)プロジェクトはRails 2.3向けにガイドをいくつも追加しました。さらに、[edgeguides.rubyonrails.org](https://edgeguides.rubyonrails.org/)という別サイトでエッジRailsのガイド（英語のみ）を参照できるようになりました。また、ドキュメント関連では[Rails wiki](http://newwiki.rubyonrails.org/)やRails Bookの再立ち上げなども行われました（訳注: Rails wikiとRails Bookは現在は動いていません）。
 
-* More Information: [Rails Documentation Projects](http://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.)
 
-Ruby 1.9.1 Support
+* 詳しくは[Rails Documentation Projects](https://rubyonrails.org/2009/1/15/rails-documentation-projects)を参照して下さい。
+
+Ruby 1.9.1 のサポート
 ------------------
 
-Rails 2.3 should pass all of its own tests whether you are running on Ruby 1.8 or the now-released Ruby 1.9.1. You should be aware, though, that moving to 1.9.1 entails checking all of the data adapters, plugins, and other code that you depend on for Ruby 1.9.1 compatibility, as well as Rails core.
+Rails 2.3は、Ruby 1.8および現在リリースされているRuby 1.9.1のどちらでも、独自のテストにすべてパスするはずです。ただし1.9.1への移行には、Railsコアだけでなく、データアダプタ、プラグイン、その他依存するコードのすべてをRuby 1.9.1互換性でチェックする必要があることにご注意下さい。
 
 Active Record
 -------------
 
-Active Record gets quite a number of new features and bug fixes in Rails 2.3. The highlights include nested attributes, nested transactions, dynamic and default scopes, and batch processing.
+Rails 2.3のActive Recordでは、非常に多くの新機能追加とバグフィックスが施されています。特に、ネステッド属性、ネステッドトランザクション、動的スコープとデフォルトスコープ、およびバッチ処理がハイライトです。
 
-### Nested Attributes
+### ネステッド属性
 
-Active Record can now update the attributes on nested models directly, provided you tell it to do so:
+Active Recordは、モデルのネステッド属性を以下のように直接更新できるようになりました。
 
 ```ruby
 class Book < ActiveRecord::Base
@@ -77,21 +81,21 @@ class Book < ActiveRecord::Base
 end
 ```
 
-Turning on nested attributes enables a number of things: automatic (and atomic) saving of a record together with its associated children, child-aware validations, and support for nested forms (discussed later).
+ネステッド属性を有効にすると、レコードと関連する子レコードを自動的に（かつアトミックに）保存し、子を意識したバリデーションを行い、ネステッドフォームをサポートします（後述）。
 
-You can also specify requirements for any new records that are added via nested attributes using the `:reject_if` option:
+また、`:reject_if` オプションを使うことで、ネステッド属性によって追加される新しいレコードに対する要件を指定することもできます。
 
 ```ruby
 accepts_nested_attributes_for :author,
   :reject_if => proc { |attributes| attributes['name'].blank? }
 ```
 
-* Lead Contributor: [Eloy Duran](http://superalloy.nl/)
-* More Information: [Nested Model Forms](http://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
+* リードコントリビュータ: [Eloy Duran](http://superalloy.nl/)
+* 詳細: [Nested Model Forms](https://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
 
-### Nested Transactions
+### ネステッドトランザクション
 
-Active Record now supports nested transactions, a much-requested feature. Now you can write code like this:
+要望の多かったネステッドトランザクションがActive Recordでサポートされました。これで以下のようなコードを書けるようになりました。
 
 ```ruby
 User.transaction do
@@ -102,16 +106,16 @@ User.transaction do
   end
 end
 
-User.find(:all)  # => Returns only Admin
+User.find(:all)  # => Adminだけを返す
 ```
 
-Nested transactions let you roll back an inner transaction without affecting the state of the outer transaction. If you want a transaction to be nested, you must explicitly add the `:requires_new` option; otherwise, a nested transaction simply becomes part of the parent transaction (as it does currently on Rails 2.2). Under the covers, nested transactions are [using savepoints](http://rails.lighthouseapp.com/projects/8994/tickets/383,) so they're supported even on databases that don't have true nested transactions. There is also a bit of magic going on to make these transactions play well with transactional fixtures during testing.
+ネステッドトランザクションでは、外側のトランザクションの状態に影響を与えずに内側のトランザクションをロールバックできます。トランザクションをネストしたい場合は、明示的に `:requires_new` オプションを追加する必要があります。そうしないと、ネステッドトランザクションは単に親トランザクションの一部になります（現在のRails 2.2ではそうなっています）。ネステッドトランザクションは内部で [セーブポイントを使う] (http://rails.lighthouseapp.com/projects/8994/tickets/383,) ので、真のネステッドトランザクションを持たないデータベースでもサポートされます。また、テスト中にこれらのトランザクションをトランザクションフィクスチャでうまく動作させるために、ちょっとしたマジックも使っています。
 
-* Lead Contributors: [Jonathan Viney](http://www.workingwithrails.com/person/4985-jonathan-viney) and [Hongli Lai](http://izumi.plan99.net/blog/)
+* リードコントリビュータ: [Jonathan Viney](http://www.workingwithrails.com/person/4985-jonathan-viney)、[Hongli Lai](http://izumi.plan99.net/blog/)
 
-### Dynamic Scopes
+### 動的スコープ
 
-You know about dynamic finders in Rails (which allow you to concoct methods like `find_by_color_and_flavor` on the fly) and named scopes (which allow you to encapsulate reusable query conditions into friendly names like `currently_active`). Well, now you can have dynamic scope methods. The idea is to put together syntax that allows filtering on the fly _and_ method chaining. For example:
+Railsのダイナミックファインダーメソッド（`find_by_color_and_flavor`のような動的に生成されるメソッド）や名前付きスコープ（再利用可能なクエリ条件を`currently_active`のようにフレンドリーな名前にカプセル化できる）は既にご存知でしょう。これらに加えて動的なスコープメソッドも使えるようになりました。このアイデアは、以下のように動的なフィルタリングやメソッドチェインを可能にする構文をまとめることです。
 
 ```ruby
 Order.scoped_by_customer_id(12)
@@ -120,21 +124,21 @@ Order.scoped_by_customer_id(12).find(:all,
 Order.scoped_by_customer_id(12).scoped_by_status("open")
 ```
 
-There's nothing to define to use dynamic scopes: they just work.
+動的スコープは、何も定義せずにすぐ使えます。
 
-* Lead Contributor: [Yaroslav Markin](http://evilmartians.com/)
-* More Information: [What's New in Edge Rails: Dynamic Scope Methods](http://ryandaigle.com/articles/2008/12/29/what-s-new-in-edge-rails-dynamic-scope-methods.)
+* リードコントリビュータ: [Yaroslav Markin](http://evilmartians.com/)
+* 詳細: [What's New in Edge Rails: Dynamic Scope Methods](http://archives.ryandaigle.com/articles/2008/12/29/what-s-new-in-edge-rails-dynamic-scope-methods)
 
-### Default Scopes
+### デフォルトスコープ
 
-Rails 2.3 will introduce the notion of _default scopes_ similar to named scopes, but applying to all named scopes or find methods within the model. For example, you can write `default_scope :order => 'name ASC'` and any time you retrieve records from that model they'll come out sorted by name (unless you override the option, of course).
+Rails 2.3では、名前付きスコープに似た**デフォルトスコープ**という概念が導入されます。これはモデル内のすべての名前付きスコープやfindメソッドに適用されます。たとえば、`default_scope :order => 'name ASC'`と書けば、そのモデルからレコードを取得するときはいつでも名前順でソートされて出力されます（もちろん、このオプションをオーバーライドしない限り）。
 
-* Lead Contributor: Paweł Kondzior
-* More Information: [What's New in Edge Rails: Default Scoping](http://ryandaigle.com/articles/2008/11/18/what-s-new-in-edge-rails-default-scoping)
+* リードコントリビュータ: Paweł Kondzior
+* 詳細: [What's New in Edge Rails: Default Scoping](http://archives.ryandaigle.com/articles/2008/11/18/what-s-new-in-edge-rails-default-scoping)
 
-### Batch Processing
+### バッチ処理
 
-You can now process large numbers of records from an Active Record model with less pressure on memory by using `find_in_batches`:
+`find_in_batches` を使うことで、メモリに負担をかけずにActive Record モデルの大量のレコードを処理できるようになりました。
 
 ```ruby
 Customer.find_in_batches(:conditions => {:active => true}) do |customer_group|
@@ -142,9 +146,9 @@ Customer.find_in_batches(:conditions => {:active => true}) do |customer_group|
 end
 ```
 
-You can pass most of the `find` options into `find_in_batches`. However, you cannot specify the order that records will be returned in (they will always be returned in ascending order of primary key, which must be an integer), or use the `:limit` option. Instead, use the `:batch_size` option, which defaults to 1000, to set the number of records that will be returned in each batch.
+`find_in_batches` には、ほとんどの `find` オプションを渡せます。ただし、返すレコードの順序を指定することや (常に主キーの昇順で返される整数値でなければなりません)、 `:limit` オプションを使うことはできません。代わりに、 `:batch_size` オプション (デフォルトは 1000件) を使用して、各バッチで返されるレコードの数を設定できます。
 
-The new `find_each` method provides a wrapper around `find_in_batches` that returns individual records, with the find itself being done in batches (of 1000 by default):
+新しい `find_each` メソッドは、個々のレコードを返す `find_in_batches` のラッパーで、検索自体はバッチ処理で行われます (デフォルトでは 1000 件) 。
 
 ```ruby
 Customer.find_each do |customer|
@@ -152,64 +156,64 @@ Customer.find_each do |customer|
 end
 ```
 
-Note that you should only use this method for batch processing: for small numbers of records (less than 1000), you should just use the regular find methods with your own loop.
+この方法はバッチ処理でのみ使うようご注意ください。少数のレコード（1000件以下）の場合は、通常のfindメソッドをループで回してください。
 
-* More Information (at that point the convenience method was called just `each`):
+* 詳細（この時点では、この便利メソッドは単に `each` と呼ばれていました）。
     * [Rails 2.3: Batch Finding](http://afreshcup.com/2009/02/23/rails-23-batch-finding/)
-    * [What's New in Edge Rails: Batched Find](http://ryandaigle.com/articles/2009/2/23/what-s-new-in-edge-rails-batched-find)
+    * [What's New in Edge Rails: Batched Find](http://archives.ryandaigle.com/articles/2009/2/23/what-s-new-in-edge-rails-batched-find)
 
-### Multiple Conditions for Callbacks
+### コールバックで複数条件を指定
 
-When using Active Record callbacks, you can now combine `:if` and `:unless` options on the same callback, and supply multiple conditions as an array:
+Active Record コールバックを使うときに、同じコールバックで `:if` と `:unless` オプションを組み合わせ、複数の条件を配列として指定できるようになりました。
 
 ```ruby
 before_save :update_credit_rating, :if => :active,
   :unless => [:admin, :cash_only]
 ```
-* Lead Contributor: L. Caviola
 
-### Find with having
+* リードコントリビュータ: L. Caviola
+### `having`で検索
 
-Rails now has a `:having` option on find (as well as on `has_many` and `has_and_belongs_to_many` associations) for filtering records in grouped finds. As those with heavy SQL backgrounds know, this allows filtering based on grouped results:
+`:having` オプション（および `has_many` と `has_and_belongs_to_many` 関連付け）が追加され、グループ化された検索結果のレコードを検索でフィルタできるようにました。SQL の知識が豊富な人ならご存知のように、グループ化された結果に基づいてフィルタをかけられるようになります。
 
 ```ruby
 developers = Developer.find(:all, :group => "salary",
   :having => "sum(salary) > 10000", :select => "salary")
 ```
 
-* Lead Contributor: [Emilio Tagua](http://github.com/miloops)
+* リードコントリビュータ: [Emilio Tagua](https://github.com/miloops)
 
-### Reconnecting MySQL Connections
+### MySQLコネクションの再接続
 
-MySQL supports a reconnect flag in its connections - if set to true, then the client will try reconnecting to the server before giving up in case of a lost connection. You can now set `reconnect = true` for your MySQL connections in `database.yml` to get this behavior from a Rails application. The default is `false`, so the behavior of existing applications doesn't change.
+MySQLコネクションで再接続フラグをサポートされました。trueに設定すると、コネクションが切れてあきらめる前にクライアントがサーバーへの再接続を試みます。Railsアプリケーションでこの動作を有効にするために、`database.yml`でMySQL接続に `reconnect = true` を設定できるようになりました。デフォルトは `false` なので、既存のアプリケーションの動作は変わりません。
 
-* Lead Contributor: [Dov Murik](http://twitter.com/dubek)
-* More information:
-    * [Controlling Automatic Reconnection Behavior](http://dev.mysql.com/doc/refman/5.0/en/auto-reconnect.html)
+* リードコントリビュータ: [Dov Murik](http://twitter.com/dubek)
+* 詳細:
+    * [Controlling Automatic Reconnection Behavior](http://dev.mysql.com/doc/refman/5.6/en/auto-reconnect.html)
     * [MySQL auto-reconnect revisited](http://groups.google.com/group/rubyonrails-core/browse_thread/thread/49d2a7e9c96cb9f4)
 
-### Other Active Record Changes
+### その他のActive Recordの変更点
 
-* An extra `AS` was removed from the generated SQL for `has_and_belongs_to_many` preloading, making it work better for some databases.
-* `ActiveRecord::Base#new_record?` now returns `false` rather than `nil` when confronted with an existing record.
-* A bug in quoting table names in some `has_many :through` associations was fixed.
-* You can now specify a particular timestamp for `updated_at` timestamps: `cust = Customer.create(:name => "ABC Industries", :updated_at => 1.day.ago)`
-* Better error messages on failed `find_by_attribute!` calls.
-* Active Record's `to_xml` support gets just a little bit more flexible with the addition of a `:camelize` option.
-* A bug in canceling callbacks from `before_update` or `before_create` was fixed.
-* Rake tasks for testing databases via JDBC have been added.
-* `validates_length_of` will use a custom error message with the `:in` or `:within` options (if one is supplied).
-* Counts on scoped selects now work properly, so you can do things like `Account.scoped(:select => "DISTINCT credit_limit").count`.
-* `ActiveRecord::Base#invalid?` now works as the opposite of `ActiveRecord::Base#valid?`.
+* `has_and_belongs_to_many` プリロードの生成 SQL から余分な `AS` が削除され、いくつかのデータベースの動作が改善されました。
+* `ActiveRecord::Base#new_record?` は、既存のレコードが存在する場合に `nil` ではなく `false` を返すようになりました。
+* `has_many :through` の関連付けにおいて、テーブル名の引用符のバグが修正されました。
+* `updated_at` タイムスタンプに特定のタイムスタンプを指定できるようになりました: `cust = Customer.create(:name => "ABC Industries", :updated_at => 1.day.ago)`.
+* `find_by_attribute!` 呼び出しに失敗した場合のエラーメッセージを改善しました。
+* Active Record の `to_xml` サポートに `:camelize` オプションが追加され、柔軟性が少し高まりました。
+* `before_update` や `before_create` のコールバックをキャンセルする際のバグが修正されました。
+* JDBC 経由でデータベースをテストするための Rake タスクが追加されました。
+* `validates_length_of` は、 `:in` または `:within` オプション (オプションが指定された場合) でカスタムエラーメッセージを使うようになりました。
+* スコープ付き select のカウントが正しく動作するようになり、 `Account.scoped(:select => "DISTINCT credit_limit").count` のようなことができるようになりました。
+* `ActiveRecord::Base#invalid?` が `ActiveRecord::Base#valid?` の逆として動作するようになりました。
 
 Action Controller
 -----------------
 
-Action Controller rolls out some significant changes to rendering, as well as improvements in routing and other areas, in this release.
+Action Controllerは、今回のリリースでレンダリングに関する大幅な変更と、ルーティングなどの改善を行いました。
 
-### Unified Rendering
+### レンダリング方法の統一
 
-`ActionController::Base#render` is a lot smarter about deciding what to render. Now you can just tell it what to render and expect to get the right results. In older versions of Rails, you often need to supply explicit information to render:
+`ActionController::Base#render` でレンダリング対象を指定する方法がよりスマートになりました。レンダリング対象を指定するだけで、正しい結果が期待できます。以前のバージョンのRailsでは、以下のようにレンダリングで明示的な情報を提供する必要が生じることがよくありました。
 
 ```ruby
 render :file => '/tmp/random_file.erb'
@@ -217,7 +221,7 @@ render :template => 'other_controller/action'
 render :action => 'show'
 ```
 
-Now in Rails 2.3, you can just supply what you want to render:
+Rails 2.3では以下のように、レンダリングしたいものを指定するだけで済みます。
 
 ```ruby
 render '/tmp/random_file.erb'
@@ -225,19 +229,20 @@ render 'other_controller/action'
 render 'show'
 render :show
 ```
-Rails chooses between file, template, and action depending on whether there is a leading slash, an embedded slash, or no slash at all in what's to be rendered. Note that you can also use a symbol instead of a string when rendering an action. Other rendering styles (`:inline`, `:text`, `:update`, `:nothing`, `:json`, `:xml`, `:js`) still require an explicit option.
 
-### Application Controller Renamed
+Railsは、レンダリング対象の冒頭にスラッシュがある場合、スラッシュが途中にある場合、スラッシュがまったくない場合に応じて、ファイル、テンプレート、アクションのいずれかを選択します。アクションをレンダリングするときに、文字列の代わりにシンボルも使えます。その他のレンダリングスタイル (`:inline`, `:text`, `:update`, `:nothing`, `:json`, `:xml`, `:js`) では、引き続き明示的なオプションが必要です。
 
-If you're one of the people who has always been bothered by the special-case naming of `application.rb`, rejoice! It's been reworked to be application_controller.rb in Rails 2.3. In addition, there's a new rake task, `rake rails:update:application_controller` to do this automatically for you - and it will be run as part of the normal `rake rails:update` process.
+### Application Controllerがリネームされた
 
-* More Information:
-    * [The Death of Application.rb](http://afreshcup.com/2008/11/17/rails-2x-the-death-of-applicationrb/)
-    * [What's New in Edge Rails: Application.rb Duality is no More](http://ryandaigle.com/articles/2008/11/19/what-s-new-in-edge-rails-application-rb-duality-is-no-more)
+`application.rb`で特殊なケースのネーミングにいつも悩まされている方へ朗報です。Rails 2.3では`application_controller.rb`という名前に代わりました。さらに、新しい rake タスク `rake rails:update:application_controller` が用意され、これを自動的に実行できます（これは通常の `rake rails:update` プロセスの一部として実行されます）。
 
-### HTTP Digest Authentication Support
+* 詳細:
+    * [The Death of Application.rb](https://afreshcup.com/home/2008/11/17/rails-2x-the-death-of-applicationrb)
+    * [What's New in Edge Rails: Application.rb Duality is no More](http://archives.ryandaigle.com/articles/2008/11/19/what-s-new-in-edge-rails-application-rb-duality-is-no-more)
 
-Rails now has built-in support for HTTP digest authentication. To use it, you call `authenticate_or_request_with_http_digest` with a block that returns the user's password (which is then hashed and compared against the transmitted credentials):
+### HTTPダイジェスト認証のサポート
+
+Railsでは、HTTPダイジェスト認証がビルトインでサポートされるようになりました。これを使うには、以下のようにユーザーのパスワードを返すブロックを付けて `authenticate_or_request_with_http_digest` を呼び出します（パスワードはハッシュ化され、送信されたcredentialと比較されます）。
 
 ```ruby
 class PostsController < ApplicationController
@@ -258,78 +263,78 @@ class PostsController < ApplicationController
 end
 ```
 
-* Lead Contributor: [Gregg Kellogg](http://www.kellogg-assoc.com/)
-* More Information: [What's New in Edge Rails: HTTP Digest Authentication](http://ryandaigle.com/articles/2009/1/30/what-s-new-in-edge-rails-http-digest-authentication)
+* リードコントリビュータ: [Gregg Kellogg](http://www.kellogg-assoc.com/)
+* 詳細: [What's New in Edge Rails: HTTP Digest Authentication](http://archives.ryandaigle.com/articles/2009/1/30/what-s-new-in-edge-rails-http-digest-authentication)
 
-### More Efficient Routing
+### ルーティングの効率向上
 
-There are a couple of significant routing changes in Rails 2.3. The `formatted_` route helpers are gone, in favor just passing in `:format` as an option. This cuts down the route generation process by 50% for any resource - and can save a substantial amount of memory (up to 100MB on large applications). If your code uses the `formatted_` helpers, it will still work for the time being - but that behavior is deprecated and your application will be more efficient if you rewrite those routes using the new standard. Another big change is that Rails now supports multiple routing files, not just `routes.rb`. You can use `RouteSet#add_configuration_file` to bring in more routes at any time - without clearing the currently-loaded routes. While this change is most useful for Engines, you can use it in any application that needs to load routes in batches.
+Rails 2.3では、ルーティングにいくつかの重要な変更が加えられています。`formatted_` ルーティングヘルパーがなくなり、代わりに `:format` をオプションとして渡せるようになりました。これにより、どのリソースに対してもルート生成プロセスが50%削減され、かなりの量のメモリが節約できます（大規模なアプリケーションでは最大100MB）。自分のコードが `formatted_` ヘルパーを使っていたとしても、当面は動作しますが、この動作は非推奨であり、新しい標準でルーティングを書き直せば、アプリケーションの効率は向上します。もう一つの大きな変更点は、Railsが `routes.rb` だけでなく、複数のルーティングファイルをサポートするようになったことです。`RouteSet#add_configuration_file` を使えば、現在読み込まれているルーティングをクリアすることなく、いつでも新しいルートを取り込めます。この変更はRailsエンジンで最も有用ですが、ルーティングをバッチで一括読み込みする必要がある任意のアプリケーションで利用できます。
 
-* Lead Contributors: [Aaron Batalion](http://blog.hungrymachine.com/)
+* リードコントリビュータ: [Aaron Batalion](http://blog.hungrymachine.com/)
 
-### Rack-based Lazy-loaded Sessions
+### Rackベースの遅延読み込みセッション
 
-A big change pushed the underpinnings of Action Controller session storage down to the Rack level. This involved a good deal of work in the code, though it should be completely transparent to your Rails applications (as a bonus, some icky patches around the old CGI session handler got removed). It's still significant, though, for one simple reason: non-Rails Rack applications have access to the same session storage handlers (and therefore the same session) as your Rails applications. In addition, sessions are now lazy-loaded (in line with the loading improvements to the rest of the framework). This means that you no longer need to explicitly disable sessions if you don't want them; just don't refer to them and they won't load.
+大きな変更点として、Action Controller のセッションストレージの基盤が Rack レベルに押し下げられたことが挙げられます。Railsアプリケーションからはまったく見えないはずですが、コードにはかなりの作業が含まれています（ボーナスとして、古いCGIセッションハンドラ周辺の厄介なパッチがいくつか削除されました）。Rails以外のRackアプリケーションもRailsアプリケーションと同じセッションストレージハンドラにアクセスできる (つまり同じセッションにアクセスできる) からです。さらに、セッションは遅延読み込みされるようになりました（フレームワークの他の部分の読み込み改善と同様）。つまり、セッションが不要な場合に明示的に無効にする必要はなくなりました。セッションを参照しないようにすれば、セッションは読み込まれません。
 
-### MIME Type Handling Changes
+### MIMEタイプの扱いが変更
 
-There are a couple of changes to the code for handling MIME types in Rails. First, `MIME::Type` now implements the `=~` operator, making things much cleaner when you need to check for the presence of a type that has synonyms:
+RailsでMIMEタイプを処理するコードには、いくつかの変更があります。まず、 `MIME::Type` が `=~` 演算子を実装し、同義語を持つタイプの存在をチェックする必要がある場合の記法がずっと明確になりました。
 
 ```ruby
 if content_type && Mime::JS =~ content_type
-  # do something cool
+  # 何かする
 end
 
 Mime::JS =~ "text/javascript"        => true
 Mime::JS =~ "application/javascript" => true
 ```
 
-The other change is that the framework now uses the `Mime::JS` when checking for JavaScript in various spots, making it handle those alternatives cleanly.
+もう1つの変更は、フレームワークがさまざまな場所でJavaScriptをチェックするときに `Mime::JS` を使うようになり、それらの代替をきれいに処理できるようになったことです。
 
-* Lead Contributor: [Seth Fitzsimmons](http://www.workingwithrails.com/person/5510-seth-fitzsimmons)
+* リードコントリビュータ: [Seth Fitzsimmons](http://www.workingwithrails.com/person/5510-seth-fitzsimmons)
 
-### Optimization of `respond_to`
+### `respond_to`の最適化
 
-In some of the first fruits of the Rails-Merb team merger, Rails 2.3 includes some optimizations for the `respond_to` method, which is of course heavily used in many Rails applications to allow your controller to format results differently based on the MIME type of the incoming request. After eliminating a call to `method_missing` and some profiling and tweaking, we're seeing an 8% improvement in the number of requests per second served with a simple `respond_to` that switches between three formats. The best part? No change at all required to the code of your application to take advantage of this speedup.
+RailsとMerbチームの合併による最初の成果として、Rails 2.3には`respond_to`メソッドの最適化が含まれています。このメソッドはもちろん多くのRailsアプリケーションで多用されていて、送られてきたリクエストのMIMEタイプに応じてコントローラが異なる結果をフォーマットできるようになっています。`method_missing`の呼び出しをなくし、プロファイリングと微調整を行った結果、3つのフォーマットを切り替えるシンプルな `respond_to` で、1秒あたりのリクエスト数が8%向上しています。最も優れている点は、このスピードアップを利用するためにアプリケーションのコードを変更する必要がまったくないことです。
 
-### Improved Caching Performance
+### キャッシュのパフォーマンス向上
 
-Rails now keeps a per-request local cache of read from the remote cache stores, cutting down on unnecessary reads and leading to better site performance. While this work was originally limited to `MemCacheStore`, it is available to any remote store than implements the required methods.
+Railsは、リモートキャッシュストアから読み込んだデータをリクエストごとにローカルキャッシュとして保持するようになり、不要な読み込みを減らしてサイトのパフォーマンスを向上させました。この機能はもともと `MemCacheStore` に限定されていましたが、必要なメソッドを実装しているリモートストアであれば、どのストアでも利用できます。
 
-* Lead Contributor: [Nahum Wild](http://www.motionstandingstill.com/)
+* リードコントリビュータ: [Nahum Wild](http://www.motionstandingstill.com/)
 
-### Localized Views
+### ビューのローカライズ
 
-Rails can now provide localized views, depending on the locale that you have set. For example, suppose you have a `Posts` controller with a `show` action. By default, this will render `app/views/posts/show.html.erb`. But if you set `I18n.locale = :da`, it will render `app/views/posts/show.da.html.erb`. If the localized template isn't present, the undecorated version will be used. Rails also includes `I18n#available_locales` and `I18n::SimpleBackend#available_locales`, which return an array of the translations that are available in the current Rails project.
+Railsは、設定したロケールに応じてローカライズされたビューを提供できるようになりました。たとえば、 `Posts` コントローラに `show` アクションがあると、デフォルトでは`app/views/posts/show.html.erb` がレンダリングされます。しかし`I18n.locale = :da` と設定すると、 `app/views/posts/show.da.html.erb` がレンダリングされるようになります。ローカライズされたテンプレートが存在しない場合は、装飾なしバージョンが使われます。Railsには `I18n#available_locales` と `I18n::SimpleBackend#available_locales` もあり、これらは現在のRailsプロジェクトで利用可能な翻訳の配列を返します。
 
-In addition, you can use the same scheme to localize the rescue files in the `public` directory: `public/500.da.html` or `public/404.en.html` work, for example.
+さらに、同じ方法でpublicディレクトリにあるrescueファイルもローカライズできます。たとえば、 `public/500.da.html` や `public/404.en.html` が使えるようになります。
 
-### Partial Scoping for Translations
+### 翻訳APIをパーシャルでスコープ化
 
-A change to the translation API makes things easier and less repetitive to write key translations within partials. If you call `translate(".foo")` from the `people/index.html.erb` template, you'll actually be calling `I18n.translate("people.index.foo")` If you don't prepend the key with a period, then the API doesn't scope, just as before.
+翻訳APIの変更により、パーシャル内のキー翻訳を簡単に書けるようになり、記述の重複が少なくなりました。`people/index.html.erb` テンプレートから `translate(".foo")` を呼び出すと、実際には `I18n.translate("people.index.foo")` を呼び出します。キーの前にピリオドがない場合は、以前と同じようにAPIはスコープなしとなります。
 
-### Other Action Controller Changes
+### その他のAction Controllerの変更
 
-* ETag handling has been cleaned up a bit: Rails will now skip sending an ETag header when there's no body to the response or when sending files with `send_file`.
-* The fact that Rails checks for IP spoofing can be a nuisance for sites that do heavy traffic with cell phones, because their proxies don't generally set things up right. If that's you, you can now set `ActionController::Base.ip_spoofing_check = false` to disable the check entirely.
-* `ActionController::Dispatcher` now implements its own middleware stack, which you can see by running `rake middleware`.
-* Cookie sessions now have persistent session identifiers, with API compatibility with the server-side stores.
-* You can now use symbols for the `:type` option of `send_file` and `send_data`, like this: `send_file("fabulous.png", :type => :png)`.
-* The `:only` and `:except` options for `map.resources` are no longer inherited by nested resources.
-* The bundled memcached client has been updated to version 1.6.4.99.
-* The `expires_in`, `stale?`, and `fresh_when` methods now accept a `:public` option to make them work well with proxy caching.
-* The `:requirements` option now works properly with additional RESTful member routes.
-* Shallow routes now properly respect namespaces.
-* `polymorphic_url` does a better job of handling objects with irregular plural names.
+* ETag の取り扱いが少し改善されました。レスポンスにbodyがないとき、または `send_file` でファイルを送信するときに、Rails は ETag ヘッダの送信をスキップするようになりました。
+* RailsによるIPスプーフィングのチェックは、携帯電話のトラフィックが多いサイトで邪魔になることがありますが。そのような場合は`ActionController::Base.ip_spoofing_check = false` と設定することで、チェックを完全に無効にできるようになりました。
+* `ActionController::Dispatcher` は独自のミドルウェアスタックを実装しており、 `rake middleware` を実行することで確認できます。
+* cookieセッションが永続的なセッション識別子を持つようになりました。これはサーバーサイドストアとの API 互換性があります。
+* `send_file` と `send_data` の `:type` オプションで、`send_file("fabulous.png", :type => :png)`のようにシンボルを使えるようになりました。
+* `map.resources` の `:only` と `:except` オプションは、ネストしたリソースには継承されなくなりました。
+* バンドルされている memcached クライアントがバージョン 1.6.4.99 に更新されました。
+* プロキシキャッシュで動作するように `expires_in`、`stale?`、`fresh_when` メソッドに `:public` オプションを指定できるようになりました。
+* RESTful なmemberルーティングが追加され、 `:requirements` オプションが正しく動作するようになりました。
+* 浅いルーティングで、名前空間が適切に考慮されるようになりました。
+* `polymorphic_url` が、不規則に活用される複数形の名前を持つオブジェクトをより適切に扱えるようになりました。
 
 Action View
 -----------
 
-Action View in Rails 2.3 picks up nested model forms, improvements to `render`, more flexible prompts for the date select helpers, and a speedup in asset caching, among other things.
+Rails 2.3のAction Viewでは、ネステッドモデルのフォーム、`render`の改善、日付選択ヘルパーのより柔軟な表示、アセットキャッシングの高速化などが行われました。
 
-### Nested Object Forms
+### ネステッドオブジェクトのフォーム
 
-Provided the parent model accepts nested attributes for the child objects (as discussed in the Active Record section), you can create nested forms using `form_for` and `field_for`. These forms can be nested arbitrarily deep, allowing you to edit complex object hierarchies on a single view without excessive code. For example, given this model:
+親モデルが子オブジェクトのネステッド属性を受け入れる場合（上述のActive Recordのセクションの説明を参照)、 `form_for` と `field_for` を使ってネステッドフォームを作成できます。これらのフォームは任意の深さにネスト可能で、少ないコードで複雑なオブジェクト階層を単一のビューで編集できます。たとえば以下のようなモデルがあるとします。
 
 ```ruby
 class Customer < ActiveRecord::Base
@@ -339,7 +344,7 @@ class Customer < ActiveRecord::Base
 end
 ```
 
-You can write this view in Rails 2.3:
+Rails 2.3では以下のようにビューを書けます。
 
 ```html+erb
 <% form_for @customer do |customer_form| %>
@@ -372,31 +377,31 @@ You can write this view in Rails 2.3:
 <% end %>
 ```
 
-* Lead Contributor: [Eloy Duran](http://superalloy.nl/)
-* More Information:
-    * [Nested Model Forms](http://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
-    * [complex-form-examples](http://github.com/alloy/complex-form-examples)
-    * [What's New in Edge Rails: Nested Object Forms](http://ryandaigle.com/articles/2009/2/1/what-s-new-in-edge-rails-nested-attributes)
+* リードコントリビュータ: [Eloy Duran](http://superalloy.nl/)
+* 詳細:
+    * [Nested Model Forms](https://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
+    * [complex-form-examples](https://github.com/alloy/complex-form-examples)
+    * [What's New in Edge Rails: Nested Object Forms](http://archives.ryandaigle.com/articles/2009/2/1/what-s-new-in-edge-rails-nested-attributes)
 
-### Smart Rendering of Partials
+### パーシャルのレンダリングがスマートに
 
-The render method has been getting smarter over the years, and it's even smarter now. If you have an object or a collection and an appropriate partial, and the naming matches up, you can now just render the object and things will work. For example, in Rails 2.3, these render calls will work in your view (assuming sensible naming):
+`render` メソッドは年々賢くなり、今はさらに賢くなりました。オブジェクトやコレクションと適切なパーシャルがあり、命名が一致する場合は、オブジェクトを`render`するだけで動くようになりました。たとえばRails 2.3では、以下の`render`コールがビューで使えます（命名が適切であると仮定します）。
 
 ```ruby
-# Equivalent of render :partial => 'articles/_article',
-# :object => @article
+# これは以下と同様
+# render :partial => 'articles/_article', :object => @article
 render @article
 
-# Equivalent of render :partial => 'articles/_article',
-# :collection => @articles
+# これは以下と同様
+# render :partial => 'articles/_article', :collection => @articles
 render @articles
 ```
 
-* More Information: [What's New in Edge Rails: render Stops Being High-Maintenance](http://ryandaigle.com/articles/2008/11/20/what-s-new-in-edge-rails-render-stops-being-high-maintenance)
+* 詳細: [What's New in Edge Rails: render Stops Being High-Maintenance](http://archives.ryandaigle.com/articles/2008/11/20/what-s-new-in-edge-rails-render-stops-being-high-maintenance)
 
-### Prompts for Date Select Helpers
+### 日付セレクタヘルパーのプロンプト表示
 
-In Rails 2.3, you can supply custom prompts for the various date select helpers (`date_select`, `time_select`, and `datetime_select`), the same way you can with collection select helpers. You can supply a prompt string or a hash of individual prompt strings for the various components. You can also just set `:prompt` to `true` to use the custom generic prompt:
+Rails 2.3では、様々な日付選択ヘルパー（`date_select`、`time_select`、`datetime_select`）で、コレクション選択ヘルパーと同様にカスタムプロンプトを指定できます。プロンプトには、文字列の他に、様々なコンポーネントのプロンプト文字列のハッシュを渡せます。また、 `:prompt` を `true` に設定することで、一般的なプロンプトも利用できます。
 
 ```ruby
 select_datetime(DateTime.now, :prompt => true)
@@ -409,30 +414,30 @@ select_datetime(DateTime.now, :prompt =>
    :minute => 'Choose minute'})
 ```
 
-* Lead Contributor: [Sam Oliver](http://samoliver.com/)
+* リードコントリビュータ: [Sam Oliver](http://samoliver.com/)
 
-### AssetTag Timestamp Caching
+### AssetTagのタイムスタンプキャッシュ
 
-You're likely familiar with Rails' practice of adding timestamps to static asset paths as a "cache buster." This helps ensure that stale copies of things like images and stylesheets don't get served out of the user's browser cache when you change them on the server. You can now modify this behavior with the `cache_asset_timestamps` configuration option for Action View. If you enable the cache, then Rails will calculate the timestamp once when it first serves an asset, and save that value. This means fewer (expensive) file system calls to serve static assets - but it also means that you can't modify any of the assets while the server is running and expect the changes to get picked up by clients.
+静的アセットパスに「キャッシュバスター」としてタイムスタンプを追加するRailsの慣習はよく知られていると思います。これは、画像やスタイルシートなどの古いコピーが、サーバーで変更されたときにユーザーのブラウザのキャッシュから提供されないようにするためのものです。Action Viewの設定オプション `cache_asset_timestamps` で、この動作を変更できるようになりました。キャッシュを有効にすると、Railsは最初にアセットを提供するときにタイムスタンプを一度算出して値を保存します。これは、静的アセットを提供するための（コストのかかる）ファイルシステム呼び出しが減ることを意味しますが、その代わり、サーバーの実行中にアセットを変更しても変更がクライアントに反映されることも期待できなくなります。
 
-### Asset Hosts as Objects
+### アセットホストをオブジェクトとして宣言
 
-Asset hosts get more flexible in edge Rails with the ability to declare an asset host as a specific object that responds to a call. This allows you to implement any complex logic you need in your asset hosting.
+エッジRailsでは、アセットホストを「呼び出しに応答する特定のオブジェクト」として宣言できるようになり、アセットホストの柔軟性が高まりました。これにより、アセットホストで必要などんな複雑なロジックも実装できるようになります。
 
-* More Information: [asset-hosting-with-minimum-ssl](http://github.com/dhh/asset-hosting-with-minimum-ssl/tree/master)
+* 詳細: [asset-hosting-with-minimum-ssl](https://github.com/dhh/asset-hosting-with-minimum-ssl/tree/master)
 
-### grouped_options_for_select Helper Method
+### `grouped_options_for_select`ヘルパーメソッド
 
-Action View already had a bunch of helpers to aid in generating select controls, but now there's one more: `grouped_options_for_select`. This one accepts an array or hash of strings, and converts them into a string of `option` tags wrapped with `optgroup` tags. For example:
+アクションビューには、セレクタボックスの生成を支援するヘルパーがすでにたくさんありますが、もうひとつ増えました。`grouped_options_for_select` です。これは以下のように、文字列の配列またはハッシュを受け取って、 `option` タグを `optgroup` タグでラップした文字列に変換するものです。
 
 ```ruby
 grouped_options_for_select([["Hats", ["Baseball Cap","Cowboy Hat"]]],
   "Cowboy Hat", "Choose a product...")
 ```
 
-returns
+上は以下を返します。
 
-```ruby
+```html
 <option value="">Choose a product...</option>
 <optgroup label="Hats">
   <option value="Baseball Cap">Baseball Cap</option>
@@ -440,15 +445,15 @@ returns
 </optgroup>
 ```
 
-### Disabled Option Tags for Form Select Helpers
+### フォームのセレクタヘルパーを無効にするオプションタグ
 
-The form select helpers (such as `select` and `options_for_select`) now support a `:disabled` option, which can take a single value or an array of values to be disabled in the resulting tags:
+フォームのセレクタヘルパー（`select` や `options_for_select` など）が`:disabled` オプションをサポートするようになり、結果のタグで無効にしたい単一の値または値の配列を受け取れるようになりました。
 
 ```ruby
 select(:post, :category, Post::CATEGORIES, :disabled => 'private')
 ```
 
-returns
+上は以下を返します。
 
 ```html
 <select name="post[category]">
@@ -459,163 +464,166 @@ returns
 </select>
 ```
 
-You can also use an anonymous function to determine at runtime which options from collections will be selected and/or disabled:
+また、無名関数を使えば、コレクションからどのオプションを選択または無効にするかを実行時に決定することもできます。
 
 ```ruby
 options_from_collection_for_select(@product.sizes, :name, :id, :disabled => lambda{|size| size.out_of_stock?})
 ```
 
-* Lead Contributor: [Tekin Suleyman](http://tekin.co.uk/)
-* More Information: [New in rails 2.3 - disabled option tags and lambdas for selecting and disabling options from collections](http://tekin.co.uk/2009/03/new-in-rails-23-disabled-option-tags-and-lambdas-for-selecting-and-disabling-options-from-collections/)
+* リードコントリビュータ: [Tekin Suleyman](http://tekin.co.uk/)
+* 詳細: [New in rails 2.3 - disabled option tags and lambdas for selecting and disabling options from collections](https://tekin.co.uk/2009/03/new-in-rails-23-disabled-option-tags-and-lambdas-for-selecting-and-disabling-options-from-collections)
 
-### A Note About Template Loading
+### テンプレート読み込みに関する注意
 
-Rails 2.3 includes the ability to enable or disable cached templates for any particular environment. Cached templates give you a speed boost because they don't check for a new template file when they're rendered - but they also mean that you can't replace a template "on the fly" without restarting the server.
+Rails 2.3では、キャッシュされたテンプレートを特定の環境で有効または無効にする機能があります。キャッシュされたテンプレートは、レンダリング時に新しいテンプレートファイルがあるかどうかをチェックしないので、速度が向上します。しかし、これは同時に、サーバを再起動せずに「その場で」テンプレートを置き換えられないということでもあります。
 
-In most cases, you'll want template caching to be turned on in production, which you can do by making a setting in your `production.rb` file:
+ほとんどの場合、production環境ではテンプレートのキャッシュを有効にしたいと思うでしょう。これは `production.rb` ファイルで設定します。
 
 ```ruby
 config.action_view.cache_template_loading = true
 ```
 
-This line will be generated for you by default in a new Rails 2.3 application. If you've upgraded from an older version of Rails, Rails will default to caching templates in production and test but not in development.
+上の設定は、新しいRails 2.3アプリケーションではデフォルトで生成されます。古いバージョンのRailsからアップグレードした場合、Railsはproduction環境とtest環境ではテンプレートをキャッシュするようにデフォルトで設定しますが、development環境では設定しません。
 
-### Other Action View Changes
+### その他のAction Viewの変更
 
-* Token generation for CSRF protection has been simplified; now Rails uses a simple random string generated by `ActiveSupport::SecureRandom` rather than mucking around with session IDs.
-* `auto_link` now properly applies options (such as `:target` and `:class`) to generated e-mail links.
-* The `autolink` helper has been refactored to make it a bit less messy and more intuitive.
-* `current_page?` now works properly even when there are multiple query parameters in the URL.
+* CSRF 保護トークンの生成がシンプルになりました。Rails はセッション ID をいじくりまわすのではなく、 `ActiveSupport::SecureRandom` によって生成されたシンプルなランダム文字列を使うようになりました。
+* `auto_link` が、生成されたメールのリンクにオプション（`:target` や `:class` など）を適切に適用するようになりました。
+* `autolink` ヘルパーがリファクタリングされ、より直感的に使えるようになりました。
+* URL に複数のクエリパラメータがある場合でも、 `current_page?` が正しく動作するようになりました。
 
 Active Support
 --------------
 
-Active Support has a few interesting changes, including the introduction of `Object#try`.
+Active Supportでも、`Object#try`などいくつかの興味深い変更が行われました。
 
-### Object#try
+### `Object#try`
 
-A lot of folks have adopted the notion of using try() to attempt operations on objects. It's especially helpful in views where you can avoid nil-checking by writing code like `<%= @person.try(:name) %>`. Well, now it's baked right into Rails. As implemented in Rails, it raises `NoMethodError` on private methods and always returns `nil` if the object is nil.
+多くの人が、オブジェクトに対する操作を試みるときに`try()`を使うというアイデアを採用しています。特にビューでは、`<%= @person.try(:name) %>`のようなコードを書くことでnilチェックを回避できるので便利です。この機能がRailsに組み込まれました。Railsに実装されたこの機能は、privateメソッドに対して `NoMethodError` を発生し、オブジェクトがnilの場合は常に `nil` を返します。
 
-* More Information: [try()](http://ozmm.org/posts/try.html.)
+* 詳細: [try()](http://ozmm.org/posts/try.html)
 
-### Object#tap Backport
+### `Object#tap`のバックポート
 
-`Object#tap` is an addition to [Ruby 1.9](http://www.ruby-doc.org/core-1.9/classes/Object.html#M000309) and 1.8.7 that is similar to the `returning` method that Rails has had for a while: it yields to a block, and then returns the object that was yielded. Rails now includes code to make this available under older versions of Ruby as well.
+`Object#tap` は [Ruby 1.9](http://www.ruby-doc.org/core-1.9/classes/Object.html#M000309) および 1.8.7 に追加されたもので、Rails に以前からある `returning` メソッドに似ています。ブロックを`yield`して、`yield`したオブジェクトを返すというものです。Railsは現在、これを古いバージョンのRubyでも使えるようにするコードを含んでいます。
 
-### Swappable Parsers for XMLmini
+### XMLminiのパーサーが差し替え可能に
 
-The support for XML parsing in Active Support has been made more flexible by allowing you to swap in different parsers. By default, it uses the standard REXML implementation, but you can easily specify the faster LibXML or Nokogiri implementations for your own applications, provided you have the appropriate gems installed:
+Active SupportのXML解析サポートで、パーサーを別のものに差し替えられるようになり、柔軟性が増しました。デフォルトでは、標準的なREXMLの実装を使用しますが、適切なgemがインストールされていれば、高速なLibXMLやNokogiriの実装を自分のアプリケーションに簡単に指定できます。
+
 
 ```ruby
 XmlMini.backend = 'LibXML'
 ```
 
-* Lead Contributor: [Bart ten Brinke](http://www.movesonrails.com/)
-* Lead Contributor: [Aaron Patterson](http://tenderlovemaking.com/)
+* リードコントリビュータ: [Bart ten Brinke](http://www.movesonrails.com/)
+* リードコントリビュータ: [Aaron Patterson](http://tenderlovemaking.com/)
 
-### Fractional seconds for TimeWithZone
+### `TimeWithZone`で秒以下をサポート
 
-The `Time` and `TimeWithZone` classes include an `xmlschema` method to return the time in an XML-friendly string. As of Rails 2.3, `TimeWithZone` supports the same argument for specifying the number of digits in the fractional second part of the returned string that `Time` does:
+`Time` クラスと `TimeWithZone` クラスに、時刻を XML フレンドリーな文字列で返す `xmlschema` メソッドが含まれました。Rails 2.3 の`TimeWithZone` は `Time` と同じ引数になり、返される文字列の小数第2位の桁数を指定できるようになりました。
 
 ```ruby
->> Time.zone.now.xmlschema(6)
-=> "2009-01-16T13:00:06.13653Z"
+Time.zone.now.xmlschema(6) # => "2009-01-16T13:00:06.13653Z"
 ```
 
-* Lead Contributor: [Nicholas Dainty](http://www.workingwithrails.com/person/13536-nicholas-dainty)
+* リードコントリビュータ: [Nicholas Dainty](http://www.workingwithrails.com/person/13536-nicholas-dainty)
 
-### JSON Key Quoting
+### JSONキーの引用符
 
-If you look up the spec on the "json.org" site, you'll discover that all keys in a JSON structure must be strings, and they must be quoted with double quotes. Starting with Rails 2.3, we do the right thing here, even with numeric keys.
+json.orgサイトで仕様を調べると、JSON構造体のキーはすべて文字列でなければならず、二重引用符で囲まなければならないことがわかります。Rails 2.3からは、数値キーについても適切に扱うようになりました。
 
-### Other Active Support Changes
+### その他のActive Supportの変更
 
-* You can use `Enumerable#none?` to check that none of the elements match the supplied block.
-* If you're using Active Support [delegates](http://afreshcup.com/2008/10/19/coming-in-rails-22-delegate-prefixes/,) the new `:allow_nil` option lets you return `nil` instead of raising an exception when the target object is nil.
-* `ActiveSupport::OrderedHash`: now implements `each_key` and `each_value`.
-* `ActiveSupport::MessageEncryptor` provides a simple way to encrypt information for storage in an untrusted location (like cookies).
-* Active Support's `from_xml` no longer depends on XmlSimple. Instead, Rails now includes its own XmlMini implementation, with just the functionality that it requires. This lets Rails dispense with the bundled copy of XmlSimple that it's been carting around.
-* If you memoize a private method, the result will now be private.
-* `String#parameterize` accepts an optional separator: `"Quick Brown Fox".parameterize('_') => "quick_brown_fox"`.
-* `number_to_phone` accepts 7-digit phone numbers now.
-* `ActiveSupport::Json.decode` now handles `\u0000` style escape sequences.
+* `Enumerable#none?`で、与えられたブロックにマッチする要素がないことをチェックできます。
+* Active Support [delegates](https://afreshcup.com/home/2008/10/19/coming-in-rails-22-delegate-prefixes)を使う場合、新しい `:allow_nil` オプションで、ターゲットオブジェクトが nil のときに例外を発生させずに`nil` を返すようになりました。
+* `ActiveSupport::OrderedHash`が`each_key` と `each_value` を実装しました。
+* `ActiveSupport::MessageEncryptor` は（cookieのような）信頼できない場所に保存する情報を暗号化する簡単な方法を提供します。
+* Active Support の `from_xml` がXmlSimple に依存しなくなりました。その代わりに、Railsは必要な機能だけを備えた、独自のXmlMini実装を含むようになりました。これにより、RailsはこれまでバンドルされていたXmlSimpleのコピーから解放されました。
+* privateメソッドをメモ化すると、その結果もprivateになります。
+* `String#parameterize` にオプションの区切り文字を渡せるようになりました。例: `"Quick Brown Fox".parameterize('_') => "quick_brown_fox"`.
+* `number_to_phone` に7桁の電話番号を渡せるようになりました。
+* `ActiveSupport::Json.decode` が `u0000` 形式のエスケープシーケンスを処理するようになりました。
 
 Railties
 --------
 
-In addition to the Rack changes covered above, Railties (the core code of Rails itself) sports a number of significant changes, including Rails Metal, application templates, and quiet backtraces.
+上記のRackの変更に加え、Railties（Railsのコアコード）には、Rails Metal、アプリケーションテンプレート、Quiet Backtraceなど、多くの重要な変更が加えられています。
 
 ### Rails Metal
 
-Rails Metal is a new mechanism that provides superfast endpoints inside of your Rails applications. Metal classes bypass routing and Action Controller to give you raw speed (at the cost of all the things in Action Controller, of course). This builds on all of the recent foundation work to make Rails a Rack application with an exposed middleware stack. Metal endpoints can be loaded from your application or from plugins.
+Rails Metalは、Railsアプリケーションの内部に超高速なエンドポイントを提供する新しいメカニズムです。MetalクラスはルーティングとAction Controllerをバイパスして、素の速度を提供します（もちろん、Action Controllerにあるすべてのものが使えなくなりますが）。これは、Railsを「ミドルウェアスタックを公開したRackアプリケーション」にするための最近の基礎作業の上に構築されています。Metalエンドポイントはアプリケーションやプラグインから読み込めます。
 
-* More Information:
-    * [Introducing Rails Metal](http://weblog.rubyonrails.org/2008/12/17/introducing-rails-metal)
+* 詳細:
+    * [Introducing Rails Metal](https://weblog.rubyonrails.org/2008/12/17/introducing-rails-metal)
     * [Rails Metal: a micro-framework with the power of Rails](http://soylentfoo.jnewland.com/articles/2008/12/16/rails-metal-a-micro-framework-with-the-power-of-rails-m)
     * [Metal: Super-fast Endpoints within your Rails Apps](http://www.railsinside.com/deployment/180-metal-super-fast-endpoints-within-your-rails-apps.html)
-    * [What's New in Edge Rails: Rails Metal](http://ryandaigle.com/articles/2008/12/18/what-s-new-in-edge-rails-rails-metal)
+    * [What's New in Edge Rails: Rails Metal](http://archives.ryandaigle.com/articles/2008/12/18/what-s-new-in-edge-rails-rails-metal)
 
-### Application Templates
+### アプリケーションテンプレート
 
-Rails 2.3 incorporates Jeremy McAnally's [rg](http://github.com/jeremymcanally/rg/tree/master) application generator. What this means is that we now have template-based application generation built right into Rails; if you have a set of plugins you include in every application (among many other use cases), you can just set up a template once and use it over and over again when you run the `rails` command. There's also a rake task to apply a template to an existing application:
+Rails 2.3には、Jeremy McAnallyによる[rg](https://github.com/jm/rg)アプリケーションジェネレータが組み込まれています。つまり、Railsにテンプレートベースのアプリケーション生成機能が組み込まれたということです。（他の多くのユースケースの中から）すべてのアプリケーションに含めたいプラグインのセットがある場合、テンプレートを一度セットアップしておけば、`rails`コマンドを実行するときにそれらが常に適用されるようになります。また、既存のアプリケーションにテンプレートを適用するrakeタスクも用意されています。
 
+
+```bash
+$ rake rails:template LOCATION=~/template.rb
 ```
-rake rails:template LOCATION=~/template.rb
-```
 
-This will layer the changes from the template on top of whatever code the project already contains.
+上を実行すると、プロジェクトにすでに含まれているコードの上に、テンプレートによる変更を配置します。
 
-* Lead Contributor: [Jeremy McAnally](http://www.jeremymcanally.com/)
+* リードコントリビュータ: [Jeremy McAnally](http://www.jeremymcanally.com/)
 * More Info:[Rails templates](http://m.onkey.org/2008/12/4/rails-templates)
 
-### Quieter Backtraces
+### Quieter Backtrace
 
-Building on Thoughtbot's [Quiet Backtrace](https://github.com/thoughtbot/quietbacktrace) plugin, which allows you to selectively remove lines from `Test::Unit` backtraces, Rails 2.3 implements `ActiveSupport::BacktraceCleaner` and `Rails::BacktraceCleaner` in core. This supports both filters (to perform regex-based substitutions on backtrace lines) and silencers (to remove backtrace lines entirely). Rails automatically adds silencers to get rid of the most common noise in a new application, and builds a `config/backtrace_silencers.rb` file to hold your own additions. This feature also enables prettier printing from any gem in the backtrace.
+thoughtbotの [Quiet Backtrace](https://github.com/thoughtbot/quietbacktrace) プラグインは`Test::Unit` のバックトレースから選択的に行を削除できますが、Rails 2.3ではそれをベースにした `ActiveSupport::BacktraceCleaner` と `Rails::BacktraceCleaner` をコアに実装しています。これは、フィルタ（バックトレース行を正規表現で置換する）とサイレンサー（バックトレース行を完全に削除する）の両方をサポートします。Railsは新しいアプリケーションで最も一般的なノイズを取り除くためにサイレンサーを自動的に追加し、フィルタに追加するものを保存できる`config/backtrace_silencers.rb` ファイルを生成します。この機能により、バックトレース中の任意のgemの出力もpretty printされるようになります。
 
-### Faster Boot Time in Development Mode with Lazy Loading/Autoload
+### 遅延読み込みとオートロードでdevelopmentモードの起動が高速化
 
-Quite a bit of work was done to make sure that bits of Rails (and its dependencies) are only brought into memory when they're actually needed. The core frameworks - Active Support, Active Record, Action Controller, Action Mailer and Action View - are now using `autoload` to lazy-load their individual classes. This work should help keep the memory footprint down and improve overall Rails performance.
+Railsの一部（とその依存関係）が実際に必要なときだけメモリに読み込まれるようにするために、かなりの作業が行われました。コアフレームワークであるActive Support、Active Record、Action Controller、Action Mailer、Action Viewは、それぞれのクラスを`autoload`で遅延読み込みするようになりました。この作業によりメモリフットプリントが抑えられ、Rails全体のパフォーマンスが向上するはずです。
 
-You can also specify (by using the new `preload_frameworks` option) whether the core libraries should be autoloaded at startup. This defaults to `false` so that Rails autoloads itself piece-by-piece, but there are some circumstances where you still need to bring in everything at once - Passenger and JRuby both want to see all of Rails loaded together.
+また、起動時にコアライブラリをオートロードするかどうかを（新しい `preload_frameworks` オプションで）指定できます。デフォルトの `false` ではRailsが少しずつオートロードされますが、一度にすべてを取り込む必要が生じることもあります（PassengerとJRubyは、Railsのすべてを一括で読み込むことを希望しています）。
 
-### rake gem Task Rewrite
+### rake gemタスクが書き直された
 
-The internals of the various <code>rake gem</code> tasks have been substantially revised, to make the system work better for a variety of cases. The gem system now knows the difference between development and runtime dependencies, has a more robust unpacking system, gives better information when querying for the status of gems, and is less prone to "chicken and egg" dependency issues when you're bringing things up from scratch. There are also fixes for using gem commands under JRuby and for dependencies that try to bring in external copies of gems that are already vendored.
+様々な <code>rake gem</code> タスクの内部が、多くのケースでうまく動くよう大幅に改訂されました。gem システムは開発時の依存関係と実行時の依存関係の違いを認識するようになり、unpackingがより堅牢になり、gem の状態問い合わせで返される情報が改善され、スクラッチでアプリを開発するときに依存関係で「卵が先かニワトリが先か」問題を起こしにくくなりました。また、JRubyでgemコマンドを使うときや、すでにベンダリングされているgemの外部コピーを持ち込もうとする依存関係についても修正されています。
 
-* Lead Contributor: [David Dollar](http://www.workingwithrails.com/person/12240-david-dollar)
+* リードコントリビュータ: [David Dollar](http://www.workingwithrails.com/person/12240-david-dollar)
 
-### Other Railties Changes
+### その他のRailties変更
 
-* The instructions for updating a CI server to build Rails have been updated and expanded.
-* Internal Rails testing has been switched from `Test::Unit::TestCase` to `ActiveSupport::TestCase`, and the Rails core requires Mocha to test.
-* The default `environment.rb` file has been decluttered.
-* The dbconsole script now lets you use an all-numeric password without crashing.
-* `Rails.root` now returns a `Pathname` object, which means you can use it directly with the `join` method to [clean up existing code](http://afreshcup.com/2008/12/05/a-little-rails_root-tidiness/) that uses `File.join`.
-* Various files in /public that deal with CGI and FCGI dispatching are no longer generated in every Rails application by default (you can still get them if you need them by adding `--with-dispatchers` when you run the `rails` command, or add them later with `rake rails:update:generate_dispatchers`).
-* Rails Guides have been converted from AsciiDoc to Textile markup.
-* Scaffolded views and controllers have been cleaned up a bit.
-* `script/server` now accepts a <tt>--path</tt> argument to mount a Rails application from a specific path.
-* If any configured gems are missing, the gem rake tasks will skip loading much of the environment. This should solve many of the "chicken-and-egg" problems where rake gems:install couldn't run because gems were missing.
-* Gems are now unpacked exactly once. This fixes issues with gems (hoe, for instance) which are packed with read-only permissions on the files.
+* Rails ビルド用に CI サーバを更新する手順が更新され、拡張されました。
+* Railsの内部テストが `Test::Unit::TestCase` から `ActiveSupport::TestCase` に変更され、RailsコアのテストでMochaが必須になりました。
+* デフォルトの `environment.rb` ファイルが整理されました。
+* dbconsole スクリプトで数字のみのパスワードを設定してもクラッシュしなくなりました。
+* `Rails.root` が `Pathname` オブジェクトを返すようになりました。つまり、 `File.join` を使っている [既存のコードをクリーンアップ](https://afreshcup.wordpress.com/2008/12/05/a-little-rails_root-tidiness/)して`join` メソッドを直接使えるようになりました。
+* CGIやFCGIのディスパッチを扱う/publicの様々なファイルが、デフォルトではすべてのRailsアプリケーションで生成されなくなりました（必要であれば、`rails`コマンドを実行するときに `--with-dispatchers` を追加すればまだ取得できますし、後から `rake rails:update:generate_dispatchers` で追加することも可能です)。
+* Railsガイドの記法がAsciiDocからTextileマークアップに変更されました。
+* scaffoldで生成されるビューやコントローラが少し整理されました。
+* `script/server` に、特定のパスからRailsアプリケーションをマウントする `--path` 引数を渡せるようになりました。
+* gemのrakeタスクは、設定済みの gem がない場合に環境の読み込みをスキップするようになりました。これは、gem が見つからないために `rake gems:install` が実行できないといった「卵が先かニワトリが先か」問題の多くを解決するはずです。
+* Gems は正確に一度だけunpackされるようになりました。これは、ファイルの読み取り専用パーミッションでパックされた gem (hoeなど) の問題を解決します。
 
-Deprecated
+
+非推奨化されたもの
 ----------
 
-A few pieces of older code are deprecated in this release:
+今回のリリースで、いくつかの古いコードが非推奨化されました。
 
-* If you're one of the (fairly rare) Rails developers who deploys in a fashion that depends on the inspector, reaper, and spawner scripts, you'll need to know that those scripts are no longer included in core Rails. If you need them, you'll be able to pick up copies via the [irs_process_scripts](http://github.com/rails/irs_process_scripts/tree) plugin.
-* `render_component` goes from "deprecated" to "nonexistent" in Rails 2.3. If you still need it, you can install the [render_component plugin](http://github.com/rails/render_component/tree/master).
-* Support for Rails components has been removed.
-* If you were one of the people who got used to running `script/performance/request` to look at performance based on integration tests, you need to learn a new trick: that script has been removed from core Rails now. There's a new request_profiler plugin that you can install to get the exact same functionality back.
-* `ActionController::Base#session_enabled?` is deprecated because sessions are lazy-loaded now.
-* The `:digest` and `:secret` options to `protect_from_forgery` are deprecated and have no effect.
-* Some integration test helpers have been removed. `response.headers["Status"]` and `headers["Status"]` will no longer return anything. Rack does not allow "Status" in its return headers. However you can still use the `status` and `status_message` helpers. `response.headers["cookie"]` and `headers["cookie"]` will no longer return any CGI cookies. You can inspect `headers["Set-Cookie"]` to see the raw cookie header or use the `cookies` helper to get a hash of the cookies sent to the client.
-* `formatted_polymorphic_url` is deprecated. Use `polymorphic_url` with `:format` instead.
-* The `:http_only` option in `ActionController::Response#set_cookie` has been renamed to `:httponly`.
-* The `:connector` and `:skip_last_comma` options of `to_sentence` have been replaced by `:words_connnector`, `:two_words_connector`, and `:last_word_connector` options.
-* Posting a multipart form with an empty `file_field` control used to submit an empty string to the controller. Now it submits a nil, due to differences between Rack's multipart parser and the old Rails one.
+* めったにいないはずですが、Railsアプリのデプロイをinspector、reaper、spawnerスクリプトに依存している場合は、これらのスクリプトがRailsのコアに含まれなくなったことを知っておく必要があります。必要なら、[irs_process_scripts](https://github.com/rails/irs_process_scripts)プラグインでコピーを手に入れられるはずです。
+* Rails 2.3 で `render_component` が "deprecated" から "nonexistent" に変更されました。それでも必要な場合は、[render_component plugin](https://github.com/rails/render_component/tree/master)をインストールするとよいでしょう。
+* Railsコンポーネントのサポートは削除されました。
+* `script/performance/request` スクリプトは現在Railsのコアから削除されました。結合テストでこのスクリプトを用いてパフォーマンスをチェックしている方は、別の新しい方法を学ぶ必要があります。新しいrequest_profilerプラグインをインストールすれば、まったく同じ機能を復元できます。
+* `ActionController::Base#session_enabled?` は、セッションが遅延読み込みされるようになったため非推奨化されました。
+* `protect_from_forgery` の `:digest` と `:secret` オプションは非推奨化されました（無効なオプションです）。
+* いくつかの結合テストヘルパーが削除されました。`response.headers["Status"]` と `headers["Status"]` は何も返さなくなりました。Rack は戻り値のヘッダに "Status" を使うことを許可していません。しかし、 `status` ヘルパーや `status_message` ヘルパーは利用可能です。`response.headers["cookie"]` と `headers["cookie"]` は CGI cookieを一切返さなくなりました。生のcookieヘッダを見るために `headers["Set-Cookie"]` を検査したり、クライアントに送信されたcookieのハッシュを取得するために `cookies` ヘルパーを利用することは可能です。
+* `formatted_polymorphic_url` は非推奨化されました。代わりに `polymorphic_url` と `:format` をお使いください。
+* `ActionController::Response#set_cookie` の `:http_only` オプション名は `:httponly` に変更されました。
+* `to_sentence` の `:connector` オプションと `:skip_last_comma` オプションは、 `:words_connector`, `:two_words_connector`, `:last_word_connector` オプションに置き換わりました。
+* `file_field` コントロールが空になっているマルチパートフォームを送信すると、以前は空文字列がコントローラに送信されていましたが、現在はnilを送信するようになりました。これは、Rack のマルチパートパーサーと Rails の古いパーサーとの違いに起因します。
 
-Credits
+クレジット表記
 -------
 
-Release notes compiled by [Mike Gunderloy](http://afreshcup.com.) This version of the Rails 2.3 release notes was compiled based on RC2 of Rails 2.3.
+リリースノート編集担当:[Mike Gunderloy](http://afreshcup.com)。このRails 2.3リリースノートは、Rails 2.3 RC2を元に編集されています。
+
