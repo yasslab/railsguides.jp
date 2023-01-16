@@ -227,7 +227,7 @@ Active Record
       `change_table`も逆マイグレーション可能になりました。ただしそのブロックで`remove`、`change`、`change_default`が呼び出されていないことが前提です。
 
     * `reversible`メソッドが新たに追加され、マイグレーション (up) や逆マイグレーション (down) 時に実行するコードを指定できるようになりました。
-      詳細については[Active Record マイグレーションガイド](active_record_migrations.html#reversibleを使う)を参照してください。
+      詳細については[Active Record マイグレーションガイド](active_record_migrations.html#reversibleを使用する)を参照してください。
 
     * 新しい`revert`メソッドは、特定のブロックやマイグレーション全体を逆転します。
       逆マイグレーション (down) を行うと、指定されたマイグレーションやブロックは通常のマイグレーション (up) になります。
