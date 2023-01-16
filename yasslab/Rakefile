@@ -1,3 +1,11 @@
+namespace :yasslab do
+  task :test do
+    Dir.glob('./yasslab/test/**/*_test.rb') do |file|
+      system("ruby #{file}")
+    end
+  end
+end
+
 namespace :assets do
   desc "Make ready for deploying to Heroku from GTT"
   task precompile: [:clean] do
