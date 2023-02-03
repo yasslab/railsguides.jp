@@ -261,7 +261,7 @@ Action View
 
 ### 主な変更点
 
-*   [JSON Feeds](https://jsonfeed.org/version/1)に対応するため、`auto_discovery_link_tag`に`:json`タイプを追加しました。    
+*   [JSON Feeds](https://jsonfeed.org/version/1)に対応するため、`auto_discovery_link_tag`に`:json`タイプを追加しました。
     ([Pull Request](https://github.com/rails/rails/pull/29158))
 
 *   `image_tag`ヘルパーに`srcset`オプションを追加しました。

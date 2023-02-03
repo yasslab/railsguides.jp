@@ -185,7 +185,7 @@
     -
       name: Ruby on Rails に貢献する方法
       url: contributing_to_ruby_on_rails.html
-      description: Railsは「どこかで誰かがうまくやってくれているフレームワーク」ではありません。現在も継続しているRailsフレームワーク開発に貢献するさまざまな方法について解説します。 
+      description: Railsは「どこかで誰かがうまくやってくれているフレームワーク」ではありません。現在も継続しているRailsフレームワーク開発に貢献するさまざまな方法について解説します。
     -
       name: Rails コア開発環境の構築方法
       url: development_dependencies_install.html
@@ -249,10 +249,10 @@
       url: 3_0_release_notes.html
       description: Rails 3.0のリリースノートです。
     -
-      name: Ruby on Rails 2.3 Release Notes [未訳]
+      name: Ruby on Rails 2.3 リリースノート
       url: 2_3_release_notes.html
       description: Rails 2.3のリリースノートです。
     -
-      name: Ruby on Rails 2.2 Release Notes [未訳]
+      name: Ruby on Rails 2.2 リリースノート
       url: 2_2_release_notes.html
       description: Rails 2.2のリリースノートです。
