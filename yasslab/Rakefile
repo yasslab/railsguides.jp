@@ -33,22 +33,39 @@ task test: [:build] do
   options = {
     alt_ignore: [/.*\.(png|gif)/],  # TODO: Set empty, run tests, and fix errors
     allow_hash_href:  true,
-    check_opengraph:  true,
-    check_favicon:    true,
-    check_html:       true,
     disable_external: true,
-    file_ignore: [
+    ignore_files: [
       /.*\.xml/,
       /.*\.json/,
-      "./_site/2_2_release_notes.html", # TODO: Delete this line when translated
-      "./_site/5_2_release_notes.html", # TODO: Delete this line when #763 fixed
-      # https://github.com/yasslab/railsguides.jp/issues/763
-      "./_site/humanx.txt"
+      "_site/humanx.txt"
     ],
-    url_ignore:  %w(),
-    http_status_ignore: [0, 500, 999]
+    ignore_status_codes: [0, 500, 999],
+    ignore_urls: [
+      %r{^http://localhost:3000},
+      %r{^//cdn.carbonads.com},
+
+      # TODO: Fix these URLs later
+      %r{^http://docs.ruby-lang.org},
+      %r{^http://api.rubyonrails.org},
+      %r{^http://guides.rubygems.org},
+      %r{^http://guides.rubyonrails.org},
+      %r{^http://edgeapi.rubyonrails.org},
+      %r{^http://netwiki.rubyonrails.org},
+      %r{^http://contributors.rubyonrails.org},
+
+      # TODO: Check if these URLs can use HTTPS
+      %r{^http://lindsaar.net},
+      %r{^http://railscasts.com},
+      %r{^http://rdoc.info},
+      %r{^http://semver.org},
+      %r{^http://yehudakatz.com},
+      %r{^http://yugui.jp},
+      %r{^http://www.rdoc.info},
+      %r{^http://www.unicode.org},
+      %r{^http://}, # This ignores all URLs that start with 'http://*'.
+    ],
   }
-  HTMLProofer.check_directory('./_site', options).run
+  HTMLProofer.check_directory('_site/', options).run
 end
 
 task build: [:clean] do
