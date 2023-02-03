@@ -1,0 +1,14 @@
+name: Review Request Notify
+on:
+  pull_request:
+    types: [review_requested]
+    branches:
+      - "*"
+jobs:
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: yasslab/review_request_notify@main
+        with:
+          channel-id:  'public-guides-news'
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
