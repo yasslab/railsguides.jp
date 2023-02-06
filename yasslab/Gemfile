@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby "2.6.2"
 
 # Required gems to build Rails Guides (same as rails/rails)
+gem 'activesupport' # Needed to run 'rake assets:precompile'
 gem "rake"
 gem 'rails-html-sanitizer'
 gem 'rack-test'
@@ -17,6 +18,7 @@ end
 gem "jekyll"
 gem "rack-jekyll"
 gem "kramdown"
+gem "webrick"
 
 # Test HTML files by: `bundle exec rake test`
 # Required as well in production to check deployment
@@ -35,20 +37,5 @@ group :development, :test do
 end
 
 group :test do
-
   gem 'test-unit'
-end
-
-group :production do
-  # Enable HTTP caching for Rack-based applications
-  gem "rack-cache" #, "~> 1.2"
-
-  # Monitoring tools
-  gem "newrelic_rpm"
-
-  # SSL in Production
-  gem "puma"
-  gem "acme_challenge"
-  gem "rack-rewrite" #, "~> 1.5.0"
-  gem "rack-contrib"
 end

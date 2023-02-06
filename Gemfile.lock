@@ -1,7 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    acme_challenge (0.1.0)
+    activesupport (6.1.7.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     byebug (11.1.3)
@@ -72,9 +77,8 @@ GEM
     mercenary (0.4.0)
     method_source (1.0.0)
     mini_portile2 (2.8.1)
+    minitest (5.17.0)
     mustache (1.1.1)
-    newrelic_rpm (8.15.0)
-    nio4r (2.5.8)
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
@@ -93,18 +97,11 @@ GEM
     psych (5.0.1)
       stringio
     public_suffix (5.0.1)
-    puma (6.0.2)
-      nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.5)
-    rack-cache (1.13.0)
-      rack (>= 0.4)
-    rack-contrib (2.3.0)
-      rack (~> 2.0)
     rack-jekyll (0.3.5)
       jekyll
       rack
-    rack-rewrite (1.5.1)
     rack-test (2.0.2)
       rack (>= 1.3)
     rails-html-sanitizer (1.4.4)
@@ -135,6 +132,8 @@ GEM
       power_assert
     typhoeus (1.4.0)
       ethon (>= 0.9.0)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
     w3c_validators (1.3.7)
       json (>= 1.8)
@@ -149,20 +148,15 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  acme_challenge
+  activesupport
   docset
   erubi
   html-proofer
   jekyll
   kindlerb
   kramdown
-  newrelic_rpm
   pry-byebug
-  puma
-  rack-cache
-  rack-contrib
   rack-jekyll
-  rack-rewrite
   rack-test
   rails-html-sanitizer
   rake
@@ -170,9 +164,10 @@ DEPENDENCIES
   sdoc
   test-unit
   w3c_validators
+  webrick
 
 RUBY VERSION
    ruby 2.6.2p47
 
 BUNDLED WITH
-   2.1.2
+   2.4.6
