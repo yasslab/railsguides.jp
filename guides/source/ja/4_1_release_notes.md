@@ -52,7 +52,7 @@ Spring is running:
 
 Springのすべての機能については[Spring README](https://github.com/rails/spring/blob/master/README.md)を参照してください。
 
-[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring-gem)には、この機能を既存のアプリケーションと統合する方法について記載されています。
+[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#spring)には、この機能を既存のアプリケーションと統合する方法について記載されています。
 
 ### `config/secrets.yml`
 
@@ -276,7 +276,7 @@ Action Pack
 
 * 署名及び暗号化されたcookies jarのシリアライザを指定する`config.action_dispatch.cookies_serializer`configオプションが新たに追加されました。 (Pull Requests [1](https://github.com/rails/rails/pull/13692), [2](https://github.com/rails/rails/pull/13945) / [詳細](upgrading_ruby_on_rails.html#cookiesシリアライザ))
 
-* `render :plain`、`render :html`、`render :body`が追加されました。([Pull Request](https://github.com/rails/rails/pull/14062) / [詳細](upgrading_ruby_on_rails.html#文字列コンテンツのレンダリング))
+* `render :plain`、`render :html`、`render :body`が追加されました。([Pull Request](https://github.com/rails/rails/pull/14062) / [詳細](upgrading_ruby_on_rails.html#文字列からのコンテンツ描出))
 
 
 Action Mailer
