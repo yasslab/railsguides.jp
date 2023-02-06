@@ -1,3 +1,6 @@
+load 'yasslab/Rakefile'
+return
+
 # frozen_string_literal: true
 
 require "net/http"
@@ -70,5 +73,3 @@ task :publish_docs do
     puts response.body
   end
 end
-
-load 'yasslab/Rakefile'

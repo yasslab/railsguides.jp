@@ -116,14 +116,14 @@ config.debug_exception_response_format = :api
 
 ```ruby
 class ApplicationController < ActionController::Base
-end 
+end
 ```
 
 上を以下に変更します。
 
 ```ruby
 class ApplicationController < ActionController::API
-end 
+end
 ```
 
 ミドルウェアの選択
@@ -148,7 +148,7 @@ APIアプリケーションでは、デフォルトで以下のミドルウェ�
 - `Rack::ConditionalGet`
 - `Rack::ETag`
 
-詳しくは、Rackガイドの[内部ミドルウェア](rails_on_rack.html#internal-middleware-stack) をご覧ください。
+詳しくは、Rackガイドの[内部ミドルウェア](rails_on_rack.html#ミドルウェアスタックの内容) をご覧ください。
 
 ミドルウェアは、Active Recordなど他のプラグインによって追加されることがあります。一般に、構築するアプリの種類とミドルウェアは関係ありませんが、API専用Railsアプリでは意味があります。
 
@@ -184,7 +184,7 @@ def show
 
   if stale?(last_modified: @post.updated_at, public: true)
     render json: @post
-  end 
+  end
 end
 ```
 
@@ -292,12 +292,12 @@ APIアプリケーション（`ActionController::API`を利用）には、デフ
 ```bash
 $ bin/rails c
 >> ActionController::API.ancestors - ActionController::Metal.ancestors
-=> [ActionController::API, 
-    ActiveRecord::Railties::ControllerRuntime, 
-    ActionDispatch::Routing::RouteSet::MountedHelpers, 
-    ActionController::ParamsWrapper, 
-    ... , 
-    AbstractController::Rendering, 
+=> [ActionController::API,
+    ActiveRecord::Railties::ControllerRuntime,
+    ActionDispatch::Routing::RouteSet::MountedHelpers,
+    ActionController::ParamsWrapper,
+    ... ,
+    AbstractController::Rendering,
     ActionView::ViewPaths]
 ```
 

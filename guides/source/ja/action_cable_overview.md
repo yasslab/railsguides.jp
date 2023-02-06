@@ -172,7 +172,7 @@ class CommentsChannel < ApplicationCable::Channel
   def subscribed
     post = Post.find(params[:id])
     stream_for post
-  end 
+  end
 end
 ```
 
@@ -302,9 +302,9 @@ App.chatChannel.send({ sent_by: "Paul", body: "This is a cool chat app." })
 
 以下の設定手順は、2つの例で共通です。
 
-  1. [接続を設定](#connection-setup).
-  2. [親チャネルを設定](#parent-channel-setup).
-  3. [コンシューマーを接続](#connect-consumer).
+  1. [接続を設定](#コンシューマーの設定).
+  2. [親チャネルを設定](#親チャネルの設定).
+  3. [コンシューマーを接続](#コンシューマーとの接続).
 
 ### 例1: ユーザーアピアランスの表示
 
@@ -505,7 +505,7 @@ Action CableはRailsアプリケーションと一緒に実行できます。た
 # config/application.rb
 class Application < Rails::Application
   config.action_cable.mount_path = '/websocket'
-end 
+end
 ```
 
 レイアウトで`action_cable_meta_tag`を呼び出すと、`App.cable = ActionCable.createConsumer()`でAction Cableサーバーに接続できるようになります。`createConsumer`の最初の引数にはカスタムパスが指定されます（例: `App.cable = ActionCable.createConsumer("/websocket")`）。
