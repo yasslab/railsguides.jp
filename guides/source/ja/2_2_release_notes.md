@@ -1,84 +1,84 @@
-Rails 2.2 - 2008/11 [未訳]
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+
+Ruby on Rails 2.2 リリースノート
 ===============================
 
-Rails 2.2 delivers a number of new and improved features. This list covers the major upgrades, but doesn't include every little bug fix and change. If you want to see everything, check out the [list of commits](http://github.com/rails/rails/commits/master) in the main Rails repository on GitHub.
+Rails 2.2には多くの新機能と機能改善が盛り込まれています。このリストは主要なアップグレードをカバーしていますが、小さなバグフィックスや変更までは含まれていません。すべての変更を見るには、GitHubのRailsメインリポジトリの[コミットリスト](https://github.com/rails/rails/commits/2-2-stable)を参照してください。
 
-Along with Rails, 2.2 marks the launch of the [Ruby on Rails Guides](http://guides.rubyonrails.org/), the first results of the ongoing [Rails Guides hackfest](http://hackfest.rubyonrails.org/guide). This site will deliver high-quality documentation of the major features of Rails.
+Rails 2.2のリリースに伴い、現在進行中の[Rails Guides hackfest](https://rubyonrails.org/2008/9/4/guides-hackfest)の最初の成果である[Rails Guides](https://guides.rubyonrails.org/)が発表されました。[Rails Guides](https://guides.rubyonrails.org/)では、Railsの主要な機能に関する高品質なドキュメントを提供する予定です。
 
 --------------------------------------------------------------------------------
 
-Infrastructure
+インフラストラクチャ
 --------------
 
-Rails 2.2 is a significant release for the infrastructure that keeps Rails humming along and connected to the rest of the world.
+Rails 2.2は、Railsを安定稼働させ、世界とつなぐインフラストラクチャとして重要なリリースです。
 
-### Internationalization
+### 国際化
 
-Rails 2.2 supplies an easy system for internationalization (or i18n, for those of you tired of typing).
+Rails 2.2では、国際化 (internationalization: 長いのでi18nと略されます) 向けの簡単なシステムが提供されます。
 
-* Lead Contributors: Rails i18 Team
-* More information :
+* リードコントリビュータ: Rails i18チーム
+* 詳細:
     * [Official Rails i18 website](http://rails-i18n.org)
-    * [Finally. Ruby on Rails gets internationalized](http://www.artweb-design.de/2008/7/18/finally-ruby-on-rails-gets-internationalized)
-    * [Localizing Rails : Demo application](http://github.com/clemens/i18n_demo_app)
+    * [Finally. Ruby on Rails gets internationalized](https://web.archive.org/web/20140407075019/http://www.artweb-design.de/2008/7/18/finally-ruby-on-rails-gets-internationalized)
+    * [Localizing Rails : Demo application](https://github.com/clemens/i18n_demo_app)
 
-### Compatibility with Ruby 1.9 and JRuby
+### Ruby 1.9およびJRubyとの互換性
 
-Along with thread safety, a lot of work has been done to make Rails work well with JRuby and the upcoming Ruby 1.9. With Ruby 1.9 being a moving target, running edge Rails on edge Ruby is still a hit-or-miss proposition, but Rails is ready to make the transition to Ruby 1.9 when the latter is released.
+RailsがJRubyや次期Ruby 1.9とスレッド安全性に関してうまく動作するよう、多くの作業が行われました。Ruby 1.9のリリースはまだ先なので、Ruby 1.9でRailsを動かすのはまだ難しい状態ですが、Ruby 1.9がリリースされたときにRailsが移行する準備は整っています。
 
-Documentation
+ドキュメント
 -------------
 
-The internal documentation of Rails, in the form of code comments, has been improved in numerous places. In addition, the [Ruby on Rails Guides](http://guides.rubyonrails.org/) project is the definitive source for information on major Rails components. In its first official release, the Guides page includes:
+コードコメント形式のRails内部ドキュメントが随所で改善されました。また、[Railsガイド](https://railsguides.jp/)プロジェクトは、Railsの主要なコンポーネントに関する決定的な情報源です。最初の公式リリースにはRailsガイドの以下のページが含まれています。
 
-* [Getting Started with Rails](getting_started.html)
-* [Rails Database Migrations](active_record_migrations.html)
-* [Active Record Associations](association_basics.html)
-* [Active Record Query Interface](active_record_querying.html)
-* [Layouts and Rendering in Rails](layouts_and_rendering.html)
-* [Action View Form Helpers](form_helpers.html)
-* [Rails Routing from the Outside In](routing.html)
-* [Action Controller Overview](action_controller_overview.html)
-* [Rails Caching](caching_with_rails.html)
-* [A Guide to Testing Rails Applications](testing.html)
-* [Securing Rails Applications](security.html)
-* [Debugging Rails Applications](debugging_rails_applications.html)
-* [Performance Testing Rails Applications](performance_testing.html)
-* [The Basics of Creating Rails Plugins](plugins.html)
+* [Rails をはじめよう](getting_started.html)
+* [Active Record マイグレーション](active_record_migrations.html)
+* [Active Record の関連付け](association_basics.html)
+* [Active Record クエリインターフェイス](active_record_querying.html)
+* [レイアウトとレンダリング](layouts_and_rendering.html)
+* [Action View フォームヘルパー](form_helpers.html)
+* [Rails のルーティング](routing.html)
+* [Action Controller の概要](action_controller_overview.html)
+* [Rails のキャッシュ機構](caching_with_rails.html)
+* [Rails テスティングガイド](testing.html)
+* [Rails セキュリティガイド](security.html)
+* [Rails アプリケーションのデバッグ](debugging_rails_applications.html)
+* [Rails プラグイン作成入門](plugins.html)
 
-All told, the Guides provide tens of thousands of words of guidance for beginning and intermediate Rails developers.
+このガイドには、初級および中級Rails開発者向けの数万語におよぶガイドが用意されています。
 
-If you want to generate these guides locally, inside your application:
+ガイドをローカルで生成したい場合は、アプリケーションのディレクトリで以下を実行します。
 
+
+```bash
+$ rake doc:guides
 ```
-rake doc:guides
-```
 
-This will put the guides inside `Rails.root/doc/guides` and you may start surfing straight away by opening `Rails.root/doc/guides/index.html` in your favourite browser.
+これでガイドが `Rails.root/doc/guides` 以下に生成され、ブラウザで `Rails.root/doc/guides/index.html` を開けばすぐに内容を表示できます。
 
-* Major contributions from [Xavier Noria":http://advogato.org/person/fxn/diary.html and "Hongli Lai](http://izumi.plan99.net/blog/.)
-* More information:
+* 主なコントリビュータ: [Xavier Noria](http://advogato.org/person/fxn/diary.html)および[Hongli Lai](http://izumi.plan99.net/blog/)
+* 詳細:
     * [Rails Guides hackfest](http://hackfest.rubyonrails.org/guide)
-    * [Help improve Rails documentation on Git branch](http://weblog.rubyonrails.org/2008/5/2/help-improve-rails-documentation-on-git-branch)
+    * [Help improve Rails documentation on Git branch](https://weblog.rubyonrails.org/2008/5/2/help-improve-rails-documentation-on-git-branch)
 
-Better integration with HTTP : Out of the box ETag support
+HTTPとの統合を改善: すぐ利用できるETagサポート
 ----------------------------------------------------------
 
-Supporting the etag and last modified timestamp in HTTP headers means that Rails can now send back an empty response if it gets a request for a resource that hasn't been modified lately. This allows you to check whether a response needs to be sent at all.
+HTTPヘッダでETagと最終更新タイムスタンプをサポートしたことで、最近更新されていないリソースへのリクエストをRailsが受け取ったときに空のレスポンスを返せるようになりました。これにより、レスポンスの送信が不要かどうかを確認できます。
 
 ```ruby
 class ArticlesController < ApplicationController
   def show_with_respond_to_block
     @article = Article.find(params[:id])
 
-    # If the request sends headers that differs from the options provided to stale?, then
-    # the request is indeed stale and the respond_to block is triggered (and the options
-    # to the stale? call is set on the response).
-    #
-    # If the request headers match, then the request is fresh and the respond_to block is
-    # not triggered. Instead the default render will occur, which will check the last-modified
-    # and etag headers and conclude that it only needs to send a "304 Not Modified" instead
-    # of rendering the template.
+    # リクエストで送信するヘッダがstale?に提供されたオプションと異なる場合、
+    # リクエストは実際にstaleし、respond_toブロックが起動する
+    # (このときstale?呼び出しのオプションがレスポンスにセットされる）。
+    # リクエストヘッダがマッチする場合リクエストはフレッシュなので respond_toブロックはトリガーされない。
+    # 代わりにデフォルトのレンダリングが発生してlast-modified と etag ヘッダーをチェックし、
+    # テンプレートをレンダリングする代わりに "304 Not Modified" だけを送信すればよいと判断する。
     if stale?(:last_modified => @article.published_at.utc, :etag => @article)
       respond_to do |wants|
         # normal response processing
@@ -89,48 +89,52 @@ class ArticlesController < ApplicationController
   def show_with_implied_render
     @article = Article.find(params[:id])
 
-    # Sets the response headers and checks them against the request, if the request is stale
-    # (i.e. no match of either etag or last-modified), then the default render of the template happens.
-    # If the request is fresh, then the default render will return a "304 Not Modified"
-    # instead of rendering the template.
+    # レスポンスヘッダを設定し、リクエストに対してそれらをチェックする。
+    # リクエストがstaleの場合（すなわち etag または last-modified のいずれもマッチしない場合)、
+    # デフォルトのテンプレートレンダリングが行われる。
+    # リクエストがフレッシュな場合、デフォルトレンダリングはテンプレートをレンダリングする代わりに
+    # "304 Not Modified "を返す。
     fresh_when(:last_modified => @article.published_at.utc, :etag => @article)
   end
 end
 ```
 
-Thread Safety
+スレッド安全性
 -------------
 
-The work done to make Rails thread-safe is rolling out in Rails 2.2. Depending on your web server infrastructure, this means you can handle more requests with fewer copies of Rails in memory, leading to better server performance and higher utilization of multiple cores.
+Railsをスレッドセーフにするために行われた作業がRails 2.2に反映されています。Webサーバのインフラにもよりますが、これはメモリ内のRailsのコピー数が少なくても、より多くのリクエストを処理できることを意味し、サーバのパフォーマンス向上とマルチコアの利用率向上につながります。
 
-To enable multithreaded dispatching in production mode of your application, add the following line in your `config/environments/production.rb`:
+アプリケーションのproductionモードでマルチスレッドディスパッチを有効にするには、 `config/environments/production.rb` に以下の行を追加してください。
+
 
 ```ruby
 config.threadsafe!
 ```
 
-* More information :
+* 詳細:
     * [Thread safety for your Rails](http://m.onkey.org/2008/10/23/thread-safety-for-your-rails)
-    * [Thread safety project announcement](http://weblog.rubyonrails.org/2008/8/16/josh-peek-officially-joins-the-rails-core)
+    * [Thread safety project announcement](https://weblog.rubyonrails.org/2008/8/16/josh-peek-officially-joins-the-rails-core)
     * [Q/A: What Thread-safe Rails Means](http://blog.headius.com/2008/08/qa-what-thread-safe-rails-means.html)
 
 Active Record
 -------------
 
-There are two big additions to talk about here: transactional migrations and pooled database transactions. There's also a new (and cleaner) syntax for join table conditions, as well as a number of smaller improvements.
 
-### Transactional Migrations
+ここでは、「トランザクショナルマイグレーション」と「プールされたデータベーストランザクション」という、2つの大きな追加機能について説明します。また、joinテーブル条件向けの新しい（そしてよりきれいな）構文の導入や、多くの小さな改良も行われました。
 
-Historically, multiple-step Rails migrations have been a source of trouble. If something went wrong during a migration, everything before the error changed the database and everything after the error wasn't applied. Also, the migration version was stored as having been executed, which means that it couldn't be simply rerun by `rake db:migrate:redo` after you fix the problem. Transactional migrations change this by wrapping migration steps in a DDL transaction, so that if any of them fail, the entire migration is undone. In Rails 2.2, transactional migrations are supported on PostgreSQL out of the box. The code is extensible to other database types in the future - and IBM has already extended it to support the DB2 adapter.
+### トランザクショナルマイグレーション
 
-* Lead Contributor: [Adam Wiggins](http://adam.heroku.com/)
-* More information:
+歴史的に、ステップを複数含むRailsマイグレーションはトラブルの元でした。マイグレーション中に何か問題が発生すると、エラー発生前のマイグレーションはデータベースを変更しますが、エラー発生後のマイグレーションは適用されません。また、マイグレーションのバージョンは実行済みとして保存されていたので、問題を解決した後に `rake db:migrate:redo` で単純に再実行できませんでした。トランザクショナルマイグレーションは、マイグレーションステップをDDLトランザクションでラップすることでこれを変更し、どれかが失敗したらマイグレーション全体を元に戻すようにします。Rails 2.2では、トランザクショナルマイグレーションは、PostgreSQLですぐにサポートされます。将来このコードは他のデータベースにも拡張可能で、IBMはすでにDB2アダプタをサポートするよう拡張しています。
+
+* リードコントリビュータ: [Adam Wiggins](http://about.adamwiggins.com/)
+* 詳細:
     * [DDL Transactions](http://adam.heroku.com/past/2008/9/3/ddl_transactions/)
     * [A major milestone for DB2 on Rails](http://db2onrails.com/2008/11/08/a-major-milestone-for-db2-on-rails/)
 
-### Connection Pooling
+### コネクションプール
 
-Connection pooling lets Rails distribute database requests across a pool of database connections that will grow to a maximum size (by default 5, but you can add a `pool` key to your `database.yml` to adjust this). This helps remove bottlenecks in applications that support many concurrent users. There's also a `wait_timeout` that defaults to 5 seconds before giving up. `ActiveRecord::Base.connection_pool` gives you direct access to the pool if you need it.
+コネクションプーリングは、Railsがデータベース接続のプールにデータベースリクエストを分散させ、最大サイズまで成長させられます（デフォルトでは5ですが、 `database.yml` に `pool` キーを追加すれば調整できます）。これは、同時に多数のユーザーをサポートするアプリケーションのボトルネックを解消するのに役立ちます。また、 `wait_timeout` も用意されており、デフォルトでは 5 秒で終了します。`ActiveRecord::Base.connection_pool` は、必要に応じてプールに直接アクセスできます。
+
 
 ```yaml
 development:
@@ -141,13 +145,13 @@ development:
   wait_timeout: 10
 ```
 
-* Lead Contributor: [Nick Sieger](http://blog.nicksieger.com/)
-* More information:
-    * [What's New in Edge Rails: Connection Pools](http://ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-connection-pools)
+* リードコントリビュータ: [Nick Sieger](http://blog.nicksieger.com/)
+* 詳細:
+    * [What's New in Edge Rails: Connection Pools](http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-connection-pools)
 
-### Hashes for Join Table Conditions
+### joinテーブル条件でハッシュを利用可能に
 
-You can now specify conditions on join tables using a hash. This is a big help if you need to query across complex joins.
+joinテーブル条件をハッシュで指定できるようになりました。これは、複雑なjoinをまたいでクエリを実行する必要がある場合に非常に有用です。
 
 ```ruby
 class Photo < ActiveRecord::Base
@@ -158,62 +162,62 @@ class Product < ActiveRecord::Base
   has_many :photos
 end
 
-# Get all products with copyright-free photos:
+# 著作権フリーのproductをすべて取得する
 Product.all(:joins => :photos, :conditions => { :photos => { :copyright => false }})
 ```
 
-* More information:
-    * [What's New in Edge Rails: Easy Join Table Conditions](http://ryandaigle.com/articles/2008/7/7/what-s-new-in-edge-rails-easy-join-table-conditions)
+* 詳細:
+    * [What's New in Edge Rails: Easy Join Table Conditions](http://archives.ryandaigle.com/articles/2008/7/7/what-s-new-in-edge-rails-easy-join-table-conditions)
 
-### New Dynamic Finders
+### 新しい動的finderメソッド
 
-Two new sets of methods have been added to Active Record's dynamic finders family.
+Active Recordの動的finderファミリーに、新たに2つのメソッドが追加されました。
 
 #### `find_last_by_attribute`
 
-The `find_last_by_attribute` method is equivalent to `Model.last(:conditions => {:attribute => value})`
+`find_last_by_attribute`メソッドは、`Model.last(:conditions => {:attribute => value})`と同等です。
 
 ```ruby
-# Get the last user who signed up from London
+# ロンドンからサインアップした直近のユーザーを取得する
 User.find_last_by_city('London')
 ```
 
-* Lead Contributor: [Emilio Tagua](http://www.workingwithrails.com/person/9147-emilio-tagua)
+* リードコントリビュータ: [Emilio Tagua](http://www.workingwithrails.com/person/9147-emilio-tagua)
 
 #### `find_by_attribute!`
 
-The new bang! version of `find_by_attribute!` is equivalent to `Model.first(:conditions => {:attribute => value}) || raise ActiveRecord::RecordNotFound` Instead of returning `nil` if it can't find a matching record, this method will raise an exception if it cannot find a match.
+`!`付きの新しい`find_by_attribute!` は、`Model.first(:conditions => {:attribute => value}) || raise ActiveRecord::RecordNotFound` と同等です。マッチするレコードが見つからない場合は、`nil` を返す代わりに例外を発生します。
 
 ```ruby
-# Raise ActiveRecord::RecordNotFound exception if 'Moby' hasn't signed up yet!
+# 'Moby'がサインアップしていなければActiveRecord::RecordNotFound例外を発生する
 User.find_by_name!('Moby')
 ```
 
-* Lead Contributor: [Josh Susser](http://blog.hasmanythrough.com)
+* リードコントリビュータ: [Josh Susser](http://blog.hasmanythrough.com)
 
-### Associations Respect Private/Protected Scope
+### 関連付けがprivateやprotectedスコープを尊重するようになった
 
-Active Record association proxies now respect the scope of methods on the proxied object. Previously (given User has_one :account) `@user.account.private_method` would call the private method on the associated Account object. That fails in Rails 2.2; if you need this functionality, you should use `@user.account.send(:private_method)` (or make the method public instead of private or protected). Please note that if you're overriding `method_missing`, you should also override `respond_to` to match the behavior in order for associations to function normally.
+Active Recordの関連付けプロキシは、プロキシされたオブジェクトのメソッドのスコープを尊重するようになりました。以前の`@user.account.private_method` は、関連付けられた Account オブジェクトのprivateメソッドを呼び出していました(`User has_one :account`の場合)。この機能が必要な場合は、 `@user.account.send(:private_method)` をお使いください (または、メソッドを private や protected ではなく public にしてください)。 `method_missing` をオーバーライドしている場合は、関連付けが正常に機能するように `respond_to` も同じ挙動になるようにオーバーライドする必要がある点にご注意ください。
 
-* Lead Contributor: Adam Milligan
-* More information:
+* リードコントリビュータ: Adam Milligan
+* 詳細:
     * [Rails 2.2 Change: Private Methods on Association Proxies are Private](http://afreshcup.com/2008/10/24/rails-22-change-private-methods-on-association-proxies-are-private/)
 
-### Other Active Record Changes
+### その他のActive Recordの変更
 
-* `rake db:migrate:redo` now accepts an optional VERSION to target that specific migration to redo
-* Set `config.active_record.timestamped_migrations = false` to have migrations with numeric prefix instead of UTC timestamp.
-* Counter cache columns (for associations declared with `:counter_cache => true`) do not need to be initialized to zero any longer.
-* `ActiveRecord::Base.human_name` for an internationalization-aware humane translation of model names
+* `rake db:migrate:redo` にオプションで VERSION を追加して、特定のマイグレーションを redo に指定できるようになりました。
+* UTC タイムスタンプの代わりに数値のプレフィックスを持つ移行を行うには `config.active_record.timestamped_migrations = false` と設定してください。
+* カウンタキャッシュのカラム（`:counter_cache => true` で宣言された関連付け）をゼロに初期化する必要がなくなりました。
+* `ActiveRecord::Base.human_name` により、国際化に対応したモデル名を人間に読みやすく翻訳できるようになりました。
 
 Action Controller
 -----------------
 
-On the controller side, there are several changes that will help tidy up your routes. There are also some internal changes in the routing engine to lower memory usage on complex applications.
+コントローラ側では、ルーティングを整理するのに役立ついくつかの変更があります。また、複雑なアプリケーションのメモリ使用量を減らすために、ルーティングエンジンの内部にもいくつかの変更が加えられています。
 
-### Shallow Route Nesting
+### ルーティングの浅いネスト
 
-Shallow route nesting provides a solution to the well-known difficulty of using deeply-nested resources. With shallow nesting, you need only supply enough information to uniquely identify the resource that you want to work with.
+ルーティングの「浅いネスト」は、ネストの深いリソースを使うときのよく知られた問題に対するソリューションを提供します。浅いネストでは、作業したいリソースを一意に識別するのに十分な情報だけを提供すれば済むようになりました。
 
 ```ruby
 map.resources :publishers, :shallow => true do |publisher|
@@ -223,7 +227,7 @@ map.resources :publishers, :shallow => true do |publisher|
 end
 ```
 
-This will enable recognition of (among others) these routes:
+これで、以下のルーティングが認識されるようになります。
 
 ```
 /publishers/1           ==> publisher_path(1)
@@ -233,69 +237,69 @@ This will enable recognition of (among others) these routes:
 /photos/3               ==> photo_path(3)
 ```
 
-* Lead Contributor: [S. Brent Faulkner](http://www.unwwwired.net/)
-* More information:
-    * [Rails Routing from the Outside In](routing.html#nested-resources)
-    * [What's New in Edge Rails: Shallow Routes](http://ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-shallow-routes)
+* リードコントリビュータ: [S. Brent Faulkner](http://www.unwwwired.net/)
+* 詳細:
+    * [Rails のルーティング](routing.html#ネストしたリソース)
+    * [What's New in Edge Rails: Shallow Routes](http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-shallow-routes)
 
 ### Method Arrays for Member or Collection Routes
 
-You can now supply an array of methods for new member or collection routes. This removes the annoyance of having to define a route as accepting any verb as soon as you need it to handle more than one. With Rails 2.2, this is a legitimate route declaration:
+新しいmemberルーティングやcollectionルーティングに対して、メソッドの配列を指定できるようになりました。これにより、複数のHTTP verbを処理する必要があるときに、任意のverbを受け取るようにルーティングを定義しなければならないという煩わしさから解放されます。以下はRails 2.2で有効なルート宣言です。
 
 ```ruby
 map.resources :photos, :collection => { :search => [:get, :post] }
 ```
 
-* Lead Contributor: [Brennan Dunn](http://brennandunn.com/)
+* リードコントリビュータ: [Brennan Dunn](http://brennandunn.com/)
 
-### Resources With Specific Actions
+### 特定のアクションを持つresources
 
-By default, when you use `map.resources` to create a route, Rails generates routes for seven default actions (index, show, create, new, edit, update, and destroy). But each of these routes takes up memory in your application, and causes Rails to generate additional routing logic. Now you can use the `:only` and `:except` options to fine-tune the routes that Rails will generate for resources. You can supply a single action, an array of actions, or the special `:all` or `:none` options. These options are inherited by nested resources.
+デフォルトでは、`map.resources`を使ってルートを作成すると、Railsは7つのデフォルトアクション（index, show, create, new, edit, update, and destroy）に対するルーティングを生成します。しかし、これらのルーティングはそれぞれアプリケーションのメモリを消費し、Railsが追加のルーティングロジックを生成することになります。そこで、`:only` と `:except` オプションを使って、Railsがリソースに対して生成するルートを細かく設定できるようになりました。単一のアクション、アクションの配列、または特殊オプション `:all` や `:none` を指定できます。これらのオプションは、ネストしたリソースに継承されます。
 
 ```ruby
 map.resources :photos, :only => [:index, :show]
 map.resources :products, :except => :destroy
 ```
 
-* Lead Contributor: [Tom Stuart](http://experthuman.com/)
+* リードコントリビュータ: [Tom Stuart](http://experthuman.com/)
 
-### Other Action Controller Changes
+### その他のAction Controllerの変更
 
-* You can now easily [show a custom error page](http://m.onkey.org/2008/7/20/rescue-from-dispatching) for exceptions raised while routing a request.
-* The HTTP Accept header is disabled by default now. You should prefer the use of formatted URLs (such as `/customers/1.xml`) to indicate the format that you want. If you need the Accept headers, you can turn them back on with `config.action_controller.use_accept_header = true`.
-* Benchmarking numbers are now reported in milliseconds rather than tiny fractions of seconds
-* Rails now supports HTTP-only cookies (and uses them for sessions), which help mitigate some cross-site scripting risks in newer browsers.
-* `redirect_to` now fully supports URI schemes (so, for example, you can redirect to a svn`ssh: URI).
-* `render` now supports a `:js` option to render plain vanilla JavaScript with the right mime type.
-* Request forgery protection has been tightened up to apply to HTML-formatted content requests only.
-* Polymorphic URLs behave more sensibly if a passed parameter is nil. For example, calling `polymorphic_path([@project, @date, @area])` with a nil date will give you `project_area_path`.
+* リクエストのルーティング中に発生した例外で、[カスタムエラーページを簡単に表示](http://m.onkey.org/2008/7/20/rescue-from-dispatching)できるようになりました。
+* HTTP Acceptヘッダはデフォルトで無効化されました。Accept ヘッダが必要な場合は、 `config.action_controller.use_accept_header = true` でオンに戻せます。
+* ベンチマークが秒単位ではなくミリ秒単位で出力されるようになりました。
+* RailsがHTTPonly cookieをサポートするようになりました（セッションで使われます）。 これは新しいブラウザでクロスサイトスクリプティングのリスクを軽減するのに有用です。
+* `redirect_to` が URI スキームを完全にサポートしました（たとえば`ssh: URI` にリダイレクトできます）。
+* `render` が `:js` オプションをサポートし、正しい MIME タイプを持つ素の JavaScript をレンダリングするようになりました。
+* リクエストフォージェリ対策が HTML フォーマットのコンテンツリクエストにのみ適用されるように強化されました。
+* 渡されたパラメータが nil の場合のポリモーフィック URL 動作が改良されました。たとえば、 `polymorphic_path([@project, @date, @area])` を nil の日付で呼ぶと、 `project_area_path` が返されます。
 
 Action View
 -----------
 
-* `javascript_include_tag` and `stylesheet_link_tag` support a new `:recursive` option to be used along with `:all`, so that you can load an entire tree of files with a single line of code.
-* The included Prototype JavaScript library has been upgraded to version 1.6.0.3.
-* `RJS#page.reload` to reload the browser's current location via JavaScript
-* The `atom_feed` helper now takes an `:instruct` option to let you insert XML processing instructions.
+* `javascript_include_tag` と `stylesheet_link_tag` が新しい `:recursive` オプションをサポートし、 `:all` も指定することでファイルのツリー全体を読み込めるようになりました。
+* 同梱の Prototype JavaScript ライブラリがバージョン 1.6.0.3 にアップグレードされました。
+* `RJS#page.reload` は、ブラウザの現在のページをJavaScriptで再読み込みします。
+* `atom_feed` ヘルパーに `:instruct` オプションが追加され、XML 処理命令を挿入できるようになりました。
 
 Action Mailer
 -------------
 
-Action Mailer now supports mailer layouts. You can make your HTML emails as pretty as your in-browser views by supplying an appropriately-named layout - for example, the `CustomerMailer` class expects to use `layouts/customer_mailer.html.erb`.
+Action Mailerがメーラーでレイアウトをサポートするようになりました。適切な名前のレイアウトを指定すると、HTMLメールをブラウザ上のビューのように整形できます。たとえば、`CustomerMailer`クラスは `layouts/customer_mailer.html.erb` を使うことを想定しています。
 
-* More information:
-    * [What's New in Edge Rails: Mailer Layouts](http://ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-mailer-layouts)
+* 詳細:
+    * [What's New in Edge Rails: Mailer Layouts](http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-mailer-layouts)
 
-Action Mailer now offers built-in support for GMail's SMTP servers, by turning on STARTTLS automatically. This requires Ruby 1.8.7 to be installed.
+Action Mailer は、GMail の SMTP サーバーでSTARTTLS を自動的にオンにすることで、ビルトインのサポートを提供するようになりました。このためには、Ruby 1.8.7 がインストールされている必要があります。
 
 Active Support
 --------------
 
-Active Support now offers built-in memoization for Rails applications, the `each_with_object` method, prefix support on delegates, and various other new utility methods.
+Active Supportは、Railsアプリケーションのメモ化機能の組み込み、`each_with_object`メソッド、委譲でのプレフィックスサポートなど、多くの新しいユーティリティメソッドを提供するようになりました。
 
-### Memoization
+### メモ化
 
-Memoization is a pattern of initializing a method once and then stashing its value away for repeat use. You've probably used this pattern in your own applications:
+メモ化（memoization）とは、あるメソッドを一度初期化した後、その値を保存して繰り返し使えるようにする手法です。自分のアプリケーションでこのパターンを使ったことがある人も多いでしょう。
 
 ```ruby
 def full_name
@@ -303,7 +307,7 @@ def full_name
 end
 ```
 
-Memoization lets you handle this task in a declarative fashion:
+メモ化を使うと、このタスクを宣言的に処理できます。
 
 ```ruby
 extend ActiveSupport::Memoizable
@@ -314,26 +318,27 @@ end
 memoize :full_name
 ```
 
-Other features of memoization include `unmemoize`, `unmemoize_all`, and `memoize_all` to turn memoization on or off.
+その他のメモ化機能には、メモ化をオンオフできる`unmemoize`, `unmemoize_all`, `memoize_all` などがあります。
 
-* Lead Contributor: [Josh Peek](http://joshpeek.com/)
-* More information:
-    * [What's New in Edge Rails: Easy Memoization](http://ryandaigle.com/articles/2008/7/16/what-s-new-in-edge-rails-memoization)
+* リードコントリビュータ: [Josh Peek](http://joshpeek.com/)
+* 詳細:
+    * [What's New in Edge Rails: Easy Memoization](http://archives.ryandaigle.com/articles/2008/7/16/what-s-new-in-edge-rails-memoization)
     * [Memo-what? A Guide to Memoization](http://www.railway.at/articles/2008/09/20/a-guide-to-memoization)
 
-### each_with_object
+### `each_with_object`
 
-The `each_with_object` method provides an alternative to `inject`, using a method backported from Ruby 1.9. It iterates over a collection, passing the current element and the memo into the block.
+`each_with_object` メソッドは、Ruby 1.9 からバックポートされたメソッドを用いて `inject` の代替となるメソッドを提供します。これはコレクションに対して反復処理を行い、現在の要素とメモをブロックに渡します。
 
 ```ruby
-%w(foo bar).each_with_object({}) { |str, hsh| hsh[str] = str.upcase } # => {'foo' => 'FOO', 'bar' => 'BAR'}
+%w(foo bar).each_with_object({}) { |str, hsh| hsh[str] = str.upcase }
+# => {'foo' => 'FOO', 'bar' => 'BAR'}
 ```
 
-Lead Contributor: [Adam Keys](http://therealadam.com/)
+リードコントリビュータ: [Adam Keys](http://therealadam.com/)
 
-### Delegates With Prefixes
+### 委譲でのプレフィックス指定
 
-If you delegate behavior from one class to another, you can now specify a prefix that will be used to identify the delegated methods. For example:
+あるクラスから別のクラスに振る舞いを委譲する場合、委譲されるメソッドで以下のようにプレフィックスを指定できるようになりました。
 
 ```ruby
 class Vendor < ActiveRecord::Base
@@ -342,7 +347,7 @@ class Vendor < ActiveRecord::Base
 end
 ```
 
-This will produce delegated methods `vendor#account_email` and `vendor#account_password`. You can also specify a custom prefix:
+上は`vendor#account_email` と `vendor#account_password` という委譲メソッドを生成します。また、以下のようにカスタムのプレフィックスも指定できます。
 
 ```ruby
 class Vendor < ActiveRecord::Base
@@ -351,65 +356,65 @@ class Vendor < ActiveRecord::Base
 end
 ```
 
-This will produce delegated methods `vendor#owner_email` and `vendor#owner_password`.
+上は`vendor#owner_email` and `vendor#owner_password`という委譲メソッドを生成します。
 
-Lead Contributor: [Daniel Schierbeck](http://workingwithrails.com/person/5830-daniel-schierbeck)
+リードコントリビュータ: [Daniel Schierbeck](http://workingwithrails.com/person/5830-daniel-schierbeck)
 
-### Other Active Support Changes
+### その他のActive Supportの変更
 
-* Extensive updates to `ActiveSupport::Multibyte`, including Ruby 1.9 compatibility fixes.
-* The addition of `ActiveSupport::Rescuable` allows any class to mix in the `rescue_from` syntax.
-* `past?`, `today?` and `future?` for `Date` and `Time` classes to facilitate date/time comparisons.
-* `Array#second` through `Array#fifth` as aliases for `Array#[1]` through `Array#[4]`
-* `Enumerable#many?` to encapsulate `collection.size > 1`
-* `Inflector#parameterize` produces a URL-ready version of its input, for use in `to_param`.
-* `Time#advance` recognizes fractional days and weeks, so you can do `1.7.weeks.ago`, `1.5.hours.since`, and so on.
-* The included TzInfo library has been upgraded to version 0.3.12.
-* `ActiveSupport::StringInquirer` gives you a pretty way to test for equality in strings: `ActiveSupport::StringInquirer.new("abc").abc? => true`
+* `ActiveSupport::Multibyte` が大幅に更新されました。Ruby 1.9 との互換性のための修正も含まれます。
+* `ActiveSupport::Rescuable` が追加され、任意のクラスが `rescue_from` 構文にミックスインできるようになりました。
+* `Date` と `Time` クラスに `past?`, `today?`, `future?` が追加され、日付や時間を比較しやすくなりました。
+* `Array#[1]`〜`Array#[4]` までのエイリアスとして `Array#second`〜`Array#fifth` が追加されました。
+* `Enumerable#many?` は `collection.size > 1` をカプセル化したものです。
+* `Inflector#parameterize` は、 入力を URL で利用可能な形に変換します（`to_param` で使われます）。
+* 日数や週数の端数を`1.7.weeks.ago` や `1.5.hours.since` のように認識できるようになりました。
+* 付属のTzInfoライブラリがバージョン0.3.12にアップグレードされました。
+* `ActiveSupport::StringInquirer` は、文字列が等しいかどうかをスマートにテストする方法を提供します（`ActiveSupport::StringInquirer.new("abc").abc? => true`）。
 
 Railties
 --------
 
-In Railties (the core code of Rails itself) the biggest changes are in the `config.gems` mechanism.
+Railties（Railsのコアコード）で最も大きな変更は、`config.gems` の仕組みです。
 
-### config.gems
+### `config.gems`
 
-To avoid deployment issues and make Rails applications more self-contained, it's possible to place copies of all of the gems that your Rails application requires in `/vendor/gems`. This capability first appeared in Rails 2.1, but it's much more flexible and robust in Rails 2.2, handling complicated dependencies between gems. Gem management in Rails includes these commands:
+Railsアプリケーションで必要なすべてのgemsのコピーを `/vendor/gems` に配置可能にすることで、デプロイの問題を回避し、Railsアプリケーションを自己完結性を高められるようになりました。この機能はRails 2.1で初めて登場しましたが、Rails 2.2ではより柔軟で堅牢になり、gems間の複雑な依存関係も扱えるようになりました。RailsのGem管理では以下のコマンドが使えます。
 
-* `config.gem _gem_name_` in your `config/environment.rb` file
-* `rake gems` to list all configured gems, as well as whether they (and their dependencies) are installed, frozen, or framework (framework gems are those loaded by Rails before the gem dependency code is executed; such gems cannot be frozen)
-* `rake gems:install` to install missing gems to the computer
-* `rake gems:unpack` to place a copy of the required gems into `/vendor/gems`
-* `rake gems:unpack:dependencies` to get copies of the required gems and their dependencies into `/vendor/gems`
-* `rake gems:build` to build any missing native extensions
-* `rake gems:refresh_specs` to bring vendored gems created with Rails 2.1 into alignment with the Rails 2.2 way of storing them
+* `config.gem _gem名_`: `config/environment.rb`ファイルに対応するgemを設定
+* `rake gems`: 設定済みのgemをすべて表示する。gem（および依存関係が）インストール済みか、frozenか、フレームワークgemかも表示されます（フレームワークgemは他のgemが実行されるよりも先に読み込まれ、frozenにできない）。
+* `rake gems:install`: インストールされていないgemをインストールする
+* `rake gems:unpack`: 必須gemのコピーを`/vendor/gems`に配置する
+* `rake gems:unpack:dependencies`: 必須gemのコピーと依存関係を`/vendor/gems`に配置する
+* `rake gems:build`: ビルドされていないネイティブ拡張をビルドする
+* `rake gems:refresh_specs`: Rails 2.1で作成されたベンダリングgemをRails 2.2の保存方法に変える
 
-You can unpack or install a single gem by specifying `GEM=_gem_name_` on the command line.
+単一のgemをunpackまたはインストールする場合は、コマンドラインで`GEM=_gem名_`を指定します。
 
-* Lead Contributor: [Matt Jones](http://github.com/al2o3cr)
-* More information:
-    * [What's New in Edge Rails: Gem Dependencies](http://ryandaigle.com/articles/2008/4/1/what-s-new-in-edge-rails-gem-dependencies)
-    * [Rails 2.1.2 and 2.2RC1: Update Your RubyGems](http://afreshcup.com/2008/10/25/rails-212-and-22rc1-update-your-rubygems/)
+* リードコントリビュータ: [Matt Jones](https://github.com/al2o3cr)
+* 詳細:
+    * [What's New in Edge Rails: Gem Dependencies](http://archives.ryandaigle.com/articles/2008/4/1/what-s-new-in-edge-rails-gem-dependencies)
+    * [Rails 2.1.2 and 2.2RC1: Update Your RubyGems](https://afreshcup.com/home/2008/10/25/rails-212-and-22rc1-update-your-rubygems)
     * [Detailed discussion on Lighthouse](http://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1128)
 
-### Other Railties Changes
+### その他のRailtiesの変更
 
-* If you're a fan of the [Thin](http://code.macournoyer.com/thin/) web server, you'll be happy to know that `script/server` now supports Thin directly.
-* `script/plugin install &lt;plugin&gt; -r &lt;revision&gt;` now works with git-based as well as svn-based plugins.
-* `script/console` now supports a `--debugger` option
-* Instructions for setting up a continuous integration server to build Rails itself are included in the Rails source
-* `rake notes:custom ANNOTATION=MYFLAG` lets you list out custom annotations.
-* Wrapped `Rails.env` in `StringInquirer` so you can do `Rails.env.development?`
-* To eliminate deprecation warnings and properly handle gem dependencies, Rails now requires rubygems 1.3.1 or higher.
+* [Thin](http://code.macournoyer.com/thin/) Webサーバのファンに朗報です。`script/server` が Thin を直接サポートするようになりました。
+* `script/plugin install &lt;plugin&gt; -r &lt;revision&gt;` が svn ベースのプラグインと同様に git ベースのプラグインでも動作するようになりました。
+* `script/console` で `--debugger` オプションがサポートされました。
+* Rails自体をビルドするためのCIサーバの設定方法は、Railsのソースコードに含まれています。
+* `rake notes:custom ANNOTATION=MYFLAG` でカスタムアノテーションをリストアップできます。
+* `Rails.env` が `StringInquirer` でラップされ、 `Rails.env.development?` が使えるようになりました。
+* Railsで非推奨の警告が表示されないようにし、gemの依存性を適切に扱うためには、rubygems 1.3.1以降が必須となりました。
 
-Deprecated
+非推奨化されたもの
 ----------
 
-A few pieces of older code are deprecated in this release:
+今回のリリースで、一部の古いコードが非推奨化されました。
 
-* `Rails::SecretKeyGenerator` has been replaced by `ActiveSupport::SecureRandom`
-* `render_component` is deprecated. There's a [render_components plugin](http://github.com/rails/render_component/tree/master) available if you need this functionality.
-* Implicit local assignments when rendering partials has been deprecated.
+* `Rails::SecretKeyGenerator`は`ActiveSupport::SecureRandom`に置き換えられました。
+* `render_component`は非推奨化されました。この機能が必要な場合は[render_components plugin](https://github.com/rails/render_component/tree/master)を利用できます。
+* パーシャルをレンダリングするときの暗黙のローカル代入が非推奨化されました。
 
     ```ruby
     def partial_with_implicit_local_assignment
@@ -418,17 +423,17 @@ A few pieces of older code are deprecated in this release:
     end
     ```
 
-    Previously the above code made available a local variable called `customer` inside the partial 'customer'. You should explicitly pass all the variables via :locals hash now.
+    以前は、上記のコードで'customer'パーシャル内の `customer` というローカル変数が利用可能でした。現在は、すべての変数を明示的に`:locals`ハッシュで渡す必要があります。
 
-* `country_select` has been removed. See the [deprecation page](http://www.rubyonrails.org/deprecation/list-of-countries) for more information and a plugin replacement.
-* `ActiveRecord::Base.allow_concurrency` no longer has any effect.
-* `ActiveRecord::Errors.default_error_messages` has been deprecated in favor of `I18n.translate('activerecord.errors.messages')`
-* The `%s` and `%d` interpolation syntax for internationalization is deprecated.
-* `String#chars` has been deprecated in favor of `String#mb_chars`.
-* Durations of fractional months or fractional years are deprecated. Use Ruby's core `Date` and `Time` class arithmetic instead.
-* `Request#relative_url_root` is deprecated. Use `ActionController::Base.relative_url_root` instead.
+* `country_select`が削除されました。詳細および代替プラグインについては、[http://www.rubyonrails.org/deprecation/list-of-countries](http://www.rubyonrails.org/deprecation/list-of-countries) を参照してください（訳注: このページは現在無効です）。
+* `ActiveRecord::Base.allow_concurrency` は無効になりました。
+* `ActiveRecord::Errors.default_error_messages` は非推奨化されました。`I18n.translate('activerecord.errors.messages')`をお使い下さい。
+* `%s` と `%d` の式展開構文は国際化で非推奨化されました。
+* `String#chars` は非推奨化され、代わりに `String#mb_chars` が採用されました。
+* 小数で表される月や年の長さが非推奨化されました。代わりに、Rubyコアの`Date`クラスや`Time`クラスの演算をお使いください。
+* `Request#relative_url_root` は非推奨化されました。代わりに `ActionController::Base.relative_url_root` をお使いください。
 
-Credits
+クレジット表記
 -------
 
-Release notes compiled by [Mike Gunderloy](http://afreshcup.com)
+リリースノート編集担当:[Mike Gunderloy](http://afreshcup.com)
