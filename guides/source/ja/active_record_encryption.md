@@ -477,7 +477,7 @@ NOTE: 独自の`message_serializer`を構築する場合は、任意のオブジ
 
 ```ruby
 config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
-config.active_record_encryption.encryptor = MyEncryptor.new
+config.active_record.encryption.encryptor = MyEncryptor.new
 ```
 
 #### 属性ごとの暗号化コンテキスト
