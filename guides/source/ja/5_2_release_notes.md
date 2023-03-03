@@ -9,7 +9,7 @@ Rails 5.2の注目ポイント:
 * credential管理
 * Content Security Policy（CSP）
 
-本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-2-stable)のchangelogを参照してください。
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-2-stable)のchangelogを参照してください。
 
 
 --------------------------------------------------------------------------------
