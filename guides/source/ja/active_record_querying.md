@@ -415,9 +415,8 @@ end
 
 ただしこれは順序指定がない場合に限ります。`find_each`メソッドでイテレートするには内部で順序を強制する必要があるためです。
 
-レシーバー側に順序がある場合、[`config.active_record.error_on_ignored_order`][]フラグの状態によって振る舞いが変わります。たとえば`true`の場合は`ArgumentError`が発生し、`false`の場合は順序が無視されて警告が発生します。デフォルトは`false`です。このフラグを上書きしたい場合は`:error_on_ignore`オプション（後述）を使います。
+レシーバー側に順序がある場合、`config.active_record.error_on_ignored_order`フラグの状態によって振る舞いが変わります。たとえば`true`の場合は`ArgumentError`が発生し、`false`の場合は順序が無視されて警告が発生します。デフォルトは`false`です。このフラグを上書きしたい場合は`:error_on_ignore`オプション（後述）を使います。
 
-[`config.active_record.error_on_ignored_order`]: configuring.html#config-active-record-error-on-ignored-order
 [`find_each`]: https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-find_each
 
 ##### `find_each`のオプション
