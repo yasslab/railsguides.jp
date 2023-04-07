@@ -394,7 +394,17 @@ end
 
 **`:error_on_ignore`**
 
-リレーション内に順序制約があれば例外を発生させたい場合は、このオプションを使ってアプリケーションの設定を上書きしてください。
+リレーション内に特定の順序があれば例外を発生させたい場合は、このオプションでアプリケーションの設定を上書きします。
+
+**`:order`**
+
+主キーの並び順（`:asc`または`:desc`）を指定します。デフォルト値は`:asc`です。
+
+```ruby
+Customer.find_each(order: :desc) do |customer|
+  NewsMailer.weekly(customer).deliver_now
+end
+```
 
 #### `find_in_batches`
 
