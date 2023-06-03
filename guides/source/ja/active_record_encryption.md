@@ -1,6 +1,8 @@
 Active Record と暗号化
 ========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Encryption](https://guides.rubyonrails.org/active_record_encryption.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordを用いてデータベースの情報を暗号化する方法について説明します。
 
 このガイドの内容:

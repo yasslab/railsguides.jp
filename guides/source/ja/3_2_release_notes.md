@@ -1,6 +1,8 @@
 Ruby on Rails 3.2 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 3.2 Release Notes](https://guides.rubyonrails.org/3_2_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 3.2の注目ポイント
 
 * developmentモードの高速化

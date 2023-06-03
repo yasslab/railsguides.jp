@@ -1,6 +1,8 @@
 Action View ヘルパー
 ====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html)を日本語に翻訳した文書です。
+
 このガイドの内容:
 
 * 日付、文字列、数値のフォーマット方法

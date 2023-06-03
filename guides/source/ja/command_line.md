@@ -1,6 +1,8 @@
 コマンドラインツール
 ======================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[The Rails Command Line](https://guides.rubyonrails.org/command_line.html)を日本語に翻訳した文書です。
+
 このガイドの内容:
 
 * Railsアプリケーションを作成する方法

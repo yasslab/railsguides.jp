@@ -1,6 +1,8 @@
 Active Record の基礎
 ====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html)を日本語に翻訳した文書です。
+
 本ガイドではActive Recordの基礎について説明します。
 
 このガイドの内容:

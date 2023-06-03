@@ -1,6 +1,8 @@
 Rails のルーティング
 =================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html)を日本語に翻訳した文書です。
+
 本ガイドでは、開発者に向けてRailsのルーティング機能を解説します（訳注: routeとrootを区別するため、訳文ではrouteを基本的に「ルーティング」と訳します）。
 
 このガイドの内容:

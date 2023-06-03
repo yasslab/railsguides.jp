@@ -1,6 +1,8 @@
 Ruby on Rails 6.0 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 6.0 Release Notes](https://guides.rubyonrails.org/6_0_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 6.0の注目ポイント:
 
 * Action Mailbox

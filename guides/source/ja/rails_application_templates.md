@@ -1,6 +1,8 @@
 Rails アプリケーションのテンプレート
 ===========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Rails Application Templates](https://guides.rubyonrails.org/rails_application_templates.html)を日本語に翻訳した文書です。
+
 RailsのテンプレートはシンプルなRubyファイルであり、新規または既存のRailsプロジェクトにgemやイニシャライザを追加するためのDSL（ドメイン固有言語）を含んでいます。
 
 このガイドの内容:

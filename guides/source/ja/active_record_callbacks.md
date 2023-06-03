@@ -1,6 +1,8 @@
 Active Record コールバック
 =======================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Callbacks](https://guides.rubyonrails.org/active_record_callbacks.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordオブジェクトのライフサイクルにフックをかける方法について説明します。
 
 このガイドの内容:

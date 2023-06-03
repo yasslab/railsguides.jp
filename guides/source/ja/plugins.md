@@ -1,6 +1,8 @@
 Rails プラグイン作成入門
 ====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[The Basics of Creating Rails Plugins](https://guides.rubyonrails.org/plugins.html)を日本語に翻訳した文書です。
+
 Railsのプラグインは、コアフレームワークの拡張や変更に使われます。プラグインは以下の機能を提供します。
 
 * 安定版コードベースを変更せずに、最先端のアイデアを共有できます。

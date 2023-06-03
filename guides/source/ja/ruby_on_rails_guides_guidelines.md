@@ -2,6 +2,8 @@
 Rails ガイドのガイドライン
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails Guides Guidelines](https://guides.rubyonrails.org/ruby_on_rails_guides_guidelines.html)を日本語に翻訳した文書です。
+
 本ガイドは、Ruby on Railsガイドを書くためのガイドラインです。本ガイド自身が本ガイドに従って書かれており、望ましいガイドラインの例であると同時に優美なループを形成しています。
 
 このガイドの内容:

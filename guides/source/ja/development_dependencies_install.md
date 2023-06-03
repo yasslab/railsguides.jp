@@ -1,6 +1,8 @@
 Rails コア開発環境の構築方法
 ================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Development Dependencies Install](https://guides.rubyonrails.org/development_dependencies_install.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Ruby on Rails自体の開発環境を構築する方法について解説します。
 
 このガイドの内容:

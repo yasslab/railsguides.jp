@@ -1,6 +1,8 @@
 Ruby on Rails 6.1 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 6.1 Release Notes](https://guides.rubyonrails.org/6_1_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 6.1の注目ポイント:
 
 * データベース単位のコネクション切り替え

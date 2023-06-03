@@ -1,6 +1,8 @@
 Rails のスレッドとコード実行
 =====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Threading and Code Execution in Rails](https://guides.rubyonrails.org/threading_and_code_execution.html)を日本語に翻訳した文書です。
+
 このガイドの内容:
 
 * Railsが自動的に並行処理するコードの紹介

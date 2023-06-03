@@ -1,6 +1,8 @@
 Classic から Zeitwerk への移行
 =========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Classic to Zeitwerk HOWTO](https://guides.rubyonrails.org/classic_to_zeitwerk_howto.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Railsアプリケーションを`classic`モードから`zeitwerk`モードに移行する方法について解説します。
 
 このガイドの内容:

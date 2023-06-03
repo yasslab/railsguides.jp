@@ -1,6 +1,8 @@
 Active Storage の概要
 =====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Storage Overview](https://guides.rubyonrails.org/active_storage_overview.html)を日本語に翻訳した文書です。
+
 このガイドはActive Recordモデルにファイルを添付する方法について説明します。
 
 本ガイドの内容:

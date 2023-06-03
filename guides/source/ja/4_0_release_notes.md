@@ -1,6 +1,8 @@
 Ruby on Rails 4.0 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 4.0 Release Notes](https://guides.rubyonrails.org/4_0_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 4.0の注目ポイント
 
 * Ruby 2.0が推奨。1.9.3以上が必須。

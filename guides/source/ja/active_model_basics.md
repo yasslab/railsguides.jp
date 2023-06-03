@@ -1,6 +1,8 @@
 Active Model の基礎
 ===================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Model Basics](https://guides.rubyonrails.org/active_model_basics.html)を日本語に翻訳した文書です。
+
 本ガイドでは、モデルクラスを使って作業を開始するのに必要なことをすべて解説します。Action Packヘルパーは、Active Modelのおかげで非Active Recordモデルとやりとりすることができます。Active Modelを使用することで、カスタムのORM (オブジェクトリレーショナルマッピング) を作成してRailsフレームワークの外で使用することもできます。
 
 このガイドの内容:

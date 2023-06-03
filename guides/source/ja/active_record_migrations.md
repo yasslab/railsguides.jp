@@ -1,6 +1,8 @@
 Active Record マイグレーション
 ========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html)を日本語に翻訳した文書です。
+
 マイグレーション（migration）はActive Recordの機能の1つであり、データベーススキーマが長期にわたって進化を安定して繰り返せるようにするための仕組みです。マイグレーション機能のおかげで、スキーマ変更を生SQLで記述せずに、Rubyで作成されたマイグレーション用のDSL（ドメイン固有言語）を用いてテーブルの変更を簡単に記述できます。
 
 このガイドの内容:

@@ -1,6 +1,8 @@
 Rails セキュリティガイド
 ============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Securing Rails Applications](https://guides.rubyonrails.org/security.html)を日本語に翻訳した文書です。
+
 このマニュアルでは、Webアプリケーション全般におけるセキュリティの問題と、Railsでそれらの問題を回避する方法について説明します。
 
 このガイドの内容:

@@ -1,6 +1,8 @@
 Ruby on Rails に貢献する方法
 =============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Contributing to Ruby on Rails](https://guides.rubyonrails.org/contributing_to_ruby_on_rails.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Ruby on Railsの開発に**あなた**が参加する方法について説明します。
 
 このガイドの内容:

@@ -1,6 +1,8 @@
 Rails テスティングガイド
 =====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Testing Rails Applications](https://guides.rubyonrails.org/testing.html)を日本語に翻訳した文書です。
+
 本ガイドは、アプリケーションをテストするためにRailsに組み込まれているメカニズムについて解説します。
 
 このガイドの内容:

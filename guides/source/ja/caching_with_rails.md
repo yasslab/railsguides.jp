@@ -1,6 +1,8 @@
 Rails のキャッシュ機構
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Caching with Rails: An Overview](https://guides.rubyonrails.org/caching_with_rails.html)を日本語に翻訳した文書です。
+
 本ガイドでは、キャッシュを導入してRailsアプリケーションを高速化する方法を解説します。
 
 「キャッシュ（caching）」とは、リクエスト・レスポンスのサイクルの中で生成されたコンテンツを保存しておき、次回同じようなリクエストが発生したときのレスポンスでそのコンテンツを再利用することを指します。

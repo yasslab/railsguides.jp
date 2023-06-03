@@ -1,6 +1,8 @@
 Action View の概要
 ====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action View Overview](https://guides.rubyonrails.org/action_view_overview.html)を日本語に翻訳した文書です。
+
 このガイドの内容:
 
 * Action Viewの概要とRailsでの利用法

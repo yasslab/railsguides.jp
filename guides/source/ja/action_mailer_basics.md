@@ -1,6 +1,8 @@
 Action Mailer の基礎
 ====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action Mailer Basics](https://guides.rubyonrails.org/action_mailer_basics.html)を日本語に翻訳した文書です。
+
 本章では、アプリケーションでメールの送受信を行うために必要なすべての事項と、Action Mailerのさまざまな内部情報を提供します。また、メーラーのテスト方法についても説明します。
 
 このガイドの内容:

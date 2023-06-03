@@ -1,6 +1,8 @@
 Rails エンジン入門
 ============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Getting Started with Engines](https://guides.rubyonrails.org/engines.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Railsの「エンジン」について解説します。Railsエンジンのきわめて簡潔で使いやすいインターフェイスを用いて、ホストとなるRailsアプリケーションに機能を追加する方法についても解説します。
 
 このガイドの内容:

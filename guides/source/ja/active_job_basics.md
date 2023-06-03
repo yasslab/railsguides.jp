@@ -1,6 +1,8 @@
 Active Job の基礎
 =================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Job Basics](https://guides.rubyonrails.org/active_job_basics.html)を日本語に翻訳した文書です。
+
 本ガイドでは、バックグラウンドで実行するジョブの作成、キュー登録 (エンキュー: enqueue)、実行方法について解説します。
 
 このガイドの内容:

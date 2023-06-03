@@ -1,6 +1,8 @@
 Active Record クエリインターフェイス
 =============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Query Interface](https://guides.rubyonrails.org/active_record_querying.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordを利用してデータベースからデータを取り出すためのさまざまな方法について解説します。
 
 このガイドの内容:

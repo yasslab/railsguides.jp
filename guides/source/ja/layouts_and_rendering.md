@@ -1,6 +1,8 @@
 レイアウトとレンダリング
 ==============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Layouts and Rendering in Rails](https://guides.rubyonrails.org/layouts_and_rendering.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Action ControllerとAction Viewによる基本的なレイアウト機能について解説します。
 
 本ガイドの内容:

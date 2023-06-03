@@ -1,6 +1,8 @@
 Action Mailbox の基礎
 =====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action Mailbox Basics](https://guides.rubyonrails.org/action_mailbox_basics.html)を日本語に翻訳した文書です。
+
 本ガイドでは、アプリケーションでメールを受信するために必要なすべての情報を提供します。
 
 このガイドの内容:

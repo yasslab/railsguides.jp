@@ -1,6 +1,8 @@
 Rails による API 専用アプリケーション
 =====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Using Rails for API-only Applications](https://guides.rubyonrails.org/api_app.html)を日本語に翻訳した文書です。
+
 このガイドの内容:
 
 * API専用アプリケーションを支援するRailsの機能

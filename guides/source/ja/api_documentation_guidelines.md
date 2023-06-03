@@ -1,6 +1,8 @@
 API ドキュメント作成ガイドライン
 ============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[API Documentation Guidelines](https://guides.rubyonrails.org/api_documentation_guidelines.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Rails APIドキュメント作成のガイドラインについて解説します。
 
 このガイドの内容:

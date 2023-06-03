@@ -1,6 +1,8 @@
 Action Controller の概要
 ==========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action Controller Overview](https://guides.rubyonrails.org/action_controller_overview.html)を日本語に翻訳した文書です。
+
 本ガイドでは、コントローラの動作と、アプリケーションのリクエストサイクルにおけるコントローラの役割について解説します。
 
 このガイドの内容:

@@ -1,6 +1,8 @@
 Ruby on Rails のメンテナンスポリシー
 ====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Maintenance Policy for Ruby on Rails](https://guides.rubyonrails.org/maintenance_policy.html)を日本語に翻訳した文書です。
+
 Railsフレームワークのサポートは、新機能（New feature）、バグ修正（bug fixes）、セキュリティ問題（security issues）、重大なセキュリティ問題（severe security issue）の4つのグループに分かれています。セキュリティリリースを除いて、すべてのバージョン表記は`X.Y.Z`の形式に従います。
 
 --------------------------------------------------------------------------------

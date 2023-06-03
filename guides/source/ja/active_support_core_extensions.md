@@ -1,6 +1,8 @@
 Active Support コア拡張機能
 ==============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Support Core Extensions](https://guides.rubyonrails.org/active_support_core_extensions.html)を日本語に翻訳した文書です。
+
 Active SupportはRuby on Railsのコンポーネントであり、Ruby言語の拡張やユーティリティを提供します。
 
 Active Supportは言語レベルで基本部分を底上げして豊かなものにし、Railsアプリケーションの開発とRuby on Railsそれ自体の開発に役立てるべく作られています。

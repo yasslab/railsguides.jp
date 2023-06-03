@@ -1,6 +1,8 @@
 Rails アプリケーションのデバッグ
 ============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Debugging Rails Applications](https://guides.rubyonrails.org/debugging_rails_applications.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Ruby on Rails アプリケーションのさまざまなデバッグ技法をご紹介します。
 
 このガイドの内容:

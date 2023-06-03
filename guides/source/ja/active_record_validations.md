@@ -1,6 +1,8 @@
 Active Record バリデーション
 ==========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordのバリデーション（検証: validation）機能を使って、オブジェクトがデータベースに保存される前にオブジェクトの状態を検証する方法について説明します。
 
 このガイドの内容:

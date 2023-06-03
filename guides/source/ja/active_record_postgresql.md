@@ -1,6 +1,8 @@
 Active Record と PostgreSQL
 ============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record and PostgreSQL](https://guides.rubyonrails.org/active_record_postgresql.html)を日本語に翻訳した文書です。
+
 本ガイドでは、PostgreSQL特有のActive Record利用法について解説します。
 
 このガイドの内容:

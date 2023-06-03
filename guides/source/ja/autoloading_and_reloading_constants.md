@@ -1,6 +1,8 @@
 定数の自動読み込みと再読み込み (Zeitwerk)
 ===================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Autoloading and Reloading Constants](https://guides.rubyonrails.org/autoloading_and_reloading_constants.html)を日本語に翻訳した文書です。
+
 本書では`Zeitwerk`モードでの自動読み込み（オートロード）および再読み込みの仕組みについて説明します。
 
 このガイドの内容:

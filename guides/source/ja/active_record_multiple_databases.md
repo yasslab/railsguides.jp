@@ -1,6 +1,8 @@
 Active Record で複数のデータベース利用
 =====================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Multiple Databases with Active Record](https://guides.rubyonrails.org/active_record_multiple_databases.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordで複数のデータベースを利用する方法について説明します。
 
 このガイドの内容:

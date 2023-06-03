@@ -1,6 +1,8 @@
 Rails アプリケーションを設定する
 ==============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Configuring Rails Applications](https://guides.rubyonrails.org/configuring.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Railsアプリケーションで利用可能な設定と初期化機能について解説します。
 
 このガイドの内容:

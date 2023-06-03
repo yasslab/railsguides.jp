@@ -1,6 +1,8 @@
 Rails をはじめよう
 ============
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Getting Started with Rails](https://guides.rubyonrails.org/getting_started.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Ruby on Rails（以下 Rails）を初めて設定して実行するまでを解説します。
 
 このガイドの内容:

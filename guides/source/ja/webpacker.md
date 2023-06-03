@@ -1,6 +1,8 @@
 Webpacker の概要
 =========
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Webpacker](https://guides.rubyonrails.org/webpacker.html)を日本語に翻訳した文書です。
+
 本ガイドではWebpackerのインストール方法と、Railsアプリケーションのクライアント側で用いるJavaScriptやCSSなどのアセットをWebpackerで利用する方法について解説します。ただし[Webpackerは開発終了しました](https://github.com/rails/webpacker#webpacker-has-been-retired-)のでご注意ください。
 
 このガイドの内容:

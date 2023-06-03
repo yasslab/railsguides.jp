@@ -1,6 +1,8 @@
 Rails ジェネレータとテンプレート入門
 =====================================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Creating and Customizing Rails Generators & Templates](https://guides.rubyonrails.org/generators.html)を日本語に翻訳した文書です。
+
 Railsの各種ジェネレータは、ワークフローの改善に欠かせないツールです。本ガイドは、Railsジェネレータの作成方法および既存のジェネレータのカスタマイズ方法について解説します。
 
 このガイドの内容:

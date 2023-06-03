@@ -1,6 +1,8 @@
 Rails と Rack
 =============
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Rails on Rack](https://guides.rubyonrails.org/rails_on_rack.html)を日本語に翻訳した文書です。
+
 本ガイドでは、RailsとRackの関係、Railsと他のRackコンポーネントとの関係について説明します。
 
 このガイドの内容:

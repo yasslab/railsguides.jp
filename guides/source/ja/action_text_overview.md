@@ -1,6 +1,8 @@
 Action Text の概要
 ====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action Text Overview](https://guides.rubyonrails.org/action_text_overview.html)を日本語に翻訳した文書です。
+
 本ガイドでは、リッチテキストコンテンツの扱いを始めるのに必要なものをすべて提供します。
 
 このガイドの内容:

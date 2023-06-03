@@ -3,6 +3,8 @@
 Ruby on Rails 2.2 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 2.2 Release Notes](https://guides.rubyonrails.org/2_2_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 2.2には多くの新機能と機能改善が盛り込まれています。このリストは主要なアップグレードをカバーしていますが、小さなバグフィックスや変更までは含まれていません。すべての変更を見るには、GitHubのRailsメインリポジトリの[コミットリスト](https://github.com/rails/rails/commits/2-2-stable)を参照してください。
 
 Rails 2.2のリリースに伴い、現在進行中の[Rails Guides hackfest](https://rubyonrails.org/2008/9/4/guides-hackfest)の最初の成果である[Rails Guides](https://guides.rubyonrails.org/)が発表されました。[Rails Guides](https://guides.rubyonrails.org/)では、Railsの主要な機能に関する高品質なドキュメントを提供する予定です。

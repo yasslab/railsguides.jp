@@ -1,6 +1,8 @@
 Rails の初期化プロセス
 ================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[The Rails Initialization Process](https://guides.rubyonrails.org/initialization.html)を日本語に翻訳した文書です。
+
 本章は、Rails初期化プロセスの内部について解説します。上級Rails開発者向けに推奨される、きわめて高度な内容を扱っています。
 
 このガイドの内容:

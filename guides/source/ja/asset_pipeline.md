@@ -1,6 +1,8 @@
 アセットパイプライン
 ==================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[The Asset Pipeline](https://guides.rubyonrails.org/asset_pipeline.html)を日本語に翻訳した文書です。
+
 本ガイドでは、アセットパイプライン (asset pipeline) について解説します。
 
 このガイドの内容:

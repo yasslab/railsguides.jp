@@ -1,6 +1,8 @@
 Action Cable の概要
 =====================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Action Cable Overview](https://guides.rubyonrails.org/action_cable_overview.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Action Cableのしくみと、WebSocketをRailsアプリケーションに導入してリアルタイム機能を実現する方法について解説します。
 
 このガイドの内容:

@@ -1,6 +1,8 @@
 Ruby on Rails 7.0 リリースノート
 ===============================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Ruby on Rails 7.0 Release Notes](https://guides.rubyonrails.org/7_0_release_notes.html)を日本語に翻訳した文書です。
+
 Rails 7.0の注目ポイント:
 
 * Ruby 2.7.0以上が必須、Ruby 3.0以上が望ましい

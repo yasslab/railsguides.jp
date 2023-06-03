@@ -1,6 +1,8 @@
 Active Record の関連付け
 ==========================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Active Record Associations](https://guides.rubyonrails.org/association_basics.html)を日本語に翻訳した文書です。
+
 本ガイドでは、Active Recordの関連付け機能（アソシエーション）について解説します。
 
 このガイドの内容:

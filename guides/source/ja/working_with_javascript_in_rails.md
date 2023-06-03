@@ -1,6 +1,8 @@
 Rails で JavaScript を利用する
 ================================
 
+本ガイドは、Ruby on Rails本体のソースコードに含まれているRails Guidesの[Working with JavaScript in Rails](https://guides.rubyonrails.org/working_with_javascript_in_rails.html)を日本語に翻訳した文書です。
+
 本ガイドでは、JavaScript機能をRailsアプリケーションに統合する方法について解説します。外部のJavaScriptパッケージを利用する場合に使えるオプションや、RailsでTurboを使う方法についても解説します。
 
 このガイドの内容:
