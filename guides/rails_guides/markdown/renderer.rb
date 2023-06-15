@@ -17,7 +17,7 @@ HTML
       end
 
       def link(url, title, content)
-        if url.start_with?("http://api.rubyonrails.org")
+        if /(^https|^http):\/\/api.rubyonrails.org/.match?(url)
           %(<a href="#{api_link(url)}">#{content}</a>)
         elsif title
           %(<a href="#{url}" title="#{title}">#{content}</a>)
@@ -115,7 +115,7 @@ HTML
         end
 
         def api_link(url)
-          if url =~ %r{http://api\.rubyonrails\.org/v\d+\.}
+          if url =~ %r{(^https|^http)://api\.rubyonrails\.org/v\d+\.}
             url
           elsif edge
             url.sub("api", "edgeapi")

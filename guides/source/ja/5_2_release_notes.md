@@ -9,7 +9,7 @@ Rails 5.2の注目ポイント:
 * credential管理
 * Content Security Policy（CSP）
 
-本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-2-stable)のchangelogを参照してください。
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-2-stable)のchangelogを参照してください。
 
 
 --------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ Rails 5.2で[HTTP/2 Early Hints](https://tools.ietf.org/html/rfc8297)がサポ�
 [Pull Request](https://github.com/rails/rails/pull/31162)
 
 Rails 5.2では、アプリケーションの [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)（CSP）を設定する新しいDSLが使えるようになりました。グローバルなポリシーを1つ設定しておき、続いてリソースベースでポリシーをオーバーライドすることも、lambdaを使ってリクエストごとにヘッダーに値を注入することもできます（マルチテナントのアプリでアカウントのサブドメインを注入するなど）。
-詳しくは、[Rails セキュリティガイド](security.html#content-security-policy)を参照してください。
+詳しくは、[Rails セキュリティガイド](security.html#content-security-policy（csp）)を参照してください。
 
 Railties
 --------

@@ -36,10 +36,7 @@ end
 
 group :test do
 
-  # Required to exec: `bundle exec rspec spec/features/`
-  gem "rspec"
-  gem "capybara"
-  gem "turnip"
+  gem 'test-unit'
 end
 
 group :production do

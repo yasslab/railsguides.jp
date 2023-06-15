@@ -151,24 +151,9 @@
     <div id="container">
       <div class="wrapper">
 	<div id="mainCol">
-	  <!-- Announce    -->
-	  <div class="announce">
-	    <p>📜 お知らせ: <a href="https://note.com/yasslab/n/n4afda49ed786">Railsガイドが Carbon Ads for Open Source の対象</a>になりました</p>
-	  </div>
 
           <%= yield.html_safe %>
           <%= yield :references %>
-
-          <h3 id="pr" class="section" style="padding-top: 30px;"><a href="#pr">[PR] Railsガイドを、もっと便利に。</a></h3>
-          <p>Railsガイドをもっと便利に使えるサービスをリリースしました! 本サービスで得られた売上はRailsガイドを継続的に更新・運営するために活用させていただきます。よければぜひご検討ください ;)</p>
-          <div class="bnr-pro-team">
-            <div class="bnr-item">
-              <a href="https://railsguides.jp/pro"><img src="/images/spinner.svg" alt="Proプラン" data-src="/images/bnr_pro.jpg" loading="lazy" class="lazyload"/></a>
-            </div>
-            <div class="bnr-item">
-              <a href="https://railsguides.jp/team"><img alt="Teamプラン" src="/images/spinner.svg" data-src="/images/bnr_team.jpg" loading="lazy" class="lazyload" /></a>
-            </div>
-          </div>
 
           <% unless yield(:hide_feedback).present? %>
 	    <h3 id="feedback" class="section" style="padding-top: 30px;"><a href="#feedback">フィードバックについて</a></h3>
@@ -190,17 +175,6 @@
 	    <p>
 	      Railsガイドは下記のサポーターから継続的な支援を受けています。Railsガイドへの支援・協賛にご興味あれば info@yasslab.jp までお問い合わせください。
 	    </p>
-	    <div class="footer-bnr">
-  	      <div class="bnr-item">
-    		<a href="https://www.carbonads.net/open-source?utm_source=railsguide&utm_medium=banner&utm_campaign=supporter" target="_blank" rel="noopener">
-		  <img class="border lazyload" alt="Advertising For Open Source Projects | Carbon Ads" src="/images/spinner.svg" data-src="/images/logos/carbon.gif" loading="lazy" />
-		</a>
-  	      </div>
-
-  	      <div class="bnr-item">
-    		<a href="https://railsguides.jp/contact"><img alt="協賛募集" src="/images/spinner.svg" data-src="/images/logos/bnr-kyosan.gif" loading="lazy" class="lazyload" /></a>
-  	      </div>
-	    </div>
           <% end %>
 
 	  <ol class="snsb" style="margin-left: 0px; padding-top: 50px;">
@@ -239,7 +213,7 @@
 	</div>
 
 	<ol class="trademark" style="padding-top: 20px">
-	  <li>Railsガイドのコンテンツ部分の著作権は<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示-継承 4.0 国際</a> (CC BY-SA 4.0) ライセンスに基づいて公開されています。『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は David Heinemeier Hansson の登録商標です。</li>
+	  <li>Railsガイドの<a href='https://github.com/yasslab/railsguides.jp/tree/master/guides/source' target="_blank" rel="noopener">コンテンツ部分</a>は <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" target="_blank" rel="noopener">CC BY-SA 4.0</a> に基づいて公開されています。『Rails』や『Ruby on Rails』という名称、ならびに Rails のロゴ画像は DHH の登録商標です。本サイトのロゴ画像などの一部は YassLab 社の著作物です。</li>
 	</ol>
       </div>
     </div>
