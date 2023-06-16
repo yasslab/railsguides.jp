@@ -147,6 +147,8 @@ numbers. It also filters out sensitive values of database columns when call `#in
 
 * `secret_key_base` is used for specifying a key which allows sessions for the application to be verified against a known secure key to prevent tampering. Applications get a random generated key in test and development environments, other environments should set one in `config/credentials.yml.enc`.
 
+* `config.require_master_key` causes the app to not boot if a master key hasn't been made available through `ENV["RAILS_MASTER_KEY"]` or the `config/master.key` file.
+
 * `config.public_file_server.enabled` configures Rails to serve static files from the public directory. This option defaults to `true`, but in the production environment it is set to `false` because the server software (e.g. NGINX or Apache) used to run the application should serve static files instead. If you are running or testing your app in production using WEBrick (it is not recommended to use WEBrick in production) set the option to `true`. Otherwise, you won't be able to use page caching and request for files that exist under the public directory.
 
 * `config.session_store` specifies what class to use to store the session. Possible values are `:cookie_store` which is the default, `:mem_cache_store`, and `:disabled`. The last one tells Rails not to deal with sessions. Defaults to a cookie store with application name as the session key. Custom session stores can also be specified:
@@ -1029,6 +1031,10 @@ text/javascript image/svg+xml application/postscript application/x-shockwave-fla
 
     The default is `:rails_storage_redirect`.
 
+* `config.active_storage.video_preview_arguments` can be used to alter the way ffmpeg generates video preview images.
+
+    The default is `"-y -vframes 1 -f image2"`
+
 ### Results of `config.load_defaults`
 
 `config.load_defaults` sets new defaults up to and including the version passed. Such that passing, say, `6.0` also gets the new defaults from every version before it.
@@ -1105,6 +1111,7 @@ text/javascript image/svg+xml application/postscript application/x-shockwave-fla
 - `config.active_support.use_authenticated_message_encryption`: `false`
 - `config.active_support.hash_digest_class`: `::Digest::MD5`
 - `ActiveSupport.utc_to_local_returns_utc_offset_times`: `false`
+- `config.active_storage.video_preview_arguments`: `"-y -vframes 1 -f image2"`
 
 ### Configuring a Database
 

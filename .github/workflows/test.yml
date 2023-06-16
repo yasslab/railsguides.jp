@@ -28,11 +28,3 @@ jobs:
       - name: ✅ Check YAML format
         run: |
           bundle exec rake yasslab:test
-
-      - name: 🔔 Notify results
-        env:
-          IDOBATA_GITHUB_ACTIONS: ${{ secrets.IDOBATA_GITHUB_ACTIONS }}
-        uses: yasslab/idobata_notify@main
-        if: always() && (env.IDOBATA_GITHUB_ACTIONS != null)
-        with:
-          idobata_hook_url: ${{ env.IDOBATA_GITHUB_ACTIONS }}
