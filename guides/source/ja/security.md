@@ -107,7 +107,7 @@ __`secret_key_base`に安全性の低い秘密鍵（辞書に載っている単�
 
 暗号化済みcookieと署名済みcookieで使うsalt値を同じにしないことも重要です。複数のsalt設定に異なる値ではなく同じsalt値を使ってしまうと、別のセキュリティ機能で同じ鍵が導出されてしまい鍵の強度が落ちる可能性があります。
 
-test環境とdevelopment環境のアプリでは、アプリ名から`secret_key_base`を導出します。それ以外の環境では、必ず`config/credentials.yml.enc`にあるランダムな鍵を使わなければなりません（以下は復号化された状態）。
+test環境とdevelopment環境のアプリでは、アプリ名から`secret_key_base`を導出します。それ以外の環境では、必ず`config/credentials.yml.enc`にあるランダムな鍵を使わなければなりません（以下は復号された状態）。
 
     secret_key_base: 492f...
 
@@ -942,7 +942,7 @@ Location: http://www.malicious.tld
 ```
 HTTP/1.1 302 Found [最初は通常の302レスポンス]
 Date: Tue, 12 Apr 2005 22:09:07 GMT
-Location: Content-Type: text/html
+Location:Content-Type: text/html
 
 
 HTTP/1.1 200 OK [ここより下は攻撃者によって作成された次の新しいレスポンス]
