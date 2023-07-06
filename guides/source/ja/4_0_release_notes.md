@@ -8,7 +8,7 @@ Rails 4.0の注目ポイント
 * Turbolinks
 * ロシアンドールキャッシュ (Russian Doll Caching)
 
-本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/4-0-stable)のchangelogを参照してください。
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/4-0-stable)のchangelogを参照してください。
 
 --------------------------------------------------------------------------------
 

@@ -12,7 +12,7 @@ Rails 5.1 の注目ポイント
 * directルーティングとresolvedルーティング
 * form_forとform_tagのform_withへの統合
 
-本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-1-stable)のchangelogを参照してください。
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/5-1-stable)のchangelogを参照してください。
 
 --------------------------------------------------------------------------------
 

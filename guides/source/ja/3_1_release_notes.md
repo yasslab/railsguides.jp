@@ -8,7 +8,7 @@ Rails 3.1の注目ポイント
 * アセットパイプラリン
 * jQueryがデフォルトのJavaScriptライブラリになった
 
-本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GithubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/3-1-stable)のchangelogを参照してください。
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/3-1-stable)のchangelogを参照してください。
 
 --------------------------------------------------------------------------------
 
