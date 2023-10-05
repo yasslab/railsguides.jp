@@ -44,7 +44,7 @@ Repeat this process until you reach your target Rails version.
 To move between versions:
 
 1. Change the Rails version number in the `Gemfile` and run `bundle update`.
-2. Change the versions for Rails JavaScript packages in `package.json` and run `yarn install`, if running on Webpacker.
+2. Change the versions for Rails JavaScript packages in `package.json` and run `bin/rails javascript:install` if running jsbundling-rails
 3. Run the [Update task](#the-update-task).
 4. Run your tests.
 
@@ -74,6 +74,209 @@ Don't forget to review the difference, to see if there were any unexpected chang
 The new Rails version might have different configuration defaults than the previous version. However, after following the steps described above, your application would still run with configuration defaults from the *previous* Rails version. That's because the value for `config.load_defaults` in `config/application.rb` has not been changed yet.
 
 To allow you to upgrade to new defaults one by one, the update task has created a file `config/initializers/new_framework_defaults_X.Y.rb` (with the desired Rails version in the filename). You should enable the new configuration defaults by uncommenting them in the file; this can be done gradually over several deployments. Once your application is ready to run with new defaults, you can remove this file and flip the `config.load_defaults` value.
+
+Upgrading from Rails 7.0 to Rails 7.1
+-------------------------------------
+
+For more information on changes made to Rails 7.1 please see the [release notes](7_1_release_notes.html).
+
+### Autoloaded paths are no longer in $LOAD_PATH
+
+Starting from Rails 7.1, the directories managed by the autoloaders are no
+longer added to `$LOAD_PATH`. This means it won't be possible to load their
+files with a manual `require` call, which shouldn't be done anyway.
+
+Reducing the size of `$LOAD_PATH` speeds up `require` calls for apps not using
+`bootsnap`, and reduces the size of the `bootsnap` cache for the others.
+
+If you'd like to have these paths still in `$LOAD_PATH`, you can opt-in:
+
+```ruby
+config.add_autoload_paths_to_load_path = true
+```
+
+but we discourage doing so, classes and modules in the autoload paths are meant
+to be autoloaded. That is, just reference them.
+
+The `lib` directory is not affected by this flag, it is added to `$LOAD_PATH`
+always.
+
+### config.autoload_lib and config.autoload_lib_once
+
+If your application does not have `lib` in the autoload or autoload once paths,
+please skip this section. You can find that out by inspecting the output of
+
+```bash
+# Print autoload paths.
+$ bin/rails runner 'pp Rails.autoloaders.main.dirs'
+
+# Print autoload once paths.
+$ bin/rails runner 'pp Rails.autoloaders.once.dirs'
+```
+
+If your application already has `lib` in the autoload paths, normally there is
+configuration in `config/application.rb` that looks something like
+
+```ruby
+# Autoload lib, but do not eager load it (maybe overlooked).
+config.autoload_paths << config.root.join("lib")
+```
+
+or
+
+```ruby
+# Autoload and also eager load lib.
+config.autoload_paths << config.root.join("lib")
+config.eager_load_paths << config.root.join("lib")
+```
+
+or
+
+```ruby
+# Same, because all eager load paths become autoload paths too.
+config.eager_load_paths << config.root.join("lib")
+```
+
+That still works, but it is recommended to replace those lines with the more
+concise
+
+```ruby
+config.autoload_lib(ignore: %w(assets tasks))
+```
+
+Please, add to the `ignore` list any other `lib` subdirectories that do not
+contain `.rb` files, or that should not be reloaded or eager loaded. For
+example, if your application has `lib/templates`, `lib/generators`, or
+`lib/middleware`, you'd add their name relative to `lib`:
+
+```ruby
+config.autoload_lib(ignore: %w(assets tasks templates generators middleware))
+```
+
+With that one-liner, the (non-ignored) code in `lib` will be also eager loaded
+if `config.eager_load` is `true` (the default in `production` mode). This is
+normally what you want, but if `lib` was not added to the eager load paths
+before and you still want it that way, please opt-out:
+
+```ruby
+Rails.autoloaders.main.do_not_eager_load(config.root.join("lib"))
+```
+
+The method `config.autoload_lib_once` is the analogous one if the application
+had `lib` in `config.autoload_once_paths`.
+
+### `ActiveStorage::BaseController` no longer includes the streaming concern
+
+Application controllers that inherit from `ActiveStorage::BaseController` and use streaming to implement custom file serving logic must now explicitly include the `ActiveStorage::Streaming` module.
+
+### `MemCacheStore` and `RedisCacheStore` now use connection pooling by default
+
+The `connection_pool` gem has been added as a dependency of the `activesupport` gem,
+and the `MemCacheStore` and `RedisCacheStore` now use connection pooling by default.
+
+If you don't want to use connection pooling, set `:pool` option to `false` when
+configuring your cache store:
+
+```ruby
+config.cache_store = :mem_cache_store, "cache.example.com", { pool: false }
+```
+
+See the [caching with Rails](https://guides.rubyonrails.org/v7.1/caching_with_rails.html#connection-pool-options) guide for more information.
+
+### `SQLite3Adapter` now configured to be used in a strict strings mode
+
+The use of a strict strings mode disables double-quoted string literals.
+
+SQLite has some quirks around double-quoted string literals.
+It first tries to consider double-quoted strings as identifier names, but if they don't exist
+it then considers them as string literals. Because of this, typos can silently go unnoticed.
+For example, it is possible to create an index for a non existing column.
+See [SQLite documentation](https://www.sqlite.org/quirks.html#double_quoted_string_literals_are_accepted) for more details.
+
+If you don't want to use `SQLite3Adapter` in a strict mode, you can disable this behavior:
+
+```ruby
+# config/application.rb
+config.active_record.sqlite3_adapter_strict_strings_by_default = false
+```
+
+### Support multiple preview paths for `ActionMailer::Preview`
+
+Option `config.action_mailer.preview_path` is deprecated in favor of `config.action_mailer.preview_paths`. Appending paths to this configuration option will cause those paths to be used in the search for mailer previews.
+
+```ruby
+config.action_mailer.preview_paths << "#{Rails.root}/lib/mailer_previews"
+```
+
+### `config.i18n.raise_on_missing_translations = true` now raises on any missing translation.
+
+Previously it would only raise when called in a view or controller. Now it will raise anytime `I18n.t` is provided an unrecognised key.
+
+```ruby
+# with config.i18n.raise_on_missing_translations = true
+
+# in a view or controller:
+t("missing.key") # raises in 7.0, raises in 7.1
+I18n.t("missing.key") # didn't raise in 7.0, raises in 7.1
+
+# anywhere:
+I18n.t("missing.key") # didn't raise in 7.0, raises in 7.1
+```
+
+If you don't want this behaviour, you can set `config.i18n.raise_on_missing_translations = false`:
+
+```ruby
+# with config.i18n.raise_on_missing_translations = false
+
+# in a view or controller:
+t("missing.key") # didn't raise in 7.0, doesn't raise in 7.1
+I18n.t("missing.key") # didn't raise in 7.0, doesn't raise in 7.1
+
+# anywhere:
+I18n.t("missing.key") # didn't raise in 7.0, doesn't raise in 7.1
+```
+
+Alternatively, you can customise the `I18n.exception_handler`.
+See the [i18n guide](https://guides.rubyonrails.org/v7.1/i18n.html#using-different-exception-handlers) for more information.
+
+`AbstractController::Translation.raise_on_missing_translations` has been removed. This was a private API, if you were
+relying on it you should migrate to `config.i18n.raise_on_missing_translations` or to a custom exception handler.
+
+### `bin/rails test` now runs `test:prepare` task
+
+When running tests via `bin/rails test`, the `rake test:prepare` task will run before tests run. If you've enhanced
+the `test:prepare` task, your enhancements will run before your tests. `tailwindcss-rails`, `jsbundling-rails`, and `cssbundling-rails`
+enhance this task, as do other third party gems.
+
+See the [Testing Rails Applications](https://edgeguides.rubyonrails.org/testing.html#running-tests-in-continuous-integration-ci) guide for more information.
+
+If you run a single file's tests (`bin/rails test test/models/user_test.rb`), `test:prepare` will not run before it.
+
+### `ActionView::TestCase#rendered` no longer returns a `String`
+
+Starting from Rails 7.1, `ActionView::TestCase#rendered` returns an object that
+responds to various format methods (for example, `rendered.html` and
+`rendered.json`). To preserve backward compatibility, the object returned from
+`rendered` will delegate missing methods to the `String` rendered during the
+test. For example, the following [assert_match][] assertion will pass:
+
+```ruby
+assert_match(/some content/i, rendered)
+```
+
+However, if your tests rely on `ActionView::TestCase#rendered` returning an
+instance of `String`, they will fail. To restore the original behavior, you can
+override the `#rendered` method to read from the `@rendered` instance variable:
+
+```ruby
+# config/initializers/action_view.rb
+
+ActiveSupport.on_load :action_view_test_case do
+  attr_reader :rendered
+end
+```
+
+[assert_match]: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-assert_match
 
 Upgrading from Rails 6.1 to Rails 7.0
 -------------------------------------
@@ -114,7 +317,7 @@ Also, make sure [`config.cache_classes`][] is set to `false` in `config/environm
 The gem `rails` doesn't depend on `sprockets-rails` anymore. If your application still needs to use Sprockets,
 make sure to add `sprockets-rails` to your Gemfile.
 
-```
+```ruby
 gem "sprockets-rails"
 ```
 
@@ -143,7 +346,7 @@ A few of highlights:
 
 * If you want to trace the activity of the autoloader, `ActiveSupport::Dependencies.verbose=` is no longer available, just throw `Rails.autoloaders.log!` in `config/application.rb`.
 
-Auxiliary internal classes or modules are also gone, like like `ActiveSupport::Dependencies::Reference`, `ActiveSupport::Dependencies::Blamable`, and others.
+Auxiliary internal classes or modules are also gone, like `ActiveSupport::Dependencies::Reference`, `ActiveSupport::Dependencies::Blamable`, and others.
 
 ### Autoloading during initialization
 
@@ -194,14 +397,15 @@ request.content_type #=> "text/csv; header=present; charset=utf-16"
 request.media_type   #=> "text/csv"
 ```
 
-### Key generator digest class changing to use SHA256
+### Key generator digest class change requires a cookie rotator
 
 The default digest class for the key generator is changing from SHA1 to SHA256.
 This has consequences in any encrypted message generated by Rails, including
 encrypted cookies.
 
 In order to be able to read messages using the old digest class it is necessary
-to register a rotator.
+to register a rotator. Failing to do so may result in users having their sessions
+invalidated during the upgrade.
 
 The following is an example for rotator for the encrypted and the signed cookies.
 
@@ -289,6 +493,7 @@ You will then need to change existing image transformation code to the
 `image_processing` macros, and replace ImageMagick's options with libvips' options.
 
 #### Replace resize with resize_to_limit
+
 ```diff
 - variant(resize: "100x")
 + variant(resize_to_limit: [100, nil])
@@ -297,6 +502,7 @@ You will then need to change existing image transformation code to the
 If you don't do this, when you switch to vips you will see this error: `no implicit conversion to float from string`.
 
 #### Use an array when cropping
+
 ```diff
 - variant(crop: "1920x1080+0+0")
 + variant(crop: [0, 0, 1920, 1080])
@@ -314,6 +520,7 @@ Vips is more strict than ImageMagick when it comes to cropping:
 If you don't do this when migrating to vips, you will see the following error: `extract_area: bad extract area`
 
 #### Adjust the background color used for `resize_and_pad`
+
 Vips uses black as the default background color `resize_and_pad`, instead of white like ImageMagick. Fix that by using the `background` option:
 
 ```diff
@@ -322,6 +529,7 @@ Vips uses black as the default background color `resize_and_pad`, instead of whi
 ```
 
 #### Remove any EXIF based rotation
+
 Vips will auto rotate images using the EXIF value when processing variants. If you were storing rotation values from user uploaded photos to apply rotation with ImageMagick, you must stop doing that:
 
 ```diff
@@ -330,6 +538,7 @@ Vips will auto rotate images using the EXIF value when processing variants. If y
 ```
 
 #### Replace monochrome with colourspace
+
 Vips uses a different option to make monochrome images:
 
 ```diff
@@ -338,6 +547,7 @@ Vips uses a different option to make monochrome images:
 ```
 
 #### Switch to libvips options for compressing images
+
 JPEG
 
 ```diff
@@ -367,6 +577,7 @@ GIF
 ```
 
 #### Deploy to production
+
 Active Storage encodes into the url for the image the list of transformations that must be performed.
 If your app is caching these urls, your images will break after you deploy the new code to production.
 Because of this you must manually invalidate your affected cache keys.
@@ -415,6 +626,8 @@ The schema file will look like this:
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[6.1].define(version: 2022_01_28_123512) do
+  # ...
+end
 ```
 
 NOTE: The first time you dump the schema with Rails 7.0, you will see many changes to that file, including
@@ -468,10 +681,10 @@ end
 get('my_action.csv')
 ```
 
-Previous behaviour was returning a `text/csv` response's Content-Type which is inaccurate since a JSON response is being rendered.
-Current behaviour correctly returns a `application/json` response's Content-Type.
+Previous behavior was returning a `text/csv` response's Content-Type which is inaccurate since a JSON response is being rendered.
+Current behavior correctly returns a `application/json` response's Content-Type.
 
-If your application relies on the previous incorrect behaviour, you are encouraged to specify
+If your application relies on the previous incorrect behavior, you are encouraged to specify
 which formats your action accepts, i.e.
 
 ```ruby
@@ -548,6 +761,15 @@ video.preview(resize_to_fit: [100, 100])
 video.preview(resize_to_limit: [100, 100])
 video.preview(resize_to_fill: [100, 100])
 ```
+
+### New `ActiveModel::Error` class
+
+Errors are now instances of a new `ActiveModel::Error` class, with changes to
+the API. Some of these changes may throw errors depending on how you manipulate
+errors, while others will print deprecation warnings to be fixed for Rails 7.0.
+
+More information about this change and details about the API changes can be
+found [in this PR](https://github.com/rails/rails/pull/32313).
 
 Upgrading from Rails 5.2 to Rails 6.0
 -------------------------------------
@@ -662,6 +884,23 @@ resp = ActionDispatch::Response.new(200, "Content-Type" => "text/csv; header=pre
 resp.content_type #=> "text/csv; header=present; charset=utf-16"
 resp.media_type   #=> "text/csv"
 ```
+
+### New `config.hosts` setting
+
+Rails now has a new `config.hosts` setting for security purposes. This setting
+defaults to `localhost` in development. If you use other domains in development
+you need to allow them like this:
+
+```ruby
+# config/environments/development.rb
+
+config.hosts << 'dev.myapp.com'
+config.hosts << /[a-z0-9-]+\.myapp\.com/ # Optionally, regexp is allowed as well
+```
+
+For other environments `config.hosts` is empty by default, which means Rails
+won't validate the host at all. You can optionally add them if you want to
+validate it in production.
 
 ### Autoloading
 
@@ -920,10 +1159,10 @@ class User < ApplicationRecord
   has_many_attached :highlights
 end
 
-user.highlights.attach(filename: "funky.jpg", ...)
+user.highlights.attach(filename: "funky.jpg")
 user.highlights.count # => 1
 
-blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg")
 user.update!(highlights: [ blob ])
 
 user.highlights.count # => 2
@@ -934,10 +1173,10 @@ user.highlights.second.filename # => "town.jpg"
 With the configuration defaults for Rails 6.0, assigning to a collection of attachments replaces existing files instead of appending to them. This matches Active Record behavior when assigning to a collection association:
 
 ```ruby
-user.highlights.attach(filename: "funky.jpg", ...)
+user.highlights.attach(filename: "funky.jpg")
 user.highlights.count # => 1
 
-blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg")
 user.update!(highlights: [ blob ])
 
 user.highlights.count # => 1
@@ -947,7 +1186,7 @@ user.highlights.first.filename # => "town.jpg"
 `#attach` can be used to add new attachments without removing the existing ones:
 
 ```ruby
-blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg", ...)
+blob = ActiveStorage::Blob.create_after_upload!(filename: "town.jpg")
 user.highlights.attach(blob)
 
 user.highlights.count # => 2
@@ -958,6 +1197,14 @@ user.highlights.second.filename # => "town.jpg"
 Existing applications can opt in to this new behavior by setting [`config.active_storage.replace_on_assign_to_many`][] to `true`. The old behavior will be deprecated in Rails 7.0 and removed in Rails 7.1.
 
 [`config.active_storage.replace_on_assign_to_many`]: configuring.html#config-active-storage-replace-on-assign-to-many
+
+### Custom exception handling applications
+
+Invalid `Accept` or `Content-Type` request headers will now raise an exception.
+The default [`config.exceptions_app`][] specifically handles that error and compensates for it.
+Custom exceptions applications will need to handle that error as well, or such requests will cause Rails to use the fallback exceptions application, which returns a `500 Internal Server Error`.
+
+[`config.exceptions_app`]: configuring.html#config-exceptions-app
 
 Upgrading from Rails 5.1 to Rails 5.2
 -------------------------------------
@@ -1037,7 +1284,7 @@ In Rails 5.0, `redirect_to :back` was deprecated. In Rails 5.1, it was removed c
 As an alternative, use `redirect_back`. It's important to note that `redirect_back` also takes
 a `fallback_location` option which will be used in case the `HTTP_REFERER` is missing.
 
-```
+```ruby
 redirect_back(fallback_location: root_path)
 ```
 
@@ -1568,15 +1815,15 @@ invocation of the instance methods are deferred until either `deliver_now` or
 
 ```ruby
 class Notifier < ActionMailer::Base
-  def notify(user, ...)
+  def notify(user)
     puts "Called"
-    mail(to: user.email, ...)
+    mail(to: user.email)
   end
 end
 ```
 
 ```ruby
-mail = Notifier.notify(user, ...) # Notifier#notify is not yet called at this point
+mail = Notifier.notify(user) # Notifier#notify is not yet called at this point
 mail = mail.deliver_now           # Prints "Called"
 ```
 
@@ -1607,7 +1854,7 @@ The migration procedure is as follows:
 2. run `bundle install`.
 3. run `bin/rake db:schema:dump`.
 4. make sure that `db/schema.rb` contains every foreign key definition with
-the necessary options.
+  the necessary options.
 
 Upgrading from Rails 4.0 to Rails 4.1
 -------------------------------------
@@ -1845,7 +2092,7 @@ class ReadOnlyModel < ActiveRecord::Base
 
   private
     def before_save_callback
-      return false
+      false
     end
 end
 ```
@@ -1997,7 +2244,7 @@ start using the more precise `:plain`, `:html`, and `:body` options instead.
 Using `render :text` may pose a security risk, as the content is sent as
 `text/html`.
 
-### PostgreSQL json and hstore datatypes
+### PostgreSQL JSON and hstore datatypes
 
 Rails 4.1 will map `json` and `hstore` columns to a string-keyed Ruby `Hash`.
 In earlier versions, a `HashWithIndifferentAccess` was used. This means that
@@ -2153,20 +2400,20 @@ Rails 4.0 no longer supports loading plugins from `vendor/plugins`. You must rep
 * Rails 4.0 has changed `serialized_attributes` and `attr_readonly` to class methods only. You shouldn't use instance methods since it's now deprecated. You should change them to use class methods, e.g. `self.serialized_attributes` to `self.class.serialized_attributes`.
 
 * When using the default coder, assigning `nil` to a serialized attribute will save it
-to the database as `NULL` instead of passing the `nil` value through YAML (`"--- \n...\n"`).
+  to the database as `NULL` instead of passing the `nil` value through YAML (`"--- \n...\n"`).
 
 * Rails 4.0 has removed `attr_accessible` and `attr_protected` feature in favor of Strong Parameters. You can use the [Protected Attributes gem](https://github.com/rails/protected_attributes) for a smooth upgrade path.
 
 * If you are not using Protected Attributes, you can remove any options related to
-this gem such as `whitelist_attributes` or `mass_assignment_sanitizer` options.
+  this gem such as `whitelist_attributes` or `mass_assignment_sanitizer` options.
 
 * Rails 4.0 requires that scopes use a callable object such as a Proc or lambda:
 
     ```ruby
-      scope :active, where(active: true)
+    scope :active, where(active: true)
 
-      # becomes
-      scope :active, -> { where active: true }
+    # becomes
+    scope :active, -> { where active: true }
     ```
 
 * Rails 4.0 has deprecated `ActiveRecord::Fixtures` in favor of `ActiveRecord::FixtureSet`.
@@ -2194,11 +2441,11 @@ this gem such as `whitelist_attributes` or `mass_assignment_sanitizer` options.
 * Rails 4.0 has changed to default join table for `has_and_belongs_to_many` relations to strip the common prefix off the second table name. Any existing `has_and_belongs_to_many` relationship between models with a common prefix must be specified with the `join_table` option. For example:
 
     ```ruby
-    CatalogCategory < ActiveRecord::Base
+    class CatalogCategory < ActiveRecord::Base
       has_and_belongs_to_many :catalog_products, join_table: 'catalog_categories_catalog_products'
     end
 
-    CatalogProduct < ActiveRecord::Base
+    class CatalogProduct < ActiveRecord::Base
       has_and_belongs_to_many :catalog_categories, join_table: 'catalog_categories_catalog_products'
     end
     ```
@@ -2224,19 +2471,19 @@ Rails 4.0 extracted Active Resource to its own gem. If you still need the featur
 
 ### Action Pack
 
-*   Rails 4.0 introduces `ActiveSupport::KeyGenerator` and uses this as a base from which to generate and verify signed cookies (among other things). Existing signed cookies generated with Rails 3.x will be transparently upgraded if you leave your existing `secret_token` in place and add the new `secret_key_base`.
+* Rails 4.0 introduces `ActiveSupport::KeyGenerator` and uses this as a base from which to generate and verify signed cookies (among other things). Existing signed cookies generated with Rails 3.x will be transparently upgraded if you leave your existing `secret_token` in place and add the new `secret_key_base`.
 
     ```ruby
-      # config/initializers/secret_token.rb
-      Myapp::Application.config.secret_token = 'existing secret token'
-      Myapp::Application.config.secret_key_base = 'new secret key base'
+    # config/initializers/secret_token.rb
+    Myapp::Application.config.secret_token = 'existing secret token'
+    Myapp::Application.config.secret_key_base = 'new secret key base'
     ```
 
     Please note that you should wait to set `secret_key_base` until you have 100% of your userbase on Rails 4.x and are reasonably sure you will not need to rollback to Rails 3.x. This is because cookies signed based on the new `secret_key_base` in Rails 4.x are not backwards compatible with Rails 3.x. You are free to leave your existing `secret_token` in place, not set the new `secret_key_base`, and ignore the deprecation warnings until you are reasonably sure that your upgrade is otherwise complete.
 
     If you are relying on the ability for external applications or JavaScript to be able to read your Rails app's signed session cookies (or signed cookies in general) you should not set `secret_key_base` until you have decoupled these concerns.
 
-*   Rails 4.0 encrypts the contents of cookie-based sessions if `secret_key_base` has been set. Rails 3.x signed, but did not encrypt, the contents of cookie-based session. Signed cookies are "secure" in that they are verified to have been generated by your app and are tamper-proof. However, the contents can be viewed by end users, and encrypting the contents eliminates this caveat/concern without a significant performance penalty.
+* Rails 4.0 encrypts the contents of cookie-based sessions if `secret_key_base` has been set. Rails 3.x signed, but did not encrypt, the contents of cookie-based session. Signed cookies are "secure" in that they are verified to have been generated by your app and are tamper-proof. However, the contents can be viewed by end users, and encrypting the contents eliminates this caveat/concern without a significant performance penalty.
 
     Please read [Pull Request #9978](https://github.com/rails/rails/pull/9978) for details on the move to encrypted session cookies.
 
@@ -2255,13 +2502,13 @@ Rails 4.0 extracted Active Resource to its own gem. If you still need the featur
 * Rails 4.0 deprecates the `dom_id` and `dom_class` methods in controllers (they are fine in views). You will need to include the `ActionView::RecordIdentifier` module in controllers requiring this feature.
 
 * Rails 4.0 deprecates the `:confirm` option for the `link_to` helper. You should
-instead rely on a data attribute (e.g. `data: { confirm: 'Are you sure?' }`).
-This deprecation also concerns the helpers based on this one (such as `link_to_if`
-or `link_to_unless`).
+  instead rely on a data attribute (e.g. `data: { confirm: 'Are you sure?' }`).
+  This deprecation also concerns the helpers based on this one (such as `link_to_if`
+  or `link_to_unless`).
 
 * Rails 4.0 changed how `assert_generates`, `assert_recognizes`, and `assert_routing` work. Now all these assertions raise `Assertion` instead of `ActionController::RoutingError`.
 
-*   Rails 4.0 raises an `ArgumentError` if clashing named routes are defined. This can be triggered by explicitly defined named routes or by the `resources` method. Here are two examples that clash with routes named `example_path`:
+* Rails 4.0 raises an `ArgumentError` if clashing named routes are defined. This can be triggered by explicitly defined named routes or by the `resources` method. Here are two examples that clash with routes named `example_path`:
 
     ```ruby
     get 'one' => 'test#example', as: :example
@@ -2278,7 +2525,7 @@ or `link_to_unless`).
     the `resources` method to restrict the routes created as detailed in the
     [Routing Guide](routing.html#restricting-the-routes-created).
 
-*   Rails 4.0 also changed the way unicode character routes are drawn. Now you can draw unicode character routes directly. If you already draw such routes, you must change them, for example:
+* Rails 4.0 also changed the way unicode character routes are drawn. Now you can draw unicode character routes directly. If you already draw such routes, you must change them, for example:
 
     ```ruby
     get Rack::Utils.escape('こんにちは'), controller: 'welcome', action: 'index'
@@ -2290,20 +2537,20 @@ or `link_to_unless`).
     get 'こんにちは', controller: 'welcome', action: 'index'
     ```
 
-*   Rails 4.0 requires that routes using `match` must specify the request method. For example:
+* Rails 4.0 requires that routes using `match` must specify the request method. For example:
 
     ```ruby
-      # Rails 3.x
-      match '/' => 'root#index'
+    # Rails 3.x
+    match '/' => 'root#index'
 
-      # becomes
-      match '/' => 'root#index', via: :get
+    # becomes
+    match '/' => 'root#index', via: :get
 
-      # or
-      get '/' => 'root#index'
+    # or
+    get '/' => 'root#index'
     ```
 
-*   Rails 4.0 has removed `ActionDispatch::BestStandardsSupport` middleware, `<!DOCTYPE html>` already triggers standards mode per https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx and ChromeFrame header has been moved to `config.action_dispatch.default_headers`.
+* Rails 4.0 has removed `ActionDispatch::BestStandardsSupport` middleware, `<!DOCTYPE html>` already triggers standards mode per https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx and ChromeFrame header has been moved to `config.action_dispatch.default_headers`.
 
     Remember you must also remove any references to the middleware from your application code, for example:
 
@@ -2314,13 +2561,13 @@ or `link_to_unless`).
 
     Also check your environment settings for `config.action_dispatch.best_standards_support` and remove it if present.
 
-*   Rails 4.0 allows configuration of HTTP headers by setting `config.action_dispatch.default_headers`. The defaults are as follows:
+* Rails 4.0 allows configuration of HTTP headers by setting `config.action_dispatch.default_headers`. The defaults are as follows:
 
     ```ruby
-      config.action_dispatch.default_headers = {
-        'X-Frame-Options' => 'SAMEORIGIN',
-        'X-XSS-Protection' => '1; mode=block'
-      }
+    config.action_dispatch.default_headers = {
+      'X-Frame-Options' => 'SAMEORIGIN',
+      'X-XSS-Protection' => '1; mode=block'
+    }
     ```
 
     Please note that if your application is dependent on loading certain pages in a `<frame>` or `<iframe>`, then you may need to explicitly set `X-Frame-Options` to `ALLOW-FROM ...` or `ALLOWALL`.
