@@ -10,8 +10,8 @@ Rails.
 After reading this guide, you will know:
 
 * How to use Rails without the need for a Node.js, Yarn, or a JavaScript bundler.
-* How to create a new Rails application using import maps, esbuild, rollup, or webpack to bundle
-your JavaScript.
+* How to create a new Rails application using import maps, bun, esbuild, rollup, or webpack to bundle
+  your JavaScript.
 * What Turbo is, and how to use it.
 * How to use the Turbo HTML helpers provided by Rails.
 
@@ -31,6 +31,20 @@ manage your JavaScript dependencies, there is no need to install Node.js or Yarn
 
 When using import maps, no separate build process is required, just start your server with
 `bin/rails server` and you are good to go.
+
+### Installing importmap-rails
+
+Importmap for Rails is automatically included in Rails 7+ for new applications, but you can also install it manually in existing applications:
+
+```bash
+$ bin/bundle add importmap-rails
+```
+
+Run the install task:
+
+```bash
+$ bin/rails importmap:install
+```
 
 ### Adding NPM Packages with importmap-rails
 
@@ -53,16 +67,16 @@ Adding NPM Packages with JavaScript Bundlers
 
 Import maps are the default for new Rails applications, but if you prefer traditional JavaScript
 bundling, you can create new Rails applications with your choice of
-[esbuild](https://esbuild.github.io/), [webpack](https://webpack.js.org/), or
-[rollup.js](https://rollupjs.org/guide/en/).
+[Bun](https://bun.sh), [esbuild](https://esbuild.github.io/),
+[webpack](https://webpack.js.org/), or [rollup.js](https://rollupjs.org/guide/en/).
 
 To use a bundler instead of import maps in a new Rails application, pass the `—javascript` or `-j`
 option to `rails new`:
 
 ```bash
-$ rails new my_new_app --javascript=webpack
+$ rails new my_new_app --javascript=bun
 OR
-$ rails new my_new_app -j webpack
+$ rails new my_new_app -j bun
 ```
 
 These bundling options each come with a simple configuration and integration with the asset
@@ -71,10 +85,27 @@ pipeline via the [jsbundling-rails](https://github.com/rails/jsbundling-rails) g
 When using a bundling option, use `bin/dev` to start the Rails server and build JavaScript for
 development.
 
-### Installing Node.js and Yarn
+### Installing a JavaScript Runtime
 
-If you are using a JavaScript bundler in your Rails application, Node.js and Yarn must be
-installed.
+If you are using a esbuild, rollup.js or Webpack, to bundle your JavaScript in
+your Rails application, Node.js and Yarn must be installed. If you are using
+Bun, then you just need to install Bun as it is both a JavaScript runtime and a bundler.
+
+#### Installing Bun
+
+Find the installation instructions at the [Bun website](https://bun.sh) and
+verify it’s installed correctly with the following command:
+
+```bash
+$ bun --version
+```
+
+The version of your Bun runtime should be printed out. If it says something
+like `1.0.0`, Bun has been installed correctly.
+
+#### Installing Node.js and Yarn
+
+If you are using esbuild, rollup.js or Webpack you will need Node.js and Yarn.
 
 Find the installation instructions at the [Node.js website](https://nodejs.org/en/download/) and
 verify it’s installed correctly with the following command:
@@ -116,13 +147,10 @@ that you should choose a traditional bundler include:
 
 * If your code requires a transpilation step, such as JSX or TypeScript.
 * If you need to use JavaScript libraries that include CSS or otherwise rely on
-[Webpack loaders](https://webpack.js.org/loaders/).
+  [Webpack loaders](https://webpack.js.org/loaders/).
 * If you are absolutely sure that you need
-[tree-shaking](https://webpack.js.org/guides/tree-shaking/).
-* If you will install Bootstrap, Bulma, PostCSS, or Dart CSS through the
-[cssbundling-rails gem](https://github.com/rails/cssbundling-rails). All options provided by this
-gem except Tailwind will automatically install `esbuild` for you if you do not specify a different
-option in `rails new`.
+  [tree-shaking](https://webpack.js.org/guides/tree-shaking/).
+* If you will install Bootstrap, Bulma, PostCSS, or Dart CSS through the [cssbundling-rails gem](https://github.com/rails/cssbundling-rails). All options provided by this gem except Tailwind and Sass will automatically install `esbuild` for you if you do not specify a different option in `rails new`.
 
 Turbo
 -----
@@ -157,7 +185,7 @@ like this:
 ```erb
 <%= turbo_frame_tag dom_id(post) do %>
   <div>
-     <%= link_to post.title, post_path(path) %>
+     <%= link_to post.title, post_path(post) %>
   </div>
 <% end %>
 ```
@@ -227,17 +255,18 @@ With a WebSocket connection set up on the page that should receive the updates l
 Replacements for Rails/UJS Functionality
 ----------------------------------------
 
-Rails 6 shipped with a tool called UJS that allows developers to override the method of `<a>` tags
-to perform non-GET requests after a hyperlink click and to add confirmation dialogs before
-executing an action. This was the default before Rails 7, but it is now recommended to use Turbo
-instead.
+Rails 6 shipped with a tool called UJS (Unobtrusive JavaScript). UJS allows
+developers to override the HTTP request method of `<a>` tags, to add confirmation
+dialogs before executing an action, and more. UJS was the default before Rails
+7, but it is now recommended to use Turbo instead.
 
 ### Method
 
 Clicking links always results in an HTTP GET request. If your application is
 [RESTful](https://en.wikipedia.org/wiki/Representational_State_Transfer), some links are in fact
-actions that change data on the server, and should be performed with non-GET requests. This
-attribute allows marking up such links with an explicit method such as "post", "put", or "delete".
+actions that change data on the server, and should be performed with non-GET
+requests. The `data-turbo-method` attribute allows marking up such links with
+an explicit method such as "post", "put", or "delete".
 
 Turbo will scan `<a>` tags in your application for the `turbo-method` data attribute and use the
 specified method when present, overriding the default GET action.
@@ -284,7 +313,47 @@ The attribute can also be used with the `button_to` helper, however it must be
 added to the form that the `button_to` helper renders internally:
 
 ```erb
-<%= button_to "Delete post', post, method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
+<%= button_to "Delete post", post, method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
 ```
 
+### Ajax Requests
 
+When making non-GET requests from JavaScript the `X-CSRF-Token` header is required.
+Without this header requests won't be accepted by Rails.
+
+NOTE: This token is required by Rails to prevent Cross-Site Request Forgery (CSRF) attacks. Read more in the [security guide](security.html#cross-site-request-forgery-csrf).
+
+[Rails Request.JS](https://github.com/rails/request.js) encapsulates the logic
+of adding the request headers that are required by Rails. Just
+import the `FetchRequest` class from the package and instantiate it
+passing the request method, url, options, then call `await request.perform()`
+and do what do you need with the response.
+
+For example:
+
+```javascript
+import { FetchRequest } from '@rails/request.js'
+
+....
+
+async myMethod () {
+  const request = new FetchRequest('post', 'localhost:3000/posts', {
+    body: JSON.stringify({ name: 'Request.JS' })
+  })
+  const response = await request.perform()
+  if (response.ok) {
+    const body = await response.text
+  }
+}
+```
+
+When using another library to make Ajax calls, it is necessary to add the
+security token as a default header yourself. To get the token, have a look at
+`<meta name='csrf-token' content='THE-TOKEN'>` tag printed by
+[`csrf_meta_tags`][] in your application view. You could do something like:
+
+```javascript
+document.head.querySelector("meta[name=csrf-token]")?.content
+```
+
+[`csrf_meta_tags`]: https://api.rubyonrails.org/classes/ActionView/Helpers/CsrfHelper.html#method-i-csrf_meta_tags

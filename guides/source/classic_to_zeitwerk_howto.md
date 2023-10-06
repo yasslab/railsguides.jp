@@ -88,8 +88,8 @@ How to Verify The Application Runs in `zeitwerk` Mode?
 
 To verify the application is running in `zeitwerk` mode, execute
 
-```
-bin/rails runner 'p Rails.autoloaders.zeitwerk_enabled?'
+```bash
+$ bin/rails runner 'p Rails.autoloaders.zeitwerk_enabled?'
 ```
 
 If that prints `true`, `zeitwerk` mode is enabled.
@@ -119,14 +119,14 @@ config.eager_load_paths << "#{Rails.root}/extras"
 
 Once `zeitwerk` mode is enabled and the configuration of eager load paths double-checked, please run:
 
-```
-bin/rails zeitwerk:check
+```bash
+$ bin/rails zeitwerk:check
 ```
 
 A successful check looks like this:
 
-```
-% bin/rails zeitwerk:check
+```bash
+$ bin/rails zeitwerk:check
 Hold on, I am eager loading the application.
 All is good!
 ```
@@ -141,8 +141,8 @@ If there's one constant reported, fix that particular one and run the task again
 
 Take for example:
 
-```
-% bin/rails zeitwerk:check
+```bash
+$ bin/rails zeitwerk:check
 Hold on, I am eager loading the application.
 expected file app/models/vat.rb to define constant Vat
 ```
@@ -155,7 +155,7 @@ This is the most common kind of discrepancy you may find, it has to do with acro
 
 The classic autoloader is able to autoload `VAT` because its input is the name of the missing constant, `VAT`, invokes `underscore` on it, which yields `vat`, and looks for a file called `vat.rb`. It works.
 
-The input of the new autoloader is the file system. Give the file `vat.rb`, Zeitwerk invokes `camelize` on `vat`, which yields `Vat`, and expects the file to define the constant `Vat`. That is what the error message says.
+The input of the new autoloader is the file system. Given the file `vat.rb`, Zeitwerk invokes `camelize` on `vat`, which yields `Vat`, and expects the file to define the constant `Vat`. That is what the error message says.
 
 Fixing this is easy, you only need to tell the inflector about this acronym:
 
@@ -177,8 +177,8 @@ With this option you have more control, because only files called exactly `vat.r
 
 With that in place, the check passes!
 
-```
-% bin/rails zeitwerk:check
+```bash
+$ bin/rails zeitwerk:check
 Hold on, I am eager loading the application.
 All is good!
 ```
@@ -362,7 +362,7 @@ as
 
 ```ruby
 # config/initializers/country.rb
-unless Rails.application.config.cache_classes
+if Rails.application.config.reloading_enabled?
   Rails.autoloaders.main.on_unload("Country") do |klass, _abspath|
     klass.expire_redis_cache
   end
@@ -378,10 +378,23 @@ Spring reloads the application code if something changes. In the `test` environm
 config.cache_classes = false
 ```
 
-Otherwise you'll get this error:
+or, since Rails 7.1:
+
+```ruby
+# config/environments/test.rb
+config.enable_reloading = true
+```
+
+Otherwise, you'll get:
 
 ```
 reloading is disabled because config.cache_classes is true
+```
+
+or
+
+```
+reloading is disabled because config.enable_reloading is false
 ```
 
 This has no performance penalty.

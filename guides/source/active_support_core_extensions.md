@@ -37,7 +37,7 @@ only the extensions required by the Active Support framework are loaded.
 This example shows how to load [`Hash#with_indifferent_access`][Hash#with_indifferent_access].  This extension enables the conversion of a `Hash` into an [`ActiveSupport::HashWithIndifferentAccess`][ActiveSupport::HashWithIndifferentAccess] which permits access to the keys as either strings or symbols.
 
 ```ruby
-{a: 1}.with_indifferent_access["a"] # => 1
+{ a: 1 }.with_indifferent_access["a"] # => 1
 ```
 
 For every single method defined as a core extension this guide has a note that says where such a method is defined. In the case of `with_indifferent_access` the note reads:
@@ -393,13 +393,13 @@ Arrays return the result of applying `to_query` to each element with `key[]` as 
 Hashes also respond to `to_query` but with a different signature. If no argument is passed a call generates a sorted series of key/value assignments calling `to_query(key)` on its values. Then it joins the result with "&":
 
 ```ruby
-{c: 3, b: 2, a: 1}.to_query # => "a=1&b=2&c=3"
+{ c: 3, b: 2, a: 1 }.to_query # => "a=1&b=2&c=3"
 ```
 
 The method [`Hash#to_query`][Hash#to_query] accepts an optional namespace for the keys:
 
 ```ruby
-{id: 89, name: "John Smith"}.to_query('user')
+{ id: 89, name: "John Smith" }.to_query('user')
 # => "user%5Bid%5D=89&user%5Bname%5D=John+Smith"
 ```
 
@@ -528,7 +528,7 @@ The predicate [`in?`][Object#in?] tests if an object is included in another obje
 Examples of `in?`:
 
 ```ruby
-1.in?([1,2])        # => true
+1.in?([1, 2])        # => true
 "lo".in?("hello")   # => true
 25.in?(30..50)      # => false
 1.in?(1)            # => ArgumentError
@@ -981,7 +981,9 @@ Instance methods are created as well for convenience, they are just proxies to t
 ```ruby
 module ActionView
   class Base
-    cattr_accessor :field_error_proc, default: Proc.new { ... }
+    cattr_accessor :field_error_proc, default: Proc.new {
+      # ...
+    }
   end
 end
 ```
@@ -1859,6 +1861,32 @@ NOTE: Defined in `active_support/core_ext/string/inflections.rb`.
 
 [String#foreign_key]: https://api.rubyonrails.org/classes/String.html#method-i-foreign_key
 
+#### `upcase_first`
+
+The method [`upcase_first`][String#upcase_first] capitalizes the first letter of the receiver:
+
+```ruby
+"employee salary".upcase_first # => "Employee salary"
+"".upcase_first                # => ""
+```
+
+NOTE: Defined in `active_support/core_ext/string/inflections.rb`.
+
+[String#upcase_first]: https://api.rubyonrails.org/classes/String.html#method-i-upcase_first
+
+#### `downcase_first`
+
+The method [`downcase_first`][String#downcase_first] converts the first letter of the receiver to lowercase:
+
+```ruby
+"If I had read Alice in Wonderland".downcase_first # => "if I had read Alice in Wonderland"
+"".downcase_first                                  # => ""
+```
+
+NOTE: Defined in `active_support/core_ext/string/inflections.rb`.
+
+[String#downcase_first]: https://api.rubyonrails.org/classes/String.html#method-i-downcase_first
+
 ### Conversions
 
 #### `to_date`, `to_time`, `to_datetime`
@@ -1924,7 +1952,7 @@ They return the corresponding amount of bytes, using a conversion factor of 1024
 ```ruby
 2.kilobytes   # => 2048
 3.megabytes   # => 3145728
-3.5.gigabytes # => 3758096384
+3.5.gigabytes # => 3758096384.0
 -4.exabytes   # => -4611686018427387904
 ```
 
@@ -2171,47 +2199,6 @@ BigDecimal(5.00, 6).to_s("e")  # => "0.5E1"
 Extensions to `Enumerable`
 --------------------------
 
-### `sum`
-
-The method [`sum`][Enumerable#sum] adds the elements of an enumerable:
-
-```ruby
-[1, 2, 3].sum # => 6
-(1..100).sum  # => 5050
-```
-
-Addition only assumes the elements respond to `+`:
-
-```ruby
-[[1, 2], [2, 3], [3, 4]].sum    # => [1, 2, 2, 3, 3, 4]
-%w(foo bar baz).sum             # => "foobarbaz"
-{a: 1, b: 2, c: 3}.sum          # => [:a, 1, :b, 2, :c, 3]
-```
-
-The sum of an empty collection is zero by default, but this is customizable:
-
-```ruby
-[].sum    # => 0
-[].sum(1) # => 1
-```
-
-If a block is given, `sum` becomes an iterator that yields the elements of the collection and sums the returned values:
-
-```ruby
-(1..5).sum {|n| n * 2 } # => 30
-[2, 4, 6, 8, 10].sum    # => 30
-```
-
-The sum of an empty receiver can be customized in this form as well:
-
-```ruby
-[].sum(1) {|n| n**3} # => 1
-```
-
-NOTE: Defined in `active_support/core_ext/enumerable.rb`.
-
-[Enumerable#sum]: https://api.rubyonrails.org/classes/Enumerable.html#method-i-sum
-
 ### `index_by`
 
 The method [`index_by`][Enumerable#index_by] generates a hash with the elements of an enumerable indexed by some key.
@@ -2261,7 +2248,7 @@ The method [`many?`][Enumerable#many?] is shorthand for `collection.size > 1`:
 If an optional block is given, `many?` only takes into account those elements that return true:
 
 ```ruby
-@see_more = videos.many? {|video| video.category == params[:category]}
+@see_more = videos.many? { |video| video.category == params[:category] }
 ```
 
 NOTE: Defined in `active_support/core_ext/enumerable.rb`.
@@ -2547,7 +2534,7 @@ If there's any element that does not belong to the type of the first one the roo
 If the receiver is an array of hashes the root element is by default also "objects":
 
 ```ruby
-[{a: 1, b: 2}, {c: 3}].to_xml
+[{ a: 1, b: 2 }, { c: 3 }].to_xml
 # =>
 # <?xml version="1.0" encoding="UTF-8"?>
 # <objects type="array">
@@ -2698,7 +2685,7 @@ The method [`in_groups`][Array#in_groups] splits an array into a certain number 
 or yields them in turn if a block is passed:
 
 ```ruby
-%w(1 2 3 4 5 6 7).in_groups(3) {|group| p group}
+%w(1 2 3 4 5 6 7).in_groups(3) { |group| p group }
 ["1", "2", "3"]
 ["4", "5", nil]
 ["6", "7", nil]
@@ -2760,7 +2747,7 @@ Extensions to `Hash`
 The method [`to_xml`][Hash#to_xml] returns a string containing an XML representation of its receiver:
 
 ```ruby
-{"foo" => 1, "bar" => 2}.to_xml
+{ foo: 1, bar: 2 }.to_xml
 # =>
 # <?xml version="1.0" encoding="UTF-8"?>
 # <hash>
@@ -2808,7 +2795,7 @@ NOTE: Defined in `active_support/core_ext/hash/conversions.rb`.
 Ruby has a built-in method `Hash#merge` that merges two hashes:
 
 ```ruby
-{a: 1, b: 1}.merge(a: 0, c: 2)
+{ a: 1, b: 1 }.merge(a: 0, c: 2)
 # => {:a=>0, :b=>1, :c=>2}
 ```
 
@@ -2819,7 +2806,7 @@ Active Support defines a few more ways of merging hashes that may be convenient.
 In case of collision the key in the hash of the argument wins in `merge`. You can support option hashes with default values in a compact way with this idiom:
 
 ```ruby
-options = {length: 30, omission: "..."}.merge(options)
+options = { length: 30, omission: "..." }.merge(options)
 ```
 
 Active Support defines [`reverse_merge`][Hash#reverse_merge] in case you prefer this alternative notation:
@@ -2858,7 +2845,7 @@ As you can see in the previous example if a key is found in both hashes the valu
 Active Support defines [`Hash#deep_merge`][Hash#deep_merge]. In a deep merge, if a key is found in both hashes and their values are hashes in turn, then their _merge_ becomes the value in the resulting hash:
 
 ```ruby
-{a: {b: 1}}.deep_merge(a: {c: 2})
+{ a: { b: 1 } }.deep_merge(a: { c: 2 })
 # => {:a=>{:b=>1, :c=>2}}
 ```
 
@@ -2896,14 +2883,14 @@ NOTE: Defined in `active_support/core_ext/object/deep_dup.rb`.
 The method [`except`][Hash#except] returns a hash with the keys in the argument list removed, if present:
 
 ```ruby
-{a: 1, b: 2}.except(:a) # => {:b=>2}
+{ a: 1, b: 2 }.except(:a) # => {:b=>2}
 ```
 
 If the receiver responds to `convert_key`, the method is called on each of the arguments. This allows `except` to play nice with hashes with indifferent access for instance:
 
 ```ruby
-{a: 1}.with_indifferent_access.except(:a)  # => {}
-{a: 1}.with_indifferent_access.except("a") # => {}
+{ a: 1 }.with_indifferent_access.except(:a)  # => {}
+{ a: 1 }.with_indifferent_access.except("a") # => {}
 ```
 
 There's also the bang variant [`except!`][Hash#except!] that removes keys in place.
@@ -2918,14 +2905,14 @@ NOTE: Defined in `active_support/core_ext/hash/except.rb`.
 The method [`stringify_keys`][Hash#stringify_keys] returns a hash that has a stringified version of the keys in the receiver. It does so by sending `to_s` to them:
 
 ```ruby
-{nil => nil, 1 => 1, a: :a}.stringify_keys
+{ nil => nil, 1 => 1, a: :a }.stringify_keys
 # => {"" => nil, "1" => 1, "a" => :a}
 ```
 
 In case of key collision, the value will be the one most recently inserted into the hash:
 
 ```ruby
-{"a" => 1, a: 2}.stringify_keys
+{ "a" => 1, a: 2 }.stringify_keys
 # The result will be
 # => {"a"=>2}
 ```
@@ -2947,7 +2934,7 @@ There's also the bang variant [`stringify_keys!`][Hash#stringify_keys!] that str
 Besides that, one can use [`deep_stringify_keys`][Hash#deep_stringify_keys] and [`deep_stringify_keys!`][Hash#deep_stringify_keys!] to stringify all the keys in the given hash and all the hashes nested in it. An example of the result is:
 
 ```ruby
-{nil => nil, 1 => 1, nested: {a: 3, 5 => 5}}.deep_stringify_keys
+{ nil => nil, 1 => 1, nested: { a: 3, 5 => 5 } }.deep_stringify_keys
 # => {""=>nil, "1"=>1, "nested"=>{"a"=>3, "5"=>5}}
 ```
 
@@ -2963,7 +2950,7 @@ NOTE: Defined in `active_support/core_ext/hash/keys.rb`.
 The method [`symbolize_keys`][Hash#symbolize_keys] returns a hash that has a symbolized version of the keys in the receiver, where possible. It does so by sending `to_sym` to them:
 
 ```ruby
-{nil => nil, 1 => 1, "a" => "a"}.symbolize_keys
+{ nil => nil, 1 => 1, "a" => "a" }.symbolize_keys
 # => {nil=>nil, 1=>1, :a=>"a"}
 ```
 
@@ -2972,7 +2959,7 @@ WARNING. Note in the previous example only one key was symbolized.
 In case of key collision, the value will be the one most recently inserted into the hash:
 
 ```ruby
-{"a" => 1, a: 2}.symbolize_keys
+{ "a" => 1, a: 2 }.symbolize_keys
 # => {:a=>2}
 ```
 
@@ -2994,7 +2981,7 @@ There's also the bang variant [`symbolize_keys!`][Hash#symbolize_keys!] that sym
 Besides that, one can use [`deep_symbolize_keys`][Hash#deep_symbolize_keys] and [`deep_symbolize_keys!`][Hash#deep_symbolize_keys!] to symbolize all the keys in the given hash and all the hashes nested in it. An example of the result is:
 
 ```ruby
-{nil => nil, 1 => 1, "nested" => {"a" => 3, 5 => 5}}.deep_symbolize_keys
+{ nil => nil, 1 => 1, "nested" => { "a" => 3, 5 => 5 } }.deep_symbolize_keys
 # => {nil=>nil, 1=>1, nested:{a:3, 5=>5}}
 ```
 
@@ -3019,8 +3006,8 @@ NOTE: Defined in `active_support/core_ext/hash/keys.rb`.
 The method [`assert_valid_keys`][Hash#assert_valid_keys] receives an arbitrary number of arguments, and checks whether the receiver has any key outside that list. If it does `ArgumentError` is raised.
 
 ```ruby
-{a: 1}.assert_valid_keys(:a)  # passes
-{a: 1}.assert_valid_keys("a") # ArgumentError
+{ a: 1 }.assert_valid_keys(:a)  # passes
+{ a: 1 }.assert_valid_keys("a") # ArgumentError
 ```
 
 Active Record does not accept unknown options when building associations, for example. It implements that control via `assert_valid_keys`.
@@ -3038,7 +3025,7 @@ The method [`deep_transform_values`][Hash#deep_transform_values] returns a new h
 ```ruby
 hash = { person: { name: 'Rob', age: '28' } }
 
-hash.deep_transform_values{ |value| value.to_s.upcase }
+hash.deep_transform_values { |value| value.to_s.upcase }
 # => {person: {name: "ROB", age: "28"}}
 ```
 
@@ -3054,7 +3041,7 @@ NOTE: Defined in `active_support/core_ext/hash/deep_transform_values.rb`.
 The method [`slice!`][Hash#slice!] replaces the hash with only the given keys and returns a hash containing the removed key/value pairs.
 
 ```ruby
-hash = {a: 1, b: 2}
+hash = { a: 1, b: 2 }
 rest = hash.slice!(:a) # => {:b=>2}
 hash                   # => {:a=>1}
 ```
@@ -3068,7 +3055,7 @@ NOTE: Defined in `active_support/core_ext/hash/slice.rb`.
 The method [`extract!`][Hash#extract!] removes and returns the key/value pairs matching the given keys.
 
 ```ruby
-hash = {a: 1, b: 2}
+hash = { a: 1, b: 2 }
 rest = hash.extract!(:a) # => {:a=>1}
 hash                     # => {:b=>2}
 ```
@@ -3076,7 +3063,7 @@ hash                     # => {:b=>2}
 The method `extract!` returns the same subclass of Hash that the receiver is.
 
 ```ruby
-hash = {a: 1, b: 2}.with_indifferent_access
+hash = { a: 1, b: 2 }.with_indifferent_access
 rest = hash.extract!(:a).class
 # => ActiveSupport::HashWithIndifferentAccess
 ```
@@ -3090,7 +3077,7 @@ NOTE: Defined in `active_support/core_ext/hash/slice.rb`.
 The method [`with_indifferent_access`][Hash#with_indifferent_access] returns an [`ActiveSupport::HashWithIndifferentAccess`][ActiveSupport::HashWithIndifferentAccess] out of its receiver:
 
 ```ruby
-{a: 1}.with_indifferent_access["a"] # => 1
+{ a: 1 }.with_indifferent_access["a"] # => 1
 ```
 
 NOTE: Defined in `active_support/core_ext/hash/indifferent_access.rb`.
@@ -3132,15 +3119,15 @@ NOTE: Defined in `active_support/core_ext/regexp.rb`.
 Extensions to `Range`
 ---------------------
 
-### `to_s`
+### `to_fs`
 
-Active Support extends the method `Range#to_s` so that it understands an optional format argument. As of this writing the only supported non-default format is `:db`:
+Active Support defines `Range#to_fs` as an alternative to `to_s` that understands an optional format argument. As of this writing the only supported non-default format is `:db`:
 
 ```ruby
-(Date.today..Date.tomorrow).to_s
+(Date.today..Date.tomorrow).to_fs
 # => "2009-10-25..2009-10-26"
 
-(Date.today..Date.tomorrow).to_s(:db)
+(Date.today..Date.tomorrow).to_fs(:db)
 # => "BETWEEN '2009-10-25' AND '2009-10-26'"
 ```
 
@@ -3172,19 +3159,19 @@ Active Support extends these methods so that the argument may be another range i
 
 NOTE: Defined in `active_support/core_ext/range/compare_range.rb`.
 
-### `overlaps?`
+### `overlap?`
 
-The method [`Range#overlaps?`][Range#overlaps?] says whether any two given ranges have non-void intersection:
+The method [`Range#overlap?`][Range#overlap?] says whether any two given ranges have non-void intersection:
 
 ```ruby
-(1..10).overlaps?(7..11)  # => true
-(1..10).overlaps?(0..7)   # => true
-(1..10).overlaps?(11..27) # => false
+(1..10).overlap?(7..11)  # => true
+(1..10).overlap?(0..7)   # => true
+(1..10).overlap?(11..27) # => false
 ```
 
-NOTE: Defined in `active_support/core_ext/range/overlaps.rb`.
+NOTE: Defined in `active_support/core_ext/range/overlap.rb`.
 
-[Range#overlaps?]: https://api.rubyonrails.org/classes/Range.html#method-i-overlaps-3F
+[Range#overlap?]: https://api.rubyonrails.org/classes/Range.html#method-i-overlaps-3F
 
 Extensions to `Date`
 --------------------
@@ -3306,7 +3293,14 @@ NOTE: Defined in `active_support/core_ext/date_and_time/calculations.rb`.
 [DateAndTime::Calculations#beginning_of_month]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-beginning_of_month
 [DateAndTime::Calculations#end_of_month]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-end_of_month
 
-##### `beginning_of_quarter`, `end_of_quarter`
+##### `quarter`, `beginning_of_quarter`, `end_of_quarter`
+
+The method [`quarter`][DateAndTime::Calculations#quarter] returns the quarter of the receiver's calendar year:
+
+```ruby
+d = Date.new(2010, 5, 9) # => Sun, 09 May 2010
+d.quarter                # => 2
+```
 
 The methods [`beginning_of_quarter`][DateAndTime::Calculations#beginning_of_quarter] and [`end_of_quarter`][DateAndTime::Calculations#end_of_quarter] return the dates for the beginning and end of the quarter of the receiver's calendar year:
 
@@ -3320,6 +3314,7 @@ d.end_of_quarter         # => Wed, 30 Jun 2010
 
 NOTE: Defined in `active_support/core_ext/date_and_time/calculations.rb`.
 
+[DateAndTime::Calculations#quarter]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-quarter
 [DateAndTime::Calculations#at_beginning_of_quarter]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-at_beginning_of_quarter
 [DateAndTime::Calculations#at_end_of_quarter]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-at_end_of_quarter
 [DateAndTime::Calculations#beginning_of_quarter]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-beginning_of_quarter

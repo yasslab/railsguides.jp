@@ -99,6 +99,8 @@ By requiring this file, `test_helper.rb` the default configuration to run our te
 
 ```ruby
 class ArticleTest < ActiveSupport::TestCase
+  # ...
+end
 ```
 
 The `ArticleTest` class defines a _test case_ because it inherits from `ActiveSupport::TestCase`. `ArticleTest` thus has all the methods available from `ActiveSupport::TestCase`. Later in this guide, we'll see some of the methods it gives us.
@@ -152,7 +154,7 @@ test "should not save article without title" do
 end
 ```
 
-Let us run this newly added test (where `6` is the number of line where the test is defined).
+Let us run this newly added test (where `6` is the line number where the test is defined).
 
 ```bash
 $ bin/rails test test/models/article_test.rb:6
@@ -167,7 +169,7 @@ ArticleTest#test_should_not_save_article_without_title [/path/to/blog/test/model
 Expected true to be nil or false
 
 
-rails test test/models/article_test.rb:6
+bin/rails test test/models/article_test.rb:6
 
 
 
@@ -250,7 +252,7 @@ NameError: undefined local variable or method 'some_undefined_variable' for #<Ar
     test/models/article_test.rb:11:in 'block in <class:ArticleTest>'
 
 
-rails test test/models/article_test.rb:9
+bin/rails test test/models/article_test.rb:9
 
 
 
@@ -296,7 +298,7 @@ This test should now pass.
 By now you've caught a glimpse of some of the assertions that are available. Assertions are the worker bees of testing. They are the ones that actually perform the checks to ensure that things are going as planned.
 
 Here's an extract of the assertions you can use with
-[`Minitest`](https://github.com/seattlerb/minitest), the default testing library
+[`Minitest`](https://github.com/minitest/minitest), the default testing library
 used by Rails. The `[msg]` parameter is an optional string message you can
 specify to make your test failure messages clearer.
 
@@ -332,6 +334,8 @@ specify to make your test failure messages clearer.
 | `assert_not_operator( obj1, operator, [obj2], [msg] )`           | Ensures that `obj1.operator(obj2)` is false.|
 | `assert_predicate ( obj, predicate, [msg] )`                     | Ensures that `obj.predicate` is true, e.g. `assert_predicate str, :empty?`|
 | `assert_not_predicate ( obj, predicate, [msg] )`                 | Ensures that `obj.predicate` is false, e.g. `assert_not_predicate str, :empty?`|
+| `assert_error_reported(class) { block }`                         | Ensures that the error class has been reported, e.g. `assert_error_reported IOError { Rails.error.report(IOError.new("Oops")) }`|
+| `assert_no_error_reported { block }`                             | Ensures that no errors have been reported, e.g. `assert_no_error_reported { perform_service }`|
 | `flunk( [msg] )`                                                 | Ensures failure. This is useful to explicitly mark a test that isn't finished yet.|
 
 The above are a subset of assertions that minitest supports. For an exhaustive &
@@ -421,6 +425,12 @@ You can also run a test at a specific line by providing the line number.
 $ bin/rails test test/models/article_test.rb:6 # run specific test and line
 ```
 
+You can also run a range of tests by providing the line range.
+
+```bash
+$ bin/rails test test/models/article_test.rb:6-20 # runs tests from line 6 to 20
+```
+
 You can also run an entire directory of tests by providing the path to the directory.
 
 ```bash
@@ -437,6 +447,10 @@ Usage: rails test [options] [files or directories]
 You can run a single test by appending a line number to a filename:
 
     bin/rails test test/models/user_test.rb:27
+
+You can run multiple tests with in a line range by appending the line range to a filename:
+
+    bin/rails test test/models/user_test.rb:10-20
 
 You can run multiple files and directories at the same time:
 
@@ -461,6 +475,18 @@ Known extensions: rails, pride
     -c, --[no-]color                 Enable color in the output
     -p, --pride                      Pride. Show your testing pride!
 ```
+
+### Running tests in Continuous Integration (CI)
+
+To run all tests in a CI environment, there's just one command you need:
+
+```bash
+$ bin/rails test
+```
+
+If you are using [System Tests](#system-testing), `bin/rails test` will not run them, since
+they can be slow. To also run them, add an another CI step that runs `bin/rails test:system`,
+or change your first step to `bin/rails test:all`, which runs all tests including system tests.
 
 Parallel Testing
 ----------------
@@ -723,9 +749,9 @@ ERB allows you to embed Ruby code within templates. The YAML fixture format is p
 
 ```erb
 <% 1000.times do |n| %>
-user_<%= n %>:
-  username: <%= "user#{n}" %>
-  email: <%= "user#{n}@example.com" %>
+  user_<%= n %>:
+    username: <%= "user#{n}" %>
+    email: <%= "user#{n}@example.com" %>
 <% end %>
 ```
 
@@ -861,6 +887,50 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 end
 ```
 
+If you want to use a remote browser, e.g.
+[Headless Chrome in Docker](https://github.com/SeleniumHQ/docker-selenium),
+you have to add remote `url`  and set `browser` as remote through `options`.
+
+```ruby
+require "test_helper"
+
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  url = ENV.fetch("SELENIUM_REMOTE_URL", nil)
+  options = if url
+    { browser: :remote, url: url }
+  else
+    { browser: :chrome }
+  end
+  driven_by :selenium, using: :headless_chrome, options: options
+end
+```
+
+Now you should get a connection to remote browser.
+
+```bash
+$ SELENIUM_REMOTE_URL=http://localhost:4444/wd/hub bin/rails test:system
+```
+
+If your application in test is running remote too, e.g. Docker container,
+Capybara needs more input about how to
+[call remote servers](https://github.com/teamcapybara/capybara#calling-remote-servers).
+
+```ruby
+require "test_helper"
+
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  def setup
+    Capybara.server_host = "0.0.0.0" # bind to all interfaces
+    Capybara.app_host = "http://#{IPSocket.getaddress(Socket.gethostname)}" if ENV["SELENIUM_REMOTE_URL"].present?
+    super
+  end
+  # ...
+end
+```
+
+Now you should get a connection to remote browser and server, regardless if it
+is running in Docker container or CI.
+
 If your Capybara configuration requires more setup than provided by Rails, this
 additional configuration could be added into the `application_system_test_case.rb`
 file.
@@ -981,7 +1051,6 @@ Now you can test your app using multiple different configurations.
 require "mobile_system_test_case"
 
 class PostsTest < MobileSystemTestCase
-
   test "visiting the index" do
     visit posts_url
     assert_selector "h1", text: "Posts"
@@ -1032,6 +1101,8 @@ In addition to the standard testing helpers, inheriting from `ActionDispatch::In
 For dealing with the integration test runner, see [`ActionDispatch::Integration::Runner`](https://api.rubyonrails.org/classes/ActionDispatch/Integration/Runner.html).
 
 When performing requests, we will have [`ActionDispatch::Integration::RequestHelpers`](https://api.rubyonrails.org/classes/ActionDispatch/Integration/RequestHelpers.html) available for our use.
+
+If we need to upload files, take a look at [`ActionDispatch::TestProcess::FixtureFile`](https://api.rubyonrails.org/classes/ActionDispatch/TestProcess/FixtureFile.html) to help.
 
 If we need to modify the session, or state of our integration test, take a look at [`ActionDispatch::Integration::Session`](https://api.rubyonrails.org/classes/ActionDispatch/Integration/Session.html) to help.
 
@@ -1237,9 +1308,9 @@ All of request types have equivalent methods that you can use. In a typical C.R.
 
 NOTE: Functional tests do not verify whether the specified request type is accepted by the action, we're more concerned with the result. Request tests exist for this use case to make your tests more purposeful.
 
-### Testing XHR (AJAX) Requests
+### Testing XHR (Ajax) Requests
 
-To test AJAX requests, you can specify the `xhr: true` option to `get`, `post`,
+To test Ajax requests, you can specify the `xhr: true` option to `get`, `post`,
 `patch`, `put`, and `delete` methods. For example:
 
 ```ruby
@@ -1263,14 +1334,14 @@ After a request has been made and processed, you will have 3 Hash objects ready 
 As is the case with normal Hash objects, you can access the values by referencing the keys by string. You can also reference them by symbol name. For example:
 
 ```ruby
-flash["gordon"]               flash[:gordon]
-session["shmession"]          session[:shmession]
-cookies["are_good_for_u"]     cookies[:are_good_for_u]
+flash["gordon"]               # or flash[:gordon]
+session["shmession"]          # or session[:shmession]
+cookies["are_good_for_u"]     # or cookies[:are_good_for_u]
 ```
 
 ### Instance Variables Available
 
-You also have access to three instance variables in your functional tests, after a request is made:
+**After** a request is made, you also have access to three instance variables in your functional tests:
 
 * `@controller` - The controller processing the request
 * `@request` - The request object
@@ -1490,7 +1561,6 @@ end
 require "test_helper"
 
 class ProfileControllerTest < ActionDispatch::IntegrationTest
-
   test "should show profile" do
     # helper is now reusable from any controller test case
     sign_in_as users(:david)
@@ -1625,6 +1695,156 @@ assert_select_email do
 end
 ```
 
+Testing View Partials
+---------------------
+
+Partial templates - usually called "partials" - are another device for breaking the rendering process into more manageable chunks. With partials, you can extract pieces of code from your templates to separate files and reuse them throughout your templates.
+
+View tests provide an opportunity to test that partials render content the way you expect. View partial tests reside in `test/views/` and inherit from `ActionView::TestCase`.
+
+To render a partial, call `render` like you would in a template. The content is
+available through the test-local `#rendered` method:
+
+```ruby
+class ArticlePartialTest < ActionView::TestCase
+  test "renders a link to itself" do
+    article = Article.create! title: "Hello, world"
+
+    render "articles/article", article: article
+
+    assert_includes rendered, article.title
+  end
+end
+```
+
+Tests that inherit from `ActionView::TestCase` also have access to [`assert_select`](#testing-views) and the [other additional view-based assertions](#additional-view-based-assertions) provided by [rails-dom-testing][]:
+
+```ruby
+test "renders a link to itself" do
+  article = Article.create! title: "Hello, world"
+
+  render "articles/article", article: article
+
+  assert_select "a[href=?]", article_url(article), text: article.title
+end
+```
+
+In order to integrate with [rails-dom-testing][], tests that inherit from
+`ActionView::TestCase` declare a `document_root_element` method that returns the
+rendered content as an instance of a
+[Nokogiri::XML::Node](https://www.rubydoc.info/github/sparklemotion/nokogiri/Nokogiri/XML/Node):
+
+```ruby
+test "renders a link to itself" do
+  article = Article.create! title: "Hello, world"
+
+  render "articles/article", article: article
+  anchor = document_root_element.at("a")
+
+  assert_equal article.name, anchor.text
+  assert_equal article_url(article), anchor["href"]
+end
+```
+
+If your application uses Ruby >= 3.0 or higher, depends on [Nokogiri >= 1.14.0](https://github.com/sparklemotion/nokogiri/releases/tag/v1.14.0) or
+higher, and depends on [Minitest >= >5.18.0](https://github.com/minitest/minitest/blob/v5.18.0/History.rdoc#5180--2023-03-04-),
+`document_root_element` supports [Ruby's Pattern Matching](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html):
+
+```ruby
+test "renders a link to itself" do
+  article = Article.create! title: "Hello, world"
+
+  render "articles/article", article: article
+  anchor = document_root_element.at("a")
+  url = article_url(article)
+
+  assert_pattern do
+    anchor => { content: "Hello, world", attributes: [{ name: "href", value: url }] }
+  end
+end
+```
+
+If you'd like to access the same [Capybara-powered Assertions](https://rubydoc.info/github/teamcapybara/capybara/master/Capybara/Minitest/Assertions)
+that your [Functional and System Testing](#functional-and-system-testing) tests
+utilize, you can define a base class that inherits from `ActionView::TestCase`
+and transforms the `document_root_element` into a `page` method:
+
+```ruby
+# test/view_partial_test_case.rb
+
+require "test_helper"
+require "capybara/minitest"
+
+class ViewPartialTestCase < ActionView::TestCase
+  include Capybara::Minitest::Assertions
+
+  def page
+    Capybara.string(document_root_element)
+  end
+end
+
+# test/views/article_partial_test.rb
+
+require "view_partial_test_case"
+
+class ArticlePartialTest < ViewPartialTestCase
+  test "renders a link to itself" do
+    article = Article.create! title: "Hello, world"
+
+    render "articles/article", article: article
+
+    assert_link article.title, href: article_url(article)
+  end
+end
+```
+
+Starting in Action View version 7.1, the `#rendered` helper method returns an
+object capable of parsing the view partial's rendered content.
+
+To transform the `String` content returned by the `#rendered` method into an
+object, define a parser by calling `.register_parser`. Calling
+`.register_parser :rss` defines a `#rendered.rss` helper method. For example,
+to parse rendered [RSS content][] into an object with `#rendered.rss`, register
+a call to `RSS::Parser.parse`:
+
+```ruby
+register_parser :rss, -> rendered { RSS::Parser.parse(rendered) }
+
+test "renders RSS" do
+  article = Article.create!(title: "Hello, world")
+
+  render formats: :rss, partial: article
+
+  assert_equal "Hello, world", rendered.rss.items.last.title
+end
+```
+
+By default, `ActionView::TestCase` defines a parser for:
+
+* `:html` - returns an instance of [Nokogiri::XML::Node](https://nokogiri.org/rdoc/Nokogiri/XML/Node.html)
+* `:json` - returns an instance of [ActiveSupport::HashWithIndifferentAccess](https://edgeapi.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html)
+
+```ruby
+test "renders HTML" do
+  article = Article.create!(title: "Hello, world")
+
+  render partial: "articles/article", locals: { article: article }
+
+  assert_pattern { rendered.html.at("main h1") => { content: "Hello, world" } }
+end
+
+test "renders JSON" do
+  article = Article.create!(title: "Hello, world")
+
+  render formats: :json, partial: "articles/article", locals: { article: article }
+
+  assert_pattern { rendered.json => { title: "Hello, world" } }
+end
+```
+
+[rails-dom-testing]: https://github.com/rails/rails-dom-testing
+[RSS content]: https://www.rssboard.org/rss-specification
+
 Testing Helpers
 ---------------
 
@@ -1716,14 +1936,9 @@ class UserMailerTest < ActionMailer::TestCase
 end
 ```
 
-In the test we create the email and store the returned object in the `email`
-variable. We then ensure that it was sent (the first assert), then, in the
-second batch of assertions, we ensure that the email does indeed contain what we
-expect. The helper `read_fixture` is used to read in the content from this file.
+In the test we create the email and store the returned object in the `email` variable. We then ensure that it was sent (the first assert), then, in the second batch of assertions, we ensure that the email does indeed contain what we expect. The helper `read_fixture` is used to read in the content from this file.
 
-NOTE: `email.body.to_s` is present when there's only one (HTML or text) part present.
-If the mailer provides both, you can test your fixture against specific parts
-with `email.text_part.body.to_s` or `email.html_part.body.to_s`.
+NOTE: `email.body.to_s` is present when there's only one (HTML or text) part present. If the mailer provides both, you can test your fixture against specific parts with `email.text_part.body.to_s` or `email.html_part.body.to_s`.
 
 Here's the content of the `invite` fixture:
 
@@ -1735,17 +1950,89 @@ You have been invited.
 Cheers!
 ```
 
-This is the right time to understand a little more about writing tests for your
-mailers. The line `ActionMailer::Base.delivery_method = :test` in
-`config/environments/test.rb` sets the delivery method to test mode so that
-email will not actually be delivered (useful to avoid spamming your users while
-testing) but instead it will be appended to an array
-(`ActionMailer::Base.deliveries`).
+This is the right time to understand a little more about writing tests for your mailers. The line `ActionMailer::Base.delivery_method = :test` in `config/environments/test.rb` sets the delivery method to test mode so that email will not actually be delivered (useful to avoid spamming your users while testing) but instead it will be appended to an array (`ActionMailer::Base.deliveries`).
 
-NOTE: The `ActionMailer::Base.deliveries` array is only reset automatically in
-`ActionMailer::TestCase` and `ActionDispatch::IntegrationTest` tests.
-If you want to have a clean slate outside these test cases, you can reset it
-manually with: `ActionMailer::Base.deliveries.clear`
+NOTE: The `ActionMailer::Base.deliveries` array is only reset automatically in `ActionMailer::TestCase` and `ActionDispatch::IntegrationTest` tests. If you want to have a clean slate outside these test cases, you can reset it manually with: `ActionMailer::Base.deliveries.clear`
+
+#### Testing Enqueued Emails
+
+You can use the `assert_enqueued_email_with` assertion to confirm that the email has been enqueued with all of the expected mailer method arguments and/or parameterized mailer parameters. This allows you to match any email that have been enqueued with the `deliver_later` method.
+
+As with the basic test case, we create the email and store the returned object in the `email` variable. The following examples include variations of passing arguments and/or parameters.
+
+This example will assert that the email has been enqueued with the correct arguments:
+
+```ruby
+require "test_helper"
+
+class UserMailerTest < ActionMailer::TestCase
+  test "invite" do
+    # Create the email and store it for further assertions
+    email = UserMailer.create_invite("me@example.com", "friend@example.com")
+
+    # Test that the email got enqueued with the correct arguments
+    assert_enqueued_email_with UserMailer, :create_invite, args: ["me@example.com", "friend@example.com"] do
+      email.deliver_later
+    end
+  end
+end
+```
+
+This example will assert that a mailer has been enqueued with the correct mailer method named arguments by passing a hash of the arguments as `args`:
+
+```ruby
+require "test_helper"
+
+class UserMailerTest < ActionMailer::TestCase
+  test "invite" do
+    # Create the email and store it for further assertions
+    email = UserMailer.create_invite(from: "me@example.com", to: "friend@example.com")
+
+    # Test that the email got enqueued with the correct named arguments
+    assert_enqueued_email_with UserMailer, :create_invite, args: [{ from: "me@example.com",
+                                                                    to: "friend@example.com" }] do
+      email.deliver_later
+    end
+  end
+end
+```
+
+This example will assert that a parameterized mailer has been enqueued with the correct parameters and arguments. The mailer parameters are passed as `params` and the mailer method arguments as `args`:
+
+```ruby
+require "test_helper"
+
+class UserMailerTest < ActionMailer::TestCase
+  test "invite" do
+    # Create the email and store it for further assertions
+    email = UserMailer.with(all: "good").create_invite("me@example.com", "friend@example.com")
+
+    # Test that the email got enqueued with the correct mailer parameters and arguments
+    assert_enqueued_email_with UserMailer, :create_invite, params: { all: "good" },
+                                                           args: ["me@example.com", "friend@example.com"] do
+      email.deliver_later
+    end
+  end
+end
+```
+
+This example shows an alternative way to test that a parameterized mailer has been enqueued with the correct parameters:
+
+```ruby
+require "test_helper"
+
+class UserMailerTest < ActionMailer::TestCase
+  test "invite" do
+    # Create the email and store it for further assertions
+    email = UserMailer.with(to: "friend@example.com").create_invite
+
+    # Test that the email got enqueued with the correct mailer parameters
+    assert_enqueued_email_with UserMailer.with(to: "friend@example.com"), :create_invite do
+      email.deliver_later
+    end
+  end
+end
+```
 
 ### Functional and System Testing
 
@@ -1782,7 +2069,7 @@ class UsersTest < ActionDispatch::SystemTestCase
 end
 ```
 
-NOTE: The `assert_emails` method is not tied to a particular deliver method and will work with emails delivered with either the `deliver_now` or `deliver_later` method. If we explicitly want to assert that the email has been enqueued we can use the `assert_enqueued_emails` method. More information can be found in the  [documentation here](https://api.rubyonrails.org/classes/ActionMailer/TestHelper.html).
+NOTE: The `assert_emails` method is not tied to a particular deliver method and will work with emails delivered with either the `deliver_now` or `deliver_later` method. If we explicitly want to assert that the email has been enqueued we can use the `assert_enqueued_email_with` ([examples above](#testing-enqueued-emails)) or `assert_enqueued_emails` methods. More information can be found in the [documentation here](https://api.rubyonrails.org/classes/ActionMailer/TestHelper.html).
 
 Testing Jobs
 ------------
@@ -1801,19 +2088,15 @@ require "test_helper"
 
 class BillingJobTest < ActiveJob::TestCase
   test "that account is charged" do
-    BillingJob.perform_now(account, product)
+    perform_enqueued_jobs do
+      BillingJob.perform_later(account, product)
+    end
     assert account.reload.charged_for?(product)
   end
 end
 ```
 
-This test is pretty simple and only asserts that the job got the work done
-as expected.
-
-By default, `ActiveJob::TestCase` will set the queue adapter to `:test` so that
-your jobs are performed inline. It will also ensure that all previously performed
-and enqueued jobs are cleared before any test run so you can safely assume that
-no jobs have already been executed in the scope of each test.
+This test is pretty simple and only asserts that the job did work that was expected. You can also use `perform_now` to run the job inline, but if you have retries configured, any exceptions raised by the job will be silently ignored, whereas `perform_enqueued_jobs` will fail the test and print the exception information.
 
 ### Custom Assertions and Testing Jobs inside Other Components
 
@@ -1822,7 +2105,7 @@ Active Job ships with a bunch of custom assertions that can be used to lessen th
 It's a good practice to ensure that your jobs correctly get enqueued or performed
 wherever you invoke them (e.g. inside your controllers). This is precisely where
 the custom assertions provided by Active Job are pretty useful. For instance,
-within a model:
+within a model, you could confirm that a job was enqueued:
 
 ```ruby
 require "test_helper"
@@ -1834,9 +2117,50 @@ class ProductTest < ActiveSupport::TestCase
     assert_enqueued_with(job: BillingJob) do
       product.charge(account)
     end
+    assert_not account.reload.charged_for?(product)
   end
 end
 ```
+
+The default adapter, `:test`, does not perform jobs when they are enqueued.
+You have to tell it when you want jobs to be performed:
+
+```ruby
+require "test_helper"
+
+class ProductTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
+  test "billing job scheduling" do
+    perform_enqueued_jobs(only: BillingJob) do
+      product.charge(account)
+    end
+    assert account.reload.charged_for?(product)
+  end
+end
+```
+
+All previously performed and enqueued jobs are cleared before any test runs,
+so you can safely assume that no jobs have already been executed in the scope of each test.
+
+### Testing that Exceptions are Raised
+
+Testing that your job raises an exception in certain cases can be tricky, especially when you have retries configured. The `perform_enqueued_jobs` helper fails any test where a job raises an exception, so to have the test succeed when the exception is raised you have call the job's `perform` method directly.
+
+```ruby
+require "test_helper"
+
+class BillingJobTest < ActiveJob::TestCase
+  test "does not charge accounts with insufficient funds" do
+    assert_raises(InsufficientFundsError) do
+      BillingJob.new(empty_account, product).perform
+    end
+    refute account.reload.charged_for?(product)
+  end
+end
+```
+
+This method is not recommended in general, as it circumvents some parts of the framework, such as argument serialization.
 
 Testing Action Cable
 --------------------
@@ -2028,18 +2352,24 @@ Additional Testing Resources
 
 Rails provides built-in helper methods that enable you to assert that your time-sensitive code works as expected.
 
-Here is an example using the [`travel_to`](https://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html#method-i-travel_to) helper:
+The following example uses the [`travel_to`][travel_to] helper:
 
 ```ruby
-# Lets say that a user is eligible for gifting a month after they register.
+# Given a user is eligible for gifting a month after they register.
 user = User.create(name: "Gaurish", activation_date: Date.new(2004, 10, 24))
 assert_not user.applicable_for_gifting?
+
 travel_to Date.new(2004, 11, 24) do
-  assert_equal Date.new(2004, 10, 24), user.activation_date # inside the `travel_to` block `Date.current` is mocked
+  # Inside the `travel_to` block `Date.current` is stubbed
+  assert_equal Date.new(2004, 10, 24), user.activation_date
   assert user.applicable_for_gifting?
 end
-assert_equal Date.new(2004, 10, 24), user.activation_date # The change was visible only inside the `travel_to` block.
+
+# The change was visible only inside the `travel_to` block.
+assert_equal Date.new(2004, 10, 24), user.activation_date
 ```
 
-Please see [`ActiveSupport::Testing::TimeHelpers` API Documentation](https://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html)
-for in-depth information about the available time helpers.
+Please see [`ActiveSupport::Testing::TimeHelpers`][time_helpers_api] API reference for more information about the available time helpers.
+
+[travel_to]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html#method-i-travel_to
+[time_helpers_api]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html

@@ -173,7 +173,7 @@ cache.
 
 ### Shared Partial Caching
 
-It is possible to share partials and associated caching between files with different mime types. For example shared partial caching allows template writers to share a partial between HTML and JavaScript files. When templates are collected in the template resolver file paths they only include the template language extension and not the mime type. Because of this templates can be used for multiple mime types. Both HTML and JavaScript requests will respond to the following code:
+It is possible to share partials and associated caching between files with different MIME types. For example shared partial caching allows template writers to share a partial between HTML and JavaScript files. When templates are collected in the template resolver file paths they only include the template language extension and not the MIME type. Because of this templates can be used for multiple MIME types. Both HTML and JavaScript requests will respond to the following code:
 
 ```ruby
 render(partial: 'hotels/hotel', collection: @hotels, cached: true)
@@ -187,7 +187,7 @@ Another option is to include the full filename of the partial to render.
 render(partial: 'hotels/hotel.html.erb', collection: @hotels, cached: true)
 ```
 
-Will load a file named `hotels/hotel.html.erb` in any file mime type, for example you could include this partial in a JavaScript file.
+Will load a file named `hotels/hotel.html.erb` in any file MIME type, for example you could include this partial in a JavaScript file.
 
 ### Managing Dependencies
 
@@ -208,11 +208,11 @@ render "comments/comments"
 render 'comments/comments'
 render('comments/comments')
 
-render "header" translates to render("comments/header")
+render "header" # translates to render("comments/header")
 
-render(@topic)         translates to render("topics/topic")
-render(topics)         translates to render("topics/topic")
-render(message.topics) translates to render("topics/topic")
+render(@topic)         # translates to render("topics/topic")
+render(topics)         # translates to render("topics/topic")
+render(message.topics) # translates to render("topics/topic")
 ```
 
 On the other hand, some calls need to be changed to make caching work properly.
@@ -332,7 +332,6 @@ For example:
 
 ```ruby
 class ProductsController < ApplicationController
-
   def index
     # Run a find query
     @products = Product.all
@@ -342,7 +341,6 @@ class ProductsController < ApplicationController
     # Run the same query again
     @products = Product.all
   end
-
 end
 ```
 
@@ -376,27 +374,25 @@ You can access the cache by calling `Rails.cache`.
 #### Connection Pool Options
 
 By default, [`:mem_cache_store`](#activesupport-cache-memcachestore) and
-[`:redis_cache_store`](#activesupport-cache-rediscachestore) use a single connection
-per process. This means that if you're using Puma, or another threaded server,
-you can have multiple threads waiting for the connection to become available.
-To increase the number of available connections you can enable connection
-pooling.
+[`:redis_cache_store`](#activesupport-cache-rediscachestore) are configured to use
+connection pooling. This means that if you're using Puma, or another threaded server,
+you can have multiple threads performing queries to the cache store at the same time.
 
-First, add the `connection_pool` gem to your Gemfile:
+If you want to disable connection pooling, set `:pool` option to `false` when configuring the cache store:
 
 ```ruby
-gem 'connection_pool'
+config.cache_store = :mem_cache_store, "cache.example.com", { pool: false }
 ```
 
-Next, pass the `:pool_size` and/or `:pool_timeout` options when configuring the cache store:
+You can also override default pool settings by providing individual options to the `:pool` option:
 
 ```ruby
-config.cache_store = :mem_cache_store, "cache.example.com", { pool_size: 5, pool_timeout: 5 }
+config.cache_store = :mem_cache_store, "cache.example.com", { pool: { size: 32, timeout: 1 } }
 ```
 
-* `:pool_size` - This option sets the number of connections per process (defaults to 5).
+* `:size` - This option sets the number of connections per process (defaults to 5).
 
-* `:pool_timeout` - This option sets the number of seconds to wait for a connection (defaults to 5). If no connection is available within the timeout, a `Timeout::Error` will be raised.
+* `:timeout` - This option sets the number of seconds to wait for a connection (defaults to 5). If no connection is available within the timeout, a `Timeout::Error` will be raised.
 
 ### `ActiveSupport::Cache::Store`
 
@@ -519,16 +515,6 @@ To get started, add the redis gem to your Gemfile:
 gem 'redis'
 ```
 
-You can enable support for the faster [hiredis](https://github.com/redis/hiredis)
-connection library by additionally adding its ruby wrapper to your Gemfile:
-
-```ruby
-gem 'hiredis'
-```
-
-Redis cache store will automatically require and use hiredis if available. No further
-configuration is needed.
-
 Finally, add the configuration in the relevant `config/environments/*.rb` file:
 
 ```ruby
@@ -548,7 +534,7 @@ config.cache_store = :redis_cache_store, { url: cache_servers,
 
   error_handler: -> (method:, returning:, exception:) {
     # Report errors to Sentry as warnings
-    Raven.capture_exception exception, level: 'warning',
+    Sentry.capture_exception exception, level: 'warning',
       tags: { method: method, returning: returning }
   }
 }
@@ -612,7 +598,6 @@ It is the server's (i.e. our) responsibility to look for a last modified timesta
 
 ```ruby
 class ProductsController < ApplicationController
-
   def show
     @product = Product.find(params[:id])
 
@@ -652,7 +637,6 @@ If you don't have any special response processing and are using the default rend
 
 ```ruby
 class ProductsController < ApplicationController
-
   # This will automatically send back a :not_modified if the request is fresh,
   # and will render the default template (product.*) if it's stale.
 

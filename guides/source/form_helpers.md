@@ -17,7 +17,7 @@ After reading this guide, you will know:
 
 --------------------------------------------------------------------------------
 
-NOTE: This guide is not intended to be a complete documentation of available form helpers and their arguments. Please visit [the Rails API documentation](https://api.rubyonrails.org/) for a complete reference.
+NOTE: This guide is not intended to be a complete documentation of available form helpers and their arguments. Please visit [the Rails API documentation](https://api.rubyonrails.org/classes/ActionView/Helpers.html) for a complete reference of all available helpers.
 
 Dealing with Basic Forms
 ------------------------
@@ -236,6 +236,43 @@ There are several things to notice here:
 
 TIP: Conventionally your inputs will mirror model attributes. However, they don't have to! If there is other information you need you can include it in your form just as with attributes and access it via `params[:article][:my_nifty_non_attribute_input]`.
 
+#### Composite primary key forms
+
+Forms may also be built with composite primary key models. In this case, the form
+building syntax is the same with slightly different output.
+
+Given a `@book` model object with a composite key `[:author_id, :id]`:
+
+```ruby
+@book = Book.find([2, 25])
+# => #<Book id: 25, title: "Some book", author_id: 2>
+```
+
+The following form:
+
+```erb
+<%= form_with model: @book do |form| %>
+  <%= form.text_field :title %>
+  <%= form.submit %>
+<% end %>
+```
+
+Outputs:
+
+```html
+<form action="/books/2_25" method="post" accept-charset="UTF-8" >
+  <input name="authenticity_token" type="hidden" value="..." />
+  <input type="text" name="book[title]" id="book_title" value="My book" />
+  <input type="submit" name="commit" value="Update Book" data-disable-with="Update Book">
+</form>
+```
+
+Note the generated URL contains the `author_id` and `id` delimited by an underscore.
+Once submitted, the controller can [extract each primary key value][] from parameters
+and update the record as it would with a singular primary key.
+
+[extract each primary key value]: action_controller_overview.html#composite-key-parameters
+
 #### The `fields_for` Helper
 
 The [`fields_for`][] helper creates a similar binding but without rendering a
@@ -366,8 +403,6 @@ Rails works around this issue by emulating other methods over POST through a com
   <button type="submit" name="button">Update</button>
 </form>
 ```
-
-IMPORTANT: In Rails 6.0 and 5.2, all forms using `form_with` implement `remote: true` by default. These forms will submit data using an XHR (Ajax) request. To disable this include `local: true`. To dive deeper see [Working with JavaScript in Rails](working_with_javascript_in_rails.html#remote-elements) guide.
 
 [formmethod]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-formmethod
 [button-name]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-name
@@ -749,7 +784,7 @@ by defining a `LabellingFormBuilder` class similar to the following:
 
 ```ruby
 class LabellingFormBuilder < ActionView::Helpers::FormBuilder
-  def text_field(attribute, options={})
+  def text_field(attribute, options = {})
     label(attribute) + super
   end
 end
@@ -760,7 +795,7 @@ If you reuse this frequently you could define a `labeled_form_with` helper that 
 ```ruby
 module ApplicationHelper
   def labeled_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
-    options.merge! builder: LabellingFormBuilder
+    options[:builder] = LabellingFormBuilder
     form_with model: model, scope: scope, url: url, format: format, **options, &block
   end
 end
@@ -792,7 +827,7 @@ The two basic structures are arrays and hashes. Hashes mirror the syntax used fo
 the `params` hash will contain
 
 ```ruby
-{'person' => {'name' => 'Henry'}}
+{ 'person' => { 'name' => 'Henry' } }
 ```
 
 and `params[:person][:name]` will retrieve the submitted value in the controller.
@@ -806,7 +841,7 @@ Hashes can be nested as many levels as required, for example:
 will result in the `params` hash being
 
 ```ruby
-{'person' => {'address' => {'city' => 'New York'}}}
+{ 'person' => { 'address' => { 'city' => 'New York' } } }
 ```
 
 Normally Rails ignores duplicate parameter names. If the parameter name ends with an empty set of square brackets `[]` then they will be accumulated in an array. If you wanted users to be able to input multiple phone numbers, you could place this in the form:
@@ -885,10 +920,10 @@ Which will result in a `params` hash that looks like:
 ```
 
 All of the form inputs map to the `"person"` hash because we called `fields_for`
-on the `person_form` form builder. By specifying an `:index` option, we mapped
-the address inputs to `person[address][#{address.id}][city]` instead of
-`person[address][city]`. Thus we are able to determine which Address records
-should be modified when processing the `params` hash.
+on the `person_form` form builder. Also, by specifying `index: address.id`, we
+rendered the `name` attribute of each city input as `person[address][#{address.id}][city]`
+instead of `person[address][city]`. Thus we are able to determine which Address
+records should be modified when processing the `params` hash.
 
 You can pass other numbers or strings of significance via the `:index` option.
 You can even pass `nil`, which will produce an array parameter.
@@ -1022,7 +1057,7 @@ The `fields_for` yields a form builder. The parameters' name will be what
 }
 ```
 
-The keys of the `:addresses_attributes` hash are unimportant, they need merely be different for each address.
+The actual values of the keys in the `:addresses_attributes` hash are unimportant; however they need to be strings of integers and different for each address.
 
 If the associated object is already saved, `fields_for` autogenerates a hidden input with the `id` of the saved record. You can disable this by passing `include_id: false` to `fields_for`.
 
@@ -1092,7 +1127,7 @@ It is often useful to ignore sets of fields that the user has not filled in. You
 ```ruby
 class Person < ApplicationRecord
   has_many :addresses
-  accepts_nested_attributes_for :addresses, reject_if: lambda {|attributes| attributes['kind'].blank?}
+  accepts_nested_attributes_for :addresses, reject_if: lambda { |attributes| attributes['kind'].blank? }
 end
 ```
 

@@ -291,6 +291,12 @@ render MyRenderable.new
 
 This calls `render_in` on the provided object with the current view context.
 
+You can also provide the object by using the `:renderable` option to `render`:
+
+```ruby
+render renderable: MyRenderable.new
+```
+
 #### Options for `render`
 
 Calls to the [`render`][controller.render] method generally accept six options:
@@ -449,15 +455,14 @@ def index
   request.variant = determine_variant
 end
 
-private
+  private
+    def determine_variant
+      variant = nil
+      # some code to determine the variant(s) to use
+      variant = :mobile if session[:use_mobile]
 
-def determine_variant
-  variant = nil
-  # some code to determine the variant(s) to use
-  variant = :mobile if session[:use_mobile]
-
-  variant
-end
+      variant
+    end
 ```
 
 #### Finding Layouts
@@ -506,7 +511,6 @@ class ProductsController < ApplicationController
     def products_layout
       @current_user.special? ? "special" : "products"
     end
-
 end
 ```
 
@@ -641,19 +645,18 @@ def show
 end
 ```
 
-If `@book.special?` evaluates to `true`, Rails will start the rendering process to dump the `@book` variable into the `special_show` view. But this will _not_ stop the rest of the code in the `show` action from running, and when Rails hits the end of the action, it will start to render the `regular_show` view - and throw an error. The solution is simple: make sure that you have only one call to `render` or `redirect` in a single code path. One thing that can help is `and return`. Here's a patched version of the method:
+If `@book.special?` evaluates to `true`, Rails will start the rendering process to dump the `@book` variable into the `special_show` view. But this will _not_ stop the rest of the code in the `show` action from running, and when Rails hits the end of the action, it will start to render the `regular_show` view - and throw an error. The solution is simple: make sure that you have only one call to `render` or `redirect` in a single code path. One thing that can help is `return`. Here's a patched version of the method:
 
 ```ruby
 def show
   @book = Book.find(params[:id])
   if @book.special?
-    render action: "special_show" and return
+    render action: "special_show"
+    return
   end
   render action: "regular_show"
 end
 ```
-
-Make sure to use `and return` instead of `&& return` because `&& return` will not work due to the operator precedence in the Ruby Language.
 
 Note that the implicit render done by ActionController detects if `render` has been called, so the following will work without errors:
 
@@ -1096,10 +1099,11 @@ To render a partial as part of a view, you use the [`render`][view.render] metho
 This will render a file named `_menu.html.erb` at that point within the view being rendered. Note the leading underscore character: partials are named with a leading underscore to distinguish them from regular views, even though they are referred to without the underscore. This holds true even when you're pulling in a partial from another folder:
 
 ```html+erb
-<%= render "shared/menu" %>
+<%= render "application/menu" %>
 ```
 
-That code will pull in the partial from `app/views/shared/_menu.html.erb`.
+Since view partials rely on the same [Template Inheritance](#template-inheritance)
+as templates and layouts, that code will pull in the partial from `app/views/application/_menu.html.erb`.
 
 [view.render]: https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render
 
@@ -1108,14 +1112,14 @@ That code will pull in the partial from `app/views/shared/_menu.html.erb`.
 One way to use partials is to treat them as the equivalent of subroutines: as a way to move details out of a view so that you can grasp what's going on more easily. For example, you might have a view that looked like this:
 
 ```erb
-<%= render "shared/ad_banner" %>
+<%= render "application/ad_banner" %>
 
 <h1>Products</h1>
 
 <p>Here are a few of our fine products:</p>
-...
+<%# ... %>
 
-<%= render "shared/footer" %>
+<%= render "application/footer" %>
 ```
 
 Here, the `_ad_banner.html.erb` and `_footer.html.erb` partials could contain
@@ -1130,7 +1134,7 @@ definitions for several similar resources:
 * `users/index.html.erb`
 
     ```html+erb
-    <%= render "shared/search_filters", search: @q do |form| %>
+    <%= render "application/search_filters", search: @q do |form| %>
       <p>
         Name contains: <%= form.text_field :name_contains %>
       </p>
@@ -1140,14 +1144,14 @@ definitions for several similar resources:
 * `roles/index.html.erb`
 
     ```html+erb
-    <%= render "shared/search_filters", search: @q do |form| %>
+    <%= render "application/search_filters", search: @q do |form| %>
       <p>
         Title contains: <%= form.text_field :title_contains %>
       </p>
     <% end %>
     ```
 
-* `shared/_search_filters.html.erb`
+* `application/_search_filters.html.erb`
 
     ```html+erb
     <%= form_with model: search do |form| %>
@@ -1328,11 +1332,25 @@ You can also pass in arbitrary local variables to any partial you are rendering 
 
 In this case, the partial will have access to a local variable `title` with the value "Products Page".
 
-TIP: Rails also makes a counter variable available within a partial called by the collection, named after the title of the partial followed by `_counter`. For example, when rendering a collection `@products` the partial `_product.html.erb` can access the variable `product_counter` which indexes the number of times it has been rendered within the enclosing view. Note that it also applies for when the partial name was changed by using the `as:` option. For example, the counter variable for the code above would be `item_counter`.
+#### Counter Variables
 
-You can also specify a second partial to be rendered between instances of the main partial by using the `:spacer_template` option:
+Rails also makes a counter variable available within a partial called by the collection. The variable is named after the title of the partial followed by `_counter`. For example, when rendering a collection `@products` the partial `_product.html.erb` can access the variable `product_counter`. The variable indexes the number of times the partial has been rendered within the enclosing view, starting with a value of `0` on the first render.
+
+```erb
+# index.html.erb
+<%= render partial: "product", collection: @products %>
+```
+
+```erb
+# _product.html.erb
+<%= product_counter %> # 0 for the first product, 1 for the second product...
+```
+
+This also works when the partial name is changed using the `as:` option. So if you did `as: :item`, the counter variable would be `item_counter`.
 
 #### Spacer Templates
+
+You can also specify a second partial to be rendered between instances of the main partial by using the `:spacer_template` option:
 
 ```erb
 <%= render partial: @products, spacer_template: "product_ruler" %>

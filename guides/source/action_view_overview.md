@@ -46,20 +46,17 @@ There is a naming convention for views in Rails. Typically, the views share thei
 For example, the index controller action of the `articles_controller.rb` will use the `index.html.erb` view file in the `app/views/articles` directory.
 The complete HTML returned to the client is composed of a combination of this ERB file, a layout template that wraps it, and all the partials that the view may reference. Within this guide, you will find more detailed documentation about each of these three components.
 
-
-Templates, Partials, and Layouts
--------------------------------
-
 As mentioned, the final HTML output is a composition of three Rails elements: `Templates`, `Partials` and `Layouts`.
 Below is a brief overview of each of them.
 
-### Templates
+Templates
+---------
 
 Action View templates can be written in several ways. If the template file has a `.erb` extension then it uses a mixture of ERB (Embedded Ruby) and HTML. If the template file has a `.builder` extension then the `Builder::XmlMarkup` library is used.
 
 Rails supports multiple template systems and uses a file extension to distinguish amongst them. For example, an HTML file using the ERB template system will have `.html.erb` as a file extension.
 
-#### ERB
+### ERB
 
 Within an ERB template, Ruby code can be included using both `<% %>` and `<%= %>` tags. The `<% %>` tags are used to execute Ruby code that does not return anything, such as conditions, loops, or blocks, and the `<%= %>` tags are used when you want output.
 
@@ -81,7 +78,7 @@ Hi, Mr. <% puts "Frodo" %>
 
 To suppress leading and trailing whitespaces, you can use `<%-` `-%>` interchangeably with `<%` and `%>`.
 
-#### Builder
+### Builder
 
 Builder templates are a more programmatic alternative to ERB. They are especially useful for generating XML content. An XmlMarkup object named `xml` is automatically made available to templates with a `.builder` extension.
 
@@ -146,7 +143,7 @@ xml.rss("version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/") do
 end
 ```
 
-#### Jbuilder
+### Jbuilder
 
 [Jbuilder](https://github.com/rails/jbuilder) is a gem that's
 maintained by the Rails team and included in the default Rails `Gemfile`.
@@ -180,15 +177,16 @@ would produce:
 See the [Jbuilder documentation](https://github.com/rails/jbuilder#jbuilder) for
 more examples and information.
 
-#### Template Caching
+### Template Caching
 
 By default, Rails will compile each template to a method to render it. In the development environment, when you alter a template, Rails will check the file's modification time and recompile it.
 
-### Partials
+Partials
+--------
 
 Partial templates - usually just called "partials" - are another device for breaking the rendering process into more manageable chunks. With partials, you can extract pieces of code from your templates to separate files and also reuse them throughout your templates.
 
-#### Naming Partials
+### Rendering Partials
 
 To render a partial as part of a view, you use the `render` method within the view:
 
@@ -199,17 +197,17 @@ To render a partial as part of a view, you use the `render` method within the vi
 This will render a file named `_menu.html.erb` at that point within the view that is being rendered. Note the leading underscore character: partials are named with a leading underscore to distinguish them from regular views, even though they are referred to without the underscore. This holds true even when you're pulling in a partial from another folder:
 
 ```erb
-<%= render "shared/menu" %>
+<%= render "application/menu" %>
 ```
 
-That code will pull in the partial from `app/views/shared/_menu.html.erb`.
+That code will pull in the partial from `app/views/application/_menu.html.erb`.
 
-#### Using Partials to Simplify Views
+### Using Partials to Simplify Views
 
 One way to use partials is to treat them as the equivalent of subroutines; a way to move details out of a view so that you can grasp what's going on more easily. For example, you might have a view that looks like this:
 
 ```html+erb
-<%= render "shared/ad_banner" %>
+<%= render "application/ad_banner" %>
 
 <h1>Products</h1>
 
@@ -218,12 +216,139 @@ One way to use partials is to treat them as the equivalent of subroutines; a way
   <%= render partial: "product", locals: { product: product } %>
 <% end %>
 
-<%= render "shared/footer" %>
+<%= render "application/footer" %>
 ```
 
 Here, the `_ad_banner.html.erb` and `_footer.html.erb` partials could contain content that is shared among many pages in your application. You don't need to see the details of these sections when you're concentrating on a particular page.
 
-#### `render` without `partial` and `locals` Options
+TIP: View partials rely on the same [Template
+Inheritance](/layouts_and_rendering.html#template-inheritance) as templates and
+layouts, so templates rendered by controllers that inherit from
+`ApplicationController` can render view partials declared in
+`app/views/application`.
+
+In addition to resolving partials with the inheritance chain, controllers can
+also override default partials with the inheritance chain. For example, a
+`ProductsController` that inherits from `ApplicationController` will resolve a
+call to `<%= render "ad_banner" %>` by first searching for
+`app/views/products/_ad_banner.html.erb` before falling back to
+`app/views/application/_ad_banner.html.erb`.
+
+### `render` with `locals` Option
+
+When rendering a partial, each key in the `locals:` option is available as a
+partial-local variable:
+
+```html+erb
+<%# app/views/products/show.html.erb %>
+
+<%= render partial: "products/product", locals: { product: @product } %>
+
+<%# app/views/products/_product.html.erb %>
+
+<%= tag.div id: dom_id(product) do %>
+  <h1><%= product.name %></h1>
+<% end %>
+```
+
+If a template refers to a variable that isn't passed into the view as part of
+the `locals:` option, the template will raise an `ActionView::Template::Error`:
+
+```html+erb
+<%# app/views/products/_product.html.erb %>
+
+<%= tag.div id: dom_id(product) do %>
+  <h1><%= product.name %></h1>
+
+  <%# => raises ActionView::Template::Error %>
+  <% related_products.each do |related_product| %>
+    <%# ... %>
+  <% end %>
+<% end %>
+```
+
+### Using `local_assigns`
+
+Each key in the `locals:` option is available as a partial-local variable through the [local_assigns][] helper method:
+
+```html+erb
+<%# app/views/products/show.html.erb %>
+
+<%= render partial: "products/product", locals: { product: @product } %>
+
+<%# app/views/products/_product.html.erb %>
+
+<% local_assigns[:product]          # => "#<Product:0x0000000109ec5d10>" %>
+<% local_assigns[:options]          # => nil %>
+```
+
+Since `local_assigns` is a `Hash`, it's compatible with [Ruby 3.1's pattern matching assignment operator](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html):
+
+```ruby
+local_assigns => { product:, **options }
+product # => "#<Product:0x0000000109ec5d10>"
+options # => {}
+```
+
+When keys other than `:product` are assigned into a partial-local `Hash`
+variable, they can be splatted into helper method calls:
+
+```html+erb
+<%# app/views/products/_product.html.erb %>
+
+<% local_assigns => { product:, **options } %>
+
+<%= tag.div id: dom_id(product), **options do %>
+  <h1><%= product.name %></h1>
+<% end %>
+
+<%# app/views/products/show.html.erb %>
+
+<%= render "products/product", product: @product, class: "card" %>
+<%# => <div id="product_1" class="card">
+  #      <h1>A widget</h1>
+  #    </div>
+%>
+```
+
+Pattern matching assignment also supports variable renaming:
+
+```ruby
+local_assigns => { product: record }
+product             # => "#<Product:0x0000000109ec5d10>"
+record              # => "#<Product:0x0000000109ec5d10>"
+product == record   # => true
+```
+
+Since `local_assigns` returns a `Hash` instance, you can conditionally read a variable, then fall back to a default value when the key isn't part of the `locals:` options:
+
+```html+erb
+<%# app/views/products/_product.html.erb %>
+
+<% local_assigns.fetch(:related_products, []).each do |related_product| %>
+  <%# ... %>
+<% end %>
+```
+
+Combining Ruby 3.1's pattern matching assignment with calls to [Hash#with_defaults](https://api.rubyonrails.org/classes/Hash.html#method-i-with_defaults) enables compact partial-local default variable assignments:
+
+```html+erb
+<%# app/views/products/_product.html.erb %>
+
+<% local_assigns.with_defaults(related_products: []) => { product:, related_products: } %>
+
+<%= tag.div id: dom_id(product) do %>
+  <h1><%= product.name %></h1>
+
+  <% related_products.each do |related_product| %>
+    <%# ... %>
+  <% end %>
+<% end %>
+```
+
+[local_assigns]: https://api.rubyonrails.org/classes/ActionView/Template.html#method-i-local_assigns
+
+### `render` without `partial` and `locals` Options
 
 In the above example, `render` takes 2 options: `partial` and `locals`. But if
 these are the only options you want to pass, you can skip using these options.
@@ -239,7 +364,7 @@ You can also do:
 <%= render "product", product: @product %>
 ```
 
-#### The `as` and `object` Options
+### The `as` and `object` Options
 
 By default `ActionView::Partials::PartialRenderer` has its object in a local variable with the same name as the template. So, given:
 
@@ -280,7 +405,7 @@ This is equivalent to
 <%= render partial: "product", locals: { item: @item } %>
 ```
 
-#### Rendering Collections
+### Rendering Collections
 
 Commonly, a template will need to iterate over a collection and render a sub-template for each of the elements. This pattern has been implemented as a single method that accepts an array and renders a partial for each one of the elements in the array.
 
@@ -308,7 +433,7 @@ You can use a shorthand syntax for rendering collections. Assuming `@products` i
 
 Rails determines the name of the partial to use by looking at the model name in the collection, `Product` in this case. In fact, you can even render a collection made up of instances of different models using this shorthand, and Rails will choose the proper partial for each member of the collection.
 
-#### Spacer Templates
+### Spacer Templates
 
 You can also specify a second partial to be rendered between instances of the main partial by using the `:spacer_template` option:
 
@@ -318,12 +443,34 @@ You can also specify a second partial to be rendered between instances of the ma
 
 Rails will render the `_product_ruler` partial (with no data passed to it) between each pair of `_product` partials.
 
-### Layouts
+### Strict Locals
+
+By default, templates will accept any `locals` as keyword arguments. To define what `locals` a template accepts, add a `locals` magic comment:
+
+```erb
+<%# locals: (message:) -%>
+<%= message %>
+```
+
+Default values can also be provided:
+
+```erb
+<%# locals: (message: "Hello, world!") -%>
+<%= message %>
+```
+
+Or `locals` can be disabled entirely:
+
+```erb
+<%# locals: () %>
+```
+
+Layouts
+-------
 
 Layouts can be used to render a common view template around the results of Rails controller actions. Typically, a Rails application will have a couple of layouts that pages will be rendered within. For example, a site might have one layout for a logged in user and another for the marketing or sales side of the site. The logged in user layout might include top-level navigation that should be present across many controller actions. The sales layout for a SaaS app might include top-level navigation for things like "Pricing" and "Contact Us" pages. You would expect each layout to have a different look and feel. You can read about layouts in more detail in the [Layouts and Rendering in Rails](layouts_and_rendering.html) guide.
 
-Partial Layouts
----------------
+### Partial Layouts
 
 Partials can have their own layouts applied to them. These layouts are different from those applied to a controller action, but they work in a similar fashion.
 
@@ -423,7 +570,7 @@ For example, suppose you have an `ArticlesController` with a show action. By def
 
 You can use the same technique to localize the rescue files in your public directory. For example, setting `I18n.locale = :de` and creating `public/500.de.html` and `public/404.de.html` would allow you to have localized rescue pages.
 
-Since Rails doesn't restrict the symbols that you use to set I18n.locale, you can leverage this system to display different content depending on anything you like. For example, suppose you have some "expert" users that should see different pages from "normal" users. You could add the following to `app/controllers/application.rb`:
+Since Rails doesn't restrict the symbols that you use to set I18n.locale, you can leverage this system to display different content depending on anything you like. For example, suppose you have some "expert" users that should see different pages from "normal" users. You could add the following to `app/controllers/application_controller.rb`:
 
 ```ruby
 before_action :set_expert_locale

@@ -192,7 +192,7 @@ A method for caching fragments of a view rather than an entire action or page. T
 
 ```erb
 <% cache do %>
-  <%= render "shared/footer" %>
+  <%= render "application/footer" %>
 <% end %>
 ```
 
@@ -277,7 +277,7 @@ time_ago_in_words(3.minutes.from_now) # => 3 minutes
 Returns a `pre` tag that has object dumped by YAML. This creates a very readable way to inspect an object.
 
 ```ruby
-my_hash = { 'first' => 1, 'second' => 'two', 'third' => [1,2,3] }
+my_hash = { 'first' => 1, 'second' => 'two', 'third' => [1, 2, 3] }
 debug(my_hash)
 ```
 
@@ -468,6 +468,9 @@ url_for @profile
 
 url_for [ @hotel, @booking, page: 2, line: 3 ]
 # => /hotels/1/bookings/1?line=3&page=2
+
+url_for @post # given a composite primary key [:blog_id, :id]
+# => /posts/1_2
 ```
 
 #### link_to
@@ -481,6 +484,9 @@ when passing models to `link_to`.
 ```ruby
 link_to "Profile", @profile
 # => <a href="/profiles/1">Profile</a>
+
+link_to "Book", @book # given a composite primary key [:author_id, :id]
+# => <a href="/books/2_1">Book</a>
 ```
 
 You can use a block as well if your link target can't fit in the name parameter. ERB example:
@@ -527,7 +533,7 @@ See [the API Documentation for more information](https://api.rubyonrails.org/cla
 Returns meta tags "csrf-param" and "csrf-token" with the name of the cross-site
 request forgery protection parameter and token, respectively.
 
-```html
+```erb
 <%= csrf_meta_tags %>
 ```
 

@@ -1720,12 +1720,16 @@ And next, let's update the database with the generated migrations:
 $ bin/rails db:migrate
 ```
 
+To choose the status for the existing articles and comments you can add a default value to the generated migration files by adding the `default: "public"` option and launch the migrations again. You can also call in a rails console `Article.update_all(status: "public")` and `Comment.update_all(status: "public")`.
+
+
 TIP: To learn more about migrations, see [Active Record Migrations](
 active_record_migrations.html).
 
 We also have to permit the `:status` key as part of the strong parameter, in `app/controllers/articles_controller.rb`:
 
 ```ruby
+
   private
     def article_params
       params.require(:article).permit(:title, :body, :status)
@@ -1735,6 +1739,7 @@ We also have to permit the `:status` key as part of the strong parameter, in `ap
 and in `app/controllers/comments_controller.rb`:
 
 ```ruby
+
   private
     def comment_params
       params.require(:comment).permit(:commenter, :body, :status)
@@ -1912,12 +1917,12 @@ Our blog has <%= Article.public_count %> articles and counting!
 <%= link_to "New Article", new_article_path %>
 ```
 
-To finish up, we will add a select box to the forms, and let the user select the status when they create a new article or post a new comment. We can also specify the default status as `public`. In `app/views/articles/_form.html.erb`, we can add:
+To finish up, we will add a select box to the forms, and let the user select the status when they create a new article or post a new comment. We can also select the status of the object, or a default of `public` if it hasn't been set yet. In `app/views/articles/_form.html.erb`, we can add:
 
 ```html+erb
 <div>
   <%= form.label :status %><br>
-  <%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %>
+  <%= form.select :status, Visible::VALID_STATUSES, selected: article.status || 'public' %>
 </div>
 ```
 
@@ -1926,7 +1931,7 @@ and in `app/views/comments/_form.html.erb`:
 ```html+erb
 <p>
   <%= form.label :status %><br>
-  <%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %>
+  <%= form.select :status, Visible::VALID_STATUSES, selected: 'public' %>
 </p>
 ```
 
@@ -2033,7 +2038,6 @@ so we write that:
 
 ```ruby
 class ArticlesController < ApplicationController
-
   http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
 
   def index
@@ -2041,6 +2045,7 @@ class ArticlesController < ApplicationController
   end
 
   # snippet for brevity
+end
 ```
 
 We also want to allow only authenticated users to delete comments, so in the
@@ -2048,7 +2053,6 @@ We also want to allow only authenticated users to delete comments, so in the
 
 ```ruby
 class CommentsController < ApplicationController
-
   http_basic_authenticate_with name: "dhh", password: "secret", only: :destroy
 
   def create
@@ -2057,6 +2061,7 @@ class CommentsController < ApplicationController
   end
 
   # snippet for brevity
+end
 ```
 
 Now if you try to create a new article, you will be greeted with a basic HTTP

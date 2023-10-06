@@ -29,7 +29,7 @@ But more importantly, by using Active Record Encryption, you define what constit
 
 ### Setup
 
-First, you need to add some keys to your [Rails credentials](/security.html#custom-credentials). Run `bin/rails db:encryption:init` to generate a random key set:
+Run `bin/rails db:encryption:init` to generate a random key set:
 
 ```bash
 $ bin/rails db:encryption:init
@@ -39,6 +39,14 @@ active_record_encryption:
   primary_key: EGY8WhulUOXixybod7ZWwMIL68R9o5kC
   deterministic_key: aPA5XyALhf75NNnMzaspW7akTfZp0lPY
   key_derivation_salt: xEY0dt6TZcAMg52K7O84wYzkjvbA62Hz
+```
+
+These values can be stored by copying and pasting the generated values into your existing [Rails credentials](/security.html#custom-credentials). Alternatively, these values can be configured from other sources, such as environment variables:
+
+```ruby
+config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
+config.active_record.encryption.deterministic_key = ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY']
+config.active_record.encryption.key_derivation_salt = ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT']
 ```
 
 NOTE: These generated values are 32 bytes in length. If you generate these yourself, the minimum lengths you should use are 12 bytes for the primary key (this will be used to derive the AES 32 bytes key) and 20 bytes for the salt.
@@ -66,7 +74,26 @@ But, under the hood, the executed SQL looks like this:
 INSERT INTO `articles` (`title`) VALUES ('{\"p\":\"n7J0/ol+a7DRMeaE\",\"h\":{\"iv\":\"DXZMDWUKfp3bg/Yu\",\"at\":\"X1/YjMHbHD4talgF9dt61A==\"}}')
 ```
 
-Because Base 64 encoding and metadata are stored with the values, encryption requires extra space in the column. You can estimate the worst-case overload at around 250 bytes when the built-in envelope encryption key provider is used. This overload is negligible for medium and large text columns, but for `string` columns of 255 bytes, you should increase their limit accordingly (510 bytes is recommended).
+#### Important: About Storage and Column Size
+
+Encryption requires extra space because of Base64 encoding and the metadata stored along with the encrypted payloads. When using the built-in envelope encryption key provider, you can estimate the worst-case overhead at around 255 bytes. This overhead is negligible at larger sizes. Not only because it gets diluted but because the library uses compression by default, which can offer up to 30% storage savings over the unencrypted version for larger payloads.
+
+There is an important concern about string column sizes: in modern databases the column size determines the *number of characters* it can allocate, not the number of bytes. For example, with UTF-8, each character can take up to four bytes, so, potentially, a column in a database using UTF-8 can store up to four times its size in terms of *number of bytes*. Now, encrypted payloads are binary strings serialized as Base64, so they can be stored in regular `string` columns. Because they are a sequence of ASCII bytes, an encrypted column can take up to four times its clear version size. So, even if the bytes stored in the database are the same, the column must be four times bigger.
+
+In practice, this means:
+
+* When encrypting short texts written in western alphabets (mostly ASCII characters), you should account for that 255 additional overhead when defining the column size.
+* When encrypting short texts written in non-western alphabets, such as Cyrillic, you should multiply the column size by 4. Notice that the storage overhead is 255 bytes at most.
+* When encrypting long texts, you can ignore column size concerns.
+
+Some examples:
+
+| Content to encrypt                                | Original column size | Recommended encrypted column size | Storage overhead (worst case) |
+| ------------------------------------------------- | -------------------- | --------------------------------- | ----------------------------- |
+| Email addresses                                   | string(255)          | string(510)                       | 255 bytes                     |
+| Short sequence of emojis                          | string(255)          | string(1020)                      | 255 bytes                     |
+| Summary of texts written in non-western alphabets | string(500)          | string(2000)                      | 255 bytes                     |
+| Arbitrary long text                               | text                 | text                              | negligible                    |
 
 ### Deterministic and Non-deterministic Encryption
 
@@ -125,14 +152,14 @@ If you need to support a custom type, the recommended way is using a [serialized
 ```ruby
 # CORRECT
 class Article < ApplicationRecord
-  serialize :title, Title
+  serialize :title, type: Title
   encrypts :title
 end
 
 # INCORRECT
 class Article < ApplicationRecord
   encrypts :title
-  serialize :title, Title
+  serialize :title, type: Title
 end
 ```
 
@@ -221,7 +248,7 @@ class Person
 end
 ```
 
-They will also work when combining encrypted and unencrypted data,git and when configuring previous encryption schemes.
+They will also work when combining encrypted and unencrypted data, and when configuring previous encryption schemes.
 
 NOTE: If you want to ignore case, make sure to use `downcase:` or `ignore_case:` in the `encrypts` declaration. Using the `case_sensitive:` option in the validation won't work.
 
@@ -241,12 +268,17 @@ end
 
 By default, encrypted columns are configured to be [automatically filtered in Rails logs](action_controller_overview.html#parameters-filtering). You can disable this behavior by adding the following to your `application.rb`:
 
-When generating the filter parameter, it will use the model name as a prefix. E.g: For `Person#name` the filter parameter will be `person.name`.
-
 ```ruby
 config.active_record.encryption.add_to_filter_parameters = false
 ```
-In case you want exclude specific columns from this automatic filtering, add them to `config.active_record.encryption.excluded_from_filter_parameters`.
+
+If filtering is enabled, but you want to exclude specific columns from automatic filtering, add them to `config.active_record.encryption.excluded_from_filter_parameters`:
+
+```ruby
+config.active_record.encryption.excluded_from_filter_parameters = [:catchphrase]
+```
+
+When generating the filter parameter, Rails will use the model name as a prefix. E.g: For `Person#name`, the filter parameter will be `person.name`.
 
 ### Encoding
 
@@ -456,6 +488,15 @@ The salt used when deriving keys. It's preferred to configure it via the `active
 
 The default encoding for attributes encrypted deterministically. You can disable forced encoding by setting this option to `nil`. It's `Encoding::UTF_8` by default.
 
+#### `config.active_record.encryption.hash_digest_class`
+
+The digest algorithm used to derive keys. `OpenSSL::Digest::SHA1` by default.
+
+#### `config.active_record.encryption.support_sha1_for_non_deterministic_encryption`
+
+Supports decrypting data encrypted non-deterministically with a digest class SHA1. Default is false, which
+means it  will only support the digest algorithm configured in `config.active_record.encryption.hash_digest_class`.
+
 ### Encryption Contexts
 
 An encryption context defines the encryption components that are used in a given moment. There is a default encryption context based on your global configuration, but you can configure a custom context for a given attribute or when running a specific block of code.
@@ -496,7 +537,7 @@ You can use `ActiveRecord::Encryption.with_encryption_context` to set an encrypt
 
 ```ruby
 ActiveRecord::Encryption.with_encryption_context(encryptor: ActiveRecord::Encryption::NullEncryptor.new) do
-  ...
+  # ...
 end
 ```
 
@@ -508,9 +549,10 @@ You can run code without encryption:
 
 ```ruby
 ActiveRecord::Encryption.without_encryption do
-   ...
+  # ...
 end
 ```
+
 This means that reading encrypted text will return the ciphertext, and saved content will be stored unencrypted.
 
 ##### Protect Encrypted Data
@@ -519,7 +561,8 @@ You can run code without encryption but prevent overwriting encrypted content:
 
 ```ruby
 ActiveRecord::Encryption.protecting_encrypted_data do
-   ...
+  # ...
 end
 ```
+
 This can be handy if you want to protect encrypted data while still running arbitrary code against it (e.g. in a Rails console).

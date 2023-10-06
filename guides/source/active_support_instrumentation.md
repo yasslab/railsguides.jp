@@ -11,6 +11,7 @@ After reading this guide, you will know:
 
 * What instrumentation can provide.
 * How to add a subscriber to a hook.
+* How to view timings from instrumentation in your browser.
 * The hooks inside the Rails framework for instrumentation.
 * How to build a custom instrumentation implementation.
 
@@ -60,7 +61,7 @@ from block arguments like this:
 
 ```ruby
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
-  event = ActiveSupport::Notifications::Event.new *args
+  event = ActiveSupport::Notifications::Event.new(*args)
 
   event.name      # => "process_action.action_controller"
   event.duration  # => 10 (in milliseconds)
@@ -86,7 +87,7 @@ You may also subscribe to events matching a regular expression. This enables you
 multiple events at once. Here's how to subscribe to everything from `ActionController`:
 
 ```ruby
-ActiveSupport::Notifications.subscribe /action_controller/ do |*args|
+ActiveSupport::Notifications.subscribe(/action_controller/) do |*args|
   # inspect all ActionController events
 end
 ```
@@ -94,6 +95,17 @@ end
 [`ActiveSupport::Notifications::Event`]: https://api.rubyonrails.org/classes/ActiveSupport/Notifications/Event.html
 [`ActiveSupport::Notifications.monotonic_subscribe`]: https://api.rubyonrails.org/classes/ActiveSupport/Notifications.html#method-c-monotonic_subscribe
 [`ActiveSupport::Notifications.subscribe`]: https://api.rubyonrails.org/classes/ActiveSupport/Notifications.html#method-c-subscribe
+
+View Timings from Instrumentation in Your Browser
+-------------------------------------------------
+
+Rails implements the [Server Timing](https://www.w3.org/TR/server-timing/) standard to make timing information available in the web browser. To enable, edit your environment configuration (usually `development.rb` as this is most-used in development) to include the following:
+
+```ruby
+config.server_timing = true
+```
+
+Once configured (including restarting your server), you can go to the Developer Tools pane of your browser, then select Network and reload your page. You can then select any request to your Rails server, and will see server timings in the timings tab. For an example of doing this, see the [Firefox Documentation](https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/request_details/index.html#server-timing).
 
 Rails Framework Hooks
 ---------------------
@@ -184,7 +196,7 @@ Additional keys may be added by the caller.
 {
   status: 302,
   location: "http://localhost:3000/posts/new",
-  request: #<ActionDispatch::Request:0x00007ff1cb9bd7b8>
+  request: <ActionDispatch::Request:0x00007ff1cb9bd7b8>
 }
 ```
 
@@ -265,31 +277,49 @@ Additional keys may be added by the caller.
 | ------------- | ---------------------- |
 | `:middleware` | Name of the middleware |
 
+#### `redirect.action_dispatch`
+
+| Key         | Value                                    |
+| ----------- | ---------------------------------------- |
+| `:status`   | HTTP response code                       |
+| `:location` | URL to redirect to                       |
+| `:request`  | The [`ActionDispatch::Request`][] object |
+
+#### `request.action_dispatch`
+
+| Key         | Value                                    |
+| ----------- | ---------------------------------------- |
+| `:request`  | The [`ActionDispatch::Request`][] object |
+
 ### Action View
 
 #### `render_template.action_view`
 
-| Key           | Value                 |
-| ------------- | --------------------- |
-| `:identifier` | Full path to template |
-| `:layout`     | Applicable layout     |
+| Key           | Value                              |
+| ------------- | ---------------------------------- |
+| `:identifier` | Full path to template              |
+| `:layout`     | Applicable layout                  |
+| `:locals`     | Local variables passed to template |
 
 ```ruby
 {
   identifier: "/Users/adam/projects/notifications/app/views/posts/index.html.erb",
-  layout: "layouts/application"
+  layout: "layouts/application",
+  locals: { foo: "bar" }
 }
 ```
 
 #### `render_partial.action_view`
 
-| Key           | Value                 |
-| ------------- | --------------------- |
-| `:identifier` | Full path to template |
+| Key           | Value                              |
+| ------------- | ---------------------------------- |
+| `:identifier` | Full path to template              |
+| `:locals`     | Local variables passed to template |
 
 ```ruby
 {
-  identifier: "/Users/adam/projects/notifications/app/views/posts/_form.html.erb"
+  identifier: "/Users/adam/projects/notifications/app/views/posts/_form.html.erb",
+  locals: { foo: "bar" }
 }
 ```
 
@@ -347,12 +377,23 @@ Adapters may add their own data as well.
 {
   sql: "SELECT \"posts\".* FROM \"posts\" ",
   name: "Post Load",
-  connection: #<ActiveRecord::ConnectionAdapters::SQLite3Adapter:0x00007f9f7a838850>,
-  binds: [#<ActiveModel::Attribute::WithCastValue:0x00007fe19d15dc00>],
+  connection: <ActiveRecord::ConnectionAdapters::SQLite3Adapter:0x00007f9f7a838850>,
+  binds: [<ActiveModel::Attribute::WithCastValue:0x00007fe19d15dc00>],
   type_casted_binds: [11],
   statement_name: nil
 }
 ```
+
+#### `strict_loading_violation.active_record`
+
+This event is only emitted when [`config.active_record.action_on_strict_loading_violation`][] is set to `:log`.
+
+| Key           | Value                                            |
+| ------------- | ------------------------------------------------ |
+| `:owner`      | Model with `strict_loading` enabled              |
+| `:reflection` | Reflection of the association that tried to load |
+
+[`config.active_record.action_on_strict_loading_violation`]: configuring.html#config-active-record-action-on-strict-loading-violation
 
 #### `instantiation.active_record`
 
@@ -624,6 +665,26 @@ This event is only emitted when using [`MemoryStore`][ActiveSupport::Cache::Memo
 [ActiveSupport::Cache::Store#fetch]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch
 [ActiveSupport::Cache::Store#fetch_multi]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch_multi
 
+### Active Support — Messages
+
+#### `message_serializer_fallback.active_support`
+
+| Key             | Value                         |
+| --------------- | ----------------------------- |
+| `:serializer`   | Primary (intended) serializer |
+| `:fallback`     | Fallback (actual) serializer  |
+| `:serialized`   | Serialized string             |
+| `:deserialized` | Deserialized value            |
+
+```ruby
+{
+  serializer: :json_allow_marshal,
+  fallback: :marshal,
+  serialized: "\x04\b{\x06I\"\nHello\x06:\x06ETI\"\nWorld\x06;\x00T",
+  deserialized: { "Hello" => "World" },
+}
+```
+
 ### Active Job
 
 #### `enqueue_at.active_job`
@@ -649,6 +710,13 @@ This event is only emitted when using [`MemoryStore`][ActiveSupport::Cache::Memo
 | `:error`     | The error that caused the retry        |
 | `:wait`      | The delay of the retry                 |
 
+#### `enqueue_all.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:jobs`      | An array of Job objects                |
+
 #### `perform_start.active_job`
 
 | Key          | Value                                  |
@@ -658,10 +726,11 @@ This event is only emitted when using [`MemoryStore`][ActiveSupport::Cache::Memo
 
 #### `perform.active_job`
 
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
+| Key           | Value                                         |
+| ------------- | --------------------------------------------- |
+| `:adapter`    | QueueAdapter object processing the job        |
+| `:job`        | Job object                                    |
+| `:db_runtime` | Amount spent executing database queries in ms |
 
 #### `retry_stopped.active_job`
 
@@ -806,6 +875,28 @@ This event is only emitted when using the Google Cloud Storage service.
 | `:content_type` | HTTP `Content-Type` field        |
 | `:disposition`  | HTTP `Content-Disposition` field |
 
+### Action Mailbox
+
+#### `process.action_mailbox`
+
+| Key              | Value                                                  |
+| -----------------| ------------------------------------------------------ |
+| `:mailbox`       | Instance of the Mailbox class inheriting from [`ActionMailbox::Base`][] |
+| `:inbound_email` | Hash with data about the inbound email being processed |
+
+```ruby
+{
+  mailbox: #<RepliesMailbox:0x00007f9f7a8388>,
+  inbound_email: {
+    id: 1,
+    message_id: "0CB459E0-0336-41DA-BC88-E6E28C697DDB@37signals.com",
+    status: "processing"
+  }
+}
+```
+
+[`ActionMailbox::Base`]: https://api.rubyonrails.org/classes/ActionMailbox/Base.html
+
 ### Railties
 
 #### `load_config_initializer.railties`
@@ -818,10 +909,12 @@ This event is only emitted when using the Google Cloud Storage service.
 
 #### `deprecation.rails`
 
-| Key          | Value                           |
-| ------------ | ------------------------------- |
-| `:message`   | The deprecation warning         |
-| `:callstack` | Where the deprecation came from |
+| Key                    | Value                                                 |
+| ---------------------- | ------------------------------------------------------|
+| `:message`             | The deprecation warning                               |
+| `:callstack`           | Where the deprecation came from                       |
+| `:gem_name`            | Name of the gem reporting the deprecation             |
+| `:deprecation_horizon` | Version where the deprecated behavior will be removed |
 
 Exceptions
 ----------
