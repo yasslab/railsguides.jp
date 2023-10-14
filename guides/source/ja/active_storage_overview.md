@@ -770,7 +770,7 @@ Active Storageでは、バリアントプロセッサとして[Vips][]またはM
 
 MiniMagickとVipsの互換性は完全ではないため、MiniMagickからVips（またはその逆）に移行すると、フォーマット固有のオプションを使っている場合は以下のように若干の変更が必要になります。
 
-```rhtml
+```erb
 <!-- MiniMagick -->
 <%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
 
