@@ -516,12 +516,6 @@ $ RAILS_ENV=production rails assets:precompile
 
 * アセットの圧縮や最小化に必要なツールをdevelopment環境のシステムで利用可能にしておく必要があります。
 
-また、`ENV["SECRET_KEY_BASE_DUMMY"]`を設定すると、一時ファイルに保存されるランダム生成の`secret_key_base`が使われるようになります。これは、ビルド中にproduction用のsecretsにアクセスせずに、production用のアセットをプリコンパイルしたい場合に便利です。
-
-```bash
-$ SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
-```
-
 ### 動的コンパイル
 
 状況によっては動的コンパイル（live compilation）を使いたいこともあります。動的コンパイルモードでは、パイプラインのアセットへのリクエストは直接Sprocketsによって扱われます。
