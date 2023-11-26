@@ -270,7 +270,7 @@ TIP: 通常、inputにはモデルの属性が反映されます。しかしこ�
 生成されたURLには、`author_id`と`id`がアンダースコア区切りの形で含まれていることにご注目ください。
 送信後、コントローラーはパラメータから[個別の主キーの値を抽出][]して、単一の主キーと同様にレコードを更新できます。
 
-[extract each primary key value]: action_controller_overview.html#複合主キーのパラメータ
+[個別の主キーの値を抽出]: action_controller_overview.html#複合主キーのパラメータ
 
 #### `fields_for`ヘルパー
 
