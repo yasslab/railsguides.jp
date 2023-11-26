@@ -72,7 +72,7 @@ WARNING: 一部のメソッド名はAction Controllerで予約されています
 NOTE: 予約済みメソッド名をアクション名として使わざるを得ない場合は、たとえばカスタムルーティングを利用して、予約済みメソッド名を予約されていないアクションメソッド名に対応付けるという回避策が考えられます。
 
 [`ActionController::Base`]: https://api.rubyonrails.org/classes/ActionController/Base.html
-[Resource Routing]: routing.html#リソースベースのルーティング-railsのデフォルト
+[リソースルーティング]: routing.html#リソースベースのルーティング-railsのデフォルト
 
 パラメータ
 ----------
