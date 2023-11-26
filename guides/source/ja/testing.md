@@ -1832,7 +1832,7 @@ end
 ```
 
 [rails-dom-testing]: https://github.com/rails/rails-dom-testing
-[RSS content]: https://www.rssboard.org/rss-specification
+[RSS コンテンツ]: https://www.rssboard.org/rss-specification
 
 ヘルパーをテストする
 ---------------
