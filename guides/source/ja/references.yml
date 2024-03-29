@@ -18,6 +18,10 @@ threading_and_code_execution:
 - title: "Rails Executor：フレームワークとあなたのコードとの境 - Kaigi on Rails 2023"
   url: https://kaigionrails.org/2023/talks/Envek/
 
+upgrading_ruby_on_rails:
+- title: 社内版 Rails アップグレードガイドを公開します - Timee
+  url: https://tech.timee.co.jp/entry/2023/12/25/000000
+
 working_with_javascript_in_rails:
 - title: "Turbo Handbook - Hotwire 公式ハンドブック"
   url: https://everyleaf.github.io/hotwire_ja/
