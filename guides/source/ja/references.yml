@@ -15,7 +15,7 @@ contributing_to_ruby_on_rails:
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
 
 threading_and_code_execution:
-- title: "Rails Executor：フレームワークとあなたのコードとの境 - Kaigi on Rails 2023"
+- title: "Rails Executor: フレームワークとあなたのコードとの境 - Kaigi on Rails 2023"
   url: https://kaigionrails.org/2023/talks/Envek/
 
 upgrading_ruby_on_rails:
