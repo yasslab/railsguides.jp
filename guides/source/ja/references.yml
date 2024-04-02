@@ -57,3 +57,5 @@ upgrading_ruby_on_rails:
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
   url: https://everyleaf.github.io/hotwire_ja/
+- title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 - Kaigi on Rails
+  url: https://kaigionrails.org/2023/talks/nay3/
