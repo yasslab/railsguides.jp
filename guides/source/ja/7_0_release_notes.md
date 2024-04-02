@@ -312,8 +312,7 @@ Active Job
 
 ### 削除されたもの
 
-*   Removed deprecated behavior that was not halting `after_enqueue`/`after_perform` callbacks when a
-    previous callback was halted with `throw :abort`.
+*   前のコールバックが`throw :abort`で中断された場合に、`after_enqueue`/`after_perform`コールバックが停止しない振る舞い（非推奨化済み）を削除。
 
 *   非推奨化されていた`:return_false_on_aborted_enqueue`オプションを削除。
 
