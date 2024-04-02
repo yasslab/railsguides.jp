@@ -6,6 +6,10 @@ getting_started:
 - title: Ruby on Railsチュートリアル - プロダクト開発の０→１を学ぼう
   url: https://railstutorial.jp
 
+association_basics:
+- title: Simplicity on Rails - RDB, REST and Ruby
+  url: https://kaigionrails.org/2023/talks/moro/
+
 classic_to_zeitwerk_howto:
 - title: Zeitwerkの壊し方
   url: https://qiita.com/fursich/items/717a720d9f4465e4cbbb
