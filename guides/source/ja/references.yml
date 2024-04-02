@@ -33,6 +33,16 @@ rails_on_rack:
 upgrading_ruby_on_rails:
 - title: 社内版 Rails アップグレードガイドを公開します - Timee
   url: https://tech.timee.co.jp/entry/2023/12/25/000000
+- title: 永久保存版！？伊藤さん式・Railsアプリのアップグレード手順
+  url: https://qiita.com/jnchito/items/0ee47108972a0e302caf
+- title: 1日でRails 7, Ruby 3にアップグレードするためにやったこと - SMARTCAMP
+  url: https://tech.smartcamp.co.jp/entry/update-to-ruby3-and-rails7
+- title: Railsバージョンを倍にしたサービスのそれまでとそれから - Kaigi on Rails
+  url: https://kaigionrails.org/2021/talks/expajp/
+- title: "\"6年分\"のRailsバージョンアップをなめらかに行う方法！ - AppBrew"
+  url: https://tech.appbrew.io/entry/2021/09/24/120000
+- title: RailsDiff
+  url: https://railsdiff.org/
 
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
