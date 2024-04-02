@@ -17,6 +17,8 @@ classic_to_zeitwerk_howto:
 constant_autoloading_and_reloading:
 - title: Railsガイドを読む (定数の自動読み込みと再読み込み)
   url: https://qiita.com/yui-knk/items/8f7e693b89423d983097
+- title: あなたとRails - Kaigi on Rails 2022 基調講演
+  url: https://kaigionrails.org/2022/talks/yahonda/
 
 contributing_to_ruby_on_rails:
 - title: OSS入門としてのRailsガイド
