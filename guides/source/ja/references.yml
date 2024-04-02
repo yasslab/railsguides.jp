@@ -7,11 +7,15 @@ getting_started:
   url: https://railstutorial.jp
 
 active_record_querying:
-- title: Active Record クエリクイズ - Kaigi on Rails
+- title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/pocke/
 
+active_support_core_extensions:
+- title: "ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！ by Sampo Kuokkanen - Kaigi on Rails"
+  url: https://kaigionrails.org/2023/talks/sampokuokkanen/
+
 association_basics:
-- title: Simplicity on Rails - RDB, REST and Ruby
+- title: Simplicity on Rails - RDB, REST and Ruby by MOROHASHI Kyosuke - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/moro/
 
 classic_to_zeitwerk_howto:
@@ -25,7 +29,7 @@ classic_to_zeitwerk_howto:
 constant_autoloading_and_reloading:
 - title: Railsガイドを読む (定数の自動読み込みと再読み込み)
   url: https://qiita.com/yui-knk/items/8f7e693b89423d983097
-- title: あなたとRails - Kaigi on Rails 2022 基調講演
+- title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
   url: https://kaigionrails.org/2022/talks/yahonda/
 
 contributing_to_ruby_on_rails:
@@ -33,7 +37,7 @@ contributing_to_ruby_on_rails:
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
 
 threading_and_code_execution:
-- title: "Rails Executor: フレームワークとあなたのコードとの境 - Kaigi on Rails 2023"
+- title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
   url: https://kaigionrails.org/2023/talks/Envek/
 
 rails_on_rack:
@@ -47,7 +51,7 @@ upgrading_ruby_on_rails:
   url: https://qiita.com/jnchito/items/0ee47108972a0e302caf
 - title: 1日でRails 7, Ruby 3にアップグレードするためにやったこと - SMARTCAMP
   url: https://tech.smartcamp.co.jp/entry/update-to-ruby3-and-rails7
-- title: Railsバージョンを倍にしたサービスのそれまでとそれから - Kaigi on Rails
+- title: Railsバージョンを倍にしたサービスのそれまでとそれから by Shu OGAWARA - Kaigi on Rails
   url: https://kaigionrails.org/2021/talks/expajp/
 - title: "\"6年分\"のRailsバージョンアップをなめらかに行う方法！ - AppBrew"
   url: https://tech.appbrew.io/entry/2021/09/24/120000
@@ -57,5 +61,5 @@ upgrading_ruby_on_rails:
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
   url: https://everyleaf.github.io/hotwire_ja/
-- title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 - Kaigi on Rails
+- title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 by Yasuko Ohba (nay3) - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/nay3/
