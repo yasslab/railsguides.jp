@@ -29,12 +29,12 @@ classic_to_zeitwerk_howto:
 constant_autoloading_and_reloading:
 - title: Railsガイドを読む (定数の自動読み込みと再読み込み)
   url: https://qiita.com/yui-knk/items/8f7e693b89423d983097
-- title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
-  url: https://kaigionrails.org/2022/talks/yahonda/
 
 contributing_to_ruby_on_rails:
 - title: OSS入門としてのRailsガイド
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
+- title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
+  url: https://kaigionrails.org/2022/talks/yahonda/
 
 threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
