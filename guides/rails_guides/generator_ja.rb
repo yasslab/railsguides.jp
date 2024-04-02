@@ -89,7 +89,7 @@ module RailsGuides
       md = <<-MD
 
 
-参考資料
+参考資料（日本語）
 ---------
 
 references#{"-" * 80}
