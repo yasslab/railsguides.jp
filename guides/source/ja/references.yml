@@ -18,6 +18,10 @@ threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 - Kaigi on Rails 2023"
   url: https://kaigionrails.org/2023/talks/Envek/
 
+rails_on_rack:
+- title: "スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで"
+  url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
+
 upgrading_ruby_on_rails:
 - title: 社内版 Rails アップグレードガイドを公開します - Timee
   url: https://tech.timee.co.jp/entry/2023/12/25/000000
