@@ -6,6 +6,10 @@ getting_started:
 - title: Ruby on Railsチュートリアル - プロダクト開発の０→１を学ぼう
   url: https://railstutorial.jp
 
+active_record_querying:
+- title: Active Record クエリクイズ - Kaigi on Rails
+  url: https://kaigionrails.org/2023/talks/pocke/
+
 association_basics:
 - title: Simplicity on Rails - RDB, REST and Ruby
   url: https://kaigionrails.org/2023/talks/moro/
