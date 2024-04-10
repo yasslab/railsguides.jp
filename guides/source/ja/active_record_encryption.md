@@ -497,7 +497,7 @@ rootデータ暗号化キーの導出に用いるキーまたはキーのリス�
 
 #### `config.active_record.encryption.hash_digest_class`
 
-鍵の導出に使うダイジェストアルゴリズムです。デフォルトは`OpenSSL::Digest::SHA1`です。
+鍵の導出に使うダイジェストアルゴリズムです。デフォルトは`OpenSSL::Digest::SHA256`です。
 
 #### `config.active_record.encryption.support_sha1_for_non_deterministic_encryption`
 
