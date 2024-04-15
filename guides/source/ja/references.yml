@@ -57,6 +57,8 @@ upgrading_ruby_on_rails:
   url: https://qiita.com/jnchito/items/0ee47108972a0e302caf
 - title: 1日でRails 7, Ruby 3にアップグレードするためにやったこと - SMARTCAMP
   url: https://tech.smartcamp.co.jp/entry/update-to-ruby3-and-rails7
+- title: Rails7.0アップグレード手順とハマりどころのTips
+  url: https://zenn.dev/ryosk7/articles/ae547ad6415a44
 - title: Railsバージョンを倍にしたサービスのそれまでとそれから by Shu OGAWARA - Kaigi on Rails
   url: https://kaigionrails.org/2021/talks/expajp/
 - title: "\"6年分\"のRailsバージョンアップをなめらかに行う方法！ - AppBrew"
