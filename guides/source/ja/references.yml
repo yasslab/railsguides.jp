@@ -36,6 +36,10 @@ contributing_to_ruby_on_rails:
 - title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
   url: https://kaigionrails.org/2022/talks/yahonda/
 
+i18n:
+- title: "Rails: 失われたメッセージを巡る冒険 | タイムインターメディア"
+  url: https://www.timedia.co.jp/tech/20240409-tech/
+
 threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
   url: https://kaigionrails.org/2023/talks/Envek/
