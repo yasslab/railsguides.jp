@@ -38,7 +38,7 @@ Railsのバージョンを変更する場合、マイナーバージョンを1�
 
 上の手順を繰り返して、最終的にRailsを目的のバージョンにアップグレードします。
 
-リリース済みのRailsバージョンのリストは[ここ](https://rubygems.org/gems/rails/versions)で確認できます。
+リリース済みのRailsバージョンのリストは https://rubygems.org/gems/rails/versions で確認できます。
 
 #### Railsバージョン間を移動する
 
