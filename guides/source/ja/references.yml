@@ -61,8 +61,6 @@ upgrading_ruby_on_rails:
   url: https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge
 - title: Rails 6.0 Upgrade knowledge - ruby-jp (Scrapbox)
   url: https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge
-- title: RailsDiff
-  url: https://railsdiff.org/
 
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
