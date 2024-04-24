@@ -81,6 +81,8 @@ Rails 7.0からRails 7.1へのアップグレード
 
 Rails 7.1で行われた変更について詳しくは、[Rails 7.1のリリースノート](7_1_release_notes.html)を参照してください。
 
+TIP: 訳注：日本語のアップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.1 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge)」でまとめています。
+
 ### 自動読み込みされるパスが`$LOAD_PATH`に含まれなくなった
 
 * [Disable config.add_autoload_paths_to_load_path by default in Rails 7.1 by casperisfine · Pull Request #44133 · rails/rails](https://github.com/rails/rails/pull/44133)
