@@ -82,7 +82,7 @@ Rails 7.0からRails 7.1へのアップグレード
 
 Rails 7.1で行われた変更について詳しくは、[Rails 7.1のリリースノート](7_1_release_notes.html)を参照してください。
 
-TIP: 訳注：日本語のアップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.1 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.1 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge)」でまとめています。
 
 
 ### 自動読み込みされるパスが`$LOAD_PATH`に含まれなくなった
@@ -377,7 +377,7 @@ Rails 6.1からRails 7.0へのアップグレード
 
 Rails 7.0で行われた変更について詳しくは、[Rails 7.0のリリースノート](7_0_release_notes.html)を参照してください。
 
-TIP: 訳注：日本語のアップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.0 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.0 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_knowledge)」でまとめています。
 
 
 ### `ActionView::Helpers::UrlHelper#button_to`の振る舞いが変更された
@@ -717,7 +717,7 @@ Rails 6.0からRails 6.1へのアップグレード
 
 Rails 6.1の変更点について詳しくは[Rails 6.1のリリースノート](6_1_release_notes.html)を参照してください。
 
-TIP: 訳注：日本語のアップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.1 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.1 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge)」でまとめています。
 
 
 ### `Rails.application.config_for`の戻り値をStringキーでアクセスするサポートが終了した
@@ -851,7 +851,7 @@ Rails 5.2からRails 6.0へのアップグレード
 
 Rails 6.0の変更点について詳しくは[Rails 6.0のリリースノート](6_0_release_notes.html)を参照してください。
 
-TIP: 訳注：日本語のアップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.0 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.0 Upgrade knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge)」でまとめています。
 
 
 ### Webpackerの利用について
