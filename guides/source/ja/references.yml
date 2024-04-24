@@ -51,24 +51,16 @@ rails_on_rack:
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
 
 upgrading_ruby_on_rails:
+- title: Railsアップグレードガイド - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Railsアップグレードガイド
 - title: Rails 7.1 Upgrade knowledge - ruby-jp (Scrapbox)
   url: https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge
-- title: Rails 7.1にバージョンアップしました - inSmartBank
-  url: https://blog.smartbank.co.jp/entry/2024/0404/100000
-- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
-  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
-- title: 社内版 Rails アップグレードガイドを公開します - Timee
-  url: https://tech.timee.co.jp/entry/2023/12/25/000000
-- title: 永久保存版！？伊藤さん式・Railsアプリのアップグレード手順
-  url: https://qiita.com/jnchito/items/0ee47108972a0e302caf
-- title: 1日でRails 7, Ruby 3にアップグレードするためにやったこと - SMARTCAMP
-  url: https://tech.smartcamp.co.jp/entry/update-to-ruby3-and-rails7
-- title: Rails7.0アップグレード手順とハマりどころのTips
-  url: https://zenn.dev/ryosk7/articles/ae547ad6415a44
-- title: Railsバージョンを倍にしたサービスのそれまでとそれから by Shu OGAWARA - Kaigi on Rails
-  url: https://kaigionrails.org/2021/talks/expajp/
-- title: "\"6年分\"のRailsバージョンアップをなめらかに行う方法！ - AppBrew"
-  url: https://tech.appbrew.io/entry/2021/09/24/120000
+- title: Rails 7.0 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_knowledge
+- title: Rails 6.1 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge
+- title: Rails 6.0 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge
 - title: RailsDiff
   url: https://railsdiff.org/
 
