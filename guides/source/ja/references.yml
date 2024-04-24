@@ -51,6 +51,8 @@ rails_on_rack:
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
 
 upgrading_ruby_on_rails:
+- title: Rails 7.1 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge
 - title: Rails 7.1にバージョンアップしました - inSmartBank
   url: https://blog.smartbank.co.jp/entry/2024/0404/100000
 - title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
