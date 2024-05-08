@@ -53,6 +53,8 @@ rails_on_rack:
 security:
 - title: "安全なウェブサイトの作り方 - 1.4 セッション管理の不備 | 情報セキュリティ | IPA 独立行政法人 情報処理推進機構"
   url: https://www.ipa.go.jp/security/vuln/websecurity/session-management.html
+- title: "Railsでセッションリプレイ攻撃を防ぐ方法（翻訳）| TechRacho"
+  url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
 
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp (Scrapbox)
