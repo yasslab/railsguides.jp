@@ -50,6 +50,10 @@ rails_on_rack:
 - title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
 
+security:
+- title: "安全なウェブサイトの作り方 - 1.4 セッション管理の不備 | 情報セキュリティ | IPA 独立行政法人 情報処理推進機構"
+  url: https://www.ipa.go.jp/security/vuln/websecurity/session-management.html
+
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp (Scrapbox)
   url: https://scrapbox.io/ruby-jp/Railsアップグレードガイド
