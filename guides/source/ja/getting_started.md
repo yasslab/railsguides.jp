@@ -1125,7 +1125,7 @@ Rails.application.routes.draw do
 end
 ```
 
-この設定により、`articles`の内側に**ネストしたリソース**（nested resouce）として`comments`が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものです。
+この設定により、`articles`の内側に**ネストしたリソース**（nested resource）として`comments`が作成されます。これは、モデルの記述とは別の視点から、記事とコメントの間のリレーションシップを階層的に捉えたものです。
 
 TIP: ルーティングについて詳しくは[Railsのルーティング](routing.html)ガイドを参照してください。
 
