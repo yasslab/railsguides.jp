@@ -20,7 +20,7 @@ Action Mailboxは、受信したメールをコントローラに似たメール
 
 受信したメールは[Active Job](active_job_basics.html)によって非同期で1個以上の専用メールボックスにルーティングされます。それらのメールは、さらに[Active Record](active_record_basics.html)を用いて[`InboundEmail`](https://api.rubyonrails.org/classes/ActionMailbox/InboundEmail.html)レコードに変換されます。`InboundEmail`は、ドメインモデルの他の部分と直接やりとりできるようになります。
 
-`InboundEmail`は、ライフサイクルのトラッキング機能や、[Active Storage](active_storage_overview.html)を介したオリジナルメールの保存機能、およびデフォルトでデータの[焼却（incineration）](#incineration-of-inboundemails)を行う機能も提供します。
+`InboundEmail`は、ライフサイクルのトラッキング機能や、[Active Storage](active_storage_overview.html)を介したオリジナルメールの保存機能、およびデフォルトでデータの[焼却（incineration）](#inboundemailsの焼却)を行う機能も提供します。
 
 Action Mailboxは、Mailgun、Mandrill、Postmark、SendGridなどの外部メールプロバイダ用の入り口（ingress）を備えています。受信メールを組み込みのEximやPostfixやQmail用のingressで直接扱うことも可能です。
 
@@ -293,7 +293,7 @@ irb> mail.body
 - `failed`: 特定のメールボックスの`process`メソッドの実行中に例外が発生したことを表す。
 - `bounced`: 特定のメールボックスでメールの処理が拒否され、送信者にバウンス（bounce: ）された状態。
 
-メールのステータスが`delivered`、`failed`、`bounced`のいずれかになった場合、そのメールは「処理完了」とみなされ、[焼却](#InboundEmailsの「焼却」)とマーキングされます。
+メールのステータスが`delivered`、`failed`、`bounced`のいずれかになった場合、そのメールは「処理完了」とみなされ、[焼却](#inboundemailsの焼却)とマーキングされます。
 
 ## 例
 
@@ -378,7 +378,7 @@ end
 
 テストヘルパーメソッドについて詳しくは、APIドキュメントの[`ActionMailbox::TestHelper`](https://api.rubyonrails.org/classes/ActionMailbox/TestHelper.html)を参照してください。
 
-## InboundEmailsの「焼却」
+## InboundEmailsの焼却
 
 デフォルトでは、処理が成功したInboundEmailは30日後に焼却（incinerate）されます。これにより、アカウントをキャンセルまたはコンテンツを削除したユーザーのデータをむやみに保持せずに済みます。この設計では、メールを処理した後に必要なメールをすべて切り出して、アプリケーションの業務ドメインモデルやコンテンツに取り込む必要があることが前提となります。InboundEmailがシステムに余分に保持される期間は、単にデバッグや事後調査のためのものです。
 
