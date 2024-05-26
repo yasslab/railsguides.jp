@@ -18,7 +18,6 @@ Active Job の基礎
 
 Active Jobは、ジョブを宣言し、それによってバックエンドでさまざまな方法によるキュー操作を実行するためのフレームワークです。ジョブには、定期的なクリーンアップを始めとして、請求書発行やメール配信など、あらゆる処理がジョブになります。これらのジョブをより細かな作業単位に分割して並列実行することもできます。
 
-
 Active Jobの目的
 -----------------------------
 
@@ -26,11 +25,10 @@ Active Jobの主要な目的は、あらゆるRailsアプリケーションに�
 
 NOTE: デフォルトのRailsは非同期キューを実装します。これは、インプロセスのスレッドプールでジョブを実行します。ジョブは非同期に実行されますが、再起動するとすべてのジョブは失われます。
 
-
-ジョブを作成する
+ジョブを作成して登録する
 --------------
 
-このセクションでは、ジョブの作成方法とジョブの登録 (enqueue) 方法を手順を追って説明します。
+このセクションでは、ジョブの作成方法とジョブの登録 (enqueue: エンキュー) 方法を手順を追って説明します。
 
 ### ジョブを作成する
 
@@ -111,6 +109,12 @@ GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
 [`perform_later`]: https://api.rubyonrails.org/classes/ActiveJob/Enqueuing/ClassMethods.html#method-i-perform_later
 [`set`]: https://api.rubyonrails.org/classes/ActiveJob/Core/ClassMethods.html#method-i-set
 
+### 複数のジョブを一括登録する
+
+[`perform_all_later`][]を使うと、複数のジョブを一括登録できます。詳しくは[一括登録](#一括登録)を参照してください。
+
+[`perform_all_later`] https://api.rubyonrails.org/classes/ActiveJob.html#method-c-perform_all_later
+
 ジョブを実行する
 -------------
 
@@ -167,6 +171,7 @@ end
 - [Delayed Job](https://github.com/collectiveidea/delayed_job#active-job)
 - [Que](https://github.com/que-rb/que#additional-rails-specific-setup)
 - [Good Job](https://github.com/bensheldon/good_job#readme)
+- [Solid Queue](https://github.com/rails/solid_queue?tab=readme-ov-file#solid-queue)
 
 キュー
 ------
@@ -239,12 +244,6 @@ end
 # 実行されるようになり、staging環境ではstaging.low_priorityというキューでジョブが実行されるようになります
 ```
 
-ジョブを実行するキューをさらに細かく制御したい場合は、`#set`に`:queue`オプションを追加できます。
-
-```ruby
-MyJob.set(queue: :another_queue).perform_later(record)
-```
-
 `#queue_as`にブロックを渡すと、キューをそのジョブレベルで制御できます。与えられたブロックは、そのジョブのコンテキストで実行されます (これにより`self.arguments`にアクセスできるようになります)。そしてキュー名を返さなくてはなりません。
 
 ```ruby
@@ -268,11 +267,65 @@ end
 ProcessVideoJob.perform_later(Video.last)
 ```
 
+ジョブを実行するキューをさらに細かく制御したい場合は、`#set`に`:queue`オプションを渡せます。
+
+```ruby
+MyJob.set(queue: :another_queue).perform_later(record)
+```
+
 NOTE: 設定したキュー名をキューイングバックエンドが「リッスンする」ようにしてください。一部のバックエンドでは、リッスンするキューを指定する必要が生じることもあります。
 
 [`config.active_job.queue_name_delimiter`]: configuring.html#config-active-job-queue-name-delimiter
 [`config.active_job.queue_name_prefix`]: configuring.html#config-active-job-queue-name-prefix
 [`queue_as`]: https://api.rubyonrails.org/classes/ActiveJob/QueueName/ClassMethods.html#method-i-queue_as
+
+優先順位付け
+--------------
+
+アダプタによってはジョブレベルでの優先順位付けをサポートしており、キュー内の別のジョブや、すべてのキュー内にある他のジョブに対してジョブを優先できます。
+
+優先順位を指定してジョブをスケジューリングするには、[`queue_with_priority`][]メソッドを使います。
+
+```ruby
+class GuestsCleanupJob < ApplicationJob
+  queue_with_priority 10
+  # ...
+end
+```
+
+このメソッドは、優先順位付けをサポートしていないアダプタでは無効です。
+
+`queue_as`の場合と同様に、`queue_with_priority`にブロックを渡してジョブのコンテキストで評価することも可能です。
+
+```ruby
+class ProcessVideoJob < ApplicationJob
+  queue_with_priority do
+    video = self.arguments.first
+    if video.owner.premium?
+      0
+    else
+      10
+    end
+  end
+
+  def perform(video)
+    # Process video
+  end
+end
+```
+
+```ruby
+ProcessVideoJob.perform_later(Video.last)
+```
+
+以下のように`set`に`:priority`オプションを渡すことも可能です。
+
+```ruby
+MyJob.set(priority: 50).perform_later(record)
+```
+
+[`queue_with_priority`]: https://api.rubyonrails.org/classes/ActiveJob/QueuePriority/ClassMethods.html#method-i-queue_with_priority
+
 コールバック
 ---------
 
@@ -322,6 +375,83 @@ end
 [`before_perform`]: https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_perform
 [`around_perform`]: https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_perform
 [`after_perform`]: https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_perform
+
+`perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされなくなる点にご注意ください。
+詳しくは[一括登録のコールバック](#一括登録のコールバック)を参照してください。
+
+一括登録
+--------------
+
+[`perform_all_later`][]を使うことで、複数のジョブをキューに一括登録（bulk enqueue: バルクエンキュー）できます。一括登録により、Redisやデータベースなどのキューデータストアとのジョブの往復が削減され、同じジョブを個別に登録するよりもパフォーマンスが向上します。
+
+`perform_all_later`はActive JobのトップレベルAPIで、インスタンス化されたジョブを引数として受け取ります（この点が`perform_later`と異なることにご注意ください）。 `perform_all_later`は内部で`perform`を呼び出します。 `new`に渡された引数は、最終的に`perform`が呼び出されるときに`perform`に渡されます。
+
+以下は、`GuestCleanupJob`インスタンスを用いて`perform_all_later`を呼び出すコード例です。
+
+```ruby
+# `perform_all_later`に渡すジョブを作成する
+# この`new`に渡した引数は`perform`に渡される
+guest_cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest) }
+
+# `GuestCleanupJob`の個別のインスタンスごとにジョブをキューに登録する
+ActiveJob.perform_all_later(guest_cleanup_jobs)
+
+# `set`メソッドでオプションを設定してからジョブを一括登録してもよい
+guest_cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest).set(wait: 1.day) }
+
+ActiveJob.perform_all_later(guest_cleanup_jobs)
+```
+
+`perform_all_later`は、正常にキューに登録されたジョブの個数をログ出力します。たとえば、上の`Guest.all.map`の結果`guest_cleanup_jobs`が3個になった場合、`Enqueued 3 jobs to Async (3 GuestsCleanupJob)`とログ出力されます（キュー登録がすべて成功した場合）。
+
+`perform_all_later`の戻り値は`nil`です。これは、`perform_later`がキューに登録したジョブクラスのインスタンスを返すのと異なる点にご注意ください。
+
+### 複数のActive Jobクラスを登録する
+
+`perform_all_later`を使えば、同じ呼び出しでさまざまなActive Jobクラスのインスタンスを以下のようにキューに登録することも可能です。
+
+```ruby
+class ExportDataJob < ApplicationJob
+  def perform(*args)
+    # データをエクスポートする
+  end
+end
+
+class NotifyGuestsJob < ApplicationJob
+  def perform(*guests)
+    # ゲストにメールを送信する
+  end
+end
+
+# ジョブインスタンスをインスタンス化する
+cleanup_job = GuestsCleanupJob.new(guest)
+export_job = ExportDataJob.new(data)
+notify_job = NotifyGuestsJob.new(guest)
+
+# さまざまなクラスのジョブインスタンスをまとめてキューに登録する
+ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
+```
+
+### 一括登録のコールバック
+
+`perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされません。この振る舞いは、Active Recordの他の一括処理系メソッドと一貫しています。コールバックは個別のジョブに対して実行されるので、`perform_all_later`メソッドでは一括処理の恩恵を受けられません。
+
+ただし、`perform_all_later`メソッドは、`ActiveSupport::Notifications`でサブスクライブできる[`enqueue_all.active_job`][]イベントをトリガーします。
+
+ジョブのキューへの登録が成功したかどうかを知るには、[`successfully_enqueued?`][]メソッドが利用できます。
+
+[`enqueue_all.active_job`] active_support_instrumentation.html#enqueue-all-active-job
+[`successfully_enqueued?`] https://api.rubyonrails.org/classes/ActiveJob/Core.html#method-i-successfully_enqueued-3F
+
+### キューバックエンドのサポート
+
+`perform_all_later`によるキューへの一括登録を行うには、[キューのバックエンド](#バックエンド)にるサポートが必要です。
+
+たとえば、Sidekiqには`push_bulk`メソッドがあるので、これを用いて多数のジョブをRedisにプッシュして、往復の増加によるネットワーク遅延を避けられます。GoodJobでは`GoodJob::Bulk.enqueue`メソッドによるキューへの一括登録もサポートしています。新しいキューバックエンドである[`Solid Queue`][]でもキューへの一括登録のサポートが追加されました。
+
+キューへの一括登録がキューバックエンドでサポートされていない場合、`perform_all_later`はジョブを1件ずつキューに登録します。
+
+[`Solid Queue`] https://github.com/rails/solid_queue/pull/93
 
 Action Mailer
 ------------
