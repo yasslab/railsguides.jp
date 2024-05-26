@@ -84,7 +84,7 @@ Railsでは、データベースのテーブル名を探索するときに、モ
 
 Active Recordでは、データベースのテーブルで使うカラム名についても、カラムの利用目的に応じた規約があります。
 
-* **主キー**（primary key）: デフォルトでは、Active Recordはテーブルの主キーとして`id`という名前の整数型カラムを利用します（PostgreSQL、MySQL、MariaDBの場合は`bigint`型、SQLiteの場合は`integer`型）。`id`カラムは、[Active Recordのマイグレーション](#migrations)でテーブルを作成すると自動的に作成されます。
+* **主キー**（primary key）: デフォルトでは、Active Recordはテーブルの主キーとして`id`という名前の整数型カラムを利用します（PostgreSQL、MySQL、MariaDBの場合は`bigint`型、SQLiteの場合は`integer`型）。`id`カラムは、[Active Recordのマイグレーション](#マイグレーション)でテーブルを作成すると自動的に作成されます。
 * **外部キー**（foreign key）:これらのフィールドは、`単数形のテーブル名_id`パターンに沿って命名する必要があります（例: `order_id`、`line_item_id`）。これらは、モデル間の関連付けを作成するときにActive Recordが探索するフィールドです。
 
 他にも、Active Recordインスタンスに機能を追加するカラム名がいくつかあります。
