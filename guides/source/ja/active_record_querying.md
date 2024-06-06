@@ -1528,7 +1528,7 @@ LEFT OUTER JOIN reviews ON reviews.customer_id = customers.id GROUP BY customers
 
 ### `where.associated`と`where.missing`
 
-`associated`クエリメソッドとmissing`クエリメソッドでは、関連付けの有無に基づいてレコードの集合を選択できます。
+`associated`クエリメソッドと`missing`クエリメソッドでは、関連付けの有無に基づいてレコードの集合を選択できます。
 
 `where.associated`は以下のように使います。
 
