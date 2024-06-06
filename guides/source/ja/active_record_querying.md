@@ -1524,7 +1524,7 @@ SELECT DISTINCT customers.*, COUNT(reviews.*) AS reviews_count FROM customers
 LEFT OUTER JOIN reviews ON reviews.customer_id = customers.id GROUP BY customers.id
 ```
 
-上のSQLを日本語で書くと「すべての顧客を返すとともに、それらの顧客がレビューを付けていればレビュー数を返し、レビューを付けていない場合はレビュー数を返さない」となります。
+上のSQLを日本語で書くと「レビューがあるかどうかにかかわらず、全ての顧客をレビュー数とともに返す」となります。
 
 ### `where.associated`と`where.missing`
 
