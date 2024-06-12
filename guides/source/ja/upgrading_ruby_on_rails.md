@@ -84,6 +84,18 @@ Rails 7.1で行われた変更について詳しくは、[Rails 7.1のリリー�
 
 TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_Knowledge)」でまとめています。
 
+### development環境とtest環境のsecret_key_baseファイル名が変更された
+
+
+Railsがdevelopment環境とtest環境で読み込む`secret_key_base`のファイル名が`tmp/development_secret.txt`から`tmp/local_secret.txt`に変更されました。
+
+同じsecretを引き続き利用するには、単に従来のファイルを`local_secret.txt`にリネームするか、従来のファイルにあるキーを新しいファイルにコピーします。
+
+これを行わないと、Railsはアプリケーションの読み込み時に新しいsecretキーを含む新しいファイル`tmp/local_secret.txt`を生成します。
+
+そうなると、development環境とtest環境の既存のセッションやcookieがすべて無効化され、`secret_key_base`から導出された署名も無効になってしまいます（例: Active StorageやAction Textの添付ファイル）。
+
+production環境およびその他の環境は影響を受けません。
 
 ### 自動読み込みされるパスが`$LOAD_PATH`に含まれなくなった
 
