@@ -19,7 +19,8 @@ Rails アップグレードガイド
 
 Railsでは、一般にRubyの最新版がリリースされると最新版のRubyに近い状態に合わせます。
 
-* Rails 7: Ruby 2.7.0以降が必須
+* Rails 7.2: Ruby 3.1.0以降が必須
+* Rails 7.0と7.1: Ruby 2.7.0以降が必須
 * Rails 6: Ruby 2.5.0以降が必須
 * Rails 5: Ruby 2.2.2以降が必須
 
@@ -63,7 +64,7 @@ $ bin/rails app:update
     conflict  config/application.rb
 Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
        force  config/application.rb
-      create  config/initializers/new_framework_defaults_7_0.rb
+      create  config/initializers/new_framework_defaults_7_2.rb
 ...
 ```
 
@@ -75,7 +76,18 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 
 `app:update`タスクでは、アプリケーションを新しいデフォルト設定に1つずつアップグレードできるように、`config/initializers/new_framework_defaults_X.Y.rb`ファイルが作成されます（ファイル名にはRailsのバージョンが含まれます）。このファイル内のコメントを解除して、新しいデフォルト設定を有効にする必要があります。この作業は、数回のデプロイに分けて段階的に実行できます。アプリケーションを新しいデフォルト設定で動かせる準備が整ったら、このファイルを削除して`config.load_defaults`の値を反転できます。
 
+Rails 7.1からRails 7.2へのアップグレード
+-------------------------------------
 
+Rails 7.2で行われた変更について詳しくは、[Rails 7.2のリリースノート](7_2_release_notes.html)を参照してください。
+
+### `active_job.queue_adapter`コンフィグがすべてのテストで尊重されるようになった
+
+従来は、`config/application.rb`や`config/environments/test.rb`で`config.active_job.queue_adapter`を設定しても、指定したアダプタがすべてのテストで一貫して使われるわけではありませんでした。一部のテストでは指定のアダプタが使われますが、`TestAdapter`が使われることもありました。
+
+Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべてのテストで尊重されるようになります。このため、`queue_adapter`コンフィグを`:test`以外に設定していた場合、`TestAdapter`に依存していたテストがエラーになる可能性があります。
+
+`queue_adapter`コンフィグを提供しない場合は、引き続き`TestAdapter`が使われます。
 
 Rails 7.0からRails 7.1へのアップグレード
 -------------------------------------
@@ -289,23 +301,7 @@ const fileInputSelector = Rails.fileInputSelector
 Rails.fileInputSelector(...)
 ```
 
-### `ActionView::TestCase#rendered`が`String`を返さなくなった
-
-Rails 7.1から、`ActionView::TestCase#rendered`はさまざまなフォーマットメソッドに応答するオブジェクト（`rendered.html`や`rendered.json`など）を返すようになります。後方互換性を維持するために、`rendered`から返されるオブジェクトは、テスト中にレンダリングされる"missing"メソッドを`String`に委譲します。たとえば、以下の[`assert_match`][]アサーションはパスします。
-
-```ruby
-assert_match(/some content/i, rendered)
-```
-
-ただし、`ActionView::TestCase#rendered`が`String`のインスタンスを返すことに依存しているテストは失敗します。従来の振る舞いに戻すには、以下のように`#rendered`メソッドをオーバーライドして`@rendered`インスタンス変数から読み取ることが可能です。
-
-```ruby
-# config/initializers/action_view.rb
-
-ActiveSupport.on_load :action_view_test_case do
-  attr_reader :rendered
-end
-```
+訳注: 以前ここにあった「`ActionView::TestCase#rendered`が`String`を返さなくなった」セクションは、[#51093](https://github.com/rails/rails/pull/51093/files#r1491429456)で削除されました。
 
 ### `Rails.logger`が`ActiveSupport::BroadcastLogger`インスタンスを返すようになった
 
@@ -469,6 +465,20 @@ to be an error condition in future versions of Rails.
 ```
 
 この警告が引き続きログに出力される場合は、[アプリケーション起動時の自動読み込み](https://railsguides.jp/autoloading_and_reloading_constants.html#アプリケーション起動時の自動読み込み)でアプリケーション起動時の自動読み込みについての記述を参照してください。これに対応しないと、Rails 7で`NameError`が出力されます。
+
+`once`オートローダーによって管理される定数は、初期化中にオートロードされ、通常どおり利用できます。`to_prepare`ブロックは必要ありません。ただし、`once`オートローダーは、これをサポートするために、より早期にセットアップされるようになりました。アプリケーションにカスタムの活用形（inflections）が設定されていて、`once`オートローダーでそれを認識する必要がある場合は、`config/initializers/inflections.rb`のコードを`config/application.rb`のアプリケーションクラス定義の本体に移動する必要があります。
+
+```ruby
+module MyApp
+  class Application < Rails::Application
+    # ...
+
+    ActiveSupport::Inflector.inflections(:en) do |inflect|
+      inflect.acronym "HTML"
+    end
+  end
+end
+```
 
 ### `config.autoload_once_paths`を設定可能になった
 
@@ -1277,7 +1287,15 @@ Rails 5.2 の変更点について詳しくは[Rails 5.2のリリースノート
 
 ### Bootsnap
 
-Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)に bootsnap gem が追加されました。`boot.rb`の`app:update`コマンドを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。`boot.rb`を変更することでbootsnapをオフにすることもできます。
+Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)にbootsnap gemが追加されました。`boot.rb`の`app:update`コマンドを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。
+
+```ruby
+# キャッシュにより起動時間を短縮する: config/boot.rbでrequireされる
+gem 'bootsnap', require: false
+gem "bootsnap", require: false
+```
+
+`boot.rb`を変更することでbootsnapをオフにすることもできます。
 
 ### 暗号化または署名付きcookieに有効期限情報が付与されました
 
@@ -1396,7 +1414,7 @@ end
 
 #### ヘルパーメソッドの一部が`rails-controller-testing`に移転
 
-`assigns`メソッドと`assert_template`メソッドは`rails-controller-testing` gemに移転しました。これらのメソッドを引き続きコントローラのテストで使いたい場合は、`Gemfile`に`gem 'rails-controller-testing'`を追加してください。
+`assigns`メソッドと`assert_template`メソッドは`rails-controller-testing` gemに移転しました。これらのメソッドを引き続きコントローラのテストで使いたい場合は、`Gemfile`に`gem "rails-controller-testing"`を追加してください。
 
 テストでRSpecを使っている場合は、このgemのドキュメントで必須となっている追加の設定方法もご確認ください。
 
@@ -1418,7 +1436,7 @@ end
 
 ### XMLシリアライズのgem化
 
-Railsの`ActiveModel::Serializers::Xml`は`activemodel-serializers-xml` gemに切り出されました。アプリケーションで今後もXMLシリアライズを使うには、`Gemfile`に`gem 'activemodel-serializers-xml'`を追加してください。
+Railsの`ActiveModel::Serializers::Xml`は`activemodel-serializers-xml` gemに切り出されました。アプリケーションで今後もXMLシリアライズを使うには、`Gemfile`に`gem "activemodel-serializers-xml"`を追加してください。
 
 ### 古い`mysql`データベースアダプタのサポートを終了
 
@@ -1477,7 +1495,7 @@ params.permit([:proceed_to, :return_to]).to_h
 `content_tag_for`と`div_for`が削除され、今後は`content_tag`のみの利用が推奨されます。これらの古いメソッドを使い続けたい場合、`record_tag_helper` gemを`Gemfile`に追加してください。
 
 ```ruby
-gem 'record_tag_helper', '~> 1.0'
+gem "record_tag_helper", "~> 1.0"
 ```
 
 詳しくは[#18411](https://github.com/rails/rails/pull/18411)を参照してください。
@@ -1626,11 +1644,11 @@ Rails 4.1からRails 4.2へのアップグレード
 
 ### web-console gem
 
-最初に`Gemfile`の`development`グループに`gem 'web-console', '~> 2.0'`を追加し、次に`bundle install`を実行してください（このgemはRailsを過去バージョンからアップグレードした場合には含まれないので、手動で追加する必要があります）。gemのインストール完了後、`<%= console %>`などのコンソールヘルパーへの参照をビューに追加するだけで、どのビューでもコンソールを利用できるようになります。このコンソールは、development環境のビューで表示されるすべてのエラーページにも表示されます。
+最初に`Gemfile`の`development`グループに`gem "web-console", "~> 2.0"`を追加し、次に`bundle install`を実行してください（このgemはRailsを過去バージョンからアップグレードした場合には含まれないので、手動で追加する必要があります）。gemのインストール完了後、`<%= console %>`などのコンソールヘルパーへの参照をビューに追加するだけで、どのビューでもコンソールを利用できるようになります。このコンソールは、development環境のビューで表示されるすべてのエラーページにも表示されます。
 
 ### responders gem
 
-`respond_with`およびクラスレベルの`respond_to`メソッドは、`responders` gemに切り出されました。これらのメソッドを使いたい場合は、`Gemfile`に`gem 'responders', '~> 2.0'`と記述するだけで利用できます。今後、`respond_with`呼び出しやクラスレベルの`respond_to`呼び出しは、`responders` gemなしでは動作しません。
+`respond_with`およびクラスレベルの`respond_to`メソッドは、`responders` gemに切り出されました。これらのメソッドを使いたい場合は、`Gemfile`に`gem "responders", "~> 2.0"`と記述するだけで利用できます。今後、`respond_with`呼び出しやクラスレベルの`respond_to`呼び出しは、`responders` gemなしでは動作しません。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -1749,7 +1767,7 @@ end
 従来のサニタイザ実装が必要な場合は、アプリケーションの`Gemfile`に`rails-deprecated_sanitizer`を追加してください。
 
 ```ruby
-gem 'rails-deprecated_sanitizer'
+gem "rails-deprecated_sanitizer"
 ```
 
 ### RailsのDOMのテスト
@@ -1775,7 +1793,7 @@ end
 
 ```ruby
 mail = Notifier.notify(user) # Notifier#notifyはこの時点では呼び出されない
-mail = mail.deliver_now           # "Called"を出力する
+mail = mail.deliver_now     # "Called"を出力する
 ```
 
 この変更によって実行結果が大きく変わるアプリケーションはそれほどないはずです。ただし、メーラー以外のメソッドを同期的に実行したい場合で、かつ従来の同期的なプロキシの振る舞いに依存している場合は、これらのメソッドをメーラークラスにクラスメソッドとして直接定義する必要があります。
@@ -1826,7 +1844,7 @@ NOTE: 自サイトの`<script>`はクロスオリジンとして扱われるた�
 
 アプリケーションのプリローダーとしてspring gemを使う場合は、以下を行う必要があります。
 
-1. `gem 'spring', group: :development` を `Gemfile`に追加する
+1. `gem "spring", group: :development` を `Gemfile`に追加する
 2. `bundle install`を実行してspringをインストールする
 3. `bundle exec spring binstub`を実行してspringのbinstubを生成する
 
@@ -2345,7 +2363,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
 * Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルトの`layout`探索設定が変更されました。動作を「no layout」にするには、nilではなくfalseを返すようにします。
 
-* Rails 4.0のデフォルトのmemcachedクライアントが`memcache-client`から`dalli`に変更されました。アップグレードするには、単に`gem 'dalli'`を`Gemfile`に追加します。
+* Rails 4.0のデフォルトのmemcachedクライアントが`memcache-client`から`dalli`に変更されました。アップグレードするには、単に`gem "dalli"`を`Gemfile`に追加します。
 
 * Rails 4.0ではコントローラでの`dom_id`および`dom_class`メソッドの利用が非推奨になりました（ビューでの利用は問題ありません）。この機能が必要なコントローラでは`ActionView::RecordIdentifier`モジュールをインクルードする必要があります。
 
@@ -2476,12 +2494,12 @@ Railsアプリケーションのバージョンが3.1よりも古い場合、ま
 `Gemfile`を以下のように変更します。
 
 ```ruby
-gem 'rails', '3.2.21'
+gem "rails", "3.2.21"
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.6'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'uglifier',     '>= 1.0.3'
+  gem "sass-rails",   "~> 3.2.6"
+  gem "coffee-rails", "~> 3.2.2"
+  gem "uglifier",     ">= 1.0.3"
 end
 ```
 
@@ -2527,18 +2545,18 @@ Railsアプリケーションのバージョンが3.0より前の場合、まず
 `Gemfile`を以下のように変更します。
 
 ```ruby
-gem 'rails', '3.1.12'
-gem 'mysql2'
+gem "rails", "3.1.12"
+gem "mysql2"
 
 # 新しいアセットパイプラインで必要
 group :assets do
-  gem 'sass-rails',   '~> 3.1.7'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier',     '>= 1.0.3'
+  gem "sass-rails",   "~> 3.1.7"
+  gem "coffee-rails", "~> 3.1.1"
+  gem "uglifier",     ">= 1.0.3"
 end
 
 # Rails 3.1からjQueryがデフォルトのJavaScriptライブラリになる
-gem 'jquery-rails'
+gem "jquery-rails"
 ```
 
 ### config/application.rb
@@ -2547,7 +2565,7 @@ gem 'jquery-rails'
 
 ```ruby
 config.assets.enabled = true
-config.assets.version = '1.0'
+config.assets.version = "1.0"
 ```
 
 Railsアプリケーションでリソースのルーティングに`/assets`ルートを使っている場合、コンフリクトを避けるために以下の変更を加えます。
