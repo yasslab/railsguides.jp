@@ -53,6 +53,10 @@
       url: active_record_composite_primary_keys.html
       description: データベースのテーブルに複合主キーを導入する方法について解説します。
     -
+      name: デプロイ向けのパフォーマンスチューニング
+      url: tuning_performance_for_deployment.md
+      description: Ruby on Railsアプリケーションをproduction環境にデプロイする際のパフォーマンスとコンカレンシーの設定について解説します。
+    -
       name: Active Model の基礎
       url: active_model_basics.html
       description: Active Recordを使わずにモデルクラスを扱う方法について解説します。
