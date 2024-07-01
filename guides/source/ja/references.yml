@@ -68,6 +68,10 @@ upgrading_ruby_on_rails:
 - title: Rails 6.0 Upgrade knowledge - ruby-jp (Scrapbox)
   url: https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge
 
+webpacker:
+- title: Webpacker v5からShakapacker v6へのアップグレードガイド（翻訳）- TechRacho
+  url: https://techracho.bpsinc.jp/hachi8833/2023_08_08/115955
+
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
   url: https://everyleaf.github.io/hotwire_ja/
