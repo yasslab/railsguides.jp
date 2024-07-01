@@ -3,16 +3,22 @@ Ruby on Rails 7.1 リリースノート
 
 Rails 7.1 の注目ポイント:
 
-* デフォルトで Docker をサポート
-* 認証システム実装用のメソッドの追加
-* Active Record の非同期クエリの改善
-* MySQL 互換の Trilogy 用アダプタの導入
-* DB とアプリの両方で複合主キーをサポート
-* 大量のジョブをエンキューする機能の追加
-* 自動読み込みを拡張できるメソッドの追加
-* JavaScript ランタイム「Bun」のサポート
+* 新規RailsアプリケーションでDockerfilesを生成するようになった
+* `ActiveRecord::Base.normalizes`を追加
+* `ActiveRecord::Base.generates_token_for`を追加
+* 複数ジョブを一括エンキューする`perform_all_later`
+* 複合主キー
+* `Trilogy`用アダプタの導入
+* `ActiveSupport::MessagePack`を追加
+* `config.autoload_lib`と`config.autoload_lib_once`を追加（拡張オートローディング用）
+* 汎用の非同期クエリ用Active Record API
+* ビューテンプレートに厳密な`locals`を設定可能になった
+* `Rails.application.deprecators`を追加
+* JSON `response.parsed_body`のパターンマッチングをサポート
+* `response.parsed_body`を拡張してHTMLをNokogiriでパース可能になった
+* `ActionView::TestCase.register_parser`を導入
 
-（訳注：[英語版のガイド](https://guides.rubyonrails.org/7_1_release_notes.html)も更新中のため、一時的に[公式ブログ](https://rubyonrails.org/2023/10/5/Rails-7-1-0-has-been-released)の各セクションを注目ポイントとしてまとめています）
+本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/7-1-stable)を参照してください。
 
 --------------------------------------------------------------------------------
 
@@ -292,11 +298,22 @@ promise.value # => 10
 <%= message %>
 ```
 
+オプショナルのキーワード引数で以下のようにsplat `**`を使うことも可能です。
+
+```erb
+<%# locals: (message: "Hello, world!", **attributes) -%>
+<%= tag.p(message, **attributes) %>
+```
+
 `locals`を完全に無効にしたい場合は、以下のように設定できます。
 
 ```erb
 <%# locals: () %>
 ```
+
+Action Viewは、`#`で始まるコメントをサポートするテンプレートエンジンであれば、ビューの任意の行にある`locals:`マジックコメントを処理し、パーシャルの任意の行にあるマジックコメントを読み取ります。
+
+CAUTION: サポートされるのはキーワード引数だけです。位置引数やブロック引数を定義すると、レンダリング時にAction Viewエラーが発生します。
 
 [#45602]: https://github.com/rails/rails/pull/45602
 
