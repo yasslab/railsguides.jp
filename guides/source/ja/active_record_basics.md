@@ -36,7 +36,7 @@ NOTE: RailsのActive Recordが[Active Model][]とどこが違うかというと�
 
 [オブジェクト/リレーショナルマッピング][ORM]（一般にORMと呼ばれます）は、プログラミング言語のリッチなオブジェクトをリレーショナルデータベース管理システム（RDBMS）のテーブルに接続する技術です。Railsアプリケーションの場合、これらはRubyオブジェクトです。ORMによって、SQLステートメントを直接記述せずに、Rubyオブジェクトの属性やオブジェクト間の関係をデータベースに手軽に保存したり、データベースから取得したりできます。ORMによって、作成する必要があるデータベースアクセスコードの量は一般に最小限で済むようになります。
 
-NOTE: Active Recordを完全に理解するには、リレーショナルデータベース管理システム（RDBMS）やSQL（構造化クエリ言語）についての知識が役に立ちます。これらについてもっと深く学びたい場合は、[このチュートリアル][sqlcourse]（[このチュートリアル][rdbmsinfo]も可）を参照するか、他の方法で学習しましょう。
+NOTE: Active Recordを完全に理解するには、リレーショナルデータベース管理システム（RDBMS）やSQL（構造化クエリ言語）についての知識が役に立ちます。これらについてもっと深く学びたい場合は、[このSQLチュートリアル][sqlcourse]（[このRDBMSチュートリアル][rdbmsinfo]も可）を参照するか、他の方法で学習しましょう。
 
 [sqlcourse]: https://www.khanacademy.org/computing/computer-programming/sql
 [rdbmsinfo]: https://www.devart.com/what-is-rdbms/
@@ -165,7 +165,7 @@ NOTE: 上述のActive Recordモデルクラスと一致するマイグレーシ�
 
 ### 名前空間付きモデルを作成する
 
-デフォルトのActive Recordモデルは、`app/models`ディレクトリの下に配置されます。ただし、互いによく似たいくつかのモデルを独自のフォルダと名前空間の下にまとめて配置して、モデルを整理することも可能です。たとえば、`app/models/books`ディレクトリの下に`order.rb`ファイルと`review.rb`ファイルを置いて、それぞれ`Book::Order`と`Book::Review`という名前空間付きのクラス名を付けるというように、Active Recordでは名前空間モデルを作成できます。
+デフォルトのActive Recordモデルは、`app/models`ディレクトリの下に配置されます。ただし、互いによく似たいくつかのモデルを独自のフォルダと名前空間の下にまとめて配置して、モデルを整理することも可能です。たとえば、`app/models/book`ディレクトリの下に`order.rb`ファイルと`review.rb`ファイルを置いて、それぞれ`Book::Order`と`Book::Review`という名前空間付きのクラス名を付けるというように、Active Recordでは名前空間モデルを作成できます。
 
 `Book`という名前のモジュールがまだ存在していなければ、以下のように`generate`コマンドですべてを作成できます。
 
