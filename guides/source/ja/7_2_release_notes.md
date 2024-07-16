@@ -5,19 +5,19 @@ Ruby on Rails 7.2 リリースノート
 
 Rails 7.2の注目ポイント:
 
-* devcontainer（development container）設定がオプションで利用可能になった
+* Dev Container（Development Container）設定がオプションで利用可能になった
 * ブラウザの最小バージョン指定がデフォルトで行われるようになった
 * Ruby 3.1以上が必須になった
 * PWA（Progressive Web Application）ファイルがデフォルトで生成されるようになった
-* RuboCopおまかせルールがデフォルトで使われるようになった
+* RuboCop omakaseのルールがデフォルトで使われるようになった
 * GitHub CIワークフローが新規アプリケーションでデフォルトで生成されるようになった
 * Brakemanが新規アプリケーションでデフォルトで有効になった
 * Pumaのスレッドカウントが新しいデフォルト値で改善された
 * ジョブがトランザクション内でスケジューリングされないようになった
-* トランザクションごとのコミットコールバックとロールバックコールバック
+* トランザクションごとにコミットやロールバックのコールバックを書けるようになった
 * YJITがデフォルトで有効（Ruby 3.3以降で実行する場合）
 * Rails Guidesのページデザインを一新
-* メモリ割り当てを最適化するjemallocをデフォルトでDockerファイルにセットアップ
+* メモリ割り当てを最適化するjemallocをデフォルトでDockerfileに設定するようになった
 * bin/setupを実行するとpuma-devの設定方法を提案するようになった
 
 本リリースノートでは、主要な変更についてのみ説明します。多数のバグ修正および変更点については、GitHubのRailsリポジトリにある[コミットリスト](https://github.com/rails/rails/commits/7-2-stable)を参照してください。
@@ -33,20 +33,20 @@ Rails 7.2にアップグレードする
 主要な機能
 --------------
 
-### アプリケーションでdevcontainerが設定可能になった
+### アプリケーションでDev Containerが設定可能になった
 
-A [development container](https://containers.dev/)（以下devcontainer）を使うと、コンテナ環境をフル機能の開発環境として利用可能になります。
+[Development Container](https://containers.dev/)（以下Dev Container）を使うと、コンテナ環境をフル機能の開発環境として利用可能になります。
 
-Rails 7.2から、アプリケーションでdevcontainer設定を生成する機能が追加されました。追加される設定には、`.devcontainer/`フォルダ内の`Dockerfile`ファイル、`docker-compose.yml`ファイル、`devcontainer.json`ファイルなどがあります。
+Rails 7.2から、アプリケーションでDev Container設定を生成する機能が追加されました。追加される設定には、`.devcontainer/`フォルダ内の`Dockerfile`ファイル、`docker-compose.yml`ファイル、`devcontainer.json`ファイルなどがあります。
 
-デフォルトのdevcontainerには以下が含まれます。
+デフォルトのDev Containerには以下が含まれます。
 
 * Redisコンテナ（KredisやAction Cableなどで利用）
 * データベース（SQLite、Postgres、MySQL、またはMariaDB）
 * ヘッドレスChromeコンテナ（システムテスト用）
 * Active Storage（ローカルディスクを利用する設定、プレビュー機能が有効）
 
-devcontainerを利用する新規アプリケーションを生成するには、以下のコマンドを実行します。
+Dev Containerを利用する新規アプリケーションを生成するには、以下のコマンドを実行します。
 
 ```bash
 $ rails new myapp --devcontainer
@@ -58,115 +58,97 @@ $ rails new myapp --devcontainer
 $ rails devcontainer
 ```
 
-詳しくは、[devcontainerガイド](getting_started_with_devcontainer.html)を参照してください。
+詳しくは、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html)を参照してください。
 
-### Add browser version guard by default
+### ブラウザのバージョン保護機能がデフォルトで追加されるようになった
 
-Rails now adds the ability to specify the browser versions that will be allowed to access all actions
-(or some, as limited by `only:` or `except:`).
+Railsの全アクションへのアクセス（または`only:`や`except:`で指定されたアクションのみへのアクセス）を許可する、ブラウザバージョン指定機能が追加されました。
 
-Only browsers matched in the hash or named set passed to `versions:` will be blocked if they're below the versions
-specified.
+`versions:`に渡したハッシュまたは名前付きセットのみが、指定バージョンより下の場合にブロックされます。
 
-This means that all other unknown browsers, as well as agents that aren't reporting a user-agent header, will be allowed access.
+つまり、それ以外の未知のブラウザや、User-Agentヘッダーを送信していないエージェントはアクセスを許可されます。
 
-A browser that's blocked will by default be served the file in `public/406-unsupported-browser.html` with a HTTP status
-code of "406 Not Acceptable".
 
-Examples:
+ブロックされたブラウザには、デフォルトでHTTPステータスコード"406 Not Acceptable"が`public/406-unsupported-browser.html`ファイルで配信されます。
+
+例:
 
 ```ruby
 class ApplicationController < ActionController::Base
-  # Allow only browsers natively supporting webp images, web push, badges, import maps, CSS nesting + :has
+  # 以下をネイティブサポートするブラウザのみを許可:
+  # webp画像、webプッシュ、バッジ、importmap、CSSネスティングと`:has`
   allow_browser versions: :modern
 end
 
 class ApplicationController < ActionController::Base
-  # All versions of Chrome and Opera will be allowed, but no versions of "internet explorer" (ie). Safari needs to be 16.4+ and Firefox 121+.
+  # ChromeとOpera: 全バージョンを許可する
+  # Internet Explorer: どのバージョンも不許可にする
+  # Safari: 16.4以上を許可する
+  # Firefox: 121以上を許可する
   allow_browser versions: { safari: 16.4, firefox: 121, ie: false }
 end
 
 class MessagesController < ApplicationController
-  # In addition to the browsers blocked by ApplicationController, also block Opera below 104 and Chrome below 119 for the show action.
+  # ApplicationControllerでブロックされるブラウザに加えて、
+  # showアクションでOpera 104未満とChrome 119未満もブロックする
   allow_browser versions: { opera: 104, chrome: 119 }, only: :show
 end
 ```
 
-Newly generated applications have this guard set in `ApplicationController`.
+新規生成されるアプリケーションでは、このバージョン保護機能が`ApplicationController`に設定されます。
 
-For more information, see the [allow_browser](https://api.rubyonrails.org/classes/ActionController/AllowBrowser/ClassMethods.html#method-i-allow_browser)
-documentation.
+詳しくは、Rails APIドキュメントの[`allow_browser`](https://api.rubyonrails.org/classes/ActionController/AllowBrowser/ClassMethods.html#method-i-allow_browser)を参照してください。
 
-### Make Ruby 3.1 the new minimum version
+### 最小RubyバージョンがRuby 3.1になった
 
-Until now, Rails only dropped compatibility with older Rubies on new majors version.
-We are changing this policy because it causes us to keep compatibility with long
-unsupported versions of Ruby or to bump the Rails major version more often, and to
-drop multiple Ruby versions at once when we bump the major.
+従来は、Railsが古いRubyとの互換性を失うのは、Railsの新しいメジャーバージョンがリリースされた場合だけでしたが、このポリシーを変更します。その理由は、従来のポリシーではサポートが終了して久しいRubyバージョンをサポートしなければならなくなったり、Railsのメジャーバージョンを上げるたびに複数バージョンのRubyをサポート終了しなければならなくなったりするためです。
 
-We will now drop Ruby versions that are end-of-life on minor Rails versions at the time of the release.
+今後は、Railsのマイナーバージョンがリリースされるときに、その時点でサポートが終了しているRubyバージョンをサポート対象から外します。
 
-For Rails 7.2, Ruby 3.1 is the new minimum version.
+Rails 7.2では、Ruby 3.1が新しい最小バージョンになります。
 
-### Default Progressive Web Application (PWA) files
+### PWA（Progressive Web Application）ファイルがデフォルトで生成されるようになった
 
-In preparation to better supporting the creation of PWA applications with Rails, we now generate default PWA files for the manifest
-and service worker, which are served from `app/views/pwa` and can be dynamically rendered through ERB. Those files
-are mounted explicitly at the root with default routes in the generated routes file.
+Railsを用いたPWAアプリケーションの作成をより適切にサポートするための準備として、マニフェストとサービスワーカー用にデフォルトのPWAファイルを生成するようになりました。これらのファイルは`app/views/pwa`から配信され、ERBで動的にレンダリングできます。これらのファイルは、生成されたルーティングファイル内のデフォルトのルーティングとともに、rootディレクトリに明示的にマウントされます。
 
-For more information, see the [pull request adding the feature](https://github.com/rails/rails/pull/50528).
+詳しくは、[#50528](https://github.com/rails/rails/pull/50528)を参照してください。
 
-### Add omakase RuboCop rules by default
+### RuboCopの「おまかせ」ルールがデフォルトで追加されるようになった
 
-Rails applications now come with [RuboCop](https://rubocop.org/) configured with a set of rules from [rubocop-rails-omakase](https://github.com/rails/rubocop-rails-omakase) by default.
+Railsアプリケーションに、[rubocop-rails-omakase](https://github.com/rails/rubocop-rails-omakase)のルールセットで設定済みの[RuboCop](https://rubocop.org/)がデフォルトで含まれるようになりました。
 
-Ruby is a beautifully expressive language that not only tolerates many different dialects, but celebrates their
-diversity. It was never meant as a language to be written exclusively in a single style across all libraries,
-frameworks, or applications. If you or your team has developed a particular house style that brings you joy,
-you should cherish that.
+Ruby は、さまざまな方言を許容するだけでなく、その多様性を尊重する、美しく表現力豊かな言語です。Rubyは、あらゆるライブラリやフレームワークやアプリケーションを統一されたスタイルだけで記述することを意図した言語ではありません。あなたやあなたのチームが、喜びをもたらす特定のハウススタイルを培ってきた場合は、それを尊重すべきです。
 
-This collection of RuboCop styles is for those who haven't committed to any specific dialect already. Who would just
-like to have a reasonable starting point, and who will benefit from some default rules to at least start a consistent
-approach to Ruby styling.
+このRuboCopスタイルは、特定の方言をまだ採用していない人やチームに向けたコレクションです。合理的な根拠のある設定や、少なくともRubyのコーディングスタイルを統一する設定でスタートできるデフォルトルールを採用することで、メリットを得られる方を念頭に置いています。
 
-These specific rules aren't right or wrong, but merely represent the idiosyncratic aesthetic sensibilities of Rails'
-creator. Use them whole, use them as a starting point, use them as inspiration, or however you see fit.
+個別のルールは、その書き方が正しいか間違っているかではなく、Rails作成者にとっての「Railsらしい美しい書き方」を表しているに過ぎません。ルールをそのまま使うもよし、これを元に独自ルールを作るのもよし、ルール策定のヒントを得るのに使うもよし、皆さんの望むようにお使いください。
 
-### Add GitHub CI workflow by default to new applications
+### GitHub CIワークフローがデフォルトで新規アプリケーションに追加されるようになった
 
-Rails now adds a default GitHub CI workflow file to new applications. This will get especially newcomers off to a good
-start with automated scanning, linting, and testing. We find that a natural continuation for the modern age of what
-we've done since the start with unit tests.
+Railsの新規アプリケーションに、デフォルトでGitHub CIワークフロー用のファイルが追加されるようになりました。これにより、特にRails初心者がセキュリティスキャンやlintやテストを最初から自動化できるようになります。この機能は、単体テストの開始以来行われてきたこと自然な形でを現代に引き継いだものであると私たちは考えています。
 
-It's of course true that GitHub Actions are a commercial cloud product for private repositories after you've used the
-free tokens. But given the relationship between GitHub and Rails, the overwhelming default nature of the platform for
-newcomers, and the value of teaching newcomers good CI habits, we find this to be an acceptable trade-off.
+もちろんGitHub Actionsは、無料トークンを使い切った後は、プライベートリポジトリ用の商用クラウド製品として利用することになります。しかし、GitHubとRailsの緊密な関係、初心者にとって使いやすい圧倒的なプラットフォームデフォルト設定、そして初心者が身につけるのにふさわしいCI習慣を学べる教育的価値を考えると、これは許容できるトレードオフであると考えています。
 
-### Add Brakeman by default to new applications
+### Brakemanが新規アプリケーションでデフォルトで有効になった
 
-[Brakeman](https://brakemanscanner.org/) is a great way to prevent common security vulnerabilities in Rails from going
-into production.
+[Brakeman](https://brakemanscanner.org/) gemは、Railsの一般的なセキュリティ脆弱性がproduction環境に侵入するのを防ぐ優れた方法です。
 
-New applications come with Brakeman installed and combined with the GitHub CI workflow, it will run automatically on
-every push.
+新しいアプリケーションにはBrakemanがインストールされるようになり、GitHub CIワークフローと組み合わせることで、プッシュのたびに自動的に実行されます。
 
-### Set a new default for the Puma thread count
+### Pumaのデフォルトのスレッド数が新しくなった
 
-Rails changed the default number of threads in Puma from 5 to 3.
+Railsで使われるPuma（Webサーバー）のデフォルトのスレッド数が5から3に変更されました。
 
-Due to the nature of well-optimized Rails applications, with quick SQL queries and slow 3rd-party calls running via jobs,
-Ruby can spend a significant amount of time waiting for the Global VM Lock (GVL) to release when the thread count is too
-high, which is hurting latency (request response time).
+最適化されたRailsアプリケーションの性質上、高速なSQLクエリとジョブ経由で実行される低速のサードパーティ呼び出しが組み合わさった状態でのスレッド数が多すぎると、RubyはGVL（Global VM Lock）が解放されるまでかなり長い間待つことになる可能性があり、レイテンシ（リクエストやレスポンスの時間）に悪影響を及ぼします。
 
-After careful consideration, investigation, and based on battle-tested experience from applications running in
-production, we decided that a default of 3 threads is a good balance between concurrency and performance.
 
-You can follow a very detailed discussion about this change in [the issue](https://github.com/rails/rails/issues/50450).
+慎重な検討と調査の結果、production環境で実際に実行されているアプリケーションで実証された経験に基づいて、デフォルトのスレッドを3にすることでコンカレンシー（並行性）とパフォーマンスのバランスが取れていると判断しました。
 
-### Prevent jobs from being scheduled within transactions
+この変更に関する議論について詳しくは、[#50450](https://github.com/rails/rails/issues/50450)で確認できます。
 
-A common mistake with Active Job is to enqueue jobs from inside a transaction, causing them to potentially be picked
-and ran by another process, before the transaction is committed, which result in various errors.
+### ジョブがトランザクション内でスケジューリングされないようになった
+
+Active Jobでよくある間違いは、以下のようにトランザクションの内部でジョブをエンキューしてしまうことです。このような書き方をすると、トランザクションがコミットされる前に別のプロセスによってジョブが拾われて実行される可能性があり、さまざまなエラーが発生します。
 
 ```ruby
 Topic.transaction do
@@ -176,11 +158,9 @@ Topic.transaction do
 end
 ```
 
-Now Active Job will automatically defer the enqueuing to after the transaction is committed, and drop the job if the
-transaction is rolled back.
+Active Jobが改修されて、ジョブのエンキューをトランザクションのコミットが完了するまで自動的に延期し、トランザクションがロールバックされた場合はジョブを削除するようになりました。
 
-Various queue implementations can chose to disable this behavior, and users can disable it, or force it on a per job
-basis:
+この振る舞いは、さまざまなキュー実装で無効にできます。以下のようにジョブ単位で無効にしたり矯正したりできます。
 
 ```ruby
 class NewTopicNotificationJob < ApplicationJob
@@ -188,12 +168,13 @@ class NewTopicNotificationJob < ApplicationJob
 end
 ```
 
-### Per transaction commit and rollback callbacks
+詳しくは、[#51426](https://github.com/rails/rails/pull/51426)を参照してください。
 
-This is now possible due to a new feature that allows registering transaction callbacks outside of a record.
+### トランザクションごとにコミットやロールバックのコールバックを書けるようになった
 
-`ActiveRecord::Base.transaction` now yields an `ActiveRecord::Transaction` object, which allows registering callbacks
-on it.
+この機能は、トランザクションコールバックをレコードの外で登録可能になったことで実現できました。
+
+`ActiveRecord::Base.transaction`は`ActiveRecord::Transaction`オブジェクトを`yield`するようになりました。ここにコールバックを登録できます。
 
 ```ruby
 Article.transaction do |transaction|
@@ -205,7 +186,7 @@ Article.transaction do |transaction|
 end
 ```
 
-`ActiveRecord::Base.current_transaction` was also added to allow to register callbacks on it.
+`ActiveRecord::Base.current_transaction`も追加され、ここにもコールバックを登録できるようになりました。
 
 ```ruby
 Article.current_transaction.after_commit do
@@ -213,8 +194,7 @@ Article.current_transaction.after_commit do
 end
 ```
 
-And finally, `ActiveRecord.after_all_transactions_commit` was added, for code that may run either inside or outside a
-transaction and needs to perform work after the state changes have been properly persisted.
+最後に、`ActiveRecord.after_all_transactions_commit`が追加されました。これは、トランザクションの内部または外部で実行される可能性があり、かつステートの変更が正しく永続化された後で実行されなければならないコードに対して使えます。
 
 ```ruby
 def publish_article(article)
@@ -226,56 +206,49 @@ def publish_article(article)
 end
 ```
 
-See [#51474](https://github.com/rails/rails/pull/51474) and [#51426](https://github.com/rails/rails/pull/51426) for more information:
+詳しくは、[#51474](https://github.com/rails/rails/pull/51474)を参照してください。
 
-### Enable YJIT by default if running Ruby 3.3+
+### YJITがRuby 3.3以降でデフォルトで有効になった
 
-YJIT is Ruby's JIT compiler that is available in CRuby since Ruby 3.1. It can provide significant performance
-improvements for Rails applications, offering 15-25% latency improvements.
+YJITは、Ruby 3.1以降のCRubyで利用可能なJIT（Just-In-Time）コンパイラです。YJITはRailsアプリケーションのパフォーマンスを大幅に向上させることが可能で、レイテンシを15〜25%改善できます。
 
-In Rails 7.2, YJIT is enabled by default if running Ruby 3.3 or newer.
+Rails 7.2をRuby 3.3以降で実行すると、YJITがデフォルトで有効になります。
 
-You can disable YJIT by setting:
+YJITを無効にするには以下の設定を行います。
 
 ```ruby
 Rails.application.config.yjit = false
 ```
 
-### New design for the Rails guides
+### Rails GuidesのWebデザインが一新された
 
-When Rails 7.0 landed in December 2021, it came with a fresh new homepage and a new boot screen. The design of the
-guides, however, has remained largely untouched since 2009 - a point which hasn’t gone unnoticed (we heard your feedback).
+2021年12月にリリースされたRails 7.0では、Rails公式ホームページ起動画面が新しくなりましたが、Rails GuidesのWebデザインは2009年からほとんど変更されていませんでした。この点は見逃せません（皆さんからフィードバックをいただきました）。
 
-With all of the work right now going into removing complexity from the Rails framework and making the documentation
-consistent, clear, and up-to-date, it was time to tackle the design of the guides and make them equally modern, simple,
-and fresh.
+現在、Railsフレームワークの複雑さを解消し、ドキュメントの一貫性と明瞭性を高めて最新の内容にするための作業が全面的に進められているので、この機会にRails GuidesのWebデザインも同様にモダンかつシンプルで新鮮なものにする作業に取り組むときが来ました。
 
-We worked with UX designer [John Athayde](https://meticulous.com/) to take the look and feel of the homepage and
-transfer that over to the Rails guides to make them clean, sleek, and up-to-date.
+UXデザイナー[John Athayde](https://meticulous.com/)との共同作業によって、Railsホームページの新しい外観や雰囲気をRails Guidesにも取り入れ、すっきりと洗練された最新デザインに変えました。
 
-The layout will remain the same, but from today you will see the following changes reflected in the guides:
+レイアウトは従来と同じですが、今度からRails Guidesに以下の変更が反映されます。
 
-* Cleaner, less busy design.
-* Fonts, color scheme, and logo more consistent with the home page.
-* Updated iconography.
-* Simplified navigation.
-* Sticky "Chapters" navbar when scrolling.
+* クリアかつシンプルなWebデザイン。
+* フォント、配色、ロゴがRailsホームページと統一された。
+* アイコンが更新された。
+* ページ操作がシンプルになった。
+* 「チャプター」ナビゲーションバーがスクロール時に固定されるようになった。
 
-See the [announcement blog post for some before/after images](https://rubyonrails.org/2024/3/20/rails-guides-get-a-facelift).
+Webデザインの変更前と変更後の画像については、[Rails公式ブログのお知らせ](https://rubyonrails.org/2024/3/20/rails-guides-get-a-facelift)を参照してください。
 
-### Setup jemalloc in default Dockerfile to optimize memory allocation
+### Dockerfileにメモリアロケーション最適化用のjemallocが設定されるようになった
 
-[Ruby's use of `malloc` can create memory fragmentation problems, especially when using multiple threads](https://www.speedshop.co/2017/12/04/malloc-doubles-ruby-memory.html)
-like Puma does. Switching to an allocator that uses different patterns to avoid fragmentation can decrease memory usage
-by a substantial margin.
+Rubyのメモリアロケーションに`malloc`が使われていると、特にPumaで使われているようなマルチスレッドで[メモリ断片化問題が発生する可能性があります](https://www.speedshop.co/2017/12/04/malloc-doubles-ruby-memory.html)。別のパターンを利用するアロケータに切り替えると、メモリ使用量を大幅に削減できる可能性があります。
 
-Rails 7.2 now includes [jemalloc](https://jemalloc.net/) in the default Dockerfile to optimize memory allocation.
+Rails 7.2のDockerfileでは、メモリアロケーション最適化用の[jemalloc](https://jemalloc.net/)がデフォルトで設定されるようになりました。
 
-### Suggest puma-dev configuration in bin/setup
+### bin/setupを実行するとpuma-devの設定方法を提案するようになった
 
-[Puma-dev](https://github.com/puma/puma-dev) is the golden path for developing multiple Rails applications locally, if you're not using Docker.
+[Puma-dev](https://github.com/puma/puma-dev)は、Dockerを使っていない環境で複数のRailsアプリケーションを同居させる形でローカル開発するのに最適な方法です。
 
-Rails now suggests how to get that setup in a new comment you'll find in `bin/setup`.
+`bin/setup`を実行すると、Puma-devをセットアップする方法を提案する新しいコメントが表示されるようになりました。
 
 Railties
 --------
@@ -528,8 +501,6 @@ Active Support
 *   非推奨化されていた`config.active_support.use_rfc4122_namespaced_uuids`を削除。
 
 *   `MemCacheStore`に`Dalli::Client`インスタンスを渡せる非推奨化サポートを削除。
-
-*   `to_time`のRuby 2.4以前の振る舞い（`to_time`がローカルタイムゾーンを持つ`Time`オブジェクトを返す）を削除。
 
 ### 非推奨化
 
