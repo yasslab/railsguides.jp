@@ -6,15 +6,15 @@ Dev Containerでの開発ガイド
 このガイドの内容:
 
 * `rails-new`ツールでRailsアプリケーションを新規作成する方法
-* Dev Containerでアプリケーションを扱う方法
+* dev containerでアプリケーションを扱う方法
 
 --------------------------------------------------------------------------------
 
 本ガイドは、途中を飛ばさずにステップごとに読み進めるのがベストです。サンプルアプリケーションを実行するにはすべての手順をもれなく実行する必要がありますが、その他のコードや手順は必要ありません。
 
-本ガイドは、[Dev Container（Developer Containers）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。Dev Containerは、Railsやその依存関係をローカルコンピュータに直接インストールせず、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
+本ガイドは、[dev container（development containers）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、Railsやその依存関係をローカルコンピュータに直接インストールせず、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
 
-これは、[Rails をはじめよう](getting_started.md#creating-a-new-rails-project)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.md#creating-a-new-rails-project)ガイドでアプリケーション構築作業を続行できます。
+これは、[Rails をはじめよう](getting_started.html#creating-a-new-rails-project)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#creating-a-new-rails-project)ガイドでアプリケーション構築作業を続行できます。
 
 セットアップとインストール
 ----------------------
@@ -23,17 +23,17 @@ Dev Containerでの開発ガイド
 
 ### Dockerをインストールする
 
-Dev ContainerはDockerを使って実行されます。Dockerは、アプリケーションを開発・デプロイ・実行を行うオープンなプラットフォームです。Dockerをインストールするには、[Dockerドキュメント](https://docs.docker.com/desktop/)に記載されている各OS向けのインストール手順に従ってください。
+dev containerはDockerを使って実行されます。Dockerは、アプリケーションを開発・デプロイ・実行を行うオープンなプラットフォームです。Dockerをインストールするには、[Dockerドキュメント](https://docs.docker.com/desktop/)に記載されている各OS向けのインストール手順に従ってください。
 
 Dockerのインストールが完了したら、Dockerアプリケーションを起動して、マシン上でDockerエンジンの実行を開始します。
 
 ### VS Codeをインストールする
 
-Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeの Dev Container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてDev Containerにアクセス（または作成）する方法をVS Codeに指示します。これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
+Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeの dev container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてdev containerにアクセス（または作成）する方法をVS Codeに指示します。これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
 
 VS Codeは、[公式Webサイト](https://code.visualstudio.com/)からダウンロードしてインストールできます。
 
-Dev Container拡張機能は、[マーケットプレイス](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)からダウンロードしてインストールできます。
+dev container拡張機能は、[マーケットプレイス](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)からダウンロードしてインストールできます。
 
 ### rails-newツールをインストールする
 
@@ -66,14 +66,14 @@ $ cd blog
 
 この`blog`ディレクトリには、Railsアプリケーションの構造を構成するために生成されたファイルとフォルダが多数含まれています。このチュートリアルの作業のほとんどは`app`フォルダで行います。このブログアプリケーションの全概要については、[Rails をはじめよう](getting_started.html#ブログアプリケーションを作成する)ガイドを参照してください。
 
-BlogアプリケーションをDev Containerで開く
+Blogアプリケーションをdev containerで開く
 -----------------------------------------------
 
-新しいRailsアプリケーションには、すぐ利用できる形で構成済みのDev Containerが付属しています。Dev Containerの起動と操作にVS Codeを使うことにします。最初に、VS Codeを起動してアプリケーションを開きます。
+新しいRailsアプリケーションには、すぐ利用できる形で構成済みのdev containerが付属しています。dev containerの起動と操作にVS Codeを使うことにします。最初に、VS Codeを起動してアプリケーションを開きます。
 
-アプリケーションが開くと、VS Codeは、Dev Containerのファイルが見つかったことを示すプロンプトを表示し、Dev Containerでフォルダを再度開けるようになります。緑色の「Reopen in Container（コンテナで再度開く）」ボタンをクリックしてDev Containerを作成します。
+アプリケーションが開くと、VS Codeは、dev containerのファイルが見つかったことを示すプロンプトを表示し、dev containerでフォルダを再度開けるようになります。緑色の「Reopen in Container（コンテナで再度開く）」ボタンをクリックしてdev containerを作成します。
 
-Dev Containerのセットアップが完了すると、RubyとRails、そしてすべての依存関係がインストール済みの開発環境が利用可能になります。
+dev containerのセットアップが完了すると、RubyとRails、そしてすべての依存関係がインストール済みの開発環境が利用可能になります。
 
 VS Code内でターミナルを開いて以下のコマンドを実行すると、Railsがインストールされていることを確認できます。
 
@@ -82,4 +82,4 @@ $ rails --version
 Rails 7.2.0
 ```
 
-これで、["Rails をはじめよう"ガイドの「railsで「hello」と表示する」セクション](getting_started.html#railsで「hello」と表示する)からブログアプリケーションの構築を開始できます。構築作業はVS Code内で行うことになります。VS CodeはアプリケーションのDev Containerへのエントリポイントの役割を果たすことになるので、コードの実行、テストの実行、アプリケーションの実行はVS Codeから行えるようになります。
+これで、["Rails をはじめよう"ガイドの「railsで「hello」と表示する」セクション](getting_started.html#railsで「hello」と表示する)からブログアプリケーションの構築を開始できます。構築作業はVS Code内で行うことになります。VS Codeはアプリケーションのdev containerへのエントリポイントの役割を果たすことになるので、コードの実行、テストの実行、アプリケーションの実行はVS Codeから行えるようになります。
