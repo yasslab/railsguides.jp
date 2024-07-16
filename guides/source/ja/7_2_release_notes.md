@@ -392,7 +392,7 @@ Active Record
 
 *   非推奨化されていた`ActiveRecord::LogSubscriber.reset_runtime`メソッドを削除。
 
-*   非推奨化されていた`ActiveRecord::Migration.check_pending`メソッドを削除。
+*   非推奨化されていた`ActiveRecord::Migration.check_pending!`メソッドを削除。
 
 *   `ActiveRecord::MigrationContext`に`SchemaMigration`と`InternalMetadata`クラスを引数として渡す非推奨化サポートを削除。
 
