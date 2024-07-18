@@ -82,7 +82,7 @@ NOTE: ルーティング定義をラップする`Rails.application.routes.draw d
 リソースベースのルーティング: Railsのデフォルト
 -----------------------------------
 
-リソースベースのルーティング (以下リソースルーティング) を使うことで、リソースベースで構成されたコントローラに対応する共通のルーティングを手軽に宣言できます。[`resources`][]を宣言するだけで、コントローラの`index`、`show`、`new`、`edit`、`create`、`update`、`destroy`アクションを個別に宣言しなくても1行で宣言が完了します。
+リソースベースのルーティング (以下リソースルーティング) を使うことで、指定のリソースコントローラでよく使われるすべてのルーティングを手軽に宣言できます。[`resources`][]を宣言するだけで、コントローラの`index`、`show`、`new`、`edit`、`create`、`update`、`destroy`アクションを個別に宣言しなくても1行で宣言が完了します。
 
 [`resources`]: https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resources
 
