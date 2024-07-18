@@ -662,11 +662,11 @@ ActiveRecord::Base.connection.transaction do
 end
 ```
 
-`deferrable`オプションには`:immediate`も指定可能です。これを指定すると、外部キーが制約を即座にチェックするデフォルトの振る舞いは変わりませんが、トランザクション内で`SET CONSTRAINTS ALL DEFERRED`を指定することでチェックを手動で延期できます。これにより、トランザクションがコミットされたタイミングで外部キーがチェックされるようになります。
+`deferrable`オプションには`:immediate`も指定可能です。これを指定すると、外部キーが制約を即座にチェックするデフォルトの振る舞いは変わりませんが、トランザクション内で`set_constraints`を指定することでチェックを手動で延期できます。これにより、トランザクションがコミットされたタイミングで外部キーがチェックされるようになります。
 
 ```ruby
-ActiveRecord::Base.transaction do
-  ActiveRecord::Base.connection.execute("SET CONSTRAINTS ALL DEFERRED")
+ActiveRecord::Base.connection.transaction do
+  ActiveRecord::Base.connection.set_constraints(:deferred)
   person = Person.create(alias_id: SecureRandom.uuid, name: "John Doe")
   Alias.create(id: person.alias_id, person_id: person.id, name: "jaydee")
 end
@@ -834,5 +834,5 @@ Railsの`config.active_record.schema_format`を`:sql`に設定すると、`pg_du
 `ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags`で`pg_dump`を設定できます。たとえば、structure dumpでコメントを除外したい場合は、イニシャライザに以下を追加します。
 
 ```ruby
-ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = ['--no-comments']
+ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = ["--no-comments"]
 ```
