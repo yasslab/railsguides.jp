@@ -107,6 +107,7 @@ APIドキュメントの書き方
 ガイドとAPIは、必要な箇所が互いに首尾一貫している必要があります。[APIドキュメント作成ガイドライン](api_documentation_guidelines.html)の以下のセクションを参照してください
 
 * [語調](api_documentation_guidelines.html#語調)
+* [アメリカ英語](api_documentation_guidelines.html#英語はアメリカ英語で)
 * [サンプルコード](api_documentation_guidelines.html#サンプルコード)
 * [ファイル名](api_documentation_guidelines.html#ファイル名)
 * [フォント](api_documentation_guidelines.html#フォント)
