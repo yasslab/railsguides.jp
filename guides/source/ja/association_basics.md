@@ -110,7 +110,7 @@ NOTE: `belongs_to`関連付けで指定するモデル名は必ず「**単数形
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[7.1]
+class CreateBooks < ActiveRecord::Migration[7.2]
   def change
     create_table :authors do |t|
       t.string :name
@@ -156,7 +156,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[7.1]
+class CreateSuppliers < ActiveRecord::Migration[7.2]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -202,7 +202,7 @@ NOTE: `has_many`関連付けを宣言する場合、相手のモデル名は「�
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAuthors < ActiveRecord::Migration[7.1]
+class CreateAuthors < ActiveRecord::Migration[7.2]
   def change
     create_table :authors do |t|
       t.string :name
@@ -255,7 +255,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[7.1]
+class CreateAppointments < ActiveRecord::Migration[7.2]
   def change
     create_table :physicians do |t|
       t.string :name
@@ -336,7 +336,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAccountHistories < ActiveRecord::Migration[7.1]
+class CreateAccountHistories < ActiveRecord::Migration[7.2]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -377,7 +377,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAssembliesAndParts < ActiveRecord::Migration[7.1]
+class CreateAssembliesAndParts < ActiveRecord::Migration[7.2]
   def change
     create_table :assemblies do |t|
       t.string :name
@@ -416,7 +416,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[7.1]
+class CreateSuppliers < ActiveRecord::Migration[7.2]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -504,7 +504,7 @@ end
 `Picture`モデルのインスタンスがあれば、`@picture.imageable`とすることでその親を取得できます。これを可能にするには、ポリモーフィックなインターフェイスを宣言するモデルで、外部キーのカラムと型のカラムを両方とも宣言しておく必要があります。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[7.1]
+class CreatePictures < ActiveRecord::Migration[7.2]
   def change
     create_table :pictures do |t|
       t.string  :name
@@ -531,6 +531,8 @@ class CreatePictures < ActiveRecord::Migration[5.2]
   end
 end
 ```
+
+NOTE: [ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)は、クラス名がデータベースに保存されることが前提になっているため、そのデータはRubyコードで使われるクラス名と常に手動で同期しておく必要があります。クラス名を変更する場合は、対応するポリモーフィック型カラムのデータも必ず更新してください。
 
 ![ポリモーフィック関連付けの図](images/association_basics/polymorphic.png)
 
@@ -565,16 +567,16 @@ book.reload.order
 SELECT * FROM orders WHERE id = 2
 ```
 
-これが期待通りに動作するのは、このモデルの複合主キーに`:id`カラムが含まれており、かつ`:id`カラムがすべてのレコードで一意である場合だけです。関連付けで完全な複合主キーを使うには、その関連付けで`query_constraints`オプションを設定してください。このオプションは、関連付けられるレコードをクエリするときに複合外部キーを指定します。例:
+これが期待通りに動作するのは、このモデルの複合主キーに`:id`カラムが含まれており、かつ`:id`カラムがすべてのレコードで一意である場合だけです。関連付けで完全な複合主キーを使うには、その関連付けで`foreign_key`オプションを設定してください。このオプションは、関連付けられるレコードをクエリするときに複合外部キーを指定します。例:
 
 ```ruby
 class Author < ApplicationRecord
   self.primary_key = [:first_name, :last_name]
-  has_many :books, query_constraints: [:first_name, :last_name]
+  has_many :books, foreign_key: [:first_name, :last_name]
 end
 
 class Book < ApplicationRecord
-  belongs_to :author, query_constraints: [:author_first_name, :author_last_name]
+  belongs_to :author, foreign_key: [:author_first_name, :author_last_name]
 end
 ```
 
@@ -611,7 +613,7 @@ end
 マイグレーションおよびスキーマでは、モデル自身にreferencesカラムを追加します。
 
 ```ruby
-class CreateEmployees < ActiveRecord::Migration[7.1]
+class CreateEmployees < ActiveRecord::Migration[7.2]
   def change
     create_table :employees do |t|
       t.references :manager, foreign_key: { to_table: :employees }
@@ -688,7 +690,7 @@ end
 上の宣言は、以下のbooksテーブル上で対応する外部キーカラムと整合している必要があります。作成した直後のテーブルの場合、マイグレーションは次のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[7.1]
+class CreateBooks < ActiveRecord::Migration[7.2]
   def change
     create_table :books do |t|
       t.datetime   :published_at
@@ -702,7 +704,7 @@ end
 一方、既存のテーブルの場合、マイグレーションは次のような感じになります。
 
 ```ruby
-class AddAuthorToBooks < ActiveRecord::Migration[7.1]
+class AddAuthorToBooks < ActiveRecord::Migration[7.2]
   def change
     add_reference :books, :author
   end
@@ -734,7 +736,7 @@ end
 この関連付けに対応する`assemblies_parts`テーブルをマイグレーションで作成する必要があります。作成するテーブルには主キーを設定しないでください。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.1]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.2]
   def change
     create_table :assemblies_parts, id: false do |t|
       t.bigint :assembly_id
@@ -752,7 +754,7 @@ end
 以下のように`create_join_table`メソッドを使ってシンプルに書くことも可能です。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.1]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.2]
   def change
     create_join_table :assemblies, :parts do |t|
       t.index :assembly_id
@@ -765,6 +767,7 @@ end
 ### 関連付けのスコープを制御する
 
 デフォルトでは、関連付けによって探索されるのは、現在のモジュールのスコープ内にあるオブジェクトだけです。Active Recordモデルをモジュール内で宣言する場合は、この点に注意する必要があります。
+
 
 ```ruby
 module MyApplication
@@ -780,8 +783,34 @@ module MyApplication
 end
 ```
 
-上のコードは正常に動作します。これは、`Supplier`クラスと`Account`クラスが同じスコープ内で定義されているためです。
-しかし下のコードは動作しません。`Supplier`クラスと`Account`クラスが異なるスコープ内で定義されているためです。
+上のコードは正常に動作します。これは、`Supplier`クラスと`Account`クラスが同じスコープ（`MyApplication::Business`）内で定義されているためです。
+この編成では、すべての関連付けにスコープを明示的に追加することなく、スコープに基づいてモデルをフォルダで構造化できます。
+
+```ruby
+# app/models/my_application/business/supplier.rb
+module MyApplication
+  module Business
+    class Supplier < ApplicationRecord
+      has_one :account
+    end
+  end
+end
+```
+
+```ruby
+# app/models/my_application/business/account.rb
+module MyApplication
+  module Business
+    class Account < ApplicationRecord
+      belongs_to :supplier
+    end
+  end
+end
+```
+
+ここで重要なのは、これはテーブルの名前付けには影響しないことです。たとえば、`MyApplication::Business::Supplier`というモデルがある場合は、`my_application_business_suppliers`テーブルも必ず存在していなければなりません。
+
+`Supplier`と`Account`は異なるスコープ（`MyApplication::Business`と`MyApplication::Billing`）で定義されているため、次のコードは**動かない**ことにご注意ください。
 
 ```ruby
 module MyApplication
@@ -799,7 +828,7 @@ module MyApplication
 end
 ```
 
-あるモデルを、別の名前空間にあるモデルを関連付けるには、関連付けの宣言で以下のように完全なクラス名を指定する必要があります
+あるモデルを別の名前空間にあるモデルと関連付けるには、関連付けの宣言で以下のように完全なクラス名を指定する必要があります。
 
 ```ruby
 module MyApplication
@@ -850,10 +879,10 @@ Active Recordは、これらの関連付けの設定から、2つのモデルが
     ```irb
     irb> author = Author.first
     irb> book = author.books.first
-    irb> author.name == book.author.name
+    irb> author.name == book.writer.name
     => true
     irb> author.name = "Changed Name"
-    irb> author.name == book.author.name
+    irb> author.name == book.writer.name
     => true
     ```
 
@@ -906,7 +935,7 @@ end
     ```irb
     irb> author = Author.first
     irb> author.books.any? do |book|
-    irb>   book.author.equal?(author) # authorクエリがbook 1件ごとに発生する
+    irb>   book.writer.equal?(author) # authorクエリがbook 1件ごとに発生する
     irb> end
     => false
     ```
@@ -1173,7 +1202,8 @@ end
 
 NOTE: これは、関連付けの`belongs_to`側で`:counter_cache`オプションを設定するだけでできます。
 
-カウンタキャッシュ用のカラムは、`attr_readonly`によってオーナーモデルの読み出し専用属性リストに追加されます。
+既存の大きなテーブルでカウンタキャッシュの利用を開始すると、カラムの追加とは別にカラムの値をバックフィルする必要があります（テーブルを長時間ロックしないようにするため）。このバックフィルは`:counter_cache`オプションを使う前に行っておく必要があるため（さもないと、カウンタキャッシュを内部で利用する`size`や`any?`などのメソッドで誤った結果が生成される可能性がある）、問題が発生する可能性があります。
+子レコードの作成や削除でカウンタキャッシュのカラムを更新したまま値を安全にバックフィルし、前述のメソッドでカウンタキャッシュカラムの誤った値が使われないようにすることで、常にデータベースから結果を取得するには、`counter_cache: { active: false }`を使います。カスタムのカラム名も指定する必要がある場合は、`counter_cache: { active: false, column: :my_custom_counter }`を使います。
 
 何らかの理由でオーナーモデルの主キーの値を変更し、カウントされたモデルの外部キーも更新しなかった場合、カウンタキャッシュのデータが古くなっている可能性があります（つまり、孤立したモデルも引き続きカウンタでカウントされます）。古くなったカウンタキャッシュを修正するには、[`reset_counters`][]をお使いください。
 
@@ -2318,7 +2348,7 @@ person.articles << article unless person.articles.include?(article)
 
 #### `has_and_belongs_to_many`で追加されるメソッド
 
-`has_and_belongs_to_many`関連付けを宣言したクラスでは、以下の17のメソッドが自動的に利用できるようになります。
+`has_and_belongs_to_many`関連付けを宣言したクラスでは、以下のメソッドが自動的に利用できるようになります。
 
 * `collection`
 * [`collection<<(object, ...)`][`collection<<`]
@@ -2809,6 +2839,42 @@ Car.all
 SELECT "vehicles".* FROM "vehicles" WHERE "vehicles"."type" IN ('Car')
 ```
 
+### 継承カラムをオーバーライドする
+
+レガシーデータベースで作業する場合などで、継承カラム名をオーバーライドする必要が生じることがあります。これは、[inheritance_column][]メソッドで実現できます。
+
+```ruby
+# スキーマ: vehicles[ id, kind, created_at, updated_at ]
+class Vehicle < ApplicationRecord
+  self.inheritance_column = "kind"
+end
+
+class Car < Vehicle
+end
+
+Car.create
+# => #<Car kind: "Car">
+```
+
+### 継承カラムを無効にする
+
+レガシーデータベースで作業する場合などで、単一テーブル継承を完全に無効にする必要が生じる（そうしないと[`ActiveRecord::SubclassNotFound`][]が発生する）ことがあります。
+
+これは、[inheritance_column][]を`nil`に設定することで実現できます。
+
+```ruby
+# スキーマ: vehicles[ id, type, created_at, updated_at ]
+class Vehicle < ApplicationRecord
+  self.inheritance_column = nil
+end
+
+Vehicle.create!(type: "Car")
+# => #<Vehicle type: "Car">
+```
+
+[inheritance_column]: https://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-c-inheritance_column
+[`ActiveRecord::SubclassNotFound`]: https://api.rubyonrails.org/classes/ActiveRecord/SubclassNotFound.html
+
 Delegated Types
 ----------------
 
@@ -2913,6 +2979,7 @@ end
 
 | メソッド | 戻り値 |
 |---|---|
+| `Entry.entryable_types` | `["Message", "Comment"]` |
 | `Entry#entryable_class` | Message または Comment |
 | `Entry#entryable_name` | "message" または "comment" |
 | `Entry.messages` | `Entry.where(entryable_type: "Message")` |
