@@ -105,7 +105,7 @@ mount Blorgh::Engine => "/blorgh"
 新しく作成したエンジンのルートディレクトリには、`blorgh.gemspec`というファイルが置かれます。アプリケーションにこのエンジンを後からインクルードするには、`Gemfile`に以下の行を追加します。
 
 ```ruby
-gem 'blorgh', path: 'engines/blorgh'
+gem "blorgh", path: "engines/blorgh"
 ```
 
 Gemfileを更新したら、いつものように`bundle install`を実行するのを忘れないこと。エンジンを通常のgemと同様に`Gemfile`に記述すると、Bundlerはgemと同様にエンジンを読み込み、`blorgh.gemspec`ファイルを解析し、`lib`以下に置かれているファイル（この場合`lib/blorgh.rb`）をrequireします。このファイルは、(`lib/blorgh/engine.rb`に置かれている) `blorgh/engine.rb`ファイルをrequireし、`Blorgh`という基本モジュールを定義します。
@@ -434,13 +434,13 @@ $ rails new unicorn
 エンジンを`Gemfile`で指定する方法は、他のgemを指定する方法と普通は同じです。
 
 ```ruby
-gem 'devise'
+gem "devise"
 ```
 
 ただし、この`blorgh`エンジンはローカルPCで開発中であり、gemリポジトリには存在しないので、`Gemfile`ファイル内でエンジンgemへのパスを`:path`オプションで指定する必要があります。
 
 ```ruby
-gem 'blorgh', path: 'engines/blorgh'
+gem "blorgh", path: "engines/blorgh"
 ```
 
 続いて`bundle`コマンドを実行し、gemをインストールします。
@@ -978,158 +978,3 @@ module MyEngine
   end
 end
 ```
-
-フックの読み込みと設定
-----------------------------
-
-Railsのコードは、アプリケーション読み込みの段階で頻繁に参照されます。Railsはこれらのフレームワークの読み込み順序について責任を持つため、途中で`ActiveRecord::Base`などのフレームワークを読み込んでしまうと、Railsがアプリケーションに期待する暗黙の規約に違反してしまう可能性があります。さらに、`ActiveRecord::Base`のコードをアプリケーション起動時に読み込んでしまうと、そうしたフレームワーク全体が再読み込みされるため、起動に時間がかかったり読み込み順序で競合が発生したりする可能性もあります。
-
-読み込みフックと設定フックは、Railsの読み込み規約に違反せずにこの初期化プロセスにフックできるAPIです。また、起動パフォーマンス低下も緩和され、コンフリクトも回避されます。
-
-### Railsフレームワークの読み込みを回避する
-
-Rubyは動的言語であるため、一部のコードで別のRailsフレームワークが読み込まれることがあります。次のコードをご覧ください
-
-```ruby
-ActiveRecord::Base.include(MyActiveRecordHelper)
-```
-
-上のスニペットの動作は次のようになります。Rubyがこのファイルを読み込んで`ActiveRecord::Base`まで進むと、それをきっかけに定数の定義を探索して`require`します。このようにして、Active Recordフレームワーク全体が起動時に読み込まれます。
-
-`ActiveSupport.on_load`は、あるコードの読み込みを、実際に必要になる時点まで遅延できるメカニズムです。上のスニペットは次のように書き換えられます。
-
-```ruby
-ActiveSupport.on_load(:active_record) do
-  include MyActiveRecordHelper
-end
-```
-
-新しいスニペットは、`ActiveRecord::Base`の読み込み時に`MyActiveRecordHelper`だけを`include`するようになります。
-
-### フックが呼び出されるタイミング
-
-Railsフレームワークにおけるこれらのフックは、特定のライブラリの読み込み時に呼び出されます。
-たとえば、`ActionController::Base`が読み込まれると`:action_controller_base`フックが呼び出されます。これは、`:action_controller_base`フックによるすべての`ActiveSupport.on_load`呼び出しが`ActionController::Base`のコンテキストで呼び出される（ここでは`self`が`ActionController::Base`として評価される）ということです。
-
-### 読み込みフックでコードを変更する
-
-一般に、（フックによる）コードの変更方法は単純です。たとえば、`ActiveRecord::Base`などのRailsフレームワークを参照するコードは、読み込みフックでラップできます。
-
-**`include`呼び出しを変更する場合**
-
-```ruby
-ActiveRecord::Base.include(MyActiveRecordHelper)
-```
-
-上のコードは以下のように書けます。
-
-```ruby
-ActiveSupport.on_load(:active_record) do
-  # selfがActiveRecord::Baseを指すので
-  # includeを呼び出せる
-  include MyActiveRecordHelper
-end
-```
-
-**`prepend`呼び出しを変更する場合**
-
-```ruby
-ActionController::Base.prepend(MyActionControllerHelper)
-```
-
-上のコードは以下のように書けます。
-
-```ruby
-ActiveSupport.on_load(:action_controller_base) do
-  # selfがActiveRecord::Baseを指すので
-  # includeを呼び出せる
-  prepend MyActionControllerHelper
-end
-```
-
-**クラスメソッド呼び出しを変更する場合**
-
-```ruby
-ActiveRecord::Base.include_root_in_json = true
-```
-
-上のコードは以下のように書けます。
-
-```ruby
-ActiveSupport.on_load(:active_record) do
-  # ここではselfがActiveRecord::Baseを指す
-  self.include_root_in_json = true
-end
-```
-
-## 利用可能なフック
-
-これらの読み込みフックは、自分のコードで利用できます。以下のクラスの初期化プロセスにフックするには、利用可能なフックを使います。
-
-| クラス                             | 対応するフック                      |
-| --------------------------------- | ------------------------------------ |
-| `ActionCable`                        | `action_cable`                       |
-| `ActionCable::Channel::Base`         | `action_cable_channel`               |
-| `ActionCable::Connection::Base`      | `action_cable_connection`            |
-| `ActionCable::Connection::TestCase`  | `action_cable_connection_test_case`  |
-| `ActionController::API`              | `action_controller_api`              |
-| `ActionController::API`              | `action_controller`                  |
-| `ActionController::Base`             | `action_controller_base`             |
-| `ActionController::Base`             | `action_controller`                  |
-| `ActionController::TestCase`         | `action_controller_test_case`        |
-| `ActionDispatch::IntegrationTest`    | `action_dispatch_integration_test`   |
-| `ActionDispatch::Response`           | `action_dispatch_response`           |
-| `ActionDispatch::Request`            | `action_dispatch_request`            |
-| `ActionDispatch::SystemTestCase`     | `action_dispatch_system_test_case`   |
-| `ActionMailbox::Base`                | `action_mailbox`                     |
-| `ActionMailbox::InboundEmail`        | `action_mailbox_inbound_email`       |
-| `ActionMailbox::Record`              | `action_mailbox_record`              |
-| `ActionMailbox::TestCase`            | `action_mailbox_test_case`           |
-| `ActionMailer::Base`                 | `action_mailer`                      |
-| `ActionMailer::TestCase`             | `action_mailer_test_case`            |
-| `ActionText::Content`                | `action_text_content`                |
-| `ActionText::Record`                 | `action_text_record`                 |
-| `ActionText::RichText`               | `action_text_rich_text`              |
-| `ActionText::EncryptedRichText`      | `action_text_encrypted_rich_text`    |
-| `ActionView::Base`                   | `action_view`                        |
-| `ActionView::TestCase`               | `action_view_test_case`              |
-| `ActiveJob::Base`                    | `active_job`                         |
-| `ActiveJob::TestCase`                | `active_job_test_case`               |
-| `ActiveRecord::Base`                 | `active_record`                      |
-| `ActiveRecord::TestFixtures`         | `active_record_fixtures`             |
-| `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter`    | `active_record_postgresqladapter`    |
-| `ActiveRecord::ConnectionAdapters::Mysql2Adapter`        | `active_record_mysql2adapter`        |
-| `ActiveRecord::ConnectionAdapters::TrilogyAdapter`       | `active_record_trilogyadapter`       |
-| `ActiveRecord::ConnectionAdapters::SQLite3Adapter`       | `active_record_sqlite3adapter`       |
-| `ActiveStorage::Attachment`          | `active_storage_attachment`          |
-| `ActiveStorage::VariantRecord`       | `active_storage_variant_record`      |
-| `ActiveStorage::Blob`                | `active_storage_blob`                |
-| `ActiveStorage::Record`              | `active_storage_record`              |
-| `ActiveSupport::TestCase`            | `active_support_test_case`           |
-| `i18n`                               | `i18n`                               |
-
-
-## 設定用フック
-
-設定用フックは特定のフレームワークにはフックせず、アプリケーション全体のコンテキストで実行されます。
-
-| フック                  | ユースケース                                         |
-| ---------------------- | -------------------------------------------------- |
-| `before_configuration` | 最初に実行される設定フックです。あらゆる初期化より先に呼びされます。|
-| `before_initialize` | 次に実行される設定フックです。フレームワークの初期化の直前で呼び出されます。|
-| `before_eager_load` | 初期化後に実行される設定フックです。[`config.eager_load`][]がfalseの場合は実行されません。|
-| `after_initialize` | 最後に実行される設定フックです。フレームワークの初期化後に呼び出しされます。|
-
-設定フックは、Engineクラス内で呼び出されます。
-
-```ruby
-module Blorgh
-  class Engine < ::Rails::Engine
-    config.before_configuration do
-      puts 'I am called before any initializers'
-    end
-  end
-end
-```
-
-[`config.eager_load`]: configuring.html#config-eager-load
