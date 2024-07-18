@@ -27,9 +27,22 @@ Active Supportが提供するInstrumentation APIを使ってフックを開発�
 イベントのサブスクライブ
 -----------------------
 
-イベントは簡単にサブスクライブできます。[`ActiveSupport::Notifications.subscribe`][]をブロック付きで記述すれば、すべての通知をリッスンできます。
+通知をリッスンするには、[`ActiveSupport::Notifications.subscribe`][]をブロック付きで利用します。ブロックが受け取る引数の個数に応じて、さまざまなデータを受け取ります。
 
-ブロックには以下の引数を渡せます。
+イベントをサブスクライブするときに最初に使う方法は、単一の引数を持つブロックを使うことです。この引数は、[`ActiveSupport::Notifications::Event`][]のインスタンスになります。
+
+```ruby
+ActiveSupport::Notifications.subscribe "process_action.action_controller" do |event|
+  event.name        # => "process_action.action_controller"
+  event.duration    # => 10 (in milliseconds)
+  event.allocations # => 1826
+  event.payload     # => {:extra=>information}
+
+  Rails.logger.info "#{event} Received!"
+end
+```
+
+Eventオブジェクトによって記録されたデータをすべて使わなくてもよい場合は、以下の5つの引数を取るブロックを指定することも可能です。
 
 * イベント名
 * イベントの開始時刻
@@ -38,51 +51,26 @@ Active Supportが提供するInstrumentation APIを使ってフックを開発�
 * イベントのペイロード
 
 ```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, started, finished, unique_id, data|
+ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, started, finished, unique_id, payload|
   # 自分のコードをここに書く
-  Rails.logger.INFO:"#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received (started: 2019-05-05 13:43:57 -0800, finished: 2019-05-05 13:43:58 -0800)
+  Rails.logger.info "#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received! (started: 2019-05-05 13:43:57 -0800, finished: 2019-05-05 13:43:58 -0800)
 end
 ```
 
 経過時間を正確に算出するうえで`started`と`finished`の精度が気になる場合は、[`ActiveSupport::Notifications.monotonic_subscribe`][]をお使いください。ここに渡すブロックで使える引数は上述と同じですが、`started`と`finished`の値に通常のクロック時刻（wall-clock time）ではなく単調増加する精密な時刻が使われるようになります。
 
 ```ruby
-ActiveSupport::Notifications.monotonic_subscribe "process_action.action_controller" do |name, started, finished, unique_id, data|
+ActiveSupport::Notifications.monotonic_subscribe "process_action.action_controller" do |name, started, finished, unique_id, payload|
   # 自分のコードをここに書く
-  Rails.logger.INFO:"#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received (started: 1560978.425334, finished: 1560979.429234)
-end
-```
-
-ブロックの引数を毎回定義しなくても済むよう、次のようなブロック付きの[`ActiveSupport::Notifications::Event`][]を簡単に定義できます。
-
-```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
-  event = ActiveSupport::Notifications::Event.new(*args)
-
-  event.name      # => "process_action.action_controller"
-  event.duration  # => 10 (in milliseconds)
-  event.payload   # => {:extra=>information}
-
-  Rails.logger.INFO:"#{event} Received!"
-end
-```
-
-また、以下のように引数を1個だけ受け取るブロックを渡すと、イベントオブジェクトを受け取れます。
-
-```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |event|
-  event.name      # => "process_action.action_controller"
-  event.duration  # => 10 (in milliseconds)
-  event.payload   # => {:extra=>information}
-
-  Rails.logger.INFO:"#{event} Received!"
+  duration = finished - started # 1560979.429234 - 1560978.425334
+  Rails.logger.info "#{name} Received! (duration: #{duration})" # process_action.action_controller Received! (duration: 1.0039)
 end
 ```
 
 正規表現に一致するイベントだけをサブスクライブすることも可能です。これはさまざまなイベントを一括でサブスクライブしたい場合に便利です。以下は、`ActionController`のイベントをすべて登録する場合の例です。
 
 ```ruby
-ActiveSupport::Notifications.subscribe(/action_controller/) do |*args|
+ActiveSupport::Notifications.subscribe(/action_controller/) do |event|
   # ActionControllerの全イベントをチェック
 end
 ```
@@ -203,6 +191,22 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | ---------- | ------------------------------------------------------------------- |
 | `:keys`    | 許可されていないキー                                                    |
 | `:context` | 以下のキーを持つハッシュ: `:controller`、`:action`、`:params`、`:request` |
+
+#### `send_stream.action_controller`
+
+| キー        | 値                                           |
+| -------------- | ---------------------------------------- |
+| `:filename`    | ファイル名                                 |
+| `:type`        | HTTP Content-Typeヘッダー                 |
+| `:disposition` | HTTP Content-Dispositionヘッダー          |
+
+```ruby
+{
+  filename: "subscribers.csv",
+  type: "text/csv",
+  disposition: "attachment"
+}
+```
 
 ### Action Controller — キャッシング
 
@@ -351,10 +355,13 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:sql`               | SQL文                                       |
 | `:name`              | 操作の名前                                   |
 | `:connection`        | コネクションオブジェクト                        |
+| `:transaction`       | 現在のトランザクション（存在する場合）            |
 | `:binds`             | バインドするパラメータ                          |
 | `:type_casted_binds` | 型キャストされたバインドパラメータ                |
 | `:statement_name`    | SQL文の名前                                  |
+| `:async`             | クエリが非同期読み込みされた場合は`true`          |
 | `:cached`            | キャッシュされたクエリが使われると`true`が追加される |
+| `:row_count`         | クエリが返した行数                             |
 
 アダプタが独自のデータを追加する可能性もあります。
 
@@ -363,11 +370,15 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
   sql: "SELECT \"posts\".* FROM \"posts\" ",
   name: "Post Load",
   connection: <ActiveRecord::ConnectionAdapters::SQLite3Adapter:0x00007f9f7a838850>,
+  transaction: <ActiveRecord::ConnectionAdapters::RealTransaction:0x0000000121b5d3e0>
   binds: [<ActiveModel::Attribute::WithCastValue:0x00007fe19d15dc00>],
   type_casted_binds: [11],
-  statement_name: nil
+  statement_name: nil,
+  row_count: 5
 }
 ```
+
+このクエリがトランザクションのコンテキスト内で実行されなかった場合、`:transaction`は`nil`になります。
 
 #### `strict_loading_violation.active_record`
 
@@ -393,6 +404,62 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
   class_name: "User"
 }
 ```
+
+#### `start_transaction.active_record`
+
+このイベントは、トランザクションが開始されたときにトリガーされます。
+
+| キー                 | 値                                     |
+| -------------------- | --------------------------------------|
+| `:transaction`       | トランザクションオブジェクト               |
+| `:connection`        | コネクションオブジェクト                  |
+
+ただし、Active Recordは必要になるまで実際のデータベーストランザクションを作成しない点にご注意ください。
+
+```ruby
+ActiveRecord::Base.transaction do
+  # トランザクションブロック内だが、ここではイベントはまだ何もトリガーされない
+
+  # 以下の行によってActive Recordがトランザクションを開始する
+  User.count # イベントはここでトリガーされる
+end
+```
+
+通常のネステッド呼び出しは、新しいトランザクションを作成しないことを知っておいてください。
+
+```ruby
+ActiveRecord::Base.transaction do |t1|
+  User.count # これはt1のイベントをトリガーする
+  ActiveRecord::Base.transaction do |t2|
+    # 以下の行はt2のイベントを何もトリガーしない
+    # （理由: この例では本物のデータベーストランザクションはt1しかないため）
+    User.first.touch
+  end
+end
+```
+
+ただし、`requires_new: true`が渡されると、ネストしたトランザクションのイベントも取得されます。これは、内部的にはセーブポイントである可能性があります。
+
+```ruby
+ActiveRecord::Base.transaction do |t1|
+  User.count # これはt1のイベントをトリガーする
+  ActiveRecord::Base.transaction(requires_new: true) do |t2|
+    User.first.touch # これはt2のイベントをトリガーする
+  end
+end
+```
+
+#### `transaction.active_record`
+
+このイベントは、データベーストランザクションが終了したときにトリガーされます。トランザクションのステートは、`:outcome`キーで確認できます。
+
+| キー                 | 値                                                    |
+| -------------------- | ---------------------------------------------------- |
+| `:transaction`       | トランザクションオブジェクト                              |
+| `:outcome`           | `:commit`、`:rollback`、`:restart`、または`:incomplete` |
+| `:connection`        | コネクションオブジェクト                                 |
+
+実際には、トランザクションオブジェクトで実行可能な操作はあまりありませんが、データベースアクティビティのトレースには役立つ場合があります（例: `transaction.uuid`をトラッキングする）。
 
 ### Action Mailer
 
