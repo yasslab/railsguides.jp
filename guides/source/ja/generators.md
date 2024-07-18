@@ -455,6 +455,21 @@ Thorは、以下のような多くのヘルパーメソッドを[`Thor::Actions`
 * [`rake`][]
 * [`route`][]
 
+ジェネレータをテストする
+------------------
+
+Railsは、[`Rails::Generators::Testing::Behaviour`][]で以下のようなテストヘルパーメソッドを提供しています。
+
+* [`run_generator`][]
+
+ジェネレータに対してテストを実行する場合、デバッグツールが機能するために以下のようにコマンドで`RAILS_LOG_TO_STDOUT=true`を指定する必要があります。
+
+```sh
+RAILS_LOG_TO_STDOUT=true ./bin/test test/generators/actions_test.rb
+```
+
+Railsではその他にも、[`Rails::Generators::Testing::Assertions`][]で追加のアサーションを提供しています。
+
 [`Rails::Generators::Actions`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html
 [`environment`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-environment
 [`gem`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem
@@ -468,3 +483,6 @@ Thorは、以下のような多くのヘルパーメソッドを[`Thor::Actions`
 [`rails_command`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rails_command
 [`rake`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rake
 [`route`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-route
+[`Rails::Generators::Testing::Behaviour`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html
+[`run_generator`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html#method-i-run_generator
+[`Rails::Generators::Testing::Assertions`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Assertions.htm
