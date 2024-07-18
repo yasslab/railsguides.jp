@@ -64,7 +64,8 @@ $ rails new my_app
 | `--skip-test`           | テストファイルをスキップ                                |
 | `--skip-system-test`    | システムテストのファイルをスキップ                        |
 | `--skip-bootsnap`       | bootsnap gemをスキップ                               |
-| `--skip-dev-gems`       | development用gemの追加をスキップ                               |
+| `--skip-dev-gems`       | development用gemの追加をスキップ                       |
+| `--skip-rubocop`        | RuboCopのセットアップをスキップ                         |
 
 `rails new`には他にも多くのオプションを渡せます。すべてのオプションを表示するには`rails new --help`を実行してください。
 
@@ -178,13 +179,16 @@ tmp:create                          Create tmp directories ...
 $ cd my_app
 $ bin/rails server
 => Booting Puma
-=> Rails 7.1.0 application starting in development
+=> Rails 7.2.0 application starting in developmen
 => Run `bin/rails server --help` for more startup options
 Puma starting in single mode...
-* Version 3.12.1 (ruby 2.5.7-p206), codename: Llamas in Pajamas
-* Min threads: 5, max threads: 5
-* Environment: development
-* Listening on tcp://localhost:3000
+* Puma version: 6.4.0 (ruby 3.1.3-p185) ("The Eagle of Durango")
+*  Min threads: 5
+*  Max threads: 5
+*  Environment: development
+*          PID: 5295
+* Listening on http://127.0.0.1:3000
+* Listening on http://[::1]:3000
 Use Ctrl-C to stop
 ```
 
@@ -406,7 +410,7 @@ $ bin/rails console -e staging
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 7.1.0)
+Loading development environment in sandbox (Rails 7.2.0)
 Any modifications you make will be rolled back on exit
 irb(main):001:0>
 ```
@@ -504,12 +508,12 @@ $ bin/rails destroy model Oops
 ```bash
 $ bin/rails about
 About your application's environment
-Rails version             7.1.0
-Ruby version              2.7.0 (x86_64-linux)
-RubyGems version          2.7.3
-Rack version              2.0.4
+Rails version             7.2.0
+Ruby version              3.1.0 (x86_64-linux)
+RubyGems version          3.3.7
+Rack version              3.0.8
 JavaScript Runtime        Node.js (V8)
-Middleware:               Rack::Sendfile, ActionDispatch::Static, ActionDispatch::Executor, ActiveSupport::Cache::Strategy::LocalCache::Middleware, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, ActionDispatch::RemoteIp, Sprockets::Rails::QuietAssets, Rails::Rack::Logger, ActionDispatch::ShowExceptions, WebConsole::Middleware, ActionDispatch::DebugExceptions, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, Rack::Head, Rack::ConditionalGet, Rack::ETag
+Middleware:               ActionDispatch::HostAuthorization, Rack::Sendfile, ActionDispatch::Static, ActionDispatch::Executor, ActionDispatch::ServerTiming, ActiveSupport::Cache::Strategy::LocalCache::Middleware, Rack::Runtime, Rack::MethodOverride, ActionDispatch::RequestId, ActionDispatch::RemoteIp, Sprockets::Rails::QuietAssets, Rails::Rack::Logger, ActionDispatch::ShowExceptions, WebConsole::Middleware, ActionDispatch::DebugExceptions, ActionDispatch::ActionableExceptions, ActionDispatch::Reloader, ActionDispatch::Callbacks, ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies, ActionDispatch::Session::CookieStore, ActionDispatch::Flash, ActionDispatch::ContentSecurityPolicy::Middleware, ActionDispatch::PermissionsPolicy::Middleware, Rack::Head, Rack::ConditionalGet, Rack::ETag, Rack::TempfileReaper
 Application root          /home/foobar/my_app
 Environment               development
 Database adapter          sqlite3
