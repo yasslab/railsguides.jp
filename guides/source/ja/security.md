@@ -63,8 +63,6 @@ WARNING: **攻撃者がユーザーのセッションIDを盗むと、そのユ�
 
 * 攻撃者が自分の知らないcookieをわざわざ盗み取る代わりに、標的のcookieを攻撃者が知っているcookieのセッションIDに固定してしまうという攻撃方法もあります。詳しくは後述のセッション固定攻撃の記述を参照してください。
 
-攻撃の多くは営利目的です。[Symantec Global Internet Security Threat Report (2017)](https://docs.broadcom.com/docs/istr-22-2017-en)によると、盗まれた銀行口座アカウントの闇価格は口座残高の0.5~10%、クレジットカード番号は0.5〜30ドル（詳細情報が付くと20ドルから60ドル）、ID（名前、SSN、DOB）は0.1〜1.5ドル、小売業者のアカウントは20〜50ドル、クラウドサービスプロバイダーのアカウントは6〜10ドルとなっています。
-
 ### セッションストレージ
 
 NOTE: Railsはデフォルトのセッションストレージとして`ActionDispatch::Session::CookieStore`を用います。
@@ -618,7 +616,7 @@ SELECT * FROM projects WHERE (name = '') UNION
 
 このクエリで得られるのはプロジェクトのリストではなく（名前が空欄のプロジェクトはないので）、ユーザー名とパスワードのリストです。[パスワードをセキュアな方法でハッシュ化](#ユーザー管理)していればまだ最悪の事態は避けられます。一方、攻撃者にとっての問題は、両方のクエリでカラムの数を同じにしなければならないことだけです。この攻撃用文字列では、そのために2番目のクエリに「1」を連続して配置しています。これらの値は常に1になるので、1番目のクエリのカラム数と一致します。
 
-同様に、2番目のクエリではカラム名をASでリネームしています。これにより、ユーザーテーブルから取り出した値がWebアプリケーション上で表示されます。Railsは必ず[2.1.1以上にアップデート](https://rorsecurity.info/journal/2008/09/08/sql-injection-issue-in-limit-and-offset-parameter.html)してください。
+同様に、2番目のクエリでは、Webアプリケーションに`users`テーブルの値を露出させる目的で、一部のカラム名を`AS`ステートメントでリネームしています。
 
 #### 対策
 
@@ -742,7 +740,12 @@ s = sanitize(user_input, tags: tags, attributes: %w(href title))
 
 この方法なら指定されたタグのみが許可されるため、あらゆる攻撃方法や悪質なタグに対してフィルタが正常に機能します。
 
+Action ViewとAction Textは、どちらも[rails-html-sanitizer][] gemの上に[サニタイズヘルパー][[sanitization helpers]]を構築しています。
+
 第2段階として、**Webアプリケーションからの出力を1つ残らずエスケープする**ことが優れた対策となります。これは特に、ユーザー入力の段階でフィルタされなかった文字列がWeb画面に再表示された場合に有効です。**`html_escape()`（または別名の`h()`）メソッド**を用いて、HTML入力文字（`&`、`"`、`<`、`>`）を無害なHTML表現形式（`&amp;`、`&quot;`、`&lt;`、`&gt;`）に置き換えます。
+
+[sanitization helpers]: https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html
+[rails-html-sanitizer]: https://github.com/rails/rails-html-sanitizer
 
 ##### 攻撃の難読化とエンコーディングインジェクション
 
@@ -817,7 +820,7 @@ alert(eval('document.body.inne' + 'rHTML'));
 
 セキュリティ上の理由でHTML以外のテキストフォーマット機能を提供する場合は、何らかのマークアップ言語を採用し、それをサーバー側でHTMLに変換してください。[RedCloth](https://github.com/jgarber/redcloth)はRuby用に開発されたマークアップ言語の一種ですが、注意して使わないとXSSに対して脆弱になる可能性もあります。
 
-例として、RedClothは `_test_`というマークアップを`<em>test<em>`に変換します。この箇所のテキストはイタリックになります。しかし、執筆当時の最新バージョンである3.0.4までのRedClothはXSSに関しても脆弱でした。この重大なバグを取り除くには[最新のバージョン4](https://github.com/jgarber/redcloth)を入手してください。しかし新しいバージョンでも[若干のセキュリティバグ](https://rorsecurity.info/journal/2008/10/13/new-redcloth-security.html)が見つかったので、対策は不可欠です。バージョン3.0.4の例を以下に示します。
+たとえば、RedClothは`_test_`を`<em>test<em>`（イタリックテキスト）に変換しますが、デフォルトでは安全でないHTMLタグをフィルタで除外しません。
 
 ```ruby
 RedCloth.new('<script>alert(1)</script>').to_html
@@ -1071,7 +1074,7 @@ config.action_dispatch.default_headers.clear
 
 ### `Strict-Transport-Security`ヘッダー
 
-HTTP [`Strict-Transport-Security`][]（HTST）レスポンスヘッダーは、ブラウザが現在および将来の接続を自動的にHTTPSにアップグレードするようにします。
+HTTP [`Strict-Transport-Security`][]（HSTS）レスポンスヘッダーは、ブラウザが現在および将来の接続を自動的にHTTPSにアップグレードするようにします。
 
 このヘッダーは、以下のように`force_ssl`オプションを有効にするとレスポンスに追加されます。
 
@@ -1200,10 +1203,11 @@ Rails.application.config.content_security_policy_nonce_directives = %w(script-sr
 <% end -%>
 ```
 
-`javascript_include_tag`でも同じことができます。
+`javascript_include_tag`や`stylesheet_link_tag`でも同様に`nonce: true`を指定できます。
 
 ```html+erb
 <%= javascript_include_tag "script", nonce: true %>
+<%= stylesheet_link_tag "style.css", nonce: true %>
 ```
 
 セッションごとにインライン`<script>`タグを許可するnonce値を含む"csp-nonce"メタタグを生成するには、[`csp_meta_tag`](https://api.rubyonrails.org/classes/ActionView/Helpers/CspHelper.html#method-i-csp_meta_tag)ヘルパーをお使いください。
@@ -1259,14 +1263,14 @@ CORSの処理には、[Rack CORS](https://github.com/cyu/rack-cors)ミドルウ�
 最初に、rack-cors gemをGemfileに追加します。
 
 ```ruby
-gem 'rack-cors'
+gem "rack-cors"
 ```
 
 次に、ミドルウェアの設定をイニシャライザに追加します。
 
 ```ruby
 # config/initializers/cors.rb
-Rails.application.config.middleware.insert_before 0, "Rack::Cors" do
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'example.com'
 
