@@ -89,6 +89,14 @@ TIP: Memcachedなどのキャッシュストアは、古いキャッシュファ
 
 これにより、前回までにレンダリングされたすべてのキャッシュテンプレートが一括で読み出され、劇的に速度が向上します。しかも、それまでキャッシュされていなかったテンプレートもキャッシュに追加され、次回のレンダリングでまとめて読み出されるようになります。
 
+キャッシュのキーはカスタマイズ可能です。以下のコード例では、productページでローカライズ結果が別のローカライズで上書きされないようにするため、現在のロケールをキャッシュにプレフィックスしています。
+
+```html+erb
+<%= render partial: 'products/product',
+           collection: @products,
+           cached: ->(product) { [I18n.locale, product] } %>
+```
+
 ### ロシアンドールキャッシュ
 
 別のフラグメントキャッシュの内側にフラグメントをキャッシュしたいことがあります。このようにキャッシュをネストする手法を、マトリョーシカ人形のイメージになぞらえて「ロシアンドールキャッシュ」（Russian doll caching）と呼びます。
@@ -137,10 +145,10 @@ render(partial: 'hotels/hotel', collection: @hotels, cached: true)
 
 上のコードは`hotels/hotel.erb`という名前のファイルを読み込みます。
 
-以下のように、レンダリングするパーシャルの完全なファイル名も指定できます。
+別の方法は、レンダリングするパーシャルで以下のように`formats`属性を指定することです。
 
 ```ruby
-render(partial: 'hotels/hotel.html.erb', collection: @hotels, cached: true)
+render(partial: 'hotels/hotel', collection: @hotels, formats: :html, cached: true)
 ```
 
 上のコードは、ファイルのMIMEタイプにかかわらず`hotels/hotel.html.erb`という名前のファイルを読み込み、たとえばJavaScriptファイルでこのパーシャルをインクルードできるようになります。
@@ -412,13 +420,13 @@ Redis 3以前では、`allkeys-lru`を用いてLRU（Least Recently Used: 直近
 Redisを利用するには、まず`Gemfile`にredis gemを追加します。
 
 ```ruby
-gem 'redis'
+gem "redis"
 ```
 
 最後に、関連する`config/environments/*.rb`ファイルに以下の設定を追加します。
 
 ```ruby
-config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL"] }
 ```
 
 少し複雑なproduction向けRedisキャッシュストアは以下のような感じになります。
