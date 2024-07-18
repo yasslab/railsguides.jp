@@ -1025,7 +1025,7 @@ HTMLオプションをハッシュ形式で追加できます。
   <head>
   </head>
   <body>
-  <%= yield %>
+    <%= yield %>
   </body>
 </html>
 ```
@@ -1035,15 +1035,17 @@ HTMLオプションをハッシュ形式で追加できます。
 ```html+erb
 <html>
   <head>
-  <%= yield :head %>
+    <%= yield :head %>
   </head>
   <body>
-  <%= yield %>
+    <%= yield %>
   </body>
 </html>
 ```
 
 ビューのメインbodyは、常に「名前のない」`yield`の位置でレンダリングされます。コンテンツを名前付き`yield`の位置でレンダリングするには、`content_for`メソッドを使います。
+
+NOTE: 新しく生成したアプリケーションには、`app/views/layouts/application.html.erb`テンプレートの`<head>`要素内に`<%= yield :head %>`が含まれます。
 
 ### `content_for`を使う
 
@@ -1062,15 +1064,15 @@ HTMLオプションをハッシュ形式で追加できます。
 ```html+erb
 <html>
   <head>
-  <title>A simple page</title>
+    <title>A simple page</title>
   </head>
   <body>
-  <p>Hello, Rails!</p>
+    <p>Hello, Rails!</p>
   </body>
 </html>
 ```
 
-`content_for`メソッドは、たとえばレイアウトを「サイドバー」や「フッター」などの領域に分割して、それぞれに異なるコンテンツを挿入したい場合などに大変便利です。あるいは、多くのページで使う共通のヘッダーがあり、特定のページでのみJavaScriptやCSSファイルをそのヘッダーに挿入したい場合にも便利です。
+`content_for`メソッドは、レイアウトにサイドバーやフッターなど、独自のコンテンツブロックを挿入する必要がある個別の領域が含まれている場合に非常に便利です。また、ページ固有のJavaScript `<script>`要素、CSS `<link>`要素、コンテキスト固有の`<meta>`要素などの要素を、それ以外の一般的なレイアウトの`<head>`に挿入する場合にも便利です。
 
 ### パーシャルを使う
 
@@ -1366,7 +1368,7 @@ TIP: すべてのページで共有したいコンテンツがある場合は、
     <head>
       <title><%= @page_title or "Page Title" %></title>
       <%= stylesheet_link_tag "layout" %>
-      <style><%= yield :stylesheets %></style>
+        <%= yield :head %>
     </head>
     <body>
       <div id="top_menu">Top menu items here</div>
@@ -1381,9 +1383,11 @@ TIP: すべてのページで共有したいコンテンツがある場合は、
 * `app/views/layouts/news.html.erb`
 
     ```html+erb
-    <% content_for :stylesheets do %>
-      #top_menu {display: none}
-      #right_menu {float: right; background-color: yellow; color: black}
+    <% content_for :head do %>
+      <style>
+        #top_menu {display: none}
+        #right_menu {float: right; background-color: yellow; color: black}
+      </style>
     <% end %>
     <% content_for :content do %>
       <div id="right_menu">Right menu items here</div>
