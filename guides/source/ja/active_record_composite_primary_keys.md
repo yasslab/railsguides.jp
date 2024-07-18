@@ -27,7 +27,7 @@ Active Record の複合主キー
 `create_table`に`:primary_key`オプションで配列の値を渡すことで、複合主キーを持つテーブルを作成できます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[7.1]
+class CreateProducts < ActiveRecord::Migration[7.2]
   def change
     create_table :products, primary_key: [:store_id, :sku] do |t|
       t.integer :store_id
@@ -141,16 +141,16 @@ book.reload.order
 SELECT * FROM orders WHERE id = 2
 ```
 
-これが期待通りに動作するのは、このモデルの複合主キーに`:id`カラムが含まれており、かつ`:id`カラムがすべてのレコードで一意である場合だけです。関連付けで完全な複合主キーを使うには、その関連付けで`query_constraints`オプションを設定してください。このオプションは、関連付けられるレコードをクエリするときに複合外部キーを指定します。例:
+これが期待通りに動作するのは、このモデルの複合主キーに`:id`カラムが含まれており、かつ`:id`カラムがすべてのレコードで一意である場合だけです。関連付けで完全な複合主キーを使うには、その関連付けで`foreign_key`オプションを設定してください。このオプションは、関連付けられるレコードをクエリするときに複合外部キーを指定します。例:
 
 ```ruby
 class Author < ApplicationRecord
   self.primary_key = [:first_name, :last_name]
-  has_many :books, query_constraints: [:first_name, :last_name]
+  has_many :books, foreign_key: [:first_name, :last_name]
 end
 
 class Book < ApplicationRecord
-  belongs_to :author, query_constraints: [:author_first_name, :author_last_name]
+  belongs_to :author, foreign_key: [:author_first_name, :author_last_name]
 end
 ```
 
@@ -257,8 +257,8 @@ alices_adventure_in_wonderland:
 ```ruby
 class BookOrder < ApplicationRecord
   self.primary_key = [:shop_id, :id]
-  belongs_to :order, query_constraints: [:shop_id, :order_id]
-  belongs_to :book, query_constraints: [:author_id, :book_id]
+  belongs_to :order, foreign_key: [:shop_id, :order_id]
+  belongs_to :book, foreign_key: [:author_id, :book_id]
 end
 ```
 
