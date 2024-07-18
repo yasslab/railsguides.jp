@@ -25,7 +25,7 @@
 $ rails new appname --skip-asset-pipeline
 ```
 
-NOTE: 本ガイドでは、CSSの処理に`sprockets`を、JavaScriptの処理に`importmap-rails`のみを利用するデフォルトのアセットパイプラインに重点を置いています。この2つの主な制限は、トランスパイルをサポートしていないため、Babel、Typescript、Sass、React JSX format、Tailwind CSSといったものが使えないことです。JavaScriptやCSSのトランスパイルが必要な場合は、「[別のライブラリを使う](#別のライブラリを使う)」セクションをお読みください。
+NOTE: 本ガイドでは、CSSの処理に`sprockets`を、JavaScriptの処理に`importmap-rails`のみを利用するデフォルトのアセットパイプラインに重点を置いています。この2つの主な制限は、トランスパイルをサポートしていないため、Babel、TypeScript、Sass、React JSX format、Tailwind CSSといったものが使えないことです。JavaScriptやCSSのトランスパイルが必要な場合は、「[別のライブラリを使う](#別のライブラリを使う)」セクションをお読みください。
 
 ### 主要な機能
 
@@ -111,17 +111,13 @@ pin "react", to: "https://ga.jspm.io/npm:react@17.0.2/index.js"
 </script>
 ```
 
-- [`Es-module-shims`](https://github.com/guybedford/es-module-shims) は、古いブラウザでの`import maps`サポートを保証するポリフィルとして機能します。
-
-```html
-<script src="/assets/es-module-shims.min" async="async" data-turbo-track="reload"></script>
-```
-
 - `app/javascript/application.js`からのJavaScriptの読み込みのエントリポイント:
 
 ```html
 <script type="module">import "application"</script>
 ```
+
+NOTE: v2.0.0より前の`importmap-rails`は、古いブラウザでのimport mapを確実にサポートするため、[`Es-module-shims`](https://github.com/guybedford/es-module-shims)をポリフィルとして`javascript_importmap_tags`の出力に挿入していました。しかし現在は、すべての主要ブラウザでimport mapがネイティブサポートされているので、v2.0.0でバンドルされていたshimは削除されました。import mapをサポートしていないレガシーブラウザをサポートする場合は、`javascript_importmap_tags`の前に`Es-module-shims`を手動で挿入してください。詳しくは、[importmap-railsのREADME](https://github.com/rails/importmap-rails?tab=readme-ov-file#supporting-legacy-browsers-such-as-safari-on-ios-15)を参照してください。
 
 ### npmパッケージをJavaScript CDN経由で利用する
 
@@ -213,10 +209,10 @@ pin "md5", to: "https://cdn.jsdelivr.net/npm/md5@2.3.0/md5.js"
 ```
 
 ```erb
-# app/views/layouts/application.html.erb
+<%# app/views/layouts/application.html.erb %>
 <%= javascript_importmap_tags %>
 
-# これにより、importmapがセットアップされる前に以下のリンクがインクルードされる:
+<%# これにより、importmapがセットアップされる前に以下のリンクがインクルードされる: %>
 <link rel="modulepreload" href="https://ga.jspm.io/npm:@github/hotkey@1.4.4/dist/index.js">
 ...
 ```
