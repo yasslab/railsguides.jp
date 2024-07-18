@@ -61,6 +61,18 @@ gem "nokogiri"
 
 このメソッドは`Gemfile`にgemを追加するだけです。gemのインストールは行いません。
 
+以下のようにバージョンを正確に指定することも可能です。
+
+```ruby
+gem "nokogiri", "~> 1.16.4"
+```
+
+以下のように`Gemfile`に追加するコメントも指定できます。
+
+```ruby
+gem "nokogiri", "~> 1.16.4", comment: "Add the nokogiri gem for XML parsing"
+```
+
 ### `gem_group(*names, &block)`
 
 gemのエントリを指定のグループに含めます。
