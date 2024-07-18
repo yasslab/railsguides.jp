@@ -346,7 +346,7 @@ jQuery.ajax({
 
 ```ruby
 # 以下のsession_optionsも利用可能
-config.session_store :cookie_store, key: '_interslice_session'
+config.session_store :cookie_store, key: '_your_app_session'
 
 # このミドルウェアはすべてのセッション管理で必須（session_storeに関わらず）
 config.middleware.use ActionDispatch::Cookies
