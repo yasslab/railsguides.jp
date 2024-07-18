@@ -170,14 +170,14 @@ Railsのコンポーネント名は、語の間にスペースを1つ置く表�
 * hisまたはhers -> theirsに置き換える
 * himselfまたはherself -> themselvesに置き換える
 
-英語
+英語はアメリカ英語で
 -------
 
 アメリカ英語で表記すること（*color*、*center*、*modularize*など）。詳しくは[アメリカ英語とイギリス英語のスペルの違い][wiki us-gb diff]（英語）を参照。
 
 [wiki us-gb diff]: https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences
 
-オックスフォードカンマ
+カンマはオックスフォードカンマで
 ------------
 
 カンマは、[オックスフォードスタイル][Oxford comma]（カンマなしの"red, white and blue"ではなく、カンマありの"red, white, and blue"で列挙する）で統一すること。
@@ -281,16 +281,17 @@ For command-line examples, always prefix the command with `$`, the output doesn'
 論理値
 --------
 
-述語やフラグの記述は、`true`や`false`（実際のリテラル値）よりも平文のtrueやfalseを優先すること。
+述語やフラグの記述は、`true`や`false`（実際のリテラル値）よりも平文のtrueやfalseで書くのが望ましい。
 
-trueやfalseをRubyの定義（`nil`と`false`以外はすべてtrue）どおりに使う場合は、trueやfalseを平文で表記すること。逆にシングルトンの`true`および`false`が必要な場合は等幅フォントで表記すること。「truthy」のような用語は避けること（Rubyでは言語レベルでtrueとfalseが定義されているので、これらの用語は技術的に厳密な意味が与えられており、他の言語の用語を使う必要はありません）。
+trueやfalseをRubyの定義（`nil`と`false`以外はすべてtrue）どおりに使う場合は、trueやfalseをバッククォートで囲まずに平文で表記すること。逆にシングルトンの`true`および`false`が必要な場合は等幅フォントで表記すること。「truthy」のような用語は避けること（Rubyでは言語レベルでtrueとfalseが定義されているので、これらの用語は技術的に厳密な意味が与えられており、他の言語の用語を使う必要はありません）。
 
 原則として、シングルトンの`true`や`false`をAPIドキュメントに書かないこと（やむを得ない場合を除く）。シングルトンの`true`や`false`を避けることで、読者がシングルトンにつられて`!!`や三項演算子のような余分な人工的記法を使うことも避けられ、リファクタリングもしやすくなります。また、実装で呼び出されるメソッドが返す値の表現が少しでも違うとコードが正常に動作しなくなる事態も避けられます。
 
 例:
 
 ```ruby
-# `config.action_mailer.perform_deliveries` specifies whether mail will actually be delivered and is true by default
+# +config.action_mailer.perform_deliveries+ specifies whether mail
+# will actually be delivered and is true by default
 # （`config.action_mailer.perform_deliveries`: メールを実際に配信するかどうかを指定します。デフォルト値はtrueです。）
 ```
 
@@ -301,13 +302,11 @@ trueやfalseをRubyの定義（`nil`と`false`以外はすべてtrue）どおり
 ```ruby
 # Returns true if the collection is empty.（コレクションが空の場合はtrueを返す。）
 #
-# If the collection has been loaded（コレクションが読み込まれる場合は）
-# it is equivalent to +collection.size.zero?+. （+collection.size.zero?+と同値）
-# if the collection has not been loaded, it is equivalent to（コレクションが読み込まれなかった場合は）
-# +collection.exists?+. （+collection.exists?+と同値。）
-# If the collection has not already been （コレクションが読み込まれていない状態で）
-# loaded and you are going to fetch the records anyway（レコードを取り出したい場合は）
-# it is better to check +collection.length.zero?+. （+collection.length.zero?+をチェックするとよい）
+# If the collection has been loaded it is equivalent to（コレクションが読み込まれる場合は）
+# +collection.size.zero?+. If the collection has not been loaded,（+collection.size.zero?+と同値、コレクションが読み込まれなかった場合は）
+# it is equivalent to +!collection.exists?+. If the collection has（+collection.exists?+と同値。コレクションが読み込まれていない状態で）
+# not already been loaded and you are going to fetch the records（レコードを取り出したい場合は）
+# anyway, it is better to check +collection.length.zero?+.（+collection.length.zero?+をチェックするとよい）
 def empty?
   if loaded?
     size.zero?
