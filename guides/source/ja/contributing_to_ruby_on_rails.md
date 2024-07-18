@@ -162,6 +162,14 @@ RailsガイドやAPIリファレンスは以下のような形で改善できま
 英語ドキュメントに貢献したい方は、Railsガイドの[英語ソースファイル][guides source]を変更してから、プルリクエストでmainブランチに変更の反映を依頼してください。
 ドキュメント変更のプルリクエストでは、CIビルドの実行を避けるため、プルリクエストのタイトルに`[ci skip]`を含めてください。
 
+プルリクエストをオープンすると、ドキュメントのプレビューがデプロイされ、レビューやコラボレーションを手軽に行えるようになります。プルリクエストページの下部にステータスチェックのリストが表示されるので、`buildkite/docs-preview`を探して[details]をクリックします。
+
+![GitHub rails/railsのプルリクエストのステータスチェック画面](images/docs_preview/status_checks.png)
+
+これで、Buildkiteのビルドページが表示されます。ジョブが成功した場合は、ジョブリストの上に生成されたAPIとガイドへのリンクを含む注釈が表示されます。
+
+![Buildkiteのrails/docs-preview注釈APIとガイドへのリンク](images/docs_preview/annotation.png)
+
 ドキュメント関連で貢献するときは、[API ドキュメント作成のガイドライン](api_documentation_guidelines.html)と[Rails ガイドのガイドライン](ruby_on_rails_guides_guidelines.html)に十分目を通しておいてください。
 
 [guides source]: https://github.com/rails/rails/tree/main/guides/source
@@ -322,23 +330,7 @@ Inspecting 1 file
 1 file inspected, no offenses detected
 ```
 
-`rails-ujs`のCoffeeScriptやJavaScriptファイルについては、`actionview`フォルダで`npm run lint`を実行できます。
-
 [RuboCop]: https://www.rubocop.org/
-
-#### スペルチェック
-
-Railsでは、[GitHub Actions][]で[codespell][]によるスペルチェックを実行しています（[codespell][codespell2]では[小さなカスタム辞書][custom dict]を用いています）。codespellは[Python][]で書かれており、以下のように実行できます。
-
-```bash
-$ codespell --ignore-words=codespell.txt
-```
-
-[GitHub Actions]: https://github.com/rails/rails/blob/main/.github/workflows/lint.yml
-[codespell]: https://github.com/codespell-project/codespell
-[codespell2]: https://pypi.org/project/codespell/
-[custom dict]: https://github.com/rails/rails/blob/main/codespell.txt
-[Python]: https://www.python.org/
 
 ### ベンチマークを実行する
 
@@ -501,6 +493,12 @@ $ bundle exec rake TEST=test/cases/associations/has_many_associations_test.rb
 
 外部デバッガ（pry、byebugなど）を利用する場合は、デバッガをインストールして通常どおりに使います。デバッガの問題が発生した場合は、`PARALLEL_WORKERS=1`を設定してテストをシリアル実行するか、`n test_long_test_name`で単一のテストを実行してください。
 
+ジェネレータに対してテストを実行する場合、デバッグツールが機能するために`RAILS_LOG_TO_STDOUT=true`を設定する必要があります。
+
+```sh
+RAILS_LOG_TO_STDOUT=true ./bin/test test/generators/actions_test.rb
+```
+
 ### 警告の扱いについて
 
 テストスイートの実行では、警告表示がオンになります。Ruby on Railsのテストで警告が1つも表示されないのが理想ですが、サードパーティのものも含めて若干の警告が表示される可能性があります。これらの警告は無視してください（でなければ修正しましょう）。可能であれば、新しい警告を表示しないようにするパッチの送信もお願いします。
@@ -607,7 +605,7 @@ end
 アップグレードを容易にするために、`new_framework_defaults`テンプレートにも新しいデフォルトを追加する必要があります。コメントアウト済みのセクションを追加して、以下のように新しい値を設定します。
 
 ```ruby
-# new_framework_defaults_7_1.rb.tt
+# new_framework_defaults_7_2.rb.tt
 
 # Rails.application.config.active_job.existing_behavior = false
 ```
@@ -759,7 +757,7 @@ $ git push fork my_new_branch
 
 GitHubのメール通知機能をオンにしているRailsコントリビュータもいますが、そうとは限りません。Railsに携わっている人のほとんどはボランティアなので、プルリクエストに返信をもらうまでに数日かかることもざらにあります。どうかめげずにプルリクエストをどしどし送信してください。おどろくほど早く反応がもらえることもあれば、そうでないこともあります。それがオープンソースというものです。
 
-一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord server][discord]やdiscuss.rubyonrails.orgの[rubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。
+一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord serverのcontributionsチャンネル][discord]や、[discuss.rubyonrails.orgのrubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。なお、多忙のためプルリクエストのチェックまで手が回らない可能性がありますので、個別のメンテナーに直接問い合わせることはご遠慮ください。
 
 よい機会なので、自分のプルリクエストへの反応を待っている間に、他の人のプルリクエストを開いてコメントを追加してみましょう。きっとその人たちも、あなたが自分のパッチに返信をもらったときと同じぐらい喜んでくれるでしょう。
 
