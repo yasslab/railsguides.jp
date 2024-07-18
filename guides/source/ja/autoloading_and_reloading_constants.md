@@ -227,19 +227,6 @@ module MyApp
 end
 ```
 
-`$LOAD_PATH{#load_path}`
-----------
-
-自動読み込みパスは、デフォルトで`$LOAD_PATH`に追加されます。ただしZeitwerkは内部で絶対ファイル名を用いており、アプリケーション内では自動読み込み可能なファイルを`require`呼び出しすべきではないため、それらのディレクトリは実際には不要です。以下のフラグを用いることで、`$LOAD_PATH`に自動読み込みパスを追加しないようにできます。
-
-```ruby
-config.add_autoload_paths_to_load_path = false
-```
-
-こうすることで探索が削減され、正当な`require`が少し速くなる可能性もあります。また、アプリケーションで[Bootsnap](https://github.com/Shopify/bootsnap)を使っている場合は、このライブラリが不要なインデックスを構築しなくても済むため、必要なメモリ使用量を節約できます。
-
-`lib`ディレクトリはこのフラグの影響を受けません。常に`$LOAD_PATH`に追加されます。
-
 再読み込み
 ---------
 
@@ -382,7 +369,21 @@ end
 
 すなわち、こうしたクラスやモジュールは**再読み込み可能にできません**。
 
-そのようなクラスやモジュールを起動時に参照する最も手軽な方法は、自動読み込みパスに属さないディレクトリでそれらを定義することです。たとえば`lib/`に置くのが妥当でしょう。`lib/`はデフォルトでは自動読み込みパスに属しませんが、`$LOAD_PATH`には属しているので、`require`するだけで読み込めます。
+Railsの規約に沿った形で編成するには、これらのファイルを`lib/`ディレクトリに配置してから、必要に応じて`require`で読み込みます。たとえば、アプリケーションに`lib/middleware`がある場合は、それを設定する前に通常の`require`呼び出しを行います。
+
+```ruby
+require "middleware/my_middleware"
+config.middleware.use MyMiddleware
+```
+
+また、`lib/`がオートロードパスに含まれている場合は、以下のようにオートローダーが`lib/`のサブディレクトリを無視するように設定してください。
+
+```ruby
+# config/application.rb
+config.autoload_lib(ignore: %w(assets tasks ... middleware))
+```
+
+理由は、これらのファイルは自分で読み込まれるためです。
 
 別の方法は、上述のように、それらを`autoload_once_paths`ディレクトリで定義して自動読み込みすることです（詳しくは前述の[`config.autoload_once_paths`](#config-autoload-once-paths)を参照）。
 
