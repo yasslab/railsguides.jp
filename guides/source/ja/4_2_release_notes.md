@@ -129,7 +129,7 @@ remove_foreign_key :accounts, column: :owner_id
 
 ### `respond_with`とクラスレベルの`respond_to`の扱いについて
 
-`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、`Gemfile`に`gem 'responders', '~> 2.0'`を追記してください。
+`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、`Gemfile`に`gem "responders", "~> 2.0"`を追記してください。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -202,7 +202,7 @@ HTMLサニタイザは[Loofah](https://github.com/flavorjones/loofah)と
 
 *   要素のネストが正しくないHTMLを含むHTMLソースから生成されたDOMでは結果が異なることがあります。
 
-    例: 
+    例:
 
     ``` ruby
     # content: <div><i><p></i></div>
@@ -334,7 +334,7 @@ Action Pack
 ### 削除されたもの
 
 *   `respond_with` とクラスレベルでの`respond_to`がRailsから外され、`responders` gem (version 2.0) に移されました。引き続きこの機能を使う場合は、
-Gemfileに`gem 'responders', '~> 2.0'`を追加してください。
+Gemfileに`gem "responders", "~> 2.0"`を追加してください。
     ([Pull Request](https://github.com/rails/rails/pull/16526)、[詳細](upgrading_ruby_on_rails.html#responders-gem))
 
 *   非推奨の`AbstractController::Helpers::ClassMethods::MissingHelperError`が削除されました。今後は`AbstractController::Helpers::MissingHelperError`を使用してください。
@@ -428,7 +428,7 @@ Gemfileに`gem 'responders', '~> 2.0'`を追加してください。
     test "list all posts" do
       get "/posts"
       assert_response :success
-    end 
+    end
     ```
 
 Action View
