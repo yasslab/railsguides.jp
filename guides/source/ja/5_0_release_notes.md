@@ -77,7 +77,7 @@ end
 
 # app/models/store_listing.rb
 class StoreListing < ActiveRecord::Base
-end 
+end
 
 store_listing = StoreListing.new(price_in_cents: '10.1')
 
@@ -90,7 +90,7 @@ class StoreListing < ActiveRecord::Base
   attribute :my_string, :string, default: "new default" # デフォルト値
   attribute :my_default_proc, :datetime, default: -> { Time.now } # デフォルト値
   attribute :field_without_db_column, :integer, array: true
-end 
+end
 
 # 変更後
 store_listing.price_in_cents # => 10
@@ -637,7 +637,7 @@ Active Recordモデル（通常はテーブルやビュー）を支えるリレ�
 config/database.ymlに`prepared_statements: true`と記述することでプリペアドステートメントが有効になる。
     ([Pull Request](https://github.com/rails/rails/pull/23461))
 
-*  `ActionRecord::Relation#update`を追加。リレーションオブジェクトに対して、そのリレーションにあるすべてのオブジェクトのコールバックでバリデーション（検証）を実行できる。
+*  `ActiveRecord::Relation#update`を追加。リレーションオブジェクトに対して、そのリレーションにあるすべてのオブジェクトのコールバックでバリデーション（検証）を実行できる。
     ([Pull Request](https://github.com/rails/rails/pull/11898))
 
 *  `save`メソッドに`:touch`オプションを追加。タイムスタンプを変更せずにレコードを保存する場合に使用。
