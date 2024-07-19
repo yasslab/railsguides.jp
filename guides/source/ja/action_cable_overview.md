@@ -123,9 +123,6 @@ end
 
 #### コネクションのコールバック
 
-`before_command`、`after_command`、`around_command`コールバックがあり、それぞれクライアントが受け取ったコマンドの「前」「後」「前後」で呼び出せます。
-ここでいう"コマンド"とは、クライアントが受け取るあらゆる対話的操作（サブスクライブ、アンサブスクライブ、アクションの実行）を指します。
-
 [`ActionCable::Connection::Callbacks`][]は、（サブスクライブ、アンサブスクライブ、アクションの実行などで）クライアントにコマンドを送信するときに呼び出される以下のコールバックフックを提供します。
 
 * [`before_command`][]（コマンドの実行前）
@@ -655,9 +652,8 @@ production:
   adapter: redis
   url: rediss://10.10.3.153:tls_port
   channel_prefix: appname_production
-  ssl_params: {
+  ssl_params:
     ca_file: "/path/to/ca.crt"
-  }
 ```
 
 `ssl_params`オプションに渡したパラメータは`OpenSSL::SSL::SSLContext#set_params`メソッドに直接渡され、SSLコンテキストで有効な任意の属性を指定できます。その他に利用可能な属性名については[`OpenSSL::SSL::SSLContext`ドキュメント](https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aSSL=3a=3aSSLContext.html)を参照してください。
@@ -669,6 +665,8 @@ WARNING: セキュリティ上の影響を完全に理解するまでは、Redis
 ##### PostgreSQLアダプタ
 
 PostgreSQLアダプタはActive Recordコネクションプールを利用するため、アプリケーションのデータベース設定ファイル（`config/database.yml`）でコネクションを設定します。これについては将来変更される可能性があります（[#27214](https://github.com/rails/rails/issues/27214)）。
+
+NOTE: PostgreSQLでは、`NOTIFY`（通知を送信するために内部的に使用されるコマンド）に[8000バイトの制限](https://www.postgresql.org/docs/current/sql-notify.html)があり、大きなペイロードを処理するときに制約となる可能性があります。
 
 ### 許可されたリクエスト送信元
 
