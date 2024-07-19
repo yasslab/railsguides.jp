@@ -6,7 +6,7 @@ Rails で JavaScript を利用する
 このガイドの内容:
 
 * Node.jsやYarnやJavaScriptのバンドラーを使わずにRailsを利用する方法
-* JavaScriptをimport maps・bun・esbuild・rollup・webpackでバンドルする新規Railsアプリケーションを作成する方法
+* JavaScriptをimport maps・Bun・esbuild・Rollup・webpackでバンドルする新規Railsアプリケーションを作成する方法
 * Turboの概要と利用法
 * Railsが提供するTurbo HTMLヘルパーの利用法
 
@@ -59,9 +59,9 @@ import mapsは新規Railsアプリケーションのデフォルトですが、�
 * [Bun](https://bun.sh)
 * [esbuild](https://esbuild.github.io/)
 * [webpack](https://webpack.js.org/)
-* [rollup.js](https://rollupjs.org/guide/en/)
+* [Rollup.js](https://rollupjs.org/guide/en/)
 
-import mapsではなくJavaScriptバンドラーを新規Railsアプリケーションで利用するには、以下のように`rails new`コマンドに`—javascript`または`-j`オプションを渡します。
+import mapsではなくJavaScriptバンドラーを新規Railsアプリケーションで利用するには、以下のように`rails new`コマンドに`—-javascript`または`-j`オプションを渡します。
 
 ```bash
 $ rails new my_new_app --javascript=bun
@@ -75,13 +75,13 @@ $ rails new my_new_app -j bun
 
 ### JavaScriptランタイムをインストールする
 
-Railsアプリケーションでesbuild、rollup.js、WebpackのいずれかをJavaScriptランタイムとして使う場合は、Node.jsとYarnをインストールしなければなりません。
+Railsアプリケーションでesbuild、Rollup.js、webpackのいずれかをJavaScriptランタイムとして使う場合は、Node.jsとYarnをインストールしなければなりません。
 
 Bunを使う場合は、BunをJavaScriptのランタイムとバンドラーの兼用としてインストールするだけで済みます。
 
 #### Bunをインストールする
 
-[Bunウェブサイト](https://bun.sh)でインストール手順を見つけ、インストール後にプロジェクトのパスで以下のコマンドを実行して、正しくインストールされているかを確認してください。
+[Bunウェブサイト](https://bun.sh)でインストール手順を見つけ、インストール後にプロジェクトのパスで以下のコマンドを実行して、正しいパスにインストールされているかを確認してください。
 
 ```bash
 $ bun --version
@@ -93,7 +93,7 @@ $ bun --version
 
 #### Node.jsとYarnをインストールする
 
-Railsアプリケーションでesbuild、rollup.js、Webpackのいずれかを使う場合は、Node.jsとYarnをインストールしなければなりません。
+Railsアプリケーションでesbuild、rollup.js、webpackのいずれかを使う場合は、Node.jsとYarnをインストールしなければなりません。
 
 Node.jsのインストール方法については[Node.js Webサイト](https://nodejs.org/ja/download/)を参照してください。また、以下のコマンドで正しくインストールされたかどうかを確認してください。
 
@@ -123,7 +123,7 @@ Railsチームは、import mapsが複雑さを削減して開発者のエクス�
 それ以外のアプリケーションでは、引き続き従来のJavaScriptバンドラーが必要になることもあるでしょう。従来のJavaScriptバンドラーを選択すべきであることを示唆する要件は以下のとおりです。
 
 * コードでトランスパイルが必須である場合（JSXやTypeScriptなどを使う場合）
-* CSSをインクルードするJavaScriptライブラリや、[Webpack loaders](https://webpack.js.org/loaders/)に依存する必要がある場合
+* CSSをインクルードするJavaScriptライブラリや、[webpack loaders](https://webpack.js.org/loaders/)に依存する必要がある場合
 * [tree-shaking](https://webpack.js.org/guides/tree-shaking/)がどうしても必要な場合
 * [cssbundling-rails gem](https://github.com/rails/cssbundling-rails)経由でBootstrap、Bulma、PostCSS、Dart CSSをインストールする場合。なお、`rails new`で特に別のオプションを指定しなかった場合は、cssbundling-rails gemが自動的に`esbuild`をインストールします（TailwindやSassを選んだ場合はインストールされません）。
 
