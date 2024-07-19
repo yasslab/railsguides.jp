@@ -175,7 +175,7 @@ Action View
 
 *   `ActionView::Template#initialize`で`locals`引数が必須化された
 
-*   アセットヘルパーの`javascript_include_tag`と`stylesheet_link_tag`がアセットのプリロードに関するヒントを提供する`Link`ヘッダを生成するようになった。これは`config.action_view.preload_links_header`を`false`に設定することで無効にできる
+*   アセットヘルパーの`javascript_include_tag`と`stylesheet_link_tag`がアセットのプリロードに関するヒントを提供する`link`ヘッダを生成するようになった。これは`config.action_view.preload_links_header`を`false`に設定することで無効にできる
 
 Action Mailer
 -------------
