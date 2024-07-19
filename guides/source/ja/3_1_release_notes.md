@@ -33,18 +33,18 @@ TIP: Ruby 1.8.7のp248とp249には、Railsクラッシュの原因となるマ�
 `Gemfile`を以下のように変更します。
 
 ```ruby
-gem 'rails', '= 3.1.3'
-gem 'mysql2'
+gem "rails", "= 3.1.3"
+gem "mysql2"
 
 # 新しいアセットパイプラインで必要
 group :assets do
-  gem 'sass-rails',   "~> 3.1.5"
-  gem 'coffee-rails', "~> 3.1.1"
-  gem 'uglifier',     ">= 1.0.3"
+  gem "sass-rails",   "~> 3.1.5"
+  gem "coffee-rails", "~> 3.1.1"
+  gem "uglifier",     ">= 1.0.3"
 end
 
 # Rails 3.1ではjQueryがデフォルトのJavaScriptライブラリとなる
-gem 'jquery-rails'
+gem "jquery-rails"
 ```
 
 #### config/application.rb
