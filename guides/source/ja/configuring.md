@@ -3513,7 +3513,7 @@ Railsにはフック可能な初期化イベントが5つあります。以下�
 
 #### `before_configuration`
 
-このフックは、アプリケーションが`Rails::Application`から定数を継承した直後に実行されます。`config`呼び出しは、このイベントより前に評価されます。
+このフックは、アプリケーションが`config/application.rb`の`Rails::Application`から定数を継承するタイミングで実行されます。Railsエンジンは、アプリケーション自体が構成される前にこのフックを用いてコードを実行する場合があります。
 
 #### `before_initialize`
 
