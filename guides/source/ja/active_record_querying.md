@@ -1705,13 +1705,12 @@ books.each do |book|
 end
 ```
 
-書き換え前は **11** 回もクエリが実行されましたが、書き直した上のコードはわずか **2** 回にまで減りました。
+書き換え前は**11**回もクエリが実行されましたが、書き直した上のコードはわずか**1**回にまで減りました。
 
 ```sql
-SELECT DISTINCT books.id FROM books LEFT OUTER JOIN authors ON authors.id = books.author_id LIMIT 10
-SELECT books.id AS t0_r0, books.last_name AS t0_r1, ...
-  FROM books LEFT OUTER JOIN authors ON authors.id = books.author_id
-  WHERE books.id IN (1,2,3,4,5,6,7,8,9,10)
+SELECT "books"."id" AS t0_r0, "books"."title" AS t0_r1, ... FROM "books"
+  LEFT OUTER JOIN "authors" ON "authors"."id" = "books"."author_id"
+  LIMIT 10
 ```
 
 NOTE: 「配列」「ハッシュ」または「配列やハッシュをネストしたハッシュ」を用いる`eager_load`メソッドは、`includes`メソッドと同様に`Model.find`呼び出しで任意の個数の関連付けを読み込みます。また、`includes`メソッドと同様に、eager loadingされる関連付けに条件を指定できます。
