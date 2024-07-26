@@ -1984,6 +1984,14 @@ end
 | （オリジナル）           | `true`                |
 | 7.1以降                | `:all`                |
 
+#### `config.action_dispatch.always_write_cookie`
+
+「cookieが安全でないとマーキングされている場合」や「リクエストがSSL経由で行われている場合」や「リクエストが[Onion Service](https://ja.wikipedia.org/wiki/Tor#%E3%83%A9%E3%83%B3%E3%83%87%E3%83%96%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%81%A8Onion_Service)に対して行われている場合」にも、リクエストの最後にcookieを書き込むかどうかを指定します。
+
+`true`に設定すると、この条件が満たされない場合でもcookieを書き込みます。
+
+デフォルト値は、`development`環境では`true`、その他の環境では`false`です。
+
 #### `ActionDispatch::Callbacks.before`
 
 リクエストより前に実行したいコードブロックを渡します。
