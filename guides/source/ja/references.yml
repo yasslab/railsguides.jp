@@ -79,5 +79,7 @@ working_with_javascript_in_rails:
   url: https://everyleaf.github.io/hotwire_ja/
 - title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 by Yasuko Ohba (nay3) - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/nay3/
+- title: Hotwireことはじめ - 万葉
+  url: https://note.com/everyleaf/n/n9dc49676521c
 - title: Hotwire for Frontend Developers - フロントエンドエンジニアのためのHotwire入門
   url: https://hotwire-and-next.vercel.app/
