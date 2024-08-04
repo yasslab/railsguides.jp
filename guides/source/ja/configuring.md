@@ -2659,7 +2659,7 @@ config.active_storage.analyzers = [ActiveStorage::Analyzer::ImageAnalyzer::Vips,
 
 画像アナライザは、画像blobの幅（width）や高さ（height）を取り出せます。
 
-動画アナライザは、動画blobの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、アスペクト比（aspect ratio）、動画/音声チャンネルの有無を取り出せます。
+動画アナライザは、動画blobの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、縦横比（aspect ratio、アスペクト比）、動画/音声チャンネルの有無を取り出せます。
 
 音声アナライザは、音声blobの再生時間やビットレートを取り出せます。
 
