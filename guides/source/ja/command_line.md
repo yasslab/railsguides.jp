@@ -661,9 +661,10 @@ Railsにはminitestと呼ばれるテストフレームワークが付属して�
 
 * `bin/rails initializers`: Railsで呼び出されるすべてのイニシャライザを、実際の呼び出し順で表示します。
 * `bin/rails middleware`: アプリで有効になっているRackミドルウェアスタックのリストを表示します。
-* `rails stats`: コード量とテスト量の比率やKLOCs（1000を単位とするコード行数）などのコードに関する統計値を表示します。
-* `rails secret`: セッションのsecretに用いる擬似乱数を生成します。
-* `rails time:zones:all`: Railsが扱えるすべてのタイムゾーンを表示します。
+* `bin/rails stats`: コード量とテスト量の比率やKLOCs（1000を単位とするコード行数）などのコードに関する統計値を表示します。
+* `bin/rails secret`: セッションのsecretに用いる擬似乱数を生成します。
+* `bin/rails time:zones:all`: Railsが扱えるすべてのタイムゾーンを表示します。
+* `bin/rails boot`: アプリケーションを起動し、終了します。
 
 ### カスタムRakeタスク
 
