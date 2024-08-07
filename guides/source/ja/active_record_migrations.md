@@ -651,7 +651,7 @@ INFO: 複合主キーを持つテーブルでは、多くのメソッドで整�
 Active Recordが提供するヘルパーの機能だけでは不十分な場合、[`execute`][]メソッドで任意のSQLを実行できます。
 
 ```ruby
-class UpdateProductPrices < ActiveRecord::Migration[8.0]
+class UpdateProductPrices < ActiveRecord::Migration[7.2]
   def up
     execute "UPDATE products SET price = 'free'"
   end
@@ -995,7 +995,7 @@ INFO: マイグレーションが途中で失敗した場合、途中まで正�
 ただし、ある種のクエリはトランザクション内では実行できないので、そのような状況では、以下のように`disable_ddl_transaction!`で自動トランザクションを意図的にオフにできます。
 
 ```ruby
-class ChangeEnum < ActiveRecord::Migration[8.0]
+class ChangeEnum < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 
   def up
@@ -1344,7 +1344,7 @@ NOTE: バージョン13より前のPostgreSQLを使っている場合は、`gen_
     ```
 
     ```ruby
-    class CreateAuthors < ActiveRecord::Migration[8.0]
+    class CreateAuthors < ActiveRecord::Migration[7.2]
       def change
         create_table :authors, id: :uuid do |t|
           t.timestamps
