@@ -261,7 +261,7 @@
       url: upgrading_ruby_on_rails.html
       description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
     -
-      name: Version 7.2 - 2023/08
+      name: Rails 7.2 - 2023/08
       url: 7_2_release_notes.html
       description: Rails 7.2のリリースノートです。
     -
