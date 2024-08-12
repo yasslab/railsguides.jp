@@ -52,7 +52,7 @@ Railsのバージョン命名は[semver](http://semver.org/)のSemantic Versioni
 
 セキュリティリリースは、最後のセキュリティリリースのブランチ/タグからカットされます。そうしないと、セキュリティリリースで破壊的変更が生じる可能性があります。セキュリティリリースは、アプリケーションのアップグレードを継続しやすくすることで、アプリケーションが安全であることを保証するために必要な変更のみを含むべきです。
 
-NOTE: 訳注：[2024年8月に更新](https://github.com/rails/rails/pull/52471)された本メンテナンスポリシーは、それ以降のリリースにのみ適用されます。したがって[Rails 6.1](https://railsguides.jp/6_1_release_notes.html)の[EOL](https://www.google.com/search?q=EOL)は[旧メンテナンスポリシー](https://github.com/yasslab/railsguides.jp/pull/1651/files)に沿って2024年10月、[Rails 7.0](https://railsguides.jp/7_0_release_notes.html)は2025年4月、[Rails 7.1](https://railsguides.jp/7_1_release_notes.html)は2025年10月のままとなります。([» 原文を見る](https://github.com/rails/rails/pull/52471#issuecomment-2271622034))
+NOTE: 訳注：[2024年8月に更新](https://github.com/rails/rails/pull/52471)された本メンテナンスポリシーは、それ以降のリリースにのみ適用されます。したがって[Rails 6.1](https://railsguides.jp/6_1_release_notes.html)の[EOL](https://www.google.com/search?q=EOL)は[旧メンテナンスポリシー](https://github.com/yasslab/railsguides.jp/pull/1651/files)に沿って2024年10月1日、[Rails 7.0](https://railsguides.jp/7_0_release_notes.html)は2025年4月1日、[Rails 7.1](https://railsguides.jp/7_1_release_notes.html)は2025年10月1日のままとなります。([» 原文を見る](https://rubyonrails.org/maintenance#security))
 
 
 サポート終了となるリリースシリーズ
