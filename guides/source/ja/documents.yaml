@@ -60,7 +60,6 @@
       name: Active Model の基礎
       url: active_model_basics.html
       description: Active Recordを使わずにモデルクラスを扱う方法について解説します。
-      work_in_progress: true
 -
   name: ビュー
   documents:
@@ -68,7 +67,6 @@
       name: Action View の概要
       url: action_view_overview.html
       description: Action Viewの概要を紹介し、共通のビューヘルパーについてもある程度解説します。
-      work_in_progress: true
     -
       name: レイアウトとレンダリング
       url: layouts_and_rendering.html
@@ -105,12 +103,10 @@
       description: Action Mailerを使用してメールを送受信する方法について解説します。
     -
       name: Action Mailbox の基礎
-      work_in_progress: true
       url: action_mailbox_basics.html
       description: Action Mailboxを使ってメールを受信する方法について解説します。
     -
       name: Action Text の概要
-      work_in_progress: true
       url: action_text_overview.html
       description: Action Text を使ったリッチテキスト形式のデータの取り扱い方法について解説します。
     -

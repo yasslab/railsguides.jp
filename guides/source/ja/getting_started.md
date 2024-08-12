@@ -38,6 +38,8 @@ Railsの哲学には、以下の2つの主要な基本理念があります。
 
 ## Railsプロジェクトを新規作成する
 
+TIP: 新しいRailsアプリには、事前設定済みのDev Container開発環境が付属しています。Dev Containerは、Railsを始める最短の方法です。手順については、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html) を参照してください。
+
 本ガイドを最大限に活用するには、以下の手順を1つずつすべて実行するのがベストです。どの手順もサンプルアプリケーションを動かすのに必要なものであり、それ以外のコードや手順は不要です。
 
 本ガイドの手順に沿って作業すれば、`blog`という名前の非常にシンプルなブログのRailsプロジェクトを作成できます。Railsアプリケーションを構築する前に、Rails本体をインストールしておいてください。
@@ -58,11 +60,11 @@ TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https
 ターミナル（コマンドプロンプトとも言います）ウィンドウを開いてください。macOSの場合、ターミナル（Terminal.app）という名前のアプリケーションを実行します。Windowsの場合は[スタート]メニューから[ファイル名を指定して実行]をクリックして'cmd.exe'と入力します。`$`で始まる記述はコマンド行なので、これらをコマンドラインに入力して実行します。次に以下を実行して、現在インストールされているRubyが最新バージョンであることを確認しましょう。
 
 ```bash
-$ ruby -v
-ruby 3.0.1
+$ ruby --version
+ruby 3.1.0
 ```
 
-RailsではRubyバージョン2.7.0以降が必須です。これより低いバージョン（2.3.7や1.8.7など）が表示された場合は、新たにRubyをインストールする必要があります。
+RailsではRubyバージョン3.1.0以降が必須です。これより低いバージョン（2.3.7や1.8.7など）が表示された場合は、新たにRubyをインストールする必要があります。
 
 RailsをWindowsにインストールする場合は、最初に[Ruby Installer](https://rubyinstaller.org/)をインストールしておく必要があります。
 
@@ -91,10 +93,10 @@ $ gem install rails
 
 ```bash
 $ rails --version
-Rails 7.1.0
+Rails 7.2.0
 ```
 
-"Rails 7.1.0"などのバージョンが表示されたら、次に進みましょう。
+"Rails 7.2.0"などのバージョンが表示されたら、次に進みましょう。
 
 ### ブログアプリケーションを作成する
 
@@ -138,7 +140,9 @@ $ cd blog
 |vendor/|サードパーティ製コードはすべてこのディレクトリに置きます。通常のRailsアプリケーションの場合、外部のgemファイルがここに置かれます。|
 |.dockerignore|コンテナにコピーすべきでないファイルをDockerに指示するのに使うファイルです。|
 |.gitattributes|このファイルは、gitリポジトリ内の特定のパスについてメタデータを定義します。このメタデータは、gitや他のツールで振る舞いを拡張できます。詳しくは[gitattributesドキュメント](https://git-scm.com/docs/gitattributes)を参照してください。|
+|.github/|GitHub固有のファイルが置かれます。|
 |.gitignore|Gitに登録しないファイル（またはパターン）をこのファイルで指定します。Gitにファイルを登録しない方法について詳しくは[GitHub - Ignoring files](https://help.github.com/articles/ignoring-files)を参照してください。|
+|.rubocop.yml|このファイルにはRuboCop用の設定が含まれます。|
 |.ruby-version|このファイルには、デフォルトのRubyバージョンが記述されています。|
 
 ## Hello, Rails!
@@ -299,7 +303,7 @@ create      test/fixtures/articles.yml
 `db/migrate/`ディレクトリの下に生成されたマイグレーションファイルを開いてみましょう。
 
 ```ruby
-class CreateArticles < ActiveRecord::Migration[7.1]
+class CreateArticles < ActiveRecord::Migration[7.2]
   def change
     create_table :articles do |t|
       t.string :title
@@ -349,7 +353,7 @@ $ bin/rails console
 以下のような`irb`プロンプトが表示されるはずです。
 
 ```irb
-Loading development environment (Rails 7.1.0)
+Loading development environment (Rails 7.2.0)
 irb(main):001:0>
 ```
 
@@ -1053,7 +1057,7 @@ Commentモデルの内容は、これまでに見た`Articleモデル`と非常�
 モデルファイルの他に、以下のようなマイグレーションファイルも生成されています。マイグレーションファイルは、モデルに対応するデータベーステーブルを生成するのに使います。
 
 ```ruby
-class CreateComments < ActiveRecord::Migration[7.1]
+class CreateComments < ActiveRecord::Migration[7.2]
   def change
     create_table :comments do |t|
       t.string :commenter
@@ -1311,7 +1315,7 @@ end
 今度はコメント作成部分もパーシャルに追い出してみましょう。`app/views/comments/_form.html.erb`ファイルを作成し、以下のように入力します。
 
 ```html+erb
-<%= form_with model: [ @article, @article.comments.build ] do |form| %>
+<%= form_with model: [ article, article.comments.build ] do |form| %>
   <p>
     <%= form.label :commenter %><br>
     <%= form.text_field :commenter %>
@@ -1345,12 +1349,10 @@ end
 <%= render @article.comments %>
 
 <h2>Add a comment:</h2>
-<%= render 'comments/form' %>
+<%= render "comments/form", article: @article %>
 ```
 
 2番目の`render`は、レンダリングする`comments/form`パーシャルテンプレートを定義しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字を認識し、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルをレンダリングすればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
-
-`@article`オブジェクトはインスタンス変数なので、ビューでレンダリングされるどのパーシャルからもアクセスできます。
 
 ### concernを使う
 
