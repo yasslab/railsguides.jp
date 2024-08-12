@@ -138,7 +138,6 @@ $ cd blog
 |test/|このディレクトリには、単体テストやフィクスチャなどのテスト関連ファイルを置きます。テストについて詳しくは[Railsアプリケーションをテストする](testing.html)を参照してください。|
 |tmp/|このディレクトリには、キャッシュやpidなどの一時ファイルが置かれます。|
 |vendor/|サードパーティ製コードはすべてこのディレクトリに置きます。通常のRailsアプリケーションの場合、外部のgemファイルがここに置かれます。|
-|.devcontainer/|このフォルダには[devcontainer](https://containers.dev)用の設定が置かれます。|
 |.dockerignore|コンテナにコピーすべきでないファイルをDockerに指示するのに使うファイルです。|
 |.gitattributes|このファイルは、gitリポジトリ内の特定のパスについてメタデータを定義します。このメタデータは、gitや他のツールで振る舞いを拡張できます。詳しくは[gitattributesドキュメント](https://git-scm.com/docs/gitattributes)を参照してください。|
 |.github/|GitHub固有のファイルが置かれます。|
@@ -1316,7 +1315,7 @@ end
 今度はコメント作成部分もパーシャルに追い出してみましょう。`app/views/comments/_form.html.erb`ファイルを作成し、以下のように入力します。
 
 ```html+erb
-<%= form_with model: [ @article, @article.comments.build ] do |form| %>
+<%= form_with model: [ article, article.comments.build ] do |form| %>
   <p>
     <%= form.label :commenter %><br>
     <%= form.text_field :commenter %>
@@ -1350,12 +1349,10 @@ end
 <%= render @article.comments %>
 
 <h2>Add a comment:</h2>
-<%= render 'comments/form' %>
+<%= render "comments/form", article: @article %>
 ```
 
 2番目の`render`は、レンダリングする`comments/form`パーシャルテンプレートを定義しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字を認識し、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルをレンダリングすればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
-
-`@article`オブジェクトはインスタンス変数なので、ビューでレンダリングされるどのパーシャルからもアクセスできます。
 
 ### concernを使う
 
