@@ -504,10 +504,6 @@ Active Support
 
 ### 非推奨化
 
-*   `config.active_support.to_time_preserves_timezone`を非推奨化。
-
-*   `DateAndTime::Compatibility.preserve_timezone`を非推奨化。
-
 ### 主な変更点
 
 Active Job
