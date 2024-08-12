@@ -1484,7 +1484,7 @@ ActiveRecord::Base.connection
 
 デフォルトは`4`です。
 
-この数値を検討するときは、`database.yml`で設定されているデータベースプールのサイズと調和させなければなりません。コネクションプールのサイズは、フォアグラウンドのスレッド（Webサーバーやジョブワーカーのスレッド）とバックグラウンドのスレッドを両方とも扱えるサイズにする必要があります。
+この数値を検討するときは、`database.yml`で設定されているデータベースコネクションのプールサイズと調和させなければなりません。コネクションプールのサイズは、フォアグラウンドのスレッド（Webサーバーやジョブワーカーのスレッド）とバックグラウンドのスレッドを両方とも扱えるサイズにする必要があります。
 
 Railsはプロセスごとに、この個数のスレッドを用いて非同期クエリを処理するグローバル クエリエグゼキュータを1つ作成します。したがって、プールサイズは`thread_count + global_executor_concurrency + 1`以上である必要があります。たとえば、Webサーバーの最大スレッド数が3で、`global_executor_concurrency`が4に設定されている場合、プールサイズは8以上にする必要があります。
 
@@ -2026,7 +2026,7 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 
 #### `config.action_view.erb_trim_mode`
 
-ERBで使うトリムモードを指定します。デフォルト値は`'-'`で、`<%= -%>`または`<%= =%>`の場合に末尾スペースを削除して改行します。詳しくは[Erubisドキュメント](http://www.kuwata-lab.com/erubis/users-guide.06.html#topics-trimspaces)を参照してください。
+特定のERB構文をトリミングするかどうかを指定します。デフォルト値は`'-'`で、`<%= -%>`または`<%= =%>`の場合に末尾スペースを削除して改行します。それ以外の値に設定するとトリミングサポートがオフになります。
 
 #### `config.action_view.frozen_string_literal`
 
@@ -3407,7 +3407,7 @@ end
 
 Railsフレームワークでは、特定のライブラリが読み込まれたタイミングでこれらのフックが呼び出されます。たとえば、`ActionController::Base`が読み込まれると、`:action_controller_base`フックが呼び出されます。つまり、`:action_controller_base`フックを使うすべての`ActiveSupport.on_load`呼び出しは、`ActionController::Base`のコンテキストで呼び出されることになります（つまり、`self`は`ActionController::Base`になります）。
 
-### Modifying Code to Use Load Hooks
+### 読み込みフックでコードを変更する
 
 コードの変更は一般的に簡単です。`ActiveRecord::Base`などのRailsフレームワークを参照するコード行がある場合は、そのコードを読み込みフックでラップできます。
 
