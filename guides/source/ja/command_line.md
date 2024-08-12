@@ -664,6 +664,7 @@ Railsにはminitestと呼ばれるテストフレームワークが付属して�
 * `rails stats`: コード量とテスト量の比率やKLOCs（1000を単位とするコード行数）などのコードに関する統計値を表示します。
 * `rails secret`: セッションのsecretに用いる擬似乱数を生成します。
 * `rails time:zones:all`: Railsが扱えるすべてのタイムゾーンを表示します。
+* `bin/rails boot`: アプリケーションを起動し、その後終了します。
 
 ### カスタムRakeタスク
 
