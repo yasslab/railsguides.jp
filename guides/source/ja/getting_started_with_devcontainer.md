@@ -6,13 +6,13 @@ Dev Containerでの開発ガイド
 このガイドの内容:
 
 * `rails-new`ツールでRailsアプリケーションを新規作成する方法
-* dev containerでアプリケーションを扱う方法
+* development containerでアプリケーションを扱う方法
 
 --------------------------------------------------------------------------------
 
 本ガイドは、途中を飛ばさずにステップごとに読み進めるのがベストです。サンプルアプリケーションを実行するにはすべての手順をもれなく実行する必要がありますが、その他のコードや手順は必要ありません。
 
-本ガイドは、[dev container（development containers）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、Railsやその依存関係をローカルコンピュータに直接インストールせず、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
+本ガイドは、[dev container（development container）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、Railsやその依存関係をローカルコンピュータに直接インストールせず、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
 
 これは、[Rails をはじめよう](getting_started.html#creating-a-new-rails-project)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#creating-a-new-rails-project)ガイドでアプリケーション構築作業を続行できます。
 
