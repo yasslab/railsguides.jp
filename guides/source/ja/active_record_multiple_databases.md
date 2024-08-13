@@ -82,7 +82,7 @@ production:
 
 replicaデータベースを使う場合、`config/database.yml`のreplicaには`replica: true`というエントリを1つ追加する必要があります。このエントリがないと、どちらがreplicaでどちらがwriterかをRailsが区別できなくなるためです。Railsは、マイグレーションなどの特定のタスクについてはreplicaに対して実行しません。
 
-最後に、新しいwriterデータベースで利用するために、そのデータベースのマイグレーションを置くディレクトリを`migrations_paths`に設定する必要があります。`migrations_paths`については本ガイドで後述します。
+最後に、新しいwriterデータベースで利用するために、そのデータベースのマイグレーションを置くディレクトリを`migrations_paths`キーに設定する必要があります。`migrations_paths`については本ガイドで後述します。
 
 また、`schema_dump`をカスタムスキーマファイル名に設定する形でスキーマダンプファイルを構成することも、`schema_dump: false`オプションを設定してスキーマのダンプを完全にスキップすることも可能です。
 
