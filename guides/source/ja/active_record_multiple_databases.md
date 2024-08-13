@@ -32,7 +32,7 @@ Active Record の複数データベース対応
 
 たとえばwriterデータベースが1つあるアプリケーションに、新しいテーブルがいくつかあるデータベースを1つ追加するとします。新しいデータベースの名前は「animal」とします。
 
-この場合のdatabase.ymlは以下のような感じになります。
+この場合の`config/database.yml`は以下のような感じになります。
 
 ```yaml
 production:
@@ -42,10 +42,10 @@ production:
   password: <%= ENV['ROOT_PASSWORD'] %>
 ```
 
-animalという名前の第2のデータベースを追加して、両方のデータベースにそれぞれreplicaを追加してみましょう。これを行うには、`database.yml`を以下のように2層（2-tier）設定から3層（3-tier）設定に変更する必要があります。
+animalという名前の第2のデータベースを追加して、両方のデータベースにそれぞれreplicaを追加してみましょう。これを行うには、`config/database.yml`を以下のように2層（2-tier）設定から3層（3-tier）設定に変更する必要があります。
 
-primary設定がある場合、これが「デフォルト」の設定として使われます。「primary」と名付けられた設定がない場合、Railsは最初の設定を各環境で使います。
-デフォルトの設定ではデフォルトのRailsのファイル名が使われます。たとえば、primary設定のスキーマファイル名には`schema.rb`が使われ、その他のエントリではファイル名に`設定の名前空間_schema.rb`が使われます。
+`primary`設定キーがある場合、これが「デフォルト」の設定として使われます。`primary`という名前の設定キーがない場合、Railsは最初の設定を各環境で使います。
+デフォルトの設定では、デフォルトのRailsのファイル名が使われます。たとえば、`primary`設定のスキーマファイル名には`db/schema.rb`が使われ、その他のエントリではファイル名に`db/設定の名前空間_schema.rb`が使われます。
 
 ```yaml
 production:
@@ -80,21 +80,14 @@ production:
 
 第2に、writerとreplicaでは異なるデータベースユーザー名を使い、かつreplicaのパーミッションは（writeではなく）readのみにすべきです。
 
-replicaデータベースを使う場合、`database.yml`のreplicaには`replica: true`というエントリを1つ追加する必要があります。このエントリがないと、どちらがreplicaでどちらがwriterかをRailsが区別できなくなるためです。Railsは、マイグレーションなどの特定のタスクについてはreplicaに対して実行しません。
+replicaデータベースを使う場合、`config/database.yml`のreplicaには`replica: true`というエントリを1つ追加する必要があります。このエントリがないと、どちらがreplicaでどちらがwriterかをRailsが区別できなくなるためです。Railsは、マイグレーションなどの特定のタスクについてはreplicaに対して実行しません。
 
-最後に、新しいwriterデータベースで利用するために、そのデータベースのマイグレーションを置くディレクトリを`migrations_paths`に設定する必要があります。`migrations_paths`については本ガイドで後述します。
+最後に、新しいwriterデータベースで利用するために、そのデータベースのマイグレーションを置くディレクトリを`migrations_paths`キーに設定する必要があります。`migrations_paths`については本ガイドで後述します。
 
-新しいデータベースができたら、コネクションモデルをセットアップしましょう。新しいデータベースを使うには、抽象クラスを1つ作成してanimalsデータベースに接続する必要があります。
+また、`schema_dump`をカスタムスキーマファイル名に設定する形でスキーマダンプファイルを構成することも、`schema_dump: false`オプションを設定してスキーマのダンプを完全にスキップすることも可能です。
 
-```ruby
-class AnimalsRecord < ApplicationRecord
-  self.abstract_class = true
-
-  connects_to database: { writing: :animals, reading: :animals_replica }
-end
-```
-
-続いて`ApplicationRecord`クラスを以下のように更新し、新しいreplicaを認識させる必要があります。
+新しいデータベースができたら、コネクションモデルをセットアップしましょう。
+primaryデータベースのreplicaは、以下のように`ApplicationRecord`で構成できます。
 
 ```ruby
 class ApplicationRecord < ActiveRecord::Base
@@ -109,13 +102,33 @@ end
 ```ruby
 class PrimaryApplicationRecord < ActiveRecord::Base
   primary_abstract_class
+
+  connects_to database: { writing: :primary, reading: :primary_replica }
 end
 ```
 
-primary/primary_replicaに接続するクラスは、通常のRailsアプリケーションと同様に`ApplicationRecord`を継承できます。
+この場合、`primary`や`primary_replica`に接続するクラスは、標準のRailsアプリケーションが`ApplicationRecord`で行っているのと同じように、プライマリの抽象クラスから継承できます。
 
 ```ruby
-class Person < ApplicationRecord
+class Person < PrimaryApplicationRecord
+end
+```
+
+一方、`animals`データベースには永続化されたモデルを設定する必要があります。
+
+```ruby
+class AnimalsRecord < ApplicationRecord
+  self.abstract_class = true
+
+  connects_to database: { writing: :animals, reading: :animals_replica }
+end
+```
+
+これらのモデルは、共通の抽象クラスから継承する必要があります。
+
+```ruby
+class Car < AnimalsRecord
+  # animalsデータベースに自動的に話しかける
 end
 ```
 
@@ -126,41 +139,43 @@ config.active_record.writing_role = :default
 config.active_record.reading_role = :readonly
 ```
 
-ここで重要なのは、データベースへの接続を「単一のモデル内」で行うことと、そのモデルを継承してテーブルを利用することです（複数のモデルから同じデータベースに接続するのではなく）。データベースクライアントがコネクションをオープンできる数には上限があります。Railsはコネクションを指定する名前にモデル名を用いるので、同じデータベースに複数のモデルから接続するとコネクション数が増加します。
+ここで重要なのは、データベースへの接続を「単一のモデル内」で行うことと、そのモデルを継承してテーブルを利用することです（複数のモデルから同じデータベースに接続するのではなく）。データベースクライアントがオープンできるコネクション数には上限があります。Railsはコネクションを指定する名前にモデル名を用いるので、同じデータベースに複数のモデルから接続するとコネクション数が増加します。
 
-`database.yml`と新しいモデルをセットアップできたので、いよいよデータベースを作成しましょう。Rails 6.0には複数のデータベースを使うのに必要なrailsタスクがすべて揃っています。
+`config/database.yml`と新しいモデルをセットアップできたので、いよいよデータベースを作成しましょう。Railsには複数のデータベースを使うのに必要なrailsタスクがすべて揃っています。
 
-`bin/rails -T`を実行すると、利用可能なコマンド一覧がすべて表示されます。出力は以下のようになります。
+`bin/rails --help`を実行すると、利用可能なコマンド一覧がすべて表示されます。出力は以下のようになります。
 
 ```bash
-$ bin/rails -T
-bin/rails db:create                          # Create the database from DATABASE_URL or config/database.yml for the ...
-bin/rails db:create:animals                  # Create animals database for current environment
-bin/rails db:create:primary                  # Create primary database for current environment
-bin/rails db:drop                            # Drop the database from DATABASE_URL or config/database.yml for the cu...
-bin/rails db:drop:animals                    # Drop animals database for current environment
-bin/rails db:drop:primary                    # Drop primary database for current environment
-bin/rails db:migrate                         # Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)
-bin/rails db:migrate:animals                 # Migrate animals database for current environment
-bin/rails db:migrate:primary                 # Migrate primary database for current environment
-bin/rails db:migrate:status                  # Display status of migrations
-bin/rails db:migrate:status:animals          # Display status of migrations for animals database
-bin/rails db:migrate:status:primary          # Display status of migrations for primary database
-bin/rails db:reset                           # Drop and recreates all databases from their schema for the current environment and loads the seeds
-bin/rails db:reset:animals                   # Drop and recreates the animals database from its schema for the current environment and loads the seeds
-bin/rails db:reset:primary                   # Drop and recreates the primary database from its schema for the current environment and loads the seeds
-bin/rails db:rollback                        # Roll the schema back to the previous version (specify steps w/ STEP=n)
-bin/rails db:rollback:animals                # Rollback animals database for current environment (specify steps w/ STEP=n)
-bin/rails db:rollback:primary                # Rollback primary database for current environment (specify steps w/ STEP=n)
-bin/rails db:schema:dump                     # Create a database schema file (either db/schema.rb or db/structure.sql  ...
-bin/rails db:schema:dump:animals             # Create a database schema file (either db/schema.rb or db/structure.sql  ...
-bin/rails db:schema:dump:primary             # Create a db/schema.rb file that is portable against any DB supported  ...
-bin/rails db:schema:load                     # Load a database schema file (either db/schema.rb or db/structure.sql  ...
-bin/rails db:schema:load:animals             # Load a database schema file (either db/schema.rb or db/structure.sql  ...
-bin/rails db:schema:load:primary             # Load a database schema file (either db/schema.rb or db/structure.sql  ...
-bin/rails db:setup                           # Create all databases, loads all schemas, and initializes with the seed data (use db:reset to also drop all databases first)
-bin/rails db:setup:animals                   # Create the animals database, loads the schema, and initializes with the seed data (use db:reset:animals to also drop the database first)
-bin/rails db:setup:primary                   # Create the primary database, loads the schema, and initializes with the seed data (use db:reset:primary to also drop the database first)
+$ bin/rails --help
+...
+db:create                          # Create the database from DATABASE_URL or config/database.yml for the ...
+db:create:animals                  # Create animals database for current environment
+db:create:primary                  # Create primary database for current environment
+db:drop                            # Drop the database from DATABASE_URL or config/database.yml for the cu...
+db:drop:animals                    # Drop animals database for current environment
+db:drop:primary                    # Drop primary database for current environment
+db:migrate                         # Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)
+db:migrate:animals                 # Migrate animals database for current environment
+db:migrate:primary                 # Migrate primary database for current environment
+db:migrate:status                  # Display status of migrations
+db:migrate:status:animals          # Display status of migrations for animals database
+db:migrate:status:primary          # Display status of migrations for primary database
+db:reset                           # Drop and recreates all databases from their schema for the current environment and loads the seeds
+db:reset:animals                   # Drop and recreates the animals database from its schema for the current environment and loads the seeds
+db:reset:primary                   # Drop and recreates the primary database from its schema for the current environment and loads the seeds
+db:rollback                        # Roll the schema back to the previous version (specify steps w/ STEP=n)
+db:rollback:animals                # Rollback animals database for current environment (specify steps w/ STEP=n)
+db:rollback:primary                # Rollback primary database for current environment (specify steps w/ STEP=n)
+db:schema:dump                     # Create a database schema file (either db/schema.rb or db/structure.sql  ...
+db:schema:dump:animals             # Create a database schema file (either db/schema.rb or db/structure.sql  ...
+db:schema:dump:primary             # Create a db/schema.rb file that is portable against any DB supported  ...
+db:schema:load                     # Load a database schema file (either db/schema.rb or db/structure.sql  ...
+db:schema:load:animals             # Load a database schema file (either db/schema.rb or db/structure.sql  ...
+db:schema:load:primary             # Load a database schema file (either db/schema.rb or db/structure.sql  ...
+db:setup                           # Create all databases, loads all schemas, and initializes with the seed data (use db:reset to also drop all databases first)
+db:setup:animals                   # Create the animals database, loads the schema, and initializes with the seed data (use db:reset:animals to also drop the database first)
+db:setup:primary                   # Create the primary database, loads the schema, and initializes with the seed data (use db:reset:primary to also drop the database first)
+...
 ```
 
 `bin/rails db:create`などのコマンドを実行すると、primaryとanimalsデータベースの両方が作成されます。ただしデータベースユーザーを作成するコマンドはないので、replicaでreadonlyをサポートするには手動でユーザーを作成する必要があります。animalデータベースだけを作成するには、`bin/rails db:create:animals`を実行します。
@@ -217,7 +232,7 @@ end
 
 NOTE: Railsはどのデータベースがreplicaなのかを認識しないので、完了したら抽象クラスにreplicaを追加する必要があります。
 
-Railsは新しいクラスを一度だけ生成します。新しいscaffoldによって上書きされることはなく、scaffoldが削除されると削除されます。
+Railsは`AnimalsRecord`クラスを一度だけ生成します。新しいscaffoldによって上書きされることはなく、scaffoldが削除されると削除されます。
 
 `AnimalsRecord`と異なる既存の抽象クラスがある場合、`--parent`オプションで別の抽象クラスを指定できます。
 
@@ -343,7 +358,6 @@ production:
     database: my_primary_shard_one
     adapter: mysql2
     replica: true
-    migrations_paths: db/migrate_shards
   primary_shard_two:
     database: my_primary_shard_two
     adapter: mysql2
@@ -352,10 +366,9 @@ production:
     database: my_primary_shard_two
     adapter: mysql2
     replica: true
-    migrations_paths: db/migrate_shards
 ```
 
-次に、モデルは `shards`キーを介して`connects_to`APIに接続されます。
+次に、モデルは`shards`キーを介して`connects_to`APIに接続されます。
 
 ```ruby
 class ApplicationRecord < ActiveRecord::Base
@@ -415,7 +428,7 @@ end
 $ bin/rails g active_record:multi_db
 ```
 
-次に、設定ファイルの以下の行をコメント解除して有効にします。
+次に、生成した`config/initializers/multi_db.rb`設定ファイルの以下の行をコメント解除して有効にします。
 
 ```ruby
 Rails.application.configure do
@@ -436,7 +449,7 @@ config.active_record.shard_resolver = ->(request) {
 
 ## 粒度の細かいデータベース接続切り替え
 
-Rails 6.1では、すべてのデータベースに対してグローバルにコネクションを切り替えるのではなく、1つのデータベースごとにコネクションを切り替えることが可能です。
+Rails 6.1以後は、すべてのデータベースに対してグローバルにコネクションを切り替えるのではなく、1つのデータベースごとにコネクションを切り替えることが可能です。
 
 データベース接続が細かなレベルで切り替わることで、任意の抽象コネクションクラスで、他のコネクションに影響を与えずにコネクションを切り替えられます。これは`ApplicationRecord`のクエリがprimaryに送信されることを保証しつつ、`AnimalsRecord`のクエリをreplicaから読み込むように切り替えるときに便利です。
 
@@ -451,10 +464,12 @@ end
 
 ```ruby
 AnimalsRecord.connected_to(role: :reading, shard: :shard_one) do
-  Dog.first # shard_one_replicaから読み出す。
-            # shard_one_replicaのコネクションが存在しない場合は
-            # ConnectionNotEstablishedエラーが発生する
-  Person.first # primaryのライターから読み出す
+  # shard_one_replicaから読み出す。shard_one_replicaのコネクションが存在しない場合は
+  # ConnectionNotEstablishedエラーが発生する
+  Dog.first
+
+  # primaryのライターから読み出す
+  Person.first
 end
 ```
 
@@ -462,8 +477,8 @@ primaryデータベースクラスタのみを切り替えたい場合は、以�
 
 ```ruby
 ApplicationRecord.connected_to(role: :reading, shard: :shard_one) do
-  Person.first # Reads from primary_shard_one_replica
-  Dog.first # Reads from animals_primary
+  Person.first # primary_shard_one_replicaから読み出す
+  Dog.first    # animals_primaryから読み出す
 end
 ```
 
@@ -521,6 +536,6 @@ Railsはこれを自動で推測できません（関連付けはlazyに読み�
 
 ## 注意点
 
-### replicaのロードバランシング
+### replicaの負荷分散
 
-replicaのロードバランシングはインフラストラクチャに強く依存するため、これもRailsではサポート対象外です。今後、基本的かつプリミティブなreplicaロードバランシング機能が実装されるかもしれませんが、アプリケーションをスケールさせるためにも、Railsの外部でアプリケーションを扱えるものにすべきです。
+Railsはreplicaの自動負荷分散（ロードバランシング）をサポートしていません。これはインフラストラクチャに大きく依存します。将来的には基本的なプリミティブ負荷分散を実装する可能性もありますが、大規模なアプリケーションの場合はRailsの外部で処理する必要があります。
