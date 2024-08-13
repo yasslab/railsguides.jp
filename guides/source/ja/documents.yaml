@@ -38,25 +38,6 @@
       url: active_record_querying.html
       description: Active Recordが提供するすべてのデータベースクエリインターフェイスについて解説します。
     -
-      name: Active Record と PostgreSQL
-      url: active_record_postgresql.html
-      description: PostgreSQLに特化したActive Recordの利用法について解説します。
-      work_in_progress: true
-    -
-      name: Active Record と暗号化
-      url: active_record_encryption.html
-      description: Active Recordを用いてデータベースの情報を暗号化する方法について解説します。
-      work_in_progress: true
-    -
-      name: Active Record の複数データベース対応
-      url: active_record_multiple_databases.html
-      description: Active Recordで複数のデータベースを利用する方法について説明します。
-      work_in_progress: false
-    -
-      name: Active Record の複合主キー
-      url: active_record_composite_primary_keys.html
-      description: データベースのテーブルに複合主キーを導入する方法について解説します。
-    -
       name: Active Model の基礎
       url: active_model_basics.html
       description: Active Recordを使わずにモデルクラスを扱う方法について解説します。
@@ -200,7 +181,33 @@
       name: Rails による API 専用アプリケーション
       url: api_app.html
       description: JSON APIアプリケーションをRailsで効果的に作成する方法を解説します。
+    -
+      name: デプロイ向けのパフォーマンスチューニング
+      url: tuning_performance_for_deployment.html
+      description: Ruby on Railsアプリケーションをproduction環境にデプロイする際のパフォーマンスとコンカレンシーの設定について解説します。
 
+-
+  name: Active Recordの高度な話題
+  documents:
+    -
+      name: Active Record と PostgreSQL
+      url: active_record_postgresql.html
+      description: PostgreSQLに特化したActive Recordの利用法について解説します。
+      work_in_progress: true
+    -
+      name: Active Record と暗号化
+      url: active_record_encryption.html
+      description: Active Recordを用いてデータベースの情報を暗号化する方法について解説します。
+      work_in_progress: true
+    -
+      name: Active Record の複数データベース対応
+      url: active_record_multiple_databases.html
+      description: Active Recordで複数のデータベースを利用する方法について説明します。
+      work_in_progress: false
+    -
+      name: Active Record の複合主キー
+      url: active_record_composite_primary_keys.html
+      description: データベースのテーブルに複合主キーを導入する方法について解説します。
 -
   name: Rails を拡張する
   documents:
