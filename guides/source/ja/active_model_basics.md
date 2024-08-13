@@ -1249,7 +1249,7 @@ NOTE: `validate`を同じメソッドで複数回呼び出すと、以前の定�
 [`validates!`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates-2
 [`validates_with`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_with
 [`validates_each`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_each
-[APIドキュメント]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html
+[バリデーションのAPIドキュメント]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html
 
 #### `Errors`モジュール
 
