@@ -132,7 +132,7 @@ Railsでは、`input`に名前を与えるときに特定の規約を利用し�
 
 チェックボックスの値（`params`に表示される値）は、オプションで`checked_value`パラメータと`unchecked_value`パラメータで指定できます。詳しくは、APIドキュメントの[`check_box`][]を参照してください。
 
-また、`collection_check_boxes`も利用できます。これについては[コレクション関連のヘルパー](#コレクション関連ヘルパー)セクションで学習できます。
+また、`collection_check_boxes`も利用できます。これについては[コレクション関連のヘルパー](#コレクション関連のヘルパー)セクションで学習できます。
 
 [`check_box`]: https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-check_box
 
@@ -382,7 +382,7 @@ resource :article
 resolve('Article') { [:article] }
 ```
 
-TIP: リソースを宣言すると、いくつかの副作用があります。リソースの設定や利用方法について詳しくは、[ルーティングガイド](routing.html#resource-routing-the-rails-default)を参照してください。
+TIP: リソースを宣言すると、いくつかの副作用があります。リソースの設定や利用方法について詳しくは、[ルーティングガイド](routing.html#リソースベースのルーティング-railsのデフォルト)を参照してください。
 
 WARNING: モデルで[単一テーブル継承（STI: single-table inheritance）](association_basics.html#単一テーブル継承-（sti）)を使っている場合、親クラスがリソースを宣言されていてもサブクラスでレコード識別を利用できません。その場合は`:url`と`:scope`（モデル名）を明示的に指定する必要があります。
 
