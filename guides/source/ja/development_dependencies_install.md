@@ -105,7 +105,7 @@ $ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.
 $ sudo apt-get update
 $ sudo apt-get install -y nodejs
 
-# Node.jsをインストール済みの場合は、以下のコマンドでyarn npmパッケージをインストールする
+# Node.jsをインストールしたら、以下のコマンドでyarn npmパッケージをインストールする
 $ sudo npm install --global yarn
 ```
 
