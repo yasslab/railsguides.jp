@@ -18,7 +18,7 @@ Action Viewは、[MVC][]のVに相当し、 [Action Controller](action_controlle
 
 デフォルトのAction Viewテンプレート（単に「ビュー」とも呼ばれます）は、HTMLドキュメント内にRubyコードを記述可能にするERB（Embedded Ruby）で記述します。
 
-Action Viewには、「フォーム」「日付」「文字列」用のHTMLタグを動的に生成する[ヘルパー](#helpers)メソッドが多数用意されています。必要であれば、アプリケーションに独自のヘルパーを追加することも可能です。
+Action Viewには、「フォーム」「日付」「文字列」用のHTMLタグを動的に生成する[ヘルパー](#ヘルパー)メソッドが多数用意されています。必要であれば、アプリケーションに独自のヘルパーを追加することも可能です。
 
 NOTE: Action Viewでは、コードを簡潔に書けるようにするためにActive Modelの[`to_param`][]メソッドや[`to_partial_path`][]メソッドを利用しています。ただし、Action ViewがActive Recordに依存しているわけではありません。Action Viewは独立したパッケージであり、任意のRubyライブラリと組み合わせて利用できます。
 
