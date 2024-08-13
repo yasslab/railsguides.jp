@@ -547,13 +547,13 @@ end
 
 [複数の書き込みデータベース](active_record_multiple_databases.html)が存在する場合、テストはそれらに対応する多数のトランザクションにラップされ、すべてがロールバックします。
 
-#### Opting-out of Test Transactions
+#### テストのトランザクションを
 
-Individual test cases can opt-out:
+以下のようにすることで、個別のテストケースでトランザクションを無効にできます。
 
 ```ruby
 class MyTest < ActiveSupport::TestCase
-  # No implicit database transaction wraps the tests in this test case.
+  # このテストケースではテストをデータベーストランザクションで暗黙にラップしなくなる
   self.use_transactional_tests = false
 end
 ```
