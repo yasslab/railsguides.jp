@@ -191,7 +191,7 @@ Railsガイドを翻訳するボランティアも歓迎いたします。次の
 ```bash
 # ガイドで必要なgemだけをインストールすること
 # （取り消すにはbundle config --delete withoutを実行）
-$ bundle install --without job cable storage ujs test db
+$ bundle install --without job cable storage test db
 $ cd guides/
 $ bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
 ```
