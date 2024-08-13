@@ -445,6 +445,8 @@ end
 
 Railsは、添付ファイルがレコードにアタッチされた後で、バリアントを生成するジョブをキューに入れます。
 
+NOTE: Active Storageは[ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)に依存しています。ポリモーフィック関連付けはクラス名がデータベースに保存されることが前提になっているため、そのデータはRubyコードで使われるクラス名と常に手動で同期しておく必要があります。`has_one_attached`を使うクラスの名前を変更する場合は、対応する行の`active_storage_attachments.record_type`ポリモーフィック型カラムのクラス名も更新するようにしてください。
+
 [`has_one_attached`]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Model.html#method-i-has_one_attached
 [Attached::One#attach]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attach
 [Attached::One#attached?]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attached-3F
@@ -517,6 +519,8 @@ end
 [Attached::Many#attach]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attach
 [Attached::Many#attached?]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attached-3F
 
+NOTE: Active Storageは[ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)に依存しています。ポリモーフィック関連付けはクラス名がデータベースに保存されることが前提になっているため、そのデータはRubyコードで使われるクラス名と常に手動で同期しておく必要があります。`has_many_attached`を使うクラスの名前を変更する場合は、対応する行の`active_storage_attachments.record_type`ポリモーフィック型カラムのクラス名も更新するようにしてください。
+
 ### File/IO Objectsをアタッチする
 
 HTTPリクエスト経由では配信されないファイルをアタッチする必要が生じる場合があります。たとえば、ディスク上で生成したファイルやユーザーが送信したURLからダウンロードしたファイルをアタッチしたい場合や、モデルのテストでfixtureファイルをアタッチしたい場合などが考えられます。これを行うには、以下のように`open` IOオブジェクトとファイル名を1つ以上含むハッシュを渡します。
@@ -543,6 +547,36 @@ HTTPリクエスト経由では配信されないファイルをアタッチす�
 ```
 
 `content_type:`を指定せず、Active StorageがファイルのContent-Typeを自動的に判別できない場合は、デフォルトで`application/octet-stream`が設定されます。
+
+追加の`key`パラメータを使うことで、S3バケット内のフォルダ/サブフォルダを指定できます。このパラメータを指定しない場合、AWS S3はランダムなキーを用いてファイルに名前を付けます。この方法は、S3バケットファイルをより適切に整理したい場合に便利です。
+
+```ruby
+@message.images.attach(
+  io: File.open('/path/to/file'),
+  filename: 'file.pdf',
+  content_type: 'application/pdf',
+  key: "#{Rails.env}/blog_content/intuitive_filename.pdf",
+  identify: false
+)
+```
+
+この方法では、development環境でこれをテストするときに、`[S3_BUCKET]/development/blog_content/`フォルダにファイルを保存します。`key`パラメータを使う場合は、アップロードが成功するためにはキーが一意になるようにしておかなければならない点にご注意ください。ファイル名には、以下のように一意のランダムキーを追加することをオススメします。
+
+```ruby
+def s3_file_key
+  "#{Rails.env}/blog_content/intuitive_filename-#{SecureRandom.uuid}.pdf"
+end
+```
+
+```ruby
+@message.images.attach(
+  io: File.open('/path/to/file'),
+  filename: 'file.pdf',
+  content_type: 'application/pdf',
+  key: s3_file_key,
+  identify: false
+)
+```
 
 ### 添付ファイルの置き換え vs 追加
 
@@ -849,16 +883,6 @@ end
 
 Active Storageでは、バリアントプロセッサとして[Vips][]またはMiniMagickを利用できます。デフォルトで使われるバリアントプロセッサは`config.load_defaults`のターゲットバージョンに依存し、[`config.active_storage.variant_processor`][]で変更できます。
 
-MiniMagickとVipsの互換性は完全ではないため、MiniMagickからVips（またはその逆）に移行すると、フォーマット固有のオプションを使っている場合は以下のように若干の変更が必要になります。
-
-```erb
-<!-- MiniMagick -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
-
-<!-- Vips -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
-```
-
 利用可能なパラメータは[`image_processing`][] gemで定義されており、利用するバリアントプロセッサによって異なりますが、どちらも以下のパラメータをサポートしています。
 
 | パラメータ      | 例 | 説明 |
@@ -870,7 +894,23 @@ MiniMagickとVipsの互換性は完全ではないため、MiniMagickからVips�
 | `crop` | `crop: [20, 50, 300, 300]` | 画像から領域を抽出します。最初の2つの引数は、抽出する領域の左端と上端、最後の2つの引数は、抽出する領域の幅と高さです。|
 | `rotate` | `rotate: 90` | 画像を指定の角度だけ回転します。|
 
-[`image_processing`][]では、[Vips](https://github.com/janko/image_processing/blob/master/doc/vips.md)プロセッサおよび[MiniMagick](https://github.com/janko/image_processing/blob/master/doc/minimagick.md)プロセッサ独自のドキュメントに記載されている多くのオプション（画像圧縮の設定を可能にする`saver`など）が利用できます。
+[`image_processing`][]には、[Vips](https://github.com/janko/image_processing/blob/master/doc/vips.md)プロセッサおよび[MiniMagick](https://github.com/janko/image_processing/blob/master/doc/minimagick.md)プロセッサの両方について、それぞれのドキュメントに記載されている利用可能なパラメータがすべて備わっています。
+
+上記のパラメータを含む一部のパラメータには、プロセッサ固有のオプションも追加できます（ハッシュ内で`key: value`ペアとして渡せます）。
+
+```erb
+<!-- Vipsはさまざまな変換で`crop`の設定をサポートしている -->
+<%= image_tag user.avatar.variant(resize_to_fill: [100, 100, { crop: :centre }]) %>
+```
+
+既存のアプリケーションでMiniMagickからVipsに移行する場合、プロセッサ固有のオプションを以下のように更新する必要があります。
+
+```erb
+<!-- MiniMagickの場合 -->
+<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
+<!-- Vipsの場合 -->
+<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
+```
 
 [`config.active_storage.variable_content_types`]: configuring.html#config-active-storage-variable-content-types
 [`config.active_storage.variant_processor`]: configuring.html#config-active-storage-variant-processor
@@ -1164,10 +1204,10 @@ import { DirectUpload } from "@rails/activestorage"
 
 class Uploader {
   constructor(file, url, token, attachmentName) {
-    this.upload = new DirectUpload(this.file, this.url, this)
+    this.upload = new DirectUpload(file, url, this)
   }
 
-  upload(file) {
+  uploadFile(file) {
     this.upload.create((error, blob) => {
       if (error) {
         // エラーハンドリングをここに書く
@@ -1200,10 +1240,10 @@ class Uploader {
     const headers = { 'Authentication': `Bearer ${token}` }
     // INFO: ヘッダーの送信はオプションのパラメーターです。
     // ヘッダーを送信しない場合、認証はcookieかセッションデータを使って行われます。
-    this.upload = new DirectUpload(this.file, this.url, this, headers)
+    this.upload = new DirectUpload(file, url, this, headers)
   }
 
-  upload(file) {
+  uploadFile(file) {
     this.upload.create((error, blob) => {
       if (error) {
         // エラー処理をここに書く
@@ -1234,7 +1274,7 @@ class DirectUploadsController < ActiveStorage::DirectUploadsController
   def authenticate!
     @token = request.headers['Authorization']&.split&.last
 
-    return head :unauthorized unless valid_token?(@token)
+    head :unauthorized unless valid_token?(@token)
   end
 end
 ```
