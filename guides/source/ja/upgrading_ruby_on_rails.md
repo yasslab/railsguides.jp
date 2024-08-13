@@ -89,6 +89,9 @@ Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべて�
 
 `queue_adapter`コンフィグを提供しない場合は、引き続き`TestAdapter`が使われます。
 
+TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」でまとめています。
+
+
 Rails 7.0からRails 7.1へのアップグレード
 -------------------------------------
 
