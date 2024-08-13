@@ -77,7 +77,7 @@ bin/rails action_mailbox:ingress:exim URL=https://example.com/rails/action_mailb
 
 ### Mailgun
 
-Action Mailboxに自分のMailgun署名キー（Signing key）を渡して、Mailgun ingressへのリクエストを認証できるようにします。
+Action Mailboxに自分のMailgun署名キー（Signing key: MailgunのSettings -> Security & Users -> API securityにあります）を渡して、Mailgun ingressへのリクエストを認証できるようにします。
 
 `bin/rails credentials:edit`を実行して署名キーを追加します。署名キーはアプリケーションの暗号化済みcredentialの`action_mailbox.mailgun_signing_key`の下に追加されます（Action Mailboxはこのcredentialを自動的に見つけます）。
 
@@ -370,8 +370,8 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
 
     recording = people(:david).buckets.first.recordings.last
     assert_equal people(:david), recording.creator
-    assert_equal "Status update?", recording.forward.subject
-    assert_match "What's the status?", recording.forward.content.to_s
+    assert_equal "ステータスは更新されたか？", recording.forward.subject
+    assert_match "現在のステータスは？", recording.forward.content.to_s
   end
 end
 ```
@@ -380,9 +380,13 @@ end
 
 ## InboundEmailsの焼却
 
-デフォルトでは、処理が成功したInboundEmailは30日後に焼却（incinerate）されます。これにより、アカウントをキャンセルまたはコンテンツを削除したユーザーのデータをむやみに保持せずに済みます。この設計では、メールを処理した後に必要なメールをすべて切り出して、アプリケーションの業務ドメインモデルやコンテンツに取り込む必要があることが前提となります。InboundEmailがシステムに余分に保持される期間は、単にデバッグや事後調査のためのものです。
+デフォルトでは、処理が成功したInboundEmailは30日後にincinerate（焼却）されます。これにより、アカウントをキャンセルまたはコンテンツを削除したユーザーのデータをむやみに保持せずに済みます。この設計では、メールを処理した後に必要なメールをすべて切り出して、アプリケーションの業務ドメインモデルやコンテンツに取り込む必要があることが前提となります。InboundEmailがシステムに余分に保持される期間は、単にデバッグや事後調査のためのものです。
 
 実際のincinerationは、[`config.action_mailbox.incinerate_after`][]でスケジュールされた時刻の後、[`IncinerationJob`][]で行われます。この値はデフォルトで`30.days`に設定されますが、production.rbで設定を変更できます（incinerationを遠い未来にスケジューリングする場合、その間ジョブキューがジョブを保持可能になっていることが重要です）。
+
+デフォルトのデータincinationにより、ユーザーがアカウントをキャンセルしたりコンテンツを削除したりした後でも、不要なユーザーデータを保持しないようになります。
+
+Action Mailboxにおけるこの処理の目的は、メールを処理するときに、必要なすべてのデータを電子メールから抽出し、アプリケーションのドメインモデルに保持することです。`InboundEmail`は、デバッグやフォレンジック調査のために設定された期間だけシステム内に残り、その後削除されます。
 
 [`config.action_mailbox.incinerate_after`]: configuring.html#config-action-mailbox-incinerate-after
 [`IncinerationJob`]: https://api.rubyonrails.org/classes/ActionMailbox/IncinerationJob.html
