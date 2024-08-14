@@ -1,6 +1,6 @@
 **DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
 
-デプロイ時のパフォーマンスチューニング
+デプロイ向けのパフォーマンスチューニング
 =================================
 
 このガイドでは、Ruby on Rails アプリケーションをproduction環境にデプロイする際のパフォーマンスとコンカレンシー（並行処理）の設定について説明します。
