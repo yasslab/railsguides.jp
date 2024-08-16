@@ -23,7 +23,7 @@ Active Recordのそうした機能の一部が抽象化されてActive Modelに�
 
 いくつかのモジュールについては、以下で説明します。
 
-[Active Record](active_record_basics.html)
+[Active Record]: active_record_basics.html
 
 ### API
 
