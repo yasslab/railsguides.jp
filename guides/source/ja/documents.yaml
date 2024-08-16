@@ -182,7 +182,7 @@
       url: api_app.html
       description: JSON APIアプリケーションをRailsで効果的に作成する方法を解説します。
     -
-      name: デプロイ向けのパフォーマンスチューニング
+      name: デプロイ用パフォーマンスチューニング
       url: tuning_performance_for_deployment.html
       description: Ruby on Railsアプリケーションをproduction環境にデプロイする際のパフォーマンスとコンカレンシーの設定について解説します。
 
