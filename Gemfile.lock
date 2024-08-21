@@ -180,7 +180,7 @@ DEPENDENCIES
   webrick
 
 RUBY VERSION
-   ruby 3.2.3p157
+   ruby 3.2.5p208
 
 BUNDLED WITH
    2.3.22
