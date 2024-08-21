@@ -427,41 +427,71 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 <!-- 製版の都合上ここはリスト形式とする -->
 
-**[`assert_difference(expressions, difference = 1, message = nil) {...}`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference)**
+**[`assert_difference(expressions, difference = 1, message = nil) {...}`][]**
 
 * `yield`されたブロックで評価された結果である式の戻り値における数値の違いをテストする。
 
-**[`assert_no_difference(expressions, message = nil, &block)`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference)**
+**[`assert_no_difference(expressions, message = nil, &block)`][]**
 
 * 式を評価した結果の数値は、ブロックで渡されたものを呼び出す前と呼び出した後で違いがないと主張する。
 
-**[`assert_changes(expressions, message = nil, from:, to:, &block)`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_changes)**
+**[`assert_changes(expressions, message = nil, from:, to:, &block)`][]**
 
 * 式を評価した結果は、ブロックで渡されたものを呼び出す前と呼び出した後で違いがあると主張する。
 
-**[`assert_no_changes(expressions, message = nil, &block)`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes)**
+**[`assert_no_changes(expressions, message = nil, &block)`][]**
 
 * 式を評価した結果は、ブロックで渡されたものを呼び出す前と呼び出した後で違いがないと主張する。
 
-**[`assert_nothing_raised { block }`](http://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_nothing_raised)**
+**[`assert_nothing_raised { block }`][]**
 
 * 渡されたブロックで例外が発生しないことを確認する。
 
-**[`assert_recognizes(expected_options, path, extras={}, message=nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_recognizes)**
+**[`assert_recognizes(expected_options, path, extras={}, message=nil)`][]**
 
 * 渡されたパスのルーティングが正しく扱われ、（`expected_options`ハッシュで渡された（解析オプションがパスと一致したことを主張する。基本的にこのアサーションでは、Railsが`expected_options`で渡されたルーティングを認識していると主張する。
 
-**[`assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)`](https://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_generates)**
+**[`assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)`][]**
 
 * 渡されたオプションは、渡されたパスの生成に使えるものであると主張する（`assert_recognizes`と逆の動作）。`extras`パラメータは、クエリ文字列に追加リクエストがある場合にそのパラメータの名前と値をリクエストに渡すのに使われる。`message`パラメータにはアサーションが失敗した場合のカスタムエラーメッセージを渡せる。
 
-**[`assert_response(type, message = nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_response)**
+**[`assert_response(type, message = nil)`][]**
 
 * レスポンスが特定のステータスコードを持っていることを主張する。`:success`を指定するとステータスコード200〜299を指定したことになり、同様に`:redirect`は300〜399、`:missing`は404、`:error`は500〜599にそれぞれマッチする。ステータスコードの数字や同等のシンボルを直接渡すこともできる。詳細については[ステータスコードの完全なリスト](https://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant)および[シンボルとステータスコードの対応リスト](https://rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant)を参照。
 
-**[`assert_redirected_to(options = {}, message=nil)`](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_redirected_to)**
+**[`assert_redirected_to(options = {}, message=nil)`][]**
 
 * 渡されたリダイレクトオプションが、最後に実行されたアクションで呼び出されたリダイレクトのオプションと一致することを主張する。`assert_redirected_to root_path`などの名前付きルートを渡すことも、`assert_redirected_to @article`などのActive Recordオブジェクトを渡すことも可能。
+
+[`assert_queries_count(count = nil, include_schema: false, &block)`][]**
+
+* `&block`がSQLクエリの`int`数値を生成することを主張する。
+
+**[`assert_no_queries(include_schema: false, &block)`][]**
+
+* `&block`がSQLクエリを生成しないことを主張する。
+
+**[`assert_queries_match(pattern, count: nil, include_schema: false, &block)`][]**
+
+* `&block`が指定のパターンにマッチするSQLクエリを生成することを主張する。
+
+**[`assert_no_queries_match(pattern, &block)`][]**
+
+* `&block`が指定のパターンにマッチするSQLクエリを生成しないことを主張する。
+
+[`assert_difference(expressions, difference = 1, message = nil) {...}`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference)
+[`assert_no_difference(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference
+[`assert_changes(expressions, message = nil, from:, to:, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_changes
+[`assert_no_changes(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes
+[`assert_nothing_raised { block }`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_nothing_raised
+[`assert_recognizes(expected_options, path, extras={}, message=nil)`]: https://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_recognizes
+[`assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)`]: https://api.rubyonrails.org/classes/ActionDispatch/Assertions/RoutingAssertions.html#method-i-assert_generates
+[`assert_response(type, message = nil)`]: https://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_response
+[`assert_redirected_to(options = {}, message=nil)`]: https://api.rubyonrails.org/classes/ActionDispatch/Assertions/ResponseAssertions.html#method-i-assert_redirected_to
+[`assert_queries_count(count = nil, include_schema: false, &block)`]: https://api.rubyonrails.org/classes/ActiveRecord/Assertions/QueryAssertions.html#method-i-assert_queries_count
+[`assert_no_queries(include_schema: false, &block)`]: https://api.rubyonrails.org/classes/ActiveRecord/Assertions/QueryAssertions.html#method-i-assert_no_queries
+[`assert_queries_match(pattern, count: nil, include_schema: false, &block)`]: https://api.rubyonrails.org/classes/ActiveRecord/Assertions/QueryAssertions.html#method-i-assert_queries_match
+[`assert_no_queries_match(pattern, &block)`]: https://api.rubyonrails.org/classes/ActiveRecord/Assertions/QueryAssertions.html#method-i-assert_no_queries_match
 
 これらのアサーションのいくつかについては次の章で説明します。
 
@@ -469,17 +499,65 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 `Minitest::Assertions`に定義されている`assert_equal`などの基本的なアサーションは、あらゆるテストケース内で用いられているクラスで利用できます。実際には、以下から継承したクラスもRailsで利用できます。
 
-* [`ActiveSupport::TestCase`](https://api.rubyonrails.org/classes/ActiveSupport/TestCase.html)
-* [`ActionMailer::TestCase`](https://api.rubyonrails.org/classes/ActionMailer/TestCase.html)
-* [`ActionView::TestCase`](https://api.rubyonrails.org/classes/ActionView/TestCase.html)
-* [`ActiveJob::TestCase`](https://api.rubyonrails.org/classes/ActiveJob/TestCase.html)
-* [`ActionDispatch::IntegrationTest`](https://api.rubyonrails.org/classes/ActionDispatch/IntegrationTest.html)
-* [`ActionDispatch::SystemTestCase`](https://api.rubyonrails.org/classes/ActionDispatch/SystemTestCase.html)
-* [`Rails::Generators::TestCase`](https://api.rubyonrails.org/classes/Rails/Generators/TestCase.html)
+* [`ActiveSupport::TestCase`][]
+* [`ActionMailer::TestCase`][]
+* [`ActionView::TestCase`][]
+* [`ActiveJob::TestCase`][]
+* [`ActionDispatch::IntegrationTest`][]
+* [`ActionDispatch::SystemTestCase`][]
+* [`Rails::Generators::TestCase`][]
 
 各クラスには`Minitest::Assertions`が含まれているので、どのテストでも基本的なアサーションを利用できます。
 
 NOTE: `Minitest`について詳しくは、[Minitestのドキュメント](https://docs.seattlerb.org/minitest)を参照してください。
+
+[`ActiveSupport::TestCase`]: https://api.rubyonrails.org/classes/ActiveSupport/TestCase.html
+[`ActionMailer::TestCase`]: https://api.rubyonrails.org/classes/ActionMailer/TestCase.html
+[`ActionView::TestCase`]: https://api.rubyonrails.org/classes/ActionView/TestCase.html
+[`ActiveJob::TestCase`]: https://api.rubyonrails.org/classes/ActiveJob/TestCase.html
+[`ActionDispatch::IntegrationTest`]: https://api.rubyonrails.org/classes/ActionDispatch/IntegrationTest.html
+[`ActionDispatch::SystemTestCase`]: https://api.rubyonrails.org/classes/ActionDispatch/SystemTestCase.tml
+[`Rails::Generators::TestCase`]: https://api.rubyonrails.org/classes/Rails/Generators/TestCase.html
+
+### トランザクション
+
+デフォルトのRailsは、テストをデータベーストランザクションに自動的にラップし、テスト完了後にロールバックします。これにより、テストは互いに独立し、データベースへの変更は1つのテスト内でのみ表示されます。
+
+```ruby
+class MyTest < ActiveSupport::TestCase
+  test "newly created users are active by default" do
+    # このテストは暗黙でデータベーストランザクションにラップされるので、
+    # ここで作成したユーザーは他のテストからは見えない
+    assert User.create.active?
+  end
+end
+```
+
+ただし、`ActiveRecord::Base.current_transaction`は引き続き意図したとおりに動作します。
+
+```ruby
+class MyTest < ActiveSupport::TestCase
+  test "current_transaction" do
+    # テストを暗黙のトランザクションが囲んでいても、
+    # current_transactionのアプリケーションレベルの意味論に影響しない
+    assert User.current_transaction.blank?
+  end
+end
+```
+
+[複数の書き込みデータベース](active_record_multiple_databases.html)が存在する場合、テストはそれらに対応する多数のトランザクションにラップされ、すべてがロールバックします。
+
+#### テストのトランザクションを
+
+以下のようにすることで、個別のテストケースでトランザクションを無効にできます。
+
+```ruby
+class MyTest < ActiveSupport::TestCase
+  # このテストケースではテストをデータベーストランザクションで暗黙にラップしなくなる
+  self.use_transactional_tests = false
+end
+```
+
 
 ### Railsのテストランナー
 
@@ -540,29 +618,36 @@ $ bin/rails test test/controllers # 指定ディレクトリのテストをす�
 
 ```bash
 $ bin/rails test -h
-Usage: rails test [options] [files or directories]
+Usage:
+  bin/rails test [PATHS...]
 
-You can run a single test by appending a line number to a filename:
+Run tests except system tests
 
-    bin/rails test test/models/user_test.rb:27
+Examples:
+    You can run a single test by appending a line number to a filename:
 
-You can run multiple tests with in a line range by appending the line range to a filename:
+        bin/rails test test/models/user_test.rb:27
 
-    bin/rails test test/models/user_test.rb:10-20
+    You can run multiple tests with in a line range by appending the line range to a filename:
 
-You can run multiple files and directories at the same time:
+        bin/rails test test/models/user_test.rb:10-20
 
-    bin/rails test test/controllers test/integration/login_test.rb
+    You can run multiple files and directories at the same time:
 
-By default test failures and errors are reported inline during a run.
+        bin/rails test test/controllers test/integration/login_test.rb
+
+    By default test failures and errors are reported inline during a run.
 
 minitest options:
     -h, --help                       Display this help.
         --no-plugins                 Bypass minitest plugin auto-loading (or set $MT_NO_PLUGINS).
     -s, --seed SEED                  Sets random seed. Also via env. Eg: SEED=n rake
     -v, --verbose                    Verbose. Show progress processing files.
+    -q, --quiet                      Quiet. Show no progress processing files.
+        --show-skips                 Show skipped at the end of run.
     -n, --name PATTERN               Filter run on /regexp/ or string.
         --exclude PATTERN            Exclude /regexp/ or string from run.
+    -S, --skip CODES                 Skip reporting of certain types of results (eg E).
 
 Known extensions: rails, pride
     -w, --warnings                   Run with Ruby warnings enabled
@@ -571,6 +656,7 @@ Known extensions: rails, pride
     -d, --defer-output               Output test failures and errors after the test run
     -f, --fail-fast                  Abort test run on first failure or error
     -c, --[no-]color                 Enable color in the output
+        --profile [COUNT]            Enable profiling of tests and list the slowest test cases (default: 10)
     -p, --pride                      Pride. Show your testing pride!
 ```
 
@@ -653,11 +739,9 @@ $ PARALLEL_WORKERS=15 bin/rails test
 
 ### 並列トランザクションをテストする
 
-Railsは、テストケースを自動的にデータベーストランザクションでラップします。テストが完了すると、トランザクションは自動でロールバックします。これにより、テストケースが互いに独立するようになり、データベース内の変更は単一のテスト内に留まります。
-
 並列トランザクションをスレッドで実行するコードをテストしたい場合、テスト用トランザクションの下にすでにネストされているため、トランザクションが互いにブロックしてしまう可能性があります。
 
-`self.use_transactional_tests = false`を設定すると、テストケースのクラスでトランザクションを無効にできます。
+これを回避するには、以下のように`self.use_transactional_tests = false`を設定することで、テストケースのクラスでトランザクションを無効にできます。
 
 ```ruby
 class WorkerTest < ActiveSupport::TestCase
@@ -688,7 +772,6 @@ class ActiveSupport::TestCase
   parallelize threshold: 100
 end
 ```
-
 
 テスト用データベース
 -----------------------
@@ -774,7 +857,7 @@ Active Recordの他のモデルと同様、Active Storageの添付ファイル�
 `thumbnail`添付画像に関連付けられている`Article`モデルのフィクスチャデータYAMLを考えてみましょう。
 
 ```ruby
-class Article
+class Article < ApplicationRecord
   has_one_attached :thumbnail
 end
 ```
@@ -860,7 +943,7 @@ create  test/models/article_test.rb
 create  test/fixtures/articles.yml
 ```
 
-モデルテストには`ActionMailer::TestCase`のような独自のスーパークラスがなく、代わりに[`ActiveSupport::TestCase`](https://api.rubyonrails.org/classes/ActiveSupport/TestCase.html)を継承します。
+モデルテストには`ActionMailer::TestCase`のような独自のスーパークラスがなく、代わりに[`ActiveSupport::TestCase`][]を継承します。
 
 システムテスト
 --------------
@@ -891,7 +974,7 @@ end
 
 システムテストでは、デフォルトでSeleniumドライバと画面サイズ1400x1400のChromeブラウザを用いて実行されます。次のセクションで、デフォルト設定の変更方法について説明します。
 
-デフォルトのRailsは、テスト中に発生した例外のrescueを試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
+デフォルトのRailsは、テスト中に発生した例外の`rescue`を試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
 
 ### デフォルト設定の変更
 
@@ -1109,7 +1192,7 @@ end
 
 結合テストは`ActionDispatch::IntegrationTest`から継承されます。これにより、結合テスト内でさまざまなヘルパーが利用できます。
 
-デフォルトのRailsは、テスト中に発生した例外のrescueを試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
+デフォルトのRailsは、テスト中に発生した例外の`rescue`を試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
 
 ### 結合テストで利用できるヘルパー
 
@@ -1153,7 +1236,7 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
 end
 ```
 
-リクエストで生成されるHTMLをテストする`assert_select`についてはこの後の「ビューをテストする」で言及します。これはリクエストに対するレスポンスのテストに用いるもので、重要なHTML要素がコンテンツに存在するというアサーションを行います。
+リクエストで生成されるHTMLをテストする`assert_select`についてはこの後の[ビューをテストする](#ビューをテストする)で言及します。これはリクエストに対するレスポンスのテストに用いるもので、重要なHTML要素がコンテンツに存在するというアサーションを行います。
 
 rootパスを表示すると、そのビューで`welcome/index.html.erb`が表示されるはずなので、このアサーションはパスするはずです。
 
@@ -1303,7 +1386,7 @@ NOTE: [BASIC認証](getting_started.html#basic認証)セクションの手順に
 post articles_url, params: { article: { body: "Rails is awesome!", title: "Hello Rails" } }, headers: { Authorization: ActionController::HttpAuthentication::Basic.encode_credentials("dhh", "secret") }
 ```
 
-デフォルトのRailsは、テスト中に発生した例外のrescueを試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
+デフォルトのRailsは、テスト中に発生した例外の`rescue`を試み、HTMLエラーページで応答します。この振る舞いは[`config.action_dispatch.show_exceptions`](/configuring.html#config-action-dispatch-show-exceptions)設定で制御できます。
 
 ### 機能テストで利用できるHTTPリクエストの種類
 
@@ -1345,7 +1428,7 @@ end
 これらのハッシュは、通常のHashオブジェクトと同様に文字列をキーとして値を参照できます。たとえば次のようにシンボル名による参照も可能です。
 
 ```ruby
-flash["gordon"]               # flash[:gordon]も可
+flash["gordon"]                # flash[:gordon]も可
 session["shmession"]          # session[:shmession]も可
 cookies["are_good_for_u"]     # cookies[:are_good_for_u]も可
 ```
@@ -1372,7 +1455,7 @@ end
 
 ### HTTPとヘッダーとCGI変数を設定する
 
-[HTTPヘッダー](https://datatracker.ietf.org/doc/html/rfc2616#section-5.3)と[CGI変数](https://datatracker.ietf.org/doc/html/rfc3875#section-4.1)はヘッダーとして渡されます。
+[HTTPヘッダー][HTTP headers]と[CGI変数][CGI variables]はヘッダーとして渡されます。
 
 ```ruby
 # HTTPヘッダーを設定する
@@ -1381,6 +1464,9 @@ get articles_url, headers: { "Content-Type": "text/plain" } # カスタムヘッ
 # CGI変数を設定する
 get articles_url, headers: { "HTTP_REFERER": "http://example.com/home" } # カスタム環境変数でリクエストをシミュレートする
 ```
+
+[HTTP headers]: https://datatracker.ietf.org/doc/html/rfc2616#section-5.3
+[CGI variables]: https://datatracker.ietf.org/doc/html/rfc3875#section-4.1
 
 ### `flash`通知をテストする
 
@@ -1678,7 +1764,9 @@ assert_select "ol" do
 end
 ```
 
-`assert_select`はきわめて強力なアサーションです。このアサーションの高度な利用法については[ドキュメント](https://github.com/rails/rails-dom-testing/blob/main/lib/rails/dom/testing/assertions/selector_assertions.rb)を参照してください。
+`assert_select`はきわめて強力なアサーションです。このアサーションの高度な利用法については[API ドキュメント][selector_assertions]を参照してください。
+
+[selector_assertions]: https://github.com/rails/rails-dom-testing/blob/main/lib/rails/dom/testing/assertions/selector_assertions.rb
 
 ### その他のビューベースのアサーション
 
@@ -1731,7 +1819,25 @@ test "renders a link to itself" do
 end
 ```
 
-`ActionView::TestCase`から継承したテストでは、`document_root_element`メソッドを宣言することで[rails-dom-testing][] gemと統合されます。このメソッドは、レンダリングされたコンテンツを[`Nokogiri::XML::Node``](https://www.rubydoc.info/github/sparklemotion/nokogiri/Nokogiri/XML/Node)のインスタンスとして返します。
+`ActionView::TestCase`から継承したテストでは、`document_root_element`メソッドを宣言することで[rails-dom-testing][] gemと統合されます。このメソッドは、レンダリングされたコンテンツを[`Nokogiri::XML::Node`][]のインスタンスとして返します。
+
+```ruby
+test "renders a link to itself" do
+  article = Article.create! title: "Hello, world"
+
+  render "articles/article", article: article
+  anchor = document_root_element.at("a")
+
+  assert_equal article.name, anchor.text
+  assert_equal article_url(article), anchor["href"]
+end
+```
+
+アプリケーションでRuby3.0以上を利用している場合は、[Rubyのパターンマッチング][pattern-matching]をサポートする[Nokogiri（1.14.0以上）][Nokogiri 1.14.0]と[Minitest（5.18.0以上）][Minitest 5.18.0]に依存するようになります。
+
+[pattern-matching]: https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html
+[Nokogiri 1.14.0]: https://github.com/sparklemotion/nokogiri/releases/tag/v1.14.0
+[Minitest 5.18.0]: https://github.com/minitest/minitest/blob/v5.18.0/History.rdoc#5180--2023-03-04-
 
 ```ruby
 test "renders a link to itself" do
@@ -1741,27 +1847,15 @@ test "renders a link to itself" do
   anchor = document_root_element.at("a")
   url = article_url(article)
 
-  assert_equal article.name, anchor.text
-  assert_equal article_url(article), anchor["href"]
-end
-```
-
-アプリケーションでRuby3.0以上を利用している場合は、[Rubyのパターンマッチング](https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html)をサポートする[Nokogiri（1.14.0以上）](https://github.com/sparklemotion/nokogiri/releases/tag/v1.14.0)と[Minitest（5.18.0以上）](https://github.com/minitest/minitest/blob/v5.18.0/History.rdoc#5180--2023-03-04-)に依存するようになります。
-
-```ruby
-test "renders a link to itself" do
-  article = Article.create! title: "Hello, world"
-
-  render "articles/article", article: article
-  anchor = document_root_element.at("a")
-
   assert_pattern do
     anchor => { content: "Hello, world", attributes: [{ name: "href", value: url }] }
   end
 end
 ```
 
-[機能テストやシステムテスト](#機能テストとシステムテスト)で使われているのと同じ[Capybaraベースのアサーション](https://rubydoc.info/github/teamcapybara/capybara/master/Capybara/Minitest/Assertions)にアクセスしたい場合は、`ActionView::TestCase`を継承するベースクラスを以下のように定義することで`document_root_element`を`page`メソッドに変換できます。
+[機能テストやシステムテスト](#機能テストとシステムテスト)で使われているのと同じ[Capybaraベースのアサーション][Capybara assertions]にアクセスしたい場合は、`ActionView::TestCase`を継承するベースクラスを以下のように定義することで`document_root_element`を`page`メソッドに変換できます。
+
+[Capybara assertions]: https://rubydoc.info/github/teamcapybara/capybara/master/Capybara/Minitest/Assertions
 
 ```ruby
 # test/view_partial_test_case.rb
@@ -1798,7 +1892,7 @@ Action View 7.1以降の`#rendered`ヘルパーメソッドは、ビューパー
 
 `#rendered`メソッドが返す`String`コンテンツをオブジェクトに変換するには、`.register_parser`を呼び出してパーサーを定義します。`.register_parser :rss`を呼び出せば、`#rendered.rss`ヘルパーメソッドが定義されます。
 
-たとえば、レンダリングした[RSS コンテンツ][]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
+たとえば、レンダリングした[RSS コンテンツ][RSS contents]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
 
 ```ruby
 register_parser :rss, -> rendered { RSS::Parser.parse(rendered) }
@@ -1814,8 +1908,8 @@ end
 
 `ActionView::TestCase`には、デフォルトで以下のパーサーが定義されています。
 
-* `:html`: [`Nokogiri::XML::Node`](https://nokogiri.org/rdoc/Nokogiri/XML/Node.html)のインスタンスを返します
-* `:json`: [`ActiveSupport::HashWithIndifferentAccess`](https://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html)のインスタンスを返します
+* `:html`: [`Nokogiri::XML::Node`][]のインスタンスを返します
+* `:json`: [`ActiveSupport::HashWithIndifferentAccess`][]のインスタンスを返します
 
 ```ruby
 test "renders HTML" do
@@ -1838,7 +1932,9 @@ end
 ```
 
 [rails-dom-testing]: https://github.com/rails/rails-dom-testing
-[RSS コンテンツ]: https://www.rssboard.org/rss-specification
+[RSS contents]: https://www.rssboard.org/rss-specification
+[`Nokogiri::XML::Node`]: https://nokogiri.org/rdoc/Nokogiri/XML/Node.html
+[`ActiveSupport::HashWithIndifferentAccess`]: https://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html
 
 ヘルパーをテストする
 ---------------
@@ -2096,8 +2192,7 @@ end
 [`perform_later`]: https://api.rubyonrails.org/classes/ActiveJob/Enqueuing/ClassMethods.html#method-i-perform_later
 [`perform_now`]: https://api.rubyonrails.org/classes/ActiveJob/Execution/ClassMethods.html#method-i-perform_now
 
-### Testing Jobs in Context
-
+### ジョブをコンテキストでテストする
 
 コントローラなどで、呼び出しのたびにジョブが正しくエンキューされているかどうかをテストするのはよい方法です。[`ActiveJob::TestHelper`][]モジュールは、そのために役立つ[`assert_enqueued_with`][]などのメソッドを提供しています。
 

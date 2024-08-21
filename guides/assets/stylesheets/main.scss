@@ -187,11 +187,13 @@ img {
   color: #c52f24;
 }
 
+.top-mainbutton { margin-bottom: 30px; }
+// .main-button { margin-bottom: 30px; }
 @media screen and (min-width: 921px) {
   .top-mainbutton {
     display: flex;
     .main-button {
-      margin-right: 10px;
+      margin-right:  10px;
     }
   }
 }

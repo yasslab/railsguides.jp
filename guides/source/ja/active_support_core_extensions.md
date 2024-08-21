@@ -119,8 +119,9 @@ end
 
 ```ruby
 def set_conditional_cache_control!
-  return if self["Cache-Control"].present?
-  ...
+  unless self["Cache-Control"].present?
+    # ...
+  end
 end
 ```
 
@@ -134,7 +135,7 @@ NOTE: 定義は[`active_support/core_ext/object/blank.rb`](https://github.com/ra
 [`presence`][Object#presence]メソッドは、`present?`が`true`の場合は自身のレシーバを返し、falseの場合は`nil`を返します。このメソッドは以下のような便利な定番の用法があります。
 
 ```ruby
-host = config[:host].presence || 'localhost'
+host = config[:host].presence || "localhost"
 ```
 
 NOTE: 定義は[`active_support/core_ext/object/blank.rb`](https://github.com/rails/rails/blob/7-1-stable/activesupport/lib/active_support/core_ext/object/blank.rb)にあります。
@@ -174,20 +175,20 @@ NOTE: 定義は[`active_support/core_ext/object/duplicable.rb`](https://github.c
 [`deep_dup`][Object#deep_dup]メソッドは、与えられたオブジェクトの「ディープコピー」を返します。Rubyは通常の場合、他のオブジェクトを含むオブジェクトを`dup`しても、含まれている他のオブジェクトを複製しません。このようなコピーは「浅いコピー（shallow copy）」と呼ばれます。たとえば、以下のように文字列を含む配列があるとします。
 
 ```ruby
-array     = ['string']
+array     = ["string"]
 duplicate = array.dup
 
-duplicate.push 'another-string'
+duplicate.push "another-string"
 
 # このオブジェクトは複製されたので、複製された方にだけ要素が追加された
-array     # => ['string']
-duplicate # => ['string', 'another-string']
+array     # => ["string"]
+duplicate # => ["string", "another-string"]
 
-duplicate.first.gsub!('string', 'foo')
+duplicate.first.gsub!("string", "foo")
 
 # 1つ目の要素は複製されていないので、一方を変更するとどちらの配列も変更される
-array     # => ['foo']
-duplicate # => ['foo', 'another-string']
+array     # => ["foo"]
+duplicate # => ["foo, "another-string"]
 ```
 
 上で見たとおり、`Array`のインスタンスを複製して別のオブジェクトができたことにより、一方を変更しても他方は変更されないようになりました。ただし、配列は複製されましたが、配列の要素はそうではありません。`dup`メソッドはディープコピーを行わないので、配列の中にある文字列は複製後も同一オブジェクトのままです。
@@ -195,13 +196,13 @@ duplicate # => ['foo', 'another-string']
 オブジェクトをディープコピーする必要がある場合は次のように`deep_dup`をお使いください。
 
 ```ruby
-array     = ['string']
+array     = ["string"]
 duplicate = array.deep_dup
 
-duplicate.first.gsub!('string', 'foo')
+duplicate.first.gsub!("string", "foo")
 
-array     # => ['string']
-duplicate # => ['foo']
+array     # => ["string"]
+duplicate # => ["foo"]
 ```
 
 オブジェクトが複製可能でない場合、`deep_dup`は単にそのオブジェクトを返します。
@@ -237,8 +238,8 @@ end
 ```ruby
 def log_info(sql, name, ms)
   if @logger.try(:debug?)
-    name = '%s (%.1fms)' % [name || 'SQL', ms]
-    @logger.debug(format_log_entry(name, sql.squeeze(' ')))
+    name = "%s (%.1fms)" % [name || "SQL", ms]
+    @logger.debug(format_log_entry(name, sql.squeeze(" ")))
   end
 end
 ```
@@ -367,13 +368,13 @@ end
 上のコードから以下の結果を得られます。
 
 ```ruby
-current_user.to_query('user') # => "user=357-john-smith"
+current_user.to_query("user") # => "user=357-john-smith"
 ```
 
 このメソッドは、キーと値のいずれについても、必要な箇所をすべてエスケープします。
 
 ```ruby
-account.to_query('company[name]')
+account.to_query("company[name]")
 # => "company%5Bname%5D=Johnson+%26+Johnson"
 ```
 
@@ -382,7 +383,7 @@ account.to_query('company[name]')
 配列に`to_query`メソッドを適用した場合、`to_query`を配列の各要素に適用して`key[]`をキーとして追加し、それらを「&」で連結したものを返します。
 
 ```ruby
-[3.4, -45.6].to_query('sample')
+[3.4, -45.6].to_query("sample")
 # => "sample%5B%5D=3.4&sample%5B%5D=-45.6"
 ```
 
@@ -395,7 +396,7 @@ account.to_query('company[name]')
 [`Hash#to_query`][Hash#to_query]メソッドは、それらのキーに対して名前空間をオプションで与えることもできます。
 
 ```ruby
-{ id: 89, name: "John Smith" }.to_query('user')
+{ id: 89, name: "John Smith" }.to_query("user")
 # => "user%5Bid%5D=89&user%5Bname%5D=John+Smith"
 ```
 
@@ -1190,7 +1191,7 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 `:omission`オプションを指定することで、省略文字 (...) をカスタマイズすることもできます。
 
 ```ruby
-"Oh dear! Oh dear! I shall be late!".truncate(20, omission: '&hellip;')
+"Oh dear! Oh dear! I shall be late!".truncate(20, omission: "&hellip;")
 # => "Oh dear! Oh &hellip;"
 ```
 
@@ -1201,7 +1202,7 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate(18)
 # => "Oh dear! Oh dea..."
-"Oh dear! Oh dear! I shall be late!".truncate(18, separator: ' ')
+"Oh dear! Oh dear! I shall be late!".truncate(18, separator: " ")
 # => "Oh dear! Oh..."
 ```
 
@@ -1251,14 +1252,14 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 `:omission`オプションを指定することで、省略文字 (...) をカスタマイズすることもできます。
 
 ```ruby
-"Oh dear! Oh dear! I shall be late!".truncate_words(4, omission: '&hellip;')
+"Oh dear! Oh dear! I shall be late!".truncate_words(4, omission: "&hellip;")
 # => "Oh dear! Oh dear!&hellip;"
 ```
 
 `:separator`を指定することで、自然な区切り位置で切り詰めできます。
 
 ```ruby
-"Oh dear! Oh dear! I shall be late!".truncate_words(3, separator: '!')
+"Oh dear! Oh dear! I shall be late!".truncate_words(3, separator: "!")
 # => "Oh dear! Oh dear! I shall be late..."
 ```
 
@@ -1802,7 +1803,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 "SSL"が頭字語と定義されている場合は以下のようになります。
 
 ```ruby
-'ssl_error'.humanize # => "SSL error"
+"ssl_error".humanize # => "SSL error"
 ```
 
 ヘルパーメソッド`full_messages`では、属性名をメッセージに含めるときに`humanize`を使います。
@@ -1815,7 +1816,7 @@ end
 
 def full_message
   ...
-  attr_name = attribute.to_s.tr('.', '_').humanize
+  attr_name = attribute.to_s.tr(".", "_").humanize
   attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
   ...
 end
@@ -2028,7 +2029,7 @@ NOTE: 定義は[`active_support/core_ext/numeric/time.rb`](https://github.com/ra
 # => 100.000%
 100.to_fs(:percentage, precision: 0)
 # => 100%
-1000.to_fs(:percentage, delimiter: '.', separator: ',')
+1000.to_fs(:percentage, delimiter: ".", separator: ",")
 # => 1.000,000%
 302.24398923423.to_fs(:percentage, precision: 5)
 # => 302.24399%
@@ -2188,7 +2189,7 @@ BigDecimal(5.00, 6).to_s("e")  # => "0.5E1"
 
 ```ruby
 invoices.index_by(&:number)
-# => {'2009-032' => <Invoice ...>, '2009-008' => <Invoice ...>, ...}
+# => {"2009-032" => <Invoice ...>, "2009-008" => <Invoice ...>, ...}
 ```
 
 WARNING: キーは通常は一意でなければなりません。異なる要素から同じ値が返されると、そのキーのコレクションは作成されません。返された項目のうち、最後の項目だけが使われます。
@@ -2998,7 +2999,7 @@ NOTE: 定義は[`active_support/core_ext/hash/keys.rb`](https://github.com/rails
 [`deep_transform_values`][Hash#deep_transform_values]メソッドは、ブロック操作で変換されたすべての値を持つ新しいハッシュを返します。その中には、rootハッシュと、ネストしたハッシュや配列のすべての値も含まれます。
 
 ```ruby
-hash = { person: { name: 'Rob', age: '28' } }
+hash = { person: { name: "Rob", age: "28" } }
 
 hash.deep_transform_values { |value| value.to_s.upcase }
 # => {person: {name: "ROB", age: "28"}}
@@ -3071,8 +3072,8 @@ NOTE: 定義は[`active_support/core_ext/hash/indifferent_access.rb`](https://gi
 %r{.}.multiline?  # => false
 %r{.}m.multiline? # => true
 
-Regexp.new('.').multiline?                    # => false
-Regexp.new('.', Regexp::MULTILINE).multiline? # => true
+Regexp.new(".").multiline?                    # => false
+Regexp.new(".", Regexp::MULTILINE).multiline? # => true
 ```
 
 Railsはこのメソッドをルーティングコードでも1箇所だけ利用しています。ルーティングでは正規表現で複数行を扱うことを許していないので、このフラグで制限を加えています。
@@ -3367,18 +3368,19 @@ NOTE: 定義は[`active_support/core_ext/date_and_time/calculations.rb`](https:/
 [DateAndTime::Calculations#months_ago]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-months_ago
 [DateAndTime::Calculations#months_since]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-months_since
 
-##### `weeks_ago`
+##### `weeks_ago`、`weeks_since`
 
-[`weeks_ago`][DateAndTime::Calculations#weeks_ago]メソッドは、同じ要領で週に対して行います。
+[`weeks_ago`][DateAndTime::Calculations#weeks_ago]メソッドや[`weeks_since`][DateAndTime::Calculations#week_since]メソッドは、同じ要領で週に対して行います。
 
 ```ruby
-Date.new(2010, 5, 24).weeks_ago(1)    # => Mon, 17 May 2010
-Date.new(2010, 5, 24).weeks_ago(2)    # => Mon, 10 May 2010
+Date.new(2010, 5, 24).weeks_ago(1)   # => Mon, 17 May 2010
+Date.new(2010, 5, 24).weeks_since(2) # => Mon, 07 Jun 2010
 ```
 
 NOTE: 定義は[`active_support/core_ext/date_and_time/calculations.rb`](https://github.com/rails/rails/blob/7-1-stable/activesupport/lib/active_support/core_ext/date_and_time/calculations.rb)にあります。
 
 [DateAndTime::Calculations#weeks_ago]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-weeks_ago
+[DateAndTime::Calculations#weeks_since]: https://api.rubyonrails.org/classes/DateAndTime/Calculations.html#method-i-weeks_since
 
 ##### `advance`
 
@@ -3964,7 +3966,7 @@ Active Supportは`NameError`に[`missing_name?`][NameError#missing_name?]メソ�
 
 TIP: シンボルは、`:"ActiveRecord::Base"`で行なっているのと同じようにフルパスの定数として表せます。シンボルがそのように動作するのは利便性のためであり、技術的に必要だからではありません。
 
-たとえば、`ArticlesController`のアクションが呼び出されると、Railsはその名前からすぐに推測できる`ArticleHelper`を使おうとします。ここではこのヘルパーモジュールが存在していなくても問題はないので、この定数名で例外が発生しても例外として扱わずに黙殺する必要があります。しかし、実際に不明な定数が原因で`articles_helper.rb`が`NameError`エラーを発生するという場合が考えられます。そのような場合は、改めて例外を発生させなくてはなりません。`missing_name?`メソッドは、この2つの場合を区別するために使われます。
+たとえば、`ArticlesController`のアクションが呼び出されると、Railsはその名前からすぐに推測できる`ArticlesHelper`を使おうとします。ここではこのヘルパーモジュールが存在していなくても問題はないので、この定数名で例外が発生しても例外として扱わずに黙殺する必要があります。しかし、実際に不明な定数が原因で`articles_helper.rb`が`NameError`エラーを発生するという場合が考えられます。そのような場合は、改めて例外を発生させなくてはなりません。`missing_name?`メソッドは、この2つの場合を区別するために使われます。
 
 ```ruby
 def default_helper_module!

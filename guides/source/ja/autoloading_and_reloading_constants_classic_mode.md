@@ -771,7 +771,7 @@ require_dependency 'square'
 自動読み込みされる定数を定義するファイルは、決して`require`されるべきではありません。
 
 ```ruby
-require 'user' # これは絶対だめ
+require 'user' # これは絶対ダメ
 
 class UsersController < ApplicationController
   ...

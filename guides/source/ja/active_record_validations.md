@@ -78,42 +78,70 @@ CAUTION: データベース上のオブジェクトの状態を変える方法�
 
 以下のメソッドではバリデーションがトリガされ、オブジェクトが有効な場合にのみデータベースに保存されます。
 
-* `create`
-* `create!`
-* `save`
-* `save!`
-* `update`
-* `update!`
+* [`create`][]
+* [`create!`][]
+* [`save`][]
+* [`save!`][]
+* [`update`][]
+* [`update!`][]
 
 `!`が末尾に付く破壊的メソッド（`save!`など）では、レコードが無効な場合に例外が発生します。
 非破壊的なメソッドは、無効な場合に例外を発生しません。`save`と`update`は無効な場合に`false`を返し、`create`は無効な場合に単にそのオブジェクトを返します。
 
+[`create`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create
+[`create!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create-21
+[`save`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-save
+[`save!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-save-21
+[`update`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update
+[`update!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update-21
+
 ### バリデーションのスキップ
 
-以下のメソッドはバリデーションを行わずにスキップします。オブジェクトの保存は、有効無効にかかわらず行われます。これらのメソッドの利用には注意が必要です。
+以下のメソッドはバリデーションを行わずにスキップします。オブジェクトの保存は、有効無効にかかわらず行われます。これらのメソッドの利用には注意が必要です。詳しくは個別のAPIドキュメントを参照してください。
 
-* `decrement!`
-* `decrement_counter`
-* `increment!`
-* `increment_counter`
-* `insert`
-* `insert!`
-* `insert_all`
-* `insert_all!`
-* `toggle!`
-* `touch`
-* `touch_all`
-* `update_all`
-* `update_attribute`
-* `update_column`
-* `update_columns`
-* `update_counters`
-* `upsert`
-* `upsert_all`
+* [`decrement!`][]
+* [`decrement_counter`][]
+* [`increment!`][]
+* [`increment_counter`][]
+* [`insert`][]
+* [`insert!`][]
+* [`insert_all`][]
+* [`insert_all!`][]
+* [`toggle!`][]
+* [`touch`][]
+* [`touch_all`][]
+* [`update_all`][]
+* [`update_attribute`][]
+* [`update_attribute!`][]
+* [`update_column`][]
+* [`update_columns`][]
+* [`update_counters`][]
+* [`upsert`][]
+* [`upsert_all`][]
 
 実は、`save`に`validate: false`を引数として与えると、`save`のバリデーションをスキップすることが可能です。この手法は十分注意して使う必要があります。
 
 * `save(validate: false)`
+
+[`decrement!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-decrement-21
+[`decrement_counter`]: https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html#method-i-decrement_counter
+[`increment!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-increment-21
+[`increment_counter`]: https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html#method-i-increment_counter
+[`insert`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert
+[`insert!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert-21
+[`insert_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all
+[`insert_all!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all-21
+[`toggle!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-toggle-21
+[`touch`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-touch
+[`touch_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-touch_all
+[`update_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-update_all
+[`update_attribute`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute
+[`update_attribute!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute-21
+[`update_column`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_column
+[`update_columns`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_columns
+[`update_counters`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-update_counters
+[`upsert`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert
+[`upsert_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert_all
 
 ### `valid?`と`invalid?`
 
@@ -545,9 +573,9 @@ end
 
 WARNING: このバリデーションはデータベースに一意性制約（uniqueness constraint）を作成しないので、異なる2つのデータベース接続で、一意であることを意図したカラムに同じ値を持つレコードが2つ作成される可能性があります。これを避けるには、データベースでそのカラムにuniqueインデックスを作成する必要があります。
 
-データベースに一意性データベース制約を追加するには、マイグレーションで [`add_index`][] ステートメントを使って`unique: true`オプションを指定します。
+データベースに一意性データベース制約を追加するには、マイグレーションで[`add_index`][]ステートメントを使って`unique: true`オプションを指定します。
 
-`:scope`を用いる一意性バリデーション違反を防止する目的でデータベース側に制約を作成したい場合は、データベース側で両方のカラムにuniqueインデックスを作成しなければなりません。[MySQLのマニュアル][]でマルチカラムインデックスについての情報を参照するか、[PostgreSQLのマニュアル][]でカラムのグループを参照する一意性制約についての例を参照してください。
+`:scope`を用いる一意性バリデーション違反を防止する目的でデータベース側に制約を作成したい場合は、データベース側で両方のカラムにuniqueインデックスを作成しなければなりません。[MySQLのマニュアル][]や[MariaDBのマニュアル][]でマルチカラムインデックスについての情報を参照するか、[PostgreSQLのマニュアル][]などでカラムのグループを参照する一意性制約についての例を参照してください。
 
 このヘルパーには`:case_sensitive`というオプションもあります。これは一意性制約で大文字小文字を区別するか、またはデータベースのデフォルトの照合順序（collation）を尊重すべきかどうかを定義できます。このオプションはデフォルトで、データベースのデフォルト照合順序を尊重します。
 
@@ -566,6 +594,7 @@ WARNING: 一部のデータベースでは検索で常に大文字小文字を�
 [`validates_uniqueness_of`]: https://api.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html#method-i-validates_uniqueness_of
 [`add_index`]: https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_index
 [MySQLのマニュアル]: https://dev.mysql.com/doc/refman/8.0/ja/multiple-column-indexes.html
+[MariaDBのマニュアル]: https://mariadb.com/kb/en/compound-composite-indexes/
 [PostgreSQLのマニュアル]: https://www.postgresql.jp/document/current/html/ddl-constraints.html
 
 ### `validates_associated`
@@ -991,7 +1020,7 @@ end
 ```ruby
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+    unless URI::MailTo::EMAIL_REGEXP.match?(value)
       record.errors.add attribute, (options[:message] || "はメールアドレスではありません")
     end
   end

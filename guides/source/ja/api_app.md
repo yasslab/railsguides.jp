@@ -27,7 +27,7 @@ APIアプリケーションについて
 JSON APIにRailsを使う理由
 ----------------------------
 
-RailsでJSON APIを構築することについて、多くの開発者から受ける質問の筆頭は「RailsでJSONを出力するのは大げさすぎませんか？Sinatraじゃだめなんですか？」です。
+RailsでJSON APIを構築することについて、多くの開発者から受ける質問の筆頭は「RailsでJSONを出力するのは大げさすぎませんか？Sinatraじゃダメなんですか？」です。
 
 単なるAPIサーバーであれば、それでもよいでしょう。しかし、フロントHTMLの比重が非常に大きいアプリケーションであっても、アプリケーションロジックのほとんどはビューレイヤ以外の部分にあるものです。
 
@@ -346,7 +346,7 @@ jQuery.ajax({
 
 ```ruby
 # 以下のsession_optionsも利用可能
-config.session_store :cookie_store, key: '_interslice_session'
+config.session_store :cookie_store, key: '_your_app_session'
 
 # このミドルウェアはすべてのセッション管理で必須（session_storeに関わらず）
 config.middleware.use ActionDispatch::Cookies

@@ -151,7 +151,7 @@ Action Textのフィクスチャを暗号化するには、`fixtures/action_text
 
 ### サポートされる型
 
-`active_record.encryption`は、暗号化の前に背後の型を用いて値をシリアライズしますが、**型は文字列としてシリアライズ可能でなければなりません**。`serialized`などの構造化された型はそのまま利用可能です。
+`active_record.encryption`は、暗号化の前に背後の型を用いて値をシリアライズしますが、カスタムの`message_serializer`を使わない場合は、**型は文字列としてシリアライズ可能でなければなりません**。`serialized`などの構造化された型はそのまま利用可能です。
 
 カスタム型をサポートする必要がある場合は、[シリアライズ化属性](https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html)の利用が推奨されます。シリアライズ化属性の宣言は、以下のように暗号化宣言より**上の行に**置いてください。
 
@@ -497,7 +497,7 @@ rootデータ暗号化キーの導出に用いるキーまたはキーのリス�
 
 #### `config.active_record.encryption.hash_digest_class`
 
-鍵の導出に使うダイジェストアルゴリズムです。デフォルトは`OpenSSL::Digest::SHA1`です。
+鍵の導出に使うダイジェストアルゴリズムです。デフォルトは`OpenSSL::Digest::SHA256`です。
 
 #### `config.active_record.encryption.support_sha1_for_non_deterministic_encryption`
 

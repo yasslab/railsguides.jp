@@ -891,6 +891,14 @@ irb> Book.order("title ASC").order("created_at DESC")
 # SELECT * FROM books ORDER BY title ASC, created_at DESC
 ```
 
+以下のようにjoinしたテーブルで順序を指定することも可能です。
+
+```ruby
+Book.includes(:author).order(books: { print_year: :desc }, authors: { name: :asc })
+# または
+Book.includes(:author).order('books.print_year desc', 'authors.name asc')
+```
+
 WARNING: 多くのデータベースシステムでは、`select`、`pluck`、`ids`メソッドを使ってフィールドを選択しています。これらのデータベースシステムでは、選択しているリストに`order`句を使ったフィールドが含まれていないと、`order`メソッドで`ActiveRecord::StatementInvalid`例外が発生します。結果から特定のフィールドを取り出す方法については、次のセクションを参照してください。
 
 特定のフィールドだけを取り出す
@@ -1021,7 +1029,7 @@ SQLでは、`GROUP BY`フィールドで条件を指定する場合に`HAVING`�
 以下に例を示します。
 
 ```ruby
-Order.select("created_at, sum(total) as total_price").
+Order.select("created_at as ordered_date, sum(total) as total_price").
   group("created_at").having("sum(total) > ?", 200)
 ```
 
@@ -1524,11 +1532,11 @@ SELECT DISTINCT customers.*, COUNT(reviews.*) AS reviews_count FROM customers
 LEFT OUTER JOIN reviews ON reviews.customer_id = customers.id GROUP BY customers.id
 ```
 
-上のSQLを日本語で書くと「すべての顧客を返すとともに、それらの顧客がレビューを付けていればレビュー数を返し、レビューを付けていない場合はレビュー数を返さない」となります。
+上のSQLを日本語で書くと「レビューがあるかどうかにかかわらず、全ての顧客をレビュー数とともに返す」となります。
 
 ### `where.associated`と`where.missing`
 
-`associated`クエリメソッドとmissing`クエリメソッドでは、関連付けの有無に基づいてレコードの集合を選択できます。
+`associated`クエリメソッドと`missing`クエリメソッドでは、関連付けの有無に基づいてレコードの集合を選択できます。
 
 `where.associated`は以下のように使います。
 
@@ -1611,7 +1619,7 @@ SELECT authors.* FROM authors
   WHERE authors.id IN (1,2,3,4,5,6,7,8,9,10)
 ```
 
-#### 複数の関連付けをeager loading
+#### 複数の関連付けをeager loadingする
 
 Active Recordは、1つの`Model.find`呼び出しで関連付けをいくつでもeager loadingできます。これを行なうには、`includes`メソッドを呼び出して「配列」「ハッシュ」または「配列やハッシュをネストしたハッシュ」を指定します。
 
@@ -1697,13 +1705,12 @@ books.each do |book|
 end
 ```
 
-書き換え前は **11** 回もクエリが実行されましたが、書き直した上のコードはわずか **2** 回にまで減りました。
+書き換え前は**11**回もクエリが実行されましたが、書き直した上のコードはわずか**1**回にまで減りました。
 
 ```sql
-SELECT DISTINCT books.id FROM books LEFT OUTER JOIN authors ON authors.id = books.author_id LIMIT 10
-SELECT books.id AS t0_r0, books.last_name AS t0_r1, ...
-  FROM books LEFT OUTER JOIN authors ON authors.id = books.author_id
-  WHERE books.id IN (1,2,3,4,5,6,7,8,9,10)
+SELECT "books"."id" AS t0_r0, "books"."title" AS t0_r1, ... FROM "books"
+  LEFT OUTER JOIN "authors" ON "authors"."id" = "books"."author_id"
+  LIMIT 10
 ```
 
 NOTE: 「配列」「ハッシュ」または「配列やハッシュをネストしたハッシュ」を用いる`eager_load`メソッドは、`includes`メソッドと同様に`Model.find`呼び出しで任意の個数の関連付けを読み込みます。また、`includes`メソッドと同様に、eager loadingされる関連付けに条件を指定できます。
@@ -1720,7 +1727,13 @@ user.address.city  # ActiveRecord::StrictLoadingViolationErrorが発生
 user.comments.to_a # ActiveRecord::StrictLoadingViolationErrorが発生
 ```
 
+すべてのリレーションで`strict_loading`を有効にするには、[`config.active_record.strict_loading_by_default`][]フラグを`true`に変更します。
+
+ロガーに違反を送信するには、[`config.active_record.action_on_strict_loading_violation`][]を`:log`に変更します。
+
 [`strict_loading`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-strict_loading
+[`config.active_record.strict_loading_by_default`]: configuring.html#config-active-record-strict-loading-by-default
+[`config.active_record.action_on_strict_loading_violation`]: configuring.html#config-active-record-action-on-strict-loading-violation
 
 ### `strict_loading!`
 
@@ -1744,6 +1757,16 @@ user.comments.first.likes.to_a # ActiveRecord::StrictLoadingViolationErrorが発
 ```
 
 [`strict_loading!`]: https://api.rubyonrails.org/classes/ActiveRecord/Core.html#method-i-strict_loading-21
+
+### 関連付けに`strict_loading`オプションを指定する
+
+以下のように`strict_loading`オプションを指定することで、単一の関連付けに対してstrict loadingを有効にすることも可能です。
+
+```ruby
+class Author < ApplicationRecord
+  has_many :books, strict_loading: true
+end
+```
 
 スコープ
 ------
@@ -2500,7 +2523,7 @@ EXPLAINを実行する
 Customer.where(id: 1).joins(:orders).explain
 ```
 
-上では以下のような結果が生成されます。
+MySQLとMariaDBでは、以下のような結果が生成されます。
 
 ```sql
 EXPLAIN SELECT `customers`.* FROM `customers` INNER JOIN `orders` ON `orders`.`customer_id` = `customers`.`id` WHERE `customers`.`id` = 1
@@ -2519,8 +2542,6 @@ EXPLAIN SELECT `customers`.* FROM `customers` INNER JOIN `orders` ON `orders`.`c
 
 2 rows in set (0.00 sec)
 ```
-
-上の結果はMySQLの場合です。
 
 Active Recordは、対応するデータベースシェルの出力をエミュレーションして整形します。同じクエリをPostgreSQLアダプタで実行すると、以下のような結果が得られます。
 
@@ -2544,7 +2565,7 @@ eager loadingを使用している場合、内部的には複数のクエリが�
 Customer.where(id: 1).includes(:orders).explain
 ```
 
-MySQLとMariaDBでは以下の結果を生成します。
+MySQLとMariaDBでは、以下の結果を生成します。
 
 ```sql
 EXPLAIN SELECT `customers`.* FROM `customers`  WHERE `customers`.`id` = 1
@@ -2594,7 +2615,7 @@ PostgreSQLの場合は以下のような結果を生成します。
 
 ### Explainのオプション
 
-データベースとそれをサポートするアダプタ（現在はPostgreSQLとMySQL）については、より深い分析を行うためのオプションを渡すことが可能です。
+データベースとそれをサポートするアダプタ（現在はPostgreSQL、MySQL、MariaDB）については、より深い分析を行うためのオプションを渡すことが可能です。
 
 PostgreSQLの場合は以下のようになります。
 
@@ -2662,4 +2683,4 @@ EXPLAINの出力を解釈することは、本ガイドの範疇を超えます�
 
 * MariaDB: [EXPLAIN](https://mariadb.com/kb/en/explain/)
 
-* PostgreSQL: [EXPLAINの利用](https://www.postgresql.jp/document/current/html/using-explain.html) （v13日本語）
+* PostgreSQL: [EXPLAINの利用](https://www.postgresql.jp/document/current/html/using-explain.html)

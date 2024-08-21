@@ -3,8 +3,30 @@ getting_started:
   url: https://qiita.com/yui-knk/items/4b4aaf4b8dea049efe6e
 - title: OSS入門としてのRailsガイド
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
+- title: Top Ruby Companies (Rubyを活用している上場企業まとめサイト)
+  url: https://toprubycompanies.info/
 - title: Ruby on Railsチュートリアル - プロダクト開発の０→１を学ぼう
   url: https://railstutorial.jp
+
+active_record_querying:
+- title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
+  url: https://kaigionrails.org/2023/talks/pocke/
+
+active_support_core_extensions:
+- title: "ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！ by Sampo Kuokkanen - Kaigi on Rails"
+  url: https://kaigionrails.org/2023/talks/sampokuokkanen/
+
+association_basics:
+- title: Simplicity on Rails - RDB, REST and Ruby by MOROHASHI Kyosuke - Kaigi on Rails
+  url: https://kaigionrails.org/2023/talks/moro/
+
+classic_to_zeitwerk_howto:
+- title: Zeitwerkの壊し方
+  url: https://qiita.com/fursich/items/717a720d9f4465e4cbbb
+- title: STORES Rails アプリを Zeitwerk 有効化するまでの道のり
+  url: https://product.st.inc/entry/2021/08/13/105437
+- title: Zeitwerkとrequire_dependency - Money Forward Developers Blog
+  url: https://moneyforward-dev.jp/entry/2022/05/20/zeitwerk-and-require_dependency/
 
 constant_autoloading_and_reloading:
 - title: Railsガイドを読む (定数の自動読み込みと再読み込み)
@@ -13,3 +35,55 @@ constant_autoloading_and_reloading:
 contributing_to_ruby_on_rails:
 - title: OSS入門としてのRailsガイド
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
+- title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
+  url: https://kaigionrails.org/2022/talks/yahonda/
+
+i18n:
+- title: "Rails: 失われたメッセージを巡る冒険 | タイムインターメディア"
+  url: https://www.timedia.co.jp/tech/20240409-tech/
+
+threading_and_code_execution:
+- title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
+  url: https://kaigionrails.org/2023/talks/Envek/
+
+rails_on_rack:
+- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
+  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
+- title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
+  url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
+
+security:
+- title: "安全なウェブサイトの作り方 - 1.4 セッション管理の不備 | 情報セキュリティ | IPA 独立行政法人 情報処理推進機構"
+  url: https://www.ipa.go.jp/security/vuln/websecurity/session-management.html
+- title: "Railsでセッションリプレイ攻撃を防ぐ方法（翻訳）| TechRacho"
+  url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
+
+upgrading_ruby_on_rails:
+- title: Railsアップグレードガイド - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Railsアップグレードガイド
+- title: Rails 7.1 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge
+- title: Rails 7.0 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_knowledge
+- title: Rails 6.1 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge
+- title: Rails 6.0 Upgrade knowledge - ruby-jp (Scrapbox)
+  url: https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge
+
+webpacker:
+- title: Webpacker→jsbundling-rails+webpackアップグレード手順 - Techracho
+  url: https://techracho.bpsinc.jp/hachi8833/2024_01_22/115289
+- title: Webpacker v5からShakapacker v6へのアップグレードガイド- TechRacho
+  url: https://techracho.bpsinc.jp/hachi8833/2023_08_08/115955
+
+working_with_javascript_in_rails:
+- title: Turbo Handbook - Hotwire 公式ハンドブック
+  url: https://everyleaf.github.io/hotwire_ja/
+- title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 by Yasuko Ohba (nay3) - Kaigi on Rails
+  url: https://kaigionrails.org/2023/talks/nay3/
+- title: Hotwireことはじめ - 万葉
+  url: https://note.com/everyleaf/n/n9dc49676521c
+- title: 猫でもわかるHotwire入門 - Zenn
+  url: https://zenn.dev/shita1112/books/cat-hotwire-turbo
+- title: Hotwire for Frontend Developers - フロントエンドエンジニアのためのHotwire入門
+  url: https://hotwire-and-next.vercel.app/

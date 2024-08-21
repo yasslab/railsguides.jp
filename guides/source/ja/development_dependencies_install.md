@@ -88,33 +88,6 @@ $ brew services start mysql
 
 [Homebrew]: https://brew.sh/
 
-##### 潜在的な問題
-
-このセクションでは、macOSのネイティブ拡張機能、特にローカル開発で`mysql2` gemをバンドルする場合に遭遇する可能性のある問題について詳しく説明します。AppleがRailsの開発者環境に変更を加えたため、このドキュメントは今後変更される可能性や正確でない可能性があります。
-
-macOSで`mysql2` gemをコンパイルするためには、以下が必要です。
-
-1. `openssl@1.1`がインストール済みであること（`openssl@3`ではない）
-2. Rubyが`openssl@1.1`でコンパイルされていること
-3. `mysql2`用のbundle config内でコンパイラフラグが設定されていること
-
-`openssl@1.1`と`openssl@3`の両方がインストールされている場合は、Railsが `mysql2`をバンドルするために、Rubyに`openssl@1.1`を利用するように指示する必要があります。
-
-`.bash_profile`で、以下のように`PATH`と`RUBY_CONFIGURE_OPTS`が`openssl@1.1`を指すように設定します。
-
-```bash
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-```
-
-`~/.bundle/config`で`mysql2`を次のように設定します。このとき、`BUNDLE_BUILD__MYSQL2`の他のエントリは必ず削除してください。
-
-```bash
-BUNDLE_BUILD__MYSQL2: "--with-ldflags=-L/usr/local/opt/openssl@1.1/lib --with-cppflags=-L/usr/local/opt/openssl@1.1/include"
-```
-
-これらのフラグをRubyのインストールやRailsのバンドル前に設定しておくことで、ローカルのmacOS開発環境が動作するようになるはずです。
-
 #### Ubuntu
 
 以下を実行すると、すべての依存関係をインストールできます。
@@ -132,7 +105,7 @@ $ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.
 $ sudo apt-get update
 $ sudo apt-get install -y nodejs
 
-# Node.jsをインストール済みの場合は、以下のコマンドでyarn npmパッケージをインストールする
+# Node.jsをインストールしたら、以下のコマンドでyarn npmパッケージをインストールする
 $ sudo npm install --global yarn
 ```
 
