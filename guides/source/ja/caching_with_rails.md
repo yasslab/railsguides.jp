@@ -24,7 +24,7 @@ Railsには、すぐ利用できるキャッシュ機能がいくつも用意さ
 
 ここでは、キャッシュの手法を3種類ご紹介します。「ページキャッシュ」「アクションキャッシュ」「フラグメントキャッシュ」です。Railsのフラグメントキャッシュは本体に組み込まれており、デフォルトで利用できます。ページキャッシュやアクションキャッシュを利用するには、`Gemfile`に`actionpack-page_caching` gemや`actionpack-action_caching` gemを追加する必要があります。
 
-キャッシュは、デフォルトではproduction環境でのみ有効になります。ローカルでキャッシュを使ってみたい場合は、対応する環境の`config/environments/*.rb`ファイルで[`config.action_controller.perform_caching`][]を`true`に設定します。
+Action Controllerのキャッシュは、デフォルトではproduction環境でのみ有効になります。ローカルでキャッシュを使ってみたい場合は、対応する環境の`config/environments/*.rb`ファイルで[`config.action_controller.perform_caching`][]を`true`に設定します。
 
 NOTE: `config.action_controller.perform_caching`値の変更は、Action Controllerコンポーネントで提供されるキャッシュでのみ有効です。つまり、後述する[低レベルキャッシュ](#低レベルキャッシュ)の動作には影響しません。
 
@@ -592,7 +592,9 @@ response.strong_etag = response.body # => "618bbc92e2d35ea1945008b42799b0e7"
 development環境のキャッシュ
 ----------------------
 
-アプリケーションのキャッシュ戦略をdevelopmentモードで試したくなることがよくあります。Railsコマンドの`dev:cache`オプションを使うと、developmentモードのキャッシュを手軽にオンオフできます。
+developmentモードでは、デフォルトで[`:memory_store`](#activesupport-cache-memorystore)キャッシュが**有効**になります。
+
+Railsには`dev:cache`コマンドも提供されているので、これを用いて以下のようにAction Controllerのキャッシュを手軽にオンオフできます。
 
 ```bash
 $ bin/rails dev:cache
@@ -601,8 +603,7 @@ $ bin/rails dev:cache
 Development mode is no longer being cached.
 ```
 
-NOTE: Railsのdevelopmentモードでは、デフォルトでキャッシュが**オフ**になります。Railsは
-[`:null_store`](#activesupport-cache-nullstore)を利用します。
+キャッシュを無効にするには、`cache_store`を[`:null_store`](#activesupport-cache-nullstore)に設定します。
 
 参考
 ----------
