@@ -1061,10 +1061,18 @@ class ClientsController < ApplicationController
 end
 ```
 
-なお、この例が実際に動作するには、RailsのMIME typeに"PDF"を追加する必要があります。これを行なうには、`config/initializers/mime_types.rb`に以下を追加します。
+この`format`では、RailsによってMIME タイプとして登録されている拡張機能である任意のメソッドを呼び出せます。
+Railsには既に`"text/html"`や`"application/pdf"`などの一般的な MIMEタイプが登録されています。
 
 ```ruby
-Mime::Type.register "application/pdf", :pdf
+Mime::Type.lookup_by_extension(:pdf)
+# => "application/pdf"
+```
+
+MIMEタイプを追加する必要が生じた場合は、`config/initializers/mime_types.rb`ファイル内で[`Mime::Type.register`](https://api.rubyonrails.org/classes/Mime/Type.html#method-c-register)を呼び出してください。たとえば、RTF（リッチテキスト形式）を登録するには以下のように呼び出します。
+
+```ruby
+Mime::Type.register("application/rtf", :rtf)
 ```
 
 NOTE: Railsの設定ファイルは起動時にしか読み込まれません。上の設定変更を反映するには、サーバーを再起動する必要があります。

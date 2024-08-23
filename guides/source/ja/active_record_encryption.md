@@ -358,13 +358,13 @@ end
 ２つのメソッドは、いずれも`ActiveRecord::Encryption::Key`オブジェクトを返します。
 
 - `encryption_key`: コンテンツの暗号化に使われたキーを返す
-- `decryption keys`: 指定のメッセージを復号するのに使う可能性のあるキーのリストを返す
+- `decryption_keys`: 指定のメッセージを復号するのに使う可能性のあるキーのリストを返す
 
 １つのキーには、メッセージと一緒に暗号化なしで保存される任意のタグを含められます。`ActiveRecord::Encryption::Message#headers`を使って、復号時にこれらの値を調べられます。
 
-### キープロバイダをモデルごとに指定する
+### キープロバイダを属性ごとに指定する
 
-`key_provider:`オプションで、キープロバイダをクラスごとに設定できます。
+`key_provider:`オプションで、キープロバイダを属性ごとに設定できます。
 
 ```ruby
 class Article < ApplicationRecord
@@ -372,9 +372,9 @@ class Article < ApplicationRecord
 end
 ```
 
-### キーをモデルごとに指定する
+### キーを属性ごとに指定する
 
-`key:`オプションで、指定のキーをクラスごとに設定できます。
+`key:`オプションで、指定のキーを属性ごとに設定できます。
 
 ```ruby
 class Article < ApplicationRecord
