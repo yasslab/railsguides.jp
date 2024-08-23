@@ -1969,15 +1969,15 @@ end
 
 `config.action_dispatch.show_exceptions`設定は、リクエストへの応答中にAction Pack（具体的には[`ActionDispatch::ShowExceptions`](/configuring.html#actiondispatch-showexceptions)ミドルウェア）が発生した例外を処理する方法を指定します。
 
-値を`:all`または`true`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは `ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
+値を`:all`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは `ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
 
 値を`:rescueable`に設定すると、[`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)リストで定義されている例外についてはrescueし、その他すべてはraiseするようAction Packを構成します。 たとえば、Action Packは`ActiveRecord::RecordNotFound`をrescueしますが、`NoMethodError`をraiseします。
 
-値を``:none`または`false`に設定すると、Action Packがすべての例外をraiseするように構成されます。
+値を``:none`に設定すると、Action Packがすべての例外をraiseするように構成されます。
 
-* `:all`, `true`: すべての例外をエラーページで表示する
+* `:all`: すべての例外をエラーページで表示する
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)で宣言されている例外をエラーページで表示する
-* `:none`, `false`: すべての例外をraiseする
+* `:none`: すべての例外をraiseする
 
 | バージョン              | デフォルト値           |
 | --------------------- | -------------------- |
