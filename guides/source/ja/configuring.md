@@ -3113,7 +3113,7 @@ production:
 
 #### SQLite3データベースを設定する
 
-Railsには[SQLite3](http://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは、production環境の負荷に耐えるより適切に設定されますが、production環境の負荷が高すぎる場合はSQLiteが過負荷になる可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
+Railsには[SQLite3](http://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは、production環境の負荷に耐えるよう、より適切に設定されますが、production環境の負荷が高すぎる場合はSQLiteが過負荷になる可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
 
 以下はデフォルトの接続設定ファイル(`config/database.yml`)に含まれる、開発環境用の接続設定です。
 
