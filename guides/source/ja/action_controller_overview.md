@@ -1069,8 +1069,6 @@ Mime::Type.lookup_by_extension(:pdf)
 # => "application/pdf"
 ```
 
-なお、この例が実際に動作するには、RailsのMIME typeに"PDF"を追加する必要があります。これを行なうには、`config/initializers/mime_types.rb`に以下を追加します。
-
 MIMEタイプを追加する必要が生じた場合は、`config/initializers/mime_types.rb`ファイル内で[`Mime::Type.register`](https://api.rubyonrails.org/classes/Mime/Type.html#method-c-register)を呼び出してください。たとえば、RTF（リッチテキスト形式）を登録するには以下のように呼び出します。
 
 ```ruby
