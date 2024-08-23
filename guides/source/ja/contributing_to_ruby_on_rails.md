@@ -326,20 +326,6 @@ Inspecting 1 file
 
 [RuboCop]: https://www.rubocop.org/
 
-#### スペルチェック
-
-Railsでは、[GitHub Actions][]で[codespell][]によるスペルチェックを実行しています（[codespell][codespell2]では[小さなカスタム辞書][custom dict]を用いています）。codespellは[Python][]で書かれており、以下のように実行できます。
-
-```bash
-$ codespell --ignore-words=codespell.txt
-```
-
-[GitHub Actions]: https://github.com/rails/rails/blob/main/.github/workflows/lint.yml
-[codespell]: https://github.com/codespell-project/codespell
-[codespell2]: https://pypi.org/project/codespell/
-[custom dict]: https://github.com/rails/rails/blob/main/codespell.txt
-[Python]: https://www.python.org/
-
 ### ベンチマークを実行する
 
 パフォーマンスに影響する可能性のある変更では、コードのベンチマークを実施して影響の大きさを測定してください。その際、使ったベンチマークスクリプトも結果に添えてください。コミットメッセージにもその旨を明記し、今後別のコントリビューターが必要に応じてその結果をすぐ見つけて検証や決定を行えるようにしましょう（たとえば、今後Ruby VMの最適化が行われれば、現在の最適化の一部が不要になることも考えられます）。
@@ -759,7 +745,7 @@ $ git push fork my_new_branch
 
 GitHubのメール通知機能をオンにしているRailsコントリビュータもいますが、そうとは限りません。Railsに携わっている人のほとんどはボランティアなので、プルリクエストに返信をもらうまでに数日かかることもざらにあります。どうかめげずにプルリクエストをどしどし送信してください。おどろくほど早く反応がもらえることもあれば、そうでないこともあります。それがオープンソースというものです。
 
-一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord server][discord]やdiscuss.rubyonrails.orgの[rubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。
+一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord server][discord]の*contribution*チャンネルやdiscuss.rubyonrails.orgの[rubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。なお、多忙のためプルリクエストのチェックまで手が回らない可能性がありますので、個別のメンテナーに直接問い合わせることはご遠慮ください。
 
 よい機会なので、自分のプルリクエストへの反応を待っている間に、他の人のプルリクエストを開いてコメントを追加してみましょう。きっとその人たちも、あなたが自分のパッチに返信をもらったときと同じぐらい喜んでくれるでしょう。
 

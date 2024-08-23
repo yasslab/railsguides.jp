@@ -119,8 +119,9 @@ end
 
 ```ruby
 def set_conditional_cache_control!
-  return if self["Cache-Control"].present?
-  ...
+  unless self["Cache-Control"].present?
+    # ...
+  end
 end
 ```
 

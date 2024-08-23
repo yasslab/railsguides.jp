@@ -307,26 +307,45 @@ NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自
 
 バリデーション（検証）の場合と同様、以下のメソッドでもコールバックをスキップできます。
 
-* `decrement!`
-* `decrement_counter`
-* `delete`
-* `delete_all`
-* `delete_by`
-* `increment!`
-* `increment_counter`
-* `insert`
-* `insert!`
-* `insert_all`
-* `insert_all!`
-* `touch_all`
-* `update_column`
-* `update_columns`
-* `update_all`
-* `update_counters`
-* `upsert`
-* `upsert_all`
+* [`decrement!`][]
+* [`decrement_counter`][]
+* [`delete`][]
+* [`delete_all`][]
+* [`delete_by`][]
+* [`increment!`][]
+* [`increment_counter`][]
+* [`insert`][]
+* [`insert!`][]
+* [`insert_all`][]
+* [`insert_all!`][]
+* [`touch_all`][]
+* [`update_column`][]
+* [`update_columns`][]
+* [`update_all`][]
+* [`update_counters`][]
+* [`upsert`][]
+* [`upsert_all`][]
 
 ただし、重要なビジネスルールやアプリケーションロジックがコールバックに設定されている可能性もあるので、これらのメソッドの利用には十分注意すべきです。この点を理解せずにコールバックをバイパスすると、データの不整合が発生する可能性があります。
+
+[`decrement!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-decrement-21
+[`decrement_counter`]: https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html#method-i-decrement_counter
+[`delete`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-delete
+[`delete_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-delete_all
+[`delete_by`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-delete_by
+[`increment!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-increment-21
+[`increment_counter`]: https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html#method-i-increment_counter
+[`insert`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert
+[`insert!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert-21
+[`insert_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all
+[`insert_all!`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all-21
+[`touch_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-touch_all
+[`update_column`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_column
+[`update_columns`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_columns
+[`update_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-update_all
+[`update_counters`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-update_counters
+[`upsert`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert
+[`upsert_all`]: https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert_all
 
 コールバックの停止
 -----------------

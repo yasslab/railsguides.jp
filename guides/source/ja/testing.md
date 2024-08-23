@@ -540,29 +540,36 @@ $ bin/rails test test/controllers # 指定ディレクトリのテストをす�
 
 ```bash
 $ bin/rails test -h
-Usage: rails test [options] [files or directories]
+Usage:
+  bin/rails test [PATHS...]
 
-You can run a single test by appending a line number to a filename:
+Run tests except system tests
 
-    bin/rails test test/models/user_test.rb:27
+Examples:
+    You can run a single test by appending a line number to a filename:
 
-You can run multiple tests with in a line range by appending the line range to a filename:
+        bin/rails test test/models/user_test.rb:27
 
-    bin/rails test test/models/user_test.rb:10-20
+    You can run multiple tests with in a line range by appending the line range to a filename:
 
-You can run multiple files and directories at the same time:
+        bin/rails test test/models/user_test.rb:10-20
 
-    bin/rails test test/controllers test/integration/login_test.rb
+    You can run multiple files and directories at the same time:
 
-By default test failures and errors are reported inline during a run.
+        bin/rails test test/controllers test/integration/login_test.rb
+
+    By default test failures and errors are reported inline during a run.
 
 minitest options:
     -h, --help                       Display this help.
         --no-plugins                 Bypass minitest plugin auto-loading (or set $MT_NO_PLUGINS).
     -s, --seed SEED                  Sets random seed. Also via env. Eg: SEED=n rake
     -v, --verbose                    Verbose. Show progress processing files.
+    -q, --quiet                      Quiet. Show no progress processing files.
+        --show-skips                 Show skipped at the end of run.
     -n, --name PATTERN               Filter run on /regexp/ or string.
         --exclude PATTERN            Exclude /regexp/ or string from run.
+    -S, --skip CODES                 Skip reporting of certain types of results (eg E).
 
 Known extensions: rails, pride
     -w, --warnings                   Run with Ruby warnings enabled
@@ -571,6 +578,7 @@ Known extensions: rails, pride
     -d, --defer-output               Output test failures and errors after the test run
     -f, --fail-fast                  Abort test run on first failure or error
     -c, --[no-]color                 Enable color in the output
+        --profile [COUNT]            Enable profiling of tests and list the slowest test cases (default: 10)
     -p, --pride                      Pride. Show your testing pride!
 ```
 
@@ -774,7 +782,7 @@ Active Recordの他のモデルと同様、Active Storageの添付ファイル�
 `thumbnail`添付画像に関連付けられている`Article`モデルのフィクスチャデータYAMLを考えてみましょう。
 
 ```ruby
-class Article
+class Article < ApplicationRecord
   has_one_attached :thumbnail
 end
 ```
@@ -1153,7 +1161,7 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
 end
 ```
 
-リクエストで生成されるHTMLをテストする`assert_select`についてはこの後の「ビューをテストする」で言及します。これはリクエストに対するレスポンスのテストに用いるもので、重要なHTML要素がコンテンツに存在するというアサーションを行います。
+リクエストで生成されるHTMLをテストする`assert_select`についてはこの後の「[ビューをテストする](#ビューをテストする)」で言及します。これはリクエストに対するレスポンスのテストに用いるもので、重要なHTML要素がコンテンツに存在するというアサーションを行います。
 
 rootパスを表示すると、そのビューで`welcome/index.html.erb`が表示されるはずなので、このアサーションはパスするはずです。
 
@@ -2128,7 +2136,7 @@ end
 
 ### 例外が発生することをテストする
 
-特にリトライが設定されている場合は、特定のケースでジョブが例外を発生することをテストするのが難しくなることもあります。`perform_enqueued_jobs`ヘルパーは、ジョブが例外を発生するとテストが失敗するので、例外の発生時にテストを成功させるには、以下のようにジョブの`perform`メソッドを直接呼び出すことになります。
+特にリトライが設定されている場合は、特定のケースでジョブが例外を発生することをテストするのが難しくなることもあります。`perform_enqueued_jobs`ヘルパーは、ジョブが例外を発生するとテストが失敗するので、例外の発生時にテストを成功させるには、以下のようにジョブの`perform`メソッドを直接呼び出す必要があります。
 
 ```ruby
 require "test_helper"
