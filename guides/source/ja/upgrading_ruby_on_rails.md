@@ -47,7 +47,7 @@ TIP: 訳注：日本語の参考資料については本ページ末尾の「[�
 
 Railsのバージョン間を移動するには以下のようにします。
 
-1. `Gemfile`ファイル内のRailsバージョン番号を変更し、`bundle update`を実行する。
+1. `Gemfile`ファイル内のRailsバージョン番号を変更し、`bundle update rails`を実行する。
 2. `package.json`ファイル内のRails JavaScriptパッケージのバージョンを変更する。jsbundling-railsを使っている場合は、`bin/rails javascript:install`を実行する。
 3. [アップデートタスク](#アップデートタスク)を実行する。
 4. テストを実行する。
