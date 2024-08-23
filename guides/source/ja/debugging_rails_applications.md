@@ -685,7 +685,7 @@ Stop by #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body = 
 - `if: <expr>`: `<expr`>の結果がtrueの場合にのみブレークポイントを停止する
   - `break Post#save if: params[:debug]`: `params[:debug]`もtrueの場合に`Post#save`で停止する
 - `path: <path_regexp>`: トリガーとなるイベント（メソッド呼び出しなど）が指定のパスで発生した場合にのみブレークポイントを停止する
-  - `break Post#save if: app/services/a_service`: メソッド名がRuby正規表現`/app\/services\/a_service/`にマッチする位置でメソッドが呼び出されると`Post#save`で停止する
+  - `break Post#save path: app/services/a_service`: メソッド呼び出しが`/app\/services\/a_service/`を含むパスで発生したら`Post#save`で停止する
 
 最初の3つのオプション「`do:`」「`pre:`」「`if:`」については、以下のように前述の`debugger`ステートメントのオプションとしても利用できます。
 

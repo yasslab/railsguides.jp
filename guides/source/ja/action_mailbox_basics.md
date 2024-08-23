@@ -79,7 +79,7 @@ Mailgunからのメールを受け取るようAction Mailboxに指示します�
 config.action_mailbox.ingress = :mailgun
 ```
 
-受信メールを`/rails/action_mailbox/mailgun/inbound_emails/mime`に転送するよう[Mailgunを設定](https://documentation.mailgun.com/en/latest/user_manual.html#receiving-forwarding-and-storing-messages)します。たとえばアプリケーションが`https://example.com`にある場合は、完全修飾済みURLを`https://example.com/rails/action_mailbox/mailgun/inbound_emails/mime`のように指定します。
+受信メールを`/rails/action_mailbox/mailgun/inbound_emails/mime`に転送するよう[Mailgunを設定](https://documentation.mailgun.com/docs/mailgun/user-manual/receive-forward-store/)します。たとえばアプリケーションが`https://example.com`にある場合は、完全修飾済みURLを`https://example.com/rails/action_mailbox/mailgun/inbound_emails/mime`のように指定します。
 
 ### Mandrill
 

@@ -417,7 +417,7 @@ end
 
 `(module|class)_eval(文字列)`メソッドで作成されるメソッドの右側に、コードで生成されるインスタンスをコメントで書くこと。このように作成されたコメントには、スペース2文字分のインデントを与えること。
 
-[![(module|class)_eval(STRING) code comments](images/dynamic_method_class_eval.png)](images/dynamic_method_class_eval.png)
+[![`(module|class)_eval(STRING)` code comments](images/dynamic_method_class_eval.png)](images/dynamic_method_class_eval.png)
 
 生成された行が多過ぎる（200行を超える）場合は、コメントを呼び出しの上に置くこと。
 

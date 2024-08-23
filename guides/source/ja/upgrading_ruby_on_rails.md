@@ -289,24 +289,6 @@ const fileInputSelector = Rails.fileInputSelector
 Rails.fileInputSelector(...)
 ```
 
-### `ActionView::TestCase#rendered`が`String`を返さなくなった
-
-Rails 7.1から、`ActionView::TestCase#rendered`はさまざまなフォーマットメソッドに応答するオブジェクト（`rendered.html`や`rendered.json`など）を返すようになります。後方互換性を維持するために、`rendered`から返されるオブジェクトは、テスト中にレンダリングされる"missing"メソッドを`String`に委譲します。たとえば、以下の[`assert_match`][]アサーションはパスします。
-
-```ruby
-assert_match(/some content/i, rendered)
-```
-
-ただし、`ActionView::TestCase#rendered`が`String`のインスタンスを返すことに依存しているテストは失敗します。従来の振る舞いに戻すには、以下のように`#rendered`メソッドをオーバーライドして`@rendered`インスタンス変数から読み取ることが可能です。
-
-```ruby
-# config/initializers/action_view.rb
-
-ActiveSupport.on_load :action_view_test_case do
-  attr_reader :rendered
-end
-```
-
 ### `Rails.logger`が`ActiveSupport::BroadcastLogger`インスタンスを返すようになった
 
 新しい`ActiveSupport::BroadcastLogger`クラスを使うと、ログを手軽にさまざまな出力先（STDOUT、ログファイルなど）にブロードキャストできるようになります。
@@ -469,6 +451,20 @@ to be an error condition in future versions of Rails.
 ```
 
 この警告が引き続きログに出力される場合は、[アプリケーション起動時の自動読み込み](https://railsguides.jp/autoloading_and_reloading_constants.html#アプリケーション起動時の自動読み込み)でアプリケーション起動時の自動読み込みについての記述を参照してください。これに対応しないと、Rails 7で`NameError`が出力されます。
+
+`once`オートローダーによって管理される定数は、初期化中にオートロードされ、通常どおり利用できます。`to_prepare`ブロックは必要ありません。ただし、`once`オートローダーは、これをサポートするために、より早期にセットアップされるようになりました。アプリケーションにカスタムの活用形（inflections）が設定されていて、`once`オートローダーでそれを認識する必要がある場合は、`config/initializers/inflections.rb`のコードを`config/application.rb`のアプリケーションクラス定義の本体に移動する必要があります。
+
+```ruby
+module MyApp
+  class Application < Rails::Application
+    # ...
+
+    ActiveSupport::Inflector.inflections(:en) do |inflect|
+      inflect.acronym "HTML"
+    end
+  end
+end
+```
 
 ### `config.autoload_once_paths`を設定可能になった
 

@@ -849,16 +849,6 @@ end
 
 Active Storageでは、バリアントプロセッサとして[Vips][]またはMiniMagickを利用できます。デフォルトで使われるバリアントプロセッサは`config.load_defaults`のターゲットバージョンに依存し、[`config.active_storage.variant_processor`][]で変更できます。
 
-MiniMagickとVipsの互換性は完全ではないため、MiniMagickからVips（またはその逆）に移行すると、フォーマット固有のオプションを使っている場合は以下のように若干の変更が必要になります。
-
-```erb
-<!-- MiniMagick -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
-
-<!-- Vips -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
-```
-
 利用可能なパラメータは[`image_processing`][] gemで定義されており、利用するバリアントプロセッサによって異なりますが、どちらも以下のパラメータをサポートしています。
 
 | パラメータ      | 例 | 説明 |
@@ -870,7 +860,23 @@ MiniMagickとVipsの互換性は完全ではないため、MiniMagickからVips�
 | `crop` | `crop: [20, 50, 300, 300]` | 画像から領域を抽出します。最初の2つの引数は、抽出する領域の左端と上端、最後の2つの引数は、抽出する領域の幅と高さです。|
 | `rotate` | `rotate: 90` | 画像を指定の角度だけ回転します。|
 
-[`image_processing`][]では、[Vips](https://github.com/janko/image_processing/blob/master/doc/vips.md)プロセッサおよび[MiniMagick](https://github.com/janko/image_processing/blob/master/doc/minimagick.md)プロセッサ独自のドキュメントに記載されている多くのオプション（画像圧縮の設定を可能にする`saver`など）が利用できます。
+[`image_processing`][]には、[Vips](https://github.com/janko/image_processing/blob/master/doc/vips.md)プロセッサおよび[MiniMagick](https://github.com/janko/image_processing/blob/master/doc/minimagick.md)プロセッサの両方について、それぞれのドキュメントに記載されている利用可能なパラメータがすべて備わっています。
+
+上記のパラメータを含む一部のパラメータには、プロセッサ固有のオプションも追加できます（ハッシュ内で`key: value`ペアとして渡せます）。
+
+```erb
+<!-- Vipsはさまざまな変換で`crop`の設定をサポートしている -->
+<%= image_tag user.avatar.variant(resize_to_fill: [100, 100, { crop: :centre }]) %>
+```
+
+既存のアプリケーションでMiniMagickからVipsに移行する場合、プロセッサ固有のオプションを以下のように更新する必要があります。
+
+```erb
+<!-- MiniMagickの場合 -->
+<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
+<!-- Vipsの場合 -->
+<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
+```
 
 [`config.active_storage.variable_content_types`]: configuring.html#config-active-storage-variable-content-types
 [`config.active_storage.variant_processor`]: configuring.html#config-active-storage-variant-processor
@@ -1164,10 +1170,10 @@ import { DirectUpload } from "@rails/activestorage"
 
 class Uploader {
   constructor(file, url, token, attachmentName) {
-    this.upload = new DirectUpload(this.file, this.url, this)
+    this.upload = new DirectUpload(file, url, this)
   }
 
-  upload(file) {
+  uploadFile(file) {
     this.upload.create((error, blob) => {
       if (error) {
         // エラーハンドリングをここに書く
@@ -1200,10 +1206,10 @@ class Uploader {
     const headers = { 'Authentication': `Bearer ${token}` }
     // INFO: ヘッダーの送信はオプションのパラメーターです。
     // ヘッダーを送信しない場合、認証はcookieかセッションデータを使って行われます。
-    this.upload = new DirectUpload(this.file, this.url, this, headers)
+    this.upload = new DirectUpload(file, url, this, headers)
   }
 
-  upload(file) {
+  uploadFile(file) {
     this.upload.create((error, blob) => {
       if (error) {
         // エラー処理をここに書く
@@ -1234,7 +1240,7 @@ class DirectUploadsController < ActiveStorage::DirectUploadsController
   def authenticate!
     @token = request.headers['Authorization']&.split&.last
 
-    return head :unauthorized unless valid_token?(@token)
+    head :unauthorized unless valid_token?(@token)
   end
 end
 ```

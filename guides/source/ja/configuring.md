@@ -1920,20 +1920,28 @@ end
 
 `config.action_dispatch.show_exceptions`設定は、リクエストへの応答中にAction Pack（具体的には[`ActionDispatch::ShowExceptions`](/configuring.html#actiondispatch-showexceptions)ミドルウェア）が発生した例外を処理する方法を指定します。
 
-値を`:all`または`true`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは `ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
+値を`:all`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは `ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
 
 値を`:rescueable`に設定すると、[`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)リストで定義されている例外についてはrescueし、その他すべてはraiseするようAction Packを構成します。 たとえば、Action Packは`ActiveRecord::RecordNotFound`をrescueしますが、`NoMethodError`をraiseします。
 
-値を``:none`または`false`に設定すると、Action Packがすべての例外をraiseするように構成されます。
+値を``:none`に設定すると、Action Packがすべての例外をraiseするように構成されます。
 
-* `:all`, `true`: すべての例外をエラーページで表示する
+* `:all`: すべての例外をエラーページで表示する
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)で宣言されている例外をエラーページで表示する
-* `:none`, `false`: すべての例外をraiseする
+* `:none`: すべての例外をraiseする
 
 | バージョン              | デフォルト値           |
 | --------------------- | -------------------- |
 | （オリジナル）           | `true`                |
 | 7.1以降                | `:all`                |
+
+#### `config.action_dispatch.always_write_cookie`
+
+「cookieが安全でないとマーキングされている場合」や「リクエストがSSL経由で行われている場合」や「リクエストが[Onion Service](https://ja.wikipedia.org/wiki/Tor#%E3%83%A9%E3%83%B3%E3%83%87%E3%83%96%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%81%A8Onion_Service)に対して行われている場合」にも、リクエストの最後にcookieを書き込むかどうかを指定します。
+
+`true`に設定すると、この条件が満たされない場合でもcookieを書き込みます。
+
+デフォルト値は、`development`環境では`true`、その他の環境では`false`です。
 
 #### `ActionDispatch::Callbacks.before`
 
@@ -1969,7 +1977,7 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 
 #### `config.action_view.erb_trim_mode`
 
-ERBで使うトリムモードを指定します。デフォルト値は`'-'`で、`<%= -%>`または`<%= =%>`の場合に末尾スペースを削除して改行します。詳しくは[Erubisドキュメント](http://www.kuwata-lab.com/erubis/users-guide.06.html#topics-trimspaces)を参照してください。
+特定のERB構文をトリミングするかどうかを指定します。デフォルト値は`'-'`で、`<%= -%>`または`<%= =%>`の場合に末尾スペースを削除して改行します。それ以外の値に設定するとトリミングサポートがオフになります。
 
 #### `config.action_view.frozen_string_literal`
 
@@ -2048,7 +2056,7 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 #### `config.action_view.preload_links_header`
 
-`javascript_include_tag`や`stylesheet_link_tag`で、アセットをプリロードする`Link`ヘッダーを生成するかどうかを指定します。
+`javascript_include_tag`や`stylesheet_link_tag`で、アセットをプリロードする`link`ヘッダーを生成するかどうかを指定します。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
@@ -2283,7 +2291,7 @@ config.action_mailer.show_previews = false
 
 デフォルトの配信ジョブ (`config.action_mailer.delivery_job`を参照)で用いるActive Jobキューを指定します。
 
-このオプションを`nil`に設定すると、配送ジョブはデフォルトの Active Jobキュー （`config.active_job.default_queue_name` を参照）に送信されます。
+このオプションを`nil`に設定すると、配送ジョブはデフォルトの Active Jobキュー （[`config.active_job.default_queue_name`][]を参照）に送信されます。
 
 メーラークラスはこれをオーバーライドすることで別のキューを利用できます。これはデフォルトの配信ジョブを使う場合にのみ適用されることに注意してください。メーラーがカスタムジョブを使っている場合、そのキューが使われます。
 
@@ -2536,6 +2544,8 @@ config.active_job.queue_adapter = :sidekiq
 config.active_job.default_queue_name = :medium_priority
 ```
 
+[`config.active_job.default_queue_name`]: #config-active-job-default-queue-name
+
 #### `config.active_job.queue_name_prefix`
 
 すべてのジョブ名の前に付けられるプレフィックスを設定します（スペースは含めません）。デフォルト値は空欄なので何も追加されません。
@@ -2721,7 +2731,7 @@ config.active_storage.content_types_allowed_inline = %w(image/png image/gif imag
 
 #### `config.active_storage.queues.analysis`
 
-解析ジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、解析ジョブはデフォルトのActive Jobキューに送信されます（`config.active_job.default_queue_name`を参照）。
+解析ジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、解析ジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
@@ -2730,9 +2740,17 @@ config.active_storage.content_types_allowed_inline = %w(image/png image/gif imag
 | 6.0                   | `:active_storage_analysis` |
 | 6.1以降                | `nil`                |
 
+#### `config.active_storage.queues.mirror`
+
+ダイレクトアップロードのミラーリングジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、ミラーリングジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
+
+#### `config.active_storage.queues.preview_image`
+
+画像プレビューの前処理に用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、ジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
+
 #### `config.active_storage.queues.purge`
 
-purgeジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、purgeジョブはデフォルトのActive Jobキューに送信されます（`config.active_job.default_queue_name`を参照）。
+purgeジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、purgeジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
@@ -2741,9 +2759,9 @@ purgeジョブに用いるActive Jobキューをシンボルで指定します�
 | 6.0                   | `:active_storage_purge` |
 | 6.1以降                | `nil`                |
 
-#### `config.active_storage.queues.mirror`
+#### `config.active_storage.queues.transform`
 
-ダイレクトアップロードのミラーリングジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、ミラーリングジョブはデフォルトのActive Jobキューに送信されます（`config.active_job.default_queue_name`を参照）。デフォルト値は`nil`です。
+バリアントの前処理に用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、ジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
 
 #### `config.active_storage.logger`
 
