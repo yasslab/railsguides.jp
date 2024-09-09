@@ -385,7 +385,7 @@ Action View
 *  `ActionView::Helpers::RecordTagHelper`を削除。この機能は[record_tag_helper](https://github.com/rails/record_tag_helper) gemに移行済み。
     ([Pull Request](https://github.com/rails/rails/pull/18411))
 
-*  i18nでのサポート廃止に伴い、`translate`の`:rescue_format`オプションを削除。
+*  I18nでのサポート廃止に伴い、`translate`の`:rescue_format`オプションを削除。
     ([Pull Request](https://github.com/rails/rails/pull/20019))
 
 ### 主な変更点
@@ -423,7 +423,7 @@ Action Mailer
 
 ### 主な変更点
 
-*   テンプレートを検索するときにデフォルトのロケールとi18nにフォールバックするようになった。
+*   テンプレートを検索するときにデフォルトのロケールとI18nにフォールバックするようになった。
     ([commit](https://github.com/rails/rails/commit/ecb1981b))
 
 *  ジェネレーターで生成されたメーラーに`_mailer`サフィックスを追加。コントローラやジョブと同様の命名規則に従う。
