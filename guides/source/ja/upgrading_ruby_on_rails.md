@@ -435,7 +435,9 @@ ActiveSupport::Dependencies.constantize("User") # 今後は利用不可
 
 * オートローダーの動作をトレースしたい場合、`ActiveSupport::Dependencies.verbose=`は利用できなくなりました。`config/application.rb`で`Rails.autoloaders.log!`をスローしてください。
 
-`ActiveSupport::Dependencies::Reference`や`ActiveSupport::Dependencies::Blamable`などの補助的なクラスやモジュールも削除されました。
+<!-- ビルド対応として改行を追加 -->
+`ActiveSupport::Dependencies::Reference`や  
+`ActiveSupport::Dependencies::Blamable`などの補助的なクラスやモジュールも削除されました。
 
 ### 初期化中の自動読み込み
 
