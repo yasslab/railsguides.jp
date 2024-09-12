@@ -172,8 +172,8 @@ irb> event.payload
 irb> Event.where("payload->>'kind' = ?", "user_renamed")
 ```
 
-[datatype_json](https://www.postgresql.jp/document/current/html/datatype-json.html)
-[functions_json](https://www.postgresql.jp/document/current/html/functions-json.html)
+[datatype_json]: https://www.postgresql.jp/document/current/html/datatype-json.html
+[functions_json]: https://www.postgresql.jp/document/current/html/functions-json.html
 
 ### 範囲型（range）
 
@@ -471,7 +471,7 @@ irb> user.save!
 
 ### ネットワークアドレス型
 
-* [データ型の定義][datatype-net-types]
+* [データ型の定義][datatype_net_types]
 
 `inet`型および`cidr`型は、Rubyの[`IPAddr`][IPAddr]オブジェクトに対応付けられます。`macaddr`型は通常のtextデータ型に対応付けられます。
 
@@ -638,7 +638,7 @@ User.last.name_upcased # => "JOHN"
 延期可能な外部キー
 -----------------------
 
-* [foreign key table constraints][sql-set-constraints]
+* [foreign key table constraints][sql_set_constraints]
 
 PostgreSQLのテーブル制約は、デフォルトでは各ステートメントの直後にチェックされます。このため、「参照されるレコードが、参照されるテーブル内にまだ存在しない」レコードを作成することは意図的に禁止されています。
 
@@ -824,7 +824,7 @@ irb> Article.count
 
 NOTE: このアプリケーションは、`archive`されていない`Articles`のみを扱う前提です。ビューには条件を設定可能なので、`archive`された`Articles`を直接除外できます。
 
-[`CREATE_VIEW`]: https://www.postgresql.jp/document/current/html/sql-createview.html
+[CREATE_VIEW]: https://www.postgresql.jp/document/current/html/sql-createview.html
 
 Structure Dumpについて
 --------------
