@@ -587,7 +587,7 @@ $ rails generate model Case device_id:uuid
 インデックス化
 --------
 
-* [インデックス作成方法](https://www.postgresql.jp/document/14/html/sql-createindex.html)
+* [インデックス作成方法](https://www.postgresql.jp/document/current/html/sql-createindex.html)
 
 PostgreSQLには豊富なインデックスオプションがあります。PostgreSQLアダプタでは、[よく使われるインデックスオプション][common index options]に加えて以下のオプションもサポートされています。
 
@@ -679,7 +679,7 @@ end
 一意制約
 -----------------
 
-* [一意性制約](https://www.postgresql.jp/document/14/html/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+* [一意性制約](https://www.postgresql.jp/document/current/html/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
 
 ```ruby
 # db/migrate/20230422225213_create_items.rb
@@ -700,7 +700,7 @@ add_unique_constraint :items, deferrable: :deferred, using_index: "index_items_o
 排他制約
 ---------------------
 
-* [排他制約](https://www.postgresql.jp/document/14/html/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION)
+* [排他制約](https://www.postgresql.jp/document/current/html/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION)
 
 ```ruby
 # db/migrate/20131220144913_create_products.rb
