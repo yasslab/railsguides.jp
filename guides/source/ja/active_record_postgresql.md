@@ -172,8 +172,8 @@ irb> event.payload
 irb> Event.where("payload->>'kind' = ?", "user_renamed")
 ```
 
-[datatype_json](https://www.postgresql.jp/document/current/html/datatype-json.html)
-[functions_json](https://www.postgresql.jp/document/current/html/functions-json.html)
+[datatype_json]: https://www.postgresql.jp/document/current/html/datatype-json.html
+[functions_json]: https://www.postgresql.jp/document/current/html/functions-json.html
 
 ### 範囲型（range）
 
@@ -381,7 +381,7 @@ SELECT n.nspname AS enum_schema,
 * [pgcryptoのジェネレータ関数][pgcrypto]
 * [uuid-osspのジェネレータ関数][uuid_ossp]
 
-NOTE: バージョン13.0より前のPostgreSQLを使っている場合は、UUIDを利用するために特別な拡張機能を有効にする必要が生じる場合があります。pgcrypto`拡張機能（PostgreSQL 9.4以上）または`uuid-ossp`拡張機能 (それ以前のバージョン) を有効にしてください。
+NOTE: バージョン13.0より前のPostgreSQLを使っている場合は、UUIDを利用するために特別な拡張機能を有効にする必要が生じる場合があります。`pgcrypto`拡張機能（PostgreSQL 9.4以上）または`uuid-ossp`拡張機能 (それ以前のバージョン) を有効にしてください。
 
 ```ruby
 # db/migrate/20131220144913_create_revisions.rb
@@ -471,7 +471,7 @@ irb> user.save!
 
 ### ネットワークアドレス型
 
-* [データ型の定義][datatype-net-types]
+* [データ型の定義][datatype_net_types]
 
 `inet`型および`cidr`型は、Rubyの[`IPAddr`][IPAddr]オブジェクトに対応付けられます。`macaddr`型は通常のtextデータ型に対応付けられます。
 
@@ -587,7 +587,7 @@ $ rails generate model Case device_id:uuid
 インデックス化
 --------
 
-* [インデックス作成方法](https://www.postgresql.jp/document/14/html/sql-createindex.html)
+* [インデックス作成方法](https://www.postgresql.jp/document/current/html/sql-createindex.html)
 
 PostgreSQLには豊富なインデックスオプションがあります。PostgreSQLアダプタでは、[よく使われるインデックスオプション][common index options]に加えて以下のオプションもサポートされています。
 
@@ -638,7 +638,7 @@ User.last.name_upcased # => "JOHN"
 延期可能な外部キー
 -----------------------
 
-* [foreign key table constraints][sql-set-constraints]
+* [foreign key table constraints][sql_set_constraints]
 
 PostgreSQLのテーブル制約は、デフォルトでは各ステートメントの直後にチェックされます。このため、「参照されるレコードが、参照されるテーブル内にまだ存在しない」レコードを作成することは意図的に禁止されています。
 
@@ -679,7 +679,7 @@ end
 一意制約
 -----------------
 
-* [一意性制約](https://www.postgresql.jp/document/14/html/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+* [一意性制約](https://www.postgresql.jp/document/current/html/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
 
 ```ruby
 # db/migrate/20230422225213_create_items.rb
@@ -700,7 +700,7 @@ add_unique_constraint :items, deferrable: :deferred, using_index: "index_items_o
 排他制約
 ---------------------
 
-* [排他制約](https://www.postgresql.jp/document/14/html/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION)
+* [排他制約](https://www.postgresql.jp/document/current/html/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION)
 
 ```ruby
 # db/migrate/20131220144913_create_products.rb
@@ -824,7 +824,7 @@ irb> Article.count
 
 NOTE: このアプリケーションは、`archive`されていない`Articles`のみを扱う前提です。ビューには条件を設定可能なので、`archive`された`Articles`を直接除外できます。
 
-[`CREATE_VIEW`]: https://www.postgresql.jp/document/current/html/sql-createview.html
+[CREATE_VIEW]: https://www.postgresql.jp/document/current/html/sql-createview.html
 
 Structure Dumpについて
 --------------
