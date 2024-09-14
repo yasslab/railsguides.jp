@@ -205,7 +205,7 @@ Railsは、デフォルトでビューの各テンプレートをコンパイル
 <%= render "application/product" %>
 ```
 
-上のコードは、その位置に`app/views/application/_menu.html.erb`パーシャルを読み込みます。
+上のコードは、その位置に`app/views/application/_product.html.erb`パーシャルを読み込みます。
 
 [`render`]: https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render
 
