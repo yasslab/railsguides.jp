@@ -54,7 +54,7 @@ Active Recordでは、Rubyオブジェクトを用いて以下を行えます。
 Active RecordにおけるCoC（Convention over Configuration）
 ----------------------------------------------
 
-他のプログラミング言語やフレームワークでアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsで採用されている規約（規約）に従っていれば、Active Recordモデルの作成時に書かなければならない設定用コードは最小限で済みますし、設定用コードが完全に不要になることすらあります。
+他のプログラミング言語やフレームワークでアプリケーションを作成すると、設定のためのコードを大量に書く必要が生じがちです。一般的なORMアプリケーションでは特にこの傾向があります。しかし、Railsで採用されている規約に従っていれば、Active Recordモデルの作成時に書かなければならない設定用コードは最小限で済みますし、設定用コードが完全に不要になることすらあります。
 
 Railsでは、アプリケーションの設定方法がほとんどの場合に同じになるのであれば、その方法をフレームワークのデフォルト設定にすべきという「設定よりも規約（Convention over Configuration）」の考えを採用しています。設定を明示的に行う必要があるのは、規約に沿えない事情がある場合だけです。
 
@@ -135,7 +135,7 @@ $ bin/rails generate migration CreateBooks title:string author:string
 # Columns `created_at` and `updated_at` are added by `t.timestamps`.
 
 # db/migrate/20240220143807_create_books.rb
-class CreateBooks < ActiveRecord::Migration
+class CreateBooks < ActiveRecord::Migration[7.2]
   def change
     create_table :books do |t|
       t.string :title
@@ -369,7 +369,7 @@ book = Book.find(42)
 上のコードを実行すると、それぞれ以下のSQLステートメントが生成されます。
 
 ```sql
-SELECT "books".* FROM "books" WHERE "books"."author" = ? LIMIT ?  [["author", "J.R.R. Tolkien"], ["LIMIT", 1]]
+SELECT "books".* FROM "books" WHERE "books"."title" = ? LIMIT ?  [["title", "Metaprogramming Ruby 2"], ["LIMIT", 1]]
 
 SELECT "books".* FROM "books" WHERE "books"."id" = ? LIMIT ?  [["id", 42], ["LIMIT", 1]]
 ```
