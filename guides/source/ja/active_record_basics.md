@@ -369,8 +369,10 @@ book = Book.find(42)
 上のコードを実行すると、それぞれ以下のSQLステートメントが生成されます。
 
 ```sql
+-- Book.find_by(title: "Metaprogramming Ruby 2")
 SELECT "books".* FROM "books" WHERE "books"."title" = ? LIMIT ?  [["title", "Metaprogramming Ruby 2"], ["LIMIT", 1]]
 
+-- Book.find(42)
 SELECT "books".* FROM "books" WHERE "books"."id" = ? LIMIT ?  [["id", 42], ["LIMIT", 1]]
 ```
 
