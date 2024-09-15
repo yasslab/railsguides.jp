@@ -113,7 +113,7 @@ GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
 
 [`perform_all_later`][]を使うと、複数のジョブを一括登録できます。詳しくは[一括登録](#一括登録)を参照してください。
 
-[`perform_all_later`] https://api.rubyonrails.org/classes/ActiveJob.html#method-c-perform_all_later
+[`perform_all_later`]: https://api.rubyonrails.org/classes/ActiveJob.html#method-c-perform_all_later
 
 ジョブを実行する
 -------------
@@ -442,8 +442,8 @@ ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
 
 ジョブのキューへの登録が成功したかどうかを知るには、[`successfully_enqueued?`][]メソッドが利用できます。
 
-[`enqueue_all.active_job`] active_support_instrumentation.html#enqueue-all-active-job
-[`successfully_enqueued?`] https://api.rubyonrails.org/classes/ActiveJob/Core.html#method-i-successfully_enqueued-3F
+[`enqueue_all.active_job`]: active_support_instrumentation.html#enqueue-all-active-job
+[`successfully_enqueued?`]: https://api.rubyonrails.org/classes/ActiveJob/Core.html#method-i-successfully_enqueued-3F
 
 ### キューバックエンドのサポート
 
@@ -453,7 +453,7 @@ ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
 
 キューへの一括登録がキューバックエンドでサポートされていない場合、`perform_all_later`はジョブを1件ずつキューに登録します。
 
-[`Solid Queue`] https://github.com/rails/solid_queue/pull/93
+[`Solid Queue`]: https://github.com/rails/solid_queue/pull/93
 
 Action Mailer
 ------------
