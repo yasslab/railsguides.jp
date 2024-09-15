@@ -391,7 +391,7 @@ Notification sent to admin about critical info update for: john.doe.new@example.
 [`before_destroy`]:
     https://api.rubyonrails.org/classes/ActiveRecord/Callbacks/ClassMethods.html#method-i-before_destroy
 
-利用例については、[`after_commit`と`after_rollback`](#after-commitコールバックとafter-rollbackコールバック).を参照してください。
+利用例については、[`after_commit`と`after_rollback`](#after-commitコールバックとafter-rollbackコールバック)を参照してください。
 
 #### 破棄時のコールバック
 
@@ -830,7 +830,7 @@ User.first.destroy! # => raises an ActiveRecord::RecordNotDestroyed
 * `before_remove`
 * `after_remove`
 
-関連付けのコールバックは、関連付けの宣言でオプションを追加することでを定義できます。
+関連付けのコールバックは、関連付けの宣言でオプションを追加することで定義できます。
 
 `Author`モデルに`has_many :books`が定義されている例を考えてみましょう。ただし、`authors`コレクションに本を追加する前に、その著者が本の個数制限に達していないことを確認する必要があります。個数制限を確認するための`before_add`コールバックを追加することで、これを実行できます。
 
