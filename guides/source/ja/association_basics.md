@@ -521,7 +521,7 @@ end
 `t.references`という書式を使うと、同じことをもっとシンプルに書けます。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[5.2]
+class CreatePictures < ActiveRecord::Migration[7.2]
   def change
     create_table :pictures do |t|
       t.string  :name
