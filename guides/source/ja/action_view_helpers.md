@@ -49,7 +49,7 @@ time_ago_in_words(3.minutes.from_now) # => 3 minutes
 
 詳しくは[`time_ago_in_words`][] APIドキュメントを参照してください。
 
-[`distance_of_time_in_words`]: https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-time_ago_in_words
+[`time_ago_in_words`]: https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-time_ago_in_words
 
 ### 数値ヘルパー
 
@@ -78,7 +78,7 @@ number_to_human(1234567) # => 1.23 Million
 
 詳しくは[`number_to_human`][] APIドキュメントを参照してください。
 
-[`number_to_currency`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human
+[`number_to_human`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human
 
 #### `number_to_human_size`
 
