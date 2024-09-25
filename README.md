@@ -131,7 +131,7 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
-📣 【PR】YassLab 社では[研修支援](https://railstutorial.jp/business)や[教育支援](https://railstutorial.jp/partner)、[バナー掲載](https://railsguides.jp/contact)などにも対応しています。まずは無料の導入相談からぜひ! :pray: :sparkling_heart: 
+📣 【PR】YassLab 社では[Railsガイド協賛プラン](https://railsguides.jp/sponsors)や、[Railsチュートリアル研修支援](https://railstutorial.jp/business)などにも対応しています。まずは無料の導入相談からぜひ! :pray: :sparkling_heart: 
 
 <div>
   <a href="https://yasslab.jp/ja/#for-team">
