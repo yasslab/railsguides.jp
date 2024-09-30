@@ -316,13 +316,18 @@ end
 
 ```irb
 irb> person = Person.new
-irb> person.age = 110
-irb> person.age_highest?
-=> true
-irb> person.reset_age
-=> 0
-irb> person.age_highest?
+irb> person.name = "Jane Doe"
+
+irb> person.first_name
+=> "Jane"
+irb> person.last_name
+=> "Doe"
+
+irb> person.name_short?
 => false
+
+irb> person.reset_name_to_default!
+=> "Default Name"
 ```
 
 [`ActiveModel::AttributeMethods`]: https://api.rubyonrails.org/classes/ActiveModel/AttributeMethods.html
@@ -333,7 +338,7 @@ irb> person.age_highest?
 
 `ActiveModel::Callbacks`は、以下の手順に沿って実装できます。
 
-1. クラス内で`ActiveModel::Callbacks`を拡張します。
+1. クラス内で`ActiveModel::Callbacks`を`extend`します。
 2. コールバックを関連付ける必要があるメソッドのリストを`define_model_callbacks`で確立します。たとえば`:update`などのメソッドを指定すると、`:update`イベントの3つのデフォルトコールバック（`before`、`around`、`after`）がすべて自動的に`include`されます。
 3. 定義されたメソッド内で`run_callbacks`を利用して、特定のイベントがトリガーされたときにコールバックチェインを実行します。
 4. これで、Active Recordモデルと同様に、このクラスで`before_update`、`after_update`、`around_update`メソッドを利用できるようになります。
@@ -526,7 +531,7 @@ irb> person.to_param
 => nil
 ```
 
-自作のモデルがActive Modelオブジェクトらしく振る舞わない場合は、`:to_model`を自分で定義する必要があります。`:to_model`は、Active Modelに準拠したメソッドでオブジェクトをラップするプロキシオブジェクトを返さなければなりません。
+自作のモデルがActive Modelオブジェクトらしく振る舞わない場合は、`:to_model`を自分で定義する必要があります。この場合`:to_model`は、Active Modelに準拠したメソッドでオブジェクトをラップするプロキシオブジェクトを返さなければなりません。
 
 ```ruby
 class Person
@@ -543,11 +548,10 @@ end
 
 ```irb
 irb> person.to_key
-=> nil
 => [1]
 ```
 
-NOTE: キー属性は、オブジェクトを識別するために使われる属性です。たとえば、データベースのモデルでは、キー属性が主キーになります。
+NOTE: キー属性は、オブジェクトを識別するために使われる属性です。たとえば、データベースに裏付けられたモデルでは、キー属性は主キーです。
 
 #### `to_param`
 
@@ -556,7 +560,6 @@ NOTE: キー属性は、オブジェクトを識別するために使われる�
 
 ```irb
 irb> person.to_param
-=> nil
 => "1"
 ```
 
@@ -1127,7 +1130,7 @@ irb> person.name
 
 ### `Translation`モジュール
 
-[`ActiveModel::Translation`][]モジュールは、オブジェクトを[Railsの国際化（I18n）フレームワーク internationalization (i18n) framework](i18n.html)と統合します。
+[`ActiveModel::Translation`][]モジュールは、オブジェクトを[Railsの国際化（I18n）フレームワーク](i18n.html)と統合します。
 
 ```ruby
 class Person
@@ -1253,7 +1256,7 @@ NOTE: `validate`を同じメソッドで複数回呼び出すと、以前の定�
 
 #### `Errors`モジュール
 
-`ActiveModel::Validations`モジュールは、`errors`メソッドを新しい[`ActiveModel::Errors`][]オブジェクトで初期化されたインスタンスに自動的に追加するため、`errors`の追加を手動で行う必要はありません。
+`ActiveModel::Validations`モジュールは、このモジュールを`include`したクラスのインスタンスに対して、`errors`メソッドを自動的に追加し、さらに、[`ActiveModel::Errors`][]の新しいオブジェクトを自動的に用意します。したがって、これらの処理を手動で行う必要はありません。
 
 オブジェクトが有効かどうかを確認するには、オブジェクトに対して`valid?`を実行します。オブジェクトが有効でない場合は`false`が返され、エラーが`errors`オブジェクトに追加されます。
 
