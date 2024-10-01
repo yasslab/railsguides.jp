@@ -332,6 +332,49 @@ irb> person.reset_name_to_default!
 
 [`ActiveModel::AttributeMethods`]: https://api.rubyonrails.org/classes/ActiveModel/AttributeMethods.html
 
+定義されていないメソッドを呼び出すと、`NoMethodError`をraiseします。
+
+#### `alias_attribute`
+
+`ActiveModel::AttributeMethods`は、`alias_attribute`による属性メソッドのエイリアス作成機能を提供しています。
+
+以下の例では、`name`のエイリアス属性`full_name`を作成しています。どちらの属性も同じ値を返しますが、エイリアス`full_name`はこの属性に名と姓が含まれていることが明示されています。
+
+```ruby
+class Person
+  include ActiveModel::AttributeMethods
+
+  attribute_method_suffix "_short?"
+  define_attribute_methods :name
+
+  attr_accessor :name
+
+  alias_attribute :full_name, :name
+
+  private
+    def attribute_short?(attribute)
+      public_send(attribute).length < 5
+    end
+end
+```
+
+```irb
+irb> person = Person.new
+irb> person.name = "Joe Doe"
+irb> person.name
+=> "Joe Doe"
+
+# `full_name` is the alias for `name`, and returns the same value
+irb> person.full_name
+=> "Joe Doe"
+irb> person.name_short?
+=> false
+
+# `full_name_short?` is the alias for `name_short?`, and returns the same value
+irb> person.full_name_short?
+=> false
+```
+
 ### `Callbacks`モジュール
 
 [`ActiveModel::Callbacks`][]は、[Active Record スタイルのコールバック](active_record_callbacks.html)をプレーンなRubyオブジェクトの形で提供します。コールバックを利用して、`before_update`や`after_create`などのモデルのライフサイクルイベントにフックすることも、モデルのライフサイクルの特定の時点で実行されるカスタムロジックを定義することも可能になります。
