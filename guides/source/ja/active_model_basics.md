@@ -108,7 +108,7 @@ NOTE: `form_with`や`render`を`ActiveModel::API`互換オブジェクトで利�
 [Action Viewフォームヘルパー]: form_helpers.html
 [レイアウトとレンダリング]: layouts_and_rendering.html
 
-### `ActiveModel::Model`モジュール
+### `Model`モジュール
 
 [`ActiveModel::Model`][]モジュールには、Action PackやAction Viewとやりとりするための[`ActiveModel::API`](#api)がデフォルトで含まれており、モデル的なRubyクラスを実装する場合はこの方法が推奨されています。将来的には拡張され、より多くの機能が追加される予定です。
 
@@ -128,7 +128,7 @@ irb> person.age  # => "18"
 
 [`ActiveModel::Model`]: https://api.rubyonrails.org/classes/ActiveModel/Model.html
 
-### `ActiveModel::Attributes`モジュール
+### `Attributes`モジュール
 
 [`ActiveModel::Attributes`][]モジュールを利用することで、データ型の定義、デフォルト値の設定、PORO（プレーンなRubyオブジェクト）のキャストやシリアライズの処理が可能になります。これは、フォームデータで通常のオブジェクトの日付やブーリアン値などに対してActive Recordと同じような変換を行うときに便利です。
 
@@ -268,7 +268,7 @@ irb> person.date_of_birth
 INFO: `assign_attributes`と`attributes=` はどちらもメソッド呼び出しであり、代入する属性のハッシュを引数として渡せます。Rubyでは多くの場合、メソッド呼び出しの丸かっこ`()`やハッシュ定義の波かっこ`{}`を省略できます。 <br><br>
 `attributes=`のような「セッター」メソッドの呼び出しでは、丸かっこ`()`を省略することがよくあります（`()`を省略しなくても振る舞いは変わりません）が、セッターメソッドにハッシュを渡す場合は波かっこ`{}`を省略してはいけない点にご注意ください。たとえば`person.attributes=({ name: "John" })`は正常に動作しますが、`person.attributes = name: "John"`では`SyntaxError`が発生します。<br><br>`assign_attributes`などの（セッターでない）メソッド呼び出しでは、ハッシュ引数の丸かっこ`()`や`{}`を両方書くことも両方省略することも可能です。たとえば、`assign_attributes name: "John"`や`assign_attributes({ name: "John" })`はどちらもRubyコードとして完全に有効です。ただし`assign_attributes { name: "John" }`という波かっこ`{}`だけの書き方は有効ではなく、`SyntaxError`が発生します（波かっこ`{}`がハッシュ引数なのかブロックなのかをRubyが区別できないため）。
 
-### `ActiveModel::AttributeMethods`モジュール
+### `AttributeMethods`モジュール
 
 [`ActiveModel::AttributeMethods`][]モジュールは、モデルの属性メソッドを動的に定義する方法を提供します。このモジュールは、属性へのアクセスと操作をシンプルにするうえで特に有用であり、クラスのメソッドにカスタムのプレフィックスやサフィックスを追加することも可能です。プレフィックスとサフィックス、およびそれらをオブジェクトのどのメソッドで利用するかを定義するには、次の手順で実装できます。
 
