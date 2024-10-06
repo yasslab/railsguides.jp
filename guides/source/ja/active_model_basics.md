@@ -364,13 +364,13 @@ irb> person.name = "Joe Doe"
 irb> person.name
 => "Joe Doe"
 
-# `full_name` is the alias for `name`, and returns the same value
+# `full_name`は`name`のエイリアスであり、`name`と同じ値を返す
 irb> person.full_name
 => "Joe Doe"
 irb> person.name_short?
 => false
 
-# `full_name_short?` is the alias for `name_short?`, and returns the same value
+# `full_name_short?`は`name_short?`のエイリアスであり、`name_short?`と同じ値を返す
 irb> person.full_name_short?
 => false
 ```
