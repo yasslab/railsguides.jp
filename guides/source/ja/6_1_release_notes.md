@@ -23,7 +23,7 @@ Rails 6.1へのアップグレード
 
 ### データベース単位のコネクション切り替え
 
-Rails 6.1でデータベース単位のコネクション切り替え機能が使えるようになりました（[#40370](https://github.com/rails/rails/pull/40370)。6.0の場合は、ロールを`reading`に切り替えるとすべてのデータベースコネクションもreadingロールに切り替わりました。6.1からは、Railsの設定で`legacy_connection_handling`を`false`に指定しておけば、対応する抽象クラスで`connected_to`を呼び出すことでデータベースへのコネクションを切り替えられます。
+Rails 6.1でデータベース単位のコネクション切り替え機能が使えるようになりました（[#40370](https://github.com/rails/rails/pull/40370)）。6.0の場合は、ロールを`reading`に切り替えるとすべてのデータベースコネクションもreadingロールに切り替わりました。6.1からは、Railsの設定で`legacy_connection_handling`を`false`に指定しておけば、対応する抽象クラスで`connected_to`を呼び出すことでデータベースへのコネクションを切り替えられます。
 
 ### 水平シャーディング
 
