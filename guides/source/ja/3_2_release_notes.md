@@ -358,7 +358,7 @@ Client.where(:active => true).pluck(:id)
 
 * 関連付けメソッドの生成は、独立した1つのモジュール内で作成されるようになりました。これはオーバーライドやコンポジションできるようにするためです。たとえば`MyModel`というクラスがあり、そのモジュールが`MyModel::GeneratedFeatureMethods`だとします。Active Modelで定義された`generated_attributes_methods`が実行されると、このモジュールはただちにそのモデルクラスにincludeされるので、関連付けメソッドは同じ名前の属性メソッドをオーバーライドします。
 
-* 一意のクエリを生成する`ActiveRecord::Relation#uniq``ActiveRecord::Relation#uniq`が追加されました。
+* 一意のクエリを生成する`ActiveRecord::Relation#uniq`が追加されました。
 
     ```ruby
     Client.select('DISTINCT name')
