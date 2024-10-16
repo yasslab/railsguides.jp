@@ -533,11 +533,6 @@ end
 
 ```ruby
 # app/serializers/money_serializer.rb
-class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
-  # ある引数がこのシリアライザでシリアライズされるべきかどうかをチェックする
-  def serialize?(argument)
-    argument.is_a? Money
-  end
   # あるオブジェクトを、オブジェクト型をサポートするもっとシンプルな表現形式に変換する。
   # 表現形式としては特定のキーを持つハッシュが推奨される。キーには基本型のみが利用可能。
   # `super`を読んでカスタムシリアライザ型をハッシュに追加すべき
@@ -551,6 +546,12 @@ class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
   def deserialize(hash)
     Money.new(hash["amount"], hash["currency"])
   end
+
+  private
+    # ある引数がこのシリアライザでシリアライズされるべきかどうかをチェックする
+    def klass
+      Money
+    end
 end
 ```
 
@@ -567,7 +568,7 @@ Rails.application.config.active_job.custom_serializers << MoneySerializer
 # config/application.rb
 module YourApp
   class Application < Rails::Application
-    config.autoload_once_paths << Rails.root.join('app', 'serializers')
+    config.autoload_once_paths << "#{root}/app/serializers"
   end
 end
 ```
