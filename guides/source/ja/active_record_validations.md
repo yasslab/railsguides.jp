@@ -486,7 +486,7 @@ class Supplier < ApplicationRecord
 end
 ```
 
-関連付けられたレコードの存在が必須の場合、これをバリデーションするには`:inverse_of`オプションでその関連付けを指定する必要があります。
+複数の関連付けられたオブジェクトが存在することを検証したい場合は、`:inverse_of`オプションを指定してください。
 
 ```ruby
 class Order < ApplicationRecord
@@ -532,7 +532,7 @@ class LineItem < ApplicationRecord
 end
 ```
 
-関連付けられたレコードが存在してはならない場合、これを検証するには`:inverse_of`オプションでその関連付けを指定する必要があります。
+複数の関連付けられたオブジェクトが存在しないことを検証したい場合は、`:inverse_of`オプションを指定してください。
 
 ```ruby
 class Order < ApplicationRecord
