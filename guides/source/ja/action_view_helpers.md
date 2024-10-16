@@ -275,7 +275,7 @@ link_to "Profiles", profiles_path
 # => <a href="/profiles">Profiles</a>
 
 link_to nil, "https://example.com"
-# => <a href="https://www.example.com">https://www.example.com</a>
+# => <a href="https://example.com">https://example.com</a>
 
 link_to "Articles", articles_path, id: "articles", class: "article__container"
 # => <a href="/articles" class="article__container" id="articles">Articles</a>
@@ -615,7 +615,7 @@ JavaScriptセグメントでキャリッジリターンや一重引用符や二�
 たとえば、二重引用符が挨拶文に含まれている以下のようなパーシャルをJavaScriptのアラートボックスで表示したい場合は、以下のように書くことで二重引用符をエスケープできます。
 
 ```html+erb
-<%# app/views/users/greeting.html.rb %>
+<%# app/views/users/greeting.html.erb %>
 My name is <%= current_user.name %>, and I'm here to say "Welcome to our website!"
 ```
 
