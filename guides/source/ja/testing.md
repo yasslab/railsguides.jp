@@ -547,7 +547,7 @@ end
 
 [複数の書き込みデータベース](active_record_multiple_databases.html)が存在する場合、テストはそれらに対応する多数のトランザクションにラップされ、すべてがロールバックします。
 
-#### テストのトランザクションを
+#### テストのトランザクションをオプトアウトする
 
 以下のようにすることで、個別のテストケースでトランザクションを無効にできます。
 
@@ -2233,7 +2233,7 @@ class BillingJobTest < ActiveJob::TestCase
     assert_raises(InsufficientFundsError) do
       BillingJob.new(empty_account, product).perform
     end
-    refute account.reload.charged_for?(product)
+    assert_not account.reload.charged_for?(product)
   end
 end
 ```
