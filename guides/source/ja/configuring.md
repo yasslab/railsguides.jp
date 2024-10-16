@@ -3494,6 +3494,7 @@ end
 | `ActiveJob::TestCase`                | `active_job_test_case`               |
 | `ActiveModel::Model`                 | `active_model`                       |
 | `ActiveRecord::Base`                 | `active_record`                      |
+| `ActiveRecord::Encryption`           | `active_record_encryption`           |
 | `ActiveRecord::TestFixtures`         | `active_record_fixtures`             |
 | `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter`    | `active_record_postgresqladapter`    |
 | `ActiveRecord::ConnectionAdapters::Mysql2Adapter`        | `active_record_mysql2adapter`        |
