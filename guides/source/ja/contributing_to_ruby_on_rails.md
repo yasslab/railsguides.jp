@@ -332,6 +332,15 @@ Inspecting 1 file
 
 [RuboCop]: https://www.rubocop.org/
 
+#### スペルチェック
+
+スペルチェックは、GitHub Actionsで[codespell](https://github.com/codespell-project/codespell)を実行することで行います。codespellでは、[小さなカスタム辞書](https://github.com/rails/rails/blob/main/codespell.txt)を利用しています。
+`codespell`は[Python](https://www.python.org/)で書かれており、以下のように実行できます。
+
+```bash
+$ codespell --ignore-words=codespell.txt
+```
+
 ### ベンチマークを実行する
 
 パフォーマンスに影響する可能性のある変更では、コードのベンチマークを実施して影響の大きさを測定してください。その際、使ったベンチマークスクリプトも結果に添えてください。コミットメッセージにもその旨を明記し、今後別のコントリビューターが必要に応じてその結果をすぐ見つけて検証や決定を行えるようにしましょう（たとえば、今後Ruby VMの最適化が行われれば、現在の最適化の一部が不要になることも考えられます）。
