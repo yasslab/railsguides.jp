@@ -112,7 +112,9 @@ Product.where(Product.primary_key => [[1, "ABC98765"], [7, "ZZZ11111"]])
 複合主キーを持つモデルの関連付け
 -------------------------------------------------------
 
-Railsは多くの場合、追加情報を必要とせずに、複合主キーをモデル間の関連付けで「主キー〜外部キー」情報を推論できます。以下の例をご覧ください。
+Railsは、関連付けられたモデル間の主キーと外部キーのリレーションシップを多くの場合推測できます。ただし複合主キーを扱う場合は、明示的に指示されない限り、デフォルトで複合キーの一部（通常は`id`カラム）のみを使うのが普通です。このデフォルトの振る舞いは、モデルの複合主キーに`:id`カラムが含まれ、**かつ**その列がすべてのレコードに対して一意である場合にのみ機能します。
+
+以下の例をご覧ください。
 
 ```ruby
 class Order < ApplicationRecord
@@ -125,23 +127,30 @@ class Book < ApplicationRecord
 end
 ```
 
-ここでRailsは、1件のorder（注文）とそのbooks（本）の関連付けの主キーに`:id`カラムが使われると仮定します。これは、通常の`has_many`関連付けや`belongs_to`関連付けと同様です。Railsは、`books`テーブル上の外部キーカラムが`:order_id`であると推測します。
-ある本の注文に、以下のようにアクセスするとします。
+このセットアップでは、`Order`（注文）モデルには`[:shop_id, :id]`で構成される複合主キーがあり、`Book`（書籍）モデルは`Order`モデルに属しています。このときRailsは、注文とその書籍の関連付けの主キーとして`:id`カラムを使う必要があると推測し、`books`テーブルの外部キーカラムは`:order_id`であると推測します。
+
+以下は、`Order`とそれに関連付けられた`Book`を作成します。
 
 ```ruby
 order = Order.create!(id: [1, 2], status: "pending")
 book = order.books.create!(title: "A Cool Book")
+```
 
+この`book`の`order`にアクセスするために、以下のように関連付けを`reload`します。
+
+```ruby
 book.reload.order
 ```
 
-この場合、以下のSQLを生成してorderにアクセスします。
+このとき、Railsは以下のSQLを生成して`orders`にアクセスします。
 
 ```sql
 SELECT * FROM orders WHERE id = 2
 ```
 
-これが期待通りに動作するのは、このモデルの複合主キーに`:id`カラムが含まれており、かつ`:id`カラムがすべてのレコードで一意である場合だけです。関連付けで完全な複合主キーを使うには、その関連付けで`foreign_key`オプションを設定してください。このオプションは、関連付けられるレコードをクエリするときに複合外部キーを指定します。例:
+このクエリでは、`shop_id`と`id`の両方を使うのではなく、orderの`id`を使っていることがわかります。この場合、モデルの複合主キーには実際に`:id`カラムが含まれており、そのカラムはすべてのレコードに対して一意であるため、`id`で十分です。
+
+ただし、上記の要件が満たされていない場合、または関連付けで完全な複合主キーを使う場合は、関連付けに`foreign_key:`オプションを設定できます。このオプションは、関連付けで複合外部キーを指定します。外部キーのすべてのカラムは、以下のように、関連付けられたレコードをクエリするときに使われます。
 
 ```ruby
 class Author < ApplicationRecord
@@ -154,16 +163,22 @@ class Book < ApplicationRecord
 end
 ```
 
-以下のように、ある本のauthor（著者）にアクセスするとします。
+このセットアップでは、`Author`モデルには`[:first_name, :last_name]`で構成される複合主キーがあり、`Book`モデルは複合外部キー`[:author_first_name, :author_last_name]`を持つ`Author`モデルに属します。
+
+以下は、`Author`とそれに関連付けられた`Book`を作成します。
 
 ```ruby
 author = Author.create!(first_name: "Jane", last_name: "Doe")
-book = author.books.create!(title: "A Cool Book")
+book = author.books.create!(title: "A Cool Book", author_first_name: "Jane", author_last_name: "Doe")
+```
 
+この`book`の`author`にアクセスするために、以下のように関連付けを`reload`します。
+
+```ruby
 book.reload.author
 ```
 
-この場合、以下のようにSQLクエリで`:first_name`と`:last_name`が使われます。
+これでRailsは、SQLクエリの複合主キーの`:first_name`と`:last_name`の**両方**を使うようになりました。
 
 ```sql
 SELECT * FROM authors WHERE first_name = 'Jane' AND last_name = 'Doe'
