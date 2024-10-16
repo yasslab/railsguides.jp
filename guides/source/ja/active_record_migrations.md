@@ -517,7 +517,7 @@ change_column_default :products, :approved, from: true, to: false
 
 上のマイグレーションは、`:approved`フィールドのデフォルト値を`true`から`false`に変更します。これらの変更は、どちらも今後のトランザクションにのみ適用され、既存のレコードには適用されない点にご注意ください。
 
-null制約を変更するには、[`change_column_default`][]を使います。
+null制約を変更するには、[`change_column_null`][]を使います。
 
 ```ruby
 change_column_null :products, :name, false
