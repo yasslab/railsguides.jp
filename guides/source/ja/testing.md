@@ -547,7 +547,7 @@ end
 
 [複数の書き込みデータベース](active_record_multiple_databases.html)が存在する場合、テストはそれらに対応する多数のトランザクションにラップされ、すべてがロールバックします。
 
-#### テストのトランザクションを
+#### テストのトランザクションをオプトアウトする
 
 以下のようにすることで、個別のテストケースでトランザクションを無効にできます。
 
@@ -786,7 +786,7 @@ Railsアプリケーションは、ほぼ間違いなくデータベースと密
 
 テストを実行するには、テストデータベースが最新の状態で構成されている必要があります。テストヘルパーは、テストデータベースに未完了のマイグレーションが残っていないかどうかをチェックします。マイグレーションがすべて終わっている場合、`db/schema.rb`や`db/structure.sql`をテストデータベースに読み込みます。ペンディングされたマイグレーションがある場合、エラーが発生します。このエラーが発生するということは、スキーマのマイグレーションが不完全であることを意味します。developmentデータベースに対してマイグレーション（`bin/rails db:migrate`）を実行することで、スキーマが最新の状態になります。
 
-NOTE: 既存のマイグレーションに変更が加えられていると、テストデータベースを再構築する必要があります。`bin/rails db:test:prepare`を実行することで再構築できます。
+NOTE: 既存のマイグレーションに変更が加えられていると、テストデータベースを再構築する必要があります。`bin/rails test:db`を実行することで再構築できます。
 
 ### フィクスチャのしくみ
 
@@ -2233,7 +2233,7 @@ class BillingJobTest < ActiveJob::TestCase
     assert_raises(InsufficientFundsError) do
       BillingJob.new(empty_account, product).perform
     end
-    refute account.reload.charged_for?(product)
+    assert_not account.reload.charged_for?(product)
   end
 end
 ```
