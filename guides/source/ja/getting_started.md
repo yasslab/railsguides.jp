@@ -38,7 +38,7 @@ Railsの哲学には、以下の2つの主要な基本理念があります。
 
 ## Railsプロジェクトを新規作成する
 
-TIP: 新しいRailsアプリには、事前設定済みのDev Container開発環境が付属しています。Dev Containerは、Railsを始める最短の方法です。手順については、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html) を参照してください。
+TIP: 事前設定済みのDev Container開発環境を含む新規Railsアプリを作成できます。Dev Containerは、Railsを始める最短の方法です。手順については、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html) を参照してください。
 
 本ガイドを最大限に活用するには、以下の手順を1つずつすべて実行するのがベストです。どの手順もサンプルアプリケーションを動かすのに必要なものであり、それ以外のコードや手順は不要です。
 
@@ -1036,7 +1036,7 @@ $ bin/rails generate model Comment commenter:string body:text article:references
 
 | ファイル                                         | 目的                                                                                                |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| db/migrate/20140120201010_create_comments.rb | データベースにコメント用のテーブルを作成するためのマイグレーションファイル（ファイル名のタイムスタンプはこれとは異なります）|
+| db/migrate/\<タイムスタンプ\>_create_comments.rb | データベースにコメント用のテーブルを作成するためのマイグレーションファイル|
 | app/models/comment.rb                        | Commentモデル                                                                                      |
 | test/models/comment_test.rb                  | Commentモデルをテストするためのハーネス                                                                 |
 | test/fixtures/comments.yml                   |  テストで使うサンプルコメント                                                                     |
