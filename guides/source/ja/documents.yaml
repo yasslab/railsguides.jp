@@ -125,7 +125,7 @@
     -
       name: Rails アプリケーションのエラー通知
       url: error_reporting.html
-      description: Railsアプリケーションで発生する例外を管理する方法について解説します。
+      description: Railsアプリケーションで発生するエラーを管理する方法について解説します。
     -
       name: Rails アプリケーションのデバッグ
       url: debugging_rails_applications.html
