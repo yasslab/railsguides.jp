@@ -39,7 +39,7 @@ dev container拡張機能は、[マーケットプレイス](https://marketplace
 
 `rails-new`ツールを使うと、自分のコンピュータにRubyがインストールされていなくても新規Railsアプリケーションを生成できるようになります。Dockerを利用してRailsアプリケーションを生成するため、適切なバージョンのRubyやRailsをDockerでインストールできるようになります。
 
-`Rails-new`ツールをインストールするには、[README](https://github.com/rails/rails-new?tab=readme-ov-file#installation)のインストール手順に従ってください。
+`rails-new`ツールをインストールするには、[README](https://github.com/rails/rails-new?tab=readme-ov-file#installation)のインストール手順に従ってください。
 
 ブログアプリケーションを作成する
 -----------------------------
@@ -54,7 +54,7 @@ NOTE: 以下の例では、UNIX系 OSのターミナルプロンプトを`$`で�
 $ rails-new blog --devcontainer
 ```
 
-これによって`blog`ディレクトリが作成され、その中に`Blog`という名前のRailsアプリケーションが作成されます。
+これによって`blog`ディレクトリが作成され、その中にBlogという名前のRailsアプリケーションが作成されます。
 
 TIP: `rails-new --help`を実行すると、Railsのアプリケーションジェネレータに渡せるのと同じコマンドラインオプションが表示されていることがわかります。
 
