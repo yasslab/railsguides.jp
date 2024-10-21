@@ -164,7 +164,7 @@ end
 
 NOTE: このメソッドは、production環境で発生する可能性があるが、通常の利用結果では発生することが想定されていないエラーを適切に処理することを目的としています。
 
-[`Rails.error.unexpected`]: https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-unexpected"
+[`Rails.error.unexpected`]: https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-unexpected
 
 ### エラー通知のオプション
 
