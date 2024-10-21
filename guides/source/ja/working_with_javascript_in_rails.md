@@ -243,13 +243,19 @@ HTTPメソッドの変更は、`data-turbo-method`属性をリンクに追加す
 たとえば`link_to`ヘルパーを用いると、
 
 ```erb
-<%= link_to "投稿を削除", post_path(post), data: { turbo_method: "delete", turbo_confirm: "削除してよろしいですか？" } %>
+<%= link_to "投稿を削除", post_path(post),
+            data: {
+              turbo_method: "delete",
+              turbo_confirm: "削除してよろしいですか？"
+            } %>
 ```
 
 以下が生成されます。
 
 ```html
-<a href="..." data-turbo-confirm="削除してよろしいですか？" data-turbo-method="delete">投稿を削除</a>
+<a href="..." data-turbo-confirm="削除してよろしいですか？" data-turbo-method="delete">
+  投稿を削除
+</a>
 ```
 
 ユーザーがこの"投稿を削除"リンクをクリックすると、"削除してよろしいですか？"という確認ダイアログが表示されます。
@@ -257,7 +263,13 @@ HTTPメソッドの変更は、`data-turbo-method`属性をリンクに追加す
 この属性は`button_to`ヘルパーでも利用できますが、`button_to`ヘルパーが内部でレンダリングするフォームに属性を追加する必要があります。
 
 ```erb
-<%= button_to "Delete post", post, method: :delete, form: { data: { turbo_confirm: "削除してよろしいですか？" } } %>
+<%= button_to "Delete post", post,
+              method: :delete,
+              form: {
+                data: {
+                  turbo_confirm: "削除してよろしいですか？"
+                }
+              } %>
 ```
 ### Ajaxリクエスト
 
