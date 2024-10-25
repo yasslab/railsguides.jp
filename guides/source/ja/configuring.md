@@ -695,7 +695,7 @@ CSSの圧縮に用いるプログラムを定義します。このオプショ�
 
 #### `config.assets.js_compressor`
 
-JavaScriptの圧縮に使うプログラムを定義します。指定できる値は `:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ `:terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
+JavaScriptの圧縮に使うプログラムを定義します。指定できる値は `:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ `terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
 
 #### `config.assets.gzip`
 
@@ -1697,7 +1697,7 @@ SHA-1ダイジェストクラスを用いて暗号化された既存のデータ
 | （オリジナル）           | `true`                    |
 | 7.1以降                | `false`                   |
 
-#### `config.active_record.protocol_adapters
+#### config.active_record.protocol_adapters
 
 データベースコネクションをURLで構成する場合、このオプションはプロトコルと背後のデータベースアダプタへのマッピングを提供します。たとえば、環境変数で `DATABASE_URL=mysql://localhost/database`を指定するとRailsは`mysql`を`mysql2`アダプタにマッピングしますが、アプリケーションでこれらのマッピングを以下のようにオーバーライドすることも可能です。
 
@@ -1915,7 +1915,7 @@ HTTPヘッダーで使われるハッシュです。このヘッダーはデフ�
 
 #### `config.action_dispatch.x_sendfile_header`
 
-サーバー固有の`X-Sendfile`ヘッダーを指定します。これは、サーバーからの送信を加速するのに有用です。たとえば、'`X-Sendfile`をApache向けに設定できます。
+サーバー固有の`X-Sendfile`ヘッダーを指定します。これは、サーバーからの送信を加速するのに有用です。たとえば、`X-Sendfile`をApache向けに設定できます。
 
 #### `config.action_dispatch.http_auth_salt`
 

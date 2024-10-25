@@ -714,8 +714,7 @@ class ArticlesController < ApplicationController
 end
 ```
 
-TIP: Strong Parametersについて詳しくは、[Action Controller の概要 §
-Strong Parameters](action_controller_overview.html#strong-parameters)を参照してください。
+TIP: Strong Parametersについて詳しくは、[Action Controller の概要 § Strong Parameters](action_controller_overview.html#strong-parameters)を参照してください。
 
 #### バリデーションとエラーメッセージの表示
 
