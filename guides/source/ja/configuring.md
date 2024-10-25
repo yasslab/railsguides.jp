@@ -1915,7 +1915,7 @@ HTTPヘッダーで使われるハッシュです。このヘッダーはデフ�
 
 #### `config.action_dispatch.x_sendfile_header`
 
-サーバー固有の`X-Sendfile`ヘッダーを指定します。これは、サーバーからの送信を加速するのに有用です。たとえば、'`X-Sendfile`をApache向けに設定できます。
+サーバー固有の`X-Sendfile`ヘッダーを指定します。これは、サーバーからの送信を加速するのに有用です。たとえば、`X-Sendfile`をApache向けに設定できます。
 
 #### `config.action_dispatch.http_auth_salt`
 
