@@ -1697,7 +1697,7 @@ SHA-1ダイジェストクラスを用いて暗号化された既存のデータ
 | （オリジナル）           | `true`                    |
 | 7.1以降                | `false`                   |
 
-#### `config.active_record.protocol_adapters
+#### config.active_record.protocol_adapters
 
 データベースコネクションをURLで構成する場合、このオプションはプロトコルと背後のデータベースアダプタへのマッピングを提供します。たとえば、環境変数で `DATABASE_URL=mysql://localhost/database`を指定するとRailsは`mysql`を`mysql2`アダプタにマッピングしますが、アプリケーションでこれらのマッピングを以下のようにオーバーライドすることも可能です。
 
