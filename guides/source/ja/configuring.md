@@ -695,7 +695,7 @@ CSSの圧縮に用いるプログラムを定義します。このオプショ�
 
 #### `config.assets.js_compressor`
 
-JavaScriptの圧縮に使うプログラムを定義します。指定できる値は `:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ `:terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
+JavaScriptの圧縮に使うプログラムを定義します。指定できる値は `:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ `terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
 
 #### `config.assets.gzip`
 
