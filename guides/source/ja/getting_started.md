@@ -620,7 +620,7 @@ end
 `create`アクションは、タイトルと本文を持つ新しい記事をインスタンス化し、データベースへの保存を試みます。記事の保存に成功すると、その記事のページ（`"http://localhost:3000/articles/#{@article.id}"`）にリダイレクトします。記事の保存に失敗した場合は、`app/views/articles/new.html.erb`に戻ってフォームを再表示し、[Turbo](https://github.com/hotwired/turbo-rails)が正常に動作するようにステータスコード[422 Unprocessable Entity](https://developer.mozilla.org/ja-JP/docs/Web/HTTP/Status/422)を返します（`unprocessable_entity`）。なお、このときの記事タイトルと本文にはダミーの値が使われます。これらはフォームが作成された後でユーザーが変更することになります。
 
 
-NOTE: [`redirect_to`](https://api.rubyonrails.org/classes/ActionController/Redirecting.html#method-i-redirect_to)メソッドを使うとブラウザで新しいリクエストが発生しますが、[`render`](https://api.rubyonrails.org/classes/AbstractController/Rendering.html#method-i-render)メソッドは指定のビューを現在のリクエストとしてレンダリングします。ここで重要なのは、`redirect_to`メソッドはデータベースやアプリケーションのステートが変更された「後で」呼び出すべきであるという点です。ステートが変更される前に`redirect_to`を呼び出すと、ユーザーがブラウザをリロードしたときに同じリクエストが再送信され、変更が重複してしまいます。
+NOTE: [`render`](https://api.rubyonrails.org/classes/AbstractController/Rendering.html#method-i-render)メソッドが現在のリクエストに対するレスポンスとして指定のビューをレンダリングする一方で、[`redirect_to`](https://api.rubyonrails.org/classes/ActionController/Redirecting.html#method-i-redirect_to)メソッドはブラウザに新しいリクエストを発生させます。ここで重要なのは、`redirect_to`メソッドはデータベースやアプリケーションのステートが変更された「後で」呼び出すべきであるという点です。ステートが変更される前に`redirect_to`を呼び出すと、ユーザーがブラウザをリロードしたときに同じリクエストが再送信され、変更が重複してしまいます。
 
 #### フォームビルダーを使う
 
@@ -870,7 +870,7 @@ end
 
 #### ビューのコードをパーシャルで共有する
 
-`edit`で使うフォームの表示は、`new`で使うフォームの表示と同じに見えます。さらに、Railsのフォームビルダーとリソースフルルーティングのおかげで、コードも同じになっています。フォームビルダーは、モデルオブジェクトが既に保存されている場合は`edit`用のフォームを、モデルオブジェクトが保存されていない場合は`new`用のフォームを自動的に構成するので、状況に応じて適切なリクエストを行えます。
+`edit`で使うフォームの見た目は、`new`で使うフォームの見た目と同じになりそうです。それどころか、Railsのフォームビルダーとリソースフルルーティングのおかげで、コードすら同じになります。フォームビルダーは、モデルオブジェクトが既に保存されている場合は`edit`用のフォームを、モデルオブジェクトが保存されていない場合は`new`用のフォームを自動的に構成するので、状況に応じて適切なリクエストを行えます。
 
 どちらのフォームにも同じコードが使われているので、**パーシャル**（partial: 部分テンプレートとも呼ばれます）と呼ばれる共有ビューにまとめることにします。以下の内容で `app/views/articles/_form.html.erb` を作成してみましょう。
 
@@ -1016,7 +1016,7 @@ rootパスにリダイレクトすることに決めたのは、そこが記事�
 `data-turbo-method="delete"`を指定すると、`GET`リクエストではなく`DELETE`リクエストが送信されます。
 `data-turbo-confirm="Are you sure?"` を指定すると、リンクをクリックしたときに「Are you sure?」ダイアログが表示され、ユーザーが「キャンセル」をクリックするとリクエストを中止します。
 
-以上でできあがりです！記事のリスト表示も、作成も、更新も思いのままです。CRUDバンザイ！
+以上でできあがりです！記事のリスト表示も、個別表示も、作成も、更新も、削除も思いのままです。CRUDバンザイ！
 
 モデルを追加する
 ---------------------
@@ -1351,7 +1351,7 @@ end
 <%= render "comments/form", article: @article %>
 ```
 
-2番目の`render`は、レンダリングする`comments/form`パーシャルテンプレートを定義しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字を認識し、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルをレンダリングすればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
+2番目の`render`は、レンダリングするパーシャルテンプレートを`comments/form`という形で指定しているだけです。`comments/form`と書くだけで、Railsは区切りのスラッシュ文字を認識し、`app/views/comments`ディレクトリの`_form.html.erb`パーシャルをレンダリングすればよいということを理解し、実行してくれます。`app/views/comments/_form.html.erb`などと書く必要はありません。
 
 ### concernを使う
 
