@@ -568,10 +568,6 @@ end
 irb> person = Person.new(1)
 irb> person.to_model == person
 => true
-irb> person.to_key
-=> nil
-irb> person.to_param
-=> nil
 ```
 
 自作のモデルがActive Modelオブジェクトらしく振る舞わない場合は、`:to_model`を自分で定義する必要があります。この場合`:to_model`は、Active Modelに準拠したメソッドでオブジェクトをラップするプロキシオブジェクトを返さなければなりません。
