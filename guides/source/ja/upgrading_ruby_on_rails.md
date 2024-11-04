@@ -19,6 +19,7 @@ Rails アップグレードガイド
 
 Railsでは、一般にRubyの最新版がリリースされると最新版のRubyに近い状態に合わせます。
 
+* Rails 8.0: Ruby 3.2.0以降が必須
 * Rails 7.2: Ruby 3.1.0以降が必須
 * Rails 7.0と7.1: Ruby 2.7.0以降が必須
 * Rails 6: Ruby 2.5.0以降が必須
@@ -64,11 +65,11 @@ $ bin/rails app:update
     conflict  config/application.rb
 Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
        force  config/application.rb
-      create  config/initializers/new_framework_defaults_7_2.rb
+      create  config/initializers/new_framework_defaults_8_0.rb
 ...
 ```
 
-予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。
+予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。このプロセス中に使われるdiffツールやmergeツールは、`THOR_DIFF`および`THOR_MERGE`環境変数で定義可能である点にご注意ください。
 
 ### フレームワークのデフォルトを設定する
 
@@ -452,7 +453,7 @@ ActiveSupport::Dependencies.constantize("User") # 今後は利用不可
 
 * オートローダーの動作をトレースしたい場合、`ActiveSupport::Dependencies.verbose=`は利用できなくなりました。`config/application.rb`で`Rails.autoloaders.log!`をスローしてください。
 
-`ActiveSupport::Dependencies::Reference`や  
+`ActiveSupport::Dependencies::Reference`や
 `ActiveSupport::Dependencies::Blamable`などの補助的なクラスやモジュールも削除されました。
 
 ### 初期化中の自動読み込み
