@@ -395,7 +395,7 @@ end
 
 本ガイドでは、よく使われるメソッドの一部を取り上げていますが、完全なリストについては[Active Recordの関連付けAPI](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_one)を参照してください。
 
-[`belongs_to`関連付け](#belongs_to関連付け)の場合と同様、上のメソッド名の*`association`*の部分はすべて**プレースホルダ**なので、`has_one`の第1引数として渡されるシンボルで読み替えてください。
+[`belongs_to`関連付け](#belongs-to関連付け)の場合と同様、上のメソッド名の*`association`*の部分はすべて**プレースホルダ**なので、`has_one`の第1引数として渡されるシンボルで読み替えてください。
 たとえば以下のようなモデルが宣言されているとします。
 
 ```ruby
