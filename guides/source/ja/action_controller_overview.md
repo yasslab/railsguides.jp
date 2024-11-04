@@ -117,7 +117,12 @@ class ClientsController < ApplicationController
 end
 ```
 
-[`params`]: https://api.rubyonrails.org/classes/ActionController/StrongParameters.html#method-i-params
+NOTE: `params`ハッシュは、Rubyの単純な`Hash`ではなく、[`ActionController::Parameters`][]オブジェクトである点にご注意ください。Rubyの`Hash`のように振る舞いますが、`Hash`を継承していません。
+
+[`params`]:
+  https://api.rubyonrails.org/classes/ActionController/StrongParameters.html#method-i-params
+[`ActionController::Parameters`]:
+  https://api.rubyonrails.org/classes/ActionController/Parameters.html
 
 ### ハッシュと配列のパラメータ
 
@@ -184,7 +189,7 @@ NOTE: 従来のXMLパラメータ解析のサポートは、`actionpack-xml_pars
 ルーティングで定義されるその他の値パラメータ（`id`など）にもアクセスできます。例として、「有効」または「無効」で表される顧客のリストについて考えてみましょう。「プリティな」URLの`:status`パラメータを受信する以下のルーティングを追加できます。
 
 ```ruby
-get '/clients/:status', to: 'clients#index', foo: 'bar'
+get "/clients/:status", to: "clients#index", foo: "bar"
 ```
 
 この場合、ブラウザで`/clients/active`というURLを開くと、`params[:status]`が「active」（有効）に設定されます。このルーティングを使うと、あたかもクエリ文字列で渡したかのように`params[:foo]`にも"bar"が設定されます。コントローラは、`params[:action]`（indexとして）や`params[:controller]`（clientsとして）も受け取ります。
@@ -213,7 +218,7 @@ end
 ルーティングは以下のようになっているとします。
 
 ```ruby
-get '/books/:id', to: 'books#show'
+get "/books/:id", to: "books#show"
 ```
 
 ユーザーがURL `/books/4_2`を開くと、コントローラは複合主キーの値`["4", "2"]`を抽出して`Book.find`に渡し、ビューで正しいレコードを表示します。`extract_value`メソッドは、区切られた任意のパラメータから配列を抽出するのに利用できます。
@@ -238,7 +243,7 @@ end
 
 ### Strong Parameters
 
-strong parametersは、Action ControllerのパラメータをActive Modelの「マスアサインメント」で利用することを禁止します（許可されたパラメータは除く）。したがって、開発者は、マスアップデートを許可する属性をコントローラで明示的に指定しなければなりません。strong parametersは、ユーザーがモデルの重要な属性を誤って更新してしまうことを防止するための、より優れたセキュリティ対策です。
+strong parametersは、Action ControllerのパラメータをActive Modelの「マスアサインメント（mass-assignment）」で利用することを禁止します（許可されたパラメータは除く）。したがって、開発者は、マスアップデートを許可する属性をコントローラで明示的に指定しなければなりません。strong parametersは、ユーザーがモデルの重要な属性を誤って更新してしまうことを防止するための、より優れたセキュリティ対策です。
 
 さらに、パラメータの属性を`require`にすると、渡された必須パラメータが不足している場合に、事前定義済みのraise/rescueフローで「400 Bad Request」で終了できるようになります。
 
@@ -267,14 +272,14 @@ class PeopleController < ActionController::Base
     # 非常によい手法であり、createとupdateの両方で同じ許可を与えられる
     # このメソッドを特殊化してユーザーごとに許可属性をチェックすることも可能
     def person_params
-      params.require(:person).permit(:name, :age)
+      params.expect(person: [:name, :age])
     end
 end
 ```
 
 #### スカラー値を許可する
 
-以下のように[`permit`][] で許可します。
+以下のように[`permit`][]を呼び出すことで、スカラー値を許可します。
 
 ```ruby
 params.permit(:id)
@@ -312,53 +317,85 @@ params.permit(preferences: {})
 
 ただし、この指定は任意の入力を受け付けてしまうため、利用には十分ご注意ください。この場合`permit`によって、受け取った構造内の値が許可済みのスカラーとして扱われ、それ以外の値がアクションコールバックで除外されます。
 
-パラメータのハッシュ全体を許可したい場合は、[`permit!`][]メソッドが使えます。
+Rails 8.0から追加された[`expect`][]は、パラメータの必須化と許可を同時に行うための簡潔かつ安全な方法を提供します。
 
 ```ruby
-params.require(:log_entry).permit!
+id = params.expect(:id)
 ```
 
-こうすることで、`:log_entry`パラメータハッシュとすべてのサブハッシュが「許可済み（permitted）」としてマーキングされ、スカラー許可済みかどうかがチェックされなくなってあらゆる値を受け付けるようになります。ただし、現在のモデルの属性はもちろん、今後モデルに追加される属性も一括で許可されてしまうので、`permit!`はくれぐれも慎重にお使いください。
+`expect`は、返される値の型がパラメータの改ざんに対して脆弱でなくなるようにします。上の`expect`は、配列やハッシュではなく、常にスカラー値を返すようになります。フォームからのパラメータを期待する場合は、`expect`を指定することで、rootキーが存在していることと、属性が許可されていることを確認します。
 
-[`permit`]: https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit
-[`permit!`]: https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit-21
+```ruby
+user_params = params.expect(user: [:username, :password])
+user_params.has_key?(:username) # => true
+```
+
+この`user`キーが、期待されるキーを含むネステッドハッシュではない場合、`expect`はエラーを生成し、「400 Bad Request」レスポンスを返します。
+
+パラメータのハッシュ全体を必須化して許可するには、[`expect`][]をこのように利用できます。
+
+```ruby
+params.expect(log_entry: {})
+```
+
+上のように空のハッシュ`{}`を指定すると、`:log_entry`パラメータハッシュとすべてのサブハッシュが「許可済み（permitted）」としてマーキングされ、許可済みのスカラーであるかどうかのチェックを行わなくなって任意の値を受け取るようになります。
+
+[`permit!`][]を使ったり、`expect`に空のハッシュを渡して呼び出したりすると、現在のモデルのあらゆる属性と、今後モデルに追加されるすべての属性が、外部ユーザーによって制御されたパラメータでマスアサインメントされる可能性があるため、扱いには十分な注意を払う必要があります。
+
+[`permit`]:
+  https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit
+[`permit!`]:
+  https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit-21
+[`expect`]:
+  https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-expect
+[`allow`]:
+  https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-allow
 
 #### ネストしたパラメータを許可する
 
-`permit`は、以下のようにネストしたパラメータに対しても使えます。
+`expect`（または`permit`）は、以下のようにネストしたパラメータに対しても使えます。
 
 ```ruby
-params.permit(:name, { emails: [] },
-              friends: [ :name,
-                         { family: [ :name ], hobbies: [] }])
+# 期待されるパラメータの例:
+params = ActionController::Parameters.new(
+  name: "Martin",
+  emails: ["me@example.com"],
+  friends: [
+    { name: "André", family: { name: "RubyGems" }, hobbies: ["keyboards", "card games"] },
+    { name: "Kewe", family: { name: "Baroness" }, hobbies: ["video games"] },
+  ]
+)
+# 以下はexpectによって、パラメータが許可済みであることが保証される:
+name, emails, friends = params.expect(
+  :name,                 # 許可済みのスカラー値
+  emails: [],            # 許可済みのスカラー値の配列
+  friends: [[            # 許可済みのParameterハッシュの配列
+    :name,               # 許可済みのスカラー値
+    family: [:name],     # family: { name: "許可済みのスカラー値" }
+    hobbies: []          # 許可済みのスカラー値の配列
+  ]]
+)
 ```
 
 この宣言では、`name`、`emails`、`friends`属性が許可されます。
-ここでは以下が期待されます。
 
-* `emails`: 許可済みスカラー値の配列
-* `friends`: 以下で指定する属性を持つリソースの配列
-    * `name`属性が必須
-        * `name`属性は任意の許可済みスカラー値を受け付ける
-    * `hobbies`属性: 許可済みスカラー値の配列
-    * `family`属性:`name`属性が必須
-        * `name`属性は任意の許可済みスカラー値を受け付ける
+この宣言は、`name`属性、`emails`属性、`friends`属性を許可し、それぞれ以下を返すことが前提となっています。
+
+* `emails`属性: 許可済みのスカラー値の配列を返す
+* `friends`は特定の属性を持つリソースの配列を返す
+  （配列を明示的に必須にするための新しい二重配列構文`[[ ]]`が使われていることに注意）
+  このリソースには以下の属性が必要:
+  * `name`属性: 許可済みの任意のスカラー値
+  * `hobbies`属性: 許可済みのスカラー値の配列
+  * `family`属性: `name`キーと、任意の許可済みスカラー値を持つハッシュのみに制限される
 
 #### その他の例
 
-許可済み属性は`new`アクションでも利用できます。しかし通常は`new`を呼び出す時点ではrootキーがないので、rootキーで[`require`][]を指定できません。
-
-```ruby
-# `fetch`を使うとデフォルト値を渡して
-# Strong Parameters APIを使えるようになる
-params.fetch(:blog, {}).permit(:title, :author)
-```
-
-このモデルの`accepts_nested_attributes_for`クラスメソッドを使うと、関連付けられたレコードを更新・削除できるようになります。以下は`id`と`_destroy`パラメータに基づいています。
+モデルの`accepts_nested_attributes_for`クラスメソッドを使うと、関連付けられたレコードを更新・削除できるようになります。以下は`id`と`_destroy`パラメータに基づいています。
 
 ```ruby
 # :id と :_destroyを許可する
-params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy])
+params.expect(author: [ :name, books_attributes: [[ :title, :id, :_destroy ]] ])
 ```
 
 キーが整数のハッシュは異なる方法で処理されます。これらは、あたかも直接の子オブジェクトであるかのように属性を宣言できます。`has_many`関連付けと`accepts_nested_attributes_for`メソッドを使うと、このようなパラメータを取得できます。
@@ -369,14 +406,14 @@ params.require(:author).permit(:name, books_attributes: [:title, :id, :_destroy]
 #             "chapters_attributes" => { "1" => {"title" => "First Chapter"},
 #                                        "2" => {"title" => "Second Chapter"}}}}
 
-params.require(:book).permit(:title, chapters_attributes: [:title])
+params.expect(book: [ :title, chapters_attributes: [[ :title ]] ])
 ```
 
 次のような状況を想像してみましょう。パラメータに「製品名」「その製品名に関連付けられる任意のデータを表すハッシュ」があるとします。以下のように、この製品名とデータハッシュ全体をまとめて許可できます。
 
 ```ruby
 def product_params
-  params.require(:product).permit(:name, data: {})
+  params.expect(product: [ :name, data: {} ])
 end
 ```
 
@@ -421,14 +458,14 @@ Railsは、セッションデータに署名するときにセッションキー
 
 ```ruby
 # このファイルを変更後、サーバーを必ず再起動すること。
-Rails.application.config.session_store :cookie_store, key: '_your_app_session'
+Rails.application.config.session_store :cookie_store, key: "_your_app_session"
 ```
 
 `:domain`キーを渡して、cookieを使うドメイン名を指定することも可能です。
 
 ```ruby
 # このファイルを変更後、サーバーを必ず再起動すること。
-Rails.application.config.session_store :cookie_store, key: '_your_app_session', domain: ".example.com"
+Rails.application.config.session_store :cookie_store, key: "_your_app_session", domain: ".example.com"
 ```
 
 Railsは、`config/credentials.yml.enc`のセッションデータの署名に用いる秘密鍵を設定します（CookieStore用）。この秘密鍵は`bin/rails credentials:edit`コマンドで変更できます。
@@ -478,7 +515,7 @@ end
 class LoginsController < ApplicationController
   # ログインを作成する（ユーザーをログインさせる）
   def create
-    if user = User.authenticate(params[:username], params[:password])
+    if user = User.authenticate_by(email: params[:email], password: params[:password])
       # セッションのuser idを保存し、
       # 今後のリクエストで使えるようにする
       session[:current_user_id] = user.id
@@ -657,7 +694,7 @@ Railsでは、機密データを保存するための署名済みcookie jarと�
 class CookiesController < ApplicationController
   def set_cookie
     cookies.encrypted[:expiration_date] = Date.tomorrow # => Thu, 20 Mar 2014
-    redirect_to action: 'read_cookie'
+    redirect_to action: "read_cookie"
   end
 
   def read_cookie
@@ -1069,7 +1106,15 @@ Mime::Type.lookup_by_extension(:pdf)
 # => "application/pdf"
 ```
 
-MIMEタイプを追加する必要が生じた場合は、`config/initializers/mime_types.rb`ファイル内で[`Mime::Type.register`](https://api.rubyonrails.org/classes/Mime/Type.html#method-c-register)を呼び出してください。たとえば、RTF（リッチテキスト形式）を登録するには以下のように呼び出します。
+RailsでMIMEタイプとして登録された拡張機能である`format`から、任意のメソッドを呼び出せます。
+Railsでは、既に`"text/html"`や`"application/pdf"`などの一般的なMIMEタイプを登録しています。
+
+```ruby
+Mime::Type.lookup_by_extension(:pdf)
+# => "application/pdf"
+```
+
+MIMEタイプを追加する必要がある場合は、`config/initializers/mime_types.rb`ファイルで[`Mime::Type.register`](https://api.rubyonrails.org/classes/Mime/Type.html#method-c-register)を呼び出します。たとえば、リッチテキスト形式（RTF）は以下の方法で登録できます。
 
 ```ruby
 Mime::Type.register("application/rtf", :rtf)
@@ -1082,6 +1127,9 @@ NOTE: Railsの設定ファイルは起動時にしか読み込まれません。
 ```bash
 GET /clients/1.pdf
 ```
+
+[`Mime::Type.register`]:
+  https://api.rubyonrails.org/classes/Mime/Type.html#method-c-register
 
 ### 任意のデータをライブストリーミングする
 
@@ -1098,7 +1146,7 @@ class MyController < ActionController::Base
   include ActionController::Live
 
   def stream
-    response.headers['Content-Type'] = 'text/event-stream'
+    response.headers["Content-Type"] = "text/event-stream"
     100.times {
       response.stream.write "hello world\n"
       sleep 1
@@ -1124,7 +1172,7 @@ class LyricsController < ActionController::Base
   include ActionController::Live
 
   def show
-    response.headers['Content-Type'] = 'text/event-stream'
+    response.headers["Content-Type"] = "text/event-stream"
     song = Song.find(params[:id])
 
     song.each do |line|
@@ -1171,13 +1219,13 @@ NOTE: 渡されるパラメータは、正規表現の「部分マッチ」に�
 設定の`config.filter_redirect`オプションを使って、リダイレクト先URLをログに出力しないようにできます。
 
 ```ruby
-config.filter_redirect << 's3.amazonaws.com'
+config.filter_redirect << "s3.amazonaws.com"
 ```
 
 フィルタしたいリダイレクト先は、文字列か正規表現、またはそれらを含む配列で指定できます。
 
 ```ruby
-config.filter_redirect.concat ['s3.amazonaws.com', /private_path/]
+config.filter_redirect.concat ["s3.amazonaws.com", /private_path/]
 ```
 
 マッチしたURLはログで`[FILTERED]`という文字に置き換えられます。ただし、URL全体ではなくパラメータのみをフィルタで除外したい場合は、[パラメータをフィルタする](#パラメータをフィルタする)を参照してください。
