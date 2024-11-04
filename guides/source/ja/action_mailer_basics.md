@@ -48,7 +48,7 @@ create    test/mailers/user_mailer_test.rb
 create    test/mailers/previews/user_mailer_preview.rb
 ```
 
-生成されるすべてのメーラークラスは、以下のように`ApplicationMailer`を継承します。
+生成されるすべてのメーラークラスは、以下の`UserMailer`と同様に`ApplicationMailer`を継承します。
 
 ```ruby
 # app/mailers/user_mailer.rb
@@ -289,9 +289,6 @@ irb> UserMailer.with(user: user).weekly_summary
 --------------------------------
 
 MIMEタイプ`multipart`は、ドキュメントを複数のコンポーネントパーツで構成して表現します。個別のコンポーネントパーツには、それぞれ独自のMIMEタイプ（`text/html`や`text/plain`など）を利用できます。`multipart`タイプは、複数のファイルを1つのトランザクションで送信するために使います（例: メールに複数のファイルを添付する）。
-
-
-マルチパートメールに挿入されるパートの順序は、`ActionMailer::Base.default`メソッドの`:parts_order`によって決まります。
 
 ### ファイルを添付する
 
