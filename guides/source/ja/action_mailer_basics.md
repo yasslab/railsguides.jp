@@ -51,14 +51,6 @@ create    test/mailers/previews/user_mailer_preview.rb
 生成されるすべてのメーラークラスは、以下のように`ApplicationMailer`を継承します。
 
 ```ruby
-# app/mailers/application_mailer.rb
-class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
-  layout 'mailer'
-end
-```
-
-```ruby
 # app/mailers/user_mailer.rb
 class UserMailer < ApplicationMailer
 end
