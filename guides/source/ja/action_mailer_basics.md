@@ -62,7 +62,7 @@ end
 # app/mailers/application_mailer.rb
 class ApplicationMailer < ActionMailer::Base
   default from: "from@example.com"
-  layout 'mailer'
+  layout "mailer"
 end
 ```
 
@@ -303,10 +303,10 @@ attachments['filename.jpg'] = File.read('/path/to/filename.jpg')
 添付ファイルを送信するもう1つの方法は、以下のようにファイル名、MIMEタイプとエンコードヘッダー、コンテンツを指定することです。Action Mailerは、渡された設定を利用します。
 
 ```ruby
-encoded_content = SpecialEncode(File.read('/path/to/filename.jpg'))
-attachments['filename.jpg'] = {
-  mime_type: 'application/gzip',
-  encoding: 'SpecialEncoding',
+encoded_content = SpecialEncode(File.read("/path/to/filename.jpg"))
+attachments["filename.jpg"] = {
+  mime_type: "application/gzip",
+  encoding: "SpecialEncoding",
   content: encoded_content
 }
 ```
@@ -368,15 +368,15 @@ Action Mailerは、メールで送信するコンテンツをビューファイ�
 
 ```ruby
 class UserMailer < ApplicationMailer
-  default from: 'notifications@example.com'
+  default from: "notifications@example.com"
 
   def welcome_email
     @user = params[:user]
-    @url  = 'http://example.com/login'
+    @url  = "http://example.com/login"
     mail(to: @user.email,
-         subject: '私の素敵なサイトへようこそ',
-         template_path: 'notifications',
-         template_name: 'hello')
+         subject: "私の素敵なサイトへようこそ",
+         template_path: "notifications",
+         template_name: "hello")
   end
 end
 ```
@@ -387,15 +387,15 @@ end
 
 ```ruby
 class UserMailer < ApplicationMailer
-  default from: 'notifications@example.com'
+  default from: "notifications@example.com"
 
   def welcome_email
     @user = params[:user]
-    @url  = 'http://example.com/login'
+    @url  = "http://example.com/login"
     mail(to: @user.email,
-         subject: '私の素敵なサイトへようこそ') do |format|
-      format.html { render 'another_template' }
-      format.text { render plain: 'hello' }
+         subject: "私の素敵なサイトへようこそ") do |format|
+      format.html { render "another_template" }
+      format.text { render plain: "hello" }
     end
   end
 end
@@ -432,7 +432,7 @@ end
 アプリケーション全体で共通のデフォルト`:host`を設定するには、`config/application.rb`に以下を追加します。
 
 ```ruby
-config.action_mailer.default_url_options = { host: 'example.com' }
+config.action_mailer.default_url_options = { host: "example.com" }
 ```
 
 独自の`host`を設定したら、メールビューでは、相対URLを生成する`*_path`ヘルパーではなく、完全なURLを生成する`*_url`を使うことをオススメします。メールクライアントはWebリクエストのコンテキストを持たないため、`*_path`ヘルパーが完全なWebアドレスをビルドするのに必要なベースURLがありません。
@@ -539,17 +539,17 @@ config.action_mailer.perform_caching = true
 
 ```ruby
 class UserMailer < ApplicationMailer
-  layout 'awesome' # awesome.(html|text).erbをレイアウトとして使う
+  layout "awesome" # awesome.(html|text).erbをレイアウトとして使う
 end
 ```
 
-特定のメールでレイアウトを指定するには、以下のように`format`ブロック内の`render`メソッド呼び出しで`layout: 'layout_name'`オプションを渡します。
+特定のメールでレイアウトを指定するには、以下のように`format`ブロック内の`render`メソッド呼び出しで`layout: "layout_name"`オプションを渡します。
 
 ```ruby
 class UserMailer < ApplicationMailer
   def welcome_email
     mail(to: params[:user].email) do |format|
-      format.html { render layout: 'my_layout' }
+      format.html { render layout: "my_layout" }
       format.text
     end
   end
@@ -573,11 +573,11 @@ end
 ```ruby
 class AdminMailer < ApplicationMailer
   default to: -> { Admin.pluck(:email) },
-          from: 'notification@example.com'
+          from: "notification@example.com"
 
   def new_registration(user)
     @user = user
-    mail(subject: "New User Signup: #{@user.email}")
+    mail(subject: "新規ユーザーサインアップ: #{@user.email}")
   end
 end
 ```
@@ -595,7 +595,7 @@ def welcome_email
   @user = params[:user]
   mail(
     to: email_address_with_name(@user.email, @user.name),
-    subject: '私の素敵なサイトへようこそ'
+    subject: "私の素敵なサイトへようこそ"
   )
 end
 ```
@@ -757,7 +757,7 @@ class UserMailer < ApplicationMailer
 
     # インターセプタの代替
     def sandbox_staging
-      message.to = ['sandbox@example.com'] if Rails.env.staging?
+      message.to = ["sandbox@example.com"] if Rails.env.staging?
     end
 
     # コールバックは、同様のオブザーバーの例よりも多くのコンテキストを含む
@@ -824,7 +824,7 @@ config.action_mailer.delivery_method = :sendmail
 # }
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
-config.action_mailer.default_options = { from: 'no-reply@example.com' }
+config.action_mailer.default_options = { from: "no-reply@example.com" }
 ```
 
 ### Gmail用のAction Mailer設定
@@ -834,12 +834,12 @@ Gmail経由でメールを送信するには、`config/environments/$環境名.r
 ```ruby
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
-  address:         'smtp.gmail.com',
+  address:         "smtp.gmail.com",
   port:            587,
-  domain:          'example.com',
+  domain:          "example.com",
   user_name:       Rails.application.credentials.dig(:smtp, :user_name),
   password:        Rails.application.credentials.dig(:smtp, :password),
-  authentication:  'plain',
+  authentication:  "plain",
   enable_starttls: true,
   open_timeout:    5,
   read_timeout:    5 }
@@ -913,7 +913,7 @@ Action Mailerは、メールのオブザーバーやインターセプターの�
 ```ruby
 class SandboxEmailInterceptor
   def self.delivering_email(message)
-    message.to = ['sandbox@example.com']
+    message.to = ["sandbox@example.com"]
   end
 end
 ```
