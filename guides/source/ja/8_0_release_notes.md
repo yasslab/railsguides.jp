@@ -1,212 +1,206 @@
-Ruby on Rails 8.0 Release Notes
+Ruby on Rails 8.0 リリースノート
 ===============================
 
-Highlights in Rails 8.0:
+Rails 8.0の注目ポイント:
+【TBD】
 
 --------------------------------------------------------------------------------
 
-Upgrading to Rails 8.0
+Rails 8.0にアップグレードする
 ----------------------
 
-If you're upgrading an existing application, it's a great idea to have good test
-coverage before going in. You should also first upgrade to Rails 7.2 in case you
-haven't and make sure your application still runs as expected before attempting
-an update to Rails 8.0. A list of things to watch out for when upgrading is
-available in the
-[Upgrading Ruby on Rails](upgrading_ruby_on_rails.html#upgrading-from-rails-7-2-to-rails-8-0)
-guide.
+既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 7.2までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 7.2にアップデートしてください。アップグレードの注意点などについては[Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-7-2からrails-8-0へのアップグレード)を参照してください。
 
-Major Features
+主要な機能
 --------------
+
+【TBD】
 
 Railties
 --------
 
-Please refer to the [Changelog][railties] for detailed changes.
+変更点について詳しくは[Changelog][railties]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `config.read_encrypted_secrets`.
+*   非推奨化されていた`config.read_encrypted_secrets`を削除。
 
-*   Remove deprecated file `rails/console/app`.
+*   非推奨化されていた`rails/console/app`ファイルを削除
 
-*   Remove deprecated file `rails/console/helpers`.
+*   非推奨化されていた`rails/console/helpers`ファイルを削除。
 
-*   Remove deprecated support to extend Rails console through `Rails::ConsoleMethods`.
+*   `Rails::ConsoleMethods`によるRailsコンソール拡張のサポート（非推奨化済み）を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更点
 
-*   Set `Regexp.timeout` to `1`s by default to improve security over Regexp Denial-of-Service attacks.
+*   `Regexp.timeout`がデフォルトで`1`に設定されるようになった（Regexp DoS攻撃に対するセキュリティ強化のため）。
 
 Action Cable
 ------------
 
-Please refer to the [Changelog][action-cable] for detailed changes.
+変更点について詳しくは[Changelog][action-cable]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Pack
 -----------
 
-Please refer to the [Changelog][action-pack] for detailed changes.
+変更点について詳しくは[Changelog][action-pack]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove `Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality`.
+*   `Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality`を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action View
 -----------
 
-Please refer to the [Changelog][action-view] for detailed changes.
+変更点について詳しくは[Changelog][action-view]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated support to passing `nil` to the `model:` argument of `form_with`.
+* `form_with`の`model:`引数に`nil`を渡すことが非推奨化された。
 
-*   Remove deprecated support to passing a content to void tag elements on the `tag` builder.
+* `tag`ビルダーで空のタグ要素にコンテンツを渡すことが非推奨化された。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Mailer
 -------------
 
-Please refer to the [Changelog][action-mailer] for detailed changes.
+変更点について詳しくは[Changelog][action-mailer]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Record
 -------------
 
-Please refer to the [Changelog][active-record] for detailed changes.
+変更点について詳しくは[Changelog][active-record]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `config.active_record.commit_transaction_on_non_local_return`.
+*   非推奨化されていた`config.active_record.commit_transaction_on_non_local_return`を削除。
 
-*   Remove deprecated `config.active_record.allow_deprecated_singular_associations_name`.
+*   非推奨化されていた`config.active_record.allow_deprecated_singular_associations_name`を削除。
 
-*   Remove deprecated support to finding database adapters that aren't registered to Active Record.
+*   Active Recordに登録されていないデータベースを探索するサポート（非推奨化）を削除。
 
-*   Remove deprecated support for defining `enum` with keyword arguments.
+*   `enum`をキーワード引数で定義するサポート（非推奨化済み）を削除。
 
-*   Remove deprecated `config.active_record.warn_on_records_fetched_greater_than`.
+*   非推奨化されていた`config.active_record.warn_on_records_fetched_greater_than`を削除。
 
-*   Remove deprecated `config.active_record.sqlite3_deprecated_warning`.
+*   非推奨化されていた`config.active_record.sqlite3_deprecated_warning`を削除。
 
-*   Remove deprecated `ActiveRecord::ConnectionAdapters::ConnectionPool#connection`.
+*   非推奨化されていた`ActiveRecord::ConnectionAdapters::ConnectionPool#connection`を削除。
 
-*   Remove deprecated support to passing a database name to `cache_dump_filename`.
+*   `cache_dump_filename`にデータベース名を渡すサポート（非推奨化済み）を削除。
 
-*   Remove deprecated support to setting `ENV["SCHEMA_CACHE"]`.
+*   `ENV["SCHEMA_CACHE"]`を設定するサポート（非推奨化済み）を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Storage
 --------------
 
-Please refer to the [Changelog][active-storage] for detailed changes.
+変更点について詳しくは[Changelog][active-storage]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Model
 ------------
 
-Please refer to the [Changelog][active-model] for detailed changes.
+変更点について詳しくは[Changelog][active-model]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Support
 --------------
 
-Please refer to the [Changelog][active-support] for detailed changes.
+変更点について詳しくは[Changelog][active-support]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `ActiveSupport::ProxyObject`.
+*   非推奨化されていた`ActiveSupport::ProxyObject`を削除。
 
-*   Remove deprecated support to setting `attr_internal_naming_format` with a `@` prefix.
+*   `attr_internal_naming_format`に`@`をプレフィックスとして設定するサポート（非推奨化済み）を削除。
 
-*   Remove deprecated support to passing an array of strings to `ActiveSupport::Deprecation#warn`.
+*   `ActiveSupport::Deprecation#warn`に文字列の配列を渡すサポート（非推奨化済み）を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Job
 ----------
 
-Please refer to the [Changelog][active-job] for detailed changes.
+変更点について詳しくは[Changelog][active-job]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `config.active_job.use_big_decimal_serializer`.
+*   非推奨化されていた`config.active_job.use_big_decimal_serializer`を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Text
 ----------
 
-Please refer to the [Changelog][action-text] for detailed changes.
+変更点について詳しくは[Changelog][action-text]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Mailbox
 ----------
 
-Please refer to the [Changelog][action-mailbox] for detailed changes.
+変更点について詳しくは[Changelog][action-mailbox]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
-Ruby on Rails Guides
+Ruby on Rails ガイド
 --------------------
 
-Please refer to the [Changelog][guides] for detailed changes.
+変更点について詳しくは[Changelog][guides]を参照してください。
 
-### Notable changes
+### 主な変更
 
-Credits
+クレジット
 -------
 
-See the
-[full list of contributors to Rails](https://contributors.rubyonrails.org/)
-for the many people who spent many hours making Rails, the stable and robust
-framework it is. Kudos to all of them.
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
 [railties]:       https://github.com/rails/rails/blob/8-0-stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/8-0-stable/actionpack/CHANGELOG.md
