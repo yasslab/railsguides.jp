@@ -31,7 +31,7 @@ INFO: マクロスタイルの呼び出しは、実行時に他のメソッド�
 関連付けが設定されていない以下のような場合、その著者の本を作成・削除するために、以下のように面倒な手動の処理が必要になります。
 
 ```ruby
-class CreateAuthors < ActiveRecord::Migration[7.2]
+class CreateAuthors < ActiveRecord::Migration[8.0]
   def change
     create_table :authors do |t|
       t.string :name
@@ -153,7 +153,7 @@ NOTE: `belongs_to`関連付けで指定するモデル名は必ず「**単数形
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[7.2]
+class CreateBooks < ActiveRecord::Migration[8.0]
   def change
     create_table :authors do |t|
       t.string :name
@@ -334,7 +334,7 @@ end
 
 ### `has_one`関連付け
 
-`has_one`関連付けは、相手側のモデルがこのモデルへの参照を持っていることを示します。相手側のモデルは、この関連付けを経由してフェッチできます。
+[`has_one`][]関連付けは、相手側のモデルがこのモデルへの参照を持っていることを示します。相手側のモデルは、この関連付けを経由してフェッチできます。
 
 たとえば、アプリケーション内で供給元（supplier）ごとにアカウント（account）が1個だけ存在する場合は、次のように`Supplier`モデルを宣言します。
 
@@ -351,7 +351,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[7.2]
+class CreateSuppliers < ActiveRecord::Migration[8.0]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -395,7 +395,7 @@ end
 
 本ガイドでは、よく使われるメソッドの一部を取り上げていますが、完全なリストについては[Active Recordの関連付けAPI](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html#method-i-has_one)を参照してください。
 
-上のメソッド名の*`association`*の部分は**プレースホルダ**なので、`has_one`の第1引数として渡されるシンボルで読み替えてください。
+[`belongs_to`関連付け](#belongs_to関連付け)の場合と同様、上のメソッド名の*`association`*の部分はすべて**プレースホルダ**なので、`has_one`の第1引数として渡されるシンボルで読み替えてください。
 たとえば以下のようなモデルが宣言されているとします。
 
 ```ruby
@@ -521,7 +521,7 @@ NOTE: `has_one`関連付けや`belongs_to`関連付けの場合と異なり、`h
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAuthors < ActiveRecord::Migration[7.2]
+class CreateAuthors < ActiveRecord::Migration[8.0]
   def change
     create_table :authors do |t|
       t.string :name
@@ -787,7 +787,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[7.2]
+class CreateAppointments < ActiveRecord::Migration[8.0]
   def change
     create_table :physicians do |t|
       t.string :name
@@ -814,7 +814,7 @@ end
 また、以下のように`has_many :through`リレーションシップのjoinテーブルに[複合主キー](active_record_composite_primary_keys.html)を利用することも検討できます。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[7.2]
+class CreateAppointments < ActiveRecord::Migration[8.0]
   def change
     #  ...
     create_table :appointments, primary_key: [:physician_id, :patient_id] do |t|
@@ -904,7 +904,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAccountHistories < ActiveRecord::Migration[7.2]
+class CreateAccountHistories < ActiveRecord::Migration[8.0]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -949,7 +949,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAssembliesAndParts < ActiveRecord::Migration[7.2]
+class CreateAssembliesAndParts < ActiveRecord::Migration[8.0]
   def change
     create_table :assemblies do |t|
       t.string :name
@@ -1147,7 +1147,7 @@ NOTE: このメソッドは`collection.concat`と`collection.push`のエイリ�
 
 2つのモデルの間に1対1のリレーションシップを設定したい場合は、一方のモデルに`belongs_to`関連付けを追加し、他方のモデルに`has_one`関連付けを追加できます。どちらの関連付けをどちらのモデルに置けばよいでしょうか。
 
-区別の決め手となるのは外部キー（foreign key）をどちらのモデルに置くかです（外部キーは、`belongs_to`関連付けを追加したモデルのテーブルに追加します）が、適切な関連付けを決めるためには、もう少しデータの実際の意味についても考えてみる必要があります。
+区別の決め手となるのは、外部キー（foreign key）をどちらのモデルに置くかです（外部キーは、`belongs_to`関連付けを追加したモデルのテーブルに追加します）が、適切な関連付けを決めるためには、もう少しデータの実際の意味についても考えてみる必要があります。
 
 - `belongs_to`: この関連付けは、それを宣言する現在のモデルに外部キーが含まれていることと、現在のモデルがリレーションシップにおける「子」であることを意味します。この関連付けで他方のモデルを参照すると、このモデルの各インスタンスが、他方のモデルの「1個の」インスタンスに紐づけられることを示します。
 
@@ -1174,7 +1174,7 @@ end
 マイグレーションの例は以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[7.2]
+class CreateSuppliers < ActiveRecord::Migration[8.0]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -1279,7 +1279,7 @@ end
 ポリモーフィック関連付けを手動でセットアップする場合は、以下のようにモデルで外部キーカラム（`imageable_id`）とtypeカラム（`imageable_type`）の両方を宣言する必要があります。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[7.2]
+class CreatePictures < ActiveRecord::Migration[8.0]
   def change
     create_table :pictures do |t|
       t.string  :name
@@ -1298,7 +1298,7 @@ end
 ポリモーフィック関連付けを手動で作成することも一応可能ですが、それよりも以下のように`t.references`（またはそのエイリアス`t.belong_to`）を用いて`polymorphic: true`を指定する方がオススメです。これにより、関連付けがポリモーフィックであることがRailsに認識され、外部キーとtypeカラムが両方ともテーブルに自動的に追加されます。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[7.2]
+class CreatePictures < ActiveRecord::Migration[8.0]
   def change
     create_table :pictures do |t|
       t.string :name
@@ -1342,7 +1342,7 @@ end
 このリレーションシップをサポートするには、以下のようなマイグレーションで`employees`テーブルに`manager_id`カラムを追加する必要があります。このカラムは、別の従業員（マネージャ）の`id`を参照します。
 
 ```ruby
-class CreateEmployees < ActiveRecord::Migration[7.2]
+class CreateEmployees < ActiveRecord::Migration[8.0]
   def change
     create_table :employees do |t|
       # belongs_to参照をマネージャに追加する（従業員でもある）
@@ -1500,9 +1500,9 @@ Car.create
 
 ### 継承カラムを無効にする
 
-レガシーデータベースで作業する場合などで、単一テーブル継承を完全に無効にする必要が生じることがあります（そうしないと[`ActiveRecord::SubclassNotFound`][]が発生する）。
+レガシーデータベースで作業する場合などで、単一テーブル継承（STI）を完全に無効にする必要が生じることがあります（そうしないと[`ActiveRecord::SubclassNotFound`][]が発生する）。
 
-これは、[`inheritance_column`][]を`nil`に設定することで実現できます。
+[`inheritance_column`][]を`nil`に設定することで、STIを無効にできます。
 
 ```ruby
 # スキーマ: vehicles[ id, type, created_at, updated_at ]
@@ -1740,7 +1740,7 @@ end
 上の宣言は、以下の`books`テーブルの対応する外部キーカラムと整合していなければなりません。テーブルを作成した直後のマイグレーションは、以下のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[7.2]
+class CreateBooks < ActiveRecord::Migration[8.0]
   def change
     create_table :books do |t|
       t.datetime   :published_at
@@ -1754,7 +1754,7 @@ end
 一方、既存のテーブルに外部キーを設定するときのマイグレーションは、以下のような感じになります。
 
 ```ruby
-class AddAuthorToBooks < ActiveRecord::Migration[7.2]
+class AddAuthorToBooks < ActiveRecord::Migration[8.0]
   def change
     add_reference :books, :author
   end
@@ -1787,7 +1787,7 @@ $ bin/rails generate migration CreateAssembliesPartsJoinTable assemblies parts
 生成されたマイグレーションファイルを以下のように編集します。このとき、テーブルに主キーを設定してはいけません。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.2]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.0]
   def change
     create_table :assemblies_parts, id: false do |t|
       t.bigint :assembly_id
@@ -1806,7 +1806,7 @@ end
 なお、以下のように`create_join_table`メソッドを使えば、同じことをもっとシンプルに書けます。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[7.2]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.0]
   def change
     create_join_table :assemblies, :parts do |t|
       t.index :assembly_id
@@ -1823,7 +1823,7 @@ end
 `has_many :through`関連付けと`has_and_belongs_to_many`関連付けでjoinテーブルを作成する場合の、スキーマ実装方法の主な違いは、`has_many :through`のjoinテーブルには`id`が必須であることです。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[7.2]
+class CreateAppointments < ActiveRecord::Migration[8.0]
   def change
     create_table :appointments do |t|
       t.belongs_to :physician
@@ -2004,7 +2004,7 @@ end
 
 この場合、`:foreign_key`オプションが指定されているため、Active Recordは双方向関連付けを自動的に認識しなくなります。これによってアプリケーションで以下が発生する可能性があります。
 
-* 同じデータに対して不要なクエリを実行する（この例ではN+1クエリが発生する）
+* 同じデータに対して不要なクエリが実行される（この例ではN+1クエリが発生する）
 
     ```irb
     irb> author = Author.first
@@ -2279,7 +2279,7 @@ end
 ```ruby
 class Parts < ApplicationRecord
   has_and_belongs_to_many :assemblies,
-    -> { where factory: 'Seattle' }
+    -> { where factory: "Seattle" }
 end
 ```
 
@@ -2475,7 +2475,7 @@ irb> person.articles << article
 ActiveRecord::RecordNotUnique
 ```
 
-なお、一意性チェックに`include?`などのRubyメソッドを使うと競合が発生しやすいので注意が必要です。関連付けで強制的に一意にする目的でRubyの`include?`を使ってはいけません。たとえば上の`article`の例では、以下のコードを複数のユーザーが同時に実行したときに競合が発生しやすくなります。
+なお、一意性チェックに`include?`などのRubyメソッドを使うと競合が発生しやすいので注意が必要です。Rubyの`include?`は、関連付けを強制的に一意にする目的で使ってはいけません。たとえば上の`article`の例では、以下のコードを複数のユーザーが同時に実行したときに競合が発生しやすくなります。
 
 ```ruby
 person.articles << article unless person.articles.include?(article)
@@ -2526,7 +2526,7 @@ end
 
 上のように宣言すると、Railsはキャッシュ値を最新の状態に保ち、次回`size`メソッドが呼び出されたときにその値を返します。これにより、不要なデータベースクエリを回避できます。
 
-ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言で指定しますが、実際に個数を数えたいカラムは**関連付け先の**モデル（ここでは`has_many`を宣言しているモデル）の側に追加する必要があります。上の場合は、相手側の`Author`モデルに`books_count`カラムを追加する必要があります。
+ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言があるモデルで指定しますが、実際に個数を数えたいカラムは**関連付け先の**モデル（ここでは`has_many`を宣言しているモデル）の側に追加する必要があります。上の場合は、相手側の`Author`モデルに`books_count`カラムを追加する必要があります。
 
 ```ruby
 class AddBooksCountToAuthors < ActiveRecord::Migration[6.0]
