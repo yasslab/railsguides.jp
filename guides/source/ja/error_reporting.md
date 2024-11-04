@@ -35,7 +35,7 @@ end
 
 Railsはすべての実行（HTTPリクエスト、[ジョブ](active_job_basics.html)、[`rails runner`](command_line.html#bin-rails-runner)の起動など）を`ErrorReporter`にラップするので、アプリで発生した未処理のエラーは、そのサブスクライバを介してエラーレポートサービスに自動的に通知されます。
 
-これにより、サードパーティのエラー通知ライブラリは、[Rack](rails_on_rack.html)ミドルウェアを挿入したり、未処理の例外をキャプチャするパッチを適用したりする必要がなくなります。また、[Active Support](https://api.rubyonrails.org/classes/ActiveSupport.html)を使うライブラリがこの機能を利用して、従来ログに出力されなかった警告を、コードに手を加えずに通知できるようになります。
+これにより、サードパーティのエラー通知ライブラリは、[Rack](rails_on_rack.html)ミドルウェアを挿入したり、未処理の例外をキャプチャするモンキーパッチを適用したりする必要がなくなります。また、[Active Support](https://api.rubyonrails.org/classes/ActiveSupport.html)を使うライブラリがこの機能を利用して、従来ログに出力されなかった警告を、コードに手を加えずに通知できるようになります。
 
 [`ErrorReporter`]: https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html
 
@@ -95,7 +95,7 @@ Railsのエラーレポーターには、エラー通知用の4つのメソッ�
 
 ```ruby
 result = Rails.error.handle do
-  1 + '1' # TypeErrorが発生
+  1 + "1" # TypeErrorが発生
 end
 result # => nil
 1 + 1 # ここは実行される
@@ -107,7 +107,7 @@ result # => nil
 
 ```ruby
 user = Rails.error.handle(fallback: -> { User.anonymous }) do
-  User.find_by(params[:id])
+  User.find(params[:id])
 end
 ```
 
@@ -119,7 +119,7 @@ end
 
 ```ruby
 Rails.error.record do
-1 + '1' # TypeErrorが発生
+1 + "1" # TypeErrorが発生
 end
 1 + 1 # ここは実行されない
 ```
@@ -217,7 +217,7 @@ Rails.error.handle(context: { b: 3 }) { raise }
 
 ```ruby
 Rails.error.handle(IOError) do
-  1 + '1' # TypeErrorが発生
+  1 + "1" # TypeErrorが発生
 end
 1 + 1 # TypeErrorsはIOErrorsではないので、ここは「実行されない」
 ```
@@ -230,7 +230,7 @@ end
 
 ```ruby
 Rails.error.disable(ErrorSubscriber) do
-  1 + '1' # TypeErrorはErrorSubscriber経由で報告されなくなる
+  1 + "1" # TypeErrorはErrorSubscriber経由で報告されなくなる
 end
 ```
 
