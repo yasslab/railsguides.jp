@@ -69,7 +69,7 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 ...
 ```
 
-予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。このプロセス中に使われるdiffツールやmergeツールは、`THOR_DIFF`および`THOR_MERGE`環境変数で定義可能である点にご注意ください。
+予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。なお、このプロセス中に使われるdiffツールやmergeツールは、`THOR_DIFF`および`THOR_MERGE`環境変数で定義可能です。
 
 ### フレームワークのデフォルトを設定する
 
