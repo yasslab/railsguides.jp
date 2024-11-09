@@ -95,11 +95,13 @@ end
 認証にセッションを含む場合、セッションにcookieストアを使用し、セッションcookieの`_session`とユーザーIDのキーとなる`user_id`を使用するアプローチが使えます。
 
 ```ruby
-verified_user = User.find_by(id: cookies.encrypted['_session']['user_id'])
+verified_user = User.find_by(id: cookies.encrypted["_session"]["user_id"])
 ```
 
-[`ActionCable::Connection::Base`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Base.html
-[`identified_by`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Identification/ClassMethods.html#method-i-identified_by
+[`ActionCable::Connection::Base`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Base.html
+[`identified_by`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Identification/ClassMethods.html#method-i-identified_by
 
 #### 例外ハンドリング
 
@@ -119,7 +121,8 @@ module ApplicationCable
 end
 ```
 
-[`rescue_from`]: https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from
+[`rescue_from`]:
+  https://api.rubyonrails.org/classes/ActiveSupport/Rescuable/ClassMethods.html#method-i-rescue_from
 
 #### コネクションのコールバック
 
@@ -129,14 +132,18 @@ end
 * [`after_command`][]（コマンドの実行後）
 * [`around_command`][]（コマンドの実行前後）
 
-[`ActionCable::Connection::Callbacks`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks.html
-[`after_command`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-after_command
-[`around_command`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-around_command
-[`before_command`]: https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-before_command
+[`ActionCable::Connection::Callbacks`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks.html
+[`after_command`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-after_command
+[`around_command`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-around_command
+[`before_command`]:
+  https://api.rubyonrails.org/classes/ActionCable/Connection/Callbacks/ClassMethods.html#method-i-before_command
 
 ### チャネル
 
-**チャネル**（Channel） は論理的な作業単位をカプセル化するものであり、典型的なMVCセットアップでコントローラが果たす役割と似ています。Railsはデフォルトで、チャネル間で共有されるロジックをカプセル化する以下の`ApplicationCable::Channel`という親クラス（これは[`ActionCable::Channel::Base`][]を継承します）を作成します。
+**チャネル**（Channel） は論理的な作業単位をカプセル化するものであり、典型的なMVCセットアップでコントローラが果たす役割と似ています。チャネルジェネレータを初めて使うとき、チャネル間の共有ロジックをカプセル化するために、Railsはチャネル間で共有されるロジックをカプセル化する以下の`ApplicationCable::Channel`という親クラス（これは[`ActionCable::Channel::Base`][]を継承します）をデフォルトで作成します。
 
 #### 親チャネルの設定
 
@@ -148,8 +155,7 @@ module ApplicationCable
 end
 ```
 
-次に専用のチャネルクラスを作成します。たとえば以下のような
-`ChatChannel`クラスや`AppearanceChannel`クラスを作成できます。
+独自のチャネルクラスの例は以下の通りです。
 
 ```ruby
 # app/channels/chat_channel.rb
@@ -165,7 +171,8 @@ end
 
 これで、コンシューマーがチャネルをサブスクライブできるようになります。
 
-[`ActionCable::Channel::Base`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Base.html
+[`ActionCable::Channel::Base`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Base.html
 
 #### サブスクリプション
 
@@ -188,7 +195,7 @@ end
 ```ruby
 # app/channels/chat_channel.rb
 class ChatChannel < ApplicationCable::Channel
-  rescue_from 'MyError', with: :deliver_error_message
+  rescue_from "MyError", with: :deliver_error_message
 
   private
     def deliver_error_message(e)
@@ -206,13 +213,20 @@ end
 * [`before_unsubscribe`][]
 * [`after_unsubscribe`][]（エイリアス: [`on_unsubscribe`][]）
 
-[`ActionCable::Channel::Callbacks`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks.html
-[`after_subscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-after_subscribe
-[`after_unsubscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-after_unsubscribe
-[`before_subscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-before_subscribe
-[`before_unsubscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-before_unsubscribe
-[`on_subscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-on_subscribe
-[`on_unsubscribe`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-on_unsubscribe
+[`ActionCable::Channel::Callbacks`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks.html
+[`after_subscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-after_subscribe
+[`after_unsubscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-after_unsubscribe
+[`before_subscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-before_subscribe
+[`before_unsubscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-before_unsubscribe
+[`on_subscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-on_subscribe
+[`on_unsubscribe`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Callbacks/ClassMethods.html#method-i-on_unsubscribe
 
 ## クライアント側のコンポーネント
 
@@ -318,10 +332,14 @@ end
 PostsChannel.broadcast_to(@post, @comment)
 ```
 
-[`broadcast`]: https://api.rubyonrails.org/classes/ActionCable/Server/Broadcasting.html#method-i-broadcast
-[`broadcast_to`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Broadcasting/ClassMethods.html#method-i-broadcast_to
-[`stream_for`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_for
-[`stream_from`]: https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_from
+[`broadcast`]:
+  https://api.rubyonrails.org/classes/ActionCable/Server/Broadcasting.html#method-i-broadcast
+[`broadcast_to`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Broadcasting/ClassMethods.html#method-i-broadcast_to
+[`stream_for`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_for
+[`stream_from`]:
+  https://api.rubyonrails.org/classes/ActionCable/Channel/Streams.html#method-i-stream_from
 
 ### ブロードキャスト
 
@@ -405,8 +423,8 @@ consumer.subscriptions.create({ channel: "ChatChannel", room: "Best Room" }, {
 ActionCable.server.broadcast(
   "chat_#{room}",
   {
-    sent_by: 'Paul',
-    body: 'This is a cool chat app.'
+    sent_by: "Paul",
+    body: "This is a cool chat app."
   }
 )
 ```
@@ -469,7 +487,7 @@ class AppearanceChannel < ApplicationCable::Channel
   end
 
   def appear(data)
-    current_user.appear(on: data['appearing_on'])
+    current_user.appear(on: data["appearing_on"])
   end
 
   def away
@@ -598,8 +616,8 @@ consumer.subscriptions.create("WebNotificationsChannel", {
 # このコードはアプリケーションのどこか（NewCommentJobあたり）で呼び出される
 WebNotificationsChannel.broadcast_to(
   current_user,
-  title: '新着情報！',
-  body: '印刷しておきたいニュース記事リスト'
+  title: "新着情報！",
+  body: "印刷しておきたいニュース記事リスト"
 )
 ```
 
@@ -673,7 +691,7 @@ NOTE: PostgreSQLでは、`NOTIFY`（通知を送信するために内部的に�
 Action Cableは、指定されていない送信元からのリクエストを受け付けません。送信元リストは、配列の形でサーバー設定に渡します。送信元リストには文字列のインスタンスや正規表現を利用でき、これに対して一致するかどうかがチェックされます。
 
 ```ruby
-config.action_cable.allowed_request_origins = ['https://rubyonrails.com', %r{http://ruby.*}]
+config.action_cable.allowed_request_origins = ["https://rubyonrails.com", %r{http://ruby.*}]
 ```
 
 すべての送信元からのリクエストを許可または拒否するには、以下を設定します。
@@ -689,7 +707,8 @@ config.action_cable.disable_request_forgery_protection = true
 URLを設定するには、HTMLレイアウトのHEADセクションに[`action_cable_meta_tag`][]呼び出しを追加します。通常、環境の設定ファイル[`config.action_cable.url`][]で設定されたURLかパスを指定します。
 
 [`config.action_cable.url`]: configuring.html#config-action-cable-url
-[`action_cable_meta_tag`]: https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag
+[`action_cable_meta_tag`]:
+  https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag
 
 ### ワーカープールの設定
 
@@ -717,7 +736,7 @@ ActionCable.logger.enabled = true
 
 ```ruby
 config.action_cable.log_tags = [
-  -> request { request.env['user_account_id'] || "no-account" },
+  -> request { request.env["user_account_id"] || "no-account" },
   :action_cable,
   -> request { request.uuid }
 ]
@@ -725,7 +744,8 @@ config.action_cable.log_tags = [
 
 利用可能なすべての設定オプションについては、[`ActionCable::Server::Configuration`][]クラスを参照してください。
 
-[`ActionCable::Server::Configuration`]: https://api.rubyonrails.org/classes/ActionCable/Server/Configuration.html
+[`ActionCable::Server::Configuration`]:
+  https://api.rubyonrails.org/classes/ActionCable/Server/Configuration.html
 
 ## Action Cable専用サーバーを実行する
 
@@ -738,7 +758,7 @@ Action CableはRailsアプリケーションと一緒に実行できます。た
 ```ruby
 # config/application.rb
 class Application < Rails::Application
-  config.action_cable.mount_path = '/websocket'
+  config.action_cable.mount_path = "/websocket"
 end
 ```
 
@@ -746,8 +766,10 @@ end
 
 この場合、サーバーのインスタンスを作成するたびに、およびサーバーがワーカーを生成するたびに、Action Cableの新しいインスタンスも含まれます。RedisやPostgreSQLのアダプタは、コネクション間でメッセージを同期します。
 
-[`config.action_cable.mount_path`]: configuring.html#config-action-cable-mount-path
-[`action_cable_meta_tag`]: https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag
+[`config.action_cable.mount_path`]:
+  configuring.html#config-action-cable-mount-path
+[`action_cable_meta_tag`]:
+  https://api.rubyonrails.org/classes/ActionCable/Helpers/ActionCableHelper.html#method-i-action_cable_meta_tag
 
 ### スタンドアロン
 
