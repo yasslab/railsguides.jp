@@ -140,7 +140,7 @@ end
 パーシャルのキャッシュや関連付けのキャッシュをMIMEタイプの異なる複数のファイルで共有できます。たとえば、パーシャルキャッシュを共有すると、テンプレートのライターがHTMLとJavaScript間でパーシャルキャッシュを共有できるようになります。テンプレートリゾルバのファイルパスに複数のテンプレートがある場合は、テンプレート言語の拡張子のみが含まれ、MIMEタイプは含まれません。これによって、テンプレートを複数のMIMEタイプで利用できます。HTMLリクエストとJavaScriptリクエストは、いずれも以下のコードにレスポンスを返します。
 
 ```ruby
-render(partial: 'hotels/hotel', collection: @hotels, cached: true)
+render(partial: "hotels/hotel", collection: @hotels, cached: true)
 ```
 
 上のコードは`hotels/hotel.erb`という名前のファイルを読み込みます。
@@ -148,7 +148,7 @@ render(partial: 'hotels/hotel', collection: @hotels, cached: true)
 別の方法は、レンダリングするパーシャルで以下のように`formats`属性を指定することです。
 
 ```ruby
-render(partial: 'hotels/hotel', collection: @hotels, formats: :html, cached: true)
+render(partial: "hotels/hotel", collection: @hotels, formats: :html, cached: true)
 ```
 
 上のコードは、ファイルのMIMEタイプにかかわらず`hotels/hotel.html.erb`という名前のファイルを読み込み、たとえばJavaScriptファイルでこのパーシャルをインクルードできるようになります。
@@ -164,8 +164,8 @@ render(partial: 'hotels/hotel', collection: @hotels, formats: :html, cached: tru
 ```ruby
 render partial: "comments/comment", collection: commentable.comments
 render "comments/comments"
-render 'comments/comments'
-render('comments/comments')
+render "comments/comments"
+render("comments/comments")
 
 render "header" # render("comments/header")に変換される
 
@@ -442,7 +442,7 @@ config.cache_store = :redis_cache_store, { url: cache_servers,
 
   error_handler: -> (method:, returning:, exception:) {
     # エラーをwarningとしてSentryに送信する
-    Sentry.capture_exception exception, level: 'warning',
+    Sentry.capture_exception exception, level: "warning",
       tags: { method: method, returning: returning }
   }
 }
@@ -542,6 +542,11 @@ class ProductsController < ApplicationController
   end
 end
 ```
+
+`last_modified`と`etag`が両方設定されている場合の振る舞いは、`config.action_dispatch.strict_freshness`の値によって異なります。
+
+- `true`に設定されている場合、RFC 7232セクション6で指定されているように`etag`のみが考慮されます。
+- `false`に設定されている場合、両方の条件が満たされている場合は、キャッシュは最新のものと見なされます。これは、従来のRailsの振る舞いと同じです。
 
 静的ページなどの有効期限のないページでキャッシュを有効にしたいことがあります。`http_cache_forever`ヘルパーを使うと、ブラウザやプロキシでキャッシュを無期限にできます。
 
