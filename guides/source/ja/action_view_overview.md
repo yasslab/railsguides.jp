@@ -495,26 +495,52 @@ Ruby 3.1のパターンマッチング代入演算子に[`Hash#with_defaults`][]
 <% end %>
 ```
 
-INFO: デフォルトのパーシャルは、`locals`として任意のキーワード引数を受け取れます。パーシャルが受け取れる`locals`のキーワード引数を限定するには、`locals:`マジックコメントを使います。詳しくは、次の[厳密な`locals`](#厳密なlocals)を参照してください。
-
 [pattern matching]: https://docs.ruby-lang.org/en/master/syntax/pattern_matching_rdoc.html
 [`local_assigns`]: https://api.rubyonrails.org/classes/ActionView/Template.html#method-i-local_assigns
 [`Hash#with_defaults`]: https://api.rubyonrails.org/classes/Hash.html#method-i-with_defaults
 
 ### 厳密な`locals`
 
-デフォルトのテンプレートは、`locals`として受け取れるキーワード引数の個数に制約がありません。テンプレートが受け取ってよい`locals`のキーワード引数やその個数に制約をかけたりデフォルト値を設定したりするには、以下のように`locals`マジックコメントをビューに追加します。
+Action Viewのパーシャルは、内部で通常のRubyメソッドにコンパイルされます。
+Rubyではローカル変数を動的に作成できないため、パーシャルに渡される`locals`の組み合わせが一定していないと、組み合わせごとに別のバージョンをコンパイルする必要が生じます。
 
-`locals:`マジックコメントの例を以下に示します。
+```html+erb
+<%# app/views/articles/show.html.erb %>
+<%= render partial: "article", layout: "box", locals: { article: @article } %>
+<%= render partial: "article", layout: "box", locals: { article: @article, theme: "dark" } %>
+```
 
-```erb
+上のスニペットではパーシャルのコンパイルが2回も行われているため、時間とメモリがその分消費されてしまいます。
+
+```ruby
+def _render_template_2323231_article_show(buffer, local_assigns, article:)
+  # ...
+end
+
+def _render_template_3243454_article_show(buffer, local_assigns, article:, theme:)
+  # ...
+end
+```
+
+組み合わせの数が少ないうちはそれほど問題にはなりませんが、組み合わせの数が増えるに連れて、かなりの量のメモリが浪費され、コンパイルに長時間かかるようになります。この問題に対処するには、「厳密な`locals`」（strict locals）という一種のアノテーション機能を用いて、コンパイル済みパーシャルのシグネチャを定義することで、コンパイルされるパーシャルのバージョンが1種類だけになるようにします。
+
+```html+erb
+<%# locals: (article:, theme: "light") -%>
+...
+```
+
+`locals:`シグネチャでは上のように、Rubyのメソッドシグネチャと同じ構文を利用して、パーシャルにどのローカル変数を何個渡せるかを強制することも、デフォルト値を設定することもできます。
+
+`locals:`シグネチャの例をいくつか示します。
+
+```html+erb
 <%# app/views/messages/_message.html.erb %>
 
 <%# locals: (message:) -%>
 <%= message %>
 ```
 
-上のコード例では、`message`ローカル変数が必須になり、パーシャルを呼び出すときに省略できなくなります。引数に`:message`ローカル変数を渡さずにこのパーシャルをレンダリングすると例外が発生します。
+上のコード例では、`message`ローカル変数が必須になり、パーシャルを呼び出すときに省略できなくなります。引数に`:message`ローカル変数を渡さずにこのパーシャルをレンダリングすると、以下のように例外が発生します。
 
 ```ruby
 render "messages/message"
@@ -530,21 +556,21 @@ render "messages/message"
 <%= message %>
 ```
 
-上のパーシャルに`:message`ローカル変数を渡さずにレンダリングすると、`locals:`マジックコメントで設定したデフォルト値が使われます。
+上のパーシャルに`:message`ローカル変数を渡さずにレンダリングすると、`locals:`シグネチャで設定したデフォルト値が使われます。
 
 ```ruby
 render "messages/message"
 # => "Hello, world!"
 ```
 
-同様に、`local:`マジックコメントで許可されていないローカル変数を渡してパーシャルをレンダリングすると、例外が発生します。
+これも同様に、`local:`シグネチャで許可されていないローカル変数を渡してパーシャルをレンダリングすると、例外が発生します。
 
 ```ruby
 render "messages/message", unknown_local: "will raise"
 # => ActionView::Template::Error: unknown local: :unknown_local for app/views/messages/_message.html.erb
 ```
 
-以下のようにdouble splat演算子`**`も併用すると、オプションのローカル変数も引数として渡せるようになります。
+以下のようにdouble splat演算子`**`も併用すると、省略可能なオプションローカル変数も引数として渡せるようになります。
 
 ```erb
 
@@ -569,11 +595,11 @@ render "messages/message", unknown_local: "will raise"
 # => ActionView::Template::Error: no locals accepted for app/views/messages/_message.html.erb
 ```
 
-Action Viewでは、`#`で始まるコメントをサポートする任意のテンプレートエンジンで`locals:`マジックコメントを処理します。また、マジックコメントはパーシャル内のどの行に書かれていても認識されます。
+Action Viewは、`#`で始まるコメント文をサポートする任意のテンプレートエンジンで`locals:`シグネチャを処理します。このシグネチャは、パーシャル内のどの行に書かれていても認識されます。
 
 CAUTION: サポートされているのはキーワード引数のみです。位置引数やブロック引数が使われると、レンダリング時にAction Viewエラーが発生します。
 
-`local_assigns`メソッドには、`local:`マジックコメントで指定したデフォルト値は含まれない点にご注意ください。Rubyの予約キーワード（`class`や`if`など）と同じ名前のデフォルト値を持つローカル変数にアクセスするには、以下のように`binding.local_variable_get` で値にアクセスできます。
+`local_assigns`メソッドには、`local:`マジックコメントで指定したデフォルト値は含まれない点にご注意ください。Rubyの予約キーワード（`class`や`if`など）と同じ名前のデフォルト値を持つローカル変数にアクセスするには、以下のように`binding.local_variable_get`で値にアクセスできます。
 
 ```erb
 <%# locals: (class: "message") %>
@@ -630,7 +656,7 @@ Railsには、個別のコントローラアクションに対応するレイア
 試しに、ページ上に投稿を1つ表示してみましょう。表示制御のため`div`タグで囲むことにします。最初に、`Article`を1つ新規作成します。
 
 ```ruby
-Article.create(body: 'パーシャルレイアウトはいいぞ！')
+Article.create(body: "パーシャルレイアウトはいいぞ！")
 ```
 
 `show`テンプレートは、`box`レイアウトで囲まれた`_article`パーシャルを出力します。
