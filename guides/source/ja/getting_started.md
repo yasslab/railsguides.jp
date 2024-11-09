@@ -61,10 +61,10 @@ TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https
 
 ```bash
 $ ruby --version
-ruby 3.1.0
+ruby 3.2.0
 ```
 
-RailsではRubyバージョン3.1.0以降が必須です。これより低いバージョン（2.3.7や1.8.7など）が表示された場合は、新たにRubyをインストールする必要があります。
+RailsではRubyバージョン3.2.0以降が必須です。これより低いバージョン（2.3.7や1.8.7など）が表示された場合は、新たにRubyをインストールする必要があります。
 
 RailsをWindowsにインストールする場合は、最初に[Ruby Installer](https://rubyinstaller.org/)をインストールしておく必要があります。
 
@@ -93,10 +93,10 @@ $ gem install rails
 
 ```bash
 $ rails --version
-Rails 7.2.0
+Rails 8.0.0
 ```
 
-"Rails 7.2.0"などのバージョンが表示されたら、次に進みましょう。
+"Rails 8.0.0"などのバージョンが表示されたら、次に進みましょう。
 
 ### ブログアプリケーションを作成する
 
@@ -122,7 +122,7 @@ $ cd blog
 
 | ファイル/フォルダ | 目的 |
 | ----------- | ------- |
-|app/|このディレクトリには、アプリケーションのコントローラ、モデル、ビュー、ヘルパー、メーラー、チャンネル、ジョブ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
+|app/|このディレクトリには、アプリケーションのコントローラ、モデル、ビュー、ヘルパー、メーラー、ジョブ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
 |bin/|このディレクトリには、アプリケーションを起動する`rails`スクリプトが置かれます。セットアップ・アップデート・デプロイに使うスクリプトファイルもここに置けます。
 |config/|このディレクトリには、アプリケーションの各種設定ファイル（ルーティング、データベースなど）が置かれます。詳しくは[Rails アプリケーションの設定項目](configuring.html) を参照してください。|
 |config.ru|アプリケーションの起動に使われるRackベースのサーバー用のRack設定ファイルです。Rackについて詳しくは、[RackのWebサイト](https://rack.github.io/)を参照してください。|
@@ -134,6 +134,7 @@ $ cd blog
 |public/|静的なファイルやコンパイル済みアセットはここに置きます。このディレクトリにあるファイルは、外部（インターネット）にそのまま公開されます。|
 |Rakefile|このファイルは、コマンドラインから実行できるタスクを探索して読み込みます。このタスク定義は、Rails全体のコンポーネントに対して定義されます。独自のRakeタスクを定義したい場合は、`Rakefile`に直接書くと権限が強すぎるので、なるべく`lib/tasks`フォルダの下にRake用のファイルを追加してください。|
 |README.md|アプリケーションの概要を簡潔に説明するマニュアルをここに記入します。このファイルにはアプリケーションの設定方法などを記入し、これさえ読めば誰でもアプリケーションを構築できるようにしておきましょう。|
+|script/|使い捨て、または汎用の[スクリプト](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/script/USAGE)や[ベンチマーク](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/benchmark/USAGE)をここに置きます。|
 |storage/|このディレクトリには、Disk Serviceで用いるActive Storageファイルが置かれます。詳しくは[Active Storageの概要](active_storage_overview.html)を参照してください。|
 |test/|このディレクトリには、単体テストやフィクスチャなどのテスト関連ファイルを置きます。テストについて詳しくは[Railsアプリケーションをテストする](testing.html)を参照してください。|
 |tmp/|このディレクトリには、キャッシュやpidなどの一時ファイルが置かれます。|
@@ -303,7 +304,7 @@ create      test/fixtures/articles.yml
 `db/migrate/`ディレクトリの下に生成されたマイグレーションファイルを開いてみましょう。
 
 ```ruby
-class CreateArticles < ActiveRecord::Migration[7.2]
+class CreateArticles < ActiveRecord::Migration[8.0]
   def change
     create_table :articles do |t|
       t.string :title
@@ -353,7 +354,7 @@ $ bin/rails console
 以下のようなRailsコンソールのプロンプトが表示されるはずです。
 
 ```irb
-Loading development environment (Rails 7.2.0)
+Loading development environment (Rails 8.0.0)
 blog(dev)>
 ```
 
@@ -544,6 +545,7 @@ $ bin/rails routes
              POST   /articles(.:format)          articles#create
 edit_article GET    /articles/:id/edit(.:format) articles#edit
              PATCH  /articles/:id(.:format)      articles#update
+             PUT    /articles/:id(.:format)      articles#update
              DELETE /articles/:id(.:format)      articles#destroy
 ```
 
@@ -639,7 +641,7 @@ NOTE: [`render`](https://api.rubyonrails.org/classes/AbstractController/Renderin
 
   <div>
     <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.textarea :body %>
   </div>
 
   <div>
@@ -709,12 +711,14 @@ class ArticlesController < ApplicationController
 
   private
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.expect(article: [:title, :body])
     end
 end
 ```
 
 TIP: Strong Parametersについて詳しくは、[Action Controller の概要 § Strong Parameters](action_controller_overview.html#strong-parameters)を参照してください。
+
+> 訳注: 従来のStrong Parametersでは、`params.require(:article).permit(:title, :body)`と書くようになっていましたが、Rails 8.0からは`params.expect(article: [:title, :body])`という簡潔な書き方が追加され、scaffoldジェネレータでもこの新しい書き方が使われるようになりました。詳しくは[Action Controller の概要 § Strong Parameters](action_controller_overview.html#strong-parameters)を参照してください。
 
 #### バリデーションとエラーメッセージの表示
 
@@ -751,7 +755,7 @@ NOTE: `title`属性や`body`属性がどこで定義されているかが気に�
 
   <div>
     <%= form.label :body %><br>
-    <%= form.text_area :body %><br>
+    <%= form.textarea :body %><br>
     <% @article.errors.full_messages_for(:body).each do |message| %>
       <div><%= message %></div>
     <% end %>
@@ -855,7 +859,7 @@ class ArticlesController < ApplicationController
 
   private
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.expect(article: [:title, :body])
     end
 end
 ```
@@ -886,7 +890,7 @@ end
 
   <div>
     <%= form.label :body %><br>
-    <%= form.text_area :body %><br>
+    <%= form.textarea :body %><br>
     <% article.errors.full_messages_for(:body).each do |message| %>
       <div><%= message %></div>
     <% end %>
@@ -987,7 +991,7 @@ class ArticlesController < ApplicationController
 
   private
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.expect(article: [:title, :body])
     end
 end
 ```
@@ -1056,7 +1060,7 @@ Commentモデルの内容は、これまでに見た`Articleモデル`と非常�
 モデルファイルの他に、以下のようなマイグレーションファイルも生成されています。マイグレーションファイルは、モデルに対応するデータベーステーブルを生成するのに使います。
 
 ```ruby
-class CreateComments < ActiveRecord::Migration[7.2]
+class CreateComments < ActiveRecord::Migration[8.0]
   def change
     create_table :comments do |t|
       t.string :commenter
@@ -1174,7 +1178,7 @@ app/helpers/comments_helper.rb | ビューヘルパー
   </p>
   <p>
     <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.textarea :body %>
   </p>
   <p>
     <%= form.submit %>
@@ -1196,7 +1200,7 @@ class CommentsController < ApplicationController
 
   private
     def comment_params
-      params.require(:comment).permit(:commenter, :body)
+      params.expect(comment: [:commenter, :body])
     end
 end
 ```
@@ -1241,7 +1245,7 @@ end
   </p>
   <p>
     <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.textarea :body %>
   </p>
   <p>
     <%= form.submit %>
@@ -1299,7 +1303,7 @@ end
   </p>
   <p>
     <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.textarea :body %>
   </p>
   <p>
     <%= form.submit %>
@@ -1321,7 +1325,7 @@ end
   </p>
   <p>
     <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.textarea :body %>
   </p>
   <p>
     <%= form.submit %>
@@ -1355,7 +1359,7 @@ end
 
 ### concernを使う
 
-Railsの「concern（関心事）」とは、大規模なコントローラやモデルの理解や管理を楽にする手法の１つです。複数のモデル（またはコントローラ）が同じ関心を共有していれば、concernを介して再利用できるというメリットもあります。concernはRubyの「モジュール」で実装され、モデルやコントローラが担当する機能のうち明確に定義された部分を表すメソッドをそのモジュールに含めます。なおモジュールは他の言語では「ミックスイン」と呼ばれることもよくあります。
+Railsの「concern（関心事）」とは、大規模なコントローラやモデルの理解や管理を楽にする手法の1つです。複数のモデル（またはコントローラ）が同じ関心を共有していれば、concernを介して再利用できるというメリットもあります。concernはRubyの「モジュール」で実装され、モデルやコントローラが担当する機能のうち明確に定義された部分を表すメソッドをそのモジュールに含めます。なおモジュールは他の言語では「ミックスイン」と呼ばれることもよくあります。
 
 concernは、コントローラやモデルで普通のモジュールと同じように使えます。`rails new blog` でアプリを作成すると、`app/`内に以下の2つのconcernsフォルダも作成されます。
 
@@ -1392,7 +1396,7 @@ active_record_migrations.html)ガイドを参照してください。
 
   private
     def article_params
-      params.require(:article).permit(:title, :body, :status)
+      params.expect(article: [:title, :body, :status])
     end
 ```
 
@@ -1402,7 +1406,7 @@ active_record_migrations.html)ガイドを参照してください。
 
   private
     def comment_params
-      params.require(:comment).permit(:commenter, :body, :status)
+      params.expect(comment: [:commenter, :body, :status])
     end
 ```
 
@@ -1415,12 +1419,12 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true, length: { minimum: 10 }
 
-  VALID_STATUSES = ['public', 'private', 'archived']
+  VALID_STATUSES = [ "public", "private", "archived" ]
 
   validates :status, inclusion: { in: VALID_STATUSES }
 
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 end
 ```
@@ -1431,12 +1435,12 @@ end
 class Comment < ApplicationRecord
   belongs_to :article
 
-  VALID_STATUSES = ['public', 'private', 'archived']
+  VALID_STATUSES = [ "public", "private", "archived" ]
 
   validates :status, inclusion: { in: VALID_STATUSES }
 
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 end
 ```
@@ -1484,7 +1488,7 @@ end
 ```ruby
 module Visible
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 end
 ```
@@ -1495,14 +1499,14 @@ end
 module Visible
   extend ActiveSupport::Concern
 
-  VALID_STATUSES = ['public', 'private', 'archived']
+  VALID_STATUSES = [ "public", "private", "archived" ]
 
   included do
     validates :status, inclusion: { in: VALID_STATUSES }
   end
 
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 end
 ```
@@ -1539,7 +1543,7 @@ concernにはクラスメソッドも追加できます。たとえば、ステ�
 module Visible
   extend ActiveSupport::Concern
 
-  VALID_STATUSES = ['public', 'private', 'archived']
+  VALID_STATUSES = [ "public", "private", "archived" ]
 
   included do
     validates :status, inclusion: { in: VALID_STATUSES }
@@ -1547,12 +1551,12 @@ module Visible
 
   class_methods do
     def public_count
-      where(status: 'public').count
+      where(status: "public").count
     end
   end
 
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 end
 ```
@@ -1643,7 +1647,7 @@ class CommentsController < ApplicationController
 
   private
     def comment_params
-      params.require(:comment).permit(:commenter, :body, :status)
+      params.expect(comment: [:commenter, :body, :status])
     end
 end
 ```
