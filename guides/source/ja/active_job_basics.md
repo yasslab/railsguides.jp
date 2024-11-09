@@ -101,7 +101,7 @@ GuestsCleanupJob.set(wait: 1.week).perform_later(guest)
 ```ruby
 # `perform_now`と`perform_later`は`perform`を呼び出すので、
 # 定義した引数を渡すことができる
-GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
+GuestsCleanupJob.perform_later(guest1, guest2, filter: "some_filter")
 ```
 
 以上でジョブ登録は完了です。
@@ -166,7 +166,6 @@ end
 - [Sidekiq](https://github.com/mperham/sidekiq/wiki/Active-Job)
 - [Resque](https://github.com/resque/resque/wiki/ActiveJob)
 - [Sneakers](https://github.com/jondot/sneakers/wiki/How-To:-Rails-Background-Jobs-with-ActiveJob)
-- [Sucker Punch](https://github.com/brandonhilkert/sucker_punch#active-job)
 - [Queue Classic](https://github.com/QueueClassic/queue_classic#active-job)
 - [Delayed Job](https://github.com/collectiveidea/delayed_job#active-job)
 - [Que](https://github.com/que-rb/que#additional-rails-specific-setup)
@@ -228,7 +227,7 @@ end
 module YourApp
   class Application < Rails::Application
     config.active_job.queue_name_prefix = Rails.env
-    config.active_job.queue_name_delimiter = '.'
+    config.active_job.queue_name_delimiter = "."
   end
 end
 ```
@@ -324,7 +323,7 @@ ProcessVideoJob.perform_later(Video.last)
 MyJob.set(priority: 50).perform_later(record)
 ```
 
-NOTE: 優先度の低い番号が、優先度の高い番号より先に実行されるか後に実行されるかは、アダプタの実装によって異なります。詳しくはバックエンドのドキュメントを参照してください。アダプタの作成者は、優先度の低い番号をより重要視することをオススメします。
+NOTE: 優先度の低い番号が、優先度の高い番号より先に実行されるか後に実行されるかは、アダプタの実装によって異なります。詳しくはバックエンドのドキュメントを参照してください。アダプタの作成者は、小さい番号ほど重要度が高いものとして扱うことが推奨されます。
 
 [`queue_with_priority`]: https://api.rubyonrails.org/classes/ActiveJob/QueuePriority/ClassMethods.html#method-i-queue_with_priority
 
