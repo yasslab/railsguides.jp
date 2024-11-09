@@ -42,9 +42,9 @@ active_record_encryption:
 これらの値は、生成された値を既存の[Rails credentials](/security.html#独自のcredential)にコピーして貼り付けることで保存できます。また、環境変数など他のソースを用いてこれらの値を設定することも可能です。
 
 ```ruby
-config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
-config.active_record.encryption.deterministic_key = ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY']
-config.active_record.encryption.key_derivation_salt = ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT']
+config.active_record.encryption.primary_key = ENV["ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY"]
+config.active_record.encryption.deterministic_key = ENV["ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY"]
+config.active_record.encryption.key_derivation_salt = ENV["ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT"]
 ```
 
 NOTE: 生成される値は32バイト長です。これらを自分で生成する場合は、最低でも主キー用に12バイト（これは[AES](https://ja.wikipedia.org/wiki/Advanced_Encryption_Standard)の32バイトのキー導出に用いられます）、ソルト（salt）用に20バイトが必要です。
@@ -304,6 +304,43 @@ config.active_record.encryption.forced_encoding_for_deterministic_encryption = E
 config.active_record.encryption.forced_encoding_for_deterministic_encryption = nil
 ```
 
+
+### 圧縮
+
+このライブラリは、暗号化済みペイロードをデフォルトで圧縮します。これにより、ペイロードが大きい場合にストレージスペースを最大30%節約できます。暗号化する属性に`compress: false`を設定することで、圧縮を無効できます。
+
+```ruby
+class Article < ApplicationRecord
+  encrypts :content, compress: false
+end
+```
+
+圧縮に使うアルゴリズムをカスタム設定することも可能です。デフォルトの圧縮プログラムは`Zlib`です。`#deflate(data)`と`#inflate(data)`に応答するクラスまたはモジュールを作成すれば、独自の圧縮プログラムを実装できます。
+
+```ruby
+require "zstd-ruby"
+
+module ZstdCompressor
+  def self.deflate(data)
+    Zstd.compress(data)
+  end
+
+  def self.inflate(data)
+    Zstd.decompress(data)
+  end
+end
+
+class User
+  encrypts :name, compressor: ZstdCompressor
+end
+```
+
+以下のように、圧縮プログラムをグローバルに設定することも可能です。
+
+```ruby
+config.active_record.encryption.compressor = ZstdCompressor
+```
+
 ## キーの管理
 
 キープロバイダは、キー管理戦略を実装します。キープロバイダはグローバルに設定することも、属性ごとに指定することも可能です。
@@ -502,6 +539,10 @@ rootデータ暗号化キーの導出に用いるキーまたはキーのリス�
 #### `config.active_record.encryption.support_sha1_for_non_deterministic_encryption`
 
 ダイジェストクラスSHA1で非決定的に暗号化されたデータの復号をサポートします。デフォルトは`false`で、`config.active_record.encryption.hash_digest_class`で設定されたダイジェストアルゴリズムのみをサポートします。
+
+#### `config.active_record.encryption.compressor`
+
+暗号化されたペイロードを圧縮するコンプレッサーライブラリを指定します。このライブラリは、`deflate`および`inflate`に応答する必要があります。デフォルトは`Zlib`です。コンプレッサーについて詳しくは、[圧縮](#圧縮) セクションを参照してください。
 
 ### 暗号化コンテキスト
 
