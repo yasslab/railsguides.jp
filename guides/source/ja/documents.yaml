@@ -268,10 +268,9 @@
       url: upgrading_ruby_on_rails.html
       description: アプリケーションのRuby on Railsを最新バージョンにアップグレードする方法について解説します。
     -
-      name: Version 8.0 - ?
+      name: Version 8.0 - 2024/11
       url: 8_0_release_notes.html
       description: Rails 8.0のリリースノートです。
-      work_in_progress: true
     -
       name: Rails 7.2 - 2024/08
       url: 7_2_release_notes.html
