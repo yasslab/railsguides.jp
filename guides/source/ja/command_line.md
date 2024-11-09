@@ -179,7 +179,7 @@ tmp:create                          Create tmp directories ...
 $ cd my_app
 $ bin/rails server
 => Booting Puma
-=> Rails 7.2.0 application starting in development
+=> Rails 8.0.0 application starting in development
 => Run `bin/rails server --help` for more startup options
 Puma starting in single mode...
 * Puma version: 6.4.0 (ruby 3.1.3-p185) ("The Eagle of Durango")
@@ -410,9 +410,9 @@ $ bin/rails console -e staging
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 7.2.0)
+Loading development environment in sandbox (Rails 8.0.0)
 Any modifications you make will be rolled back on exit
-irb(main):001:0>
+app(dev)>
 ```
 
 #### `app`オブジェクトと`helper`オブジェクト
@@ -474,6 +474,22 @@ $ bin/rails runner -e staging "Model.long_running_method"
 $ bin/rails runner lib/code_to_be_run.rb
 ```
 
+`rails runner`スクリプトは、デフォルトではRails Executorで自動的にラップされ、cronジョブなどのタスクのキャッチされていない例外を報告するのに便利です。
+
+つまり、`rails runner lib/long_running_scripts.rb`を実行することは、機能的に以下と同等です。
+
+```ruby
+Rails.application.executor.wrap do
+  # lib/long_running_scripts.rb内のコードをここで実行する
+end
+```
+
+`--skip-executor`オプションを渡すことで、この振る舞いをスキップできます。
+
+```bash
+$ bin/rails runner --skip-executor lib/long_running_script.rb
+```
+
 ### `bin/rails destroy`
 
 `destroy`は`generate`の逆の操作です。ジェネレータコマンドで生成された内容を調べて、それを取り消します。
@@ -508,8 +524,8 @@ $ bin/rails destroy model Oops
 ```bash
 $ bin/rails about
 About your application's environment
-Rails version             7.2.0
-Ruby version              3.1.0 (x86_64-linux)
+Rails version             8.0.0
+Ruby version              3.2.0 (x86_64-linux)
 RubyGems version          3.3.7
 Rack version              3.0.8
 JavaScript Runtime        Node.js (V8)
@@ -661,9 +677,9 @@ Railsにはminitestと呼ばれるテストフレームワークが付属して�
 
 * `bin/rails initializers`: Railsで呼び出されるすべてのイニシャライザを、実際の呼び出し順で表示します。
 * `bin/rails middleware`: アプリで有効になっているRackミドルウェアスタックのリストを表示します。
-* `rails stats`: コード量とテスト量の比率やKLOCs（1000を単位とするコード行数）などのコードに関する統計値を表示します。
-* `rails secret`: セッションのsecretに用いる擬似乱数を生成します。
-* `rails time:zones:all`: Railsが扱えるすべてのタイムゾーンを表示します。
+* `bin/rails stats`: コード量とテスト量の比率やKLOCs（1000を単位とするコード行数）などのコードに関する統計値を表示します。
+* `bin/rails secret`: セッションのsecretに用いる擬似乱数を生成します。
+* `bin/rails time:zones:all`: Railsが扱えるすべてのタイムゾーンを表示します。
 * `bin/rails boot`: アプリケーションを起動し、その後終了します。
 
 ### カスタムRakeタスク
