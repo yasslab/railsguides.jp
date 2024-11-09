@@ -323,7 +323,7 @@ NOTE: Action Mailerは添付ファイルを自動的にBase64でエンコード�
 
 ```ruby
 def welcome
-  attachments.inline['image.jpg'] = File.read('/path/to/image.jpg')
+  attachments.inline["image.jpg"] = File.read("/path/to/image.jpg")
 end
 ```
 
@@ -481,7 +481,7 @@ config.action_mailer.default_url_options = { host: "example.com" }
 `:asset_host`はアプリケーション全体で同じものを使うのが普通なので、`config/application.rb`で以下のようにグローバルに設定できます。
 
 ```ruby
-config.action_mailer.asset_host = 'http://example.com'
+config.action_mailer.asset_host = "http://example.com"
 ```
 
 NOTE: このプロトコルはリクエストから推測できないため、`:asset_host`コンフィグでは`http://`や`https://`などのプロトコルを指定する必要があります。
@@ -604,7 +604,7 @@ end
 
 ```ruby
 class UserMailer < ApplicationMailer
-  default from: email_address_with_name('notification@example.com', '会社からのお知らせの例')
+  default from: email_address_with_name("notification@example.com", "会社からのお知らせの例")
 end
 ```
 
