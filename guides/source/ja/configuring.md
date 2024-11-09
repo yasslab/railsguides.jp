@@ -484,7 +484,18 @@ end
 
 #### `config.file_watcher`
 
-`config.reload_classes_only_on_change`が`true`の場合に、ファイルシステム上のファイル更新検出に使われるクラスを指定します。デフォルトのRailsでは`ActiveSupport::FileUpdateChecker`、および`ActiveSupport::EventedFileUpdateChecker`（これは[listen](https://github.com/guard/listen)に依存します）が指定されます。カスタムクラスはこの`ActiveSupport::FileUpdateChecker` APIに従わなければなりません。
+`config.reload_classes_only_on_change`が`true`の場合に、ファイルシステム上のファイル更新検出に使われるクラスを指定します。デフォルトのRailsでは`ActiveSupport::FileUpdateChecker`、および`ActiveSupport::EventedFileUpdateChecker`が指定されます。カスタムクラスはこの`ActiveSupport::FileUpdateChecker` APIに従わなければなりません。
+
+`ActiveSupport::EventedFileUpdateChecker`の利用は、[listen](https://github.com/guard/listen) gemに依存します
+
+```ruby
+group :development do
+  gem "listen", "~> 3.5"
+end
+```
+
+LinuxやmacOSでは追加のgemは不要ですが、[BSDの場合](https://github.com/guard/listen#on-bsd)や[Windowsの場合](https://github.com/guard/listen#on-windows)にはいくつかのgemを追加する必要があります。
+[一部の設定はサポートされていない](https://github.com/guard/listen#issues--limitations)ことにご注意ください。
 
 #### `config.filter_parameters`
 
@@ -4020,20 +4031,3 @@ Disallow: /
 ```
 
 特定のページのみをブロックする場合は、もう少し複雑な構文が必要です。詳しくはrobot.txtの[公式ドキュメント](https://www.robotstxt.org/robotstxt.html)を参照してください。
-
-イベントベースのファイルシステム監視
----------------------------
-
-[listen](https://github.com/guard/listen) gemを使うと、イベントベースのファイルシステム監視を利用してRailsのファイル変更を検出できます（ただしリロードが有効な場合）。
-
-```ruby
-group :development do
-  gem "listen", "~> 3.5"
-end
-```
-
-listen gemを使わない場合、Railsはリクエストのたびにファイルの変更の有無を検出するためにアプリケーションのツリーをすべて探索します。
-
-LinuxやmacOSでは追加のgemは不要ですが、[*BSD](https://github.com/guard/listen#on-bsd)や[Windows](https://github.com/guard/listen#on-windows)環境では追加のソフトウェアが必要になることがあります。
-
-[一部の設定がサポート対象外](https://github.com/guard/listen#issues--limitations)である点にご注意ください。
