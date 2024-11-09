@@ -77,12 +77,14 @@ test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
+# `bin/rails credentials:edit`でAWS secretsを設定すること（aws:access_key_id|secret_access_keyとして）
 amazon:
   service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  bucket: ""
-  region: "" # 例: 'ap-northeast-1'
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  bucket: your_own_bucket-<%= Rails.env %>
+  region: "" # 例: "us-east-1"
+
 ```
 
 利用するサービスをActive Storageに認識させるには、`Rails.application.config.active_storage.service`を設定します。
@@ -145,28 +147,31 @@ local:
 S3サービスは`config/storage.yml`で宣言します。
 
 ```yaml
+# `bin/rails credentials:edit`でAWS secretsを設定すること（aws:access_key_id|secret_access_keyとして）
 amazon:
   service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  region: ""
-  bucket: ""
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: "" # 例: "us-east-1"
+  bucket: your_own_bucket-<%= Rails.env %>
+
 ```
 
 クライアントやアップロードのオプションも指定できます。
 
 ```yaml
+# `bin/rails credentials:edit`でAWS secretsを設定すること（aws:access_key_id|secret_access_keyとして）
 amazon:
   service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  region: ""
-  bucket: ""
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: "" # 例: "us-east-1"
+  bucket: your_own_bucket-<%= Rails.env %>
   http_open_timeout: 0
   http_read_timeout: 0
   retry_limit: 0
   upload:
-    server_side_encryption: "" # 'aws:kms'または'AES256'
+    server_side_encryption: "" # "aws:kms"または"AES256"
     cache_control: "private, max-age=<%= 1.day.to_i %>"
 ```
 
@@ -188,8 +193,8 @@ DigitalOcean SpacesなどのS3互換オブジェクトストレージAPIに接�
 digitalocean:
   service: S3
   endpoint: https://nyc3.digitaloceanspaces.com
-  access_key_id: ...
-  secret_access_key: ...
+  access_key_id: <%= Rails.application.credentials.dig(:digitalocean, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:digitalocean, :secret_access_key) %>
   # ...その他のオプション
 ```
 
@@ -201,11 +206,12 @@ digitalocean:
 Azure Storageサービスは`config/storage.yml`で宣言します。
 
 ``` yaml
+# `bin/rails credentials:edit`でAzure Storage secretを設定すること（azure_storage:storage_access_keyとして）
 azure:
   service: AzureStorage
-  storage_account_name: ""
-  storage_access_key: ""
-  container: ""
+  storage_account_name: your_account_name
+  storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
+  container: your_container_name-<%= Rails.env %>
 ```
 
 `Gemfile`に[`azure-storage-blob`](https://github.com/Azure/azure-storage-ruby) gemを追加します。
@@ -223,12 +229,13 @@ google:
   service: GCS
   credentials: <%= Rails.root.join("path/to/keyfile.json") %>
   project: ""
-  bucket: ""
+  bucket: your_own_bucket-<%= Rails.env %>
 ```
 
 keyfileパスの代わりにcredentialのハッシュも渡せます。
 
 ```yaml
+# `bin/rails credentials:edit`でGCS secretsを設定すること（gcs:private_key_id|private_keyとして）
 google:
   service: GCS
   credentials:
@@ -243,7 +250,7 @@ google:
     auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
     client_x509_cert_url: ""
   project: ""
-  bucket: ""
+  bucket: your_own_bucket-<%= Rails.env %>
 ```
 
 オプションで、アップロードされたアセットに設定するCache-Controlメタデータを指定できます。
@@ -291,19 +298,20 @@ NOTE: ミラーリング機能はアトミックではありません。プラ�
 上で説明したように、ミラーリングするサービスをそれぞれ定義します。ミラーサービスを定義するときは以下のように名前で参照します。
 
 ``` yaml
+# `bin/rails credentials:edit`でAWS secretsを設定すること（aws:access_key_id|secret_access_keyとして）
 s3_west_coast:
   service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  region: ""
-  bucket: ""
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: "" # 例: "us-west-1"
+  bucket: your_own_bucket-<%= Rails.env %>
 
 s3_east_coast:
   service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  region: ""
-  bucket: ""
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  region: "" # 例: "us-east-1"
+  bucket: your_own_bucket-<%= Rails.env %>
 
 production:
   service: Mirror
@@ -328,12 +336,12 @@ gcs: &gcs
 private_gcs:
   <<: *gcs
   credentials: <%= Rails.root.join("path/to/private_key.json") %>
-  bucket: ""
+  bucket: your_own_bucket-<%= Rails.env %>
 
 public_gcs:
   <<: *gcs
   credentials: <%= Rails.root.join("path/to/public_key.json") %>
-  bucket: ""
+  bucket: your_own_bucket-<%= Rails.env %>
   public: true
 ```
 
@@ -378,7 +386,7 @@ class SignupController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:email_address, :password, :avatar)
+      params.expect(user: [:email_address, :password, :avatar])
     end
 end
 ```
@@ -447,9 +455,12 @@ Railsは、添付ファイルがレコードにアタッチされた後で、バ
 
 NOTE: Active Storageは[ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)に依存しています。ポリモーフィック関連付けはクラス名がデータベースに保存されることが前提になっているため、そのデータはRubyコードで使われるクラス名と常に手動で同期しておく必要があります。`has_one_attached`を使うクラスの名前を変更する場合は、対応する行の`active_storage_attachments.record_type`ポリモーフィック型カラムのクラス名も更新するようにしてください。
 
-[`has_one_attached`]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Model.html#method-i-has_one_attached
-[Attached::One#attach]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attach
-[Attached::One#attached?]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attached-3F
+[`has_one_attached`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/Model.html#method-i-has_one_attached
+[Attached::One#attach]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attach
+[Attached::One#attached?]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-attached-3F
 
 ### `has_many_attached`
 
@@ -480,7 +491,7 @@ class MessagesController < ApplicationController
 
   private
     def message_params
-      params.require(:message).permit(:title, :content, images: [])
+      params.expect(message: [ :title, :content, images: [] ])
     end
 end
 ```
@@ -515,9 +526,12 @@ class Message < ApplicationRecord
 end
 ```
 
-[`has_many_attached`]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Model.html#method-i-has_many_attached
-[Attached::Many#attach]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attach
-[Attached::Many#attached?]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attached-3F
+[`has_many_attached`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/Model.html#method-i-has_many_attached
+[Attached::Many#attach]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attach
+[Attached::Many#attached?]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/Many.html#method-i-attached-3F
 
 NOTE: Active Storageは[ポリモーフィック関連付け](association_basics.html#ポリモーフィック関連付け)に依存しています。ポリモーフィック関連付けはクラス名がデータベースに保存されることが前提になっているため、そのデータはRubyコードで使われるクラス名と常に手動で同期しておく必要があります。`has_many_attached`を使うクラスの名前を変更する場合は、対応する行の`active_storage_attachments.record_type`ポリモーフィック型カラムのクラス名も更新するようにしてください。
 
@@ -526,22 +540,22 @@ NOTE: Active Storageは[ポリモーフィック関連付け](association_basics
 HTTPリクエスト経由では配信されないファイルをアタッチする必要が生じる場合があります。たとえば、ディスク上で生成したファイルやユーザーが送信したURLからダウンロードしたファイルをアタッチしたい場合や、モデルのテストでfixtureファイルをアタッチしたい場合などが考えられます。これを行うには、以下のように`open` IOオブジェクトとファイル名を1つ以上含むハッシュを渡します。
 
 ```ruby
-@message.images.attach(io: File.open('/path/to/file'), filename: 'file.pdf')
+@message.images.attach(io: File.open("/path/to/file"), filename: "file.pdf")
 ```
 
 可能であれば、`content_type:`オプションも指定しておきましょう。Active Storageは、渡されたデータからファイルのContent-Typeの判定を試みますが、判定できない場合は指定のContent-Typeにフォールバックします。
 
 ```ruby
-@message.images.attach(io: File.open('/path/to/file'), filename: 'file.pdf', content_type: 'application/pdf')
+@message.images.attach(io: File.open("/path/to/file"), filename: "file.pdf", content_type: "application/pdf")
 ```
 
 以下のように`content_type`に`identify: false`を渡すと、Content-Typeの推測をバイパスできます。
 
 ```ruby
 @message.images.attach(
-  io: File.open('/path/to/file'),
-  filename: 'file.pdf',
-  content_type: 'application/pdf',
+  io: File.open("/path/to/file"),
+  filename: "file.pdf",
+  content_type: "application/pdf",
   identify: false
 )
 ```
@@ -552,9 +566,9 @@ HTTPリクエスト経由では配信されないファイルをアタッチす�
 
 ```ruby
 @message.images.attach(
-  io: File.open('/path/to/file'),
-  filename: 'file.pdf',
-  content_type: 'application/pdf',
+  io: File.open("/path/to/file"),
+  filename: "file.pdf",
+  content_type: "application/pdf",
   key: "#{Rails.env}/blog_content/intuitive_filename.pdf",
   identify: false
 )
@@ -570,9 +584,9 @@ end
 
 ```ruby
 @message.images.attach(
-  io: File.open('/path/to/file'),
-  filename: 'file.pdf',
-  content_type: 'application/pdf',
+  io: File.open("/path/to/file"),
+  filename: "file.pdf",
+  content_type: "application/pdf",
   key: s3_file_key,
   identify: false
 )
@@ -594,7 +608,8 @@ Railsでは、デフォルトで`has_many_attached`関連付けにファイル�
 
 この方法には、既存の添付ファイルを選択的に削除可能になるというメリットがあります。たとえば、個別の隠しフィールドをJavaScriptで削除できます。
 
-[ActiveStorage::Blob#signed_id]: https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-signed_id
+[ActiveStorage::Blob#signed_id]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-signed_id
 
 ### フォームのバリデーション
 
@@ -619,8 +634,10 @@ user.avatar.purge
 user.avatar.purge_later
 ```
 
-[Attached::One#purge]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-purge
-[Attached::One#purge_later]: https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-purge_later
+[Attached::One#purge]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-purge
+[Attached::One#purge_later]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html#method-i-purge_later
 
 ファイルを配信する
 -------------
@@ -654,8 +671,10 @@ WARNING: XSS（[クロスサイトスクリプティング](https://ja.wikipedia
 Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)
 ```
 
-[ActionView::RoutingUrlFor#url_for]: https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
-[ActiveStorage::Blob#signed_id]: https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-signed_id
+[ActionView::RoutingUrlFor#url_for]:
+  https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
+[ActiveStorage::Blob#signed_id]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-signed_id
 
 ### プロキシモード
 
@@ -690,7 +709,7 @@ direct :cdn_image do |model, options|
       :rails_service_blob_proxy,
       model.signed_id(expires_in: expires_in),
       model.filename,
-      options.merge(host: ENV['CDN_HOST'])
+      options.merge(host: ENV["CDN_HOST"])
     )
   else
     signed_blob_id = model.blob.signed_id(expires_in: expires_in)
@@ -702,7 +721,7 @@ direct :cdn_image do |model, options|
       signed_blob_id,
       variation_key,
       filename,
-      options.merge(host: ENV['CDN_HOST'])
+      options.merge(host: ENV["CDN_HOST"])
     )
   end
 end
@@ -749,10 +768,14 @@ end
 config.active_storage.draw_routes = false
 ```
 
-[`ActiveStorage::Blobs::RedirectController`]: https://api.rubyonrails.org/classes/ActiveStorage/Blobs/RedirectController.html
-[`ActiveStorage::Blobs::ProxyController`]: https://api.rubyonrails.org/classes/ActiveStorage/Blobs/ProxyController.html
-[`ActiveStorage::Representations::RedirectController`]: https://api.rubyonrails.org/classes/ActiveStorage/Representations/RedirectController.html
-[`ActiveStorage::Representations::ProxyController`]: https://api.rubyonrails.org/classes/ActiveStorage/Representations/ProxyController.html
+[`ActiveStorage::Blobs::RedirectController`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blobs/RedirectController.html
+[`ActiveStorage::Blobs::ProxyController`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blobs/ProxyController.html
+[`ActiveStorage::Representations::RedirectController`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Representations/RedirectController.html
+[`ActiveStorage::Representations::ProxyController`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Representations/ProxyController.html
 
 ファイルをダウンロードする
 -----------------
@@ -767,15 +790,17 @@ binary = user.avatar.download
 
 ```ruby
 message.video.open do |file|
-  system '/path/to/virus/scanner', file.path
+  system "/path/to/virus/scanner", file.path
   # ...
 end
 ```
 
 重要なのは、このファイルは`after_create`コールバックの時点ではアクセスできず、`after_create_commit`コールバックでのみアクセス可能になることです。
 
-[Blob#download]: https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-download
-[Blob#open]: https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-open
+[Blob#download]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-download
+[Blob#open]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-i-open
 
 ファイルを解析する
 ---------------
@@ -788,7 +813,8 @@ Active Storageは、ファイルがアップロードされると、Active Job�
 
 音声解析では、再生時間（`duration`）とビットレート（`bit_rate`）の属性が提供されます。
 
-[`analyzed?`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob/Analyzable.html#method-i-analyzed-3F
+[`analyzed?`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob/Analyzable.html#method-i-analyzed-3F
 
 画像、動画、PDFを表示する
 ---------------
@@ -819,8 +845,10 @@ Active Storageは、ファイルのさまざまな表示方法をサポートし
 
 `representation`の内部では、画像に対して`variant`メソッドを呼び出し、プレビュー可能なファイルであれば`preview`メソッドを呼び出します。これらのメソッドは直接呼ぶことも可能です。
 
-[`representable?`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-representable-3F
-[`representation`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-representation
+[`representable?`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-representable-3F
+[`representation`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-representation
 
 ### 遅延読み込みとイミディエイト読み込み
 
@@ -859,8 +887,10 @@ end
 ```
 
 [`config.active_storage.track_variants`]: configuring.html#config-active-storage-track-variants
-[`ActiveStorage::Representations::RedirectController`]: https://api.rubyonrails.org/classes/ActiveStorage/Representations/RedirectController.html
-[`ActiveStorage::Attachment`]: https://api.rubyonrails.org/classes/ActiveStorage/Attachment.html
+[`ActiveStorage::Representations::RedirectController`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Representations/RedirectController.html
+[`ActiveStorage::Attachment`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Attachment.html
 
 画像を変形する
 ----------------
@@ -912,12 +942,18 @@ Active Storageでは、バリアントプロセッサとして[Vips][]またはM
 <%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
 ```
 
-[`config.active_storage.variable_content_types`]: configuring.html#config-active-storage-variable-content-types
-[`config.active_storage.variant_processor`]: configuring.html#config-active-storage-variant-processor
-[`config.active_storage.web_image_content_types`]: configuring.html#config-active-storage-web-image-content-types
-[`variant`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-variant
-[Vips]: https://www.rubydoc.info/gems/ruby-vips/Vips/Image
-[`image_processing`]: https://github.com/janko/image_processing
+[`config.active_storage.variable_content_types`]:
+  configuring.html#config-active-storage-variable-content-types
+[`config.active_storage.variant_processor`]:
+  configuring.html#config-active-storage-variant-processor
+[`config.active_storage.web_image_content_types`]:
+  configuring.html#config-active-storage-web-image-content-types
+[`variant`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-variant
+[Vips]:
+  https://www.rubydoc.info/gems/ruby-vips/Vips/Image
+[`image_processing`]:
+  https://github.com/janko/image_processing
 
 ファイルのプレビュー
 -----------------------
@@ -930,8 +966,10 @@ Active Storageでは、バリアントプロセッサとして[Vips][]またはM
 
 別のフォーマットのサポートを追加するには、独自のプレビューアを追加します。詳しくは[`ActiveStorage::Preview`][]ドキュメントを参照してください。
 
-[`preview`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-preview
-[`ActiveStorage::Preview`]: https://api.rubyonrails.org/classes/ActiveStorage/Preview.html
+[`preview`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-preview
+[`ActiveStorage::Preview`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/Preview.html
 
 ダイレクトアップロード
 --------------------------
@@ -1272,7 +1310,7 @@ class DirectUploadsController < ActiveStorage::DirectUploadsController
   before_action :authenticate!
 
   def authenticate!
-    @token = request.headers['Authorization']&.split&.last
+    @token = request.headers["Authorization"]&.split&.last
 
     head :unauthorized unless valid_token?(@token)
   end
@@ -1301,7 +1339,8 @@ class SignupController < ActionDispatch::IntegrationTest
 end
 ```
 
-[`file_fixture_upload`]: https://api.rubyonrails.org/classes/ActionDispatch/TestProcess/FixtureFile.html#method-i-file_fixture_upload
+[`file_fixture_upload`]:
+  https://api.rubyonrails.org/classes/ActionDispatch/TestProcess/FixtureFile.html#method-i-file_fixture_upload
 
 テスト中に作成したファイルを破棄する
 -----------------------------------------------
@@ -1439,8 +1478,10 @@ Minitest.after_run do
 end
 ```
 
-[フィクスチャ]: testing.html#フィクスチャのしくみ
-[`ActiveStorage::FixtureSet`]: https://api.rubyonrails.org/classes/ActiveStorage/FixtureSet.html
+[フィクスチャ]:
+  testing.html#フィクスチャのしくみ
+[`ActiveStorage::FixtureSet`]:
+  https://api.rubyonrails.org/classes/ActiveStorage/FixtureSet.html
 
 ### サービスを設定する
 
