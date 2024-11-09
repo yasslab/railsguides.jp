@@ -322,7 +322,7 @@ WARNING: **Webアプリケーションにおけるリダイレクトは、過小
 
 ```ruby
 def legacy
-  redirect_to(params.update(action: 'main'))
+  redirect_to(params.update(action: "main"))
 end
 ```
 
@@ -355,10 +355,10 @@ def sanitize_filename(filename)
   filename.strip.tap do |name|
     # メモ: File.basenameは、Unix上でのWindowsパスに対しては正常に動作しません
     # フルパスではなくファイル名のみを取得
-    name.sub!(/\A.*(\\|\/)/, '')
+    name.sub!(/\A.*(\\|\/)/, "")
     # 最終的に非英数文字をアンダースコアまたは
     # ピリオドとアンダースコアに置き換える
-    name.gsub!(/[^\w.-]/, '_')
+    name.gsub!(/[^\w.-]/, "_")
   end
 end
 ```
@@ -382,16 +382,16 @@ NOTE: **ユーザーに任意ファイルのダウンロードを許可しない
 ファイルアップロード時にファイル名のフィルタが必要になるのと同様に、ファイルのダウンロード時にもファイル名をフィルタしなければなりません。以下の`send_file()`メソッドは、サーバーからクライアントにファイルを送信します。ファイル名がフィルタ処理されていないと、ユーザーが任意のファイルをダウンロード可能になってしまいます。
 
 ```ruby
-send_file('/var/www/uploads/' + params[:filename])
+send_file("/var/www/uploads/" + params[:filename])
 ```
 
 上のコードでは、たとえば「../../../etc/passwd」のようなファイル名を渡すだけで、サーバーのログイン情報をダウンロードできてしまいます。これに対するシンプルな対策は、**リクエストされたファイル名が、想定されているディレクトリの下にあるかどうかをチェックする**ことです。
 
 ```ruby
-basename = File.expand_path('../../files', __dir__)
+basename = File.expand_path("../../files", __dir__)
 filename = File.expand_path(File.join(basename, @file.public_filename))
 raise if basename != File.expand_path(File.dirname(filename))
-send_file filename, disposition: 'inline'
+send_file filename, disposition: "inline"
 ```
 
 別の方法は、ファイル名をデータベースに保存しておき、データベースのidをサーバーのディスク上に置く実際のファイル名の代わりに使うことです（これは上の方法と併用可能です）。この方法も、アップロードファイルが実行される可能性を回避する方法として優れています。`attachment_fu`プラグインでも同様の手法が採用されています。
@@ -823,14 +823,14 @@ alert(eval('document.body.inne' + 'rHTML'));
 たとえば、RedClothは`_test_`を`<em>test<em>`（イタリックテキスト）に変換しますが、デフォルトでは安全でないHTMLタグをフィルタで除外しません。
 
 ```ruby
-RedCloth.new('<script>alert(1)</script>').to_html
+RedCloth.new("<script>alert(1)</script>").to_html
 # => "<script>alert(1)</script>"
 ```
 
 テキスタイルプロセッサによって作成されていないHTMLを除去するには、`:filter_html`オプションをお使いください。
 
 ```ruby
-RedCloth.new('<script>alert(1)</script>', [:filter_html]).to_html
+RedCloth.new("<script>alert(1)</script>", [:filter_html]).to_html
 # => "alert(1)"
 ```
 
@@ -875,21 +875,21 @@ system("/bin/echo", "hello; rm *")
 `Kernel#open`に、垂直バー`|`で始まる引数を渡すとOSコマンドを実行できてしまいます。
 
 ```ruby
-open('| ls') { |file| file.read }
+open("| ls") { |file| file.read }
 # lsコマンドのファイルリストをStringとして返す
 ```
 
 対策は、代わりに`File.open`、`IO.open`、`URI#open`を使うことです。これらはOSコマンドを実行しません。
 
 ```ruby
-File.open('| ls') { |file| file.read }
+File.open("| ls") { |file| file.read }
 # lsコマンドは実行されず、単に`| ls`というファイルが存在すれば開く
 
 IO.open(0) { |file| file.read }
 # stdinをオープンするが、引数をStringとして受け取らない
 
-require 'open-uri'
-URI('https://example.com').open { |file| file.read }
+require "open-uri"
+URI("https://example.com").open { |file| file.read }
 # URLを開くが、`URI()`は`| ls`を受け取らない
 ```
 
@@ -1051,19 +1051,19 @@ HTTPセキュリティヘッダー
 
 ```ruby
 config.action_dispatch.default_headers = {
-  'X-Frame-Options' => 'SAMEORIGIN',
-  'X-XSS-Protection' => '0',
-  'X-Content-Type-Options' => 'nosniff',
-  'X-Permitted-Cross-Domain-Policies' => 'none',
-  'Referrer-Policy' => 'strict-origin-when-cross-origin'
+  "X-Frame-Options" => "SAMEORIGIN",
+  "X-XSS-Protection" => "0",
+  "X-Content-Type-Options" => "nosniff",
+  "X-Permitted-Cross-Domain-Policies" => "none",
+  "Referrer-Policy" => "strict-origin-when-cross-origin"
 }
 ```
 
 これらのヘッダーを上書きしたりヘッダーを追加するには、`config/application.rb`で以下のように設定します。
 
 ```ruby
-config.action_dispatch.default_headers['X-Frame-Options'] = 'DENY'
-config.action_dispatch.default_headers['Header-Name']     = 'Value'
+config.action_dispatch.default_headers["X-Frame-Options"] = "DENY"
+config.action_dispatch.default_headers["Header-Name"]     = "Value"
 ```
 
 以下のようにヘッダーを除去することもできます。
@@ -1272,9 +1272,9 @@ gem "rack-cors"
 # config/initializers/cors.rb
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'example.com'
+    origins "example.com"
 
-    resource '*',
+    resource "*",
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
@@ -1365,4 +1365,4 @@ WARNING: マスターキーは安全な場所に保管してください。マ�
 
 * Railsセキュリティ [メーリングリスト](https://discuss.rubyonrails.org/c/security-announcements/9)を購読しましょう。
 * [Mozilla's Web Security Guidelines](https://infosec.mozilla.org/guidelines/web_security.html): Content Security Policy、HTTPヘッダー、cookie、TLS接続などの推奨事項が掲載されています。
-* OWASPの[優れたセキュリティブログ](https://owasp.org)には[クロスサイトスクリプティングのチートシート](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md)が掲載されています。
+* OWASPの[優れたセキュリティ関連リソース](https://owasp.org)のうち、特に[チートシートシリーズ](https://cheatsheetseries.owasp.org/index.html)には、[クロスサイトスクリプティングのチートシート](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)が掲載されています。
