@@ -37,7 +37,7 @@ Action Cableが導入されたことで、Railsアプリケーションの効率
 ### API アプリケーション
 
 APIのみを提供するシンプルなアプリケーションをRailsで簡単に作成できるようになりました。
-[Twitter](https://dev.twitter.com) APIや [GitHub](http://developer.github.com) APIのような一般公開APIサーバーはもちろん、カスタムアプリケーション用APIサーバーの作成・公開にも便利です。
+[X](https://developer.x.com) APIや [GitHub](http://developer.github.com) APIのような一般公開APIサーバーはもちろん、カスタムアプリケーション用APIサーバーの作成・公開にも便利です。
 
 API Railsアプリケーションの生成には次のコマンドを使います。
 

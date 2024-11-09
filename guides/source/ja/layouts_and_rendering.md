@@ -205,7 +205,7 @@ NOTE: デフォルトでは、`:plain`オプションを指定すると現在の
 `render`メソッドで`:html`オプションを指定すると、HTML文字列をブラウザに送信できます。
 
 ```ruby
-render html: helpers.tag.strong('Not Found')
+render html: helpers.tag.strong("Not Found")
 ```
 
 TIP: この手法は、HTMLコードのごく小さなスニペットを出力したい場合に便利です。マークアップが複雑な場合は、テンプレートファイルに移行することを検討しましょう。

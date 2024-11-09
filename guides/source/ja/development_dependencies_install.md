@@ -94,7 +94,7 @@ $ brew services start mysql
 
 ```bash
 $ sudo apt-get update
-$ sudo apt-get install sqlite3 libsqlite3-dev mysql-server libmysqlclient-dev postgresql postgresql-client postgresql-contrib libpq-dev redis-server memcached imagemagick ffmpeg mupdf mupdf-tools libxml2-dev libvips42 poppler-utils
+$ sudo apt-get install sqlite3 libsqlite3-dev mysql-server libmysqlclient-dev postgresql postgresql-client postgresql-contrib libpq-dev redis-server memcached imagemagick ffmpeg mupdf mupdf-tools libxml2-dev libvips42 poppler-utils libyaml-dev libffi-dev
 
 # Yarnをインストールする
 # Node.jsがインストールされない場合は以下のコマンドを使う
@@ -230,7 +230,8 @@ $ bundle install
 または、Active Recordのテストを実行する必要がない場合は、以下を実行します。
 
 ```bash
-$ bundle install --without db
+$ bundle config set without db
+$ bundle install
 ```
 
 [Bundler]: https://bundler.io/

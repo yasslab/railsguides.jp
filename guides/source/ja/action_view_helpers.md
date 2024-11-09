@@ -13,7 +13,8 @@ Action View ヘルパー
 
 本ガイドでは、Action Viewで利用できるヘルパーのうち、**最もよく使われるヘルパーの一部**の概要を解説するにとどめています。本ガイドはヘルパー入門として提供されていますが、すべてのヘルパーについて詳しい説明が網羅されている[APIドキュメント][API Documents]も参照するのがオススメです。
 
-[API Documents]: https://api.rubyonrails.org/classes/ActionView/Helpers.html
+[API Documents]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers.html
 
 フォーマット用ヘルパー
 ----------
@@ -37,7 +38,8 @@ NOTE: 上のサンプルコードで`Time.now`ではなく`Time.current`を使�
 
 詳しくは[`distance_of_time_in_words`][]APIドキュメントを参照してください。
 
-[`distance_of_time_in_words`]: https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-distance_of_time_in_words
+[`distance_of_time_in_words`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-distance_of_time_in_words
 
 #### `time_ago_in_words`
 
@@ -49,7 +51,8 @@ time_ago_in_words(3.minutes.from_now) # => 3 minutes
 
 詳しくは[`time_ago_in_words`][] APIドキュメントを参照してください。
 
-[`time_ago_in_words`]: https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-time_ago_in_words
+[`time_ago_in_words`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-time_ago_in_words
 
 ### 数値ヘルパー
 
@@ -65,7 +68,8 @@ number_to_currency(1234567890.50) # => $1,234,567,890.50
 
 詳しくは[`number_to_currency`][] APIドキュメントを参照してください。
 
-[`number_to_currency`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency
+[`number_to_currency`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency
 
 #### `number_to_human`
 
@@ -78,7 +82,8 @@ number_to_human(1234567) # => 1.23 Million
 
 詳しくは[`number_to_human`][] APIドキュメントを参照してください。
 
-[`number_to_human`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human
+[`number_to_human`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human
 
 #### `number_to_human_size`
 
@@ -91,7 +96,8 @@ number_to_human_size(1234567) # => 1.18 MB
 
 詳しくは[`number_to_human_size`][] APIドキュメントを参照してください。
 
-[`number_to_human_size`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human_size
+[`number_to_human_size`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_human_size
 
 #### `number_to_percentage`
 
@@ -103,7 +109,8 @@ number_to_percentage(100, precision: 0) # => 100%
 
 詳しくは[`number_to_percentage`][] APIドキュメントを参照してください。
 
-[`number_to_percentage`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_percentage
+[`number_to_percentage`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_percentage
 
 #### `number_to_phone`
 
@@ -115,7 +122,8 @@ number_to_phone(1235551234) # => 123-555-1234
 
 詳しくは[`number_to_phone`][] APIドキュメントを参照してください。
 
-[`number_to_phone`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_phone
+[`number_to_phone`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_phone
 
 #### `number_with_delimiter`
 
@@ -127,7 +135,8 @@ number_with_delimiter(12345678) # => 12,345,678
 
 詳しくは[`number_with_delimiter`][] APIドキュメントを参照してください。
 
-[`number_with_delimiter`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_delimiter
+[`number_with_delimiter`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_delimiter
 
 #### `number_with_precision`
 
@@ -140,7 +149,8 @@ number_with_precision(111.2345, precision: 2) # => 111.23
 
 詳しくは[`number_with_precision`][] APIドキュメントを参照してください。
 
-[`number_with_precision`]: https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision
+[`number_with_precision`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision
 
 ### テキストヘルパー
 
@@ -160,7 +170,8 @@ excerpt("This is also an example", "an", radius: 8, omission: "<chop> ")
 
 詳しくは[`excerpt`][] APIドキュメントを参照してください。
 
-[`excerpt`]: https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-excerpt
+[`excerpt`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-excerpt
 
 #### `pluralize`
 
@@ -174,7 +185,8 @@ pluralize(3, "person", plural: "users") # => 3 users
 
 詳しくは[`pluralize`][] APIドキュメントを参照してください。
 
-[`pluralize`]: https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-pluralize
+[`pluralize`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-pluralize
 
 #### `truncate`
 
@@ -199,7 +211,8 @@ truncate("<p>Once upon a time in a world far far away</p>", escape: false)
 
 詳しくは[`truncate`][] APIドキュメントを参照してください。
 
-[`truncate`]: https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-truncate
+[`truncate`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-truncate
 
 #### `word_wrap`
 
@@ -212,7 +225,8 @@ word_wrap("Once upon a time", line_width: 8)
 
 詳しくは[`word_wrap`][] APIドキュメントを参照してください。
 
-[`word_wrap`]: https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-word_wrap
+[`word_wrap`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-word_wrap
 
 フォームヘルパー
 ------------
@@ -244,7 +258,8 @@ word_wrap("Once upon a time", line_width: 8)
 
 詳しくは[`button_to`][] APIドキュメントを参照してください。
 
-[`button_to`]: https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to
+[`button_to`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-button_to
 
 ### `current_page?`
 
@@ -258,7 +273,8 @@ word_wrap("Once upon a time", line_width: 8)
 
 詳しくは[`current_page?`][] APIドキュメントを参照してください。
 
-[`current_page?`]: https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-current_page-3F
+[`current_page?`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-current_page-3F
 
 ### `link_to`
 
@@ -299,7 +315,8 @@ link_to "Articles", articles_path, id: "articles", class: "article__container"
 
 詳しくは[`link_to`][] APIドキュメントを参照してください。
 
-[`link_to`]: https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+[`link_to`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
 
 ### `mail_to`
 
@@ -316,7 +333,8 @@ mail_to "me@john_doe.com", cc: "me@jane_doe.com",
 
 詳しくは[`mail_to`][] APIドキュメントを参照してください。
 
-[`mail_to`]: https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to
+[`mail_to`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to
 
 ### `url_for`
 
@@ -365,7 +383,8 @@ end
 
 詳しくは[`sanitize`][] APIドキュメントを参照してください。
 
-[`sanitize`]: https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-sanitize
+[`sanitize`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-sanitize
 
 ### `sanitize_css`
 
@@ -379,7 +398,8 @@ sanitize_css("background-color: red; color: white; font-size: 16px;")
 
 詳しくは[`sanitize_css`][] APIドキュメントを参照してください。
 
-[`sanitize_css`]: https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-sanitize_css
+[`sanitize_css`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-sanitize_css
 
 ### `strip_links`
 
@@ -398,7 +418,8 @@ strip_links("Blog: <a href='http://myblog.com/'>Visit</a>.")
 
 詳しくは[`strip_links`][] APIドキュメントを参照してください。
 
-[`strip_links`]: https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-strip_links
+[`strip_links`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-strip_links
 
 ### `strip_tags`
 
@@ -418,7 +439,8 @@ strip_links('<<a href="https://example.org">malformed & link</a>')
 
 詳しくは[`strip_tags`][] APIドキュメントを参照してください。
 
-[`strip_tags`]: https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-strip_tags
+[`strip_tags`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html#method-i-strip_tags
 
 アセットヘルパー
 -------------
@@ -461,7 +483,8 @@ INFO: `audio_tag`の内部では、[`AssetUrlHelper`の`audio_path`](https://api
 
 詳しくは[`audio_tag`][] APIドキュメントを参照してください。
 
-[`audio_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-audio_tag
+[`audio_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-audio_tag
 
 ### `auto_discovery_link_tag`
 
@@ -474,7 +497,8 @@ auto_discovery_link_tag(:rss, "http://www.example.com/feed.rss", { title: "RSS F
 
 詳しくは[`auto_discovery_link_tag`][] APIドキュメントを参照してください。
 
-[`auto_discovery_link_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-auto_discovery_link_tag
+[`auto_discovery_link_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-auto_discovery_link_tag
 
 ### `favicon_link_tag`
 
@@ -487,7 +511,8 @@ favicon_link_tag
 
 詳しくは[`favicon_link_tag`][] APIドキュメントを参照してください。
 
-[`favicon_link_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-favicon_link_tag
+[`favicon_link_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-favicon_link_tag
 
 ### `image_tag`
 
@@ -505,7 +530,8 @@ INFO: `image_tag`の内部では、[`AssetUrlHelper`の`image_path`](https://api
 
 詳しくは[`image_tag`][] APIドキュメントを参照してください。
 
-[`image_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag
+[`image_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-image_tag
 
 ### `javascript_include_tag`
 
@@ -525,7 +551,8 @@ INFO: `javascript_include_tag`の内部では、[`AssetUrlHelper`の`javascript_
 
 詳しくは[`javascript_include_tag`][] APIドキュメントを参照してください。
 
-[`javascript_include_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-javascript_include_tag
+[`javascript_include_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-javascript_include_tag
 
 ### `picture_tag`
 
@@ -547,7 +574,8 @@ picture_tag("icon.webp", "icon.png")
 
 詳しくは[`picture_tag`][] APIドキュメントを参照してください。
 
-[`picture_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-picture_tag
+[`picture_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-picture_tag
 
 ### `preload_link_tag`
 
@@ -560,7 +588,8 @@ preload_link_tag("application.css")
 
 詳しくは[`preload_link_tag`][] APIドキュメントを参照してください。
 
-[`preload_link_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-preload_link_tag
+[`preload_link_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-preload_link_tag
 
 ### `stylesheet_link_tag`
 
@@ -580,7 +609,8 @@ INFO: `stylesheet_link_tag`の内部では、[`AssetUrlHelper`の`stylesheet_pat
 
 詳しくは[`stylesheet_link_tag`][] APIドキュメントを参照してください。
 
-[`stylesheet_link_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-stylesheet_link_tag
+[`stylesheet_link_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-stylesheet_link_tag
 
 ### `video_tag`
 
@@ -601,7 +631,8 @@ INFO: `video_tag`の内部では、[`AssetUrlHelper`の`video_path`](https://api
 
 詳しくは[`video_tag`][] APIドキュメントを参照してください。
 
-[`video_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-video_tag
+[`video_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html#method-i-video_tag
 
 JavaScriptヘルパー
 -----------------
@@ -630,7 +661,8 @@ My name is <%= current_user.name %>, and I'm here to say "Welcome to our website
 
 詳しくは[`escape_javascript`][] APIドキュメントを参照してください。
 
-[`escape_javascript`]: https://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html#method-i-escape_javascript
+[`escape_javascript`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html#method-i-escape_javascript
 
 ### `javascript_tag`
 
@@ -658,7 +690,8 @@ alert('All is good')
 
 詳しくは[`javascript_tag`][] APIドキュメントを参照してください。
 
-[`javascript_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html#method-i-javascript_tag
+[`javascript_tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html#method-i-javascript_tag
 
 タグ生成ヘルパー
 ----------------
@@ -703,7 +736,8 @@ tag.div data: { user_id: 123 }
 
 詳しくは[`tag`][] APIドキュメントを参照してください（訳注: `tag`ヘルパーで生成されるタグはHTML5に準拠しており、閉じタグの自動追加やコンテンツのブロック渡しなどもサポートしています）。
 
-[`tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-tag
+[`tag`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-tag
 
 ### `token_list`
 
@@ -762,7 +796,8 @@ class_names("flex items-#{alignment}", "flex-col": mobile) # エイリアス
 
 詳しくは[`capture`][] APIドキュメントを参照してください。
 
-[`capture`]: https://api.rubyonrails.org/classes/ActionView/Helpers/CaptureHelper.html#method-i-capture
+[`capture`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/CaptureHelper.html#method-i-capture
 
 ### `content_for`
 
@@ -809,7 +844,8 @@ NOTE: `capture`と`content_for`の違いでお悩みの方へ。<br><br>
 
 詳しくは[`content_for`][] APIドキュメントを参照してください。
 
-[`content_for`]: https://api.rubyonrails.org/classes/ActionView/Helpers/CaptureHelper.html#method-i-content_for
+[`content_for`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/CaptureHelper.html#method-i-content_for
 
 パフォーマンス測定ヘルパー
 ----------------------
@@ -830,7 +866,8 @@ NOTE: `benchmark`はActive Supportのメソッドなので、コントローラ�
 
 詳しくは[`benchmark`][] APIドキュメントを参照してください。
 
-[`benchmark`]: https://api.rubyonrails.org/classes/ActiveSupport/Benchmarkable.html#method-i-benchmark
+[`benchmark`]:
+  https://api.rubyonrails.org/classes/ActiveSupport/Benchmarkable.html#method-i-benchmark
 
 ### `cache`
 
@@ -864,7 +901,8 @@ views/articles/index:bea67108094918eeba32cd4a6f786301/articles/1
 
 詳しくは、[フラグメントキャッシュ](caching_with_rails.html#フラグメントキャッシュ)ガイドや[`cache`][] APIドキュメントを参照してください。
 
-[`cache`]: https://api.rubyonrails.org/classes/ActionView/Helpers/CacheHelper.html#method-i-cache
+[`cache`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/CacheHelper.html#method-i-cache
 
 その他のヘルパー
 -------------
@@ -913,7 +951,8 @@ end
 
 詳しくは[`atom_feed`][] APIドキュメントを参照してください。
 
-[`atom_feed`]: https://api.rubyonrails.org/classes/ActionView/Helpers/AtomFeedHelper.html#method-i-atom_feed
+[`atom_feed`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/AtomFeedHelper.html#method-i-atom_feed
 
 ### `debug`
 
@@ -937,4 +976,5 @@ third:
 
 詳しくは[`debug`][] APIドキュメントを参照してください。
 
-[`debug`]: https://api.rubyonrails.org/classes/ActionView/Helpers/DebugHelper.html#method-i-debug
+[`debug`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/DebugHelper.html#method-i-debug

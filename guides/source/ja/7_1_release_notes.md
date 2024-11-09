@@ -185,7 +185,7 @@ development:
 または、以下のように`DATABASE_URL`環境変数で統合することも可能です。
 
 ```ruby
-ENV['DATABASE_URL'] # => "trilogy://localhost/blog_development?pool=5"
+ENV["DATABASE_URL"] # => "trilogy://localhost/blog_development?pool=5"
 ```
 
 [#47880]: https://github.com/rails/rails/pull/47880
@@ -606,7 +606,7 @@ Action View
 
 ### 主な変更点
 
-* `check_box_tag`と`radio_button_tag`に`checked:`をキーワード引数として渡せるようになった（[#45527][]）。
+* `checkbox_tag`と`radio_button_tag`に`checked:`をキーワード引数として渡せるようになった（[#45527][]）。
 
 * HTML `<picture>`タグを生成する`picture_tag`を追加（[#48100][]）。
 

@@ -27,7 +27,7 @@ Active Record の複合主キー
 `create_table`に`:primary_key`オプションで配列の値を渡すことで、複合主キーを持つテーブルを作成できます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[7.2]
+class CreateProducts < ActiveRecord::Migration[8.0]
   def change
     create_table :products, primary_key: [:store_id, :sku] do |t|
       t.integer :store_id
@@ -242,7 +242,7 @@ end
 ルーティングは以下のようになっているとします。
 
 ```ruby
-get '/books/:id', to: 'books#show'
+get "/books/:id", to: "books#show"
 ```
 
 ユーザーがURL `/books/4_2`を開くと、コントローラは複合主キーの値`["4", "2"]`を抽出して`Book.find`に渡し、ビューで正しいレコードを表示します。`extract_value`メソッドは、区切られた任意のパラメータから配列を抽出するのに利用できます。

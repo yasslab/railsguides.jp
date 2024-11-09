@@ -110,7 +110,7 @@ end
 `options[:env]`を指定すると、`config/environments`ディレクトリに置かれている同等のファイルに追加します。
 
 ```ruby
-environment 'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}', env: 'production'
+environment 'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}', env: "production"
 ```
 
 `data`引数の代わりにブロックを１つ渡すこともできます。
@@ -122,7 +122,7 @@ environment 'config.action_mailer.default_url_options = {host: "http://yourwebsi
 たとえば、`Object#not_nil?`と`Object#not_blank?`というメソッドを使いたい場合は以下のようにします。
 
 ```ruby
-initializer 'bloatlol.rb', <<-CODE
+initializer "bloatlol.rb", <<-CODE
   class Object
     def not_nil?
       !nil?
@@ -140,7 +140,7 @@ CODE
 `file()`メソッドを使えば、`Rails.root`からの相対パスを渡してディレクトリやファイルを自由に作成することもできます。
 
 ```ruby
-file 'app/components/foo.rb', <<-CODE
+file "app/components/foo.rb", <<-CODE
   class Foo
   end
 CODE
@@ -193,7 +193,7 @@ rails_command "db:migrate"
 Railsの環境を指定してrailsコマンドを実行することもできます。
 
 ```ruby
-rails_command "db:migrate", env: 'production'
+rails_command "db:migrate", env: "production"
 ```
 
 スーパーユーザーとしてコマンドを実行することもできます。
@@ -215,7 +215,7 @@ route "root to: 'person#index'"
 指定のディレクトリでコマンドを実行します。たとえば、自分のコンピュータにedge railsリポジトリのコピーがあり、自分の新しいアプリケーションからそこにシンボリックリンクを張るには以下のようにします。
 
 ```ruby
-inside('vendor') do
+inside("vendor") do
   run "ln -s ~/commit-rails/rails rails"
 end
 ```
@@ -260,7 +260,7 @@ gemのバンドルとbinstub生成の完了後に実行したいコールバッ�
 ```ruby
 after_bundle do
   git :init
-  git add: '.'
+  git add: "."
   git commit: "-a -m 'Initial commit'"
 end
 ```

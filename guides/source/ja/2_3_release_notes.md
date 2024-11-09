@@ -185,7 +185,7 @@ developers = Developer.find(:all, :group => "salary",
 
 MySQLコネクションで再接続フラグをサポートされました。trueに設定すると、コネクションが切れてあきらめる前にクライアントがサーバーへの再接続を試みます。Railsアプリケーションでこの動作を有効にするために、`database.yml`でMySQL接続に `reconnect = true` を設定できるようになりました。デフォルトは `false` なので、既存のアプリケーションの動作は変わりません。
 
-* リードコントリビュータ: [Dov Murik](http://twitter.com/dubek)
+* リードコントリビュータ: [Dov Murik](http://x.com/dubek)
 * 詳細:
     * [Controlling Automatic Reconnection Behavior](http://dev.mysql.com/doc/refman/5.6/en/auto-reconnect.html)
     * [MySQL auto-reconnect revisited](http://groups.google.com/group/rubyonrails-core/browse_thread/thread/49d2a7e9c96cb9f4)
@@ -365,7 +365,7 @@ Rails 2.3では以下のようにビューを書けます。
       <% unless order_form.object.new_record? %>
         <div>
           <%= order_form.label :_delete, 'Remove:' %>
-          <%= order_form.check_box :_delete %>
+          <%= order_form.checkbox :_delete %>
         </div>
       <% end %>
     </p>

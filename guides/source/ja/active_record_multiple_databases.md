@@ -44,7 +44,7 @@ production:
 
 animalという名前の第2のデータベースを追加して、両方のデータベースにそれぞれreplicaを追加してみましょう。これを行うには、`config/database.yml`を以下のように2層（2-tier）設定から3層（3-tier）設定に変更する必要があります。
 
-`primary`設定キーがある場合、これが「デフォルト」の設定として使われます。`primary`という名前の設定キーがない場合、Railsは最初の設定を各環境で使います。
+`primary`設定キーが指定されている場合、これが「デフォルト」の設定として使われます。`primary`という名前の設定キーがない場合、Railsは最初の設定を各環境で使います。
 デフォルトの設定では、デフォルトのRailsのファイル名が使われます。たとえば、`primary`設定のスキーマファイル名には`db/schema.rb`が使われ、その他のエントリではファイル名に`db/設定の名前空間_schema.rb`が使われます。
 
 ```yaml
@@ -213,7 +213,7 @@ $ bin/rails generate migration CreateDogs name:string --database animals
 $ bin/rails generate scaffold Dog name:string --database animals
 ```
 
-データベース名の末尾に`Record`を加えた抽象クラスが作成されます。この例ではデータベースが`Animals`なので、`AnimalsRecord`が作成されます。
+データベース名の末尾に`Record`を加えた抽象クラスが作成されます。この例ではデータベースが"animals"なので、`AnimalsRecord`が作成されます。
 
 ```ruby
 class AnimalsRecord < ApplicationRecord

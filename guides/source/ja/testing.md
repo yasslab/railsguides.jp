@@ -558,7 +558,6 @@ class MyTest < ActiveSupport::TestCase
 end
 ```
 
-
 ### Railsのテストランナー
 
 `bin/rails test`コマンドを使ってすべてのテストを一括実行できます。
