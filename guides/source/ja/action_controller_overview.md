@@ -393,7 +393,7 @@ name, emails, friends = params.expect(
 
 #### その他の例
 
-> 訳注: [従来本ガイドで紹介](v7.2/action_controller_overview.html#その他の例)されていた`params.fetch(:blog, {}).permit(:title, :author)`のような`fetch`を使う書き方は、Rails 8.0で本ガイドから削除されました（[#51674](https://github.com/rails/rails/pull/51674)）。
+> 訳注: Rails 7.2のガイドまで記載されていた、`params.fetch(:blog, {}).permit(:title, :author)`のような`fetch`を使う書き方は、Rails 8.0で本ガイドから削除されました（[#51674](https://github.com/rails/rails/pull/51674)）。
 
 モデルの`accepts_nested_attributes_for`クラスメソッドを使うと、関連付けられたレコードを更新・削除できるようになります。以下は`id`と`_destroy`パラメータに基づいています。
 
