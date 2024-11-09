@@ -66,7 +66,7 @@ class User < ApplicationRecord
 end
 ```
 
-以下のように、**コールバックにprocを渡してトリガー*させる*ことも可能です。
+以下のように、**コールバックにprocを渡してトリガーさせる**ことも可能です。
 
 ```ruby
 class User < ApplicationRecord
@@ -76,7 +76,7 @@ class User < ApplicationRecord
 end
 ```
 
-最後に、独自の[カスタムコールバックオブジェクト](#コールバックオブジェクト)も定義できます。これについては後述します。
+最後に、**独自の[カスタムコールバックオブジェクト](#コールバックオブジェクト)**も定義できます。これについては後述します。
 
 ```ruby
 class User < ApplicationRecord
@@ -170,7 +170,7 @@ Active Recordで利用可能なコールバックの一覧を以下に示しま�
 
 #### バリデーション時のコールバック
 
-バリデーション時のコールバックは、レコードが[`valid?`](https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-valid-3F)（またはエイリアスの[`validate`](https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-validate)）、または[`invalid?`](https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-invalid-3F)メソッドで直接バリデーションされるか、もしくは`create`、`update`、`save`で間接的にバリデーションされるたびにトリガーされます。これらはバリデーションフェーズの直前（`before_validation`）または直後（`after_validation`）に呼び出されます。
+バリデーション時のコールバックは、レコードが[`valid?`][]（またはエイリアスの[`validate`][]）、または[`invalid?`][]メソッドで直接バリデーションされるか、もしくは`create`、`update`、`save`で間接的にバリデーションされるたびにトリガーされます。これらはバリデーションフェーズの直前（`before_validation`）または直後（`after_validation`）に呼び出されます。
 
 ```ruby
 class User < ApplicationRecord
@@ -200,6 +200,13 @@ Name titleized to
 Validation failed: Name can't be blank
 => false
 ```
+
+[`valid?`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-valid-3F
+[`validate`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-validate
+[`invalid?`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-invalid-3F
 
 #### 保存時のコールバック
 
@@ -765,7 +772,7 @@ end
 
 WARNING: `ActiveRecord::Suppressor`を利用すると、コールバックの実行を選択的に制御できるメリットがある反面、コードが複雑になって思わぬ振る舞いが発生する可能性もあります。コールバックを抑制すると、アプリケーションで意図したフローがわかりにくくなり、今後のコードベースの理解やメンテナンスが困難になる可能性があります。コールバックを抑制した場合の影響の大きさを慎重に検討し、ドキュメント作成やテストを入念に実施して、意図しない副作用やパフォーマンスの問題、テストの失敗のリスクを軽減する必要があります。
 
-コールバックを停止する
+コールバックの停止
 -----------------
 
 モデルに新しくコールバックを登録すると、コールバックは実行キューに入ります。このキューには、あらゆるモデルに対するバリデーション、登録済みコールバック、実行待ちのデータベース操作が置かれます。
