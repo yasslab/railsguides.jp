@@ -1422,7 +1422,7 @@ end
 以下を実行して`Car`モデルのレコードを作成します。
 
 ```ruby
-Car.create(color: 'Red', price: 10000)
+Car.create(color: "Red", price: 10000)
 ```
 
 実際に生成されるSQLは次のようになります。
@@ -1452,7 +1452,7 @@ STIでは、子モデルに特定の振る舞いやメソッドを追加でき�
 ```ruby
 class Car < Vehicle
   def honk
-    'Beep Beep'
+    "Beep Beep"
   end
 end
 ```
@@ -1998,7 +1998,7 @@ class Author < ApplicationRecord
 end
 
 class Book < ApplicationRecord
-  belongs_to :writer, class_name: 'Author', foreign_key: 'author_id'
+  belongs_to :writer, class_name: "Author", foreign_key: "author_id"
 end
 ```
 
@@ -2053,11 +2053,11 @@ end
 
 ```ruby
 class Author < ApplicationRecord
-  has_many :books, inverse_of: 'writer'
+  has_many :books, inverse_of: "writer"
 end
 
 class Book < ApplicationRecord
-  belongs_to :writer, class_name: 'Author', foreign_key: 'author_id'
+  belongs_to :writer, class_name: "Author", foreign_key: "author_id"
 end
 ```
 
@@ -2145,11 +2145,11 @@ Railsの規約では、`id`カラムをテーブルの主キーとして使い�
 
 ```ruby
 class User < ApplicationRecord
-  self.primary_key = 'guid' # 主キーをidからguidに変更する
+  self.primary_key = "guid" # 主キーをidからguidに変更する
 end
 
 class Todo < ApplicationRecord
-  belongs_to :user, primary_key: 'guid' # usersテーブル内のguidを参照する
+  belongs_to :user, primary_key: "guid" # usersテーブル内のguidを参照する
 end
 ```
 
@@ -2362,7 +2362,7 @@ TIP: `select`を`belongs_to`関連付けで使う場合は、正しい結果を�
 
 ```ruby
 class Book < ApplicationRecord
-  belongs_to :author, -> { select(:id, :name) }, foreign_key: 'author_id' # idカラムとnameカラムだけをselectする
+  belongs_to :author, -> { select(:id, :name) }, foreign_key: "author_id" # idカラムとnameカラムだけをselectする
 end
 
 class Author < ApplicationRecord
