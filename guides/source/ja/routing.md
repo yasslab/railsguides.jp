@@ -690,7 +690,7 @@ get "photos(/:id)", to: "photos#display"
 get "photos/:id/:user_id", to: "photos#show"
 ```
 
-上のルーティングは、`/photos/1/2`のようなパスにマッチします。このときアクションで使える`params`は`{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
+上のルーティングは、`/photos/1/2`のようなパスにマッチします。このときアクションで使える`params`は`{ controller: "photos", action: "show", id: "1", user_id: "2" }`となります。
 
 TIP: デフォルトでは動的なセグメント分割にドット`.`を渡せません。ドットはフォーマット済みルーティングでは区切り文字として使われるためです。どうしても動的セグメント内でドットを使いたい場合は、デフォルト設定を上書きする制限を与えます。たとえば`id: /[^\/]+/`とすると、スラッシュ以外のすべての文字が使えます。
 
@@ -839,9 +839,9 @@ end
 
 NOTE: 制約の値は、対応するリクエストオブジェクトのメソッドの戻り値型と一致する必要があります。
 
-`format`の制限には例外があります。これはRequestオブジェクトのメソッドですが、すべてのパスに含まれる暗黙的なオプションのパラメータでもあります。`format`の制限よりセグメント制限が優先され、`format`制約はハッシュを通じて強制される場合にのみ適用されます。たとえば、`get 'foo'、constraints: { format： 'json' }`は`GET /foo`と一致します。
+`format`の制限には例外があります。これはRequestオブジェクトのメソッドですが、すべてのパスに含まれる暗黙的なオプションのパラメータでもあります。`format`の制限よりセグメント制限が優先され、`format`制約はハッシュを通じて強制される場合にのみ適用されます。たとえば、`get "foo"、constraints: { format： "json" }`は`GET /foo`と一致します。
 
-NOTE: `get 'foo', constraints: lambda { |req| req.format == :json }`のように制約で[lambdaを指定する](#高度な制限)と、明示的なJSONリクエストへのルーティングのみを一致させることも可能です。
+NOTE: `get "foo", constraints: lambda { |req| req.format == :json }`のように制約で[lambdaを指定する](#高度な制限)と、明示的なJSONリクエストへのルーティングのみを一致させることも可能です。
 
 [`constraints`]: https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Scoping.html#method-i-constraints
 
@@ -943,7 +943,7 @@ get "*a/foo/*b", to: "test#index"
 get "*pages", to: "pages#show"
 ```
 
-このルーティングに対して`'/foo/bar.json'`をリクエストしたときの`p​​arams[:pages]`は、`'foo/bar'`でリクエストフォーマット`params[:format]`にJSONを指定したものと等しくなります。
+このルーティングに対して`'/foo/bar.json'`をリクエストしたときの`p​​arams[:pages]`は、`"foo/bar"`でリクエストフォーマット`params[:format]`にJSONを指定したものと等しくなります。
 
 `format`のデフォルトの振る舞いは、URLにフォーマット指定が含まれていれば、それをURLから自動的にキャプチャして`params[:format]`に含めますが、この場合、URLの`format`パラメータは必須ではありません。
 
@@ -1137,7 +1137,7 @@ resources :user_permissions, controller: "admin/user_permissions"
 
 上は`Admin::UserPermissionsController`のインスタンスにルーティングされます。
 
-NOTE: ここでサポートされている記法は、`/`で区切る「ディレクトリ記法」のみです。コントローラをRubyの定数表記法（`controller: 'Admin::UserPermissions'`など）で指定する記法はサポートされていません。
+NOTE: ここでサポートされている記法は、`/`で区切る「ディレクトリ記法」のみです。コントローラをRubyの定数表記法（`controller: "Admin::UserPermissions"`など）で指定する記法はサポートされていません。
 
 ### 制限を`id`で指定する
 
@@ -1215,7 +1215,7 @@ resources :photos
 ```
 
 上のように`as:`を使うと、`/admin/photos`のルーティングヘルパーが、`photos_path`、`new_photos_path`などから`admin_photos_path`、`new_admin_photo_path`などに変更されます。
-`as: 'admin_photos'`をスコープ付き`resources :photos`に追加しない場合は、スコープなしの`resources :photos`はルーティングヘルパーを持つことができません。
+`as: "admin_photos"`をスコープ付き`resources :photos`に追加しない場合は、スコープなしの`resources :photos`はルーティングヘルパーを持つことができません。
 
 ルーティングヘルパーのグループにまとめてプレフィックスを追加するには、以下のように`scope`メソッドで`:as`オプションを使います。
 
