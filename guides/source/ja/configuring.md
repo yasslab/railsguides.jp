@@ -2102,7 +2102,7 @@ end
 | （オリジナル）           | `true`                |
 | 7.1以降                | `:all`                |
 
-### `config.action_dispatch.strict_freshness`
+#### `config.action_dispatch.strict_freshness`
 
 レスポンスに`Last-Modified`ヘッダーと`ETag`ヘッダーの両方が存在する場合に、`ActionDispatch::ETag`ミドルウェアが`ETag`ヘッダーを`Last-Modified`ヘッダーよりも優先するかどうかを設定します。
 
