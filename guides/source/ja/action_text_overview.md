@@ -20,7 +20,7 @@ Action Textは、リッチテキストコンテンツを手軽に処理・表示
 Trixエディタが生成するリッチテキストコンテンツは独自のRichTextモデルに保存され、このモデルはアプリケーションの既存のあらゆるActive Recordモデルと関連付けられます。
 あらゆる埋め込み画像（およびその他の添付ファイル）は自動的にActive Storageに保存され、`include`されたRichTextモデルに関連付けられます。
 
-Action Textには、Trixと呼ばれる[WYSIWYG](https://ja.wikipedia.org/wiki/WYSIWYG)エディタが含まれています。Trixはリッチテキストコンテンツの作成・編集用の使いやすいインターフェイスをユーザーに提供するためにWebアプリケーションで利用され、テキストの書式設定、リンクや引用の追加、画像埋め込みなど多くの機能が使えるようになります。Trixエディタの利用例について詳しくは[trix-editor.org](https://trix-editor.org/)を参照してください。
+Action Textには、Trixと呼ばれる[WYSIWYG](https://ja.wikipedia.org/wiki/WYSIWYG)エディタが含まれています。Trixはリッチテキストコンテンツの作成・編集用の使いやすいインターフェイスをユーザーに提供するためにWebアプリケーションで利用され、テキストの書式設定、リンクや引用の追加、画像埋め込みなど多くの機能が使えるようになります。Trixエディタの利用例について詳しくは[TrixエディタのWebサイト](https://trix-editor.org/)を参照してください。
 
 Trixエディタで生成されたリッチテキストコンテンツは、アプリケーションにある既存のActive Recordモデルに関連付け可能な独自のRichTextモデルに保存されます。さらに、埋め込み画像（またはその他の添付ファイル）は、Active Storage（依存関係として追加されます）自動的に保存されてRichTextモデルに関連付けられます。コンテンツをレンダリングするとき、Action Textが最初にコンテンツをサニタイズしてから処理するので、ページのHTMLに直接埋め込んでも安全です。
 
@@ -45,7 +45,7 @@ $ bin/rails action_text:install
   - `active_storage_blobs`
   - `active_storage_attachments`
   - `active_storage_variant_records`
-- `actiontext.css`を作成して`application.css`にインポートします。`application.css`にはTrixスタイルシートも含まれます。
+- `actiontext.css`を作成します。ここにはTrixスタイルシートも含まれます。
 - Action Textコンテンツをレンダリングするためのビューパーシャル`_content.html`と、Active Storageの添付ファイル（blob）をレンダリングするための`_blob.html`を追加します。
 
 続いて以下のようにマイグレーションを実行すると、アプリケーションに`action_text_*`テーブルと`active_storage_*`テーブルが追加されます。
@@ -79,14 +79,14 @@ end
 
 NOTE: Articleモデルのテーブルに`content`フィールドを追加する必要はありません（`has_rich_text`クラスメソッドによって、作成済みの`action_text_rich_texts`テーブルに関連付けられ、モデルにリンクされます）。また、属性名を`content`以外に変更することも可能です。
 
-`has_rich_text`クラスメソッドをモデルに追加したら、そのフィールドでリッチテキストエディタ（Trix）を利用できるようにビューを更新します。これを行うには、ビューのフォームフィールドで以下のように[`rich_text_area`][]メソッドを使います。
+`has_rich_text`クラスメソッドをモデルに追加したら、そのフィールドでリッチテキストエディタ（Trix）を利用できるようにビューを更新します。これを行うには、ビューのフォームフィールドで以下のように[`rich_textarea`][]メソッドを使います。
 
 ```html+erb
 <%# app/views/articles/_form.html.erb %>
 <%= form_with model: article do |form| %>
   <div class="field">
     <%= form.label :content %>
-    <%= form.rich_text_area :content %>
+    <%= form.rich_textarea :content %>
   </div>
 <% end %>
 ```
@@ -98,7 +98,7 @@ NOTE: Articleモデルのテーブルに`content`フィールドを追加する�
 ```ruby
 class ArticlesController < ApplicationController
   def create
-    article = Article.create! params.require(:article).permit(:title, :content)
+    article = Article.create! params.expect(article: [:title, :content])
     redirect_to article
   end
 end
@@ -108,7 +108,8 @@ end
 
 Action Textが依存しているポリモーフィック関連付けでは、クラス名をデータベースに保存する必要があるため、Rubyコードで使われるクラス名とデータがずれないよう常に同期を保つことが重要です。この同期は、保存したデータとコードベース内のクラス参照との一貫性を維持するうえで不可欠です。
 
-[`rich_text_area`]: https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-rich_text_area
+[`rich_textarea`]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-rich_textarea
 
 ## リッチテキストコンテンツをレンダリングする
 
@@ -130,13 +131,7 @@ NOTE: `content`フィールドに添付（attached）リソースが存在する
 
 デフォルトでは、Action TextはCSSの`.trix-content`クラスを宣言した要素内でリッチテキストコンテンツをレンダリングします。これは`app/views/layouts/action_text/contents/_content.html.erb`で設定されます。このクラスの要素のスタイルは、Trixのスタイルシートによって設定されます。
 
-Trixのスタイルのいずれかを更新したい場合は、`app/assets/stylesheets/actiontext.css`にカスタムスタイルを追加できます。
-
-ただし、独自のスタイルを提供したい場合や、デフォルトのTrixスタイルシートの代わりにサードパーティのライブラリを利用したい場合は、`app/assets/stylesheets/actiontext.css`ファイルで以下のプリプロセッサディレクティブを削除することでtrixを削除できます。
-
-```css
-= require trix
-```
+Trixのスタイルのいずれかを更新したい場合は、`app/assets/stylesheets/actiontext.css`にカスタムスタイルを追加できます。ここには、Trix用のスタイルシートの完全なセットと、Action Textで必要なオーバーライドの両方が含まれています。
 
 ### エディタコンテナをカスタマイズする
 
@@ -180,6 +175,15 @@ Trixのスタイルのいずれかを更新したい場合は、`app/assets/styl
 リッチテキストエディタ内で画像をアップロードするとAction Textが使われ、そしてActive Storageが使われます。ただし[Active Storageで使われる依存関係](active_storage_overview.html#要件)の中には、デフォルトのRailsでは提供されていないものもあります。組み込みのプレビューアを利用するには、これらのライブラリを別途インストールしておく必要があります。
 
 中には必須ではないライブラリもありますが、どのライブラリをインストールすべきかについては、エディタでのアップロードをサポートしたいファイルの種別によって異なります。ユーザーがAction TextやActive Storageを使うときによく遭遇するエラーは、エディタで画像が正しくレンダリングされないことです。このエラーは多くの場合、`libvips`依存関係がインストールされていないことが原因です。
+
+#### 添付ファイルのダイレクトアップロード用JavaScriptイベント
+
+| イベント名 | イベントのターゲット | イベントのデータ（`event.detail`）| 説明 |
+| --- | --- | --- | --- |
+| `direct-upload:start` | `<input>` | `{id, file}` | ダイレクトアップロードが開始中。|
+| `direct-upload:progress` | `<input>` | `{id, file, progress}` | ファイルの保存リクエストが進行中。|
+| `direct-upload:error` | `<input>` | `{id, file, error}` | エラーが発生。このイベントがキャンセルされない限り`alert`が表示される。|
+| `direct-upload:end` | `<input>` | `{id, file}` | ダイレクトアップロードが完了。|
 
 ### 署名済みGlobalID
 
