@@ -1220,7 +1220,7 @@ irb> person.valid?
 => false
 
 irb> person.errors.where(:name, :too_short, minimum: 3)
-=> [ ... ] # 最小が2で短すぎるすべてのnameのエラー
+=> [ ... ] # 最小が3で短すぎるすべてのnameのエラー
 ```
 
 これらのエラーオブジェクトから、さまざまな情報を読み出せます。
