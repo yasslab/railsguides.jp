@@ -1530,7 +1530,7 @@ INFO: `camelize`メソッドの動作は、`underscore`メソッドと逆の動�
 
 ```ruby
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.acronym 'SSL'
+  inflect.acronym "SSL"
 end
 
 "SSLError".underscore.camelize # => "SSLError"
@@ -2854,27 +2854,25 @@ NOTE: 定義は[`active_support/core_ext/object/deep_dup.rb`](https://github.com
 
 ### ハッシュキーの操作
 
-#### `except`と`except!`
+#### `except!`
 
-[`except`][Hash#except]メソッドは、引数で指定されたキーがあればレシーバのハッシュから取り除きます。
-
-```ruby
-{ a: 1, b: 2 }.except(:a) # => {:b=>2}
-```
-
-レシーバが`convert_key`に応答する場合、このメソッドはすべての引数に対して呼び出されます。そのおかげで、たとえばハッシュの`with_indifferent_access`で`except`メソッドが期待どおりに動作します。
+[`except!`][Hash#except!]メソッドは、組み込みの`except`と同一ですが、キーを取り除いて`self`を返す点が異なります。
 
 ```ruby
-{ a: 1 }.with_indifferent_access.except(:a)  # => {}
-{ a: 1 }.with_indifferent_access.except("a") # => {}
+{ a: 1, b: 2 }.except!(:a) # => {:b=>2}
+{ a: 1, b: 2 }.except!(:c) # => {:a=>1, :b=>2}
 ```
 
-レシーバーからキーを取り除く破壊的な[`except!`][Hash#except!]もあります。
+レシーバが`convert_key`に応答する場合、このメソッドは個別の引数に対して呼び出されます。そのおかげで、たとえばハッシュの`with_indifferent_access`で`except!`（および`except`）メソッドが期待どおりに動作します。
+
+```ruby
+{ a: 1 }.with_indifferent_access.except!(:a)  # => {}
+{ a: 1 }.with_indifferent_access.except!("a") # => {}
+```
 
 NOTE: 定義は[`active_support/core_ext/hash/except.rb`](https://github.com/rails/rails/blob/7-1-stable/activesupport/lib/active_support/core_ext/hash/except.rb)にあります。
 
 [Hash#except!]: https://api.rubyonrails.org/classes/Hash.html#method-i-except-21
-[Hash#except]: https://api.rubyonrails.org/classes/Hash.html#method-i-except
 
 #### `stringify_keys`と`stringify_keys!`
 
@@ -2896,7 +2894,7 @@ NOTE: 定義は[`active_support/core_ext/hash/except.rb`](https://github.com/rai
 このメソッドは、シンボルと文字列が両方含まれているハッシュをオプションとして受け取る場合に便利なことがあります。たとえば、`ActionView::Helpers::FormHelper`では以下のように定義されています。
 
 ```ruby
-def to_check_box_tag(options = {}, checked_value = "1", unchecked_value = "0")
+def to_checkbox_tag(options = {}, checked_value = "1", unchecked_value = "0")
   options = options.stringify_keys
   options["type"] = "checkbox"
   ...
@@ -2942,7 +2940,7 @@ WARNING: 上の例では、3つのキーのうち最後の1つしかシンボル
 このメソッドは、シンボルと文字列が両方含まれているハッシュをオプションとして受け取る場合に便利なことがあります。たとえば、`ActionText::TagHelper`では以下のように定義されています。
 
 ```ruby
-def rich_text_area_tag(name, value = nil, options = {})
+def rich_textarea_tag(name, value = nil, options = {})
   options = options.symbolize_keys
 
   options[:input] ||= "trix_input_#{ActionText::TagHelper.id += 1}"
