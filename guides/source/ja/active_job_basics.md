@@ -324,7 +324,7 @@ ProcessVideoJob.perform_later(Video.last)
 MyJob.set(priority: 50).perform_later(record)
 ```
 
-NOTE: 優先度の低い番号が、優先度の高い番号より先に実行されるか後に実行されるかは、アダプタの実装によって異なります。詳しくはバックエンドのドキュメントを参照してください。アダプタの作成者は、優先度の低い番号をより重要視することをオススメします。
+NOTE: 優先度の低い番号が、優先度の高い番号より先に実行されるか後に実行されるかは、アダプタの実装によって異なります。詳しくはバックエンドのドキュメントを参照してください。アダプタの作成者は、小さい番号ほど重要度が高いものとして扱うことが推奨されます。
 
 [`queue_with_priority`]: https://api.rubyonrails.org/classes/ActiveJob/QueuePriority/ClassMethods.html#method-i-queue_with_priority
 
