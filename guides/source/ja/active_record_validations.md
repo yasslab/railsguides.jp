@@ -258,7 +258,7 @@ end
 
 ```ruby
 class Person < ApplicationRecord
-  validates :terms_of_service, acceptance: { message: 'must be abided' }
+  validates :terms_of_service, acceptance: { message: "must be abided" }
 end
 ```
 
@@ -266,8 +266,8 @@ end
 
 ```ruby
 class Person < ApplicationRecord
-  validates :terms_of_service, acceptance: { accept: 'yes' }
-  validates :eula, acceptance: { accept: ['TRUE', 'accepted'] }
+  validates :terms_of_service, acceptance: { accept: "yes" }
+  validates :eula, acceptance: { accept: ["TRUE", "accepted"] }
 end
 ```
 
@@ -627,7 +627,7 @@ NOTE: [`validates_associated`][]はActive Recordオブジェクトでしか利�
 ```ruby
 class Person < ApplicationRecord
   validates_each :name, :surname do |record, attr, value|
-    record.errors.add(attr, '大文字で始まる必要があります') if /\A[[:lower:]]/.match?(value)
+    record.errors.add(attr, "大文字で始まる必要があります") if /\A[[:lower:]]/.match?(value)
   end
 end
 ```
@@ -1004,7 +1004,7 @@ end
 ```ruby
 class MyValidator < ActiveModel::Validator
   def validate(record)
-    unless record.name.start_with? 'X'
+    unless record.name.start_with? "X"
       record.errors.add :name, "名前はXで始まる必要があります"
     end
   end
