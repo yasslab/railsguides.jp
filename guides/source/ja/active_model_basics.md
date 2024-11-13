@@ -101,10 +101,13 @@ irb> empty_contact.valid?
 
 NOTE: `form_with`や`render`を`ActiveModel::API`互換オブジェクトで利用する方法について詳しくは、それぞれ[Action Viewフォームヘルパー][]ガイドと[レイアウトとレンダリング][]ガイドを参照してください。
 
-[`ActiveModel::API`]: https://api.rubyonrails.org/classes/ActiveModel/API.html
-[Action Pack]: https://api.rubyonrails.org/files/actionpack/README_rdoc.html
+[`ActiveModel::API`]:
+  https://api.rubyonrails.org/classes/ActiveModel/API.html
+[Action Pack]:
+  https://api.rubyonrails.org/files/actionpack/README_rdoc.html
 [Action View]: action_view_overview.html
-[Action Viewのヘルパーメソッド]: https://api.rubyonrails.org/classes/ActionView/Helpers.html
+[Action Viewのヘルパーメソッド]:
+  https://api.rubyonrails.org/classes/ActionView/Helpers.html
 [Action Viewフォームヘルパー]: form_helpers.html
 [レイアウトとレンダリング]: layouts_and_rendering.html
 
@@ -126,7 +129,8 @@ irb> person.name # => "bob"
 irb> person.age  # => "18"
 ```
 
-[`ActiveModel::Model`]: https://api.rubyonrails.org/classes/ActiveModel/Model.html
+[`ActiveModel::Model`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Model.html
 
 ### `Attributes`モジュール
 
@@ -170,7 +174,8 @@ irb> person.active
 
 `ActiveModel::Attributes`で利用できるメソッドを以下にいくつか紹介します。
 
-[`ActiveModel::Attributes`]: https://api.rubyonrails.org/classes/ActiveModel/Attributes.html
+[`ActiveModel::Attributes`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Attributes.html
 
 #### `attribute_names`メソッド
 
@@ -243,7 +248,8 @@ irb> person.name
 => "John"
 ```
 
-[`ActiveModel::AttributeAssignment`]: https://api.rubyonrails.org/classes/ActiveModel/AttributeAssignment.html
+[`ActiveModel::AttributeAssignment`]:
+  https://api.rubyonrails.org/classes/ActiveModel/AttributeAssignment.html
 [strong parameters]: action_controller_overview.html#strong-parameters
 
 #### `attributes=`エイリアスメソッド
@@ -330,7 +336,8 @@ irb> person.reset_name_to_default!
 => "Default Name"
 ```
 
-[`ActiveModel::AttributeMethods`]: https://api.rubyonrails.org/classes/ActiveModel/AttributeMethods.html
+[`ActiveModel::AttributeMethods`]:
+  https://api.rubyonrails.org/classes/ActiveModel/AttributeMethods.html
 
 定義されていないメソッドを呼び出すと、`NoMethodError`をraiseします。
 
@@ -441,7 +448,8 @@ finalize_me method: updateメソッドの後に呼び出される
 
 NOTE: `define_model_callbacks`に渡す`method_name`には、`!`、`?`、`=`で終わるメソッド名は使えません。また、同じコールバックを複数回定義すると以前のコールバック定義は上書きされます。
 
-[`ActiveModel::Callbacks`]: https://api.rubyonrails.org/classes/ActiveModel/Callbacks.html
+[`ActiveModel::Callbacks`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Callbacks.html
 
 #### 特定のコールバックを定義する
 
@@ -558,7 +566,8 @@ class Person
 end
 ```
 
-[`ActiveModel::Conversion`]: https://api.rubyonrails.org/classes/ActiveModel/Conversion.html
+[`ActiveModel::Conversion`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Conversion.html
 
 #### `to_model`
 
@@ -669,7 +678,8 @@ class Person
 end
 ```
 
-[`ActiveModel::Dirty`]: https://api.rubyonrails.org/classes/ActiveModel/Dirty.html
+[`ActiveModel::Dirty`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Dirty.html
 
 #### 変更されたすべての属性のリストをオブジェクトから直接取得する
 
@@ -866,8 +876,10 @@ irb> Person.model_name.uncountable?
 
 NOTE: 分離された[Railsエンジン](engines.html)内では、`Naming`の一部のメソッド（`param_key`、`route_key`、`singular_route_key`など）におけるモデルの名前空間が異なります。
 
-[`ActiveModel::Naming`]: https://api.rubyonrails.org/classes/ActiveModel/Naming.html
-[`ActiveSupport::Inflector`]: https://api.rubyonrails.org/classes/ActiveSupport/Inflector.html
+[`ActiveModel::Naming`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Naming.html
+[`ActiveSupport::Inflector`]:
+  https://api.rubyonrails.org/classes/ActiveSupport/Inflector.html
 
 #### モデル名をカスタマイズする
 
@@ -999,7 +1011,8 @@ irb> person.recovery_password_digest
 => "$2a$04$iOfhwahFymCs5weB3BNH/uXkTG65HR.qpW.bNhEjFP3ftli3o5DQC"
 ```
 
-[`ActiveModel::SecurePassword`]: https://api.rubyonrails.org/classes/ActiveModel/SecurePassword.html
+[`ActiveModel::SecurePassword`]:
+  https://api.rubyonrails.org/classes/ActiveModel/SecurePassword.html
 
 ### `Serialization`モジュール
 
@@ -1088,7 +1101,8 @@ irb> person.serializable_hash(include: { notes: { only: "title" }})
 => {"name" => "Napoleon", "notes" => [{"title" => "Weekend Plans"}]}
 ```
 
-[`ActiveModel::Serialization`]: https://api.rubyonrails.org/classes/ActiveModel/Serialization.html
+[`ActiveModel::Serialization`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Serialization.html
 
 #### `ActiveModel::Serializers::JSON`モジュール
 
@@ -1165,7 +1179,8 @@ irb> person.name
 => "Bob"
 ```
 
-[`ActiveModel::Serializers::JSON`]: https://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
+[`ActiveModel::Serializers::JSON`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
 
 ### `Translation`モジュール
 
@@ -1198,7 +1213,8 @@ irb> Person.human_attribute_name("name")
 => "Nome"
 ```
 
-[`ActiveModel::Translation`]: https://api.rubyonrails.org/classes/ActiveModel/Translation.html
+[`ActiveModel::Translation`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Translation.html
 
 
 ### `Validations`モジュール
@@ -1238,7 +1254,8 @@ irb> person.valid?
 => "Token can't be blank (ActiveModel::StrictValidationFailed)"
 ```
 
-[`ActiveModel::Validations`]: https://api.rubyonrails.org/classes/ActiveModel/Validations.html
+[`ActiveModel::Validations`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations.html
 
 #### バリデーション用メソッドとオプション
 
@@ -1286,12 +1303,18 @@ irb> person.valid?
 
 NOTE: `validate`を同じメソッドで複数回呼び出すと、以前の定義が上書きされます。
 
-[`validate`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validate
-[`validates`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates
-[`validates!`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates-2
-[`validates_with`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_with
-[`validates_each`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_each
-[バリデーションのAPIドキュメント]: https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html
+[`validate`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validate
+[`validates`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates
+[`validates!`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates-2
+[`validates_with`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_with
+[`validates_each`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates_each
+[バリデーションのAPIドキュメント]:
+  https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html
 
 #### `Errors`モジュール
 
@@ -1313,7 +1336,8 @@ irb> person.errors.full_messages
 => ["Name can't be blank", "Email is invalid"]
 ```
 
-[`ActiveModel::Errors`]: https://api.rubyonrails.org/classes/ActiveModel/Errors.html
+[`ActiveModel::Errors`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Errors.html
 
 ### `Lint::Tests`モジュール
 
@@ -1363,4 +1387,5 @@ Finished in 0.024899s, 240.9735 runs/s, 1204.8677 assertions/s.
 6 runs, 30 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-[`ActiveModel::Lint::Tests`]: https://api.rubyonrails.org/classes/ActiveModel/Lint/Tests.html
+[`ActiveModel::Lint::Tests`]:
+  https://api.rubyonrails.org/classes/ActiveModel/Lint/Tests.html

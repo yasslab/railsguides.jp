@@ -29,7 +29,7 @@ TIP: Railsの[ソースコード](https://github.com/rails/rails)を参照しな
 
 ```ruby
 #!/usr/bin/env ruby
-APP_PATH = File.expand_path('../config/application', __dir__)
+APP_PATH = File.expand_path("../config/application", __dir__)
 require_relative "../config/boot"
 require "rails/commands"
 ```
@@ -41,9 +41,10 @@ require "rails/commands"
 `config/boot.rb`には以下の行が含まれています。
 
 ```ruby
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
 
 require "bundler/setup" # Set up gems listed in the Gemfile.
+require "bootsnap/setup" # Speed up boot time by caching expensive operations.
 ```
 
 標準的なRailsアプリケーションにはGemfileというファイルがあり、アプリケーション内のすべての依存関係がそのファイル内で宣言されています。`config/boot.rb`はGemfileの位置を`ENV['BUNDLE_GEMFILE']`に設定します。Gemfileが存在する場合、`bundler/setup`を`require`します。この`require`は、Gemfileの依存ファイルが置かれている読み込みパスをBundlerで設定するときに使われます。
@@ -311,7 +312,6 @@ module Rack
 
       if options[:debug]
         $DEBUG = true
-        require "pp"
         p options[:server]
         pp wrapped_app
         pp app

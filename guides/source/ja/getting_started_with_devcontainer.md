@@ -10,7 +10,7 @@ Dev Containerでの開発ガイド
 
 本ガイドは、途中を飛ばさずにステップごとに読み進めるのがベストです。サンプルアプリケーションを実行するにはすべての手順をもれなく実行する必要がありますが、その他のコードや手順は必要ありません。
 
-本ガイドは、[dev container（development container）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、Railsやその依存関係をローカルコンピュータに直接インストールせず、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
+本ガイドは、[dev container（development container）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、RubyやRailsやそれらの依存関係をローカルコンピュータに直接インストールせずに、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
 
 これは、[Rails をはじめよう](getting_started.html#railsプロジェクトを新規作成する)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#railsプロジェクトを新規作成する)ガイドでアプリケーション構築作業を続行できます。
 
@@ -77,7 +77,7 @@ VS Code内でターミナルを開いて以下のコマンドを実行すると�
 
 ```bash
 $ rails --version
-Rails 7.2.0
+Rails 8.0.0
 ```
 
 これで、["Rails をはじめよう"ガイドの「railsで「hello」と表示する」セクション](getting_started.html#railsで「hello」と表示する)からブログアプリケーションの構築を開始できます。構築作業はVS Code内で行うことになります。VS Codeはアプリケーションのdev containerへのエントリポイントの役割を果たすことになるので、コードの実行、テストの実行、アプリケーションの実行はVS Codeから行えるようになります。

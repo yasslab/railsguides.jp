@@ -425,7 +425,7 @@ ActiveRecord::Base.transaction do
 end
 ```
 
-通常のネステッド呼び出しは、新しいトランザクションを作成しないことを知っておいてください。
+通常のネステッド呼び出しは、新しいトランザクションを作成しないことを思い出しましょう。
 
 ```ruby
 ActiveRecord::Base.transaction do |t1|
@@ -588,8 +588,6 @@ end
 
 #### `cache_increment.active_support`
 
-このイベントは、[`MemCacheStore`][ActiveSupport::Cache::MemCacheStore]または[`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore]を使った場合にのみ発火します。
-
 | キー      | 値                    |
 | -------- | --------------------- |
 | `:key`   | ストアで使われるキー      |
@@ -605,8 +603,6 @@ end
 ```
 
 #### `cache_decrement.active_support`
-
-このイベントは、[`MemCacheStore`][ActiveSupport::Cache::MemCacheStore]または[`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore]を使った場合にのみ発火します。
 
 | キー      | 値                    |
 | -------- | --------------------- |

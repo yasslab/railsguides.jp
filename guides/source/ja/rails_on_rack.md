@@ -53,28 +53,6 @@ class Server < ::Rack::Server
 end
 ```
 
-### `rackup`コマンド
-
-Railsの`bin/rails server`コマンドの代わりに`rackup`コマンドを使うときは、以下の内容を`config.ru`に記述して、Railsアプリケーションのルートディレクトリに保存します。
-
-```ruby
-# Rails.root/config.ru
-require_relative 'config/environment'
-run Rails.application
-```
-
-続いて、サーバーを起動します。
-
-```bash
-$ rackup config.ru
-```
-
-`rackup`の他のオプションについて詳しく知りたいときは、以下を実行します。
-
-```bash
-$ rackup --help
-```
-
 ### 開発中の自動再読み込みについて
 
 一度読み込まれたミドルウェアは、変更が発生しても検出されません。現在実行中のアプリケーションでミドルウェアの変更を反映するには、サーバーの再起動が必要です。
