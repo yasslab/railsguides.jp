@@ -19,6 +19,7 @@ Rails アップグレードガイド
 
 Railsでは、一般にRubyの最新版がリリースされると最新版のRubyに近い状態に合わせます。
 
+* Rails 8.0: Ruby 3.2.0以降が必須
 * Rails 7.2: Ruby 3.1.0以降が必須
 * Rails 7.0と7.1: Ruby 2.7.0以降が必須
 * Rails 6: Ruby 2.5.0以降が必須
@@ -64,17 +65,22 @@ $ bin/rails app:update
     conflict  config/application.rb
 Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
        force  config/application.rb
-      create  config/initializers/new_framework_defaults_7_2.rb
+      create  config/initializers/new_framework_defaults_8_0.rb
 ...
 ```
 
-予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。
+予期しなかった変更が発生した場合は、必ず差分を十分チェックしてください。なお、このプロセス中に使われるdiffツールやmergeツールは、`THOR_DIFF`および`THOR_MERGE`環境変数で定義可能です。
 
 ### フレームワークのデフォルトを設定する
 
 新しいバージョンのRailsでは、前のバージョンとデフォルト設定が異なるものがあります。しかし上述の手順に従うことで、アプリケーションが引き続き**従来**バージョンのRailsのデフォルト設定で実行されます（`config/application.rb`の`config.load_defaults`の値がまだ変更されていないため）。
 
 `app:update`タスクでは、アプリケーションを新しいデフォルト設定に1つずつアップグレードできるように、`config/initializers/new_framework_defaults_X.Y.rb`ファイルが作成されます（ファイル名にはRailsのバージョンが含まれます）。このファイル内のコメントを解除して、新しいデフォルト設定を有効にする必要があります。この作業は、数回のデプロイに分けて段階的に実行できます。アプリケーションを新しいデフォルト設定で動かせる準備が整ったら、このファイルを削除して`config.load_defaults`の値を新しいバージョンに変更できます。
+
+Rails 7.2からRails 8.0へのアップグレード
+-------------------------------------
+
+Rails 8.0で行われた変更について詳しくは、[Rails 8.0のリリースノート](8_0_release_notes.html)を参照してください。
 
 Rails 7.1からRails 7.2へのアップグレード
 -------------------------------------
@@ -452,7 +458,7 @@ ActiveSupport::Dependencies.constantize("User") # 今後は利用不可
 
 * オートローダーの動作をトレースしたい場合、`ActiveSupport::Dependencies.verbose=`は利用できなくなりました。`config/application.rb`で`Rails.autoloaders.log!`をスローしてください。
 
-`ActiveSupport::Dependencies::Reference`や  
+`ActiveSupport::Dependencies::Reference`や
 `ActiveSupport::Dependencies::Blamable`などの補助的なクラスやモジュールも削除されました。
 
 ### 初期化中の自動読み込み
@@ -766,7 +772,7 @@ Rails.application.config_for(:example).options
 従来どおりStringキーを用いて値にアクセスしたい場合は、`config_for`の戻り値で`with_indifferent_access`を呼び出せます。
 
 ```ruby
-Rails.application.config_for(:example).with_indifferent_access.dig('options', 'key')
+Rails.application.config_for(:example).with_indifferent_access.dig("options", "key")
 ```
 
 ### `respond_to#any`を使う場合のレスポンスのContent-Typeヘッダーについて
@@ -778,13 +784,13 @@ Rails.application.config_for(:example).with_indifferent_access.dig('options', 'k
 ```ruby
 def my_action
   respond_to do |format|
-    format.any { render(json: { foo: 'bar' }) }
+    format.any { render(json: { foo: "bar" }) }
   end
 end
 ```
 
 ```ruby
-get('my_action.csv')
+get("my_action.csv")
 ```
 
 従来の振る舞いではレスポンスのContent-Typeで`text/csv`を返していましたが、実際にはJSONレスポンスをレンダリングしているので正しくありません。現在の振る舞いではレスポンスのContent-Typeで`application/json`を正しく返すようになりました。
@@ -977,7 +983,7 @@ Railsに、セキュリティ用の`config.hosts`設定が新たに追加され�
 ```ruby
 # config/environments/development.rb
 
-config.hosts << 'dev.myapp.com'
+config.hosts << "dev.myapp.com"
 config.hosts << /[a-z0-9-]+\.myapp\.com/ # 正規表現も利用可能
 ```
 
@@ -1540,7 +1546,7 @@ class StreamingSupport
   def process(name)
     super(name)
   rescue ArgumentError => e
-    if e.message == 'uncaught throw :warden'
+    if e.message == "uncaught throw :warden"
       throw :warden
     else
       raise e
@@ -1899,7 +1905,7 @@ Rails.application.config.action_dispatch.cookies_serializer = :hybrid
 class CookiesController < ApplicationController
   def set_cookie
     cookies.encrypted[:expiration_date] = Date.tomorrow # => Thu, 20 Mar 2014
-    redirect_to action: 'read_cookie'
+    redirect_to action: "read_cookie"
   end
 
   def read_cookie
@@ -1954,7 +1960,7 @@ Rails 4.1では、Rails自身のエンコーダをJSON gemから切り離すこ�
 ```ruby
 class FooBar
   def as_json(options = nil)
-    { foo: 'bar' }
+    { foo: "bar" }
   end
 end
 ```
@@ -2030,7 +2036,7 @@ Rails 4.1では、各フィクスチャのERBは独立したコンテキスト�
 ```ruby
 module FixtureFileHelpers
   def file_sha(path)
-    OpenSSL::Digest::SHA256.hexdigest(File.read(Rails.root.join('test/fixtures', path)))
+    OpenSSL::Digest::SHA256.hexdigest(File.read(Rails.root.join("test/fixtures", path)))
   end
 end
 
@@ -2057,10 +2063,10 @@ config.i18n.enforce_available_locales = false
 
 ```ruby
 # 以前の破壊的な呼び出し方法は使わないこと
-Author.where(name: 'Hank Moody').compact!
+Author.where(name: "Hank Moody").compact!
 
 # 今後はこの破壊的な呼び出し方法を使うこと
-authors = Author.where(name: 'Hank Moody').to_a
+authors = Author.where(name: "Hank Moody").to_a
 authors.compact!
 ```
 
@@ -2074,9 +2080,9 @@ authors.compact!
 
 ```ruby
 class User < ActiveRecord::Base
-  default_scope { where state: 'pending' }
-  scope :active, -> { where state: 'active' }
-  scope :inactive, -> { where state: 'inactive' }
+  default_scope { where state: "pending" }
+  scope :active, -> { where state: "active" }
+  scope :inactive, -> { where state: "inactive" }
 end
 
 User.all
@@ -2093,9 +2099,9 @@ User.where(state: 'inactive')
 
 ```ruby
 class User < ActiveRecord::Base
-  default_scope { where state: 'pending' }
-  scope :active, -> { where state: 'active' }
-  scope :inactive, -> { where state: 'inactive' }
+  default_scope { where state: "pending" }
+  scope :active, -> { where state: "active" }
+  scope :inactive, -> { where state: "inactive" }
 end
 
 User.all
@@ -2104,7 +2110,7 @@ User.all
 User.active
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'pending' AND "users"."state" = 'active'
 
-User.where(state: 'inactive')
+User.where(state: "inactive")
 # SELECT "users".* FROM "users" WHERE "users"."state" = 'pending' AND "users"."state" = 'inactive'
 ```
 
@@ -2112,9 +2118,9 @@ User.where(state: 'inactive')
 
 ```ruby
 class User < ActiveRecord::Base
-  default_scope { where state: 'pending' }
-  scope :active, -> { unscope(where: :state).where(state: 'active') }
-  scope :inactive, -> { rewhere state: 'inactive' }
+  default_scope { where state: "pending" }
+  scope :active, -> { unscope(where: :state).where(state: "active") }
+  scope :inactive, -> { rewhere state: "inactive" }
 end
 
 User.all
@@ -2242,7 +2248,7 @@ end
 
 ```ruby
 # config/initializers/json_patch.rb に以下を書く
-Mime::Type.register 'application/json-patch+json', :json_patch
+Mime::Type.register "application/json-patch+json", :json_patch
 ```
 
 JSON Patchは最近RFC化されたばかりなのでRubyライブラリはそれほどありません。Aaron Pattersonの [hana](https://github.com/tenderlove/hana) gemが代表的ですが、最新の仕様変更をすべてサポートしているわけではありません。
@@ -2310,13 +2316,13 @@ Rails 4.0 では`vendor/plugins` 読み込みのサポートは完全に終了�
 
     ```ruby
     class CatalogCategory < ActiveRecord::Base
-      has_and_belongs_to_many :catalog_products, join_table: 'catalog_categories_catalog_products'
+      has_and_belongs_to_many :catalog_products, join_table: "catalog_categories_catalog_products"
     end
     ```
 
     ```ruby
     class CatalogProduct < ActiveRecord::Base
-      has_and_belongs_to_many :catalog_categories, join_table: 'catalog_categories_catalog_products'
+      has_and_belongs_to_many :catalog_categories, join_table: "catalog_categories_catalog_products"
     end
     ```
 
@@ -2345,8 +2351,8 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
     ```ruby
     # config/initializers/secret_token.rb
-    Myapp::Application.config.secret_token = 'existing secret token'
-    Myapp::Application.config.secret_key_base = 'new secret key base'
+    Myapp::Application.config.secret_token = "existing secret token"
+    Myapp::Application.config.secret_key_base = "new secret key base"
     ```
 
     注意：`secret_key_base`を設定するのは、Rails 4.xへのユーザーベースの移行が100%完了し、Rails 3.xにロールバックする必要が完全になくなってからにしてください。これは、Rails 4.xの新しい`secret_key_base`で署名されたcookieにはRails 3.xのcookieとの後方互換性がないためです。他のアップグレードが完全に完了するまでは、既存の`secret_token`をそのままにして`secret_key_base`を設定せず、非推奨警告を無視する方法も可能です。
@@ -2378,13 +2384,13 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 * Rails 4.0では、名前付きルーティングの定義が重複している場合に`ArgumentError`が発生するようになりました。このエラーは、明示的に定義された名前付きルーティングや`resources`メソッドによってトリガーされます。名前付きルーティング`example_path`が衝突している例を2つ示します。
 
     ```ruby
-    get 'one' => 'test#example', as: :example
-    get 'two' => 'test#example', as: :example
+    get "one" => "test#example", as: :example
+    get "two" => "test#example", as: :example
     ```
 
     ```ruby
     resources :examples
-    get 'clashing/:id' => 'test#example', as: :example
+    get "clashing/:id" => "test#example", as: :example
     ```
 
     最初の例では、複数のルーティングで同じ名前を使わないようにすれば回避できます。次の例では、`only`または`except`オプションを`resources`メソッド内で使うことで、作成されるルーティングを制限できます。詳しくは[Railsのルーティング](routing.html#作成されるルーティングを制限する)を参照してください。
@@ -2392,26 +2398,26 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 * Rails 4.0ではunicode文字のルーティングのレンダリング方法も変更され、unicode文字を用いるルーティングを直接レンダリングできるようになりました。既にこのようなルーティングを使っている場合は、以下の変更が必要です。
 
     ```ruby
-    get Rack::Utils.escape('こんにちは'), controller: 'welcome', action: 'index'
+    get Rack::Utils.escape("こんにちは"), controller: "welcome", action: "index"
     ```
 
     上のコードは以下のように変更する必要があります。
 
     ```ruby
-    get 'こんにちは', controller: 'welcome', action: 'index'
+    get "こんにちは", controller: "welcome", action: "index"
     ```
 
 * Rails 4.0でルーティングに`match`を使う場合は、リクエストメソッドの指定が必須となりました。以下に例を示します。
 
     ```ruby
     # Rails 3.x
-    match '/' => 'root#index'
+    match "/" => "root#index"
 
     # 上は以下に変更が必要
-    match '/' => 'root#index', via: :get
+    match "/" => "root#index", via: :get
 
     # または
-    get '/' => 'root#index'
+    get "/" => "root#index"
     ```
 
 * Rails 4.0から`ActionDispatch::BestStandardsSupport`ミドルウェアが削除されました。`<!DOCTYPE html>`は既に https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx の標準モードをトリガーするようになり、ChromeFrameヘッダは`config.action_dispatch.default_headers`に移動されました。
@@ -2429,8 +2435,8 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
     ```ruby
     config.action_dispatch.default_headers = {
-      'X-Frame-Options' => 'SAMEORIGIN',
-      'X-XSS-Protection' => '1; mode=block'
+      "X-Frame-Options" => "SAMEORIGIN",
+      "X-XSS-Protection" => "1; mode=block"
     }
     ```
 
@@ -2576,7 +2582,7 @@ Railsアプリケーションでリソースのルーティングに`/assets`ル
 
 ```ruby
 # '/assets'のデフォルト
-config.assets.prefix = '/asset-files'
+config.assets.prefix = "/asset-files"
 ```
 
 ### config/environments/development.rb
@@ -2625,7 +2631,7 @@ config.assets.digest = true
 # Cache-Controlを使うテストで静的アセットサーバーを構成し、パフォーマンスを向上させる
 config.public_file_server.enabled = true
 config.public_file_server.headers = {
-  'Cache-Control' => 'public, max-age=3600'
+  "Cache-Control" => "public, max-age=3600"
 }
 ```
 
@@ -2655,7 +2661,7 @@ end
 
 ```ruby
 # config/initializers/session_store.rbに以下を設定する
-AppName::Application.config.session_store :cookie_store, key: 'SOMETHINGNEW'
+AppName::Application.config.session_store :cookie_store, key: "SOMETHINGNEW"
 ```
 
 または
