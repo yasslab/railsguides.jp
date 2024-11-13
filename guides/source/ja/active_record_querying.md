@@ -38,13 +38,13 @@ class Book < ApplicationRecord
   belongs_to :supplier
   belongs_to :author
   has_many :reviews
-  has_and_belongs_to_many :orders, join_table: 'books_orders'
+  has_and_belongs_to_many :orders, join_table: "books_orders"
 
   scope :in_print, -> { where(out_of_print: false) }
   scope :out_of_print, -> { where(out_of_print: true) }
   scope :old, -> { where(year_published: ...50.years.ago.year) }
-  scope :out_of_print_and_expensive, -> { out_of_print.where('price > 500') }
-  scope :costs_more_than, ->(amount) { where('price > ?', amount) }
+  scope :out_of_print_and_expensive, -> { out_of_print.where("price > 500") }
+  scope :costs_more_than, ->(amount) { where("price > ?", amount) }
 end
 ```
 
@@ -58,7 +58,7 @@ end
 ```ruby
 class Order < ApplicationRecord
   belongs_to :customer
-  has_and_belongs_to_many :books, join_table: 'books_orders'
+  has_and_belongs_to_many :books, join_table: "books_orders"
 
   enum :status, [:shipped, :being_packed, :complete, :cancelled]
 
@@ -129,35 +129,64 @@ Active Recordでは、データベースからオブジェクトを取り出す�
 * 得られた結果を行ごとに同等のRubyオブジェクトとしてインスタンス化します。
 * 指定されていれば、`after_find`を実行し、続いて`after_initialize`コールバックを実行します。
 
-[`ActiveRecord::Relation`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html
-[`annotate`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-annotate
-[`create_with`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-create_with
-[`distinct`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-distinct
-[`eager_load`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-eager_load
-[`extending`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-extending
-[`extract_associated`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-extract_associated
-[`find`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find
-[`from`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from
-[`group`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-group
-[`having`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-having
-[`includes`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-includes
-[`joins`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-joins
-[`left_outer_joins`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-left_outer_joins
-[`limit`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-limit
-[`lock`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-lock
-[`none`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-none
-[`offset`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-offset
-[`optimizer_hints`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-optimizer_hints
-[`order`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-order
-[`preload`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-preload
-[`readonly`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-readonly
-[`references`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-references
-[`reorder`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reorder
-[`reselect`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reselect
-[`regroup`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-regroup
-[`reverse_order`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reverse_order
-[`select`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-select
-[`where`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where
+[`ActiveRecord::Relation`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Relation.html
+[`annotate`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-annotate
+[`create_with`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-create_with
+[`distinct`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-distinct
+[`eager_load`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-eager_load
+[`extending`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-extending
+[`extract_associated`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-extract_associated
+[`find`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find
+[`from`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from
+[`group`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-group
+[`having`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-having
+[`includes`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-includes
+[`joins`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-joins
+[`left_outer_joins`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-left_outer_joins
+[`limit`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-limit
+[`lock`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-lock
+[`none`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-none
+[`offset`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-offset
+[`optimizer_hints`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-optimizer_hints
+[`order`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-order
+[`preload`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-preload
+[`readonly`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-readonly
+[`references`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-references
+[`reorder`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reorder
+[`reselect`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reselect
+[`regroup`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-regroup
+[`reverse_order`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-reverse_order
+[`select`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-select
+[`where`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where
 
 ### 単一のオブジェクトを取り出す
 
@@ -259,8 +288,10 @@ SELECT * FROM customers LIMIT 2
 
 TIP: このメソッドで取り出されるレコードは、利用するデータベースエンジンによって異なることがあります。
 
-[`take`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-take
-[`take!`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-take-21
+[`take`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-take
+[`take!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-take-21
 
 #### `first`
 
@@ -323,8 +354,10 @@ SELECT * FROM customers ORDER BY customers.first_name ASC LIMIT 1
 
 [`first!`][]メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`first`メソッドとまったく同じです。
 
-[`first`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-first
-[`first!`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-first-21
+[`first`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-first
+[`first!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-first-21
 
 #### `last`
 
@@ -387,8 +420,10 @@ SELECT * FROM customers ORDER BY customers.first_name DESC LIMIT 1
 
 [`last!`][]メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`last`メソッドとまったく同じです。
 
-[`last`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-last
-[`last!`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-last-21
+[`last`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-last
+[`last!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-last-21
 
 #### `find_by`
 
@@ -405,7 +440,7 @@ irb> Customer.find_by first_name: 'Jon'
 上の文は以下のように書くこともできます。
 
 ```ruby
-Customer.where(first_name: 'Lifo').take
+Customer.where(first_name: "Lifo").take
 ```
 
 上と同等のSQLは以下のようになります。
@@ -426,11 +461,13 @@ irb> Customer.find_by! first_name: 'does not exist'
 上の文は以下のように書くこともできます。
 
 ```ruby
-Customer.where(first_name: 'does not exist').take!
+Customer.where(first_name: "does not exist").take!
 ```
 
-[`find_by`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by
-[`find_by!`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by-21
+[`find_by`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by
+[`find_by!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by-21
 
 ##### 条件を`id`で指定する
 
@@ -456,7 +493,8 @@ irb> Customer.find_by(id: customer.id_value) # Customer.find_by(id: 10)
 => #<Customer id: 10, store_id: 5, first_name: "Joe">
 ```
 
-[`id_value`]: https://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-i-id_value
+[`id_value`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-i-id_value
 
 ### 複数のオブジェクトをバッチで取り出す
 
@@ -501,8 +539,10 @@ end
 
 レシーバー側に順序がある場合、[`config.active_record.error_on_ignored_order`][]フラグの状態によって振る舞いが変わります。たとえば`true`の場合は`ArgumentError`が発生し、`false`の場合は順序が無視されて警告が発生します。デフォルトは`false`です。このフラグを上書きしたい場合は`:error_on_ignore`オプション（後述）を使います。
 
-[`config.active_record.error_on_ignored_order`]: configuring.html#config-active-record-error-on-ignored-order
-[`find_each`]: https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-find_each
+[`config.active_record.error_on_ignored_order`]:
+  configuring.html#config-active-record-error-on-ignored-order
+[`find_each`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-find_each
 
 ##### `find_each`のオプション
 
@@ -578,7 +618,8 @@ end
 
 ただしこれは順序指定がない場合に限ります。`find_in_batches`メソッドでイテレートするには内部で順序を強制する必要があるためです。
 
-[`find_in_batches`]: https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-find_in_batches
+[`find_in_batches`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-find_in_batches
 
 ##### `find_in_batches`のオプション
 
@@ -691,7 +732,8 @@ Book.where("title LIKE ?",
   Book.sanitize_sql_like(params[:title]) + "%")
 ```
 
-[`sanitize_sql_like`]: https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
+[`sanitize_sql_like`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
 
 ### 条件でハッシュを使う
 
@@ -714,7 +756,7 @@ SELECT * FROM books WHERE (books.out_of_print = 1)
 フィールド名は文字列形式にもできます。
 
 ```ruby
-Book.where('out_of_print' => true)
+Book.where("out_of_print" => true)
 ```
 
 belongs_toリレーションシップの場合、Active Recordオブジェクトが値として使われていれば、モデルを指定する時に関連付けキーを利用できます。この方法はポリモーフィックリレーションシップでも同様に利用できます。
@@ -807,28 +849,30 @@ Customer.where.not(nullable_country: nil)
 # => [#<Customer id: 2, nullable_country: "UK">]
 ```
 
-[`where.not`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods/WhereChain.html#method-i-not
+[`where.not`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods/WhereChain.html#method-i-not
 
 ### OR条件
 
 ２つのリレーションをまたいで`OR`条件を使いたい場合は、１つ目のリレーションで[`or`][]メソッドを呼び出し、そのメソッドの引数に２つ目のリレーションを渡すことで実現できます。
 
 ```ruby
-Customer.where(last_name: 'Smith').or(Customer.where(orders_count: [1, 3, 5]))
+Customer.where(last_name: "Smith").or(Customer.where(orders_count: [1, 3, 5]))
 ```
 
 ```sql
 SELECT * FROM customers WHERE (customers.last_name = 'Smith' OR customers.orders_count IN (1, 3, 5))
 ```
 
-[`or`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-or
+[`or`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-or
 
 ### AND条件
 
 `AND`条件は、`where`条件をチェインすることで構成できます。
 
 ```ruby
-Customer.where(last_name: 'Smith').where(orders_count: [1, 3, 5]))
+Customer.where(last_name: "Smith").where(orders_count: [1, 3, 5])
 ```
 
 ```sql
@@ -845,7 +889,8 @@ Customer.where(id: [1, 2]).and(Customer.where(id: [2, 3]))
 SELECT * FROM customers WHERE (customers.id IN (1, 2) AND customers.id IN (2, 3))
 ```
 
-[`and`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-and
+[`and`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-and
 
 並び順
 --------
@@ -896,7 +941,7 @@ irb> Book.order("title ASC").order("created_at DESC")
 ```ruby
 Book.includes(:author).order(books: { print_year: :desc }, authors: { name: :asc })
 # または
-Book.includes(:author).order('books.print_year desc', 'authors.name asc')
+Book.includes(:author).order("books.print_year desc", "authors.name asc")
 ```
 
 WARNING: 多くのデータベースシステムでは、`select`、`pluck`、`ids`メソッドを使ってフィールドを選択しています。これらのデータベースシステムでは、選択しているリストに`order`句を使ったフィールドが含まれていないと、`order`メソッドで`ActiveRecord::StatementInvalid`例外が発生します。結果から特定のフィールドを取り出す方法については、次のセクションを参照してください。
@@ -1019,7 +1064,8 @@ FROM orders
 GROUP BY status
 ```
 
-[`count`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-count
+[`count`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-count
 
 HAVING条件
 ------
@@ -1085,18 +1131,19 @@ Book.where(id: 10, out_of_print: false).unscope(where: :id)
 `unscope`をリレーションに適用すると、それにマージされるすべてのリレーションにも影響します。
 
 ```ruby
-Book.order('id desc').merge(Book.unscope(:order))
+Book.order("id desc").merge(Book.unscope(:order))
 # SELECT books.* FROM books
 ```
 
-[`unscope`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-unscope
+[`unscope`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-unscope
 
 ### `only`
 
 以下のように[`only`][]メソッドを使って条件を上書きできます。
 
 ```ruby
-Book.where('id > 10').limit(20).order('id desc').only(:order, :where)
+Book.where("id > 10").limit(20).order("id desc").only(:order, :where)
 ```
 
 上で実行されるSQLは以下のようになります。
@@ -1108,7 +1155,8 @@ SELECT * FROM books WHERE id > 10 ORDER BY id DESC
 SELECT * FROM books WHERE id > 10 ORDER BY id DESC LIMIT 20
 ```
 
-[`only`]: https://api.rubyonrails.org/classes/ActiveRecord/SpawnMethods.html#method-i-only
+[`only`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/SpawnMethods.html#method-i-only
 
 ### `reselect`
 
@@ -1162,7 +1210,7 @@ SELECT * FROM books WHERE author_id = 10 ORDER BY year_published DESC
 `reorder`を使うと、以下のようにbooksで別の並び順を指定できます。
 
 ```ruby
-Author.find(10).books.reorder('year_published ASC')
+Author.find(10).books.reorder("year_published ASC")
 ```
 
 上で実行されるSQLは以下のようになります。
@@ -1226,7 +1274,8 @@ Book.where(out_of_print: true).where(out_of_print: false)
 SELECT * FROM books WHERE out_of_print = 1 AND out_of_print = 0
 ```
 
-[`rewhere`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-rewhere
+[`rewhere`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-rewhere
 
 ### `regroup`
 
@@ -1255,7 +1304,8 @@ Book.group(:author).group(:id)
 SELECT * FROM books GROUP BY author, id
 ```
 
-[`regroup`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-regroup
+[`regroup`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-regroup
 
 Nullリレーション
 -------------
@@ -1347,7 +1397,7 @@ end
 ```ruby
 Book.transaction do
   book = Book.lock.first
-  book.title = 'Algorithms, second edition'
+  book.title = "Algorithms, second edition"
   book.save!
 end
 ```
@@ -1484,7 +1534,7 @@ INNER JOIN suppliers ON suppliers.id = books.supplier_id
 
 ```ruby
 time_range = (Time.now.midnight - 1.day)..Time.now.midnight
-Customer.joins(:orders).where('orders.created_at' => time_range).distinct
+Customer.joins(:orders).where("orders.created_at" => time_range).distinct
 ```
 
 上は、`created_at`をSQLの`BETWEEN`式で比較することで、昨日注文を行ったすべての顧客を検索できます。
@@ -1522,7 +1572,7 @@ Customer.joins(:orders).merge(Order.created_in_time_range(time_range)).distinct
 関連レコードがあるかどうかにかかわらずレコードのセットを取得したい場合は、[`left_outer_joins`][] メソッドを使います。
 
 ```ruby
-Customer.left_outer_joins(:reviews).distinct.select('customers.*, COUNT(reviews.*) AS reviews_count').group('customers.id')
+Customer.left_outer_joins(:reviews).distinct.select("customers.*, COUNT(reviews.*) AS reviews_count").group("customers.id")
 ```
 
 上のコードは、以下のクエリを生成します。
@@ -1731,9 +1781,12 @@ user.comments.to_a # ActiveRecord::StrictLoadingViolationErrorが発生
 
 ロガーに違反を送信するには、[`config.active_record.action_on_strict_loading_violation`][]を`:log`に変更します。
 
-[`strict_loading`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-strict_loading
-[`config.active_record.strict_loading_by_default`]: configuring.html#config-active-record-strict-loading-by-default
-[`config.active_record.action_on_strict_loading_violation`]: configuring.html#config-active-record-action-on-strict-loading-violation
+[`strict_loading`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-strict_loading
+[`config.active_record.strict_loading_by_default`]:
+  configuring.html#config-active-record-strict-loading-by-default
+[`config.active_record.action_on_strict_loading_violation`]:
+  configuring.html#config-active-record-action-on-strict-loading-violation
 
 ### `strict_loading!`
 
@@ -1756,7 +1809,8 @@ user.comments.to_a # => [#<Comment:0x00...]
 user.comments.first.likes.to_a # ActiveRecord::StrictLoadingViolationErrorが発生
 ```
 
-[`strict_loading!`]: https://api.rubyonrails.org/classes/ActiveRecord/Core.html#method-i-strict_loading-21
+[`strict_loading!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Core.html#method-i-strict_loading-21
 
 ### 関連付けに`strict_loading`オプションを指定する
 
@@ -1811,7 +1865,8 @@ class Book < ApplicationRecord
 end
 ```
 
-[`scope`]: https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-scope
+[`scope`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-scope
 
 ### 引数を渡す
 
@@ -1921,7 +1976,8 @@ irb> Book.new
 => #<Book id: nil, out_of_print: nil>
 ```
 
-[`default_scope`]: https://edgeapi.rubyonrails.org/classes/ActiveRecord/Scoping/Default/ClassMethods.html#method-i-default_scope
+[`default_scope`]:
+  https://edgeapi.rubyonrails.org/classes/ActiveRecord/Scoping/Default/ClassMethods.html#method-i-default_scope
 
 ### スコープのマージ
 
@@ -1980,7 +2036,8 @@ SELECT books.* FROM books WHERE (year_published >= 1969) AND (price > 50)
 
 上の例でわかるように、`default_scope`の条件は、`scope`と`where`の条件よりも前に配置されています。
 
-[`merge`]: https://api.rubyonrails.org/classes/ActiveRecord/SpawnMethods.html#method-i-merge
+[`merge`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/SpawnMethods.html#method-i-merge
 
 ### すべてのスコープを削除する
 
@@ -2007,7 +2064,8 @@ irb> Book.unscoped { Book.out_of_print }
 SELECT books.* FROM books WHERE books.out_of_print = true
 ```
 
-[`unscoped`]: https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Default/ClassMethods.html#method-i-unscoped
+[`unscoped`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Default/ClassMethods.html#method-i-unscoped
 
 動的検索
 ---------------
@@ -2067,7 +2125,8 @@ UPDATE "orders" SET "status" = ?, "updated_at" = ? WHERE "orders"."id" = ?  [["s
 
 enumの完全なドキュメントについては[`ActiveRecord::Enum`](https://api.rubyonrails.org/classes/ActiveRecord/Enum.html)を参照してください。
 
-[`enum`]: https://api.rubyonrails.org/classes/ActiveRecord/Enum.html#method-i-enum
+[`enum`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Enum.html#method-i-enum
 
 メソッドチェインを理解する
 ---------------------------------
@@ -2082,9 +2141,9 @@ Active Record パターンには [メソッドチェイン (Method chaining - Wi
 
 ```ruby
 Customer
-  .select('customers.id, customers.last_name, reviews.body')
+  .select("customers.id, customers.last_name, reviews.body")
   .joins(:reviews)
-  .where('reviews.created_at > ?', 1.week.ago)
+  .where("reviews.created_at > ?", 1.week.ago)
 ```
 
 上のコードから以下のようなSQLが生成されます。
@@ -2101,9 +2160,9 @@ WHERE (reviews.created_at > '2019-01-08')
 
 ```ruby
 Book
-  .select('books.id, books.title, authors.first_name')
+  .select("books.id, books.title, authors.first_name")
   .joins(:author)
-  .find_by(title: 'Abstraction and Specification in Program Development')
+  .find_by(title: "Abstraction and Specification in Program Development")
 ```
 
 上のコードから以下のようなSQLが生成されます。
@@ -2153,20 +2212,21 @@ COMMIT
 これは2とおりの方法で実装できます。1つ目は`create_with`を使う方法です。
 
 ```ruby
-Customer.create_with(locked: false).find_or_create_by(first_name: 'Andy')
+Customer.create_with(locked: false).find_or_create_by(first_name: "Andy")
 ```
 
 2つ目はブロックを使う方法です。
 
 ```ruby
-Customer.find_or_create_by(first_name: 'Andy') do |c|
+Customer.find_or_create_by(first_name: "Andy") do |c|
   c.locked = false
 end
 ```
 
 このブロックは、顧客が作成されるときにだけ実行されます。このコードを再度実行すると、このブロックは実行されません。
 
-[`find_or_create_by`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
+[`find_or_create_by`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
 
 ### `find_or_create_by!`
 
@@ -2183,7 +2243,8 @@ irb> Customer.find_or_create_by!(first_name: 'Andy')
 ActiveRecord::RecordInvalid: Validation failed: Orders count can't be blank
 ```
 
-[`find_or_create_by!`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by-21
+[`find_or_create_by!`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by-21
 
 ### `find_or_initialize_by`
 
@@ -2213,7 +2274,8 @@ irb> nina.save
 => true
 ```
 
-[`find_or_initialize_by`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_initialize_by
+[`find_or_initialize_by`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_initialize_by
 
 SQLで検索する
 --------------
@@ -2227,18 +2289,20 @@ irb> Customer.find_by_sql("SELECT * FROM customers INNER JOIN orders ON customer
 
 `find_by_sql`は、カスタマイズしたデータベース呼び出しを簡単な方法で提供し、インスタンス化されたオブジェクトを返します。
 
-[`find_by_sql`]: https://edgeapi.rubyonrails.org/classes/ActiveRecord/Querying.html#method-i-find_by_sql
+[`find_by_sql`]:
+  https://edgeapi.rubyonrails.org/classes/ActiveRecord/Querying.html#method-i-find_by_sql
 
 ### `select_all`
 
-`find_by_sql`は[`connection.select_all`][]と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを用いてデータベースからオブジェクトを取り出しますが、取り出したオブジェクトをインスタンス化しない点が異なります。このメソッドは`ActiveRecord::Result`クラスのインスタンスを1つ返します。このオブジェクトで`to_a`を呼ぶと、各レコードに対応するハッシュを含む配列を1つ返します。
+`find_by_sql`は[`lease_connection.select_all`][]と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを用いてデータベースからオブジェクトを取り出しますが、取り出したオブジェクトをインスタンス化しない点が異なります。このメソッドは`ActiveRecord::Result`クラスのインスタンスを1つ返します。このオブジェクトで`to_a`を呼ぶと、各レコードに対応するハッシュを含む配列を1つ返します。
 
 ```irb
-irb> Customer.connection.select_all("SELECT first_name, created_at FROM customers WHERE id = '1'").to_a
+irb> Customer.lease_connection.select_all("SELECT first_name, created_at FROM customers WHERE id = '1'").to_a
 => [{"first_name"=>"Rafael", "created_at"=>"2012-11-10 23:23:45.281189"}, {"first_name"=>"Eileen", "created_at"=>"2013-12-09 11:22:35.221282"}]
 ```
 
-[`connection.select_all`]: https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/DatabaseStatements.html#method-i-select_all
+[`lease_connection.select_all`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/DatabaseStatements.html#method-i-select_all
 
 ### `pluck`
 
@@ -2324,7 +2388,8 @@ SELECT "customers"."id" FROM "customers" LEFT OUTER JOIN "reviews" ON "reviews".
 irb> assoc.unscope(:includes).pluck(:id)
 ```
 
-[`pluck`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-pluck
+[`pluck`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-pluck
 
 ### `pick`
 
@@ -2344,7 +2409,8 @@ Customer.where(id: 1).pluck(:id).first
 Customer.where(id: 1).pick(:id)
 ```
 
-[`pick`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-pick
+[`pick`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-pick
 
 ### `ids`
 
@@ -2366,7 +2432,8 @@ irb> Customer.ids
 SELECT customer_id FROM customers
 ```
 
-[`ids`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-ids
+[`ids`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-ids
 
 オブジェクトの存在チェック
 --------------------
@@ -2382,16 +2449,16 @@ Customer.exists?(1)
 ```ruby
 Customer.exists?(id: [1, 2, 3])
 # または
-Customer.exists?(first_name: ['Jane', 'Sergei'])
+Customer.exists?(first_name: ["Jane", "Sergei"])
 ```
 
 `exists?`メソッドは、引数なしでモデルやリレーションに使うことも可能です。
 
 ```ruby
-Customer.where(first_name: 'Ryan').exists?
+Customer.where(first_name: "Ryan").exists?
 ```
 
-上の例では、`first_name`が'Ryan'のクライアントが1人でもいれば`true`を返し、それ以外の場合は`false`を返します。
+上の例では、`first_name`が'Ryan'であるクライアントが1人でもいれば`true`を返し、それ以外の場合は`false`を返します。
 
 ```ruby
 Customer.exists?
@@ -2423,7 +2490,8 @@ Customer.first.orders.any?
 Customer.first.orders.many?
 ```
 
-[`exists?`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F
+[`exists?`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-exists-3F
 
 計算
 ------------
@@ -2476,7 +2544,8 @@ Order.average("subtotal")
 
 オプションについては、1つ上の[計算](#計算)セクションを参照してください。
 
-[`average`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-average
+[`average`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-average
 
 ### `minimum`
 
@@ -2488,7 +2557,8 @@ Order.minimum("subtotal")
 
 オプションについては、1つ上の[計算](#計算)セクションを参照してください。
 
-[`minimum`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-minimum
+[`minimum`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-minimum
 
 ### `maximum`
 
@@ -2500,7 +2570,8 @@ Order.maximum("subtotal")
 
 オプションについては、1つ上の[計算](#計算)セクションを参照してください。
 
-[`maximum`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-maximum
+[`maximum`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-maximum
 
 ### `sum`
 
@@ -2512,7 +2583,8 @@ Order.sum("subtotal")
 
 オプションについては、1つ上の[計算](#計算)セクションを参照してください。
 
-[`sum`]: https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-sum
+[`sum`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-sum
 
 EXPLAINを実行する
 ---------------
@@ -2611,7 +2683,8 @@ PostgreSQLの場合は以下のような結果を生成します。
 (2 rows)
 ```
 
-[`explain`]: https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-explain
+[`explain`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-explain
 
 ### Explainのオプション
 
@@ -2668,9 +2741,12 @@ NOTE: EXPLAINやANALYZEのオプションは、MySQLやMariaDBのバージョン
 - [MySQL 8.0][MySQL8-explain]
 - [MariaDB][MariaDB-explain]
 
-[MySQL5.7-explain]: https://dev.mysql.com/doc/refman/5.7/en/explain.html
-[MySQL8-explain]: https://dev.mysql.com/doc/refman/8.0/en/explain.html
-[MariaDB-explain]: https://mariadb.com/kb/en/analyze-and-explain-statements/
+[MySQL5.7-explain]:
+  https://dev.mysql.com/doc/refman/5.7/en/explain.html
+[MySQL8-explain]:
+  https://dev.mysql.com/doc/refman/8.0/en/explain.html
+[MariaDB-explain]:
+  https://mariadb.com/kb/en/analyze-and-explain-statements/
 
 ### EXPLAINの出力結果を解釈する
 
