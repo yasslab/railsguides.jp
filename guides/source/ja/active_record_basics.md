@@ -22,15 +22,19 @@ NOTE: RailsのActive Recordが[Active Model][]とどこが違うかというと�
 
 「Active Record」は、ソフトウェアアーキテクチャパターンを指すという用語でもあります。RailsのActive Recordは、「Active Record」パターンの実装でもあり、[オブジェクト リレーショナル マッピング][ORM]システムとも呼ばれます。以下のセクションでは、これらの用語について説明します。
 
-[MVC]: https://ja.wikipedia.org/wiki/Model_View_Controller
-[Active Model]: active_model_basics.html
-[ORM]: https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E9%96%A2%E4%BF%82%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0
+[MVC]:
+  https://ja.wikipedia.org/wiki/Model_View_Controller
+[Active Model]:
+  active_model_basics.html
+[ORM]:
+  https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E9%96%A2%E4%BF%82%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0
 
 ### Active Recordパターン
 
 パターン名としての[Active Record][MFAR]は、Martin Fowler『Patterns of Enterprise Application Architecture』という書籍で「データベーステーブル内の行をラップし、データベースアクセスをカプセル化し、そのデータにドメインロジックを追加するオブジェクト」と説明されています。Active Recordオブジェクトはデータと振る舞いの両方を保持します。Active Recordクラスは、背後のデータベースのレコード構造と非常に密接に対応します。これにより、以下の例でわかるように、ユーザーはデータベースの読み取りや書き込みを手軽に行えるようになります。
 
-[MFAR]: https://www.martinfowler.com/eaaCatalog/activeRecord.html
+[MFAR]:
+  https://www.martinfowler.com/eaaCatalog/activeRecord.html
 
 ### オブジェクト/リレーショナルマッピング（ORM）
 
@@ -38,8 +42,10 @@ NOTE: RailsのActive Recordが[Active Model][]とどこが違うかというと�
 
 NOTE: Active Recordを完全に理解するには、リレーショナルデータベース管理システム（RDBMS）やSQL（構造化クエリ言語）についての知識が役に立ちます。これらについてもっと深く学びたい場合は、[このSQLチュートリアル][sqlcourse]（[このRDBMSチュートリアル][rdbmsinfo]も可）を参照するか、他の方法で学習しましょう。
 
-[sqlcourse]: https://www.khanacademy.org/computing/computer-programming/sql
-[rdbmsinfo]: https://www.devart.com/what-is-rdbms/
+[sqlcourse]:
+  https://www.khanacademy.org/computing/computer-programming/sql
+[rdbmsinfo]:
+  https://www.devart.com/what-is-rdbms/
 
 ### ORMフレームワークとしてのActive Record
 
@@ -135,7 +141,7 @@ $ bin/rails generate migration CreateBooks title:string author:string
 # Columns `created_at` and `updated_at` are added by `t.timestamps`.
 
 # db/migrate/20240220143807_create_books.rb
-class CreateBooks < ActiveRecord::Migration[7.2]
+class CreateBooks < ActiveRecord::Migration[8.0]
   def change
     create_table :books do |t|
       t.string :title
@@ -256,7 +262,8 @@ end
 NOTE: **Active Recordでは、`id`という名前を「主キー以外のカラム」で用いることは推奨されていません。**
 単一カラムの主キーでない`id`という名前の列を使うと、カラム値へのアクセスが複雑になってしまいます。その場合、アプリケーションは「主キーでない」`id`カラムにアクセスするときは[`id_value`][]エイリアス属性を使わなければならなくなります。
 
-[`id_value`]: https://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-i-id_value
+[`id_value`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/ModelSchema.html#method-i-id_value
 
 CRUD: データの読み書き
 ------------------------------
@@ -452,7 +459,9 @@ Book.destroy_all
 
 Active Recordを使って、モデルがデータベースに書き込まれる前にモデルの状態をバリデーション（検証: validation）できます。Active Recordにはモデルチェック用のさまざまなメソッドが用意されており、属性が空でないかどうか、属性が一意かどうか、既にデータベースにないかどうか、特定のフォーマットに沿っているかどうか、多岐にわたったバリデーションが行えます。
 
-バリデーションは、データベースを永続化するときに考慮すべき重要な課題です。そのため、`save`、`create`、`update`メソッドは、バリデーションに失敗すると`false`を返します。このとき実際のデータベース操作は行われません。上のメソッドにはそれぞれ破壊的なバージョン (`save!`、`create!`、`update!`) があり、こちらは検証に失敗した場合にさらに厳しい対応、つまり`ActiveRecord::RecordInvalid`例外を発生します。以下はバリデーションの簡単な例です。
+`save`、`create`、`update`などのメソッドは、モデルをデータベースに永続化を行う前にバリデーションを行います。モデルが無効な場合は、データベースに対する操作は行われません。`save`や`update`メソッドは、バリデーションに失敗すると`false`を返します。`create`メソッドは引き続きオブジェクトを返すので、エラーのチェックに利用できます。
+
+これらのメソッドにはそれぞれ破壊的なバージョン (`save!`、`create!`、`update!`) があり、こちらはバリデーションに失敗した場合にさらに厳しい対応、つまり`ActiveRecord::RecordInvalid`例外を発生します。以下はバリデーションの簡単な例です。
 
 
 ```ruby
@@ -469,6 +478,15 @@ irb> user.save!
 ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
 ```
 
+`create`メソッドは、モデルが有効か無効かに関係なく、常にモデルを返すので、これを使ってモデルのエラーを検査できます。
+
+```irb
+irb> user = User.create
+=> #<User:0x000000013e8b5008 id: nil, name: nil>
+irb> user.errors.full_messages
+=> ["Name can't be blank"]
+```
+
 バリデーションについて詳しくは、[Active Record バリデーションガイド](active_record_validations.html)を参照してください。
 
 コールバック
@@ -482,7 +500,7 @@ Active Recordコールバックを使うと、モデルのライフサイクル�
 Railsにはデータベーススキーマを管理するためのDSL（ドメイン固有言語: Domain Specific Language）があり、マイグレーション（migration）と呼ばれています。マイグレーションをファイルに保存して`bin/rails`を実行すると、Active Recordがサポートするデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
 
 ```ruby
-class CreatePublications < ActiveRecord::Migration[7.2]
+class CreatePublications < ActiveRecord::Migration[8.0]
   def change
     create_table :publications do |t|
       t.string :title
