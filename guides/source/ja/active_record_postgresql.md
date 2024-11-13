@@ -36,7 +36,7 @@ PostgreSQLにはさまざまな種類の[データ型（datatype）][datatype]�
 ```ruby
 # db/migrate/20140207133952_create_documents.rb
 create_table :documents do |t|
-  t.binary 'payload'
+  t.binary "payload"
 end
 ```
 
@@ -63,12 +63,12 @@ Document.create payload: data
 ```ruby
 # db/migrate/20140207133952_create_books.rb
 create_table :books do |t|
-  t.string 'title'
-  t.string 'tags', array: true
-  t.integer 'ratings', array: true
+  t.string "title"
+  t.string "tags", array: true
+  t.integer "ratings", array: true
 end
-add_index :books, :tags, using: 'gin'
-add_index :books, :ratings, using: 'gin'
+add_index :books, :tags, using: "gin"
+add_index :books, :ratings, using: "gin"
 ```
 
 ```ruby
@@ -105,10 +105,10 @@ NOTE: hstoreを使うには`hstore`拡張を有効にする必要があります
 
 ```ruby
 # db/migrate/20131009135255_create_profiles.rb
-class CreateProfiles < ActiveRecord::Migration[7.0]
-  enable_extension 'hstore' unless extension_enabled?('hstore')
+class CreateProfiles < ActiveRecord::Migration[8.0]
+  enable_extension "hstore" unless extension_enabled?("hstore")
   create_table :profiles do |t|
-    t.hstore 'settings'
+    t.hstore "settings"
   end
 end
 ```
@@ -145,11 +145,11 @@ irb> Profile.where("settings->'color' = ?", "yellow")
 # db/migrate/20131220144913_create_events.rb
 # ... jsonデータ型の場合:
 create_table :events do |t|
-  t.json 'payload'
+  t.json "payload"
 end
 # ... jsonbデータ型の場合:
 create_table :events do |t|
-  t.jsonb 'payload'
+  t.jsonb "payload"
 end
 ```
 
@@ -185,7 +185,7 @@ irb> Event.where("payload->>'kind' = ?", "user_renamed")
 ```ruby
 # db/migrate/20130923065404_create_events.rb
 create_table :events do |t|
-  t.daterange 'duration'
+  t.daterange "duration"
 end
 ```
 
@@ -334,7 +334,7 @@ enumの名前をリネームするには、`rename_enum`を利用して、モデ
 ```ruby
 # db/migrate/20150718144917_rename_article_status.rb
 def change
-  rename_enum :article_status, to: :article_state
+  rename_enum :article_status, :article_state
 end
 ```
 
@@ -346,6 +346,7 @@ def up
   add_enum_value :article_state, "archived" # "published"の後、最終的にこれになる
   add_enum_value :article_state, "in review", before: "published"
   add_enum_value :article_state, "approved", after: "in review"
+  add_enum_value :article_state, "rejected", if_not_exists: true # 値が既に存在する場合はエラーにならない
 end
 ```
 
@@ -408,7 +409,7 @@ irb> revision.identifier
 
 ```ruby
 # db/migrate/20150418012400_create_blog.rb
-enable_extension 'pgcrypto' unless extension_enabled?('pgcrypto')
+enable_extension "pgcrypto" unless extension_enabled?("pgcrypto")
 create_table :posts, id: :uuid
 
 create_table :comments, id: :uuid do |t|
@@ -478,9 +479,9 @@ irb> user.save!
 ```ruby
 # db/migrate/20140508144913_create_devices.rb
 create_table(:devices, force: true) do |t|
-  t.inet 'ip'
-  t.cidr 'network'
-  t.macaddr 'address'
+  t.inet "ip"
+  t.cidr "network"
+  t.macaddr "address"
 end
 ```
 
@@ -523,7 +524,7 @@ irb> macbook.address
 ```ruby
 # db/migrate/20200120000000_create_events.rb
 create_table :events do |t|
-  t.interval 'duration'
+  t.interval "duration"
 end
 ```
 
@@ -552,7 +553,7 @@ NOTE: ランダムなUUIDを生成するには、`pgcrypto`拡張（PostgreSQL9.
 
 ```ruby
 # db/migrate/20131220144913_create_devices.rb
-enable_extension 'pgcrypto' unless extension_enabled?('pgcrypto')
+enable_extension "pgcrypto" unless extension_enabled?("pgcrypto")
 create_table :devices, id: :uuid do |t|
   t.string :kind
 end
@@ -621,7 +622,7 @@ NOTE: [生成列][ddl_generated_columns]はPostgreSQL 12.0以降でサポート�
 # db/migrate/20131220144913_create_users.rb
 create_table :users do |t|
   t.string :name
-  t.virtual :name_upcased, type: :string, as: 'upper(name)', stored: true
+  t.virtual :name_upcased, type: :string, as: "upper(name)", stored: true
 end
 
 # app/models/user.rb
@@ -629,7 +630,7 @@ class User < ApplicationRecord
 end
 
 # 利用法
-user = User.create(name: 'John')
+user = User.create(name: "John")
 User.last.name_upcased # => "JOHN"
 ```
 
@@ -642,7 +643,7 @@ User.last.name_upcased # => "JOHN"
 
 PostgreSQLのテーブル制約は、デフォルトでは各ステートメントの直後にチェックされます。このため、「参照されるレコードが、参照されるテーブル内にまだ存在しない」レコードを作成することは意図的に禁止されています。
 
-外部キーの定義に`DEFERRABLE`（延期可能）を追加することで、トランザクションのコミット時にこの整合性チェックを後で実行可能にできます。デフォルトですべてのチェックを延期するには、`DEFERRABLE INITIALLY DEFERRED`に設定できます。
+外部キーの定義に`DEFERRABLE`（延期可能）を追加することで、そのトランザクションのコミット時にこの整合性チェックを後で実行可能にできます。デフォルトですべてのチェックを延期するには、`DEFERRABLE INITIALLY DEFERRED`に設定できます。
 
 Railsでは、`add_reference`メソッドや`add_foreign_key`メソッドの`foreign_key`オプションに`:deferrable`キーを追加することで、このPostgreSQLの機能を利用できます。
 
@@ -656,7 +657,7 @@ add_reference :alias, :person, foreign_key: { deferrable: :deferred }
 参照先を`foreign_key: true`オプションで作成した場合、以下のトランザクションは最初の`INSERT`文を実行すると失敗します。ただし、`deferrable: :deferred`オプションが設定されている場合は失敗しません。
 
 ```ruby
-ActiveRecord::Base.connection.transaction do
+ActiveRecord::Base.lease_connection.transaction do
   person = Person.create(id: SecureRandom.uuid, alias_id: SecureRandom.uuid, name: "John Doe")
   Alias.create(id: person.alias_id, person_id: person.id, name: "jaydee")
 end
@@ -665,8 +666,8 @@ end
 `deferrable`オプションには`:immediate`も指定可能です。これを指定すると、外部キーが制約を即座にチェックするデフォルトの振る舞いは変わりませんが、トランザクション内で`set_constraints`を指定することでチェックを手動で延期できます。これにより、トランザクションがコミットされたタイミングで外部キーがチェックされるようになります。
 
 ```ruby
-ActiveRecord::Base.connection.transaction do
-  ActiveRecord::Base.connection.set_constraints(:deferred)
+ActiveRecord::Base.lease_connection.transaction do
+  ActiveRecord::Base.lease_connection.set_constraints(:deferred)
   person = Person.create(alias_id: SecureRandom.uuid, name: "John Doe")
   Alias.create(id: person.alias_id, person_id: person.id, name: "jaydee")
 end
@@ -724,7 +725,7 @@ create_table :documents do |t|
   t.string :body
 end
 
-add_index :documents, "to_tsvector('english', title || ' ' || body)", using: :gin, name: 'documents_idx'
+add_index :documents, "to_tsvector('english', title || ' ' || body)", using: :gin, name: "documents_idx"
 ```
 
 ```ruby
@@ -754,7 +755,7 @@ create_table :documents do |t|
             type: :tsvector, as: "to_tsvector('english', title || ' ' || body)", stored: true
 end
 
-add_index :documents, :textsearchable_index_col, using: :gin, name: 'documents_idx'
+add_index :documents, :textsearchable_index_col, using: :gin, name: "documents_idx"
 
 # 利用法
 Document.create(title: "Cats and Dogs", body: "are nice!")
