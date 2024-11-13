@@ -18,7 +18,7 @@ APIアプリケーションについて
 
 近年、さまざまなクライアント側フレームワークが登場したことによって、Railsで構築したバックエンドサーバーを他のWebアプリケーションとネイティブアプリケーションの間で共有する手法が増えてきました。
 
-たとえば、Twitterは自社のWebアプリケーションで [パブリックAPI](https://dev.twitter.com) を利用しています。このWebアプリケーションは、JSONリソースを消費するだけの静的サイトとして構築されています。
+たとえば、X.comは自社のWebアプリケーションで [パブリックAPI](https://developer.x.com/)を利用しています。このWebアプリケーションは、JSONリソースを消費するだけの静的サイトとして構築されています。
 
 多くの開発者が、Railsで生成したHTMLフォームやリンクをサーバー間のやりとりに使うのではなく、Webアプリケーションを単なるAPIクライアントにとどめて、JSON APIを利用するHTMLとJavaScriptの提供に専念するようになってきました。
 
@@ -149,7 +149,7 @@ class GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def group_params
-      params.require(:group).permit(:name)
+      params.expect(group: [:name])
     end
 end
 ```
@@ -287,7 +287,7 @@ end
 
 Railsコントローラ内部で`send_file`メソッドを実行すると、`X-Sendfile`ヘッダが設定されます。実際のファイル送信を担当するのは`Rack::Sendfile`です。
 
-ファイル送信アクセラレーションをサポートするフロントエンドサーバーでは、`Rack::Sendfile`の代わりにフロントエンドサーバーがファイルを送信します。
+ファイル送信アクセラレーションをサポートするフロントエンドサーバーでは、`Rack::Sendfile`の代わりにフロントエンドサーバーがファイルを送信します。これにより、Railsはリクエスト処理を早期に完了してリソースを解放できるようになります。
 
 フロントエンドサーバーでのファイル送信に使うヘッダ名は、該当する環境設定ファイルの[`config.action_dispatch.x_sendfile_header`][]で設定できます。
 
@@ -313,17 +313,14 @@ config.action_dispatch.x_sendfile_header = "X-Accel-Redirect"
 
 この機能を使うには、JSONエンコード化したパラメータをクライアントから送信し、`Content-Type`に`application/json`を指定する必要があります。
 
-jQueryでは次のように行います。
+以下はサンプルコードです。
 
 ```js
-jQuery.ajax({
-  type: 'POST',
-  url: '/people',
-  dataType: 'json',
-  contentType: 'application/json',
-  data: JSON.stringify({ person: { firstName: "Yehuda", lastName: "Katz" } }),
-  success: function(json) { }
-});
+fetch('/people', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ person: { firstName: 'Yehuda', lastName: 'Katz' } })
+}).then(response => response.json())
 ```
 
 `ActionDispatch::Request`はこの`Content-Type`を認識し、パラメータは以下のようになります。
@@ -346,7 +343,7 @@ jQuery.ajax({
 
 ```ruby
 # 以下のsession_optionsも利用可能
-config.session_store :cookie_store, key: '_your_app_session'
+config.session_store :cookie_store, key: "_your_app_session"
 
 # このミドルウェアはすべてのセッション管理で必須（session_storeに関わらず）
 config.middleware.use ActionDispatch::Cookies
