@@ -501,7 +501,7 @@ NOTE: 定義は[`active_support/core_ext/object/instance_variables.rb`](https://
 silence_warnings { Object.const_set "RAILS_DEFAULT_LOGGER", logger }
 ```
 
-[`suppress`][Kernel#suppress]メソッドを使って例外の発生を止めることもできます。このメソッドは、例外クラスを表す任意の数値を受け取ります。`suppress`は、あるブロックの実行時に例外が発生し、その例外が（`kind_of?`による判定で）いずれかの引数に一致する場合、それをキャプチャして例外を発生せずに戻ります。一致しない場合、例外はキャプチャされません。
+[`suppress`][Kernel#suppress]メソッドを使って例外の発生を止めることもできます。このメソッドは、任意の数の例外クラスを受け取ります。`suppress`は、あるブロックの実行時に例外が発生し、その例外が（`kind_of?`による判定で）いずれかの引数に一致する場合、それをキャプチャして例外を発生せずに戻ります。一致しない場合、例外はキャプチャされません。
 
 ```ruby
 # ユーザーがロックされていればインクリメントは失われるが、重要ではない
