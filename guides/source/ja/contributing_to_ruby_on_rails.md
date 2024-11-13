@@ -189,11 +189,9 @@ Railsガイドを翻訳するボランティアも歓迎いたします。次の
 ガイドをHTML形式で生成するには、guidesディレクトリに`cd`して以下を実行します（言語がit-ITの場合）。
 
 ```bash
-# ガイドで必要なgemだけをインストールすること
-# （取り消すにはbundle config --delete withoutを実行）
-$ bundle install --without job cable storage test db
+$ BUNDLE_ONLY=default:doc bundle install
 $ cd guides/
-$ bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
+$ BUNDLE_ONLY=default:doc bundle exec rake guides:generate:html GUIDES_LANGUAGE=it-IT
 ```
 
 これで、outputディレクトリにガイドが生成されます。
@@ -405,6 +403,15 @@ $ cd railties
 $ bin/test test/application/asset_debugging_test.rb:69
 ```
 
+#### 特定の行範囲を指定してテストを実行する
+
+似たようなテストが互いに近くで定義されていることはよくあります。以下のように行範囲を指定してテストを実行できます。
+
+```bash
+$ cd railties
+$ bin/test test/application/asset_debugging_test.rb:69-100
+```
+
 #### seedを指定してテストを実行する
 
 テストはseedによってランダムな順序で実行されます。ランダム化したテストが失敗する場合、seedを指定することで、失敗するテストをより正確に再現できます。
@@ -605,7 +612,7 @@ end
 アップグレードを容易にするために、`new_framework_defaults`テンプレートにも新しいデフォルトを追加する必要があります。コメントアウト済みのセクションを追加して、以下のように新しい値を設定します。
 
 ```ruby
-# new_framework_defaults_7_2.rb.tt
+# new_framework_defaults_8_0.rb.tt
 
 # Rails.application.config.active_job.existing_behavior = false
 ```
@@ -757,7 +764,7 @@ $ git push fork my_new_branch
 
 GitHubのメール通知機能をオンにしているRailsコントリビュータもいますが、そうとは限りません。Railsに携わっている人のほとんどはボランティアなので、プルリクエストに返信をもらうまでに数日かかることもざらにあります。どうかめげずにプルリクエストをどしどし送信してください。おどろくほど早く反応がもらえることもあれば、そうでないこともあります。それがオープンソースというものです。
 
-一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord server][discord]の*contribution*チャンネルやdiscuss.rubyonrails.orgの[rubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。なお、多忙のためプルリクエストのチェックまで手が回らない可能性がありますので、個別のメンテナーに直接問い合わせることはご遠慮ください。
+一週間経っても何の音沙汰もないようなら、[Ruby on Rails Discord server][discord]の*contribution*チャンネルやdiscuss.rubyonrails.orgの[rubyonrails-core][]で少しつっついてみてもよいでしょう。プルリクエストに自分でコメントを追加してみてもよいでしょう。なお、メンテナーは多忙のためプルリクエストのチェックまで手が回らない可能性がありますので、個別のメンテナーに直接問い合わせることはご遠慮ください。
 
 よい機会なので、自分のプルリクエストへの反応を待っている間に、他の人のプルリクエストを開いてコメントを追加してみましょう。きっとその人たちも、あなたが自分のパッチに返信をもらったときと同じぐらい喜んでくれるでしょう。
 
