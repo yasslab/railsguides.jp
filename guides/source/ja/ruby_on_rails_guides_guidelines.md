@@ -54,6 +54,75 @@ Markdown
 ##### `:content_type`オプション
 ```
 
+`NOTE`、`TIP`、`WARNING`の運用方法
+------------------------
+
+場合によっては、パラグラフでもう少し読者の注意を促す必要が生じることがあります（例: よくある誤解を解消する、アプリケーションを壊す可能性のある書き方などについて警告する）。
+
+パラグラフを強調するには、以下のように`NOTE:`、`TIP:`、`WARNING:`をパラグラフの冒頭に追加します。
+
+```markdown
+NOTE: パラグラフの強調には、`NOTE:`、`TIP:`、`WARNING:`を使うこと。
+```
+
+これにより、パラグラフは以下のように専用のコンテナで囲まれるようになります。
+
+NOTE: パラグラフの強調には、`NOTE:`、`TIP:`、`WARNING:`を使うこと。
+
+### `NOTE`の運用
+
+`NOTE`は、主題や文脈に関連する内容を強調するのに使います。これを読むと、主題や文脈の理解や、重要な項目を明確にしたりうえで役立つようになります。
+
+たとえば、ロケールファイルについて解説するセクションには、以下の`NOTE`を追加するとよいでしょう。
+
+NOTE: ロケールファイルを追加した場合は、サーバーを再起動する必要があります。
+
+### `TIP`の運用
+
+`TIP`は、主題に関する補足情報であり、必ずしも理解に関係するとは限りません。たとえば別のガイドやWebサイトを示すのに使えます。
+
+TIP: ルーティングについて詳しくは、[ルーティングガイド](routing.html)を参照してください。
+
+あるいは、便利なコマンドをさらに深く掘り下げるのにも使えます。
+
+TIP: ジェネレータのヘルプをさらに表示するには、`bin/rails generate --help`を実行します。
+
+### `WARNING`の運用
+
+`WARNING`は、アプリケーションを壊す可能性を避けるのに使います。
+
+WARNING: コールバックメソッド内では、`update`や`save`などのメソッドや、オブジェクトに副作用を引き起こすメソッドの利用は避けること。
+
+あるいは、アプリケーションのセキュリティを脅かす可能性のあることについて警告するのにも使えます。
+
+WARNING: アプリのマスターキーは安全に保管すること。マスターキーをリポジトリにコミットしてはいけません。
+
+リンクの書き方
+-----
+
+リンクの文字列には、"here"や"more"といった書き方を避け、具体的な内容のわかる文字列を使うこと。
+
+``markdown
+# BAD
+See the Rails Internationalization (I18n) API documentation for [more
+details](i18n.html).
+
+# GOOD
+See the [Rails Internationalization (I18n) API documentation](i18n.html) for
+more details.
+```
+
+Railsガイド内の内部リンクについても同様。
+
+```markdown
+# BAD
+We will cover this [below](#multiple-callback-conditions).
+
+# GOOD
+We will cover this in the [multiple callback conditions
+section](#multiple-callback-conditions) shown below.
+```
+
 APIにリンクする
 ------------------
 
