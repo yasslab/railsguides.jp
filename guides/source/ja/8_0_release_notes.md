@@ -6,7 +6,7 @@ Rails 8.0の注目ポイント:
 - [Kamal 2](https://kamal-deploy.org/) や [Thruster](https://github.com/basecamp/thruster) を使った PaaS 不要のデプロイにも対応
 - [アセットパイプライン](/asset_pipeline.html)のデフォルトを [Sprockets](https://github.com/rails/sprockets) から [Propshaft](https://github.com/rails/propshaft) へ
 - [認証機能ジェネレータ](https://github.com/rails/rails/issues/50446)の追加: `rails generate authentication`
-- [SQLite](https://www.sqlite.org/) で本番環境用データベースも構築可能に: [&raquo; 関連動画 (日本語字幕あり)](https://www.youtube.com/watch?v=wFUy120Fts8)
+- [SQLite](https://www.sqlite.org/) で本番環境用データベースも構築可能に: [&raquo; 関連動画 (日本語字幕あり)](https://youtu.be/-cEn_83zRFw?list=PLHFP2OPUpCeb182aDN5cKZTuyjn3Tdbqx&t=2440)
 - [SQLite](https://www.sqlite.org/) のみで双方向通信、キャッシュ、非同期処理などを実装可能に:
   - SQLite のみで双方向通信が可能になる [Solid Cable](https://github.com/rails/solid_cable)
   - SQLite のみでキャッシュが可能になる [Solid Cache](https://github.com/rails/solid_cache)
