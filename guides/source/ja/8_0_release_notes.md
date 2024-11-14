@@ -7,10 +7,10 @@ Rails 8.0の注目ポイント:
 - [アセットパイプライン](/asset_pipeline.html)のデフォルトを [Sprockets](https://github.com/rails/sprockets) から [Propshaft](https://github.com/rails/propshaft) へ
 - [認証機能ジェネレータ](https://github.com/rails/rails/issues/50446)の追加: `rails generate authentication`
 - [SQLite](https://www.sqlite.org/) で本番環境用データベースも構築可能に: [&raquo; 関連動画 (日本語字幕あり)](https://www.youtube.com/watch?v=wFUy120Fts8)
-- [SQLite](https://www.sqlite.org/) のみで非同期処理、キャッシュ、双方向通信などを実装可能に:
-  - SQLite のみで非同期処理が可能になる [Solid Queue](https://github.com/rails/solid_queue)
-  - SQLite のみでキャッシュが可能になる [Solid Cache](https://github.com/rails/solid_cache)
+- [SQLite](https://www.sqlite.org/) のみで双方向通信、キャッシュ、非同期処理などを実装可能に:
   - SQLite のみで双方向通信が可能になる [Solid Cable](https://github.com/rails/solid_cable)
+  - SQLite のみでキャッシュが可能になる [Solid Cache](https://github.com/rails/solid_cache)
+  - SQLite のみで非同期処理が可能になる [Solid Queue](https://github.com/rails/solid_queue)
 
 訳注: [Railsの公式ブログ](https://rubyonrails.org/2024/11/7/rails-8-no-paas-required)などから注目ポイントを一部抜粋しています。
 
