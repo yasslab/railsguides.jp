@@ -3,6 +3,17 @@ Ruby on Rails 8.0 リリースノート
 
 Rails 8.0の注目ポイント:
 
+- [Kamal 2](https://kamal-deploy.org/) や [Thruster](https://github.com/basecamp/thruster) を使った PaaS 不要のデプロイにも対応
+- [アセットパイプライン](/asset_pipeline.html)のデフォルトを [Sprockets](https://github.com/rails/sprockets) から [Propshaft](https://github.com/rails/propshaft) へ
+- [認証機能ジェネレータ](https://github.com/rails/rails/issues/50446)の追加: `rails generate authentication`
+- [SQLite](https://www.sqlite.org/) で本番環境用データベースも[構築可能に](https://www.google.com/search?q=Rails+8+SQLite)
+- [SQLite](https://www.sqlite.org/) のみで非同期処理、キャッシュ、WebSoecket などを実装可能に:
+  - SQLite のみで非同期処理が可能になる [Solid Queue](https://github.com/rails/solid_queue)
+  - SQLite のみでキャッシュが可能になる [Solid Cache](https://github.com/rails/solid_cache)
+  - SQLite のみでWebSocketが実装できる [Solid Cable](https://github.com/rails/solid_cable)
+
+訳注: [Railsの公式ブログ](https://rubyonrails.org/2024/11/7/rails-8-no-paas-required)より注目ポイントを一部抜粋しています。
+
 --------------------------------------------------------------------------------
 
 Rails 8.0にアップグレードする
