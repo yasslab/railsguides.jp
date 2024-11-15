@@ -481,7 +481,7 @@ Action Mailer
 *   `deliver_later`が導入されました。これは、アプリケーション内キューにジョブを流し込み、メールを非同期配信します。
     ([Pull Request](https://github.com/rails/rails/pull/16485))
 
-*   `show_previews`設定オプションが追加されました。これはdevelopment環境の外でメイラーをプレビューできるようにするためのものです。
+*   `show_previews`設定オプションが追加されました。これはdevelopment環境の外でメーラーをプレビューできるようにするためのものです。
     ([Pull Request](https://github.com/rails/rails/pull/15970))
 
 
@@ -498,7 +498,7 @@ Active Record
 *   非推奨の`ActiveRecord::Base.quoted_locking_column`メソッドが削除されました。
     ([Pull Request](https://github.com/rails/rails/pull/15612))
 
-*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代りに使用してください。
+*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代わりに使用してください。
     ([Pull Request](https://github.com/rails/rails/pull/15512))
 
 *   未使用の`:timestamp`タイプが削除されました。今後は常に透過的に`:datetime`にエイリアスされるようになります。これにより、XMLシリアライズなどでカラムの種類がActive Recordの外に送信された場合の不整合が修正されます。
