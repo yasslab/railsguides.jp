@@ -316,7 +316,7 @@ irb> raise_validation_error: Validation failed: Name can't be blank (ActiveRecor
 @book.author_previously_changed? # => true
 ```
 
-NOTE: A`model.association_changed?`と`model.association.changed?`を取り違えないようご注意ください。前者の`model.association_changed?`は、その関連付けが新しいレコードで置き換えられたかどうかをチェックしますが、後者の`model.association.changed?`は関連付けの「属性」が変更されたかどうかをチェックします。
+NOTE: `model.association_changed?`と`model.association.changed?`を取り違えないようご注意ください。前者の`model.association_changed?`は、その関連付けが新しいレコードで置き換えられたかどうかをチェックしますが、後者の`model.association.changed?`は関連付けの「属性」が変更されたかどうかをチェックします。
 
 ##### 既存の関連付けが存在するかどうかをチェックする
 
