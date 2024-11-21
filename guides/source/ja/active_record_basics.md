@@ -73,7 +73,7 @@ Active Recordには、モデルとデータベースのテーブルとのマッ�
 Railsでは、データベースのテーブル名を探索するときに、モデルのクラス名を複数形にした名前で探索します。たとえば、`Book`というモデルクラスがある場合、これに対応するデータベースのテーブルは複数形の「**books**」になります。Railsの複数形化メカニズムは非常に強力で、不規則な語でも複数形/単数形に変換できます（person <-> peopleなど）。これには[Active Support](active_support_core_extensions.html#pluralize)の
 [`pluralize`](https://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-pluralize)メソッドが使われています。
 
-モデルのクラス名が2語以上の複合語である場合、Rubyの規約であるキャメルケース（CamelCaseのように語頭を大文字にしてスペースなしでつなぐ記法）に従ってください。一方、テーブル名はスネークケース（snake_caseのように小文字とアンダースコアで構成する記法）にしなければなりません。以下の例を参照ください。
+モデルのクラス名が2語以上の複合語である場合、Rubyの規約であるキャメルケース（語頭を大文字にしてスペースなしでつなぐ記法。例：SampleName）に従ってください。一方、テーブル名はスネークケース（小文字とアンダースコアで構成する記法。例：sample_name）にしなければなりません。以下の例を参照ください。
 
 * モデルのクラス名: 単数形、語頭を大文字にする（例: `BookClub`）
 * データベースのテーブル名: 複数形、語はアンダースコアで区切る（例: `book_clubs`）
@@ -497,7 +497,7 @@ Active Recordコールバックを使うと、モデルのライフサイクル�
 マイグレーション
 ----------
 
-Railsにはデータベーススキーマを管理するためのDSL（ドメイン固有言語: Domain Specific Language）があり、マイグレーション（migration）と呼ばれています。マイグレーションをファイルに保存して`bin/rails`を実行すると、Active Recordがサポートするデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
+Railsにはデータベーススキーマを管理するためのDSL（ドメイン固有言語: Domain Specific Language）があり、マイグレーション（migration）と呼ばれています。マイグレーションをファイルに保存して`bin/rails db`で始まるコマンドを実行すると、Active Recordがサポートするデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
 
 ```ruby
 class CreatePublications < ActiveRecord::Migration[8.0]
@@ -517,7 +517,7 @@ end
 
 上のマイグレーションコードは特定のデータベースに依存していないことにご注目ください。MySQL、MariaDB、PostgreSQL、Oracleなどさまざまなデータベースに対してマイグレーションを実行できます。
 
-Railsはどのマイグレーションファイルがデータベースにコミットされたかをトラッキングしており、`schema_migrations`と呼ばれる隣接テーブルにその情報を保存します。
+Railsはどのマイグレーションファイルがデータベースにコミットされたかをトラッキングしており、`schema_migrations`と呼ばれる隣接する別のテーブルにその情報を保存します。
 
 テーブルを実際に作成するには`bin/rails db:migrate`を実行します。ロールバックするには`bin/rails db:rollback`を実行します。
 
