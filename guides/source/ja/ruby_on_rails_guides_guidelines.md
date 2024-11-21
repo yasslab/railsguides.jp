@@ -102,7 +102,7 @@ WARNING: アプリのマスターキーは安全に保管すること。マス�
 
 リンクの文字列には、"here"や"more"といった書き方を避け、具体的な内容のわかる文字列を使うこと。
 
-``markdown
+```markdown
 # BAD
 See the Rails Internationalization (I18n) API documentation for [more
 details](i18n.html).
