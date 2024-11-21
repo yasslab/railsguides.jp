@@ -943,7 +943,7 @@ get "*a/foo/*b", to: "test#index"
 get "*pages", to: "pages#show"
 ```
 
-このルーティングに対して`'/foo/bar.json'`をリクエストしたときの`p​​arams[:pages]`は、`"foo/bar"`でリクエストフォーマット`params[:format]`にJSONを指定したものと等しくなります。
+このルーティングに対して`'/foo/bar.json'`をリクエストしたときの`params[:pages]`は、`"foo/bar"`でリクエストフォーマット`params[:format]`にJSONを指定したものと等しくなります。
 
 `format`のデフォルトの振る舞いは、URLにフォーマット指定が含まれていれば、それをURLから自動的にキャプチャして`params[:format]`に含めますが、この場合、URLの`format`パラメータは必須ではありません。
 
