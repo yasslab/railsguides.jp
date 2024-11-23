@@ -77,7 +77,7 @@ mailer用クラス内の全メソッドで利用する共通のパラメータ�
 
   def account_invitation
     mail subject: "#{@inviter.name} invited you to their Basecamp (#{@account.name})"
-  end 
+  end
 end
 
 InvitationsMailer.with(inviter: person_a, invitee: person_b)
@@ -118,11 +118,11 @@ resolve("Basket") { [:basket] }
 ```ruby
  direct :commentable do |model|
   [ model, anchor: model.dom_id ]
-end 
+end
 
 direct :main do
   { controller: 'pages', action: 'index', subdomain: 'www' }
-end 
+end
 ```
 
 ### form_forとform_tagのform_withへの統合
@@ -424,16 +424,16 @@ Active Record
 
 ### 非推奨
 
-*   `error_on_ignored_order_or_limit`フラグを非推奨化: 今後は`error_on_ignored_order`を使用
+*   `error_on_ignored_order_or_limit`フラグを非推奨化: 今後は`error_on_ignored_order`を使うこと
     ([Commit](https://github.com/rails/rails/commit/451437c6f57e66cc7586ec966e530493927098c7))
 
-*   `sanitize_conditions`を非推奨化: 今後は`sanitize_sql`を使用
+*   `sanitize_conditions`を非推奨化: 今後は`sanitize_sql`を使うこと
     ([Pull Request](https://github.com/rails/rails/pull/25999))
 
 *   接続アダプタのDeprecated `supports_migrations?`を非推奨化
     ([Pull Request](https://github.com/rails/rails/pull/28172))
 
-*   `Migrator.schema_migrations_table_name`を非推奨化: 今後は,`SchemaMigration.table_name`を使用
+*   `Migrator.schema_migrations_table_name`を非推奨化: 今後は,`SchemaMigration.table_name`を使うこと
     ([Pull Request](https://github.com/rails/rails/pull/28351))
 
 *   引用符追加や型変換で使われていた`#quoted_id`を非推奨化
@@ -534,7 +534,7 @@ Active Support
 
 ### 非推奨
 
-*   トップレベルの`HashWithIndifferentAccess`クラスをやや弱めに非推奨化: 今後は`ActiveSupport::HashWithIndifferentAccess`クラスを使用
+*   トップレベルの`HashWithIndifferentAccess`クラスをやや弱めに非推奨化: 今後は`ActiveSupport::HashWithIndifferentAccess`クラスを使うこと
     ([Pull Request](https://github.com/rails/rails/pull/28157))
 
 *   `set_callback`や`skip_callback`で`:if`条件オプションや`:unless`条件オプションに文字列を渡すことを非推奨化

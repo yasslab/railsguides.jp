@@ -1191,7 +1191,7 @@ class Person
 end
 ```
 
-`human_attribute_name`メソッドを使用すると、属性名を人間が読みやすい形式に変換できます。人間用のフォーマットはロケールファイルで定義されます。
+`human_attribute_name`メソッドを使えば、属性名を人間が読みやすい形式に変換できます。人間用のフォーマットはロケールファイルで定義されます。
 
 ```yaml
 # config/locales/app.pt-BR.yml

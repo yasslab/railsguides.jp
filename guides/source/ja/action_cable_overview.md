@@ -92,7 +92,7 @@ end
 
 次に、新しいコネクションを試行すると、このcookieがコネクションのインスタンスに自動で送信され、`current_user`の設定に使われます。現在の同じユーザーによるコネクションが識別されれば、以後そのユーザーが開いているすべてのコネクションを取得することも、ユーザーが削除されたり認証できない場合に切断することも可能になります。
 
-認証にセッションを含む場合、セッションにcookieストアを使用し、セッションcookieの`_session`とユーザーIDのキーとなる`user_id`を使用するアプローチが使えます。
+認証にセッションを含む場合、セッションにcookieストアを使い、セッションcookieの`_session`とユーザーIDのキーとなる`user_id`を使う方法が利用可能になります。
 
 ```ruby
 verified_user = User.find_by(id: cookies.encrypted["_session"]["user_id"])
@@ -684,7 +684,7 @@ WARNING: セキュリティ上の影響を完全に理解するまでは、Redis
 
 PostgreSQLアダプタはActive Recordコネクションプールを利用するため、アプリケーションのデータベース設定ファイル（`config/database.yml`）でコネクションを設定します。これについては将来変更される可能性があります（[#27214](https://github.com/rails/rails/issues/27214)）。
 
-NOTE: PostgreSQLでは、`NOTIFY`（通知を送信するために内部的に使用されるコマンド）に[8000バイトの制限](https://www.postgresql.org/docs/current/sql-notify.html)があり、大きなペイロードを処理するときに制約となる可能性があります。
+NOTE: PostgreSQLでは、`NOTIFY`（通知を送信するために内部的に使われるコマンド）に[8000バイトの制限](https://www.postgresql.org/docs/current/sql-notify.html)があり、大きなペイロードを処理するときに制約となる可能性があります。
 
 ### 許可されたリクエスト送信元
 

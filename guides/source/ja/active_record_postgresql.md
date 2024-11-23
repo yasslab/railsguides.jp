@@ -329,7 +329,7 @@ irb> article.status = "deleted"
 ArgumentError: 'deleted' is not a valid status
 ```
 
-enumの名前をリネームするには、`rename_enum`を利用して、モデルの使用方法も更新します。
+`rename_enum`を使うとenumの名前をリネームできます。リネーム後にモデルでのenumの利用方法も更新する必要があります。
 
 ```ruby
 # db/migrate/20150718144917_rename_article_status.rb

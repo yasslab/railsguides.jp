@@ -20,7 +20,7 @@
     -
       name: Active Record マイグレーション
       url: active_record_migrations.html
-      description: Active Recordのマイグレーション (migration) を使用して、データベースを構造化された方法で整然と変更する方法について解説します。
+      description: Active Recordのマイグレーション (migration) を使って、データベースを構造化された方法で整然と変更する方法について解説します。
     -
       name: Active Record バリデーション
       url: active_record_validations.html
@@ -51,7 +51,7 @@
     -
       name: レイアウトとレンダリング
       url: layouts_and_rendering.html
-      description: Action ControllerとAction Viewが提供する基本的なレイアウト機能について解説します。画面出力 (レンダリング) とリダイレクト、content_forブロックとパーシャル (部分テンプレート) の使用方法についても解説します。
+      description: Action ControllerとAction Viewが提供する基本的なレイアウト機能について解説します。画面出力 (レンダリング) とリダイレクト、content_forブロックとパーシャル (部分テンプレート) の利用方法についても解説します。
     -
       name: Action View ヘルパー
       url: action_view_helpers.html
@@ -81,7 +81,7 @@
     -
       name: Action Mailer の基礎
       url: action_mailer_basics.html
-      description: Action Mailerを使用してメールを送受信する方法について解説します。
+      description: Action Mailerを使ってメールを送受信する方法について解説します。
     -
       name: Action Mailbox の基礎
       url: action_mailbox_basics.html
