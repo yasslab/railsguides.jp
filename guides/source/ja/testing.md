@@ -36,7 +36,7 @@ application_system_test_case.rb  controllers/                     helpers/      
 channels/                        fixtures/                        integration/                     models/                          test_helper.rb
 ```
 
-`helpers`ディレクトリにはビューヘルパーのテスト、`mailers`ディレクトリにはメーラーのテスト、`models`ディレクトリにはモデル用のテストをそれぞれ保存します。`channels `ディレクトリはAction Cableのコネクションやチャネルのテストを置きます。`controllers`ディレクトリはコントローラ/ルーティング/ビューをまとめたテストの置き場所です。`integration`ディレクトリはコントローラ同士のやりとりのテストを置く場所です。
+`helpers`ディレクトリにはビューヘルパーのテスト、`mailers`ディレクトリにはメーラーのテスト、`models`ディレクトリにはモデル用のテストをそれぞれ保存します。`channels`ディレクトリはAction Cableのコネクションやチャネルのテストを置きます。`controllers`ディレクトリはコントローラ/ルーティング/ビューをまとめたテストの置き場所です。`integration`ディレクトリはコントローラ同士のやりとりのテストを置く場所です。
 
 システムテストのディレクトリ（`system`）にはシステムテストを保存します。システムテストは、ユーザーエクスペリエンスに沿ったアプリケーションのテストを行うためのもので、JavaScriptのテストにも有用です。
 システムテストはCapybaraから継承した機能で、アプリケーションのブラウザテストを実行します。
@@ -325,11 +325,11 @@ end
 
 **`assert_match( regexp, string, [msg] )`**
 
-* stringは正規表現 (regexp) にマッチすると主張する。
+* stringは正規表現（regexp）にマッチすると主張する。
 
 **`assert_no_match( regexp, string, [msg] )`**
 
-* stringは正規表現 (regexp) にマッチしないと主張する。
+* stringは正規表現（regexp）にマッチしないと主張する。
 
 **`assert_includes( collection, obj, [msg] )`**
 
@@ -397,11 +397,11 @@ end
 
 **`assert_predicate ( obj, predicate, [msg] )`**
 
-* `obj.predicate`はtrueであると主張する (例:`assert_predicate str, :empty?`)。
+* `obj.predicate`はtrueであると主張する（例:`assert_predicate str, :empty?`）。
 
 **`assert_not_predicate ( obj, predicate, [msg] )`**
 
-* `obj.predicate`はfalseであると主張する (例:`assert_not_predicate str, :empty?`)。
+* `obj.predicate`はfalseであると主張する（例:`assert_not_predicate str, :empty?`）。
 
 **`assert_error_reported(class) { block }`**
 
@@ -803,7 +803,7 @@ NOTE: フィクスチャは、テストで必要なありとあらゆるオブ�
 
 #### YAML
 
-YAML形式のフィクスチャは人間にとってとても読みやすく、サンプルデータを容易に記述できます。この形式のフィクスチャには**.yml**というファイル拡張子が与えられます (`users.yml`など)。
+YAML形式のフィクスチャは人間にとってとても読みやすく、サンプルデータを容易に記述できます。この形式のフィクスチャには**.yml**というファイル拡張子が与えられます（`users.yml`など）。
 
 YAMLフィクスチャファイルのサンプルを以下に示します。
 
@@ -845,7 +845,7 @@ first_content:
   body: <div>Hello, from <strong>a fixture</strong></div>
 ```
 
-`fixtures/articles.yml` にある記事`first`の`category`キーの値が `about`になり、`fixtures/action_text/rich_texts.yml` にある`first_content`エントリの`record`キーの値が `first (Article)`になっている点にもご注目ください。これは、前者についてはActive Recordが `fixtures/categories.yml` にあるカテゴリ`about`を読み込むように、後者についてはAction Textが `fixtures/articles.yml`にある記事 `first`を読み込むようにヒントを与えています。
+`fixtures/articles.yml`にある記事`first`の`category`キーの値が`about`になり、`fixtures/action_text/rich_texts.yml`にある`first_content`エントリの`record`キーの値が`first (Article)`になっている点にもご注目ください。これは、前者についてはActive Recordが`fixtures/categories.yml`にあるカテゴリ`about`を読み込むように、後者についてはAction Textが`fixtures/articles.yml`にある記事`first`を読み込むようにヒントを与えています。
 
 NOTE: 関連付けが名前で互いを参照している場合、関連付けられたフィクスチャにある`id:`属性を指定する代わりに、フィクスチャ名を使えます。Railsはテストの実行中に、自動的に主キーを割り当てて一貫性を保ちます。関連付けの詳しい動作については、[フィクスチャAPIドキュメント](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)を参照してください。
 
@@ -1012,7 +1012,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 end
 ```
 
-[DockerのヘッドレスChrome][docker-selenium] などのリモートブラウザを使いたい場合は、`options`で`browser`にリモート`url`を追加する必要があります。
+[DockerのヘッドレスChrome][docker-selenium]などのリモートブラウザを使いたい場合は、`options`で`browser`にリモート`url`を追加する必要があります。
 
 ```ruby
 require "test_helper"
@@ -1729,7 +1729,7 @@ Railsで使えるルーティングアサーションについて詳しくは、
 
 `assert_select(セレクタ, [条件], [メッセージ])`という書式は、セレクタで指定された要素が条件に一致することを主張します。セレクタにはCSSセレクタの式（文字列）や代入値を持つ式を使えます。
 
-`assert_select(要素, セレクタ, [条件], [メッセージ])` は、選択されたすべての要素が条件に一致することを主張します。選択される要素は、_element_ (`Nokogiri::XML::Node` or `Nokogiri::XML::NodeSet`のインスタンス) からその子孫要素までの範囲から選択されます。
+`assert_select(要素, セレクタ, [条件], [メッセージ])`は、選択されたすべての要素が条件に一致することを主張します。選択される要素は、_element_（`Nokogiri::XML::Node`や`Nokogiri::XML::NodeSet`のインスタンス）からその子孫要素までの範囲から選択されます。
 
 たとえば、レスポンスに含まれるtitle要素の内容を検証するには、以下のアサーションを使います。
 
@@ -1763,7 +1763,7 @@ assert_select "ol" do
 end
 ```
 
-`assert_select`はきわめて強力なアサーションです。このアサーションの高度な利用法については[API ドキュメント][selector_assertions]を参照してください。
+`assert_select`はきわめて強力なアサーションです。このアサーションの高度な利用法については[APIドキュメント][selector_assertions]を参照してください。
 
 [selector_assertions]: https://github.com/rails/rails-dom-testing/blob/main/lib/rails/dom/testing/assertions/selector_assertions.rb
 
@@ -1891,7 +1891,7 @@ Action View 7.1以降の`#rendered`ヘルパーメソッドは、ビューパー
 
 `#rendered`メソッドが返す`String`コンテンツをオブジェクトに変換するには、`.register_parser`を呼び出してパーサーを定義します。`.register_parser :rss`を呼び出せば、`#rendered.rss`ヘルパーメソッドが定義されます。
 
-たとえば、レンダリングした[RSS コンテンツ][RSS contents]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
+たとえば、レンダリングした[RSSコンテンツ][RSS contents]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
 
 ```ruby
 register_parser :rss, -> rendered { RSS::Parser.parse(rendered) }

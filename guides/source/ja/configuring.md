@@ -51,7 +51,7 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 
 ### Railsバージョンごとのデフォルト値
 
-[`config.load_defaults`] はターゲットバージョンとそれ以前のすべてのバージョンのデフォルトの設定値を読み込みます。たとえば、`config.load_defaults 6.1`はバージョン6.1までの全バージョンのデフォルトを読み込みます。
+[`config.load_defaults`]はターゲットバージョンとそれ以前のすべてのバージョンのデフォルトの設定値を読み込みます。たとえば、`config.load_defaults 6.1`はバージョン6.1までの全バージョンのデフォルトを読み込みます。
 
 [`config.load_defaults`]: https://api.rubyonrails.org/classes/Rails/Application/Configuration.html#method-i-load_defaults
 
@@ -254,7 +254,7 @@ Rails全般に対する設定を行うには、`Rails::Railtie`オブジェク�
 
 #### `config.add_autoload_paths_to_load_path`
 
-自動読み込みパスを`$LOAD_PATH`に追加しなければならないかどうかを指定します。`zeitwerk`モードでは`config/application.rb`で`false` に設定することが推奨されます。
+自動読み込みパスを`$LOAD_PATH`に追加しなければならないかどうかを指定します。`zeitwerk`モードでは`config/application.rb`で`false`に設定することが推奨されます。
 Zeitwerkは内部的に絶対パスを使っており、`:zeitwerk`モードで動作するアプリケーションには`require_dependency`が不要なので、モデル、コントローラ、ジョブなどは`$LOAD_PATH`に入れておく必要がありません。
 これを`false`に設定すると、Rubyが相対パスで`require`呼び出しを解決する際にこれらのディレクトリをチェックする必要がなくなり、Bootsnapの作業とメモリを節約できます。
 
@@ -303,7 +303,7 @@ end
 #### `config.autoflush_log`
 
 ログのファイル出力をバッファリングせず、即座に書き出す設定を有効にします。
-デフォルトは `true` です。
+デフォルトは`true`です。
 
 #### `config.autoload_lib(ignore:)`
 
@@ -392,8 +392,6 @@ NOTE: `bin/rails credentials`コマンドでこの値を認識させるために
 
 デフォルトでは、`config/credentials/#{Rails.env}.key`があればそのパスを使い、なければ`config/master.key`を使います。
 
-`config/master.key` otherwise.
-
 NOTE: `bin/rails credentials`コマンドでこの値を認識させるために、必ず`config/application.rb`ファイルか`config/environments/#{Rails.env}.rb`ファイルで設定しなければなりません。
 
 #### `config.debug_exception_response_format`
@@ -432,7 +430,7 @@ NOTE: NokogiriのHTML5パーサーはJRubyではサポートされていない�
 #### `config.enable_reloading`
 
 `config.enable_reloading`がtrueの場合、アプリケーションのクラスとモジュールが変更されると、Webリクエスト間に再読み込みされます。
-デフォルトは `development`環境では`true`、`production`環境では`false`です。
+デフォルトは`development`環境では`true`、`production`環境では`false`です。
 
 述語`config.reloading_enabled?`も定義されています。
 
@@ -445,13 +443,13 @@ NOTE: NokogiriのHTML5パーサーはJRubyではサポートされていない�
 例外が発生したときに`ShowException`ミドルウェアによって呼び出される例外アプリケーションを設定します。
 デフォルト値は`ActionDispatch::PublicExceptions.new(Rails.public_path)`です。
 
-例外アプリケーションは `ActionDispatch::Http::MimeNegotiation::InvalidType`エラーを処理する必要があります。このエラーは、クライアントが無効な`Accept`ヘッダーまたは`Content-Type`ヘッダーを送信したときに発生します。
+例外アプリケーションは`ActionDispatch::Http::MimeNegotiation::InvalidType`エラーを処理する必要があります。このエラーは、クライアントが無効な`Accept`ヘッダーまたは`Content-Type`ヘッダーを送信したときに発生します。
 
 デフォルトの`ActionDispatch::PublicExceptions`アプリケーションは自動的にこれを行い、`Content-Type`を`text/html`に設定し、`406 Not Acceptable`ステータスを返します。
 
 このエラーを処理しないと、`500 Internal Server Error`が発生します。
 
-例外アプリケーションとして`Rails.application.routes` `RouteSet` を使う場合にも、この特殊な処理が必要になります。次のような感じになります。
+例外アプリケーションとして`Rails.application.routes`や`RouteSet`を使う場合にも、この特殊な処理が必要になります。次のような感じになります。
 
 ```ruby
 # config/application.rb
@@ -533,7 +531,7 @@ Rails.application.config.filter_redirect += ["s3.amazonaws.com", /private-match/
 
 #### `config.hosts`
 
-`Host`ヘッダの有効性を確認するために使われる、「文字列」「正規表現」「`IPAddr`」の配列です。[HostAuthorization ミドルウェア](#actiondispatch-hostauthorization)で使われ、DNSリバインディング攻撃を防ぐのに役立ちます。
+`Host`ヘッダの有効性を確認するために使われる、「文字列」「正規表現」「`IPAddr`」の配列です。[HostAuthorizationミドルウェア](#actiondispatch-hostauthorization)で使われ、DNSリバインディング攻撃を防ぐのに役立ちます。
 
 #### `config.javascript_path`
 
@@ -600,7 +598,7 @@ NGINXやApacheなどのサーバーソフトウェアが静的ファイルを配
 #### `config.railties_order`
 
 Railties/Engineの読み込み順序を手動で指定できます。
-デフォルトは `[:all]` です。
+デフォルトは`[:all]`です。
 
 ```ruby
 config.railties_order = [Blog::Engine, :main_app, :all]
@@ -614,7 +612,7 @@ config.railties_order = [Blog::Engine, :main_app, :all]
 #### `config.relative_url_root`
 
 [サブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする（相対url-rootの利用）)ことをRailsに指示します。
-デフォルトは `ENV['RAILS_RELATIVE_URL_ROOT']` です。
+デフォルトは`ENV['RAILS_RELATIVE_URL_ROOT']`です。
 
 #### `config.reload_classes_only_on_change`
 
@@ -718,7 +716,7 @@ CSSの圧縮に用いるプログラムを定義します。このオプショ�
 
 #### `config.assets.js_compressor`
 
-JavaScriptの圧縮に使うプログラムを定義します。指定できる値は `:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ `terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
+JavaScriptの圧縮に使うプログラムを定義します。指定できる値は`:terser`、`:closure`、`:uglifier`、`:yui`です。それぞれ`terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemに対応します。
 
 #### `config.assets.gzip`
 
@@ -796,7 +794,7 @@ end
 
 * `system_tests`: システムテスト生成に用いる統合ツールを定義します。デフォルト値は`:test_unit`です。
 
-* `orm`: 使うORM (オブジェクトリレーショナルマッピング) を指定します。デフォルト値は`false`であり、この場合はActive Recordが使われます。
+* `orm`: 使うORM（オブジェクトリレーショナルマッピング）を指定します。デフォルト値は`false`であり、この場合はActive Recordが使われます。
 
 * `resource_controller`: `rails generate resource`の実行時にどのジェネレータでコントローラを生成するかを指定します。デフォルト値は`:controller`です。
 
@@ -1048,7 +1046,7 @@ config.middleware.delete Rack::MethodOverride
 
 [`Error#full_message`][ActiveModel::Error#full_message]エラーフォーマットをi18nのロケールファイルで上書きしてよいかどうかを制御するboolean値です。デフォルト値は`false`です。
 
-`true`に設定すると、`full_message`はロケールファイルの属性とモデルレベルでフォーマットを探索します。デフォルトのフォーマットは`"%{attribute} %{message}"`で、`attribute`は属性名、`message`はバリデーション固有のメッセージです。以下の例では、すべての `Person`属性と、特定の`Person`属性（`age`）のフォーマットをオーバーライドしています。
+`true`に設定すると、`full_message`はロケールファイルの属性とモデルレベルでフォーマットを探索します。デフォルトのフォーマットは`"%{attribute} %{message}"`で、`attribute`は属性名、`message`はバリデーション固有のメッセージです。以下の例では、すべての`Person`属性と、特定の`Person`属性（`age`）のフォーマットをオーバーライドしています。
 
 ```ruby
 class Person
@@ -1062,7 +1060,7 @@ end
 
 ```yml
 en:
-  activemodel: # または activerecord:
+  activemodel: # またはactiverecord:
     errors:
       models:
         person:
@@ -1103,7 +1101,7 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 
 #### `config.active_record.primary_key_prefix_type`
 
-主キーカラムの命名法を変更するのに使います。Railsでは、主キーカラムの名前にデフォルトで`id`が使われます (なお`id`にする場合は値の設定は不要です)。`id`以外に以下の2つを指定できます。
+主キーカラムの命名法を変更するのに使います。Railsでは、主キーカラムの名前にデフォルトで`id`が使われます（なお`id`にする場合は値の設定は不要です）。`id`以外に以下の2つを指定できます。
 
 * `:table_name`: たとえばCustomerクラスの主キーは`customerid`になります
 * `:table_name_with_underscore`: たとえばCustomerクラスの主キーは`customer_id`になります
@@ -1475,7 +1473,7 @@ Active Recordの複数のインスタンスがトランザクション内で同�
 
 カラムでシリアライザが明示的に指定されていない場合に使うシリアライザーの実装です。
 
-歴史的に `serialize`と`store`は異なるシリアライザ実装を利用可能ですが、デフォルトでは`YAML`を利用します。しかし、このフォーマットはあまり効率的ではなく、慎重に採用しないとセキュリティの脆弱性の原因となる可能性があります。
+歴史的に`serialize`と`store`は異なるシリアライザ実装を利用可能ですが、デフォルトでは`YAML`を利用します。しかし、このフォーマットはあまり効率的ではなく、慎重に採用しないとセキュリティの脆弱性の原因となる可能性があります。
 
 そのため、データベースのシリアライズには、従来よりも厳格かつ限定的なフォーマットを選択することが推奨されます。
 
@@ -1590,7 +1588,7 @@ ActiveRecord::Base.connection
 
 この数値を検討するときは、`database.yml`で設定されているデータベースコネクションのプールサイズと調和させなければなりません。コネクションプールのサイズは、フォアグラウンドのスレッド（Webサーバーやジョブワーカーのスレッド）とバックグラウンドのスレッドを両方とも扱えるサイズにする必要があります。
 
-Railsはプロセスごとに、この個数のスレッドを用いて非同期クエリを処理するグローバル クエリエグゼキュータを1つ作成します。したがって、プールサイズは`thread_count + global_executor_concurrency + 1`以上である必要があります。たとえば、Webサーバーの最大スレッド数が3で、`global_executor_concurrency`が4に設定されている場合、プールサイズは8以上にする必要があります。
+Railsはプロセスごとに、この個数のスレッドを用いて非同期クエリを処理するグローバルクエリエグゼキュータを1つ作成します。したがって、プールサイズは`thread_count + global_executor_concurrency + 1`以上である必要があります。たとえば、Webサーバーの最大スレッド数が3で、`global_executor_concurrency`が4に設定されている場合、プールサイズは8以上にする必要があります。
 
 #### `config.active_record.yaml_column_permitted_classes`
 
@@ -1738,7 +1736,7 @@ Active Record暗号化で利用する圧縮ライブラリを設定します。�
 
 #### `config.active_record.protocol_adapters`
 
-データベースコネクションをURLで構成する場合、このオプションはプロトコルと背後のデータベースアダプタへのマッピングを提供します。たとえば、環境変数で `DATABASE_URL=mysql://localhost/database`を指定するとRailsは`mysql`を`mysql2`アダプタにマッピングしますが、アプリケーションでこれらのマッピングを以下のようにオーバーライドすることも可能です。
+データベースコネクションをURLで構成する場合、このオプションはプロトコルと背後のデータベースアダプタへのマッピングを提供します。たとえば、環境変数で`DATABASE_URL=mysql://localhost/database`を指定するとRailsは`mysql`を`mysql2`アダプタにマッピングしますが、アプリケーションでこれらのマッピングを以下のようにオーバーライドすることも可能です。
 
 ```ruby
 config.active_record.protocol_adapters.mysql = "trilogy"
@@ -1833,7 +1831,7 @@ CSRFトークンの正当性をそれらが生成されたメソッドやアク�
 
 #### `config.action_controller.always_permitted_parameters`
 
-デフォルトで許可される許可リストパラメータのリストを設定します。デフォルト値は `['controller', 'action']`です。
+デフォルトで許可される許可リストパラメータのリストを設定します。デフォルト値は`['controller', 'action']`です。
 
 #### `config.action_controller.enable_fragment_cache_logging`
 
@@ -1864,7 +1862,7 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 #### `config.action_controller.raise_on_open_redirects`
 
-外部リダイレクトをオプトインにすることで、アプリケーションが意図せずに外部ホストにリダイレクトされること (オープンリダイレクト（open redirect）とも呼ばれます) から保護します。
+外部リダイレクトをオプトインにすることで、アプリケーションが意図せずに外部ホストにリダイレクトされること（オープンリダイレクト（open redirect）とも呼ばれます）から保護します。
 
 この設定が`true`の場合、外部ホストを含むURLが[`redirect_to`][]に渡されると、`ActionController::Redirecting::UnsafeRedirectError`が発生します。オープンリダイレクトを許可する必要がある場合は、`redirect_to`呼び出しに`allow_other_host: true`オプションを追加できます。
 
@@ -1946,7 +1944,7 @@ HTTPヘッダーで使われるハッシュです。このヘッダーはデフ�
 
 #### `config.action_dispatch.tld_length`
 
-アプリケーションで使うトップレベルドメイン(TLD) の長さを指定します。デフォルト値は`1`です。
+アプリケーションで使うトップレベルドメイン（TLD）の長さを指定します。デフォルト値は`1`です。
 
 #### `config.action_dispatch.ignore_accept_header`
 
@@ -2087,9 +2085,9 @@ end
 
 `config.action_dispatch.show_exceptions`設定は、リクエストへの応答中にAction Pack（具体的には[`ActionDispatch::ShowExceptions`](/configuring.html#actiondispatch-showexceptions)ミドルウェア）が発生した例外を処理する方法を指定します。
 
-値を`:all`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは `ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
+値を`:all`に設定すると、例外をrescueして対応するエラーページを表示するようにAction Packを構成します。たとえば、Action Packは`ActiveRecord::RecordNotFound`例外をrescueし、`public/404.html`にあるコンテンツをステータスコード`404 Not found`でレンダリングします。
 
-値を`:rescueable`に設定すると、[`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)リストで定義されている例外についてはrescueし、その他すべてはraiseするようAction Packを構成します。 たとえば、Action Packは`ActiveRecord::RecordNotFound`をrescueしますが、`NoMethodError`をraiseします。
+値を`:rescueable`に設定すると、[`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)リストで定義されている例外についてはrescueし、その他すべてはraiseするようAction Packを構成します。たとえば、Action Packは`ActiveRecord::RecordNotFound`をrescueしますが、`NoMethodError`をraiseします。
 
 値を``:none`に設定すると、Action Packがすべての例外をraiseするように構成されます。
 
@@ -2106,7 +2104,7 @@ end
 
 レスポンスに`Last-Modified`ヘッダーと`ETag`ヘッダーの両方が存在する場合に、`ActionDispatch::ETag`ミドルウェアが`ETag`ヘッダーを`Last-Modified`ヘッダーよりも優先するかどうかを設定します。
 
-`true`に設定すると、両方のヘッダーが存在する場合、「[RFC 7232 セクション 6](https://datatracker.ietf.org/doc/html/rfc7232#section-6)」で指定されているように`ETag`のみが考慮されます。
+`true`に設定すると、両方のヘッダーが存在する場合、「[RFC 7232セクション6](https://datatracker.ietf.org/doc/html/rfc7232#section-6)」で指定されているように`ETag`のみが考慮されます。
 
 `false`に設定すると、両方のヘッダーが存在する場合、両方のヘッダーがチェックされ、レスポンスが新しいと見なされるためには両方が一致する必要があります。
 
@@ -2281,7 +2279,7 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 #### `config.action_view.prepend_content_exfiltration_prevention`
 
-`form_tag`ヘルパーと`button_to`ヘルパーが、HTMLをブラウザセーフにする (ただし技術的には無効な) HTMLタグをHTMLの冒頭で生成するかどうかを決定します。このHTMLタグは、先行する「閉じていないタグ」がそのHTMLタグの内容をキャプチャできないことを保証します。デフォルト値は`false`です。
+`form_tag`ヘルパーと`button_to`ヘルパーが、HTMLをブラウザセーフにする（ただし技術的には無効な）HTMLタグをHTMLの冒頭で生成するかどうかを決定します。このHTMLタグは、先行する「閉じていないタグ」がそのHTMLタグの内容をキャプチャできないことを保証します。デフォルト値は`false`です。
 
 #### `config.action_view.sanitizer_vendor`
 
@@ -2476,9 +2474,9 @@ config.action_mailer.show_previews = false
 
 #### `config.action_mailer.deliver_later_queue_name`
 
-デフォルトの配信ジョブ (`config.action_mailer.delivery_job`を参照)で用いるActive Jobキューを指定します。
+デフォルトの配信ジョブ（`config.action_mailer.delivery_job`を参照）で用いるActive Jobキューを指定します。
 
-このオプションを`nil`に設定すると、配送ジョブはデフォルトの Active Jobキュー （[`config.active_job.default_queue_name`][]を参照）に送信されます。
+このオプションを`nil`に設定すると、配送ジョブはデフォルトのActive Jobキュー （[`config.active_job.default_queue_name`][]を参照）に送信されます。
 
 メーラークラスはこれをオーバーライドすることで別のキューを利用できます。これはデフォルトの配信ジョブを使う場合にのみ適用されることに注意してください。メーラーがカスタムジョブを使っている場合、そのキューが使われます。
 
@@ -2670,7 +2668,7 @@ Rails内部ステートのほとんどの局所性（locality）を設定しま�
 
 `:zone`に設定すると、`to_time`メソッドは受信者のタイムゾーンを利用します。
 `:offset`に設定すると、`to_time`メソッドはUTCオフセットを利用します。
-`false` の場合、`to_time`メソッドは代わりにローカルシステムのUTCオフセットに変換します。
+`false`の場合、`to_time`メソッドは代わりにローカルシステムのUTCオフセットに変換します。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
@@ -2712,7 +2710,7 @@ Rails内部ステートのほとんどの局所性（locality）を設定しま�
 
 #### `config.active_support.raise_on_invalid_cache_expiration_time`
 
-`Rails.cache`の`fetch`または`write`に無効な`expires_at`または `expires_in`時刻を指定した場合に、`ArgumentError`を発生させるかどうかを指定します。
+`Rails.cache`の`fetch`または`write`に無効な`expires_at`または`expires_in`時刻を指定した場合に、`ArgumentError`を発生させるかどうかを指定します。
 
 オプションは`true`と`false`です。
 `false`の場合、例外は`handled`として報告され、代わりにログに出力されます。
@@ -3241,7 +3239,7 @@ production:
 
 Railsには[SQLite3](https://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは、production環境の負荷に耐えるよう、より適切に設定されますが、production環境の負荷が高すぎる場合はSQLiteが過負荷になる可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
 
-以下はデフォルトの接続設定ファイル(`config/database.yml`)に含まれる、開発環境用の接続設定です。
+以下はデフォルトのコネクション設定ファイル（`config/database.yml`）に含まれる、開発環境用のコネクション設定です。
 
 ```yaml
 development:
@@ -3251,7 +3249,7 @@ development:
   timeout: 5000
 ```
 
-NOTE: Railsでデータ保存用にSQLite3データベースが採用されている理由は、設定なしですぐに使えるからです。RailsではSQLiteの他にMySQL（MariaDB含む）やPostgreSQLなども使えますし、データベース接続用のプラグインも多数あります。production環境で何らかのデータベースを使う場合、そのためのアダプタはたいていの場合探せば見つかります。
+NOTE: Railsでデータ保存用にSQLite3データベースが採用されている理由は、設定なしですぐに使えるからです。RailsではSQLiteの他にMySQL（MariaDB含む）やPostgreSQLなども使えますし、データベースコネクション用のプラグインも多数あります。production環境で何らかのデータベースを使う場合、そのためのアダプタはたいていの場合探せば見つかります。
 
 #### MySQLやMariaDBデータベースを設定する
 
@@ -3423,7 +3421,7 @@ end
 
 ### サブディレクトリにデプロイする（相対URL rootの利用）
 
-Railsアプリケーションの実行は、アプリケーションのrootディレクトリ (`/`など) で行なうことが前提となっています。この節では、アプリケーションをディレクトリの下で実行する方法について説明します。
+Railsアプリケーションの実行は、アプリケーションのrootディレクトリ（`/`など）で行なうことが前提となっています。この節では、アプリケーションをディレクトリの下で実行する方法について説明します。
 
 ここでは、アプリケーションを"/app1"ディレクトリにデプロイしたいとします。これを行なうには、適切なルーティングを生成できるディレクトリをRailsに指示する必要があります。
 
@@ -3485,7 +3483,7 @@ Rails環境の設定
 
 一部の設定については、Railsの外部から環境変数の形で与えることも可能です。以下の環境変数は、Railsの多くの部分で認識されます。
 
-* `ENV["RAILS_ENV"]`: Railsが実行される環境 (production、development、testなど) を定義します。
+* `ENV["RAILS_ENV"]`: Railsが実行される環境（production、development、testなど）を定義します。
 
 * `ENV["RAILS_RELATIVE_URL_ROOT"]`: [アプリケーションをサブディレクトリにデプロイする](configuring.html#サブディレクトリにデプロイする（相対url-rootの利用）)ときにルーティングシステムがURLを認識するために使われます。
 

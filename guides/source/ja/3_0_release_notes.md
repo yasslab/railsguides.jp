@@ -492,7 +492,7 @@ Active ResourceもActive Modelに切り出されたことで、Action PackでAct
 * `load`が数値の配列でも使えるようになった
 * リモートリソースの410レスポンスを、リソースが削除されたと認識するようになった
 * Active Resource接続にSSLオプションを設定する機能を追加
-* 接続のタイムアウト設定が`Net::HTTP` `open_timeout`にも効くようになった
+* コネクションのタイムアウト設定が`Net::HTTP`の`open_timeout`にも効くようになった
 
 以下は非推奨化されました。
 

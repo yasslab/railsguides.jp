@@ -388,7 +388,7 @@ end
 
 ### `sanitize_css`
 
-CSSのコードブロックをサニタイズします（特にHTMLコンテンツ内にスタイル属性が含まれている場合）。`sanitize_css` は、ユーザー入力から生成されたコンテンツや、スタイル属性を含む動的コンテンツを扱う場合に特に役立ちます。
+CSSのコードブロックをサニタイズします（特にHTMLコンテンツ内にスタイル属性が含まれている場合）。`sanitize_css`は、ユーザー入力から生成されたコンテンツや、スタイル属性を含む動的コンテンツを扱う場合に特に役立ちます。
 
 以下の`sanitize_css`メソッドは、許可されていないCSSスタイルを削除します。
 
@@ -466,7 +466,7 @@ image_tag("rails.png")
 
 ### `audio_tag`
 
-単独のソースURL文字列を渡すと単一の`src`タグを含むHTML `audio`タグを生成し、複数のソースURL文字列を渡すと複数の`src`タグを含む`audio`タグを生成します。`sources`オプションには、フルパス、公開しているオーディオディレクトリ内のファイル、または[Active Storage の添付ファイル](active_storage_overview.html)を指定できます。
+単独のソースURL文字列を渡すと単一の`src`タグを含むHTML `audio`タグを生成し、複数のソースURL文字列を渡すと複数の`src`タグを含む`audio`タグを生成します。`sources`オプションには、フルパス、公開しているオーディオディレクトリ内のファイル、または[Active Storageの添付ファイル](active_storage_overview.html)を指定できます。
 
 ```ruby
 audio_tag("sound")
@@ -614,7 +614,7 @@ INFO: `stylesheet_link_tag`の内部では、[`AssetUrlHelper`の`stylesheet_pat
 
 ### `video_tag`
 
-単独のソースURL文字列を渡すと単一の`src`タグを含むHTML `video`タグを生成し、複数のソースURL文字列を渡すと複数の`src`タグを含む`video`タグを生成します。`sources`オプションには、フルパス、公開している動画ディレクトリ内のファイル、または[Active Storage の添付ファイル](active_storage_overview.html)を指定できます。
+単独のソースURL文字列を渡すと単一の`src`タグを含むHTML `video`タグを生成し、複数のソースURL文字列を渡すと複数の`src`タグを含む`video`タグを生成します。`sources`オプションには、フルパス、公開している動画ディレクトリ内のファイル、または[Active Storageの添付ファイル](active_storage_overview.html)を指定できます。
 
 ```ruby
 video_tag("trailer")
@@ -789,7 +789,7 @@ class_names("flex items-#{alignment}", "flex-col": mobile) # エイリアス
 
 キャプチャの戻り値は、そのブロックによって生成された文字列になります。
 
-``` ruby
+```ruby
 @greeting
 # => "Welcome to my shiny new web page! The date and time is 2018-09-06 11:09:16 -0500"
 ```
@@ -838,7 +838,7 @@ end
 
 WARNING: `content_for`はキャッシュ内では無視されるので、フラグメントキャッシュされる要素では`content_for`を使わないでください。
 
-NOTE: `capture`と`content_for`の違いでお悩みの方へ。<br><br>`capture`はマークアップのブロックを変数にキャプチャするために使われ、`content_for`は、マークアップのブロックを識別子に保存して後で利用可能にするの使われます（`content_for`は実際には内部で`capture`を呼び出しています）。ただし両者の大きな違いは、複数回呼び出されたときの振る舞いにあります。<br><br>`content_for`は繰り返し呼び出すことが可能であり、特定の識別子用に受け取ったブロックを提供された順序で連結します。以後の個別の呼び出しは、既に保存済みのコンテンツに追加するだけで。 対照的に、`capture`はブロックのコンテンツのみを返すだけで、以前の呼び出しをトラッキングしません。
+NOTE: `capture`と`content_for`の違いでお悩みの方へ。<br><br>`capture`はマークアップのブロックを変数にキャプチャするために使われ、`content_for`は、マークアップのブロックを識別子に保存して後で利用可能にするの使われます（`content_for`は実際には内部で`capture`を呼び出しています）。ただし両者の大きな違いは、複数回呼び出されたときの振る舞いにあります。<br><br>`content_for`は繰り返し呼び出すことが可能であり、特定の識別子用に受け取ったブロックを提供された順序で連結します。以後の個別の呼び出しは、既に保存済みのコンテンツに追加するだけで。対照的に、`capture`はブロックのコンテンツのみを返すだけで、以前の呼び出しをトラッキングしません。
 
 詳しくは[`content_for`][] APIドキュメントを参照してください。
 

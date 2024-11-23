@@ -6,7 +6,7 @@ Active Record の基礎
 このガイドの内容:
 
 * Active RecordがMVC (Model-View-Controller)パラダイムと調和する方法
-* ORM (オブジェクト/リレーショナルマッピング) とActive Recordについて、およびRailsでの利用方法
+* ORM（オブジェクト/リレーショナルマッピング）とActive Recordについて、およびRailsでの利用方法
 * Active Recordモデルを利用してリレーショナルデータベースに保存されたデータを操作する
 * Active Recordスキーマにおける命名規約
 * データベースのマイグレーション、バリデーション（検証）、コールバックの概念
@@ -20,7 +20,7 @@ Active Recordとは、[MVC][]で言うところのM、つまりモデルの一�
 
 NOTE: RailsのActive Recordが[Active Model][]とどこが違うかというと、Active Modelは背後にデータベースが「なくてもよい」Rubyオブジェクトを用いてデータをモデル化するときに主に用いられます。Active RecordとActive Modelは、どちらもMVCのMの一部ですが、Active Modelは独自のプレーンなRubyオブジェクト（PORO）としても利用できます。
 
-「Active Record」は、ソフトウェアアーキテクチャパターンを指すという用語でもあります。RailsのActive Recordは、「Active Record」パターンの実装でもあり、[オブジェクト リレーショナル マッピング][ORM]システムとも呼ばれます。以下のセクションでは、これらの用語について説明します。
+「Active Record」は、ソフトウェアアーキテクチャパターンを指すという用語でもあります。RailsのActive Recordは、「Active Record」パターンの実装でもあり、[オブジェクトリレーショナルマッピング][ORM]システムとも呼ばれます。以下のセクションでは、これらの用語について説明します。
 
 [MVC]:
   https://ja.wikipedia.org/wiki/Model_View_Controller
@@ -240,7 +240,7 @@ class Book < ApplicationRecord
 end
 ```
 
-テーブル名をこのように上書き指定する場合は、テストの定義で`set_fixture_class`メソッドを使い、[フィクスチャ](testing.html#フィクスチャのしくみ) (`my_books.yml`) に対応するクラス名を別途定義しておく必要があります。
+テーブル名をこのように上書き指定する場合は、テストの定義で`set_fixture_class`メソッドを使い、[フィクスチャ](testing.html#フィクスチャのしくみ)(`my_books.yml`)に対応するクラス名を別途定義しておく必要があります。
 
 ```ruby
 # test/models/book_test.rb
@@ -444,7 +444,7 @@ book.destroy
 DELETE FROM "books" WHERE "books"."id" = ?  [["id", 104]]
 ```
 
-複数レコードを一括削除したい場合は、`destroy_by `または`destroy_all`を使えます。
+複数レコードを一括削除したい場合は、`destroy_by`または`destroy_all`を使えます。
 
 ```ruby
 # Douglas Adams著の書籍をすべて検索して削除する
@@ -461,7 +461,7 @@ Active Recordを使って、モデルがデータベースに書き込まれる�
 
 `save`、`create`、`update`などのメソッドは、モデルをデータベースに永続化を行う前にバリデーションを行います。モデルが無効な場合は、データベースに対する操作は行われません。`save`や`update`メソッドは、バリデーションに失敗すると`false`を返します。`create`メソッドは引き続きオブジェクトを返すので、エラーのチェックに利用できます。
 
-これらのメソッドにはそれぞれ破壊的なバージョン (`save!`、`create!`、`update!`) があり、こちらはバリデーションに失敗した場合にさらに厳しい対応、つまり`ActiveRecord::RecordInvalid`例外を発生します。以下はバリデーションの簡単な例です。
+これらのメソッドにはそれぞれ破壊的なバージョン（`save!`、`create!`、`update!`）もあり、こちらはバリデーションに失敗した場合にさらに厳しい対応、つまり`ActiveRecord::RecordInvalid`例外を発生します。以下はバリデーションの簡単な例です。
 
 
 ```ruby

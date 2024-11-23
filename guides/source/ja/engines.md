@@ -18,20 +18,20 @@ Rails エンジン入門
 Railsにおけるエンジンの役割
 -----------------
 
-エンジン (engine) は、ホストとなるRailsアプリケーションに機能を提供するミニチュア版Railsアプリケーションとみなせます。この場合、ホストとなるRailsアプリケーションは、実際にはエンジンに「ターボをかけた」ようなものにすぎず、`Rails::Application`クラスは`Rails::Engine`から多くの振る舞いを継承します。
+Railsのエンジン（engine）は、ホストとなるRailsアプリケーションに機能を提供するミニチュア版Railsアプリケーションとみなせます。この場合、ホストとなるRailsアプリケーションは、実際にはエンジンに「ターボをかけた」ようなものにすぎず、`Rails::Application`クラスは`Rails::Engine`から多くの振る舞いを継承します。
 
 すなわち、エンジンとアプリケーションは、細かな違いを除けばほぼ同じであると考えられます。本ガイドでもこの点をたびたび確認します。エンジンとアプリケーションは、同じ構造を共有しています。
 
 エンジンはプラグインとも密接に関連します。エンジンやプラグインは、どちらも共通の`lib`ディレクトリ構造を共有し、どちらも`rails plugin new`ジェネレータを用いて生成されます。両者の違いは、Railsはエンジンを一種の「完全なプラグイン」とみなしている点です。これは、エンジンを生成する際にジェネレータコマンドで`--full`を与えることからもわかります。このガイドでは、実際には`--mountable`オプションを使います。このオプションは、`--full`のオプション以外にもいくつかの機能を追加します。
-以後本ガイドでは「完全なプラグイン (full plugin)」を単に「エンジン」と呼びます。エンジンがプラグインになることも、プラグインがエンジンになることもできます。
+以後本ガイドでは「完全なプラグイン（full plugin）」を単に「エンジン」と呼びます。エンジンがプラグインになることも、プラグインがエンジンになることもできます。
 
-本ガイドでの説明用に作成するエンジンには「blorgh」(blogのもじり) という名前を付けます。このエンジンはホストアプリケーションにブログ機能を追加し、記事とコメントを作成できます。本ガイドでは、最初にこのエンジンを単体で動作するようにし、次にこのエンジンをアプリケーションにフックします。
+本ガイドでの説明用に作成するエンジンには「blorgh」（blogのもじり）という名前を付けます。このエンジンはホストアプリケーションにブログ機能を追加し、記事とコメントを作成できます。本ガイドでは、最初にこのエンジンを単体で動作するようにし、次にこのエンジンをアプリケーションにフックします。
 
 エンジンはホストアプリケーションから分離しておくこともできます。「分離」とは、あるアプリケーションが`articles_path`のようなルーティングヘルパーによってパスを提供できるとすると、そのアプリケーションのエンジンも同じく`articles_path`というヘルパーによってパスを提供でき、しかも両者が衝突しないということです。エンジンを分離すると、コントローラ名、モデル名、テーブル名はすべて名前空間化されます。これについては本ガイドで後述します。
 
 ここで、ぜひ理解しておくべき重要な点があります。アプリケーションは **いかなる場合も** エンジンよりも優先されます。ある環境において、最終的な決定権を持つのはアプリケーション自身です。エンジンはアプリケーションの動作を大幅に変更するものではなく、アプリケーションを単に拡張するものです。
 
-その他のエンジンに関するドキュメントについては、[Devise](https://github.com/plataformatec/devise) (親アプリケーションに認証機能を提供するエンジン) や [Thredded](https://github.com/thredded/thredded) (フォーラム機能を提供するエンジン) を参照してください。この他に、[Spree](https://github.com/spree/spree) (eコマースプラットフォーム) や[Refinery CMS](https://github.com/refinery/refinerycms) (CMSエンジン) などもあります。
+その他のエンジンに関するドキュメントについては、[Devise](https://github.com/plataformatec/devise) (親アプリケーションに認証機能を提供するエンジン)や[Thredded](https://github.com/thredded/thredded) (フォーラム機能を提供するエンジン)を参照してください。この他に、[Spree](https://github.com/spree/spree) (eコマースプラットフォーム)や[Refinery CMS](https://github.com/refinery/refinerycms) (CMSエンジン)などもあります。
 
 最後に、エンジン機能はJames Adam、Piotr Sarnacki、Railsコアチーム、そして多くの人々の助けなしでは実現できなかったでしょう。彼らに会うことがあったら、ぜひ感謝の気持ちをお伝えください。
 
@@ -108,7 +108,7 @@ mount Blorgh::Engine => "/blorgh"
 gem "blorgh", path: "engines/blorgh"
 ```
 
-Gemfileを更新したら、いつものように`bundle install`を実行するのを忘れないこと。エンジンを通常のgemと同様に`Gemfile`に記述すると、Bundlerはgemと同様にエンジンを読み込み、`blorgh.gemspec`ファイルを解析し、`lib`以下に置かれているファイル（この場合`lib/blorgh.rb`）をrequireします。このファイルは、(`lib/blorgh/engine.rb`に置かれている) `blorgh/engine.rb`ファイルをrequireし、`Blorgh`という基本モジュールを定義します。
+Gemfileを更新したら、いつものように`bundle install`を実行するのを忘れないこと。エンジンを通常のgemと同様に`Gemfile`に記述すると、Bundlerはgemと同様にエンジンを読み込み、`blorgh.gemspec`ファイルを解析し、`lib`以下に置かれているファイル（この場合`lib/blorgh.rb`）をrequireします。このファイルは、（`lib/blorgh/engine.rb`に置かれている）`blorgh/engine.rb`ファイルをrequireし、`Blorgh`という基本モジュールを定義します。
 
 ```ruby
 require "blorgh/engine"
@@ -135,7 +135,7 @@ end
 
 NOTE: `Engine`クラスの定義に含まれる`isolate_namespace`の行を変更・削除しないことを**強く**推奨します。この行が変更されると、生成されたエンジン内のクラスがアプリケーションと衝突する**可能性があります**。
 
-名前空間を分離するということは、`bin/rails g model`の実行によって生成されたモデル（ここでは `bin/rails g model article`を実行したとします）は`Article`にならず、名前空間化されて`Blorgh::Article`になるということです。さらにモデルのテーブルも名前空間化され、単なる`articles`ではなく`blorgh_articles`になります。コントローラもモデルと同様に名前空間化されます。`ArticlesController`というコントローラは`Blorgh::ArticlesController`になり、このコントローラのビューは`app/views/articles`ではなく`app/views/blorgh/articles`に置かれます。メーラーも同様に名前空間化されます。
+名前空間を分離するということは、`bin/rails g model`の実行によって生成されたモデル（ここでは`bin/rails g model article`を実行したとします）は`Article`にならず、名前空間化されて`Blorgh::Article`になるということです。さらにモデルのテーブルも名前空間化され、単なる`articles`ではなく`blorgh_articles`になります。コントローラもモデルと同様に名前空間化されます。`ArticlesController`というコントローラは`Blorgh::ArticlesController`になり、このコントローラのビューは`app/views/articles`ではなく`app/views/blorgh/articles`に置かれます。メーラーも同様に名前空間化されます。
 
 最後に、ルーティングもエンジン内で分離されます。これは名前空間化の最も重要な部分の1つであり、これについては本ガイドの[ルーティング](#ルーティング)セクションで後述します。
 
@@ -226,7 +226,7 @@ invoke      test_unit
 
 scaffoldジェネレータが最初に行なうのは、`active_record`ジェネレータの呼び出しです。これはマイグレーションの生成とそのリソースのモデルを生成します。ここでご注目いただきたいのは、マイグレーションは通常の`create_articles`ではなく`create_blorgh_articles`という名前で呼ばれるという点です。これは`Blorgh::Engine`クラスの定義で呼び出される`isolate_namespace`メソッドによるものです。このモデルも名前空間化されるので、`Engine`クラス内の`isolate_namespace`呼び出しによって、`app/models/article.rb`ではなく`app/models/blorgh/article.rb`に置かれます。
 
-続いて、そのモデルに対応する`test_unit`ジェネレータが呼び出され、（`test/models/article_test.rb`ではなく）`test/models/blorgh/article_test.rb` にモデルのテストが置かれます。フィクスチャも同様に（`test/fixtures/articles.yml`ではなく）`test/fixtures/blorgh/articles.yml`に置かれます。
+続いて、そのモデルに対応する`test_unit`ジェネレータが呼び出され、（`test/models/article_test.rb`ではなく）`test/models/blorgh/article_test.rb`にモデルのテストが置かれます。フィクスチャも同様に（`test/fixtures/articles.yml`ではなく）`test/fixtures/blorgh/articles.yml`に置かれます。
 
 その後、そのリソースに対応する行が`config/routes.rb`ファイルに挿入され、エンジンで使われます。ここで挿入される行は単に`resources :articles`となっています。これにより、そのエンジンで使われる`config/routes.rb`ファイルが以下のように変更されます。
 
@@ -238,7 +238,7 @@ end
 
 このルーティングは、`YourApp::Application`クラスではなく`Blorgh::Engine`オブジェクトに基づいていることにご注目ください。これにより、エンジンのルーティングがエンジン自身に制限され、[testディレクトリ](#testディレクトリ)セクションで説明したように特定の位置にマウントできるようになります。ここでは、エンジンのルーティングがアプリケーション内のルーティングから分離されていることにもご注目ください。詳細については本ガイドの[ルーティング](#ルーティング)セクションで解説します。
 
-続いて`scaffold_controller`ジェネレータが呼ばれ、`Blorgh::ArticlesController`という名前のコントローラを生成します (生成場所は`app/controllers/blorgh/articles_controller.rb`です)。このコントローラに関連するビューは`app/views/blorgh/articles`となります。このジェネレータは、コントローラ用のテスト (`test/controllers/blorgh/articles_controller_test.rb`) とヘルパー (`app/helpers/blorgh/articles_helper.rb`) も同時に生成します。
+続いて`scaffold_controller`ジェネレータが呼ばれ、`Blorgh::ArticlesController`という名前のコントローラを生成します（生成場所は`app/controllers/blorgh/articles_controller.rb`です）。このコントローラに関連するビューは`app/views/blorgh/articles`となります。このジェネレータは、コントローラ用のテスト（`test/controllers/blorgh/articles_controller_test.rb`）とヘルパー（`app/helpers/blorgh/articles_helper.rb`）も同時に生成します。
 
 このジェネレータによって生成されるものはすべて正しく名前空間化されます。このコントローラのクラスは、以下のように`Blorgh`モジュール内で定義されます。
 
@@ -279,7 +279,7 @@ end
 root to: "articles#index"
 ```
 
-これで、ユーザーが (`/articles`ではなく) エンジンのルートパスをブラウザで表示すると記事の一覧が表示されるようになりました。つまり、わざわざ`http://localhost:3000/blorgh/articles`と指定しなくても`http://localhost:3000/blorgh`と指定すれば済むようになります。
+これで、ユーザーが（`/articles`ではなく）エンジンのrootパスをブラウザで表示すると、記事の一覧が表示されるようになりました。つまり、わざわざ`http://localhost:3000/blorgh/articles`と指定しなくても`http://localhost:3000/blorgh`と指定すれば済むようになります。
 
 ### commentsリソースを生成する
 
@@ -339,7 +339,7 @@ NOTE: この`has_many`は`Blorgh`モジュールの中にあるクラスの中�
 <%= render "blorgh/comments/form" %>
 ```
 
-続いて、この行を出力に含めるためのパーシャル (部分テンプレート) も必要です。`app/views/blorgh/comments`にディレクトリを作成し、`_form.html.erb`というファイルを作成します。このファイルの中に以下のパーシャルを記述します。
+続いて、この行を出力に含めるためのパーシャル（部分テンプレート）も必要です。`app/views/blorgh/comments`にディレクトリを作成し、`_form.html.erb`というファイルを作成します。このファイルの中に以下のパーシャルを記述します。
 
 ```html+erb
 <h3>New comment</h3>
@@ -406,7 +406,7 @@ Missing partial blorgh/comments/_comment with {:handlers=>[:erb, :builder],
 "/Users/ryan/Sites/side_projects/blorgh/app/views"
 ```
 
-このエラーは、コメントの表示に必要なパーシャルをエンジンが見つけられないためです。Railsはアプリケーションの (`test/dummy`) `app/views`を最初に検索し、続いてエンジンの`app/views`ディレクトリを検索します。見つからない場合はエラーになります。エンジン自身は`blorgh/comments/comment`を検索すべきであることを認識しています。これは、エンジンが受け取るモデルオブジェクトが`Blorgh::Comment`クラスに属しているためです。
+このエラーは、コメントの表示に必要なパーシャルをエンジンが見つけられないためです。Railsはアプリケーションの（`test/dummy`）`app/views`を最初に検索し、続いてエンジンの`app/views`ディレクトリを検索します。見つからない場合はエラーになります。エンジン自身は`blorgh/comments/comment`を検索すべきであることを認識しています。これは、エンジンが受け取るモデルオブジェクトが`Blorgh::Comment`クラスに属しているためです。
 
 さしあたって、コメントテキストを出力する役目をこのパーシャルに担ってもらわなければなりません。`app/views/blorgh/comments/_comment.html.erb`ファイルを作成し、以下の記述を追加します。
 
@@ -490,7 +490,7 @@ Copied migration [timestamp_1]_create_blorgh_articles.blorgh.rb from blorgh
 Copied migration [timestamp_2]_create_blorgh_comments.blorgh.rb from blorgh
 ```
 
-最初のタイムスタンプ (`[timestamp_1]`) は現在時刻、次のタイムスタンプ (`[timestamp_2]`) は現在時刻に1秒追加した値になります。タイムスタンプがこのようになっている理由は、アプリケーションの既存のマイグレーションがすべて完了した後でエンジンのマイグレーションを実行する必要があるためです。
+最初のタイムスタンプ（`[timestamp_1]`）は現在時刻、次のタイムスタンプ（`[timestamp_2]`）は現在時刻に1秒追加した値になります。タイムスタンプがこのようになっている理由は、アプリケーションの既存のマイグレーションがすべて完了した後でエンジンのマイグレーションを実行する必要があるためです。
 
 アプリケーションのコンテキストでマイグレーションを実行するには、単に`bin/rails db:migrate`を実行します。`http://localhost:3000/blog`でエンジンにアクセスすると、記事は空の状態です。これは、アプリケーションの内部で作成されたテーブルはエンジンの内部で作成されたテーブルとは異なるためです。新しくマウントしたエンジンでもっといろいろやってみましょう。アプリケーションの動作は、エンジンを単体で動かしているときと同じであることがわかります。
 
@@ -514,7 +514,7 @@ $ bin/rails db:migrate SCOPE=blorgh VERSION=0
 
 通常のアプリケーションであれば、記事やコメントの作者を表す何らかの`User`クラスが備わっているかもしれません。しかしそのクラス名が`User`とは限らず、アプリケーションによっては`Person`というクラスかもしれません。このような状況に対応するために、このエンジンでは`User`クラスとの関連付けをハードコードしないようにすべきです。
 
-ここでは話を簡単にするため、アプリケーションがユーザーを表すために持つクラスは`User`であるとします (この後でもっとカスタマイズしやすくします)。このクラスは、アプリケーションで以下のコマンドを実行して生成できます。
+ここでは話を簡単にするため、アプリケーションがユーザーを表すために持つクラスは`User`であるとします（この後でもっとカスタマイズしやすくします）。このクラスは、アプリケーションで以下のコマンドを実行して生成できます。
 
 ```bash
 $ bin/rails generate model user name:string
@@ -587,7 +587,7 @@ Copied migration [timestamp]_add_author_id_to_blorgh_articles.blorgh.rb from blo
 $ bin/rails db:migrate
 ```
 
-これですべての部品が定位置に置かれ、ある記事 (article) を、`users`テーブルのレコードで表される作者 (author) に関連付けるアクションが実行されるようになりました。この記事は`blorgh_articles`テーブルで表されます。
+これですべての部品が定位置に置かれ、ある記事（article）を、`users`テーブルのレコードで表される作者（author）に関連付けるアクションが実行されるようになりました。この記事は`blorgh_articles`テーブルで表されます。
 
 最後に、作者名を記事のページに表示しましょう。以下のコードを`app/views/blorgh/articles/_article.html.erb`の"Title"出力の上に追加します。
 
@@ -676,7 +676,7 @@ WARNING: この設定では、このクラス名をクラスそのものでは�
 
 次は、新しい記事を1つ作成してみましょう。記事の作成はこれまでとまったく同様に行えます。1つだけ異なるのは、このクラスの動作を学ぶために`config/initializers/blorgh.rb`の設定をエンジンで使う点です。
 
-ここでは、クラスで使うAPIがどんなものでなければならないかだけが重要です（どんなクラスであるかについては厳密な依存はありません）。エンジンで使うクラスで必須となるメソッドは`find_or_create_by`のみです。このメソッドはそのクラスのオブジェクトを1つ返します。もちろん、このオブジェクトは何らかの形で参照可能な識別子 (id) を持つ必要があります。
+ここでは、クラスで使うAPIがどんなものでなければならないかだけが重要です（どんなクラスであるかについては厳密な依存はありません）。エンジンで使うクラスで必須となるメソッドは`find_or_create_by`のみです。このメソッドはそのクラスのオブジェクトを1つ返します。もちろん、このオブジェクトは何らかの形で参照可能な識別子（id）を持つ必要があります。
 
 #### 一般的なエンジンの設定
 
@@ -742,7 +742,7 @@ end
 
 エンジンのモデルやコントローラは、メインのRailsアプリケーション側でそれらのクラスを再オープン（再定義）することで拡張できます。
 
-オーバーライドは専用の`app/overrides`ディレクトリに配置できます。これはオートローダーで無視され、 `to_prepare`コールバックでプリロードされます。
+オーバーライドは専用の`app/overrides`ディレクトリに配置できます。これはオートローダーで無視され、`to_prepare`コールバックでプリロードされます。
 
 ```ruby
 # config/application.rb

@@ -55,7 +55,7 @@ Rails 5.2で[HTTP/2 Early Hints](https://tools.ietf.org/html/rfc8297)がサポ�
 
 [Pull Request](https://github.com/rails/rails/pull/31162)
 
-Rails 5.2では、アプリケーションの [Content Security Policy](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Content-Security-Policy)（CSP）を設定する新しいDSLが使えるようになりました。グローバルなポリシーを1つ設定しておき、続いてリソースベースでポリシーをオーバーライドすることも、lambdaを使ってリクエストごとにヘッダーに値を注入することもできます（マルチテナントのアプリでアカウントのサブドメインを注入するなど）。
+Rails 5.2では、アプリケーションの[Content Security Policy](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Content-Security-Policy)（CSP）を設定する新しいDSLが使えるようになりました。グローバルなポリシーを1つ設定しておき、続いてリソースベースでポリシーをオーバーライドすることも、lambdaを使ってリクエストごとにヘッダーに値を注入することもできます（マルチテナントのアプリでアカウントのサブドメインを注入するなど）。
 詳しくは、[Rails セキュリティガイド](security.html#content-security-policyヘッダー)を参照してください。
 
 Railties
@@ -238,7 +238,7 @@ Action Pack
 * Rails UJS向けにnonceの自動生成をサポート。
     ([Commit](https://github.com/rails/rails/commit/b2f0a8945956cd92dec71ec4e44715d764990a49))
 
-* デフォルトのHSTS `max-age`値を31536000秒（1年）に更新。
+* デフォルトのHSTS`max-age`値を31536000秒（1年）に更新。
     ([Commit](https://github.com/rails/rails/commit/30b5f469a1d30c60d1fb0605e84c50568ff7ed37))
 
 * `cookies`の`to_h`メソッドのエイリアス`to_hash`メソッドを追加
@@ -262,7 +262,7 @@ Action View
 
 ### 主な変更点
 
-*   [JSON Feeds](https://jsonfeed.org/version/1)に対応するため、`auto_discovery_link_tag`に`:json`タイプを追加しました。    
+*   [JSON Feeds](https://jsonfeed.org/version/1)に対応するため、`auto_discovery_link_tag`に`:json`タイプを追加しました。
     ([Pull Request](https://github.com/rails/rails/pull/29158))
 
 *   `image_tag`ヘルパーに`srcset`オプションを追加しました。
@@ -460,7 +460,7 @@ Active Record
 * 「up」マイグレーション（新しいカラムの追加など）にのみ関係あるコード用の`#up_only`をデータベースマイグレーションに追加。
     ([Pull Request](https://github.com/rails/rails/pull/31082))
 
-* ユーザーのリクエストが原因でステートメントをキャンセルした場合にraiseされるエラークラス`QueryCanceled `を新しく追加。
+* ユーザーのリクエストが原因でステートメントをキャンセルした場合にraiseされるエラークラス`QueryCanceled`を新しく追加。
     ([Pull Request](https://github.com/rails/rails/pull/31235))
 
 * `Relation`のインスタンスメソッドと衝突するスコープ定義を許さないようになった。
@@ -628,7 +628,7 @@ Active Support
 * `MessageEncryptor`と`MessageVerifier`でキーのローテーションをサポート。
     ([Pull Request](https://github.com/rails/rails/pull/29716))
 
-* `HashWithIndifferentAccess#transform_keys` が `HashWithIndifferentAccess` のインスタンスを返すようになった。
+* `HashWithIndifferentAccess#transform_keys`が`HashWithIndifferentAccess`のインスタンスを返すようになった。
     ([Pull Request](https://github.com/rails/rails/pull/30728))
 
 * `Hash#slice`がRuby 2.5以降の組み込み定義にフォールバックするようになった（定義済みの場合）。
@@ -688,7 +688,7 @@ Active Support
 * `assert_difference`の最初の引数でハッシュをサポート。これにより、同一のアサーションでさまざまな数値の違いを指定できるようになった。
     ([Pull Request](https://github.com/rails/rails/pull/31600))
 
-* キャッシュ: MemCacheやRedis の`read_multi`と`fetch_multi`を高速化。バックエンドに問い合わせる前にローカルのインメモリキャッシュから読み取るようになった。
+* キャッシュ: MemCacheやRedisの`read_multi`と`fetch_multi`を高速化。バックエンドに問い合わせる前にローカルのインメモリキャッシュから読み取るようになった。
     ([Commit](https://github.com/rails/rails/commit/a2b97e4ffef971607a1be8fc7909f099b6840f36))
 
 Active Job

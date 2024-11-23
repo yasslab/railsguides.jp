@@ -1,7 +1,7 @@
 Ruby on Rails 5.1 リリースノート
 ===============================
 
-Rails 5.1 の注目ポイント
+Rails 5.1の注目ポイント
 
 * Yarnのサポート
 * Webpackのサポート（オプション）
@@ -20,7 +20,7 @@ Rails 5.1 の注目ポイント
 Rails 5.1へのアップグレード
 ----------------------
 
-既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 5.0までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 5.0にアップデートしてください。アップグレードの注意点などについては[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-5-0からrails-5-1へのアップグレード) を参照してください。
+既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 5.0までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 5.0にアップデートしてください。アップグレードの注意点などについては[Ruby on Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-5-0からrails-5-1へのアップグレード)を参照してください。
 
 
 主要な変更
@@ -293,11 +293,11 @@ Action Pack
 *   コントローラのフィルタに関連する非推奨メソッドを削除
     ([Commit](https://github.com/rails/rails/commit/d7be30e8babf5e37a891522869e7b0191b79b757))
 
-*   `render` メソッドのキーワード引数 `:text`、`:nothing` のサポートを削除
+*   `render`メソッドのキーワード引数`:text`、`:nothing`のサポートを削除
     ([Commit](https://github.com/rails/rails/commit/79a5ea9eadb4d43b62afacedc0706cbe88c54496),
     [Commit](https://github.com/rails/rails/commit/57e1c99a280bdc1b324936a690350320a1cd8111))
 
-*   `ActionController::Parameters` における `HashWithIndifferentAccess` のメソッド呼び出しのサポートを削除
+*   `ActionController::Parameters`における`HashWithIndifferentAccess`のメソッド呼び出しのサポートを削除
     ([Commit](https://github.com/rails/rails/pull/26746/commits/7093ceb480ad6a0a91b511832dad4c6a86981b93))
 
 ### 非推奨
@@ -313,7 +313,7 @@ Action Pack
 *   ルーティングDSLに`direct`メソッドと`resolve`メソッドを追加
     ([Pull Request](https://github.com/rails/rails/pull/23138))
 
-*   アプリケーションのシステムテスト作成用クラス `ActionDispatch::SystemTestCase`を追加
+*   アプリケーションのシステムテスト作成用クラス`ActionDispatch::SystemTestCase`を追加
     ([Pull Request](https://github.com/rails/rails/pull/26703))
 
 Action View
@@ -430,7 +430,7 @@ Active Record
 *   `sanitize_conditions`を非推奨化: 今後は`sanitize_sql`を使うこと
     ([Pull Request](https://github.com/rails/rails/pull/25999))
 
-*   接続アダプタのDeprecated `supports_migrations?`を非推奨化
+*   コネクションアダプタの`supports_migrations?`を非推奨化
     ([Pull Request](https://github.com/rails/rails/pull/28172))
 
 *   `Migrator.schema_migrations_table_name`を非推奨化: 今後は,`SchemaMigration.table_name`を使うこと

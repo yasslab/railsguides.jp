@@ -22,7 +22,7 @@ Rails 3.2へのアップグレード
 
 Rails 3.2ではRuby 1.8.7以上が必須です。これより前のバージョンのRubyのサポートは公式に廃止されたため、速やかにRubyをアップグレードすべきです。Rails 3.2はRuby 1.9.2とも互換性があります。
 
-TIP: Ruby 1.8.7のp248とp249には、Railsクラッシュの原因となるマーシャリングのバグがあります。なおRuby Enterprise Editionでは1.8.7-2010.02のリリースでこの問題が修正されました。現行のRuby 1.9のうち、Ruby 1.9.1はセグメンテーションフォールト（segfault）で完全にダウンするため利用できません。Railsをスムーズに動かすため、Ruby 1.9.xを使いたい場合は1.9.2 または1.9.3をお使いください。
+TIP: Ruby 1.8.7のp248とp249には、Railsクラッシュの原因となるマーシャリングのバグがあります。なおRuby Enterprise Editionでは1.8.7-2010.02のリリースでこの問題が修正されました。現行のRuby 1.9のうち、Ruby 1.9.1はセグメンテーションフォールト（segfault）で完全にダウンするため利用できません。Railsをスムーズに動かすため、Ruby 1.9.xを使いたい場合は1.9.2または1.9.3をお使いください。
 
 ### Railsのアップグレード方法
 
@@ -155,7 +155,7 @@ Railties
 
 * デフォルトのGemfileからturn gemが削除されました。
 
-* 旧来の`rails generate plugin` プラグインジェネレータが削除されました。今後は`rails plugin new`をお使いください。
+* 旧来の`rails generate plugin`プラグインジェネレータが削除されました。今後は`rails plugin new`をお使いください。
 
 * 旧来の`config.paths.app.controller` APIが削除されました。今後は`config.paths["app/controller"]`をお使いください。
 
@@ -310,7 +310,7 @@ Action Pack
 
 #### 非推奨
 
-* フォーマットやハンドラを`render :template`などに渡すこと（例: `render :template => "foo.html.erb"`）は非推奨になりました。今後はオプションで直接`:handlers`や`:formats`を指定できるようになりました（例: ` render :template => "foo", :formats => [:html, :js], :handlers => :erb`）。
+* フォーマットやハンドラを`render :template`などに渡すこと（例: `render :template => "foo.html.erb"`）は非推奨になりました。今後はオプションで直接`:handlers`や`:formats`を指定できるようになりました（例: `render :template => "foo", :formats => [:html, :js], :handlers => :erb`）。
 
 ### Sprockets
 

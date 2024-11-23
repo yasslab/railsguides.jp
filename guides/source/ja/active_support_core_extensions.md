@@ -36,7 +36,7 @@ require 'active_support'
 { a: 1 }.with_indifferent_access["a"] # => 1
 ```
 
-本ガイドでは、コア拡張機能として定義されているすべてのメソッドについて、その定義ファイルの置き場所も示してあります。たとえば`with_indifferent_access` の場合、以下のようなメモを追加してあります。
+本ガイドでは、コア拡張機能として定義されているすべてのメソッドについて、その定義ファイルの置き場所も示してあります。たとえば`with_indifferent_access`の場合、以下のようなメモを追加してあります。
 
 NOTE: 定義は[`active_support/core_ext/hash/indifferent_access.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/hash_with_indifferent_access.rb)にあります。
 
@@ -541,7 +541,7 @@ NOTE: 定義は[`active_support/core_ext/object/inclusion.rb`](https://github.co
 
 #### `alias_attribute`
 
-モデルの属性には、リーダー (reader)、ライター (writer)、述語 (predicate) があります。[`alias_attribute`][Module#alias_attribute]を使うと、これらに対応する3つのメソッドを持つ、モデルの属性のエイリアス (alias) を一度に作成できます。他のエイリアス作成メソッドと同様、1つ目の引数には新しい名前、2つ目の引数には元の名前を指定します (変数に代入するときと同じ順序、と覚えておく手もあります)。
+モデルの属性には、リーダー（reader）、ライター（writer）、述語（predicate）があります。[`alias_attribute`][Module#alias_attribute]を使うと、これらに対応する3つのメソッドを持つ、モデルの属性のエイリアス（alias）を一度に作成できます。他のエイリアス作成メソッドと同様、1つ目の引数には新しい名前、2つ目の引数には元の名前を指定します（変数に代入するときと同じ順序、と覚えておく手もあります）。
 
 ```ruby
 class User < ApplicationRecord
@@ -787,7 +787,7 @@ delegate :logger, to: :Rails
 delegate :table_name, to: :class
 ```
 
-WARNING: `:prefix`オプションが`true`の場合、一般性が低下します (以下を参照)。
+WARNING: `:prefix`オプションが`true`の場合、一般性が低下します（以下を参照）。
 
 委譲時に`NoMethodError`が発生して対象が`nil`の場合、`NoMethodError`が伝搬します。`:allow_nil`オプションを使うと、例外の代わりに`nil`を返すようにできます。
 
@@ -949,7 +949,7 @@ NOTE: 定義は[`active_support/core_ext/class/attribute.rb`](https://github.com
 
 #### `cattr_reader`、`cattr_writer`、`cattr_accessor`
 
-[`cattr_reader`][Module#cattr_reader]、[`cattr_writer`][Module#cattr_writer]、[`cattr_accessor`][Module#cattr_accessor]マクロは、`attr_*`と似ていますが、クラス用である点が異なります。これらのメソッドは、クラス変数を`nil`に設定し (クラス変数が既にある場合を除く)、対応するクラスメソッドを生成してアクセスできるようにします。
+[`cattr_reader`][Module#cattr_reader]、[`cattr_writer`][Module#cattr_writer]、[`cattr_accessor`][Module#cattr_accessor]マクロは、`attr_*`と似ていますが、クラス用である点が異なります。これらのメソッドは、クラス変数を`nil`に設定し（クラス変数が既にある場合を除く）、対応するクラスメソッドを生成してアクセスできるようにします。
 
 ```ruby
 class MysqlAdapter < AbstractAdapter
@@ -967,7 +967,7 @@ class MysqlAdapter < AbstractAdapter
 end
 ```
 
-利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス属性の単なるプロキシです。このため、インスタンスがクラス属性を変更することは可能ですが、`class_attribute`が行なうのと同じように上書きすることはできません(上記参照)。たとえば以下の場合、
+利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス属性の単なるプロキシです。このため、インスタンスがクラス属性を変更することは可能ですが、`class_attribute`が行なうのと同じように上書きすることはできません（上記参照）。たとえば以下の場合、
 
 ```ruby
 module ActionView
@@ -1065,7 +1065,7 @@ HTMLテンプレートにデータを挿入する方法は、きわめて慎重�
 
 #### 安全な文字列
 
-Active Supportには「**(html的に) 安全な文字列**」という概念があります。安全な文字列とは、HTMLにそのまま挿入しても問題がないというマークが付けられている文字列です。マーキングさえされていれば、「実際にエスケープされているかどうかにかかわらず」その文字列は信頼されます。
+Active Supportには「**（html的に）安全な文字列**」という概念があります。安全な文字列とは、HTMLにそのまま挿入しても問題がないというマークが付けられている文字列です。マーキングさえされていれば、「実際にエスケープされているかどうかにかかわらず」その文字列は信頼されます。
 
 文字列はデフォルトでは「unsafe」とマークされます。
 
@@ -1096,7 +1096,7 @@ s            # => "<script>...</script>"
 "".html_safe + "<" # => "&lt;"
 ```
 
-安全な引数であれば、(エスケープなしで)直接追加されます。
+安全な引数であれば、（エスケープなしで）直接追加されます。
 
 ```ruby
 "".html_safe + "<".html_safe # => "<"
@@ -1135,7 +1135,7 @@ NOTE: 定義は[`active_support/core_ext/string/output_safety.rb`](https://githu
 
 #### 各種変換
 
-経験上、上で説明したような連結 (concatenation) 操作を除き、どんなメソッドでも潜在的には文字列を安全でないものに変換してしまう可能性があることに常に注意を払う必要があります。`downcase`、`gsub`、`strip`、`chomp`、`underscore`などの変換メソッドがこれに該当します。
+経験上、上で説明したような連結（concatenation）操作を除き、どんなメソッドでも潜在的には文字列を安全でないものに変換してしまう可能性があることに常に注意を払う必要があります。`downcase`、`gsub`、`strip`、`chomp`、`underscore`などの変換メソッドがこれに該当します。
 
 `gsub!`のような破壊的な変換を行なうメソッドを使うと、レシーバ自体が安全でなくなってしまいます。
 
@@ -1188,7 +1188,7 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 # => "Oh dear! Oh dear!..."
 ```
 
-`:omission`オプションを指定することで、省略文字 (...) をカスタマイズすることもできます。
+`:omission`オプションを指定することで、省略文字（`...`）をカスタマイズすることも可能です。
 
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate(20, omission: "&hellip;")
@@ -1229,7 +1229,7 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 # => "👍👍👍…"
 ```
 
-`:omission`オプションを指定することで、省略文字 (...) をカスタマイズすることもできます。
+`:omission`オプションを指定することで、省略文字（`...`）をカスタマイズすることも可能です。
 
 ```ruby
 "👍👍👍👍".truncate_bytes(15, omission: "🖖")
@@ -1249,7 +1249,7 @@ NOTE: 定義は[`active_support/core_ext/string/filters.rb`](https://github.com/
 # => "Oh dear! Oh dear!..."
 ```
 
-`:omission`オプションを指定することで、省略文字 (...) をカスタマイズすることもできます。
+`:omission`オプションを指定することで、省略文字（`...`）をカスタマイズすることも可能です。
 
 ```ruby
 "Oh dear! Oh dear! I shall be late!".truncate_words(4, omission: "&hellip;")
@@ -1357,7 +1357,7 @@ EOS
 "foo\n\nbar".indent(2, nil, true) # => "  foo\n  \n  bar"
 ```
 
-[`indent!`][String#indent!]メソッドはインデントをその場で (破壊的に) 行います。
+[`indent!`][String#indent!]メソッドはインデントをその場で（破壊的に）行います。
 
 NOTE: 定義は[`active_support/core_ext/string/indent.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/core_ext/string/indent.rb)にあります。
 
@@ -1425,7 +1425,7 @@ NOTE: 定義は[`active_support/core_ext/string/access.rb`](https://github.com/r
 
 [`last`][String#last]メソッドは、文字列末尾から`limit`文字分の部分文字列を返します。
 
-`str.last(n)` という呼び出しは、`n` > 0の場合は`str.from(-n)`と等価です。`n` == 0の場合は空文字列を返します。
+`str.last(n)`という呼び出しは、`n` > 0の場合は`str.from(-n)`と等価です。`n` == 0の場合は空文字列を返します。
 
 NOTE: 定義は[`active_support/core_ext/string/access.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/core_ext/string/access.rb)にあります。
 
@@ -1477,7 +1477,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 "equipment".singularize # => "equipment"
 ```
 
-Railsの関連付け (association) では、関連付けられたクラスにデフォルトで対応する名前を求める時にこのメソッドを使います。
+Railsの関連付け（association）では、関連付けられたクラスにデフォルトで対応する名前を求める時にこのメソッドを使います。
 
 ```ruby
 # active_record/reflection.rb
@@ -1494,7 +1494,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 
 #### `camelize`
 
-[`camelize`][String#camelize]メソッドは、レシーバをキャメルケース (冒頭を大文字にした単語をスペースなしで連結した語) にしたものを返します。
+[`camelize`][String#camelize]メソッドは、レシーバをキャメルケース（冒頭を大文字にした単語をスペースなしで連結した語）にしたものを返します。
 
 ```ruby
 "product".camelize    # => "Product"
@@ -1602,7 +1602,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 
 #### `dasherize`
 
-[`dasherize`][String#dasherize]メソッドは、レシーバのアンダースコア文字をダッシュに置き換えます（訳注: ここで言うダッシュは実際には「ハイフンマイナス文字」(U+002D)です）。
+[`dasherize`][String#dasherize]メソッドは、レシーバのアンダースコア文字をダッシュに置き換えます（訳注: ここで言うダッシュは実際には「ハイフンマイナス文字（U+002D）」です）。
 
 ```ruby
 "name".dasherize         # => "name"
@@ -1625,13 +1625,13 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 
 #### `demodulize`
 
-[`demodulize`][String#demodulize]メソッドは、フルパスの (qualified) 定数名を与えられると、パス部分を取り除いて右側の定数名だけにしたものを返します。
+[`demodulize`][String#demodulize]メソッドは、フルパスの（完全修飾）定数名を与えられると、パス部分を取り除いて右側の定数名だけにしたものを返します。
 
 ```ruby
 "Product".demodulize                        # => "Product"
-"Backoffice::UsersController".demodulize    # => "UsersController"
+"Backoffice::UsersController".demodulize     # => "UsersController"
 "Admin::Hotel::ReservationUtils".demodulize # => "ReservationUtils"
-"::Inflections".demodulize                  # => "Inflections"
+"::Inflections".demodulize                   # => "Inflections"
 "".demodulize                               # => ""
 
 ```
@@ -1655,7 +1655,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 
 #### `deconstantize`
 
-[`deconstantize`][String#deconstantize]メソッドは、フルパスの定数を表す参照表現を与えられると、一番右の部分 (通常は定数名) を取り除きます。
+[`deconstantize`][String#deconstantize]メソッドは、フルパスの定数を表す参照表現を与えられると、一番右の部分（通常は定数名）を取り除きます。
 
 ```ruby
 "Product".deconstantize                        # => ""
@@ -1720,13 +1720,13 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 "invoice_lines".classify # => "InvoiceLine"
 ```
 
-このメソッドは、フルパスの (qualified) テーブル名も扱えます。
+このメソッドは、フルパスの（完全修飾）テーブル名も扱えます。
 
 ```ruby
 "highrise_production.companies".classify # => "Company"
 ```
 
-`classify`が返すクラス名は文字列であることにご注意ください。得られた文字列に対して`constantize` (後述) を実行することで実際のクラスオブジェクトを得られます。
+`classify`が返すクラス名は文字列であることにご注意ください。得られた文字列に対して`constantize`（後述）を実行することで実際のクラスオブジェクトを得られます。
 
 NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/core_ext/string/inflections.rb)にあります。
 
@@ -1762,7 +1762,7 @@ end
 
 このため、このメソッドは、同じ場所でRubyが定数を評価したときの値と必ずしも等価ではありません。
 
-メーラー (mailer) のテストケースでは、テストするクラスの名前からテスト対象のメーラーを取得するのに`constantize`メソッドを使います。
+メーラー（mailer）のテストケースでは、テストするクラスの名前からテスト対象のメーラーを取得するのに`constantize`メソッドを使います。
 
 ```ruby
 # action_mailer/test_case.rb
@@ -1779,13 +1779,13 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 
 #### `humanize`
 
-[`humanize`][String#humanize]メソッドは、属性名を (英語的に) 読みやすい表記に変換します。
+[`humanize`][String#humanize]メソッドは、属性名を（英語的に）読みやすい表記に変換します。
 
 具体的には以下の変換を行います。
 
-  * 引数に (英語の) 活用ルールを適用する（inflection）。
+  * 引数に（英語の）活用ルールを適用する（inflection）。
   * 冒頭にアンダースコアがある場合は削除する。
-  * 末尾に「_id」がある場合は削除する。
+  * 末尾に`_id`がある場合は削除する。
   * アンダースコアが他にもある場合はスペースに置き換える。
   * 略語を除いてすべての単語を小文字にする（downcase）。
   * 最初の単語だけ冒頭の文字を大文字にする（capitalize）。
@@ -1842,7 +1842,7 @@ NOTE: 定義は[`active_support/core_ext/string/inflections.rb`](https://github.
 "User".foreign_key(false) # => "userid"
 ```
 
-関連付け (association) では、外部キー名を推測するときにこのメソッドを使います。たとえば`has_one`と`has_many`では以下を行っています。
+Railsの関連付け（association）では、外部キー名を推測するときにこのメソッドを使います。たとえば`has_one`と`has_many`では以下を行っています。
 
 ```ruby
 # active_record/associations.rb
@@ -1875,7 +1875,7 @@ The method [`downcase_first`][String#downcase_first] converts the first letter o
 "".downcase_first                                  # => ""
 ```
 
-NOTE: Defined in `active_support/core_ext/string/inflections.rb`.
+NOTE: 定義は`active_support/core_ext/string/inflections.rb`にあります。
 
 [String#downcase_first]: https://api.rubyonrails.org/classes/String.html#method-i-downcase_first
 
@@ -1969,13 +1969,13 @@ NOTE: 定義は[`active_support/core_ext/numeric/bytes.rb`](https://github.com/r
 これらのメソッドを[`from_now`][Duration#from_now]や[`ago`][Duration#ago]などと組み合わせることで、以下のように精密に日付を計算できます。
 
 ```ruby
-# Time.current.advance(months: 1) と等価
+# Time.current.advance(months: 1)と等価
 1.month.from_now
 
-# Time.current.advance(weeks: 2) と等価
+# Time.current.advance(weeks: 2)と等価
 2.weeks.from_now
 
-# Time.current.advance(months: 4, weeks: 5) と等価
+# Time.current.advance(months: 4, weeks: 5)と等価
 (4.months + 5.weeks).from_now
 ```
 
@@ -2339,7 +2339,7 @@ Active Supportには配列のAPIが多数追加されており、配列に容易
 [ [ 0, 1 ], [ 1, 0 ] ].excluding([ [ 1, 0 ] ])                  # => [ [ 0, 1 ] ]
 ```
 
-[`second`][Array#second]、[`third`][Array#third]、[`fourth`][Array#fourth]、[`fifth`][Array#fifth]は、[`second_to_last`][Array#second_to_last]や[`third_to_last`][Array#third_to_last]と同様に、対応する位置の要素を返します (`first`と`last`は元からビルトインされています)。社会の智慧と建設的な姿勢のおかげで、今では[`forty_two`][Array#forty_two]も使えます (訳注: [Rails 2.2 以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください)。
+[`second`][Array#second]、[`third`][Array#third]、[`fourth`][Array#fourth]、[`fifth`][Array#fifth]は、[`second_to_last`][Array#second_to_last]や[`third_to_last`][Array#third_to_last]と同様に、対応する位置の要素を返します（`first`と`last`は元からビルトインされています）。社会の智慧と建設的な姿勢のおかげで、今では[`forty_two`][Array#forty_two]も使えます（訳注: [Rails 2.2以降](https://github.com/rails/rails/commit/9d8cc60ec3845fa3e6f9292a65b119fe4f619f7e)で使えます。「42」については、Wikipediaの[生命、宇宙、そして万物についての究極の疑問の答え](http://ja.wikipedia.org/wiki/%E7%94%9F%E5%91%BD%E3%80%81%E5%AE%87%E5%AE%99%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%B8%87%E7%89%A9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E7%A9%B6%E6%A5%B5%E3%81%AE%E7%96%91%E5%95%8F%E3%81%AE%E7%AD%94%E3%81%88)を参照してください）。
 
 ```ruby
 %w(a b c d).third # => "c"
@@ -2425,7 +2425,7 @@ NOTE: 定義は[`active_support/core_ext/array/extract_options.rb`](https://gith
 
 これらのオプションは標準の方法でローカライズできます。使えるキーは以下のとおりです。
 
-| オプション             | I18n キー                           |
+| オプション             | I18nキー                           |
 | ---------------------- | ----------------------------------- |
 | `:two_words_connector` | `support.array.two_words_connector` |
 | `:words_connector`     | `support.array.words_connector`     |
@@ -2479,7 +2479,7 @@ Contributor.limit(2).order(:rank).to_xml
 
 実際には、`to_xml`をすべての要素に送信し、結果をrootノードの下に集めます。すべての要素が`to_xml`に応答する必要があります。そうでない場合は例外が発生します。
 
-デフォルトでは、root要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化（underscored）とダッシュ化（dasherized）したものになります。残りの要素も最初の要素と同じ型 (`is_a?`でチェックされます) に属し、ハッシュでないことが前提となっています。上の例で言うと「contributors」です。
+デフォルトでは、root要素の名前は最初の要素のクラス名を複数形にしてアンダースコア化（underscored）とダッシュ化（dasherized）したものになります。残りの要素も最初の要素と同じ型（`is_a?`でチェックされます）に属し、ハッシュでないことが前提となっています。上の例で言うと「contributors」です。
 
 最初の要素と同じ型に属さない要素が1つでもある場合、rootノードには`objects`が使われます。
 
@@ -2558,13 +2558,13 @@ NOTE: 定義は[`active_support/core_ext/array/conversions.rb`](https://github.c
 
 ### ラッピング
 
-[`Array.wrap`][Array.wrap]メソッドは、配列の中にある引数が配列 (または配列的なもの) になっていない場合に、それらを配列の中にラップします。
+[`Array.wrap`][Array.wrap]メソッドは、配列の中にある引数が配列（または配列的なもの）になっていない場合に、それらを配列の中にラップします。
 
 特徴:
 
 * 引数が`nil`の場合、空の配列を返します。
 * 上記以外の場合で、引数が`to_ary`に応答する場合は`to_ary`が呼び出され、`to_ary`の値が`nil`でない場合はその値を返します。
-* 上記以外の場合、引数を内側に含んだ配列 (要素が1つだけの配列) を返します。
+* 上記以外の場合、引数を内側に含んだ配列（要素が1つだけの配列）を返します。
 
 ```ruby
 Array.wrap(nil)       # => []
@@ -2576,7 +2576,7 @@ Array.wrap(0)         # => [0]
 
 * 引数が`to_ary`に応答する場合、このメソッドが呼び出されます。`nil`が返された場合、`Kernel#Array`は`to_a`を適用しようと動作を続けますが、`Array.wrap`はその場で、引数を単一の要素として持つ配列を返します。
 * `to_ary`から返された値が`nil`でも`Array`オブジェクトでもない場合、`Kernel#Array`は例外を発生しますが、`Array.wrap`は例外を発生せずに単にその値を返します。
-* このメソッドは引数に対して`to_a`を呼び出しませんが、この引数が `to_ary` に応答しない場合、引数を単一の要素として持つ配列を返します。
+* このメソッドは引数に対して`to_a`を呼び出しませんが、この引数が`to_ary`に応答しない場合、引数を単一の要素として持つ配列を返します。
 
 特に最後の点については、いくつかの列挙型で比較する価値があります。
 
@@ -2739,11 +2739,11 @@ NOTE: 定義は[`active_support/core_ext/array/grouping.rb`](https://github.com/
 
 * `value`が配列の場合、`key`を`:root`として、`key`を単数形化（singularize）したものを`:children`として再帰的な呼び出しを行います。
 
-* 値が呼び出し可能な（callable）オブジェクトの場合、引数が1つまたは2つ必要です。引数の数に応じて (`arity`メソッドで確認)、呼び出し可能オブジェクトを呼び出します。第1引数には`key`を`:root`として指定したもの、第2引数には`key`を単数形化したものが使われます。戻り値は新しいノードです。
+* 値が呼び出し可能な（callable）オブジェクトの場合、引数が1つまたは2つ必要です。引数の数に応じて（`arity`メソッドで確認）、呼び出し可能オブジェクトを呼び出します。第1引数には`key`を`:root`として指定したもの、第2引数には`key`を単数形化したものが使われます。戻り値は新しいノードです。
 
 * `value`が`to_xml`メソッドに応答する場合、`key`を`:root`としてメソッドを呼び出します。
 
-* その他の場合、`key`を持つノードがタグとして作成されます。そのノードには`value`を文字列形式にしたものがテキストノードとして追加されます。`value`が`nil`の場合、"nil"属性が"true"に設定されたものが追加されます。`:skip_types`オプションが`true`でない (または`:skip_types`オプションがない) 場合、「type」属性も以下のマッピングで追加されます。
+* その他の場合、`key`を持つノードがタグとして作成されます。そのノードには`value`を文字列形式にしたものがテキストノードとして追加されます。`value`が`nil`の場合、"nil"属性が"true"に設定されたものが追加されます。`:skip_types`オプションが`true`でない場合（または`:skip_types`オプションがない場合）、「type」属性も以下のマッピングで追加されます。
 
 ```ruby
 XML_TYPE_NAMES = {
@@ -2992,7 +2992,7 @@ NOTE: 定義は[`active_support/core_ext/hash/keys.rb`](https://github.com/rails
 
 ### 値を扱う
 
-#### `deep_transform_values` and `deep_transform_values!`
+#### `deep_transform_values`と`deep_transform_values!`
 
 [`deep_transform_values`][Hash#deep_transform_values]メソッドは、ブロック操作で変換されたすべての値を持つ新しいハッシュを返します。その中には、rootハッシュと、ネストしたハッシュや配列のすべての値も含まれます。
 
@@ -3444,14 +3444,14 @@ INFO: 以下のメソッドは可能であれば`Time`オブジェクトを返�
 
 ##### `beginning_of_day`、`end_of_day`
 
-[`beginning_of_day`][Date#beginning_of_day]メソッドは、その日の開始時点 (00:00:00) のタイムスタンプを返します。
+[`beginning_of_day`][Date#beginning_of_day]メソッドは、その日の開始時点（00:00:00）のタイムスタンプを返します。
 
 ```ruby
 date = Date.new(2010, 6, 7)
 date.beginning_of_day # => Mon Jun 07 00:00:00 +0200 2010
 ```
 
-[`end_of_day`][Date#end_of_day]メソッドは、その日の最後の時点 (23:59:59) のタイムスタンプを返します。
+[`end_of_day`][Date#end_of_day]メソッドは、その日の最後の時点（23:59:59）のタイムスタンプを返します。
 
 ```ruby
 date = Date.new(2010, 6, 7)
@@ -3470,14 +3470,14 @@ NOTE: 定義は[`active_support/core_ext/date/calculations.rb`](https://github.c
 
 ##### `beginning_of_hour`、`end_of_hour`
 
-[`beginning_of_hour`][DateTime#beginning_of_hour]メソッドは、その時（hour）の最初の時点 (hh:00:00) のタイムスタンプを返します。
+[`beginning_of_hour`][DateTime#beginning_of_hour]メソッドは、その時（hour）の最初の時点（hh:00:00）のタイムスタンプを返します。
 
 ```ruby
 date = DateTime.new(2010, 6, 7, 19, 55, 25)
 date.beginning_of_hour # => Mon Jun 07 19:00:00 +0200 2010
 ```
 
-[`end_of_hour`][DateTime#end_of_hour]メソッドは、その時の最後の時点 (hh:59:59) のタイムスタンプを返します。
+[`end_of_hour`][DateTime#end_of_hour]メソッドは、その時の最後の時点（hh:59:59）のタイムスタンプを返します。
 
 ```ruby
 date = DateTime.new(2010, 6, 7, 19, 55, 25)
@@ -3490,14 +3490,14 @@ NOTE: 定義は[`active_support/core_ext/date_and_time/calculations.rb`](https:/
 
 ##### `beginning_of_minute`、`end_of_minute`
 
-[`beginning_of_minute`][DateTime#beginning_of_minute]は、その分の最初の時点 (hh:mm:00) のタイムスタンプを返します。
+[`beginning_of_minute`][DateTime#beginning_of_minute]は、その分の最初の時点（hh:mm:00）のタイムスタンプを返します。
 
 ```ruby
 date = DateTime.new(2010, 6, 7, 19, 55, 25)
 date.beginning_of_minute # => Mon Jun 07 19:55:00 +0200 2010
 ```
 
-[`end_of_minute`][DateTime#end_of_minute]メソッドは、その分の最後の時点 (hh:mm:59) のタイムスタンプを返します。
+[`end_of_minute`][DateTime#end_of_minute]メソッドは、その分の最後の時点（hh:mm:59）のタイムスタンプを返します。
 
 ```ruby
 date = DateTime.new(2010, 6, 7, 19, 55, 25)
@@ -3538,7 +3538,7 @@ NOTE: 定義は[`active_support/core_ext/date/calculations.rb`](https://github.c
 `DateTime`の拡張
 ------------------------
 
-WARNING: `DateTime`は夏時間 (DST) ルールについては関知しません。夏時間の変更中は、メソッドの一部がこのとおりに動作しないエッジケースがあります。たとえば、[`seconds_since_midnight`][DateTime#seconds_since_midnight]メソッドが返す秒数が実際の総量と合わない可能性があります。
+WARNING: `DateTime`は夏時間（DST）ルールについては関知しません。夏時間の変更中は、メソッドの一部がこのとおりに動作しないエッジケースがあります。たとえば、[`seconds_since_midnight`][DateTime#seconds_since_midnight]メソッドが返す秒数が実際の総量と合わない可能性があります。
 
 ### 計算
 
@@ -3636,7 +3636,7 @@ d.advance(years: 1, months: 1, days: 1, hours: 1, minutes: 1, seconds: 1)
 # => Tue, 06 Sep 2011 12:34:32 +0000
 ```
 
-このメソッドは最初に、上で説明されている`Date#advance`に対する経過年(`:years`)、経過月 (`:months`)、経過週 (`:weeks`)、経過日 (`:days`) を元に移動先の日付を算出します。次に、算出された時点までの経過秒数を元に[`since`][DateTime#since]メソッドを呼び出し、時間を補正します。この実行順序には意味があります（極端なケースでは、順序が変わると計算結果も異なる場合があります）。この`Date#advance`の例はそれに該当し、これを延長することで、時間部分の相対的な計算順序がどのように影響するかを示せます。
+このメソッドは最初に、上で説明されている`Date#advance`に対する経過年（`:years`）、経過月（`:months`）、経過週（`:weeks`）、経過日（`:days`）を元に移動先の日付を算出します。次に、算出された時点までの経過秒数を元に[`since`][DateTime#since]メソッドを呼び出し、時間を補正します。この実行順序には意味があります（極端なケースでは、順序が変わると計算結果も異なる場合があります）。この`Date#advance`の例はそれに該当し、これを延長することで、時間部分の相対的な計算順序がどのように影響するかを示せます。
 
 もし仮に日付部分を最初に計算し（前述したとおり、相対的な計算順序も影響します）、次に時間部分を計算すると、以下のような結果が得られます。
 
@@ -3654,7 +3654,7 @@ d.advance(seconds: 1).advance(months: 1)
 # => Thu, 01 Apr 2010 00:00:00 +0000
 ```
 
-WARNING: `DateTime`は夏時間 (DST) を考慮しません。算出された時間が最終的に存在しない時間になっても警告やエラーは発生しません。
+WARNING: `DateTime`は夏時間（DST）を考慮しません。算出された時間が最終的に存在しない時間になっても警告やエラーは発生しません。
 
 NOTE: 定義は[`active_support/core_ext/date_and_time/calculations.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/core_ext/date_and_time/calculations.rb)にあります。
 
@@ -3725,7 +3725,7 @@ DateTime.new(1582, 10, 4, 23) + 1.hour
 これらは同様に動作します。関連するドキュメントを参照し、以下の相違点についても把握しておいてください。
 
 * [`change`][Time#change]メソッドは追加の`:usec`（マイクロ秒）オプションも受け取れます。。
-* `Time`は夏時間 (DST) を理解するので、以下のように夏時間を正しく算出できます。
+* `Time`は夏時間（DST）を理解するので、以下のように夏時間を正しく算出できます。
 
 ```ruby
 Time.zone_default
@@ -3960,7 +3960,7 @@ NOTE: 定義は[`active_support/core_ext/file/atomic.rb`](https://github.com/rai
 
 Active Supportは`NameError`に[`missing_name?`][NameError#missing_name?]メソッドを追加します。このメソッドは、引数として渡された名前が原因で例外が発生するかどうかをテストします。
 
-渡される名前はシンボルまたは文字列です。シンボルを渡した場合は単なる定数名をテストし、文字列を渡した場合はフルパス (完全修飾) の定数名をテストします。
+渡される名前はシンボルまたは文字列です。シンボルを渡した場合は単なる定数名をテストし、文字列を渡した場合はフルパス（完全修飾）の定数名をテストします。
 
 TIP: シンボルは、`:"ActiveRecord::Base"`で行なっているのと同じようにフルパスの定数として表せます。シンボルがそのように動作するのは利便性のためであり、技術的に必要だからではありません。
 
@@ -3987,7 +3987,7 @@ NOTE: 定義は[`active_support/core_ext/name_error.rb`](https://github.com/rail
 
 Active Supportは[`is_missing?`][LoadError#is_missing?]を`LoadError`に追加します。
 
-`is_missing?`は、パス名を引数に取り、特定のファイルが原因で例外が発生するかどうかをテストします (".rb"拡張子が原因と思われる場合を除きます)。
+`is_missing?`は、パス名を引数に取り、特定のファイルが原因で例外が発生するかどうかをテストします（".rb"拡張子が原因と思われる場合を除く）。
 
 たとえば、`ArticlesController`のアクションが呼び出されると、Railsは`articles_helper.rb`を読み込もうとしますが、このファイルは存在しないことがあります。ヘルパーモジュールは必須ではないので、Railsは読み込みエラーを例外扱いせずに黙殺します。しかし、ヘルパーモジュールが存在しないために別のライブラリが必要になり、それがさらに見つからないという場合が考えられます。Railsはそのような場合には例外を再発生させなければなりません。`is_missing?`メソッドは、この2つの場合を区別するために使われます。
 

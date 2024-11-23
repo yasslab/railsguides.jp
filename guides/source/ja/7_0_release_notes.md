@@ -215,7 +215,7 @@ Active Record
     Author.where(id: [david.id, mary.id]).merge(Author.where(id: bob)) # => [bob]
     # Rails 6.1 （競合する条件がどちらも存在する: 非推奨）
     Author.where(id: david.id..mary.id).merge(Author.where(id: bob)) # => []
-    # Rails 6.1 でrewhereを用いてRails 7.0の挙動に移行する）
+    # Rails 6.1でrewhereを用いてRails 7.0の挙動に移行する）
     Author.where(id: david.id..mary.id).merge(Author.where(id: bob), rewhere: true) # => [bob]
     # Rails 7.0 （IN句の振る舞いは同じで、マージされる側の条件が常に置き換えられる）
     Author.where(id: [david.id, mary.id]).merge(Author.where(id: bob)) # => [bob]

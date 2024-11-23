@@ -1,7 +1,7 @@
 Active Job の基礎
 =================
 
-本ガイドでは、バックグラウンドで実行するジョブの作成、キュー登録 (エンキュー: enqueue)、実行方法について解説します。
+本ガイドでは、バックグラウンドで実行するジョブの作成、キュー登録（エンキュー: enqueue）、実行方法について解説します。
 
 このガイドの内容:
 
@@ -28,7 +28,7 @@ NOTE: デフォルトのRailsは非同期キューを実装します。これは
 ジョブを作成して登録する
 --------------
 
-このセクションでは、ジョブの作成方法とジョブの登録 (enqueue: エンキュー) 方法を手順を追って説明します。
+このセクションでは、ジョブの作成方法とジョブの登録（enqueue: エンキュー）方法を手順を追って説明します。
 
 ### ジョブを作成する
 
@@ -243,7 +243,7 @@ end
 # 実行されるようになり、staging環境ではstaging.low_priorityというキューでジョブが実行されるようになります
 ```
 
-`#queue_as`にブロックを渡すと、キューをそのジョブレベルで制御できます。与えられたブロックは、そのジョブのコンテキストで実行されます (これにより`self.arguments`にアクセスできるようになります)。そしてキュー名を返さなくてはなりません。
+`#queue_as`にブロックを渡すと、キューをそのジョブレベルで制御できます。与えられたブロックは、そのジョブのコンテキストで実行されます（これにより`self.arguments`にアクセスできるようになります）。そしてキュー名を返さなくてはなりません。
 
 ```ruby
 class ProcessVideoJob < ApplicationJob
@@ -385,7 +385,7 @@ end
 
 [`perform_all_later`][]を使うことで、複数のジョブをキューに一括登録（bulk enqueue: バルクエンキュー）できます。一括登録により、Redisやデータベースなどのキューデータストアとのジョブの往復が削減され、同じジョブを個別に登録するよりもパフォーマンスが向上します。
 
-`perform_all_later`はActive JobのトップレベルAPIで、インスタンス化されたジョブを引数として受け取ります（この点が`perform_later`と異なることにご注意ください）。 `perform_all_later`は内部で`perform`を呼び出します。 `new`に渡された引数は、最終的に`perform`が呼び出されるときに`perform`に渡されます。
+`perform_all_later`はActive JobのトップレベルAPIで、インスタンス化されたジョブを引数として受け取ります（この点が`perform_later`と異なることにご注意ください）。`perform_all_later`は内部で`perform`を呼び出します。`new`に渡された引数は、最終的に`perform`が呼び出されるときに`perform`に渡されます。
 
 以下は、`GuestCleanupJob`インスタンスを用いて`perform_all_later`を呼び出すコード例です。
 
@@ -503,7 +503,7 @@ Active Jobの引数では、デフォルトで以下の型をサポートしま�
 GlobalID
 --------
 
-Active Jobでは[GlobalID](https://github.com/rails/globalid/blob/main/README.md)がパラメータとしてサポートされています。GlobalIDを使えば、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ (deserialize) する必要がありました。従来のジョブが以下のようなものだったとします。
+Active Jobでは[GlobalID](https://github.com/rails/globalid/blob/main/README.md)がパラメータとしてサポートされています。GlobalIDを使えば、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ（deserialize）する必要がありました。従来のジョブが以下のようなものだったとします。
 
 ```ruby
 class TrashableCleanupJob < ApplicationJob

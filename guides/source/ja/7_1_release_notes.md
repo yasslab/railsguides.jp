@@ -1,7 +1,7 @@
 Ruby on Rails 7.1 リリースノート
 ===============================
 
-Rails 7.1 の注目ポイント:
+Rails 7.1の注目ポイント:
 
 * 新規RailsアプリケーションでDockerfilesを生成するようになった
 * `ActiveRecord::Base.normalizes`を追加
@@ -14,7 +14,7 @@ Rails 7.1 の注目ポイント:
 * 汎用の非同期クエリ用Active Record API
 * ビューテンプレートに厳密な`locals`を設定可能になった
 * `Rails.application.deprecators`を追加
-* JSON `response.parsed_body`のパターンマッチングをサポート
+* JSONの`response.parsed_body`のパターンマッチングをサポート
 * `response.parsed_body`を拡張してHTMLをNokogiriでパース可能になった
 * `ActionView::TestCase.register_parser`を導入
 
@@ -149,7 +149,7 @@ ActiveJob.perform_all_later(user_jobs)
 
 データベースとアプリケーションの両方で複合主キー（composite primary key）がサポートされるようになりました。Railsはスキーマからこれらのキーを直接導出できるようになります。この機能は、「多対多」リレーションシップや、その他の複雑なデータモデルで、単一カラムだけではレコードをうまく一意に識別できない場合に特に有用です。
 
-Active Recordのクエリメソッドで生成されるSQL（`#reload`、`#update`、`#delete`など）には、複合主キーのすべての部分が含まれます。 `#first`や `#last`などのメソッドでは、`ORDER BY`ステートメントで複合主キー全体が使われます。
+Active Recordのクエリメソッドで生成されるSQL（`#reload`、`#update`、`#delete`など）には、複合主キーのすべての部分が含まれます。`#first`や`#last`などのメソッドでは、`ORDER BY`ステートメントで複合主キー全体が使われます。
 
 `query_constraints`マクロは、データベーススキーマを変更せずに同じ振る舞いを実現するための「仮想主キー」として利用できます。
 
@@ -192,7 +192,7 @@ ENV["DATABASE_URL"] # => "trilogy://localhost/blog_development?pool=5"
 
 ### `ActiveSupport::MessagePack`が追加
 
-[`ActiveSupport::MessagePack`][]は、[`msgpack` gem][]と統合されたシリアライザです（[#47770][]）。`ActiveSupport::MessagePack`は、`msgpack`でサポートされている基本的なRubyの型に加えて、`Time`、 `ActiveSupport::TimeWithZone`、`ActiveSupport::HashWithIndifferentAccess`などの追加の型もシリアライズできます。`ActiveSupport::MessagePack`は、`JSON`や`Marshal`に比べてペイロードサイズを削減しパフォーマンスを向上させることが可能です。
+[`ActiveSupport::MessagePack`][]は、[`msgpack`][] gemと統合されたシリアライザです（[#47770][]）。`ActiveSupport::MessagePack`は、`msgpack`でサポートされている基本的なRubyの型に加えて、`Time`、`ActiveSupport::TimeWithZone`、`ActiveSupport::HashWithIndifferentAccess`などの追加の型もシリアライズできます。`ActiveSupport::MessagePack`は、`JSON`や`Marshal`に比べてペイロードサイズを削減しパフォーマンスを向上させることが可能です。
 
 `ActiveSupport::MessagePack`は、以下のように[メッセージシリアライザ](configuring.html#config-active-support-message-serializer)として利用できます。
 
@@ -719,7 +719,7 @@ Active Record
 
 * `has_secure_password`に`authenticate_by`メソッドを追加（[#43765][]）。
 
-* `ActiveRecord::Persistence`に`update_attribute!`を追加。 `update_attribute`と同様だが、`before_*`コールバックで`:abort`がスローされた場合は`ActiveRecord::RecordNotSaved`をraiseする点が異なる（[#44141][]）。
+* `ActiveRecord::Persistence`に`update_attribute!`を追加。`update_attribute`と同様だが、`before_*`コールバックで`:abort`がスローされた場合は`ActiveRecord::RecordNotSaved`をraiseする点が異なる（[#44141][]）。
 
 * `insert_all`と`upsert_all`でエイリアス属性も指定できるようになった（[#45036][]）。
 

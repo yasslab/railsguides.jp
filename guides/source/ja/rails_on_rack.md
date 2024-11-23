@@ -19,7 +19,7 @@ Rack入門
 
 Rackは、RubyのWebアプリケーションに対して、モジュール化された最小限のインターフェイスを提供して、インターフェイスを広範囲に使えるようにします。RackはHTTPリクエストとレスポンスを可能なかぎり簡単な方法でラッピングすることで、Webサーバー、Webフレームワーク、その間に位置するソフトウェア（ミドルウェアと呼ばれています）のAPIを1つのメソッド呼び出しの形にまとめます。
 
-Rackに関する解説はこのガイドの範疇を超えてしまいます。Rackに関する基本的な知識が不足している場合は、下記の[リソース](#参考資料) を参照してください。
+Rackに関する解説はこのガイドの範疇を超えてしまいます。Rackに関する基本的な知識が不足している場合は、下記の[リソース](#参考資料)を参照してください。
 
 RailsとRack
 -------------
@@ -236,7 +236,7 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 **`ActionDispatch::ServerTiming`**
 
-* リクエストのパフォーマンスメトリクスを含む [`Server-Timing`](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Server-Timing)ヘッダーを設定します。
+* リクエストのパフォーマンスメトリクスを含む[`Server-Timing`](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Server-Timing)ヘッダーを設定します。
 
 **`ActiveSupport::Cache::Strategy::LocalCache::Middleware`**
 
@@ -310,7 +310,7 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 **`Rack::ConditionalGet`**
 
-* 「条件付き`GET`（Conditional `GET`）」機能を提供します。"条件付き `GET`"が有効になっていると、リクエストされたページで変更が発生していない場合に空のbodyを返します。
+* 「条件付き`GET`（Conditional `GET`）」機能を提供します。"条件付き`GET`"が有効になっていると、リクエストされたページで変更が発生していない場合に空のbodyを返します。
 
 **`Rack::ETag`**
 

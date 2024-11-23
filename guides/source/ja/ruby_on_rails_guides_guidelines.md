@@ -15,7 +15,7 @@ Rails ガイドのガイドライン
 Markdown
 -------
 
-ガイドは[GitHub Flavored Markdown][] で書かれています。まとまった[Markdownドキュメント][Markdown doc]と[チートシート][cheatsheet]があります。
+ガイドは[GitHub Flavored Markdown][]で書かれています。まとまった[Markdownドキュメント][Markdown doc]と[チートシート][cheatsheet]があります。
 
 [GitHub Flavored Markdown]: https://docs.github.com/ja/get-started/writing-on-github
 [Markdown doc]: https://daringfireball.net/projects/markdown/syntax

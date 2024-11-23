@@ -1,7 +1,7 @@
 アセットパイプライン
 ==================
 
-本ガイドでは、アセットパイプライン (asset pipeline) について解説します。
+本ガイドでは、アセットパイプライン（asset pipeline）について解説します。
 
 このガイドの内容:
 
@@ -19,7 +19,7 @@
 
 アセットパイプライン（asset pipeline）は、JavaScriptとCSSアセットの配信を処理するためのフレームワークを提供します。これは、HTTP/2のような技術や、アセットの連結や最小化といった技術を活用することによって行われます。アプリケーションは、最終的に他のgemのアセットと自動的に結合できるようになります。
 
-アセットパイプラインは [importmap-rails](https://github.com/rails/importmap-rails) gem、[sprockets](https://github.com/rails/sprockets) gem、[sprockets-rails](https://github.com/rails/sprockets-rails) gem によって実装されており、デフォルトで有効になっています。新しいアプリケーションを作成する際に、以下のように`--skip-asset-pipeline`オプションを渡すとアセットパイプラインを無効にできます。
+アセットパイプラインは[importmap-rails](https://github.com/rails/importmap-rails) gem、[sprockets](https://github.com/rails/sprockets) gem、[sprockets-rails](https://github.com/rails/sprockets-rails) gemによって実装されており、デフォルトで有効になっています。新しいアプリケーションを作成する際に、以下のように`--skip-asset-pipeline`オプションを渡すとアセットパイプラインを無効にできます。
 
 ```bash
 $ rails new appname --skip-asset-pipeline
@@ -198,7 +198,7 @@ pin "react", to: "https://cdn.skypack.dev/react"
 
 ### ピン留めしたモジュールをプリロードする
 
-ウォーターフォール効果（ブラウザがネストの最も深いインポートに到達するまで次々とファイルを読み込まなければならなくなる現象）を避けるために、importmap-railsは[modulepreload links](https://developer.chrome.com/blog/modulepreload/)をサポートしています。`pin`したモジュールに`preload: true` を追加することでプリロードできるようになります。
+ウォーターフォール効果（ブラウザがネストの最も深いインポートに到達するまで次々とファイルを読み込まなければならなくなる現象）を避けるために、importmap-railsは[modulepreload links](https://developer.chrome.com/blog/modulepreload/)をサポートしています。`pin`したモジュールに`preload: true`を追加することでプリロードできるようになります。
 
 以下のように、アプリ内で使うライブラリやフレームワークをプリロードしておくと、早い段階でダウンロードするようブラウザに指示できます。
 
@@ -222,7 +222,7 @@ NOTE: 最新のドキュメントについては[`importmap-rails`](https://gith
 Sprocketsの利用法
 -----------------------------
 
-アプリケーションのアセットをWebで公開する素朴なアプローチは、`public`フォルダの`images`や `stylesheets`などのサブディレクトリにアセットを保存することでしょう。現代のWebアプリケーションは、アセットの圧縮やフィンガープリントの追加といった特定の方法で処理する必要があるため、これを手動で行うことは困難です。
+アプリケーションのアセットをWebで公開する素朴なアプローチは、`public`フォルダの`images`や`stylesheets`などのサブディレクトリにアセットを保存することでしょう。現代のWebアプリケーションは、アセットの圧縮やフィンガープリントの追加といった特定の方法で処理する必要があるため、これを手動で行うことは困難です。
 
 Sprocketsは、設定済みディレクトリに保存されたアセットを自動的に前処理し、処理後にフィンガープリント追加、圧縮、ソースマップ生成といった設定可能な機能を使って`public/assets`フォルダに公開するように設計されています。
 
@@ -247,12 +247,12 @@ Sprocketsでアセットをコンパイルするとき、Sprocketsはどのト�
 
 上のマニフェストファイルは、`./app/assets/images`ディレクトリやそのサブディレクトリにあるすべてのファイル、`./app/javascript`ディレクトリや`./vendor/javascript`で直接JSとして認識されるすべてのファイルの内容をインクルードすることを意味しています。
 
-このマニフェストファイルは `./app/assets/stylesheets`ディレクトリにあるすべてのCSSを読み込みます（ただしサブディレクトリは含めません）。
+このマニフェストファイルは`./app/assets/stylesheets`ディレクトリにあるすべてのCSSを読み込みます（ただしサブディレクトリは含めません）。
 `./app/assets/stylesheets`フォルダに`application.css`ファイルと`marketing.css`ファイルがあると仮定すると、ビューに`<%= stylesheet_link_tag "application" %>`または`<%= stylesheet_link_tag "marketing" %>`と書くことでこれらのスタイルシートを読み込めるようになります。
 
 JavaScriptファイルは、デフォルトでは`assets`ディレクトリから読み込まれないことにお気づきでしょうか。その理由は、`./app/javascript`が既に`importmap-rails` gemのデフォルトのエントリポイントになっていて、`vendor`フォルダはダウンロードしたJSパッケージの置き場所になっているからです。
 
-`manifest.js`では、ディレクトリ全体ではなく、特定のファイルを読み込むために `link`ディレクティブを指定することも可能です。`link`ディレクティブでは、ファイルの拡張子を明示的に指定する必要があります。
+`manifest.js`では、ディレクトリ全体ではなく、特定のファイルを読み込むために`link`ディレクティブを指定することも可能です。`link`ディレクティブでは、ファイルの拡張子を明示的に指定する必要があります。
 
 Sprocketsは、指定されたファイルを読み込んで必要に応じて処理し、1個のファイルに連結した後、（`config.assets.css_compressor`または`config.assets.js_compressor`の値に基づいて）圧縮を行います。圧縮することでファイルサイズが小さくなり、ブラウザのファイルダウンロードがより高速になります。
 
@@ -284,7 +284,7 @@ Railsでscaffoldやコントローラを生成すると、そのコントロー�
 
 #### 探索パス
 
-ファイルがマニフェストやヘルパーから参照されると、Sprocketsは`manifest.js`で指定されたすべての場所を探索してファイルを探します。探索パスは、Railsコンソールで [`Rails.application.config.assets.paths`](configuring.html#config-assets-paths)を調べることで表示できます。
+ファイルがマニフェストやヘルパーから参照されると、Sprocketsは`manifest.js`で指定されたすべての場所を探索してファイルを探します。探索パスは、Railsコンソールで[`Rails.application.config.assets.paths`](configuring.html#config-assets-paths)を調べることで表示できます。
 
 #### indexファイルをフォルダのプロキシとして使う
 
@@ -439,7 +439,7 @@ $ RAILS_ENV=production rails assets:precompile
 
 NOTE: 常に`.js`または`.css`で終わるコンパイル済みファイル名を指定してください。
 
-このコマンドは、`.sprockets-manifest-randomhex.json`（`randomhex` は16バイトのランダムな16進文字列を表す）も生成します。このJSONファイルには、すべてのアセットとそれぞれのフィンガープリントのリストが含まれます。これは、RailsヘルパーメソッドでマッピングリクエストをSprocketsに送信するのを避けるために使われます。
+このコマンドは、`.sprockets-manifest-randomhex.json`（`randomhex`は16バイトのランダムな16進文字列を表す）も生成します。このJSONファイルには、すべてのアセットとそれぞれのフィンガープリントのリストが含まれます。これは、RailsヘルパーメソッドでマッピングリクエストをSprocketsに送信するのを避けるために使われます。
 以下は典型的なマニフェストファイルです。
 
 ```json
@@ -836,7 +836,7 @@ Sprockets.register_preprocessor "text/css", AddComment
 
 `jsbundling-rails` gemは、`yarn build --watch`プロセスを提供し、development環境で自動的に出力を生成します。production環境では`javascript:build`タスクを`assets:precompile`タスクに自動的にフックし、パッケージの依存関係がすべてインストールされ、すべてのエントリポイントに対してJavaScriptがビルドされるようにできます。
 
-**`importmap-rails`の代わりに使うのがよい場合**: JavaScriptコードがトランスパイルに依存している場合（例: [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、 React JSXフォーマット）は、`jsbundling-rails`が正しい方法となります。
+**`importmap-rails`の代わりに使うのがよい場合**: JavaScriptコードがトランスパイルに依存している場合（例: [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、React JSXフォーマット）は、`jsbundling-rails`が正しい方法となります。
 
 ### Webpacker/Shakapacker
 
@@ -866,7 +866,7 @@ JavaScriptを`importmap-rails`で処理し、CSSを`dartsass-rails`または`tai
 
 ### dartsass-rails
 
-アプリケーションで [Sass](https://sass-lang.com/)を使いたい場合は、レガシーな`sassc-rails` gemの代わりにこの[`dartsass-rails`](https://github.com/rails/dartsass-rails) gemが提供されています。
+アプリケーションで[Sass](https://sass-lang.com/)を使いたい場合は、レガシーな`sassc-rails` gemの代わりにこの[`dartsass-rails`](https://github.com/rails/dartsass-rails) gemが提供されています。
 `dartsass-rails` gemは、`sassc-rails` gemで使われていた[LibSass](https://sass-lang.com/blog/libsass-is-deprecated)（2020年に非推奨化）に代えてDart Sassの実装を利用しています。
 
 この新しい`dartsass-rails` gemは`sassc-rails`とは異なり、Sprocketsと直接統合されているわけではありません。インストールや移行の手順については、[dartsass-rails gem](https://github.com/rails/dartsass-rails)のドキュメントを参照してください。
@@ -875,4 +875,4 @@ WARNING: 以前広く使われていた`sassc-rails` gemは、2019年以降メ�
 
 ### tailwindcss-rails
 
-[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails) gemは、Tailwind CSS v3フレームワークの[スタンドアロン実行可能版](https://tailwindcss.com/blog/standalone-cli)をラップしています。新しいアプリケーションを開発する際に、`rails new`コマンドに `--css tailwind`を指定することで利用できます。development環境では、Tailwindの出力を自動的に生成するための`watch`プロセスが提供されます。production環境では、`assets:precompile`タスクにフックします。
+[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails) gemは、Tailwind CSS v3フレームワークの[スタンドアロン実行可能版](https://tailwindcss.com/blog/standalone-cli)をラップしています。新しいアプリケーションを開発する際に、`rails new`コマンドに`--css tailwind`を指定することで利用できます。development環境では、Tailwindの出力を自動的に生成するための`watch`プロセスが提供されます。production環境では、`assets:precompile`タスクにフックします。

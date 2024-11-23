@@ -102,7 +102,7 @@ WARNING: `routes.rb`ファイルで変数名を使う場合は、ルーターの
 リソースベースのルーティング: Railsのデフォルト
 -----------------------------------
 
-リソースベースのルーティング (以下リソースルーティング) を使うことで、指定のリソースコントローラでよく使われるすべてのルーティングを手軽に宣言できます。[`resources`][]を宣言するだけで、コントローラの`index`、`show`、`new`、`edit`、`create`、`update`、`destroy`アクションを個別に宣言しなくても1行で宣言が完了します。
+リソースベースのルーティング（以下リソースルーティング）を使うことで、指定のリソースコントローラでよく使われるすべてのルーティングを手軽に宣言できます。[`resources`][]を宣言するだけで、コントローラの`index`、`show`、`new`、`edit`、`create`、`update`、`destroy`アクションを個別に宣言しなくても1行で宣言が完了します。
 
 [`resources`]: https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resources
 
@@ -152,7 +152,7 @@ NOTE: Railsのルーティングファイル`routes.rb`では、ルーティン�
 
 リソースフルなルーティングを作成すると、アプリケーションのコントローラやビューで多くのヘルパーが利用できるようになります。
 
-たとえば、`resources :photos`というルーティングをルーティングファイルに追加すると、コントローラやビューで以下の `_path`ヘルパーが使えるようになります。
+たとえば、`resources :photos`というルーティングをルーティングファイルに追加すると、コントローラやビューで以下の`_path`ヘルパーが使えるようになります。
 
 | `_path`ヘルパー | 返すURL |
 | --------- | ---------------- |
@@ -245,7 +245,7 @@ end
 
 #### モジュールを利用する
 
-例外的に、(`/admin`が前についていない) `/articles`を`Admin::ArticlesController`にルーティングしたい場合は、以下のように[`scope`][]ブロックでモジュールを指定できます。
+例外的に、（`/admin`が前についていない）`/articles`を`Admin::ArticlesController`にルーティングしたい場合は、以下のように[`scope`][]ブロックでモジュールを指定できます。
 
 ```ruby
 scope module: "admin" do
@@ -261,7 +261,7 @@ resources :articles, module: "admin"
 
 #### スコープを領する
 
-逆に、`/admin/articles`を (`Admin::`モジュールのプレフィックスなしの) `ArticlesController`にルーティングしたい場合は、以下のように`scope`ブロックでパスを指定できます。
+逆に、`/admin/articles`を（`Admin::`モジュールのプレフィックスなしの）`ArticlesController`にルーティングしたい場合は、以下のように`scope`ブロックでパスを指定できます。
 
 ```ruby
 scope "/admin" do
@@ -448,7 +448,7 @@ end
 | PATCH/PUT | /sekret/comments/:id(.:format)               | comments#update   | comment_path             |
 | DELETE    | /sekret/comments/:id(.:format)               | comments#destroy  | comment_path             |
 
-`:shallow_prefix`オプションを使うと、指定されたパラメータを `_path`および`_url`ルーティングヘルパー名の冒頭に追加します。
+`:shallow_prefix`オプションを使うと、指定されたパラメータを`_path`および`_url`ルーティングヘルパー名の冒頭に追加します。
 
 ```ruby
 scope shallow_prefix: "sekret" do
@@ -567,7 +567,7 @@ end
 
 これにより、モデルのインスタンスをURLとして扱えるようになります。これはリソースフルなスタイルを採用する大きなメリットの1つです。
 
-NOTE: `[@magazine, @ad]`のようなオブジェクトからパスとURLを自動的に取得するために、Railsでは[`ActiveModel::Naming`][]モジュールと[`ActiveModel::Conversion`][]モジュールのメソッドを利用してします。具体的には、`@magazine.model_name.route_key`は`magazines`を返し、`@magazine.to_param`はモデルの`id`の文字列表現を返します。したがって、`[@magazine, @ad]`オブジェクトに対して生成されるパスは、`/magazines/1/ads/42` のようになります。
+NOTE: `[@magazine, @ad]`のようなオブジェクトからパスとURLを自動的に取得するために、Railsでは[`ActiveModel::Naming`][]モジュールと[`ActiveModel::Conversion`][]モジュールのメソッドを利用してします。具体的には、`@magazine.model_name.route_key`は`magazines`を返し、`@magazine.to_param`はモデルの`id`の文字列表現を返します。したがって、`[@magazine, @ad]`オブジェクトに対して生成されるパスは、`/magazines/1/ads/42`のようになります。
 
 [ActionView::RoutingUrlFor#url_for]: https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
 [`link_to`]:
@@ -601,7 +601,7 @@ end
 
 `/photos/1/preview`への受信GETリクエストは、`PhotosController`の`preview`アクションにルーティングされます。リソースID値は`params[:id]`で得られます。また、`preview_photo_url`ヘルパーおよび`preview_photo_path`ヘルパーも作成されます。
 
-`member`ブロック内では、各ルート定義で HTTP verb（上記の例では`get 'preview'`の`get`）が指定されます。[`get`][]の他に、[`patch`][]、[`put`][]、[`post`][]、または[`delete`][]も利用できます。
+`member`ブロック内では、各ルート定義でHTTP verb（上記の例では`get 'preview'`の`get`）が指定されます。[`get`][]の他に、[`patch`][]、[`put`][]、[`post`][]、または[`delete`][]も利用できます。
 
 `member`ルーティングが1つしかない場合は、以下のようにルーティングで`:on`オプションを指定することでブロックを省略できます。
 
@@ -702,7 +702,7 @@ TIP: デフォルトでは動的なセグメント分割にドット`.`を渡せ
 get "photos/:id/with_user/:user_id", to: "photos#show"
 ```
 
-上のルーティングは、`/photos/1/with_user/2`のようなパスにマッチします。このときアクションで使える`params`は `{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
+上のルーティングは、`/photos/1/with_user/2`のようなパスにマッチします。このときアクションで使える`params`は`{ controller: 'photos', action: 'show', id: '1', user_id: '2' }`となります。
 
 ### クエリ文字列
 
@@ -1192,7 +1192,7 @@ resources :photos, path_names: { new: "make", edit: "change" }
 
 これにより、ルーティングで`/photos/new`の代わりに`/photos/make`、`/photos/1/edit`の代わりに`/photos/1/change`というパスを認識できるようになります。
 
-NOTE: このオプションを指定しても、実際のルーティングヘルパーやコントローラアクション名が変更されるわけではありません。表示されるパスには `new_photo_path`ヘルパーと`edit_photo_path`ヘルパーが引き続き存在し、ルーティング先も`new`アクションと`edit`アクションのままです。
+NOTE: このオプションを指定しても、実際のルーティングヘルパーやコントローラアクション名が変更されるわけではありません。表示されるパスには`new_photo_path`ヘルパーと`edit_photo_path`ヘルパーが引き続き存在し、ルーティング先も`new`アクションと`edit`アクションのままです。
 
 この`:path_names`オプションをブロック付き`scope`で使うと、スコープ内のすべてのルーティングに対してパス名を変更できます。
 
@@ -1277,7 +1277,7 @@ form_with(model: [@account, @article])   # => <form action="/1/article/9" ...>
 resources :photos, only: [:index, :show]
 ```
 
-これで、`/photos`や`/photos/:id`への`GET`リクエストは成功し、`/photos` への`POST`リクエストは失敗します。
+これで、`/photos`や`/photos/:id`への`GET`リクエストは成功し、`/photos`への`POST`リクエストは失敗します。
 
 `:except`オプションは逆に、生成**しない**ルーティング（またはルーティングのリスト）を指定します。
 

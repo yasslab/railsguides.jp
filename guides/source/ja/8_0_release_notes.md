@@ -3,14 +3,14 @@ Ruby on Rails 8.0 リリースノート
 
 Rails 8.0の注目ポイント:
 
-- [Kamal 2](https://kamal-deploy.org/) や [Thruster](https://github.com/basecamp/thruster) を使った PaaS 不要のデプロイにも対応
-- [アセットパイプライン](/asset_pipeline.html)のデフォルトを [Sprockets](https://github.com/rails/sprockets) から [Propshaft](https://github.com/rails/propshaft) へ
+- [Kamal 2](https://kamal-deploy.org/)や[Thruster](https://github.com/basecamp/thruster)を使ったPaaS不要のデプロイにも対応
+- [アセットパイプライン](/asset_pipeline.html)のデフォルトを[Sprockets](https://github.com/rails/sprockets)から[Propshaft](https://github.com/rails/propshaft)へ
 - [認証機能ジェネレータ](https://github.com/rails/rails/issues/50446)の追加: `rails generate authentication`
-- [SQLite](https://www.sqlite.org/) で本番環境用データベースも構築可能に: [&raquo; 関連動画 (日本語字幕あり)](https://youtu.be/-cEn_83zRFw?list=PLHFP2OPUpCeb182aDN5cKZTuyjn3Tdbqx&t=2440)
-- [SQLite](https://www.sqlite.org/) のみで双方向通信、キャッシュ、非同期処理などを実装可能に:
-  - SQLite のみで双方向通信が可能になる [Solid Cable](https://github.com/rails/solid_cable)
-  - SQLite のみでキャッシュが可能になる [Solid Cache](https://github.com/rails/solid_cache)
-  - SQLite のみで非同期処理が可能になる [Solid Queue](https://github.com/rails/solid_queue)
+- [SQLite](https://www.sqlite.org/)で本番環境用データベースも構築可能に: [&raquo; 関連動画（日本語字幕あり）](https://youtu.be/-cEn_83zRFw?list=PLHFP2OPUpCeb182aDN5cKZTuyjn3Tdbqx&t=2440)
+- [SQLite](https://www.sqlite.org/)のみで双方向通信、キャッシュ、非同期処理などを実装可能に:
+  - SQLiteのみで双方向通信が可能になる[Solid Cable](https://github.com/rails/solid_cable)
+  - SQLiteのみでキャッシュが可能になる[Solid Cache](https://github.com/rails/solid_cache)
+  - SQLiteのみで非同期処理が可能になる[Solid Queue](https://github.com/rails/solid_queue)
 
 訳注: [Railsの公式ブログ](https://rubyonrails.org/2024/11/7/rails-8-no-paas-required)などから注目ポイントを一部抜粋しています。
 
@@ -198,7 +198,7 @@ Action Mailbox
 
 ### 主な変更
 
-Ruby on Rails ガイド
+Ruby on Railsガイド
 --------------------
 
 変更点について詳しくは[Changelog][guides]を参照してください。

@@ -20,7 +20,7 @@
     -
       name: Active Record マイグレーション
       url: active_record_migrations.html
-      description: Active Recordのマイグレーション (migration) を使って、データベースを構造化された方法で整然と変更する方法について解説します。
+      description: Active Recordのマイグレーション（migration）を使って、データベースを構造化された方法で整然と変更する方法について解説します。
     -
       name: Active Record バリデーション
       url: active_record_validations.html
@@ -51,7 +51,7 @@
     -
       name: レイアウトとレンダリング
       url: layouts_and_rendering.html
-      description: Action ControllerとAction Viewが提供する基本的なレイアウト機能について解説します。画面出力 (レンダリング) とリダイレクト、content_forブロックとパーシャル (部分テンプレート) の利用方法についても解説します。
+      description: Action ControllerとAction Viewが提供する基本的なレイアウト機能について解説します。画面出力（レンダリング）やリダイレクト、content_forブロックとパーシャル（部分テンプレート）の利用方法についても解説します。
     -
       name: Action View ヘルパー
       url: action_view_helpers.html
@@ -89,7 +89,7 @@
     -
       name: Action Text の概要
       url: action_text_overview.html
-      description: Action Text を使ったリッチテキスト形式のデータの取り扱い方法について解説します。
+      description: Action Textを使ったリッチテキスト形式のデータの取り扱い方法について解説します。
     -
       name: Active Job の基礎
       url: active_job_basics.html
@@ -97,7 +97,7 @@
     -
       name: Active Storage の概要
       url: active_storage_overview.html
-      description: Active Record のモデルにファイルを添付する方法について解説します。
+      description: Active Recordモデルにファイルを添付する方法について解説します。
     -
       name: Action Cable の概要
       url: action_cable_overview.html
@@ -150,19 +150,19 @@
       name: Rails の初期化プロセス
       work_in_progress: true
       url: initialization.html
-      description: Rails 内部の初期化プロセスについて解説します。
+      description: Rails内部の初期化プロセスについて解説します。
     -
       name: Rails の自動読み込みと再読み込み
       url: autoloading_and_reloading_constants.html
-      description: Rails 内部の自動読み込みや再読み込みの動作について解説します。
+      description: Rails内部の自動読み込みや再読み込みの動作について解説します。
 #    -
 #      name: Rails の自動読み込みと再読み込み (Classic)
 #      url: autoloading_and_reloading_constants_classic_mode.html
-#      description: Rails 内部の自動読み込みや再読み込みの動作について解説します。(Classic モード)
+#      description: Rails 内部の自動読み込みや再読み込みの動作について解説します。（Classic モード）
     -
       name: Classic から Zeitwerk への移行
       url: classic_to_zeitwerk_howto.html
-      description: Rails アプリケーションを Classic モードから Zeitwerk モードに移行する手順を解説します。
+      description: RailsアプリケーションをClassicモードからZeitwerkモードに移行する手順を解説します。
     -
       name: Rails のキャッシュ機構
       url: caching_with_rails.html
@@ -223,7 +223,7 @@
     -
       name: Rails ジェネレータとテンプレート入門
       url: generators.html
-      description: 新しいジェネレータを拡張に追加したり、ビルトインのRailsジェネレータの要素に別の要素を提供したりする方法 (scaffoldジェネレータに別のテストスタブを提供するなど) について解説します。
+      description: 新しいジェネレータを拡張に追加したり、ビルトインのRailsジェネレータの要素に別の要素を提供したりする方法（scaffoldジェネレータに別のテストスタブを提供するなど）について解説します。
     -
       name: Rails エンジン入門
       url: engines.html

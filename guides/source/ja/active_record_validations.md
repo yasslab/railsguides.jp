@@ -47,7 +47,7 @@ irb> Person.create(name: nil).valid?
 
 ### バリデーション実行時の動作
 
-Active Recordのオブジェクトには2つの種類があります。オブジェクトがデータベースの行(row)に対応しているものと、そうでないものです。たとえば、`new`メソッドで新しくオブジェクトを作成しただけでは、オブジェクトはデータベースに属していません。`save`メソッドを呼ぶことで、オブジェクトは適切なデータベースのテーブルに保存されます。Active Recordの`new_record?`インスタンスメソッドを使うと、オブジェクトが既にデータベース上にあるかどうかを確認できます。
+Active Recordのオブジェクトには2つの種類があります。オブジェクトがデータベースの行（row）に対応しているものと、そうでないものです。たとえば、`new`メソッドで新しくオブジェクトを作成しただけでは、オブジェクトはデータベースに属していません。`save`メソッドを呼ぶことで、オブジェクトは適切なデータベースのテーブルに保存されます。Active Recordの`new_record?`インスタンスメソッドを使うと、オブジェクトが既にデータベース上にあるかどうかを確認できます。
 次の単純なActive Recordクラスを例に取ってみましょう。
 
 ```ruby
@@ -238,7 +238,7 @@ Active Recordには、クラス定義の内側で直接使える定義済みの�
 
 `:on`オプションと`:message`オプションはどのヘルパーでも使えます。`:on`オプションはバリデーションを実行するタイミングを指定し、`:message`オプションはバリデーション失敗時に`errors`コレクションに追加するメッセージを指定します。`:on`オプションは`:create`または`:update`のいずれかの値を取ります。バリデーションヘルパーには、それぞれデフォルトのエラーメッセージが用意されています。`:message`オプションが使われていない場合はデフォルトのメッセージが使われます。利用可能なヘルパーを1つずつ見ていきましょう。
 
-INFO: 利用可能なデフォルトヘルパーのリストについては、 [`ActiveModel::Validations::HelperMethods`][]を参照してください。
+INFO: 利用可能なデフォルトヘルパーのリストについては、[`ActiveModel::Validations::HelperMethods`][]を参照してください。
 
 [`ActiveModel::Validations::HelperMethods`]: https://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html
 
@@ -587,7 +587,7 @@ end
 
 WARNING: 一部のデータベースでは検索で常に大文字小文字を区別しない設定になっているものがあります。
 
-`:conditions`オプションを使うと、一意性制約の探索を制限するための追加条件を`WHERE` SQLフラグメントとして指定可能です（例: `conditions: -> { where(status: 'active') }`）。
+`:conditions`オプションを使うと、一意性制約の探索を制限するための追加条件をSQLの`WHERE`フラグメントとして指定可能です（例: `conditions: -> { where(status: 'active') }`）。
 
 デフォルトのエラーメッセージは「has already been taken」です。
 
@@ -612,7 +612,7 @@ end
 
 CAUTION: `validates_associated`を関連付けの両側で使ってはいけません。互いを呼び出して無限ループになります。
 
-[`validates_associated`][] のデフォルトのエラーメッセージは「is invalid」です。各関連付けオブジェクトには、それ自身の`errors`コレクションも含まれることに注意してください。エラーは呼び出し元のモデルには達しません。
+[`validates_associated`][]のデフォルトのエラーメッセージは「is invalid」です。各関連付けオブジェクトには、それ自身の`errors`コレクションも含まれることに注意してください。エラーは呼び出し元のモデルには達しません。
 
 NOTE: [`validates_associated`][]はActive Recordオブジェクトでしか利用できませんが、従来のバリデーションは[`ActiveModel::Validations`][]を含む任意のオブジェクトでも利用できます。
 
@@ -732,7 +732,7 @@ end
 
 これまで見てきたバリデータにはさまざまな共通オプションがあるので、そのいくつかを以下に示します。
 
-NOTE: これらのオプションは、すべてのバリデータでサポートされているとは限りません。詳しくは[`ActiveModel::Validations`][]の API ドキュメントを参照してください。
+NOTE: これらのオプションは、すべてのバリデータでサポートされているとは限りません。詳しくは[`ActiveModel::Validations`][]のAPIドキュメントを参照してください。
 
 上述のバリデーションの方法を使う場合、バリデータ間で共通して使えるオプションのリストも存在します。
 
@@ -828,7 +828,7 @@ class Person < ApplicationRecord
   # 新規レコード作成時に、数字でない年齢表現を使える
   validates :age, numericality: true, on: :update
 
-  # デフォルト (作成時と更新時の両方でバリデーションを行なう)
+  # デフォルト（作成時と更新時の両方でバリデーションを行なう）
   validates :name, presence: true
 end
 ```

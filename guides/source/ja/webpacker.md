@@ -1,7 +1,7 @@
 Webpacker の概要
 =========
 
-本ガイドではWebpackerのインストール方法と、Railsアプリケーションのクライアント側で用いるJavaScriptやCSSなどのアセットをWebpackerで利用する方法について解説します。**ただし[Webpackerの開発は終了した](https://github.com/rails/webpacker#webpacker-has-been-retired-)点にご注意ください。(訳注: 移行方法は末尾の[参考資料](#追加のドキュメント)をご参照ください)**
+本ガイドではWebpackerのインストール方法と、Railsアプリケーションのクライアント側で用いるJavaScriptやCSSなどのアセットをWebpackerで利用する方法について解説します。**ただし[Webpackerの開発は終了した](https://github.com/rails/webpacker#webpacker-has-been-retired-)点にご注意ください（訳注: 移行方法は末尾の[参考資料](#追加のドキュメント)をご参照ください）。**
 
 このガイドの内容:
 
@@ -109,13 +109,13 @@ app/javascript:
 
 これらのディレクトリを変更したい場合は、`config/webpacker.yml`ファイルの`source_path`（デフォルトは`app/javascript`ディレクトリ）と`source_entry_path`（デフォルトは`packs`ディレクトリ）も変更してください。
 
-JavaScriptソースファイル内の`import`ステートメントは、インポートするファイルの位置を「相対的に」解決します。つまり、`import Bar from "./foo"`と書くと、現在いるディレクトリにある`foo.js`ファイルを探索しますが、`import Bar from "../src/foo"`と書くと`src` という名前の親ディレクトリにあるファイルを探索します。
+JavaScriptソースファイル内の`import`ステートメントは、インポートするファイルの位置を「相対的に」解決します。つまり、`import Bar from "./foo"`と書くと、現在いるディレクトリにある`foo.js`ファイルを探索しますが、`import Bar from "../src/foo"`と書くと`src`という名前の親ディレクトリにあるファイルを探索します。
 
 ### CSSをWebpacker経由で利用する
 
 Webpackerでは、PostCSSプロセッサを用いてCSSやSCSSのサポートを即座に利用できます。
 
-CSSコードをpackにインクルードするには、まずCSSファイルをトップレベルのpackファイルにインクルードします（JavaScriptファイルをインクルードするときと同じ要領です）。つまり、CSSのトップレベルマニフェストが`app/javascript/styles/styles.scss`にある場合は、`import styles/styles` でインポートします。これにより、webpackがCSSファイルをダウンロードに含められるようになります。実際にWebページで読み込むには、ビューのコードに`<%= stylesheet_pack_tag "application" %>`を追加します。
+CSSコードをpackにインクルードするには、まずCSSファイルをトップレベルのpackファイルにインクルードします（JavaScriptファイルをインクルードするときと同じ要領です）。つまり、CSSのトップレベルマニフェストが`app/javascript/styles/styles.scss`にある場合は、`import styles/styles`でインポートします。これにより、webpackがCSSファイルをダウンロードに含められるようになります。実際にWebページで読み込むには、ビューのコードに`<%= stylesheet_pack_tag "application" %>`を追加します。
 
 CSSフレームワークを用いる場合は、フレームワークを`yarn`でnpmモジュールとして読み込むインストール手順（`yarn add <フレームワーク名>`が典型）に従えば、Webpackerにフレームワークを追加できます。たいていのフレームワークには、CSSやSCSSファイルにインポートする手順があるはずです。
 
@@ -135,7 +135,7 @@ myImage.alt = "I'm a Webpacker-bundled image";
 document.body.appendChild(myImage);
 ```
 
-Webpackerの静的アセットをRailsのビューで参照する必要がある場合は、WebpackerにバンドルされるJavaScriptファイルで明示的に`require`する必要があります。Sprockets とは異なり、Webpackerはデフォルトでは静的アセットをインポートしない点にご注意ください。デフォルトの`app/javascript/packs/application.js`ファイルには、指定のディレクトリからファイルをインポートするテンプレートがコメントの形で用意されているので、静的ファイルを置きたいディレクトリごとにコメント解除して利用できます。ディレクトリは`app/javascript`を起点とする相対パスです。テンプレートでは`images`というディレクトリ名になっていますが、`app/javascript`の中であれば任意のディレクトリ名に変更できます。
+Webpackerの静的アセットをRailsのビューで参照する必要がある場合は、WebpackerにバンドルされるJavaScriptファイルで明示的に`require`する必要があります。Sprocketsとは異なり、Webpackerはデフォルトでは静的アセットをインポートしない点にご注意ください。デフォルトの`app/javascript/packs/application.js`ファイルには、指定のディレクトリからファイルをインポートするテンプレートがコメントの形で用意されているので、静的ファイルを置きたいディレクトリごとにコメント解除して利用できます。ディレクトリは`app/javascript`を起点とする相対パスです。テンプレートでは`images`というディレクトリ名になっていますが、`app/javascript`の中であれば任意のディレクトリ名に変更できます。
 
 ```javascript
 const images = require.context("../images", true)
@@ -175,7 +175,7 @@ webpack-dev-serverを実行していない場合は、HMRを**必ず**無効に�
 環境ごとのWebpacker設定について
 -----------------------------------
 
-Webpackerにはデフォルトで`development`、`test`、`production`の3つの環境があります。`webpacker.yml` ファイルに環境設定を追加することで、環境ごとに異なるデフォルトを設定できます。また、Webpackerは環境設定を追加するために`config/webpack/<environment>.js` ファイルを読み込みます。
+Webpackerにはデフォルトで`development`、`test`、`production`の3つの環境があります。`webpacker.yml`ファイルに環境設定を追加することで、環境ごとに異なるデフォルトを設定できます。また、Webpackerは環境設定を追加するために`config/webpack/<environment>.js`ファイルを読み込みます。
 
 ## development環境でWebpackerを実行する
 
@@ -183,7 +183,7 @@ Webpackerには、development環境で実行する`./bin/webpack`と`./bin/webpa
 
 development環境のWebpackerは、デフォルトでRailsページが読み込まれると必要に応じて自動的にコンパイルを行います。つまり別のプロセスの実行は不要であり、コンパイルエラーは標準のRailsログに出力されます。これを変更するには、`config/webpacker.yml`ファイルを`compile: false`に変更します。`bin/webpack`を実行すると、packを強制的にコンパイルします。
 
-コードのライブリロード機能を使いたい場合や、JavaScriptコードが多くてオンデマンドのコンパイルが遅くなる場合は、`./bin/webpack-dev-server`または`ruby ./bin/webpack-dev-server` を実行する必要があります。webpack-dev-serverのプロセスは、`app/javascript/packs/*.js`ファイルの変更を監視して変更時に自動的に再コンパイルし、ブラウザを再読み込みします。
+コードのライブリロード機能を使いたい場合や、JavaScriptコードが多くてオンデマンドのコンパイルが遅くなる場合は、`./bin/webpack-dev-server`または`ruby ./bin/webpack-dev-server`を実行する必要があります。webpack-dev-serverのプロセスは、`app/javascript/packs/*.js`ファイルの変更を監視して変更時に自動的に再コンパイルし、ブラウザを再読み込みします。
 
 Windowsユーザーは、これらのコマンドを`bundle exec rails server`とは別のターミナルで実行する必要があります。
 

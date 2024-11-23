@@ -840,9 +840,9 @@ WARNING: これらのアセットタグヘルパーは、指定の場所にア�
 
 [`javascript_include_tag`][]ヘルパーは、指定されたソースごとにHTML `<script>`タグを返します。
 
-Railsの[アセットパイプライン](asset_pipeline.html) を有効にすると、`/assets/javascripts/`ディレクトリにあるJavaScriptファイルにリンクされます（旧Railsの`public/javascripts`ではありません）。このリンクはアセットパイプラインによって配信されます。
+Railsの[アセットパイプライン](asset_pipeline.html)を有効にすると、`/assets/javascripts/`ディレクトリにあるJavaScriptファイルにリンクされます（旧Railsの`public/javascripts`ではありません）。このリンクはアセットパイプラインによって配信されます。
 
-Railsアプリケーション内やRailsエンジン内のJavaScriptファイルは、`app/assets`、`lib/assets`、`vendor/assets`のいずれかのディレクトリに置かれます。これらの置き場所について詳しくは[アセットパイプラインガイドの「アセットの編成」](asset_pipeline.html#アセットの編成) を参照してください。
+Railsアプリケーション内やRailsエンジン内のJavaScriptファイルは、`app/assets`、`lib/assets`、`vendor/assets`のいずれかのディレクトリに置かれます。これらの置き場所について詳しくは[アセットパイプラインガイドの「アセットの編成」](asset_pipeline.html#アセットの編成)を参照してください。
 
 ドキュメントルートからの相対フルパスやURLも指定できます。たとえば、`app/assets`、`lib/assets`、または`vendor/assets`の下にある`javascripts`ディレクトリのJavaScriptファイルにリンクしたい場合は以下のようにします。
 
@@ -1080,7 +1080,7 @@ NOTE: 新しく生成したアプリケーションには、`app/views/layouts/a
 
 #### パーシャルに名前を与える
 
-パーシャルをビューの一部としてレンダリングするには、ビュー内で以下のように[`render`][view.render] メソッドを使います。
+パーシャルをビューの一部としてレンダリングするには、ビュー内で以下のように[`render`][view.render]メソッドを使います。
 
 ```html+erb
 <%= render "menu" %>

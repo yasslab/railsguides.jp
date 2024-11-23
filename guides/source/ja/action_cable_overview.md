@@ -15,7 +15,7 @@ Action Cable の概要
 はじめに
 ------------
 
-Action Cableは、[WebSocket](https://ja.wikipedia.org/wiki/WebSocket)とRailsのその他の部分をシームレスに統合します。Action Cableを導入すると、Rails アプリケーションのパフォーマンスとスケーラビリティを損なわずに、通常のRailsアプリケーションと同じスタイル・方法でリアルタイム機能をRubyで記述できるようになります。Action Cableはフルスタックのフレームワークであり、クライアント側のJavaScriptフレームワークとサーバー側のRubyフレームワークの両方を提供します。Active RecordなどのORMで書かれたドメインモデル全体にアクセスできます。
+Action Cableは、[WebSocket](https://ja.wikipedia.org/wiki/WebSocket)とRailsのその他の部分をシームレスに統合します。Action Cableを導入すると、Railsアプリケーションのパフォーマンスとスケーラビリティを損なわずに、通常のRailsアプリケーションと同じスタイル・方法でリアルタイム機能をRubyで記述できるようになります。Action Cableはフルスタックのフレームワークであり、クライアント側のJavaScriptフレームワークとサーバー側のRubyフレームワークの両方を提供します。Active RecordなどのORMで書かれたドメインモデル全体にアクセスできます。
 
 用語について
 -----------
@@ -627,7 +627,7 @@ WebNotificationsChannel.broadcast_to(
 
 ### より詳しい例
 
-RailsアプリケーションにAction Cableを設定する方法や、チャネルの追加方法の完全な例については、[rails/actioncable-examples](https://github.com/rails/actioncable-examples) を参照してください。
+RailsアプリケーションにAction Cableを設定する方法や、チャネルの追加方法の完全な例については、[rails/actioncable-examples](https://github.com/rails/actioncable-examples)を参照してください。
 
 ## 設定
 

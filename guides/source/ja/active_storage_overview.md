@@ -205,7 +205,7 @@ digitalocean:
 
 Azure Storageサービスは`config/storage.yml`で宣言します。
 
-``` yaml
+```yaml
 # `bin/rails credentials:edit`でAzure Storage secretを設定すること（azure_storage:storage_access_keyとして）
 azure:
   service: AzureStorage
@@ -216,7 +216,7 @@ azure:
 
 `Gemfile`に[`azure-storage-blob`](https://github.com/Azure/azure-storage-ruby) gemを追加します。
 
-``` ruby
+```ruby
 gem "azure-storage-blob", "~> 2.0", require: false
 ```
 
@@ -283,7 +283,7 @@ google:
 
 `Gemfile`に[`google-cloud-storage`](https://github.com/GoogleCloudPlatform/google-cloud-ruby/tree/main/google-cloud-storage) gemを追加します。
 
-``` ruby
+```ruby
 gem "google-cloud-storage", "~> 1.11", require: false
 ```
 
@@ -297,7 +297,7 @@ NOTE: ミラーリング機能はアトミックではありません。プラ�
 
 上で説明したように、ミラーリングするサービスをそれぞれ定義します。ミラーサービスを定義するときは以下のように名前で参照します。
 
-``` yaml
+```yaml
 # `bin/rails credentials:edit`でAWS secretsを設定すること（aws:access_key_id|secret_access_keyとして）
 s3_west_coast:
   service: S3
@@ -326,7 +326,7 @@ production:
 
 ### パブリックアクセス
 
-Active Storageは、デフォルトでサービスにプライベートアクセスすることを前提としています。つまり、blobを参照する単一用途の署名済みURLを生成するということです。blobを一般公開したい場合は、アプリの `config/storage.yml`で以下のように`public: true`を指定します。
+Active Storageは、デフォルトでサービスにプライベートアクセスすることを前提としています。つまり、blobを参照する単一用途の署名済みURLを生成するということです。blobを一般公開したい場合は、アプリの`config/storage.yml`で以下のように`public: true`を指定します。
 
 ```yaml
 gcs: &gcs
@@ -592,7 +592,7 @@ end
 )
 ```
 
-### 添付ファイルの置き換え vs 追加
+### 添付ファイルの置き換えvs追加
 
 Railsでは、デフォルトで`has_many_attached`関連付けにファイルを添付すると、既存の添付ファイルがすべて置き換えられます。
 
@@ -735,7 +735,7 @@ end
 
 ### 認証済みコントローラ
 
-Active Storageのすべてのコントローラは、デフォルトでpublicアクセスできます。生成されるURLではプレーンな[`signed_id`][ActiveStorage::Blob#signed_id]が使われ、推測は困難ですが、URLは永続的です。blobのURLを知っている人であれば、 `ApplicationController`の`before_action`でログインを必須にしていてもblobのURLにアクセス可能です。より高度なレベルの保護が必要な場合は、[`ActiveStorage::Blobs::RedirectController`][]、[`ActiveStorage::Blobs::ProxyController`][]、[`ActiveStorage::Representations::RedirectController`][]、[`ActiveStorage::Representations::ProxyController`][]をベースに独自の認証済みコントローラを実装できます。
+Active Storageのすべてのコントローラは、デフォルトでpublicアクセスできます。生成されるURLではプレーンな[`signed_id`][ActiveStorage::Blob#signed_id]が使われ、推測は困難ですが、URLは永続的です。blobのURLを知っている人であれば、`ApplicationController`の`before_action`でログインを必須にしていてもblobのURLにアクセス可能です。より高度なレベルの保護が必要な場合は、[`ActiveStorage::Blobs::RedirectController`][]、[`ActiveStorage::Blobs::ProxyController`][]、[`ActiveStorage::Representations::RedirectController`][]、[`ActiveStorage::Representations::ProxyController`][]をベースに独自の認証済みコントローラを実装できます。
 
 あるアカウントがアプリケーションのロゴにアクセスすることだけを許可するには、以下のようにします。
 
@@ -1088,7 +1088,7 @@ Diskサービスはアプリのオリジンを共有するので、CORS設定は
 | `direct-upload:before-blob-request` | `<input>` | `{id, file, xhr}` | アプリケーションにダイレクトアップロードメタデータを要求する前。 |
 | `direct-upload:before-storage-request` | `<input>` | `{id, file, xhr}` | ファイルを保存するリクエストを出す前。 |
 | `direct-upload:progress` | `<input>` | `{id, file, progress}` | ファイルを保存する要求が進行中。 |
-| `direct-upload:error` | `<input>` | `{id, file, error}` | エラーが発生した。 このイベントがキャンセルされない限り、`alert`が表示される。 |
+| `direct-upload:error` | `<input>` | `{id, file, error}` | エラーが発生した。このイベントがキャンセルされない限り、`alert`が表示される。 |
 | `direct-upload:end` | `<input>` | `{id, file}` | ダイレクトアップロードが終了した。 |
 | `direct-uploads:end` | `<form>` | なし | すべてのダイレクトアップロードが終了した。 |
 
@@ -1235,7 +1235,7 @@ const uploadFile = (file) => {
 ### ファイルアップロードの進行状況をトラッキングする
 
 `DirectUpload`コンストラクタを使うと、第3パラメータを含めることが可能になります。
- これにより、アップロード中に`DirectUpload`オブジェクトが `directUploadWillStoreFileWithXHR`メソッドを呼び出せるようになり、ニーズに応じた独自のプログレスハンドラをXHRにアタッチできるようになります。
+ これにより、アップロード中に`DirectUpload`オブジェクトが`directUploadWillStoreFileWithXHR`メソッドを呼び出せるようになり、ニーズに応じた独自のプログレスハンドラをXHRにアタッチできるようになります。
 
 ```js
 import { DirectUpload } from "@rails/activestorage"
@@ -1436,7 +1436,7 @@ david_avatar:
 david_avatar_blob: <%= ActiveStorage::FixtureSet.blob filename: "david.png", service_name: "test_fixtures" %>
 ```
 
-次に、フィクスチャディレクトリ（デフォルトのパスは `test/fixtures/files`）に、`filename:`に対応するファイルを置きます。詳しくは[`ActiveStorage::FixtureSet`][]のドキュメントを参照してください。
+次に、フィクスチャディレクトリ（デフォルトのパスは`test/fixtures/files`）に、`filename:`に対応するファイルを置きます。詳しくは[`ActiveStorage::FixtureSet`][]のドキュメントを参照してください。
 
 セットアップがすべて完了したら、テストで添付ファイルにアクセスできるようになります。
 
@@ -1513,7 +1513,7 @@ s3:
 ---------------------------------
 
 これら以外のクラウドサービスをサポートする必要がある場合は、サービスを実装する必要があります。
-各サービスは、ファイルをアップロードしてクラウドにダウンロードするのに必要なメソッドを実装することで、[`ActiveStorage::Service`](https://api.rubyonrails.org/classes/ActiveStorage/Service.html)を拡張します 。
+各サービスは、ファイルをアップロードしてクラウドにダウンロードするのに必要なメソッドを実装することで、[`ActiveStorage::Service`](https://api.rubyonrails.org/classes/ActiveStorage/Service.html)を拡張します。
 
 アタッチされなかったアップロードを破棄する
 --------------------------

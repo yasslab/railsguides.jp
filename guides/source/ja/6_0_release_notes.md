@@ -476,7 +476,6 @@ Active Record
     ([Pull Request](https://github.com/rails/rails/pull/31382))
 
 *   `rails db:schema:cache:dump`や`rails db:schema:cache:clear`にマルチデータベースのサポートを追加
-    and `rails db:schema:cache:clear`.
     ([Pull Request](https://github.com/rails/rails/pull/34181))
 
 *   `ActiveRecord::Base.connected_to`のデータベースハッシュでハッシュやURLの設定をサポート
@@ -539,7 +538,7 @@ Active Record
 *   子レコードが重複している場合に親レコードが保存されない問題を修正
     ([Pull Request](https://github.com/rails/rails/pull/32952))
 
-*   `Associations::CollectionAssociation#size`や `Associations::CollectionAssociation#empty?`で読み込み済みの関連idが存在する場合はそれを使うようになった
+*   `Associations::CollectionAssociation#size`や`Associations::CollectionAssociation#empty?`で読み込み済みの関連idが存在する場合はそれを使うようになった
     ([Pull Request](https://github.com/rails/rails/pull/32617))
 
 *   リクエストされた関連付けが一部のレコードにない場合にポリモーフィック関連付けをプリロードするサポートを追加
@@ -679,7 +678,7 @@ Active Support
 *   非推奨の`Module#reachable?`を削除
     ([Commit](https://github.com/rails/rails/commit/6eb1d56a333fd2015610d31793ed6281acd66551))
 
-*   ` Kernel#`を削除（代替はなし）
+*   `` Kernel#` ``を削除（代替はなし）
     ([Pull Request](https://github.com/rails/rails/pull/31253))
 
 ### 非推奨化
