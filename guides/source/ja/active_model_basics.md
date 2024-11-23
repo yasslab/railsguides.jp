@@ -1,7 +1,7 @@
 Active Model の基礎
 ===================
 
-本ガイドでは、モデルクラスを使って作業を開始するのに必要な知識について解説します。Active Modelは、Action PackやAction ViewヘルパーにプレーンなRubyオブジェクトとのやりとりを行う手段を提供します。Active Modelを用いることで、カスタムのORM (オブジェクト/リレーショナルマッパー) を作成してRailsフレームワークの外で利用できるようになります。
+本ガイドでは、モデルクラスを使って作業を開始するのに必要な知識について解説します。Active Modelは、Action PackやAction ViewヘルパーにプレーンなRubyオブジェクトとのやりとりを行う手段を提供します。Active Modelを用いることで、カスタムのORM（オブジェクト/リレーショナルマッパー）を作成してRailsフレームワークの外で利用できるようになります。
 
 このガイドの内容:
 
@@ -15,7 +15,7 @@ Active Model の基礎
 はじめに
 ------------
 
-Active Modelを理解するには、まず[Active Record][]について少し知っておく必要があります。Active RecordはORM（オブジェクト/リレーショナル マッパー）の一種であり、データを永続的に保存する必要のあるオブジェクトをリレーショナルデータベースに接続します。ただし、ORM以外にも、バリデーション、コールバック、変換、カスタム属性を作成する機能といった有用な機能がたくさんあります。
+Active Modelを理解するには、まず[Active Record][]について少し知っておく必要があります。Active RecordはORM（オブジェクト/リレーショナルマッパー）の一種であり、データを永続的に保存する必要のあるオブジェクトをリレーショナルデータベースに接続します。ただし、ORM以外にも、バリデーション、コールバック、変換、カスタム属性を作成する機能といった有用な機能がたくさんあります。
 
 Active Recordのそうした機能の一部が抽象化されてActive Modelに移転しました。Active Modelは、モデルのような機能を必要としているが、データベース内のテーブルには関連付けないプレーンなRubyオブジェクト（PORO）で利用できるさまざまなモジュールを含むライブラリです。
 
@@ -271,7 +271,7 @@ irb> person.date_of_birth
 => "1998-01-01"
 ```
 
-INFO: `assign_attributes`と`attributes=` はどちらもメソッド呼び出しであり、代入する属性のハッシュを引数として渡せます。Rubyでは多くの場合、メソッド呼び出しの丸かっこ`()`やハッシュ定義の波かっこ`{}`を省略できます。 <br><br>`attributes=`のような「セッター」メソッドの呼び出しでは、丸かっこ`()`を省略することがよくあります（`()`を省略しなくても振る舞いは変わりません）が、セッターメソッドにハッシュを渡す場合は波かっこ`{}`を省略してはいけない点にご注意ください。たとえば`person.attributes=({ name: "John" })`は正常に動作しますが、`person.attributes = name: "John"`では`SyntaxError`が発生します。<br><br>`assign_attributes`などの（セッターでない）メソッド呼び出しでは、ハッシュ引数の丸かっこ`()`や`{}`を両方書くことも両方省略することも可能です。たとえば、`assign_attributes name: "John"`や`assign_attributes({ name: "John" })`はどちらもRubyコードとして完全に有効です。ただし`assign_attributes { name: "John" }`という波かっこ`{}`だけの書き方は有効ではなく、`SyntaxError`が発生します（波かっこ`{}`がハッシュ引数なのかブロックなのかをRubyが区別できないため）。
+INFO: `assign_attributes`と`attributes=`はどちらもメソッド呼び出しであり、代入する属性のハッシュを引数として渡せます。Rubyでは多くの場合、メソッド呼び出しの丸かっこ`()`やハッシュ定義の波かっこ`{}`を省略できます。 <br><br>`attributes=`のような「セッター」メソッドの呼び出しでは、丸かっこ`()`を省略することがよくあります（`()`を省略しなくても振る舞いは変わりません）が、セッターメソッドにハッシュを渡す場合は波かっこ`{}`を省略してはいけない点にご注意ください。たとえば`person.attributes=({ name: "John" })`は正常に動作しますが、`person.attributes = name: "John"`では`SyntaxError`が発生します。<br><br>`assign_attributes`などの（セッターでない）メソッド呼び出しでは、ハッシュ引数の丸かっこ`()`や`{}`を両方書くことも両方省略することも可能です。たとえば、`assign_attributes name: "John"`や`assign_attributes({ name: "John" })`はどちらもRubyコードとして完全に有効です。ただし`assign_attributes { name: "John" }`という波かっこ`{}`だけの書き方は有効ではなく、`SyntaxError`が発生します（波かっこ`{}`がハッシュ引数なのかブロックなのかをRubyが区別できないため）。
 
 ### `AttributeMethods`モジュール
 
@@ -383,7 +383,7 @@ irb> person.full_name_short?
 
 ### `Callbacks`モジュール
 
-[`ActiveModel::Callbacks`][]は、[Active Record スタイルのコールバック](active_record_callbacks.html)をプレーンなRubyオブジェクトの形で提供します。コールバックを利用して、`before_update`や`after_create`などのモデルのライフサイクルイベントにフックすることも、モデルのライフサイクルの特定の時点で実行されるカスタムロジックを定義することも可能になります。
+[`ActiveModel::Callbacks`][]は、[Active Recordスタイルのコールバック](active_record_callbacks.html)をプレーンなRubyオブジェクトの形で提供します。コールバックを利用して、`before_update`や`after_create`などのモデルのライフサイクルイベントにフックすることも、モデルのライフサイクルの特定の時点で実行されるカスタムロジックを定義することも可能になります。
 
 `ActiveModel::Callbacks`は、以下の手順に沿って実装できます。
 
@@ -902,7 +902,7 @@ end
 
 上のセットアップでは、新しい`person::Profile`を作成するためのフォームを`form_with`ヘルパーで作成すると、`/person/profiles`というURLではなく`/profiles`というURLを持つフォームが生成されます（`model_name`メソッドが`Profile`を返すようにオーバーライドされたため）。
 
-さらに、パスヘルパーが名前空間なしで生成されるので、`person_profiles_path`の代わりに`profiles_path` で`profiles`リソースのURLを生成できます。`profiles_path`ヘルパーを利用可能にするには、`config/routes.rb`ファイルで`person::Profile`モデルのルーティングを以下のように定義する必要があります。
+さらに、パスヘルパーが名前空間なしで生成されるので、`person_profiles_path`の代わりに`profiles_path`で`profiles`リソースのURLを生成できます。`profiles_path`ヘルパーを利用可能にするには、`config/routes.rb`ファイルで`person::Profile`モデルのルーティングを以下のように定義する必要があります。
 
 ```ruby
 Rails.application.routes.draw do
@@ -1035,7 +1035,7 @@ class Person
 end
 ```
 
-これで、`serializable_hash`メソッドでオブジェクトのシリアライズ済みハッシュにアクセス可能になります。`serializable_hash`メソッドの有効なオプションには、`:only`、`:except`、`:methods`、および `:include`が含まれます。
+これで、`serializable_hash`メソッドでオブジェクトのシリアライズ済みハッシュにアクセス可能になります。`serializable_hash`メソッドの有効なオプションには、`:only`、`:except`、`:methods`、および`:include`が含まれます。
 
 ```irb
 irb> person = Person.new

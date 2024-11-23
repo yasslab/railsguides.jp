@@ -136,7 +136,7 @@ $ bin/rails generate mailer User welcome_email
 <p>本サイトにユーザー登録いただきありがとうございます。</p>
 ```
 
-NOTE: 上のサンプルは`<body>`タグの内容です。これは、`<html>`タグを含むデフォルトのメーラーレイアウトに埋め込まれます。詳しくは、[メーラーのレイアウト](#action-mailerのレイアウト) を参照してください。
+NOTE: 上のサンプルは`<body>`タグの内容です。これは、`<html>`タグを含むデフォルトのメーラーレイアウトに埋め込まれます。詳しくは、[メーラーのレイアウト](#action-mailerのレイアウト)を参照してください。
 
 また、上のメールのテキストバージョンを`app/views/user_mailer/`ディレクトリの`welcome_email.text.erb`ファイルに保存することも可能です（拡張子が`html.erb`ではなく`.text.erb`である点にご注意ください）。テキストバージョンも用意しておくと、HTMLレンダリングで問題が発生した場合に信頼できるフォールバックとして機能するため、HTML形式とテキスト形式の両方を送信することがベストプラクティスと見なされます。テキストメールの例を次に示します。
 
@@ -153,7 +153,7 @@ example.comへのサインアップが成功しました。ユーザー名は「
 
 なお、インスタンス変数（`@user`と`@url`）は、HTMLテンプレートとテキストテンプレートの両方で利用可能になります。
 
-これで、`mail`メソッドを呼び出せば、Action Mailerは2種類のテンプレート (テキストおよびHTML) を探索して、`multipart/alternative`形式のメールを自動生成します。
+これで、`mail`メソッドを呼び出せば、Action Mailerは2種類のテンプレート（テキストおよびHTML）を探索して、`multipart/alternative`形式のメールを自動生成します。
 
 ### メーラーを呼び出す
 
@@ -347,7 +347,7 @@ end
 
 [メーラービューを作成する](#メーラービューを作成する)で説明したように、同じアクションに異なるテンプレートがある場合、Action Mailerは自動的にマルチパートメールを送信します。たとえば、`UserMailer`が`app/views/user_mailer`ディレクトリに`welcome_email.text.erb`と`welcome_email.html.erb`を配置している場合、Action MailerはHTMLバージョンとテキストバージョンのメーラーを両方とも異なる部分として含めたマルチパートメールを自動的に送信します。
 
-[Mail](https://github.com/mikel/mail) gem には、`text/plain`および`text/html`という[MIMEタイプ](https://developer.mozilla.org/ja-JP/docs/Web/HTTP/Basics_of_HTTP/MIME_types)を対象とする`multipart/alternate`メールを作成するためのヘルパーメソッドがあり、その他のMIMEタイプのメールについては手動で作成できます。
+[Mail](https://github.com/mikel/mail) gemには、`text/plain`および`text/html`という[MIMEタイプ](https://developer.mozilla.org/ja-JP/docs/Web/HTTP/Basics_of_HTTP/MIME_types)を対象とする`multipart/alternate`メールを作成するためのヘルパーメソッドがあり、その他のMIMEタイプのメールについては手動で作成できます。
 
 NOTE: 挿入されるパーツの順序は、`ActionMailer::Base.default`メソッド内の`:parts_order`で決定されます。
 
@@ -582,7 +582,7 @@ class AdminMailer < ApplicationMailer
 end
 ```
 
-CC (カーボンコピー) やBCC (ブラインドカーボンコピー) アドレスを指定する場合にも同じ形式を使えます。それぞれ`:cc`キーと`:bcc`キーを使います（使い方は`:to`フィールドと同じ要領です）。
+CC（カーボンコピー）やBCC（ブラインドカーボンコピー）のメールアドレスを指定する場合にも同じ形式を使えます。それぞれ`:cc`キーと`:bcc`キーを使います（使い方は`:to`フィールドと同じ要領です）。
 
 ### メールアドレスを名前で表示する
 

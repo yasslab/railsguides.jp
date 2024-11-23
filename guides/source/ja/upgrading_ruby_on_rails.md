@@ -40,8 +40,6 @@ Railsのバージョンを変更する場合、マイナーバージョンを1�
 
 上の手順を繰り返して、最終的にRailsを目的のバージョンにアップグレードします。
 
-リリース済みのRailsバージョンのリストは https://rubygems.org/gems/rails/versions で確認できます。
-
 TIP: 訳注：日本語の参考資料については本ページ末尾の「[参考資料（日本語）](#参考資料（日本語）)」でまとめています。
 
 #### Railsバージョン間を移動する
@@ -53,11 +51,11 @@ Railsのバージョン間を移動するには以下のようにします。
 3. [アップデートタスク](#アップデートタスク)を実行する。
 4. テストを実行する。
 
-リリースされたすべてのRails gemリストについては[こちら](https://rubygems.org/gems/rails/versions)を参照してください。
+リリースされたすべてのRails gemリストについては[rubygems.org](https://rubygems.org/gems/rails/versions)を参照してください。
 
 ### アップデートタスク
 
-Rails では`app:update`というコマンドが提供されています。`Gemfile`に記載されているRailsのバージョンを更新後、このコマンドを実行することで、新しいバージョンでのファイル作成や既存ファイルの変更を対話形式で行うことができます。
+Railsでは`app:update`というコマンドが提供されています。`Gemfile`に記載されているRailsのバージョンを更新後、このコマンドを実行することで、新しいバージョンでのファイル作成や既存ファイルの変更を対話形式で行うことができます。
 
 ```bash
 $ bin/rails app:update
@@ -95,7 +93,7 @@ Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべて�
 
 `queue_adapter`コンフィグを提供しない場合は、引き続き`TestAdapter`が使われます。
 
-TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」でまとめています。
 
 
 Rails 7.0からRails 7.1へのアップグレード
@@ -103,7 +101,7 @@ Rails 7.0からRails 7.1へのアップグレード
 
 Rails 7.1で行われた変更について詳しくは、[Rails 7.1のリリースノート](7_1_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_Knowledge)」でまとめています。
 
 ### development環境とtest環境のsecret_key_baseファイル名が変更された
 
@@ -125,7 +123,7 @@ production環境およびその他の環境は影響を受けません。
 Rails 7.1以降、オートローダーが管理するすべてのディレクトリは`$LOAD_PATH`に追加されなくなりました。
 これにより、手動で`require`を呼び出してそれらを読み込むことはできなくなります（いずれにしろ手動の`require`は行うべきではありません）。
 
-`$LOAD_PATH`のサイズが削減されたことで、`bootsnap`を使っていないアプリの `require`呼び出しが高速化され、その他のアプリの`bootsnap`キャッシュのサイズも削減されます。
+`$LOAD_PATH`のサイズが削減されたことで、`bootsnap`を使っていないアプリの`require`呼び出しが高速化され、その他のアプリの`bootsnap`キャッシュのサイズも削減されます。
 
 これらのパスを引き続き`$LOAD_PATH`に残しておきたい場合は、以下の設定で一応可能です。
 
@@ -202,13 +200,13 @@ Rails.autoloaders.main.do_not_eager_load(config.root.join("lib"))
 
 * [Don't stream redirect controller responses by bubba · Pull Request #44244 · rails/rails](https://github.com/rails/rails/pull/44244)
 
-`ActiveStorage::BaseController`を継承し、カスタムファイル配信ロジックをストリーミングで実装するアプリケーションコントローラは、明示的に `ActiveStorage::Streaming`モジュールを`include`する必要があります。
+`ActiveStorage::BaseController`を継承し、カスタムファイル配信ロジックをストリーミングで実装するアプリケーションコントローラは、明示的に`ActiveStorage::Streaming`モジュールを`include`する必要があります。
 
 ### `MemCacheStore`と`RedisCacheStore`がデフォルトでコネクションプールを使うようになった
 
 * [Enable connection pooling by default for `MemCacheStore` and `RedisCacheStore` by fatkodima · Pull Request #45235 · rails/rails](https://github.com/rails/rails/pull/45235)
 
-`connection_pool` gem が`activesupport`gemの依存関係として追加され、`MemCacheStore`と`RedisCacheStore`はデフォルトでコネクションプールを使うようになりました。
+`connection_pool` gemが`activesupport`gemの依存関係として追加され、`MemCacheStore`と`RedisCacheStore`はデフォルトでコネクションプールを使うようになりました。
 
 コネクションプールを使いたくない場合は、キャッシュストアの設定時に`:pool`オプションを`false`に設定してください：
 
@@ -298,7 +296,7 @@ import { fileInputSelector } from "@rails/ujs"
 // ERROR: export 'fileInputSelector' (imported as 'fileInputSelector') was not found in '@rails/ujs' (possible exports: default)
 ```
 
-Rails 7.1 では、最初にRailsオブジェクトを`@rails/ujs`から直接インポートしておく必要があります。
+Rails 7.1では、最初にRailsオブジェクトを`@rails/ujs`から直接インポートしておく必要があります。
 ユーザーは、このRailsオブジェクトから特定のモジュールをインポートできます。
 Rails 7.1でのインポートの例を以下に示します。
 
@@ -346,7 +344,7 @@ puts Rails.logger.broadcasts #=> [MyLogger]
 
 [`assert_match`]: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-assert_match
 
-### Active Record 暗号化アルゴリズムの変更について
+### Active Record暗号化アルゴリズムの変更について
 
 Active Record暗号化で、ハッシュダイジェストアルゴリズムとしてSHA-256を使うようになりました。従来のRailsバージョンで暗号化したデータがある場合は、アップグレードで考慮すべき2つのシナリオがあります。
 
@@ -387,14 +385,14 @@ Rails 7.1では、この設定に渡せる値が`true`と`false`から、`:all`�
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](/configuring.html#config-action-dispatch-rescue-responses)で宣言されている例外についてはHTMLエラーページを表示する
 * `:none`（`false`と同等）: 例外をrescueしない
 
-Rails 7.1以降で生成したアプリケーションの`config/environments/test.rb`には `config.action_dispatch.show_exceptions = :rescuable`が設定されます。アップグレードする場合、既存のアプリケーションの`config.action_dispatch.show_exceptions = :rescuable`を新しい振る舞いに沿って変更することも、古い値を対応する新しい値に置き換える（`true`を`:all`に置き換え、`false`を`:none`に置き換える）ことも可能です。
+Rails 7.1以降で生成したアプリケーションの`config/environments/test.rb`には`config.action_dispatch.show_exceptions = :rescuable`が設定されます。アップグレードする場合、既存のアプリケーションの`config.action_dispatch.show_exceptions = :rescuable`を新しい振る舞いに沿って変更することも、古い値を対応する新しい値に置き換える（`true`を`:all`に置き換え、`false`を`:none`に置き換える）ことも可能です。
 
 Rails 6.1からRails 7.0へのアップグレード
 -------------------------------------
 
 Rails 7.0で行われた変更について詳しくは、[Rails 7.0のリリースノート](7_0_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_Knowledge)」でまとめています。
 
 
 ### `ActionView::Helpers::UrlHelper#button_to`の振る舞いが変更された
@@ -502,7 +500,7 @@ end
 
 [`config.autoload_once_paths`]: configuring.html#config-autoload-once-paths
 
-### `ActionDispatch::Request#content_type`が Content-Typeヘッダーをそのまま返すようになった
+### `ActionDispatch::Request#content_type`がContent-Typeヘッダーをそのまま返すようになった
 
 従来は、`ActionDispatch::Request#content_type`が返す値にcharsetパートが含まれて「いませんでした」。
 この振る舞いが変更され、charsetパートを含むContent-Typeヘッダーをそのまま返すようになりました。
@@ -591,7 +589,7 @@ Rails 7.0は新旧両方のフォーマットを読み取れるので、アッ�
 
 動画のプレビュー画像生成で、FFmpegの場面転換検出機能を用いて従来よりも意味のあるプレビュー画像を生成するようになりました。従来は動画の冒頭フレームが使われたため、黒画面からフェードインして開始される動画で問題が生じました。この変更にはFFmpeg v3.4以降が必要です。
 
-### Active Storageのデフォルトのバリアントプロセッサが `:vips`に変更
+### Active Storageのデフォルトのバリアントプロセッサが`:vips`に変更
 
 新規アプリの画像変換では、従来のImageMagickに代えてlibvipsが使われるようになります。これにより、バリアント（サムネイルなどで用いられるサイズ違いの画像）の生成時間が短縮されるとともにCPUやメモリの使用量も削減され、Active Storageで画像を配信するアプリのレスポンスが向上します。
 
@@ -749,7 +747,7 @@ Rails 6.0からRails 6.1へのアップグレード
 
 Rails 6.1の変更点について詳しくは[Rails 6.1のリリースノート](6_1_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_Knowledge)」でまとめています。
 
 
 ### `Rails.application.config_for`の戻り値をStringキーでアクセスするサポートが終了した
@@ -871,9 +869,9 @@ video.preview(resize_to_limit: [100, 100])
 video.preview(resize_to_fill: [100, 100])
 ```
 
-### `ActiveModel::Error` クラスが追加された
+### `ActiveModel::Error`クラスが追加された
 
-エラーが新しく `ActiveModel::Error` クラスのインスタンスになり、APIの変更もあわせて行われました。これらの変更によって、新しくエラーが発生する、または Rails 7.0 で廃止されるため非推奨の警告を出力する場合があります。
+エラーが新しく`ActiveModel::Error`クラスのインスタンスになり、APIの変更もあわせて行われました。これらの変更によって、新しくエラーが発生する、またはRails 7.0で廃止されるため非推奨の警告を出力する場合があります。
 
 この変更とAPIについて詳しくは[#32313](https://github.com/rails/rails/pull/32313)を参照してください。
 
@@ -883,7 +881,7 @@ Rails 5.2からRails 6.0へのアップグレード
 
 Rails 6.0の変更点について詳しくは[Rails 6.0のリリースノート](6_0_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 6.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_Knowledge)」でまとめています。
 
 
 ### Webpackerの利用について
@@ -1293,11 +1291,11 @@ user.highlights.second.filename # => "town.jpg"
 Rails 5.1からRails 5.2へのアップグレード
 -------------------------------------
 
-Rails 5.2 の変更点について詳しくは[Rails 5.2のリリースノート](5_2_release_notes.html)を参照してください。
+Rails 5.2の変更点について詳しくは[Rails 5.2のリリースノート](5_2_release_notes.html)を参照してください。
 
 ### Bootsnap
 
-Rails 5.2 では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)にbootsnap gemが追加されました。`boot.rb`の`app:update`コマンドを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。
+Rails 5.2では[新規作成したアプリケーションのGemfile](https://github.com/rails/rails/pull/29313)にbootsnap gemが追加されました。`boot.rb`の`app:update`コマンドを実行するとセットアップが行われます。使いたい場合は、Gemfileにbootsnap gemを追加してください。
 
 ```ruby
 # キャッシュにより起動時間を短縮する: config/boot.rbでrequireされる
@@ -1311,14 +1309,14 @@ gem "bootsnap", require: false
 
 セキュリティ向上のため、Railsでは暗号化または署名付きcookieに有効期限情報を埋め込むようになりました。
 
-有効期限情報が埋め込まれたcookieは、Rails 5.1 以前のバージョンとの互換性はありません。
+有効期限情報が埋め込まれたcookieは、Rails 5.1以前のバージョンとの互換性はありません。
 
-Rails 5.1 以前で新しいcookieを読み込みたい場合や、Rails 5.2 でうまくデプロイできるかどうかを確認したい場合は（必要に応じてロールバックできるようにしたい場合は）`Rails.application.config` の `action_dispatch.use_authenticated_cookie_encryption`を`false`に設定してください。
+Rails 5.1以前で新しいcookieを読み込みたい場合や、Rails 5.2でうまくデプロイできるかどうかを確認したい場合は（必要に応じてロールバックできるようにしたい場合は）`Rails.application.config`の`action_dispatch.use_authenticated_cookie_encryption`を`false`に設定してください。
 
 Rails 5.0からRails 5.1へのアップグレード
 -------------------------------------
 
-Rails 5.1 の変更点について詳しくは[Rails 5.1のリリースノート](5_1_release_notes.html)を参照してください。
+Rails 5.1の変更点について詳しくは[Rails 5.1のリリースノート](5_1_release_notes.html)を参照してください。
 
 ### トップレベルの`HashWithIndifferentAccess`が緩やかに非推奨化された
 
@@ -1364,14 +1362,14 @@ redirect_back(fallback_location: root_path)
 Rails 4.2からRails 5.0へのアップグレード
 -------------------------------------
 
-Rails 5.0 の変更点について詳しくは[Rails 5.0のリリースノート](5_0_release_notes.html)を参照してください。
+Rails 5.0の変更点について詳しくは[Rails 5.0のリリースノート](5_0_release_notes.html)を参照してください。
 
 ### Ruby 2.2.2以上が必須
 
 Ruby on Rails 5.0以降は、バージョン2.2.2以降のRubyのみをサポートします。
 Rubyのバージョンが2.2.2以降であることを確認してから手順を進めてください。
 
-### Active Record モデルは今後デフォルトで ApplicationRecord を継承する
+### Active Recordモデルは今後デフォルトでApplicationRecordを継承する
 
 Rails 4.2のActive Recordモデルは`ActiveRecord::Base`を継承していました。Rails 5.0では、すべてのモデルが`ApplicationRecord`を継承するようになりました。
 
@@ -1405,7 +1403,7 @@ Active Supportのコールバックはこのオプションの影響を受けな
 
 詳しくは[#17227](https://github.com/rails/rails/pull/17227)を参照してください。
 
-### ActiveJob は今後デフォルトで ApplicationJob を継承する
+### ActiveJobは今後デフォルトでApplicationJobを継承する
 
 Rails 4.2のActive Jobは`ActiveJob::Base`を継承しますが、Rails 5.0ではデフォルトで`ApplicationJob`を継承するよう変更されました。
 
@@ -1420,11 +1418,11 @@ end
 
 詳しくは[#19034](https://github.com/rails/rails/pull/19034)を参照してください。
 
-### Rails コントローラのテスト
+### Railsコントローラのテスト
 
 #### ヘルパーメソッドの一部が`rails-controller-testing`に移転
 
-`assigns`メソッドと`assert_template`メソッドは`rails-controller-testing` gemに移転しました。これらのメソッドを引き続きコントローラのテストで使いたい場合は、`Gemfile`に`gem "rails-controller-testing"`を追加してください。
+`assigns`メソッドと`assert_template`メソッドは`rails-controller-testing` gemに切り出されました。これらのメソッドを引き続きコントローラのテストで使いたい場合は、`Gemfile`に`gem "rails-controller-testing"`を追加してください。
 
 テストでRSpecを使っている場合は、このgemのドキュメントで必須となっている追加の設定方法もご確認ください。
 
@@ -1450,7 +1448,7 @@ Railsの`ActiveModel::Serializers::Xml`は`activemodel-serializers-xml` gemに�
 
 ### 古い`mysql`データベースアダプタのサポートを終了
 
-Rails 5で古い`mysql`データベース アダプタのサポートが終了しました。原則として`mysql2`をお使いください。今後古いアダプタのメンテナンス担当者が決まれば、別のgemに切り出される予定です。
+Rails 5で古い`mysql`データベースアダプタのサポートが終了しました。原則として`mysql2`をお使いください。今後古いアダプタのメンテナンス担当者が決まれば、別のgemに切り出される予定です。
 
 ### デバッガのサポートを終了
 
@@ -1482,7 +1480,7 @@ params.permit([:proceed_to, :return_to]).to_h
 
 拡張子がテンプレートハンドラになっていないファイルは、今後rawハンドラで出力されるようになります。従来のRailsでは、このような場合にはERBテンプレートハンドラで出力されました。
 
-ファイルをrawハンドラで出力したくない場合は、ファイルに明示的に拡張子を指定し、適切なテンプレート ハンドラで処理されるようにしてください。
+ファイルをrawハンドラで出力したくない場合は、ファイルに明示的に拡張子を指定し、適切なテンプレートハンドラで処理されるようにしてください。
 
 ### テンプレート依存関係の指定にワイルドカードマッチが追加された
 
@@ -1529,18 +1527,18 @@ Rails.application.configure do
 end
 ```
 
-### `ActionController::Live` は`Concern`に変更された
+### `ActionController::Live`は`Concern`に変更された
 
 コントローラにincludeされている別のモジュールに`ActionController::Live`が`include`されている場合、`ActiveSupport::Concern`を`extend`するコードの追加も必要です。または、`StreamingSupport`がincludeされてから、`self.included`フックを使って`ActionController::Live`をコントローラに直接`include`することもできます。
 
 アプリケーションで独自のストリーミングモジュールを使っている場合、以下のコードはproduction環境で正常に動作しなくなる可能性があります。
 
 ```ruby
-# Warden/Devise で認証するストリーミングコントローラでの回避方法を示すコード
-# https://github.com/plataformatec/devise/issues/2332 を参照
+# Warden/Deviseで認証するストリーミングコントローラでの回避方法を示すコード
+# https://github.com/plataformatec/devise/issues/2332を参照
 # 上のissueではルーター内での認証で解決する方法もアドバイスされている
 class StreamingSupport
-  include ActionController::Live # Rails 5 の production モードではこの行は動作しない
+  include ActionController::Live # Rails 5のproductionモードではこの行は動作しない
   # extend ActiveSupport::Concern # この行をコメント解除することで上の行が動作するようになる
 
   def process(name)
@@ -1589,7 +1587,7 @@ end
 
 #### フォーム単位のCSRFトークン
 
-Rails 5 では、JavaScriptで作成されたフォームによるコードインジェクション攻撃に対応するため、フォーム単位のCSRFトークンをサポートします。このオプションがオンの場合、アクションやメソッド固有のCSRFトークンがアプリケーションのフォームごとに個別に生成されるようになります。
+Rails 5では、JavaScriptで作成されたフォームによるコードインジェクション攻撃に対応するため、フォーム単位のCSRFトークンをサポートします。このオプションがオンの場合、アクションやメソッド固有のCSRFトークンがアプリケーションのフォームごとに個別に生成されるようになります。
 
 ```ruby
 config.action_controller.per_form_csrf_tokens = true
@@ -1631,7 +1629,7 @@ config.active_record.dump_schemas = :all
 
 #### サブドメインでのHSTSを有効にするSSLオプション
 
-サブドメインで [HSTS（HTTP Strict Transport Security）](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Strict-Transport-Security)を有効にするには、以下の設定を使います。
+サブドメインで[HSTS（HTTP Strict Transport Security）](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Strict-Transport-Security)を有効にするには、以下の設定を使います。
 
 ```ruby
 config.ssl_options = { hsts: { subdomains: true } }
@@ -1830,7 +1828,7 @@ end
 Rails 4.0からRails 4.1へのアップグレード
 -------------------------------------
 
-### リモート `<script>` タグのCSRF保護
+### リモート`<script>`タグのCSRF保護
 
 これを行わないと、「なぜかテストがパスしない」「`<script>`ウィジェットがおかしい！」などという結果になりかねません。
 
@@ -1854,7 +1852,7 @@ NOTE: 自サイトの`<script>`はクロスオリジンとして扱われるた�
 
 アプリケーションのプリローダーとしてspring gemを使う場合は、以下を行う必要があります。
 
-1. `gem "spring", group: :development` を `Gemfile`に追加する
+1. `gem "spring", group: :development`を`Gemfile`に追加する
 2. `bundle install`を実行してspringをインストールする
 3. `bundle exec spring binstub`を実行してspringのbinstubを生成する
 
@@ -1877,7 +1875,7 @@ NOTE: ユーザーが定義したrakeタスクはデフォルトでdevelopment�
       secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
     ```
 
-2. `secret_token.rb`イニシャライザに記載されている既存の `secret_key_base`の秘密鍵を取り出して`SECRET_KEY_BASE`環境変数に設定し、Railsアプリケーションをproductionで実行するすべてのユーザーが秘密鍵の恩恵を受けられるようにする。あるいは、`secret_token.rb`イニシャライザにある既存の`secret_key_base`を`secrets.yml`のproductionセクションにコピーし、'<%= ENV["SECRET_KEY_BASE"] %>'を置き換えることもできます。
+2. `secret_token.rb`イニシャライザに記載されている既存の`secret_key_base`の秘密鍵を取り出して`SECRET_KEY_BASE`環境変数に設定し、Railsアプリケーションをproductionで実行するすべてのユーザーが秘密鍵の恩恵を受けられるようにする。あるいは、`secret_token.rb`イニシャライザにある既存の`secret_key_base`を`secrets.yml`のproductionセクションにコピーし、'<%= ENV["SECRET_KEY_BASE"] %>'を置き換えることもできます。
 
 3. `secret_token.rb`イニシャライザを削除する。
 
@@ -1949,7 +1947,7 @@ MultiJSONはその役目を終えてRailsから削除されました（[#10576](
 
 2. `obj.to_json`と`JSON.parse(str)`を用いてMultiJSONから乗り換える。
 
-WARNING: `MultiJson.dump` と `MultiJson.load`をそれぞれ`JSON.dump`と`JSON.load`に単純に置き換えては「いけません」。これらのJSON gem APIは任意のRubyオブジェクトをシリアライズおよびデシリアライズするためのものであり、一般に[安全ではありません](https://www.ruby-doc.org/stdlib-2.2.2/libdoc/json/rdoc/JSON.html#method-i-load)。
+WARNING: `MultiJson.dump`と`MultiJson.load`をそれぞれ`JSON.dump`と`JSON.load`に単純に置き換えては「いけません」。これらのJSON gem APIは任意のRubyオブジェクトをシリアライズおよびデシリアライズするためのものであり、一般に[安全ではありません](https://www.ruby-doc.org/stdlib-2.2.2/libdoc/json/rdoc/JSON.html#method-i-load)。
 
 #### JSON gemの互換性
 
@@ -2023,7 +2021,7 @@ class ReadOnlyModel < ActiveRecord::Base
 end
 ```
 
-この変更は、Railsでコールバックを使っている多くの箇所に適用されます。これにはActive RecordとActive ModelのコールバックやAction Controllerのフィルタ（`before_action` など）も含まれます。
+この変更は、Railsでコールバックを使っている多くの箇所に適用されます。これにはActive RecordとActive ModelのコールバックやAction Controllerのフィルタ（`before_action`など）も含まれます。
 
 詳しくは[#13271](https://github.com/rails/rails/pull/13271)を参照してください。
 
@@ -2247,11 +2245,11 @@ end
 ```
 
 ```ruby
-# config/initializers/json_patch.rb に以下を書く
+# config/initializers/json_patch.rbに以下を書く
 Mime::Type.register "application/json-patch+json", :json_patch
 ```
 
-JSON Patchは最近RFC化されたばかりなのでRubyライブラリはそれほどありません。Aaron Pattersonの [hana](https://github.com/tenderlove/hana) gemが代表的ですが、最新の仕様変更をすべてサポートしているわけではありません。
+JSON Patchは最近RFC化されたばかりなのでRubyライブラリはそれほどありません。Aaron Pattersonの[hana](https://github.com/tenderlove/hana) gemが代表的ですが、最新の仕様変更をすべてサポートしているわけではありません。
 
 ### Gemfile
 
@@ -2265,7 +2263,7 @@ Bundler.require(*Rails.groups)
 
 ### vendor/plugins
 
-Rails 4.0 では`vendor/plugins` 読み込みのサポートは完全に終了しました。利用するプラグインはすべてgemに切り出して`Gemfile`に追加しなければなりません。何らかの理由でプラグインをgemにしないのであれば、プラグインを`lib/my_plugin/*`に移動し、適切な初期化の記述を`config/initializers/my_plugin.rb`に書いてください。
+Rails 4.0では`vendor/plugins`読み込みのサポートは完全に終了しました。利用するプラグインはすべてgemに切り出して`Gemfile`に追加しなければなりません。何らかの理由でプラグインをgemにしないのであれば、プラグインを`lib/my_plugin/*`に移動し、適切な初期化の記述を`config/initializers/my_plugin.rb`に書いてください。
 
 ### Active Record
 
@@ -2312,7 +2310,7 @@ Rails 4.0 では`vendor/plugins` 読み込みのサポートは完全に終了�
 
 * 旧来のfinderメソッドを再度有効にしたい場合は、[activerecord-deprecated_finders](https://github.com/rails/activerecord-deprecated_finders) gemを利用できます。
 
-* Rails 4.0 では、`has_and_belongs_to_many`リレーションで2番目のテーブル名の共通プレフィックスを除去する際に、デフォルトでjoin tableを使うよう変更されました。共通プレフィックスがあるモデル同士の`has_and_belongs_to_many`リレーションでは、以下のように必ず`join_table`オプションを指定する必要があります。
+* Rails 4.0では、`has_and_belongs_to_many`リレーションで2番目のテーブル名の共通プレフィックスを除去する際に、デフォルトでjoin tableを使うよう変更されました。共通プレフィックスがあるモデル同士の`has_and_belongs_to_many`リレーションでは、以下のように必ず`join_table`オプションを指定する必要があります。
 
     ```ruby
     class CatalogCategory < ActiveRecord::Base
@@ -2330,7 +2328,7 @@ Rails 4.0 では`vendor/plugins` 読み込みのサポートは完全に終了�
 
 ### Active Resource
 
-Rails 4.0ではActive Resourceがgem化されました。この機能が必要な場合は[Active Resource gem](https://github.com/rails/activeresource) を`Gemfile`に追加できます。
+Rails 4.0ではActive Resourceがgem化されました。この機能が必要な場合は[Active Resource gem](https://github.com/rails/activeresource)を`Gemfile`に追加できます。
 
 ### Active Model
 
@@ -2420,7 +2418,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
     get "/" => "root#index"
     ```
 
-* Rails 4.0から`ActionDispatch::BestStandardsSupport`ミドルウェアが削除されました。`<!DOCTYPE html>`は既に https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx の標準モードをトリガーするようになり、ChromeFrameヘッダは`config.action_dispatch.default_headers`に移動されました。
+* Rails 4.0から`ActionDispatch::BestStandardsSupport`ミドルウェアが削除されました。`<!DOCTYPE html>`は既に[ドキュメントモード](https://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx)の標準モードをトリガーするようになり、ChromeFrameヘッダは`config.action_dispatch.default_headers`に移動しました。
 
     アプリケーションコード内にあるこのミドルウェアへの参照は、すべて削除する必要があります。
 
@@ -2471,7 +2469,7 @@ Rails 3.xからRails 4.0への移行に伴い、キャッシュ用のメソッ�
 
 ### ヘルパーの読み込み順序
 
-Rails 4.0では複数のディレクトリからのヘルパーの読み込み順が変更されました。以前はすべてのヘルパーをいったん集めてからアルファベット順にソートしていました。Rails 4.0にアップグレードすると、ヘルパーは読み込まれたディレクトリの順序を保持し、ソートは各ディレクトリ内でのみ行われます。`helpers_path`パラメータを明示的に利用している場合を除いて、この変更はエンジンからヘルパーを読み込む方法にしか影響しません。ヘルパー読み込みの順序に依存している場合は、アップグレード後に正しいメソッドが使われているかどうかを確認する必要があります。エンジンが読み込まれる順序を変更したい場合は、`config.railties_order=` メソッドを利用できます。
+Rails 4.0では複数のディレクトリからのヘルパーの読み込み順が変更されました。以前はすべてのヘルパーをいったん集めてからアルファベット順にソートしていました。Rails 4.0にアップグレードすると、ヘルパーは読み込まれたディレクトリの順序を保持し、ソートは各ディレクトリ内でのみ行われます。`helpers_path`パラメータを明示的に利用している場合を除いて、この変更はエンジンからヘルパーを読み込む方法にしか影響しません。ヘルパー読み込みの順序に依存している場合は、アップグレード後に正しいメソッドが使われているかどうかを確認する必要があります。エンジンが読み込まれる順序を変更したい場合は、`config.railties_order=`メソッドを利用できます。
 
 ### Active Record ObserverとAction Controller Sweeper
 
@@ -2521,7 +2519,7 @@ development環境に新しい設定をいくつか追加する必要がありま
 # Active Recordのモデルをマスアサインメントから保護するために例外を発生する
 config.active_record.mass_assignment_sanitizer = :strict
 
-# クエリの実行計画 (クエリプラン) を現在より多く出力する
+# クエリの実行計画（クエリプラン）を現在より多く出力する
 # (SQLite、MySQL、PostgreSQLで動作)
 config.active_record.auto_explain_threshold_in_seconds = 0.5
 ```
@@ -2537,7 +2535,7 @@ config.active_record.mass_assignment_sanitizer = :strict
 
 ### vendor/plugins
 
-`vendor/plugins` はRails 3.2で非推奨となり、Rails 4.0では完全に削除されました。Rails 3.2へのアップグレードでは必須ではありませんが、今のうちにプラグインをgemにエクスポートして`Gemfile`に追加するのがよいでしょう。理由があってプラグインをgemにしないのであれば、プラグインを`lib/my_plugin/*`に移動し、適切な初期化の記述を`config/initializers/my_plugin.rb`に書いてください。
+`vendor/plugins`はRails 3.2で非推奨となり、Rails 4.0では完全に削除されました。Rails 3.2へのアップグレードでは必須ではありませんが、今のうちにプラグインをgemにエクスポートして`Gemfile`に追加するのがよいでしょう。理由があってプラグインをgemにしないのであれば、プラグインを`lib/my_plugin/*`に移動し、適切な初期化の記述を`config/initializers/my_plugin.rb`に書いてください。
 
 ### Active Record
 
@@ -2601,7 +2599,7 @@ config.assets.debug = true
 
 ### config/environments/production.rb
 
-以下の変更はほとんどがアセットパイプライン用です。詳しくは [アセットパイプライン](asset_pipeline.html)ガイドを参照してください。
+以下の変更はほとんどがアセットパイプライン用です。詳しくは[アセットパイプライン](asset_pipeline.html)ガイドを参照してください。
 
 ```ruby
 # JavaScriptとCSSを圧縮する

@@ -1,7 +1,7 @@
 Rails アプリケーションのデバッグ
 ============================
 
-本ガイドでは、Ruby on Rails アプリケーションのさまざまなデバッグ技法をご紹介します。
+本ガイドでは、Ruby on Railsアプリケーションのさまざまなデバッグ技法をご紹介します。
 
 このガイドの内容:
 
@@ -288,7 +288,7 @@ logger.tagged("BCX") { logger.tagged("Jason") { logger.info "Stuff" } } # "[BCX]
 
 ログ出力は、Railsアプリケーションのパフォーマンスに常に小さな影響を与えます。ログをディスクに保存する場合は特にそうです。さらに、場合によっては小さな影響とは言い切れないこともあります。
 
-ログレベル`:debug`は、`:fatal`と比べてはるかに多くの文字列が評価および(ディスクなどに)出力されるため、パフォーマンスに与える影響がずっと大きくなります。
+ログレベル`:debug`は、`:fatal`と比べてはるかに多くの文字列が評価（およびディスクなどに出力）されるため、パフォーマンスに与える影響がずっと大きくなります。
 
 他にも、以下のように`Logger`の呼び出しを多数実行した場合には落とし穴に注意する必要があります。
 
@@ -304,7 +304,7 @@ logger.debug "Person attributes hash: #{@person.attributes.inspect}"
 logger.debug { "Person attributes hash: #{@person.attributes.inspect}" }
 ```
 
-渡したブロックの内容（ここでは文字列の式展開）は、debug が有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。
+渡したブロックの内容（ここでは文字列の式展開）は、debugが有効になっている場合にしか評価されません。この方法によるパフォーマンスの改善は、大量のログを出力しているときでないとそれほど実感できないかもしれませんが、それでも採用する価値があります。
 
 INFO: 本セクションは[Stack OverflowでのJon Cairnsによる回答](https://stackoverflow.com/questions/16546730/logging-in-rails-is-there-any-performance-hit/16546935#16546935)として書かれたものであり、[cc by-sa 4.0](https://creativecommons.org/licenses/by-sa/4.0/)ライセンスに基づいています。
 
@@ -358,7 +358,7 @@ Processing by PostsController#index as HTML
 (rdbg)
 ```
 
-デバッグセッションはいつでも終了可能です。アプリケーションの実行は`continue`（または`c`）コマンドで継続可能です。 また、デバッグセッションとアプリケーションの両方を終了させたい場合は、`quit`（または `q`）コマンドを使います。
+デバッグセッションはいつでも終了可能です。アプリケーションの実行は`continue`（または`c`）コマンドで継続可能です。また、デバッグセッションとアプリケーションの両方を終了させたい場合は、`quit`（または`q`）コマンドを使います。
 
 ### コンテキスト
 
@@ -391,7 +391,7 @@ Processing by PostsController#index as HTML
 
 - `info`（`i`）: 現在のフレームに関する情報を表示する
 - `backtrace`（`bt`）: バックトレースと付加情報を表示する
-- `outline` (or `o`, `ls`): 現在のスコープで利用可能なメソッド、定数、ローカル変数、インスタンス変数を表示する
+- `outline`（または`o`、`ls`）: 現在のスコープで利用可能なメソッド、定数、ローカル変数、インスタンス変数を表示する
 
 #### `info`コマンド
 
@@ -806,7 +806,7 @@ NOTE: 1回のリクエストで出力できるコンソールは1つだけです
 
 ### 設定
 
-* `config.web_console.allowed_ips`: 認証済みの IPv4/IPv6アドレスとネットワークのリストです（デフォルト値: `127.0.0.1/8、::1`）。
+* `config.web_console.allowed_ips`: 認証済みのIPv4/IPv6アドレスとネットワークのリストです（デフォルト値: `127.0.0.1/8、::1`）。
 * `config.web_console.whiny_requests`: コンソール出力が抑制されている場合にメッセージをログ出力します（デフォルト値: `true`）。
 
 `web-console`はサーバー上の純粋なRubyコードをリモート評価できるので、production環境では絶対に使わないください。
@@ -838,7 +838,7 @@ derailed_benchmark gemの[README](https://github.com/schneems/derailed_benchmark
 * [Query Trace](https://github.com/ruckus/active-record-query-trace/tree/master): ログにクエリ元のトレースを追加します。
 * [Exception Notifier](https://github.com/smartinez87/exception_notification/tree/master): Railsアプリケーションでのエラー発生時用の、メーラーオブジェクトとメール通知送信テンプレートのデフォルトセットを提供します。
 * [Better Errors](https://github.com/charliesome/better_errors): Rails標準のエラーページを新しい表示に置き換えて、ソースコードや変数検査などのコンテキスト情報を見やすくしてくれます。
-* [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
+* [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上のDeveloper Toolsパネルに表示できます。
 db時間、レンダリング時間、トータル時間、パラメータリスト、出力したビューなども表示されます。
 * [Pry](https://github.com/pry/pry): もう1つのIRBであり、開発用の実行時コンソールです。
 

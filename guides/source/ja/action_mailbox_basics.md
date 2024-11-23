@@ -137,7 +137,7 @@ action_mailbox:
   ingress_password: ...
 ```
 
-または、`RAILS_INBOUND_EMAIL_PASSWORD `環境変数でパスワードを指定します。
+または、`RAILS_INBOUND_EMAIL_PASSWORD`環境変数でパスワードを指定します。
 
 受信メールを`bin/rails action_mailbox:ingress:postfix`にルーティングするよう[Postfixを設定](https://serverfault.com/questions/258469/how-to-configure-postfix-to-pipe-all-incoming-email-to-a-script)し、Postfix ingressの`URL`と先ほど生成した`INGRESS_PASSWORD`を指定します。アプリケーションが`https://example.com`にある場合の完全なコマンドは以下のようになります。
 
@@ -163,7 +163,7 @@ action_mailbox:
   ingress_password: ...
 ```
 
-または、`RAILS_INBOUND_EMAIL_PASSWORD `環境変数でパスワードを指定します。
+または、`RAILS_INBOUND_EMAIL_PASSWORD`環境変数でパスワードを指定します。
 
 受信メールを`/rails/action_mailbox/postmark/inbound_emails`に転送するよう[Postmarkのinbound webhookを設定](https://postmarkapp.com/manual#configure-your-inbound-webhook-url)し、ユーザー名`actionmailbox`と上で生成したパスワードを指定します。アプリケーションが`https://example.com`にある場合の完全なコマンドは以下のようになります。
 
@@ -191,7 +191,7 @@ action_mailbox:
   ingress_password: ...
 ```
 
-または、`RAILS_INBOUND_EMAIL_PASSWORD `環境変数でパスワードを指定します。
+または、`RAILS_INBOUND_EMAIL_PASSWORD`環境変数でパスワードを指定します。
 
 受信メールを`bin/rails action_mailbox:ingress:qmail`にパイプでつなぐようQmailを設定し、relay ingressの`URL`と先ほど生成した`INGRESS_PASSWORD`を指定します。アプリケーションが`https://example.com`にある場合の完全なコマンドは以下のようになります。
 
@@ -217,7 +217,7 @@ action_mailbox:
   ingress_password: ...
 ```
 
-または、`RAILS_INBOUND_EMAIL_PASSWORD `環境変数でパスワードを指定します。
+または、`RAILS_INBOUND_EMAIL_PASSWORD`環境変数でパスワードを指定します。
 
 受信メールを`/rails/action_mailbox/sendgrid/inbound_emails`に転送するよう[SendGridのInbound Parseを設定](https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-parse-webhook/)し、ユーザー名`actionmailbox`と上で生成したパスワードを指定します。アプリケーションが`https://example.com`にある場合、SendGridの設定に使うURLは次のような感じになります。
 
@@ -285,7 +285,7 @@ irb> mail.body
 
 ### 受信メールのステータス
 
-メールにマッチするメールボックスにメールがルーティングされて処理されている間、Action Mailboxは `action_mailbox_inbound_emails`テーブルに保存されているメールのステータスを次のいずれかの値で更新します。
+メールにマッチするメールボックスにメールがルーティングされて処理されている間、Action Mailboxは`action_mailbox_inbound_emails`テーブルに保存されているメールのステータスを次のいずれかの値で更新します。
 
 - `pending`: ingressコントローラの1つがメールを受信完了して、ルーティングがスケジュールされている状態。
 - `processing`: アクティブな処理内で、特定のメールボックスがその`process`メソッドを実行中の状態。

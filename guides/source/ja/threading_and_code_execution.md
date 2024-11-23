@@ -133,9 +133,9 @@ Action CableではReloaderではなくExecutorが使われます。Action Cable�
 
 Reloaderは、`config.enable_reloading`が`true`かつ`config.reload_classes_only_on_change`が`true`の場合にのみファイルの変更をチェックします。これらは`development`環境でのデフォルトです。
 
-`config.enable_reloading`が`false` (`production`のデフォルト) の場合は、ReloaderはExecutorへのパススルーのみを行います。
+`config.enable_reloading`が`false`（`production`のデフォルト）の場合は、ReloaderはExecutorへのパススルーのみを行います。
 
-Executorは、データベース接続の管理などの重要な作業を常に抱えています。`config.enable_reloading`が`false`かつ`config.eager_load`が`true` （`production` のデフォルト）の場合、Load Interlockは不要になります。`development`環境のデフォルト設定では、ExecutorはLoad Interlockを利用して、安全な場合にのみ定数を読み込みます。
+Executorは、データベース接続の管理などの重要な作業を常に抱えています。`config.enable_reloading`が`false`かつ`config.eager_load`が`true`（`production`のデフォルト）の場合、Load Interlockは不要になります。`development`環境のデフォルト設定では、ExecutorはLoad Interlockを利用して、安全な場合にのみ定数を読み込みます。
 
 Load Interlock
 --------------

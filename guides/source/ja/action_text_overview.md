@@ -15,7 +15,7 @@ Action Text の概要
 はじめに
 ------------
 
-Action Textは、リッチテキストコンテンツを手軽に処理・表示する機能です。リッチテキスト コンテンツは、太字・斜体・色・ハイパーリンクなどの書式設定要素を含むテキストであり、プレーンテキストよりも豊かに表示可能で、構造化されたプレゼンテーションを提供します。Action Textを利用することで、リッチテキストコンテンツを作成してテーブルに保存することも、任意のモデルに添付することも可能になります。
+Action Textは、リッチテキストコンテンツを手軽に処理・表示する機能です。リッチテキストコンテンツは、太字・斜体・色・ハイパーリンクなどの書式設定要素を含むテキストであり、プレーンテキストよりも豊かに表示可能で、構造化されたプレゼンテーションを提供します。Action Textを利用することで、リッチテキストコンテンツを作成してテーブルに保存することも、任意のモデルに添付することも可能になります。
 
 Trixエディタが生成するリッチテキストコンテンツは独自のRichTextモデルに保存され、このモデルはアプリケーションの既存のあらゆるActive Recordモデルと関連付けられます。
 あらゆる埋め込み画像（およびその他の添付ファイル）は自動的にActive Storageに保存され、`include`されたRichTextモデルに関連付けられます。
@@ -24,7 +24,7 @@ Action Textには、Trixと呼ばれる[WYSIWYG](https://ja.wikipedia.org/wiki/W
 
 Trixエディタで生成されたリッチテキストコンテンツは、アプリケーションにある既存のActive Recordモデルに関連付け可能な独自のRichTextモデルに保存されます。さらに、埋め込み画像（またはその他の添付ファイル）は、Active Storage（依存関係として追加されます）自動的に保存されてRichTextモデルに関連付けられます。コンテンツをレンダリングするとき、Action Textが最初にコンテンツをサニタイズしてから処理するので、ページのHTMLに直接埋め込んでも安全です。
 
-INFO: WYSIWYGエディタのほとんどは、HTMLの`contenteditable`と`execCommand`API のラッパーです。これらのAPIは、Internet Explorer 5.5でWebページのライブ編集をサポートするためにMicrosoftによって設計されました。これらは最終的にリバースエンジニアリングされて他のブラウザにコピーされました。その結果、これらのAPIは完全な形では仕様化されておらず、ドキュメント化もされていません。また、WYSIWYG HTMLエディタが扱う範囲が広大であるため、ブラウザの実装ごとに独自のバグや癖が存在します。したがって、この不一致は多くの場合JavaScript開発者によって解決されなければなりませんでした。
+INFO: WYSIWYGエディタのほとんどは、HTMLの`contenteditable`と`execCommand`APIのラッパーです。これらのAPIは、Internet Explorer 5.5でWebページのライブ編集をサポートするためにMicrosoftによって設計されました。これらは最終的にリバースエンジニアリングされて他のブラウザにコピーされました。その結果、これらのAPIは完全な形では仕様化されておらず、ドキュメント化もされていません。また、WYSIWYG HTMLエディタが扱う範囲が広大であるため、ブラウザの実装ごとに独自のバグや癖が存在します。したがって、この不一致は多くの場合JavaScript開発者によって解決されなければなりませんでした。
 
 Trixは、`contenteditable`をI/Oデバイスとして扱うことで、こうした不一致を回避します。入力がエディタに送信されると、Trixはその入力を編集用に変換して内部ドキュメントモデルに対する操作を実行してから、そのドキュメントをエディタに再レンダリングします。これにより、Trixは振る舞いをキーストローク単位で完全に制御できるようになり、`execCommand`への依存とそれに伴う不一致を回避できます。
 
@@ -191,7 +191,7 @@ Action Textでは、Active Storage経由でアップロードした添付ファ�
 
 グローバルIDは`gid://YourApp/Some::Model/id`のような形式を取る、モデルのインスタンスを一意に識別するアプリ全体のURIです。グローバルIDは、オブジェクトのさまざまなクラスを一意に参照する識別子が必要な場合に有用です。
 
-この方法を使う場合、Action Textの添付ファイルで署名済みグローバルID (sgid) が必要になります。Railsアプリ内のすべてのActive Recordモデルは、デフォルトで `GlobalID::Identification`のconcernにミックスインされていて署名済みグローバルIDで解決可能になっているので、`ActionText::Attachable`と互換性があります。
+この方法を使う場合、Action Textの添付ファイルで署名済みグローバルID（sgid）が必要になります。Railsアプリ内のすべてのActive Recordモデルは、デフォルトで`GlobalID::Identification`のconcernにミックスインされていて署名済みグローバルIDで解決可能になっているので、`ActionText::Attachable`と互換性があります。
 
 Action Textは、挿入したHTMLを保存時に参照するため、後で最新のコンテンツで再レンダリングできます。これにより、参照しているモデルのレコードが変更されたときに常に最新のコンテンツを表示できるようになります。
 
@@ -205,9 +205,9 @@ Action Textの添付ファイルは次のようになります。
 
 Action Textは、要素のsgid属性をインスタンスに解決することで、埋め込まれた`<action-text-attachment>`要素をレンダリングします。解決が成功すると、そのインスタンスはレンダリングヘルパーに渡され、最終的なHTMLが`<action-text-attachment>`要素の子孫要素として埋め込まれます。
 
-Action Textの`<action-text-attachment>`要素内で添付ファイルとしてレンダリングするには、`#to_sgid(**options)`メソッド（これは`GlobalID::Identification` concernを介して利用可能になります）を実装する `ActionText::Attachable` モジュールを`include`する必要があります。
+Action Textの`<action-text-attachment>`要素内で添付ファイルとしてレンダリングするには、`#to_sgid(**options)`メソッド（これは`GlobalID::Identification` concernを介して利用可能になります）を実装する`ActionText::Attachable`モジュールを`include`する必要があります。
 
-オプションとして、カスタムのパーシャルパスをレンダリングする`#to_attachable_partial_path`メソッドや、欠落したレコードを処理する `#to_missing_attachable_partial_path`メソッドも宣言できます。
+オプションとして、カスタムのパーシャルパスをレンダリングする`#to_attachable_partial_path`メソッドや、欠落したレコードを処理する`#to_missing_attachable_partial_path`メソッドも宣言できます。
 
 以下はグローバルIDの利用例です。
 
@@ -243,7 +243,7 @@ NOTE: `.find(id)`クラスメソッドを利用すれば、`GlobalID::Identifica
 
 上記のコードは、モデルのインスタンスを一意に識別するための識別子を返します。
 
-次に、 Userモデルのインスタンスにある署名済みグローバルIDを参照する`<action-text-attachment>`要素が埋め込まれたリッチテキストを考えてみましょう。
+次に、Userモデルのインスタンスにある署名済みグローバルIDを参照する`<action-text-attachment>`要素が埋め込まれたリッチテキストを考えてみましょう。
 
 ```html
 <p>Hello, <action-text-attachment sgid="BAh7CEkiCG…"></action-text-attachment>.</p>

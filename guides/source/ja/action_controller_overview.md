@@ -32,7 +32,7 @@ NOTE: ルーティングについて詳しくは、[Railsのルーティング](
 コントローラの命名規約
 ----------------------------
 
-Railsのコントローラ名は、基本的に英語の「複数形」を使います（なお「Controller」という文字は含めません）。ただしこれは絶対的に守らなければならないというものではありません（実際 `ApplicationController`はApplicationが単数形です）。たとえば、`ClientsController`の方が`ClientController`より好ましく、`SiteAdminsController`の方が`SiteAdminController`や`SitesAdminsController`よりも好ましいといった具合です。
+Railsのコントローラ名は、基本的に英語の「複数形」を使います（なお「Controller」という文字は含めません）。ただしこれは絶対的に守らなければならないというものではありません（実際`ApplicationController`はApplicationが単数形です）。たとえば、`ClientsController`の方が`ClientController`より好ましく、`SiteAdminsController`の方が`SiteAdminController`や`SitesAdminsController`よりも好ましいといった具合です。
 
 しかし、この規約は守っておくことをおすすめします。規約を守ることで、`resources`などのデフォルトのルーティングジェネレータをそのまま利用できるようになりますし、生成される名前付きルーティングヘルパー名もアプリケーション全体で一貫するからです。
 コントローラ名を複数形にしておかないと、たとえば`resources`だけでルーティングを一括設定できなくなり、`:path`や`:controller`をいちいち指定しなければならなくなります。詳しくは[レイアウト・レンダリングガイド](layouts_and_rendering.html)を参照してください。
@@ -91,7 +91,7 @@ class ClientsController < ApplicationController
   # このアクションでクエリ文字列パラメータが使われる
   # ただしパラメータのアクセス方法はPOSTデータの場合と同じ
   # 有効な顧客リストを得るためにアクションに送信される
-  # クエリパラメータは /clients?status=activated となる
+  # クエリパラメータは /clients?status=activatedとなる
   def index
     if params[:status] == "activated"
       @clients = Client.activated
@@ -136,7 +136,7 @@ NOTE: `[`や`]`はURLで利用できない文字なので、この例の実際�
 
 これで、受け取った`params[:ids]`の値は`["1", "2", "3"]`になりました。ここで重要なのは、パラメータの値が常に「文字列」になることです。Railsはパラメータの型推測や型変換を行いません。
 
-NOTE: `params`の中にある`[nil]`や`[nil, nil, ...]`などの値は、セキュリティ上の理由でデフォルトでは`[]`に置き換えられます。詳しくは [セキュリティガイド](security.html#安全でないクエリ生成) を参照してください。
+NOTE: `params`の中にある`[nil]`や`[nil, nil, ...]`などの値は、セキュリティ上の理由でデフォルトでは`[]`に置き換えられます。詳しくは[セキュリティガイド](security.html#安全でないクエリ生成)を参照してください。
 
 フォームからハッシュを送信するには、以下のようにキー名を角かっこ`[]`の中に置きます。
 
@@ -221,7 +221,7 @@ end
 get "/books/:id", to: "books#show"
 ```
 
-ユーザーがURL `/books/4_2`を開くと、コントローラは複合主キーの値`["4", "2"]`を抽出して`Book.find`に渡し、ビューで正しいレコードを表示します。`extract_value`メソッドは、区切られた任意のパラメータから配列を抽出するのに利用できます。
+ユーザーがURL`/books/4_2`を開くと、コントローラは複合主キーの値`["4", "2"]`を抽出して`Book.find`に渡し、ビューで正しいレコードを表示します。`extract_value`メソッドは、区切られた任意のパラメータから配列を抽出するのに利用できます。
 
 ### `default_url_options`
 
@@ -389,7 +389,7 @@ name, emails, friends = params.expect(
   * `hobbies`属性: 許可済みのスカラー値の配列
   * `family`属性: `name`キーと、任意の許可済みスカラー値を持つハッシュのみに制限される
 
-> 訳注: この特殊な二重配列構文`[[:属性名]]`は、Rails 8.0に導入された新しい配列マッチング構文です（[#51674](https://github.com/rails/rails/pull/51674)）。`[[:属性名]]`は、（ハッシュではなく）配列を渡さなければならないことを意味します。ただし、 従来からある`permit`では、後方互換性のため、`[[:属性名]]`が指定されている場合にハッシュを渡しても許容されますが、新しい`expect`では、`[[:属性名]]`に配列以外のものを渡すとエラーになります。
+> 訳注: この特殊な二重配列構文`[[:属性名]]`は、Rails 8.0に導入された新しい配列マッチング構文です（[#51674](https://github.com/rails/rails/pull/51674)）。`[[:属性名]]`は、（ハッシュではなく）配列を渡さなければならないことを意味します。ただし、従来からある`permit`では、後方互換性のため、`[[:属性名]]`が指定されている場合にハッシュを渡しても許容されますが、新しい`expect`では、`[[:属性名]]`に配列以外のものを渡すとエラーになります。
 
 #### その他の例
 
@@ -398,7 +398,7 @@ name, emails, friends = params.expect(
 モデルの`accepts_nested_attributes_for`クラスメソッドを使うと、関連付けられたレコードを更新・削除できるようになります。以下は`id`と`_destroy`パラメータに基づいています。
 
 ```ruby
-# :id と :_destroyを許可する
+# :idと :_destroyを許可する
 params.expect(author: [ :name, books_attributes: [[ :title, :id, :_destroy ]] ])
 ```
 
@@ -432,9 +432,9 @@ strong parameter APIの設計で考慮されているのは最も一般的なユ
 
 Railsアプリケーションは、ユーザーごとにセッションを設定します。前のリクエストの情報を次のリクエストでも利用するためにセッションに少量のデータが保存されます。セッションはコントローラとビューでのみ利用できます。また、以下のようにさまざまなストレージを選べます。
 
-* [`ActionDispatch::Session::CookieStore`][] すべてをクライアント側に保存する
+* [`ActionDispatch::Session::CookieStore`][]: すべてをクライアント側に保存する
 * [`ActionDispatch::Session::CacheStore`][]: データをRailsのキャッシュに保存する
-* [`ActionDispatch::Session::MemCacheStore`][] データをmemcachedクラスタに保存する（この実装は古いので`CacheStore`をご検討ください）
+* [`ActionDispatch::Session::MemCacheStore`][]: データをmemcachedクラスタに保存する（この実装は古いので`CacheStore`をご検討ください）
 * [`ActionDispatch::Session::ActiveRecordStore`][activerecord-session_store]: Active Recordデータベースに保存する（[`activerecord-session_store`][activerecord-session_store] gemが必要）
 * 独自のストアや、サードパーティgemが提供するストア
 
@@ -692,7 +692,7 @@ Railsでは、機密データを保存するための署名済みcookie jarと�
 これらの特殊なcookie jarは、値をシリアライザで文字列に変換して保存し、読み込み時にデシリアライズしてRubyオブジェクトを復元します。
 どのシリアライザを利用するかについては[`config.action_dispatch.cookies_serializer`][]で設定可能です。
 
-新しいアプリケーションのシリアライザはデフォルトで`:json`に設定されます。ただし、JSONはRubyオブジェクトのシリアライズ/デシリアライズのサポートが限られていることにご注意ください。たとえば、`Date`、`Time`、および`Symbol`オブジェクト（`Hash`のキーを含む）は `String`にシリアライズおよびデシリアライズされます。
+新しいアプリケーションのシリアライザはデフォルトで`:json`に設定されます。ただし、JSONはRubyオブジェクトのシリアライズ/デシリアライズのサポートが限られていることにご注意ください。たとえば、`Date`、`Time`、および`Symbol`オブジェクト（`Hash`のキーを含む）は`String`にシリアライズおよびデシリアライズされます。
 
 ```ruby
 class CookiesController < ApplicationController
@@ -741,7 +741,7 @@ end
 
 > 訳注: Rails 7.2から、従来のフィルタ（filter）という用語がアクションコールバックに置き換えられました。
 
-**アクションコールバック（action callback）**は、コントローラにあるアクションが実行される「直前 (before)」、「直後 (after)」、あるいは「直前と直後の両方 (around)」に実行されるメソッドです。
+**アクションコールバック（action callback）**は、コントローラにあるアクションが実行される「直前（before）」、「直後（after）」、あるいは「直前と直後（around）」に実行されるメソッドです。
 
 アクションコールバックは継承されるので、アクションコールバックを`ApplicationController`で設定すればアプリケーションのすべてのコントローラで有効になります。
 
@@ -819,7 +819,7 @@ end
 
 アクションコールバックの最も一般的な利用方法は、privateメソッドを作成し、そのメソッドを`*_action`で追加することですが、同じ結果を得られるアクションコールバックの利用法は他にも2とおりあります。
 
-1番目は、`*_action` メソッドに直接ブロックを渡すことです。このブロックはコントローラを引数として受け取ります。前述の`require_login`アクションコールバックを書き換えてブロックを使うようにすると、以下のようになります。
+1番目は、`*_action`メソッドに直接ブロックを渡すことです。このブロックはコントローラを引数として受け取ります。前述の`require_login`アクションコールバックを書き換えてブロックを使うようにすると、以下のようになります。
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -939,7 +939,7 @@ responseオブジェクトを直接使うことは通常ありません。しか
 | body                   | クライアントに送り返されるデータの文字列（HTMLで最もよく使われる）                |
 | status                 | レスポンスのステータスコード（200 OK、404 file not foundなど）|
 | location               | リダイレクト先URL（存在する場合）                                                  |
-| content_type           | レスポンスのContent-Type ヘッダー                                                           |
+| content_type           | レスポンスのContent-Typeヘッダー                                                           |
 | charset                | レスポンスで使われる文字セット（デフォルトは"utf-8"）                                  |
 | headers                | レスポンスで使われるヘッダー                                                                      |
 
@@ -978,7 +978,7 @@ end
 
 ### HTTPダイジェスト認証
 
-HTTPダイジェスト認証は、BASIC認証よりも高度な認証システムであり、暗号化されていない平文パスワードをネットワークに送信しなくて済む利点があります (BASIC認証も、HTTPS上で行えば安全になります)。RailsのHTTPダイジェスト認証は、以下の[`authenticate_or_request_with_http_digest`][]メソッドだけでできます。
+HTTPダイジェスト認証は、BASIC認証よりも高度な認証システムであり、暗号化されていない平文パスワードをネットワークに送信しなくて済む利点があります（BASIC認証も、HTTPS上で行えば安全になります）。RailsのHTTPダイジェスト認証は、以下の[`authenticate_or_request_with_http_digest`][]メソッドだけでできます。
 
 [`authenticate_or_request_with_http_digest`]: https://api.rubyonrails.org/classes/ActionController/HttpAuthentication/Digest/ControllerMethods.html#method-i-authenticate_or_request_with_http_digest
 
@@ -1102,8 +1102,8 @@ class ClientsController < ApplicationController
 end
 ```
 
-この`format`では、RailsによってMIME タイプとして登録されている拡張機能である任意のメソッドを呼び出せます。
-Railsには既に`"text/html"`や`"application/pdf"`などの一般的な MIMEタイプが登録されています。
+この`format`では、RailsによってMIMEタイプとして登録されている拡張機能である任意のメソッドを呼び出せます。
+Railsには既に`"text/html"`や`"application/pdf"`などの一般的なMIMEタイプが登録されています。
 
 ```ruby
 Mime::Type.lookup_by_extension(:pdf)

@@ -296,7 +296,7 @@ HTML出力は以下のようになります。
 
 * フォームの`action`属性には適切な値`action="/books"`が自動的に入力されます。書籍を更新する場合は`action="/books/42"`のようになります。
 * フォームのフィールド名は`book[...]`でスコープ化されます。つまり、`params[:book]`はこれらのフィールドの値をすべて含むハッシュになります。入力名の重要性について詳しくは、本ガイドの[フォーム入力の命名規約と`params`ハッシュ](#フォーム入力の命名規約とparamsハッシュ)の章を参照してください。
-* 送信ボタンには、適切なテキスト値 (この場合は「Create Book」) が自動的に入力されます。
+* 送信ボタンには、適切なテキスト値（この場合は「Create Book」）が自動的に入力されます。
 
 TIP: 通常、フォーム入力にはモデル属性が反映されますが、必ずしもそうである必要はありません。モデル属性以外にも必要な情報がある場合は、フォームにフィールドを含めておけば、`params[:book][:my_non_attribute_input]`のようにアクセスできます。
 
@@ -394,7 +394,7 @@ resolve("Article") { [:article] }
 
 TIP: リソースを宣言すると、いくつかの副作用があります。リソースの設定や利用方法について詳しくは、[ルーティングガイド](routing.html#リソースベースのルーティング-railsのデフォルト)を参照してください。
 
-WARNING: モデルで[単一テーブル継承（STI: single-table inheritance）](association_basics.html#単一テーブル継承-（sti）)を使っている場合、親クラスがリソースを宣言されていてもサブクラスでレコード識別を利用できません。その場合は`:url`と`:scope`（モデル名）を明示的に指定する必要があります。
+WARNING: モデルで[単一テーブル継承（STI: single-table inheritance）](association_basics.html#単一テーブル継承（sti）)を使っている場合、親クラスがリソースを宣言されていてもサブクラスでレコード識別を利用できません。その場合は`:url`と`:scope`（モデル名）を明示的に指定する必要があります。
 
 [`record.persisted?`]:
   https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-persisted-3F
@@ -705,7 +705,7 @@ Railsでは、個別の日付時刻コンポーネント向けのセレクトボ
 
 ユーザーにどのタイムゾーンにいるのかを尋ねる必要がある場合は、非常に便利な[`time_zone_select`][]ヘルパーが使えます。
 
-通常は、ユーザーが選択可能なタイムゾーンオプションのリストを提供する必要があります。定義済みの [`ActiveSupport::TimeZone`][]オブジェクトのリストがなければ作業が面倒になる可能性があります。`time_with_zone`ヘルパーはこのリストをラップしているので、次のように書けます。
+通常は、ユーザーが選択可能なタイムゾーンオプションのリストを提供する必要があります。定義済みの[`ActiveSupport::TimeZone`][]オブジェクトのリストがなければ作業が面倒になる可能性があります。`time_with_zone`ヘルパーはこのリストをラップしているので、次のように書けます。
 
 ```erb
 <%= form.time_zone_select :time_zone %>
@@ -794,7 +794,7 @@ NOTE: `belongs_to`関連付けのフィールドをレンダリングすると�
 </select>
 ```
 
-NOTE: 引数の順序は、 `collection_select`の場合と`select`の場合で異なっていることにご注意ください。`collection_select`では、第1引数に値のメソッド（上の例では`:id`）、第2引数にテキストラベルのメソッド（上の例では`:name`）を指定します。`select`ヘルパーで選択肢を指定する場合の引数の順序はこれと逆である点にご注意ください（テキストラベルが最初で次が値）。前述のコード例では`["Berlin", 1]`となります。
+NOTE: 引数の順序は、`collection_select`の場合と`select`の場合で異なっていることにご注意ください。`collection_select`では、第1引数に値のメソッド（上の例では`:id`）、第2引数にテキストラベルのメソッド（上の例では`:name`）を指定します。`select`ヘルパーで選択肢を指定する場合の引数の順序はこれと逆である点にご注意ください（テキストラベルが最初で次が値）。前述のコード例では`["Berlin", 1]`となります。
 
 [`collection_select`]:
   https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_select
@@ -886,7 +886,7 @@ NOTE: 引数の順序は、 `collection_select`の場合と`select`の場合で�
 
 ### CSVファイルのアップロード例
 
-`file_field`を使う場合、`params`ハッシュ内のオブジェクトは [`ActionDispatch::Http::UploadedFile`][]のインスタンスです。アップロードされたCSVファイルのデータをアプリケーションのレコードに保存する方法の例を次に示します。
+`file_field`を使う場合、`params`ハッシュ内のオブジェクトは[`ActionDispatch::Http::UploadedFile`][]のインスタンスです。アップロードされたCSVファイルのデータをアプリケーションのレコードに保存する方法の例を次に示します。
 
 ```ruby
   require "csv"
@@ -988,7 +988,7 @@ end
 <%= render partial: f %>
 ```
 
-`f`が`ActionView::Helpers::FormBuilder`のインスタンスである場合、このコードは`form`パーシャルを生成し、そのパーシャルオブジェクトをフォームビルダーに設定します。このフォームビルダーのクラスが`LabellingFormBuilder`の場合 、代わりに`labelling_form`パーシャルがレンダリングされます。
+`f`が`ActionView::Helpers::FormBuilder`のインスタンスである場合、このコードは`form`パーシャルを生成し、そのパーシャルオブジェクトをフォームビルダーに設定します。このフォームビルダーのクラスが`LabellingFormBuilder`の場合、代わりに`labelling_form`パーシャルがレンダリングされます。
 
 `LabellingFormBuilder`などのフォームビルダーのカスタマイズでは、実装の詳細が隠蔽されます（上記の単純な例ではやり過ぎのように思えるかもしれません）。フォームでカスタム要素をどの程度頻繁に利用するかに応じて、`FormBuilder`クラスを拡張するか、ヘルパーを作成するかなど、さまざまなカスタマイズから選択することになります。
 
@@ -1004,7 +1004,7 @@ end
 
 HTMLフォーム自体にはユーザー入力データに対する固有の構造が定められておらず、生成されるのは名前と値の文字列のペアだけであることにご注意ください。アプリケーションで使われる配列やハッシュは、Railsで利用するパラメータ命名規約による結果です。
 
-NOTE: `params`ハッシュ内のフィールドは、[コントローラで許可](#コントローラでパラメータを許可する) しておく必要があります。
+NOTE: `params`ハッシュ内のフィールドは、[コントローラで許可](#コントローラでパラメータを許可する)しておく必要があります。
 
 ### 基本構造
 
@@ -1147,7 +1147,7 @@ WARNING: 配列パラメータは、`checkbox`ヘルパーとの相性がよく�
 
 ### モデルをネステッド属性用に構成する
 
-特定のモデル（この場合は`Person`）に関連付けられているレコードを編集するために、Active Recordは [`accepts_nested_attributes_for`][]メソッドを介したモデルレベルのサポートを提供します。
+特定のモデル（この場合は`Person`）に関連付けられているレコードを編集するために、Active Recordは[`accepts_nested_attributes_for`][]メソッドを介したモデルレベルのサポートを提供します。
 
 ```ruby
 class Person < ApplicationRecord

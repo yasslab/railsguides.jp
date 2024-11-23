@@ -7,7 +7,7 @@ Active Record クエリインターフェイス
 
 * 多くのメソッドや条件を駆使してレコードを検索する
 * 検索されたレコードのソート順、取り出したい属性、グループ化の有無などを指定する
-* 一括読み込み (eager loading) を使って、データ取り出しに必要なクエリの実行回数を減らす
+* eager loading（一括読み込み）を使って、データ取り出しに必要なクエリの実行回数を減らす
 * 動的検索メソッドを使う
 * 複数のActive Recordメソッドをメソッドチェインで同時に利用する
 * 特定のレコードが存在するかどうかをチェックする
@@ -284,7 +284,7 @@ irb> customers = Customer.take(2)
 SELECT * FROM customers LIMIT 2
 ```
 
-[`take!`][] メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`take`メソッドとまったく同じです。
+[`take!`][]メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`take`メソッドとまったく同じです。
 
 TIP: このメソッドで取り出されるレコードは、利用するデータベースエンジンによって異なることがあります。
 
@@ -361,7 +361,7 @@ SELECT * FROM customers ORDER BY customers.first_name ASC LIMIT 1
 
 #### `last`
 
-[`last`][]メソッドは、(デフォルトでは) 主キーの順序に従って最後のレコードを返します。 以下に例を示します。
+[`last`][]メソッドは、（デフォルトでは）主キーの順序に従って最後のレコードを返します。以下に例を示します。
 
 ```irb
 irb> customer = Customer.last
@@ -451,7 +451,7 @@ SELECT * FROM customers WHERE (customers.first_name = 'Lifo') LIMIT 1
 
 上のSQLに`ORDER BY`がない点にご注意ください。`find_by`の条件が複数のレコードにマッチする場合は、レコードの順序を一貫させるために[並び順](#並び順)を指定すべきです。
 
-[`find_by!`][] メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`find_by`メソッドとまったく同じです。以下に例を示します。
+[`find_by!`][]メソッドの動作は、マッチするレコードが見つからない場合に`ActiveRecord::RecordNotFound`例外が発生する点を除いて、`find_by`メソッドとまったく同じです。以下に例を示します。
 
 ```irb
 irb> Customer.find_by! first_name: 'does not exist'
@@ -570,7 +570,7 @@ end
 
 **`:finish`**
 
-`:start`オプションと同様に、シーケンスの末尾のIDを指定したい場合は、`:finish`オプションで末尾のIDを設定できます。 `:start`と`:finish`でレコードのサブセットを指定し、その中でバッチプロセスを走らせたい時に便利です。
+`:start`オプションと同様に、シーケンスの末尾のIDを指定したい場合は、`:finish`オプションで末尾のIDを設定できます。`:start`と`:finish`でレコードのサブセットを指定し、その中でバッチプロセスを走らせたい時に便利です。
 
 たとえば主キーが2000番〜10000番のユーザーに対してニュースレターを配信したい場合は、以下のようになります。
 
@@ -662,7 +662,7 @@ end
 条件
 ----------
 
-[`where`][] メソッドは、返されるレコードを制限するための条件を指定します。SQL文で言う`WHERE`の部分に相当します。条件は、文字列、配列、ハッシュのいずれかの方法で与えることができます。
+[`where`][]メソッドは、返されるレコードを制限するための条件を指定します。SQL文で言う`WHERE`の部分に相当します。条件は、文字列、配列、ハッシュのいずれかの方法で与えることができます。
 
 ### 条件を文字列だけで表す
 
@@ -678,7 +678,7 @@ WARNING: 条件を文字列だけで構成すると、SQLインジェクショ�
 Book.where("title = ?", params[:title])
 ```
 
-Active Recordは最初の引数を、文字列で表された条件として受け取ります。その後に続く引数は、文字列内にある疑問符 `?` と置き換えられます。
+Active Recordは最初の引数を、文字列で表された条件として受け取ります。その後に続く引数は、文字列内にある疑問符`?`と置き換えられます。
 
 複数の条件を指定したい場合は次のようにします。
 
@@ -686,7 +686,7 @@ Active Recordは最初の引数を、文字列で表された条件として受�
 Book.where("title = ? AND out_of_print = ?", params[:title], false)
 ```
 
-上の例では、1つ目の疑問符は`params[:title]`の値で置き換えられ、2つ目の疑問符は`false`をSQL形式に変換したもの (変換方法はアダプタによって異なる) で置き換えられます。
+上の例では、1つ目の疑問符は`params[:title]`の値で置き換えられ、2つ目の疑問符は`false`をSQL形式に変換したもの（変換方法はアダプタによって異なる）で置き換えられます。
 
 以下のように`?`を用いるコードの書き方を強く推奨します。
 
@@ -951,7 +951,7 @@ WARNING: 多くのデータベースシステムでは、`select`、`pluck`、`i
 
 デフォルトでは、`Model.find`を実行すると、結果セットからすべてのフィールドが選択されます。内部的にはSQLの`select *`が実行されています。
 
-結果セットから特定のフィールドだけを取り出したい場合は、 [`select`][]メソッドが使えます。
+結果セットから特定のフィールドだけを取り出したい場合は、[`select`][]メソッドが使えます。
 
 たとえば、`out_of_print`カラムと`isbn`カラムだけを取り出したい場合は以下のようにします。
 
@@ -975,7 +975,7 @@ ActiveModel::MissingAttributeError: missing attribute: <属性名> for Book
 
 `<属性名>`は、アクセスしようとした属性です。`id`メソッドは、この`ActiveRecord::MissingAttributeError`を発生しません。このため、関連付けを扱う場合にはご注意ください。関連付けが正常に動作するには`id`メソッドが必要です。
 
-特定のフィールドについて、重複のない一意の値を1レコードだけ取り出したい場合は、 [`distinct`][]が使えます。
+特定のフィールドについて、重複のない一意の値を1レコードだけ取り出したい場合は、[`distinct`][]が使えます。
 
 ```ruby
 Customer.select(:last_name).distinct
@@ -1345,12 +1345,12 @@ customer.visits += 1
 customer.save # ActiveRecord::ReadOnlyRecordがraiseされる
 ```
 
-上のコードでは `customer`に対して明示的に`readonly`が指定されているため、`visits`の値を更新して `customer.save`を行なうと`ActiveRecord::ReadOnlyRecord`例外が発生します。
+上のコードでは`customer`に対して明示的に`readonly`が指定されているため、`visits`の値を更新して`customer.save`を行なうと`ActiveRecord::ReadOnlyRecord`例外が発生します。
 
 レコードを更新できないようロックする
 --------------------------
 
-ロックは、データベースのレコードを更新する際の競合状態を避け、アトミックな (=中途半端な状態のない) 更新を行なうために有用です。
+ロックは、データベースのレコードを更新する際の競合状態を避け、アトミックな（=中途半端な状態のない）更新を行なうために有用です。
 
 Active Recordには2とおりのロック機構があります。
 
@@ -1436,7 +1436,7 @@ end
 テーブルを結合する
 --------------
 
-Active Recordは `JOIN`句のSQLを具体的に指定する２つの検索メソッドを提供しています。１つは`joins`、もう１つは`left_outer_joins`です。`joins`メソッドは`INNER JOIN`やカスタムクエリに使われ、`left_outer_joins`は`LEFT OUTER JOIN`クエリの生成に使われます。
+Active Recordは`JOIN`句のSQLを具体的に指定する２つの検索メソッドを提供しています。１つは`joins`、もう１つは`left_outer_joins`です。`joins`メソッドは`INNER JOIN`やカスタムクエリに使われ、`left_outer_joins`は`LEFT OUTER JOIN`クエリの生成に使われます。
 
 ### `joins`
 
@@ -1569,7 +1569,7 @@ Customer.joins(:orders).merge(Order.created_in_time_range(time_range)).distinct
 
 ### `left_outer_joins`
 
-関連レコードがあるかどうかにかかわらずレコードのセットを取得したい場合は、[`left_outer_joins`][] メソッドを使います。
+関連レコードがあるかどうかにかかわらずレコードのセットを取得したい場合は、[`left_outer_joins`][]メソッドを使います。
 
 ```ruby
 Customer.left_outer_joins(:reviews).distinct.select("customers.*, COUNT(reviews.*) AS reviews_count").group("customers.id")
@@ -1707,7 +1707,7 @@ SELECT authors.id AS t0_r0, ... books.updated_at AS t1_r5 FROM authors LEFT OUTE
 
 `where`条件がない場合は、通常のクエリが2つ生成されます。
 
-NOTE: `where`がこのように動作するのは、ハッシュを渡した場合だけです。SQLフラグメント文字列を渡す場合には、強制的に結合テーブルとして扱うために `references`を使う必要があります。
+NOTE: `where`がこのように動作するのは、ハッシュを渡した場合だけです。SQLフラグメント文字列を渡す場合には、強制的に結合テーブルとして扱うために`references`を使う必要があります。
 
 ```ruby
 Author.includes(:books).where("books.out_of_print = true").references(:books)
@@ -2047,7 +2047,7 @@ SELECT books.* FROM books WHERE (year_published >= 1969) AND (price > 50)
 Book.unscoped.load
 ```
 
-このメソッドはスコープをすべて解除し、テーブルに対して通常の (スコープなしの) クエリを実行するようにします。
+このメソッドはスコープをすべて解除し、テーブルに対して通常の（スコープなしの）クエリを実行するようにします。
 
 ```irb
 irb> Book.unscoped.all
@@ -2072,7 +2072,7 @@ SELECT books.* FROM books WHERE books.out_of_print = true
 
 Active Recordは、テーブルに定義されるすべてのフィールド（属性とも呼ばれます）に対して自動的に検索メソッド（finderメソッド）を提供します。たとえば、`Customer`モデルに`first_name`というフィールドがあると、`find_by_first_name`というメソッドがActive Recordによって自動的に作成されます。`Customer`モデルに`locked`というフィールドがあれば、`find_by_locked`というメソッドを利用できるようになります。
 
-この動的検索メソッドの末尾に`Customer.find_by_first_name!("Ryan")`のように感嘆符 (`!`) を追加すると、該当するレコードがない場合に`ActiveRecord::RecordNotFound`エラーが発生するようになります。
+この動的検索メソッドの末尾に`Customer.find_by_first_name!("Ryan")`のように感嘆符（`!`）を追加すると、該当するレコードがない場合に`ActiveRecord::RecordNotFound`エラーが発生するようになります。
 
 `first_name`と`orders_count`を両方検索したい場合は、2つのフィールド名を`_and_`でつなぐだけでメソッドを利用できるようになります。たとえば、`Customer.find_by_first_name_and_orders_count("Ryan", 5)`といった書き方が可能です。
 
@@ -2131,9 +2131,9 @@ enumの完全なドキュメントについては[`ActiveRecord::Enum`](https://
 メソッドチェインを理解する
 ---------------------------------
 
-Active Record パターンには [メソッドチェイン (Method chaining - Wikipedia)](http://en.wikipedia.org/wiki/Method_chaining) が実装されています。これにより、複数のActive Recordメソッドをシンプルな方法で次々に適用できるようになります。
+Active Recordパターンには[メソッドチェイン](http://en.wikipedia.org/wiki/Method_chaining)が実装されています。これにより、複数のActive Recordメソッドをシンプルな方法で次々に適用できるようになります。
 
-文中でメソッドチェインを利用できるのは、その前のメソッドが`ActiveRecord::Relation` (`all`、`where`、`joins`など) を１つ返す場合です。単一のオブジェクトを返すメソッド ([単一のオブジェクトを取り出す](#%E5%8D%98%E4%B8%80%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99)を参照) は文の末尾に置かなければなりません。
+文中でメソッドチェインを利用できるのは、その前のメソッドが`ActiveRecord::Relation`（`all`、`where`、`joins`など）を１つ返す場合です。単一のオブジェクトを返すメソッド（[単一のオブジェクトを取り出す](#%E5%8D%98%E4%B8%80%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99)を参照）は文の末尾に置かなければなりません。
 
 いくつか例をご紹介します。本ガイドでは一部の例のみをご紹介し、すべての例を網羅することはしません。Active Recordメソッドが呼び出されると、クエリはその時点ではすぐには生成されず、データベースへの送信もされません。クエリは、データが実際に必要になった時点で初めて生成され送信されます。したがって、以下のそれぞれの例で生成されるクエリはそれぞれ1つのみです。
 
@@ -2176,7 +2176,7 @@ WHERE books.title = $1 [["title", "Abstraction and Specification in Program Deve
 LIMIT 1
 ```
 
-NOTE: １つのクエリが複数のレコードとマッチする場合、`find_by`は「最初」の結果だけを返し、他は返しません（上の`LIMIT 1` 文を参照）。
+NOTE: １つのクエリが複数のレコードとマッチする場合、`find_by`は「最初」の結果だけを返し、他は返しません（上の`LIMIT 1`文を参照）。
 
 新しいオブジェクトを検索またはビルドする
 ---------------------------------
@@ -2755,7 +2755,7 @@ EXPLAINの出力を解釈することは、本ガイドの範疇を超えます�
 
 * SQLite3: [EXPLAIN QUERY PLAN](https://www.sqlite.org/eqp.html)
 
-* MySQL: [EXPLAIN 出力フォーマット](https://dev.mysql.com/doc/refman/8.0/ja/explain-output.html) （v8.0日本語）
+* MySQL: [EXPLAIN出力フォーマット](https://dev.mysql.com/doc/refman/8.0/ja/explain-output.html) （v8.0日本語）
 
 * MariaDB: [EXPLAIN](https://mariadb.com/kb/en/explain/)
 

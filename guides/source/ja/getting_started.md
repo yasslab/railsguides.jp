@@ -1,7 +1,7 @@
 Rails をはじめよう
 ============
 
-このガイドでは、Ruby on Rails（以下 Rails）を初めて設定して実行するまでを解説します。
+このガイドでは、Ruby on Rails（以下Rails）を初めて設定して実行するまでを解説します。
 
 このガイドの内容:
 
@@ -38,7 +38,7 @@ Railsの哲学には、以下の2つの主要な基本理念があります。
 
 ## Railsプロジェクトを新規作成する
 
-TIP: 事前設定済みのDev Container開発環境を含む新規Railsアプリを作成できます。Dev Containerは、Railsを始める最短の方法です。手順については、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html) を参照してください。
+TIP: 事前設定済みのDev Container開発環境を含む新規Railsアプリを作成できます。Dev Containerは、Railsを始める最短の方法です。手順については、[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html)を参照してください。
 
 本ガイドを最大限に活用するには、以下の手順を1つずつすべて実行するのがベストです。どの手順もサンプルアプリケーションを動かすのに必要なものであり、それ以外のコードや手順は不要です。
 
@@ -53,7 +53,7 @@ Railsをインストールする前に、必要な要件が自分のシステム
 * Ruby
 * SQLite3
 
-TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https://github.co.jp/features/codespaces)』には、[公式のRuby on Railsテンプレート](https://github.com/codespaces/templates)が用意されています。`Use this template`ボタンから、ワンクリックでRailsを動かせるクラウド開発環境が手に入ります。（参考: [GitHub Codespaces を利用する - Rails Girls](https://railsgirls.jp/install/codespaces)）
+TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https://github.co.jp/features/codespaces)』には、[公式のRuby on Railsテンプレート](https://github.com/codespaces/templates)が用意されています。`Use this template`ボタンから、ワンクリックでRailsを動かせるクラウド開発環境が手に入ります。（参考: [GitHub Codespacesを利用する - Rails Girls](https://railsgirls.jp/install/codespaces)）
 
 #### Rubyをインストールする
 
@@ -108,7 +108,7 @@ Railsには、ジェネレータというスクリプトが多数付属してい
 $ rails new blog
 ```
 
-これにより、Blogという名前のRails アプリケーションが`blog`ディレクトリに作成され、`Gemfile`というファイルで指定されているgemファイルが`bundle install`コマンドによってインストールされます。
+これにより、Blogという名前のRailsアプリケーションが`blog`ディレクトリに作成され、`Gemfile`というファイルで指定されているgemファイルが`bundle install`コマンドによってインストールされます。
 
 TIP: `rails new --help`を実行すると、Railsアプリケーションビルダで使えるすべてのコマンドラインオプションを表示できます。
 
@@ -124,7 +124,7 @@ $ cd blog
 | ----------- | ------- |
 |app/|このディレクトリには、アプリケーションのコントローラ、モデル、ビュー、ヘルパー、メーラー、ジョブ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
 |bin/|このディレクトリには、アプリケーションを起動する`rails`スクリプトが置かれます。セットアップ・アップデート・デプロイに使うスクリプトファイルもここに置けます。
-|config/|このディレクトリには、アプリケーションの各種設定ファイル（ルーティング、データベースなど）が置かれます。詳しくは[Rails アプリケーションの設定項目](configuring.html) を参照してください。|
+|config/|このディレクトリには、アプリケーションの各種設定ファイル（ルーティング、データベースなど）が置かれます。詳しくは[Rails アプリケーションの設定項目](configuring.html)を参照してください。|
 |config.ru|アプリケーションの起動に使われるRackベースのサーバー用のRack設定ファイルです。Rackについて詳しくは、[RackのWebサイト](https://rack.github.io/)を参照してください。|
 |db/|このディレクトリには、現在のデータベーススキーマと、データベースマイグレーションファイルが置かれます。|
 |Dockerfile|Dockerの設定ファイルです。|
@@ -162,7 +162,7 @@ TIP: Windowsの場合は、`bin`フォルダの下にあるスクリプトをRub
 
 TIP: JavaScriptアセットの圧縮にはJavaScriptランタイムが必要です。JavaScriptランタイムが環境にない場合は、起動時に`execjs`エラーが発生します。macOSやWindowsにはJavaScriptランタイムが同梱されています。`therubyrhino`はJRubyユーザー向けに推奨されているランタイムであり、JRuby環境下ではデフォルトでアプリケーションの`Gemfile`に追加されます。サポートされているランタイムについて詳しくは[ExecJS](https://github.com/sstephenson/execjs#readme)を参照してください。
 
-Railsで起動されるWebサーバーは、Railsにデフォルトで付属している[Puma](http://puma.io/)です。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて [http://localhost:3000](http://localhost:3000) を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
+Railsで起動されるWebサーバーは、Railsにデフォルトで付属している[Puma](http://puma.io/)です。Webアプリケーションが実際に動作しているところを確認するには、ブラウザを開いて[http://localhost:3000](http://localhost:3000)を表示してください。以下のようなRailsのデフォルト情報ページが表示されます。
 
 ![Rails起動ページのスクリーンショット](images/getting_started/rails_welcome.png)
 
@@ -174,7 +174,7 @@ Railsの起動ページは、新しいRailsアプリケーションの「スモ�
 
 Railsで「Hello」と表示するには、少なくとも「**ルーティング**」「**コントローラ**」「**ビュー**」が必要です。ルーティングは、リクエストをどのコントローラに振り分けるかを決定します。コントローラは、アプリケーションに対する特定のリクエストを受け取って処理します。コントローラの *アクション* は、リクエストを扱うのに必要な処理を実行します。ビューは、データを好みの書式で表示します。
 
-実装の面から見れば、ルーティングはRubyの[DSL（Domain-Specific Language）](https://ja.wikipedia.org/wiki/ドメイン固有言語) で記述されたルールです。コントローラはRubyのクラスで、そのクラスのpublicメソッドがアクションです。ビューはテンプレートで、多くの場合HTMLの中にRubyコードも含んでいます。
+実装の面から見れば、ルーティングはRubyの[DSL（Domain-Specific Language）](https://ja.wikipedia.org/wiki/ドメイン固有言語)で記述されたルールです。コントローラはRubyのクラスで、そのクラスのpublicメソッドがアクションです。ビューはテンプレートで、多くの場合HTMLの中にRubyコードも含んでいます。
 
 それではルーティングを1個追加してみましょう。`config/routes.rb`を開き、`Rails.application.routes.draw`ブロックの冒頭に以下を書きます。
 
@@ -437,7 +437,7 @@ end
 ここでは、`<% %>`と`<%= %>`という2種類のERBタグが使われています。`<% %>`タグは「この中のRubyコードを評価する」という意味です。`<%= %>`タグは「この中のRubyコードを評価し、返された値を出力する」という意味です。
 これらのERBタグの中には、通常のRubyプログラムで書けるコードなら何でも書けますが、読みやすさのため、ERBタグにはなるべく短いコードを書く方がよいでしょう。
 
-上のコードでは、`@articles.each`が返す値は画面に出力したくないので`<% %>` で囲んでいますが、（各記事の）`article.title` が返す値は画面に出力したいので`<%= %>` で囲んでいます。
+上のコードでは、`@articles.each`が返す値は画面に出力したくないので`<% %>`で囲んでいますが、（各記事の）`article.title`が返す値は画面に出力したいので`<%= %>`で囲んでいます。
 
 ブラウザで<http://localhost:3000>を開くと最終的な結果を確認できます（`bin/rails server`を実行しておくことをお忘れなく）。このときの動作は以下のようになります。
 
@@ -683,7 +683,7 @@ form_helpers.html)を参照してください。
 
 そこで、さまざまな値を個別に渡すのではなく、それらの値を含む1個のハッシュを渡します。しかしその場合も、ハッシュ内でどのような値が許されているかを厳密に指定しなければなりません。これを怠ると、悪意のあるユーザーがブラウザ側でフィールドをこっそり追加して、機密データを上書きする可能性が生じるので危険です。ただし実際には、`params[:article]`をフィルタなしで`Article.new`に直接渡すと、Railsが`ForbiddenAttributesError`エラーを出してこの問題を警告するようになっています。そこで、Railsの**Strong Parameters**という機能を用いて`params`をフィルタすることにします。ここで言うstrongとは、`params`を[強く型付けする](https://en.wikipedia.org/wiki/Strong_and_weak_typing)（strong typing）とお考えください。
 
-それでは、`app/controllers/articles_controller.rb`の末尾に `article_params`というprivateメソッドを追加し、`params`をフィルタしましょう。さらに、`create`アクションでこのメソッドを使うように変更します。
+それでは、`app/controllers/articles_controller.rb`の末尾に`article_params`というprivateメソッドを追加し、`params`をフィルタしましょう。さらに、`create`アクションでこのメソッドを使うように変更します。
 
 ```ruby
 class ArticlesController < ApplicationController
@@ -722,7 +722,7 @@ TIP: Strong Parametersについて詳しくは、[Action Controller の概要 §
 
 #### バリデーションとエラーメッセージの表示
 
-これまで見てきたように、リソースの作成は単独のステップではなく、複数のステップで構成されています。その中には、無効なユーザー入力を適切に処理することも含まれます。Railsには、無効なユーザー入力を処理するために**バリデーション**（validation: 検証）という機能が用意されています。バリデーションとは、モデルオブジェクトを保存する前に自動的にチェックするルールのことです。チェックに失敗した場合は保存を中止し、モデルオブジェクトの `errors` 属性に適切なエラーメッセージが追加されます。
+これまで見てきたように、リソースの作成は単独のステップではなく、複数のステップで構成されています。その中には、無効なユーザー入力を適切に処理することも含まれます。Railsには、無効なユーザー入力を処理するために**バリデーション**（validation: 検証）という機能が用意されています。バリデーションとは、モデルオブジェクトを保存する前に自動的にチェックするルールのことです。チェックに失敗した場合は保存を中止し、モデルオブジェクトの`errors`属性に適切なエラーメッセージが追加されます。
 
 それでは、`app/models/article.rb`モデルにバリデーションをいくつか追加してみましょう。
 
@@ -876,7 +876,7 @@ end
 
 `edit`で使うフォームの見た目は、`new`で使うフォームの見た目と同じになりそうです。それどころか、Railsのフォームビルダーとリソースフルルーティングのおかげで、コードすら同じになります。フォームビルダーは、モデルオブジェクトが既に保存されている場合は`edit`用のフォームを、モデルオブジェクトが保存されていない場合は`new`用のフォームを自動的に構成するので、状況に応じて適切なリクエストを行えます。
 
-どちらのフォームにも同じコードが使われているので、**パーシャル**（partial: 部分テンプレートとも呼ばれます）と呼ばれる共有ビューにまとめることにします。以下の内容で `app/views/articles/_form.html.erb` を作成してみましょう。
+どちらのフォームにも同じコードが使われているので、**パーシャル**（partial: 部分テンプレートとも呼ばれます）と呼ばれる共有ビューにまとめることにします。以下の内容で`app/views/articles/_form.html.erb`を作成してみましょう。
 
 ```html+erb
 <%= form_with model: article do |form| %>
@@ -904,7 +904,7 @@ end
 
 上記のコードは`app/views/articles/new.html.erb`のフォームと同じですが、すべての`@article`を`article`に置き換えてある点にご注目ください。パーシャルのコードは共有されるので、特定のインスタンス変数に依存しないようにするのがベストプラクティスです（コントローラのアクションで設定されるインスタンス変数に依存すると、他で使い回すときに不都合が生じます）。代わりに、記事をローカル変数としてパーシャルに渡します。
 
-[`render`]( https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render) でパーシャルを使うために、`app/views/articles/new.html.erb`を以下の内容で置き換えてみましょう。
+[`render`]( https://api.rubyonrails.org/classes/ActionView/Helpers/RenderingHelper.html#method-i-render)でパーシャルを使うために、`app/views/articles/new.html.erb`を以下の内容で置き換えてみましょう。
 
 ```html+erb
 <h1>New Article</h1>
@@ -926,7 +926,7 @@ TIP: パーシャルについて詳しくは、[レイアウトとレンダリ�
 
 #### 仕上げ
 
-これで、記事のeditページ（<http://localhost:3000/articles/1/edit>など）にアクセスして記事を更新できるようになりました。最後に、`app/views/articles/show.html.erb` の末尾に以下のようなeditページへのリンクを追加してみましょう。
+これで、記事のeditページ（<http://localhost:3000/articles/1/edit>など）にアクセスして記事を更新できるようになりました。最後に、`app/views/articles/show.html.erb`の末尾に以下のようなeditページへのリンクを追加してみましょう。
 
 ```html+erb
 <h1><%= @article.title %></h1>
@@ -940,7 +940,7 @@ TIP: パーシャルについて詳しくは、[レイアウトとレンダリ�
 
 ### 記事を削除する
 
-いよいよCRUDのDまで到達しました。リソースの削除はリソースの作成や更新よりもシンプルなので、必要なのは削除用のルーティングとコントローラのアクションだけです。削除用のルーティングは、`DELETE /articles/:id`リクエストを`ArticlesController`の `destroy`アクションに対応付けます。
+いよいよCRUDのDまで到達しました。リソースの削除はリソースの作成や更新よりもシンプルなので、必要なのは削除用のルーティングとコントローラのアクションだけです。削除用のルーティングは、`DELETE /articles/:id`リクエストを`ArticlesController`の`destroy`アクションに対応付けます。
 
 それでは、`app/controllers/articles_controller.rb`の`update`アクションの下に典型的な`destroy`アクションを追加してみましょう。
 
@@ -1000,7 +1000,7 @@ end
 
 rootパスにリダイレクトすることに決めたのは、そこが記事へのメインのアクセスポイントだからです。しかし状況によっては、たとえば`articles_path`にリダイレクトすることもあります。
 
-それでは、`app/views/articles/show.html.erb` の下部に削除用ボタンを追加して、ページの記事を削除できるようにしましょう。
+それでは、`app/views/articles/show.html.erb`の下部に削除用ボタンを追加して、ページの記事を削除できるようにしましょう。
 
 ```html+erb
 <h1><%= @article.title %></h1>
@@ -1018,7 +1018,7 @@ rootパスにリダイレクトすることに決めたのは、そこが記事�
 
 上のコードでは、`data`オプションを使って"Destroy"リンクのHTML属性`data-turbo-method`と`data-turbo-confirm`を設定しています。どちらの属性も、新しいRailsアプリケーションにデフォルトで含まれている[Turbo](https://turbo.hotwired.dev/)にフックします。
 `data-turbo-method="delete"`を指定すると、`GET`リクエストではなく`DELETE`リクエストが送信されます。
-`data-turbo-confirm="Are you sure?"` を指定すると、リンクをクリックしたときに「Are you sure?」ダイアログが表示され、ユーザーが「キャンセル」をクリックするとリクエストを中止します。
+`data-turbo-confirm="Are you sure?"`を指定すると、リンクをクリックしたときに「Are you sure?」ダイアログが表示され、ユーザーが「キャンセル」をクリックするとリクエストを中止します。
 
 以上でできあがりです！記事のリスト表示も、個別表示も、作成も、更新も、削除も思いのままです。CRUDバンザイ！
 
@@ -1029,7 +1029,7 @@ rootパスにリダイレクトすることに決めたのは、そこが記事�
 
 ### 第2のモデルを追加する
 
-先ほど`Article`モデルの作成に使ったのと同じジェネレーターを見てみましょう。今回は、`Article`モデルへの参照を保持する`Comment` モデルを作成します。ターミナルで以下のコマンドを実行します。
+先ほど`Article`モデルの作成に使ったのと同じジェネレーターを見てみましょう。今回は、`Article`モデルへの参照を保持する`Comment`モデルを作成します。ターミナルで以下のコマンドを実行します。
 
 ```bash
 $ bin/rails generate model Comment commenter:string body:text article:references
@@ -1361,7 +1361,7 @@ end
 
 Railsの「concern（関心事）」とは、大規模なコントローラやモデルの理解や管理を楽にする手法の1つです。複数のモデル（またはコントローラ）が同じ関心を共有していれば、concernを介して再利用できるというメリットもあります。concernはRubyの「モジュール」で実装され、モデルやコントローラが担当する機能のうち明確に定義された部分を表すメソッドをそのモジュールに含めます。なおモジュールは他の言語では「ミックスイン」と呼ばれることもよくあります。
 
-concernは、コントローラやモデルで普通のモジュールと同じように使えます。`rails new blog` でアプリを作成すると、`app/`内に以下の2つのconcernsフォルダも作成されます。
+concernは、コントローラやモデルで普通のモジュールと同じように使えます。`rails new blog`でアプリを作成すると、`app/`内に以下の2つのconcernsフォルダも作成されます。
 
 ```
 app/controllers/concerns

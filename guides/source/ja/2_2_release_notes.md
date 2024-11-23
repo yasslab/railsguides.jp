@@ -14,7 +14,7 @@ Rails 2.2は、Railsを安定稼働させ、世界とつなぐインフラスト
 
 ### 国際化
 
-Rails 2.2では、国際化 (internationalization: 長いのでi18nと略されます) 向けの簡単なシステムが提供されます。
+Rails 2.2では、国際化（internationalization: 長いのでi18nと略されます）向けの簡単なシステムが提供されます。
 
 * リードコントリビュータ: Rails i18チーム
 * 詳細:
@@ -54,7 +54,7 @@ RailsがJRubyや次期Ruby 1.9とスレッド安全性に関してうまく動�
 $ rake doc:guides
 ```
 
-これでガイドが `Rails.root/doc/guides` 以下に生成され、ブラウザで `Rails.root/doc/guides/index.html` を開けばすぐに内容を表示できます。
+これでガイドが`Rails.root/doc/guides`以下に生成され、ブラウザで`Rails.root/doc/guides/index.html`を開けばすぐに内容を表示できます。
 
 * 主なコントリビュータ: [Xavier Noria](http://advogato.org/person/fxn/diary.html)および[Hongli Lai](http://izumi.plan99.net/blog/)
 * 詳細:
@@ -74,8 +74,8 @@ class ArticlesController < ApplicationController
     # リクエストで送信するヘッダがstale?に提供されたオプションと異なる場合、
     # リクエストは実際にstaleし、respond_toブロックが起動する
     # (このときstale?呼び出しのオプションがレスポンスにセットされる）。
-    # リクエストヘッダがマッチする場合リクエストはフレッシュなので respond_toブロックはトリガーされない。
-    # 代わりにデフォルトのレンダリングが発生してlast-modified と etag ヘッダーをチェックし、
+    # リクエストヘッダがマッチする場合リクエストはフレッシュなのでrespond_toブロックはトリガーされない。
+    # 代わりにデフォルトのレンダリングが発生してlast-modifiedとetagヘッダーをチェックし、
     # テンプレートをレンダリングする代わりに "304 Not Modified" だけを送信すればよいと判断する。
     if stale?(:last_modified => @article.published_at.utc, :etag => @article)
       respond_to do |wants|
@@ -88,7 +88,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
 
     # レスポンスヘッダを設定し、リクエストに対してそれらをチェックする。
-    # リクエストがstaleの場合（すなわち etag または last-modified のいずれもマッチしない場合)、
+    # リクエストがstaleの場合（すなわちetagまたはlast-modifiedのいずれもマッチしない場合)、
     # デフォルトのテンプレートレンダリングが行われる。
     # リクエストがフレッシュな場合、デフォルトレンダリングはテンプレートをレンダリングする代わりに
     # "304 Not Modified "を返す。
@@ -102,7 +102,7 @@ end
 
 Railsをスレッドセーフにするために行われた作業がRails 2.2に反映されています。Webサーバのインフラにもよりますが、これはメモリ内のRailsのコピー数が少なくても、より多くのリクエストを処理できることを意味し、サーバのパフォーマンス向上とマルチコアの利用率向上につながります。
 
-アプリケーションのproductionモードでマルチスレッドディスパッチを有効にするには、 `config/environments/production.rb` に以下の行を追加してください。
+アプリケーションのproductionモードでマルチスレッドディスパッチを有効にするには、`config/environments/production.rb`に以下の行を追加してください。
 
 
 ```ruby
@@ -122,7 +122,7 @@ Active Record
 
 ### トランザクショナルマイグレーション
 
-歴史的に、ステップを複数含むRailsマイグレーションはトラブルの元でした。マイグレーション中に何か問題が発生すると、エラー発生前のマイグレーションはデータベースを変更しますが、エラー発生後のマイグレーションは適用されません。また、マイグレーションのバージョンは実行済みとして保存されていたので、問題を解決した後に `rake db:migrate:redo` で単純に再実行できませんでした。トランザクショナルマイグレーションは、マイグレーションステップをDDLトランザクションでラップすることでこれを変更し、どれかが失敗したらマイグレーション全体を元に戻すようにします。Rails 2.2では、トランザクショナルマイグレーションは、PostgreSQLですぐにサポートされます。将来このコードは他のデータベースにも拡張可能で、IBMはすでにDB2アダプタをサポートするよう拡張しています。
+歴史的に、ステップを複数含むRailsマイグレーションはトラブルの元でした。マイグレーション中に何か問題が発生すると、エラー発生前のマイグレーションはデータベースを変更しますが、エラー発生後のマイグレーションは適用されません。また、マイグレーションのバージョンは実行済みとして保存されていたので、問題を解決した後に`rake db:migrate:redo`で単純に再実行できませんでした。トランザクショナルマイグレーションは、マイグレーションステップをDDLトランザクションでラップすることでこれを変更し、どれかが失敗したらマイグレーション全体を元に戻すようにします。Rails 2.2では、トランザクショナルマイグレーションは、PostgreSQLですぐにサポートされます。将来このコードは他のデータベースにも拡張可能で、IBMはすでにDB2アダプタをサポートするよう拡張しています。
 
 * リードコントリビュータ: [Adam Wiggins](http://about.adamwiggins.com/)
 * 詳細:
@@ -131,7 +131,7 @@ Active Record
 
 ### コネクションプール
 
-コネクションプーリングは、Railsがデータベース接続のプールにデータベースリクエストを分散させ、最大サイズまで成長させられます（デフォルトでは5ですが、 `database.yml` に `pool` キーを追加すれば調整できます）。これは、同時に多数のユーザーをサポートするアプリケーションのボトルネックを解消するのに役立ちます。また、 `wait_timeout` も用意されており、デフォルトでは 5 秒で終了します。`ActiveRecord::Base.connection_pool` は、必要に応じてプールに直接アクセスできます。
+コネクションプーリングは、Railsがデータベース接続のプールにデータベースリクエストを分散させ、最大サイズまで成長させられます（デフォルトでは5ですが、`database.yml`に`pool`キーを追加すれば調整できます）。これは、同時に多数のユーザーをサポートするアプリケーションのボトルネックを解消するのに役立ちます。また、`wait_timeout`も用意されており、デフォルトでは5秒で終了します。`ActiveRecord::Base.connection_pool`は、必要に応じてプールに直接アクセスできます。
 
 
 ```yaml
@@ -184,7 +184,7 @@ User.find_last_by_city('London')
 
 #### `find_by_attribute!`
 
-`!`付きの新しい`find_by_attribute!` は、`Model.first(:conditions => {:attribute => value}) || raise ActiveRecord::RecordNotFound` と同等です。マッチするレコードが見つからない場合は、`nil` を返す代わりに例外を発生します。
+`!`付きの新しい`find_by_attribute!`は、`Model.first(:conditions => {:attribute => value}) || raise ActiveRecord::RecordNotFound`と同等です。マッチするレコードが見つからない場合は、`nil`を返す代わりに例外を発生します。
 
 ```ruby
 # 'Moby'がサインアップしていなければActiveRecord::RecordNotFound例外を発生する
@@ -195,7 +195,7 @@ User.find_by_name!('Moby')
 
 ### 関連付けがprivateやprotectedスコープを尊重するようになった
 
-Active Recordの関連付けプロキシは、プロキシされたオブジェクトのメソッドのスコープを尊重するようになりました。以前の`@user.account.private_method` は、関連付けられた Account オブジェクトのprivateメソッドを呼び出していました(`User has_one :account`の場合)。この機能が必要な場合は、 `@user.account.send(:private_method)` をお使いください (または、メソッドを private や protected ではなく public にしてください)。 `method_missing` をオーバーライドしている場合は、関連付けが正常に機能するように `respond_to` も同じ挙動になるようにオーバーライドする必要がある点にご注意ください。
+Active Recordの関連付けプロキシは、プロキシされたオブジェクトのメソッドのスコープを尊重するようになりました。以前の`@user.account.private_method`は、関連付けられたAccountオブジェクトのprivateメソッドを呼び出していました（`User has_one :account`の場合）。この機能が必要な場合は、`@user.account.send(:private_method)`をお使いください（または、メソッドをprivateやprotectedではなくpublicにしてください）。`method_missing`をオーバーライドしている場合は、関連付けが正常に機能するように`respond_to`も同じ挙動になるようにオーバーライドする必要がある点にご注意ください。
 
 * リードコントリビュータ: Adam Milligan
 * 詳細:
@@ -203,10 +203,10 @@ Active Recordの関連付けプロキシは、プロキシされたオブジェ�
 
 ### その他のActive Recordの変更
 
-* `rake db:migrate:redo` にオプションで VERSION を追加して、特定のマイグレーションを redo に指定できるようになりました。
-* UTC タイムスタンプの代わりに数値のプレフィックスを持つ移行を行うには `config.active_record.timestamped_migrations = false` と設定してください。
-* カウンタキャッシュのカラム（`:counter_cache => true` で宣言された関連付け）をゼロに初期化する必要がなくなりました。
-* `ActiveRecord::Base.human_name` により、国際化に対応したモデル名を人間に読みやすく翻訳できるようになりました。
+* `rake db:migrate:redo`にオプションでVERSIONを追加することで、redoで特定のマイグレーションを指定可能になりました。
+* UTCタイムスタンプの代わりに数値のプレフィックスを持つ移行を行うには`config.active_record.timestamped_migrations = false`と設定してください。
+* カウンタキャッシュのカラム（`:counter_cache => true`で宣言された関連付け）をゼロに初期化する必要がなくなりました。
+* `ActiveRecord::Base.human_name`により、国際化に対応したモデル名を人間に読みやすく翻訳できるようになりました。
 
 Action Controller
 -----------------
@@ -252,7 +252,7 @@ map.resources :photos, :collection => { :search => [:get, :post] }
 
 ### 特定のアクションを持つresources
 
-デフォルトでは、`map.resources`を使ってルートを作成すると、Railsは7つのデフォルトアクション（index, show, create, new, edit, update, and destroy）に対するルーティングを生成します。しかし、これらのルーティングはそれぞれアプリケーションのメモリを消費し、Railsが追加のルーティングロジックを生成することになります。そこで、`:only` と `:except` オプションを使って、Railsがリソースに対して生成するルートを細かく設定できるようになりました。単一のアクション、アクションの配列、または特殊オプション `:all` や `:none` を指定できます。これらのオプションは、ネストしたリソースに継承されます。
+デフォルトでは、`map.resources`を使ってルートを作成すると、Railsは7つのデフォルトアクション（index, show, create, new, edit, update, and destroy）に対するルーティングを生成します。しかし、これらのルーティングはそれぞれアプリケーションのメモリを消費し、Railsが追加のルーティングロジックを生成することになります。そこで、`:only`と`:except`オプションを使って、Railsがリソースに対して生成するルートを細かく設定できるようになりました。単一のアクション、アクションの配列、または特殊オプション`:all`や`:none`を指定できます。これらのオプションは、ネストしたリソースに継承されます。
 
 ```ruby
 map.resources :photos, :only => [:index, :show]
@@ -264,31 +264,31 @@ map.resources :products, :except => :destroy
 ### その他のAction Controllerの変更
 
 * リクエストのルーティング中に発生した例外で、[カスタムエラーページを簡単に表示](http://m.onkey.org/2008/7/20/rescue-from-dispatching)できるようになりました。
-* HTTP Acceptヘッダはデフォルトで無効化されました。Accept ヘッダが必要な場合は、 `config.action_controller.use_accept_header = true` でオンに戻せます。
+* HTTP Acceptヘッダはデフォルトで無効化されました。Acceptヘッダが必要な場合は、`config.action_controller.use_accept_header = true`でオンに戻せます。
 * ベンチマークが秒単位ではなくミリ秒単位で出力されるようになりました。
-* RailsがHTTPonly cookieをサポートするようになりました（セッションで使われます）。 これは新しいブラウザでクロスサイトスクリプティングのリスクを軽減するのに有用です。
-* `redirect_to` が URI スキームを完全にサポートしました（たとえば`ssh: URI` にリダイレクトできます）。
-* `render` が `:js` オプションをサポートし、正しい MIME タイプを持つ素の JavaScript をレンダリングするようになりました。
-* リクエストフォージェリ対策が HTML フォーマットのコンテンツリクエストにのみ適用されるように強化されました。
-* 渡されたパラメータが nil の場合のポリモーフィック URL 動作が改良されました。たとえば、 `polymorphic_path([@project, @date, @area])` を nil の日付で呼ぶと、 `project_area_path` が返されます。
+* RailsがHTTPonly cookieをサポートするようになりました（セッションで使われます）。これは新しいブラウザでクロスサイトスクリプティングのリスクを軽減するのに有用です。
+* `redirect_to`がURIスキームを完全にサポートしました（たとえば`ssh: URI`にリダイレクトできます）。
+* `render`が`:js`オプションをサポートし、正しいMIMEタイプを持つ素のJavaScriptをレンダリングするようになりました。
+* リクエストフォージェリ対策がHTMLフォーマットのコンテンツリクエストにのみ適用されるように強化されました。
+* 渡されたパラメータがnilの場合のポリモーフィックURLの振る舞いが改良されました。たとえば、`polymorphic_path([@project, @date, @area])`をnilの日付で呼ぶと、`project_area_path`が返されます。
 
 Action View
 -----------
 
-* `javascript_include_tag` と `stylesheet_link_tag` が新しい `:recursive` オプションをサポートし、 `:all` も指定することでファイルのツリー全体を読み込めるようになりました。
-* 同梱の Prototype JavaScript ライブラリがバージョン 1.6.0.3 にアップグレードされました。
-* `RJS#page.reload` は、ブラウザの現在のページをJavaScriptで再読み込みします。
-* `atom_feed` ヘルパーに `:instruct` オプションが追加され、XML 処理命令を挿入できるようになりました。
+* `javascript_include_tag`と`stylesheet_link_tag`が新しい`:recursive`オプションをサポートし、`:all`も指定することでファイルのツリー全体を読み込めるようになりました。
+* 同梱のPrototype JavaScriptライブラリがバージョン1.6.0.3にアップグレードされました。
+* `RJS#page.reload`は、ブラウザの現在のページをJavaScriptで再読み込みします。
+* `atom_feed`ヘルパーに`:instruct`オプションが追加され、XML処理命令を挿入できるようになりました。
 
 Action Mailer
 -------------
 
-Action Mailerがメーラーでレイアウトをサポートするようになりました。適切な名前のレイアウトを指定すると、HTMLメールをブラウザ上のビューのように整形できます。たとえば、`CustomerMailer`クラスは `layouts/customer_mailer.html.erb` を使うことを想定しています。
+Action Mailerがメーラーでレイアウトをサポートするようになりました。適切な名前のレイアウトを指定すると、HTMLメールをブラウザ上のビューのように整形できます。たとえば、`CustomerMailer`クラスは`layouts/customer_mailer.html.erb`を使うことを想定しています。
 
 * 詳細:
     * [What's New in Edge Rails: Mailer Layouts](http://archives.ryandaigle.com/articles/2008/9/7/what-s-new-in-edge-rails-mailer-layouts)
 
-Action Mailer は、GMail の SMTP サーバーでSTARTTLS を自動的にオンにすることで、ビルトインのサポートを提供するようになりました。このためには、Ruby 1.8.7 がインストールされている必要があります。
+Action Mailerは、GMailのSMTPサーバーでSTARTTLSを自動的にオンにすることで、ビルトインのサポートを提供するようになりました。このためには、Ruby 1.8.7がインストールされている必要があります。
 
 Active Support
 --------------
@@ -316,7 +316,7 @@ end
 memoize :full_name
 ```
 
-その他のメモ化機能には、メモ化をオンオフできる`unmemoize`, `unmemoize_all`, `memoize_all` などがあります。
+その他のメモ化機能には、メモ化をオンオフできる`unmemoize`, `unmemoize_all`, `memoize_all`などがあります。
 
 * リードコントリビュータ: [Josh Peek](http://joshpeek.com/)
 * 詳細:
@@ -325,7 +325,7 @@ memoize :full_name
 
 ### `each_with_object`
 
-`each_with_object` メソッドは、Ruby 1.9 からバックポートされたメソッドを用いて `inject` の代替となるメソッドを提供します。これはコレクションに対して反復処理を行い、現在の要素とメモをブロックに渡します。
+`each_with_object`メソッドは、Ruby 1.9からバックポートされたメソッドを用いて`inject`の代替となるメソッドを提供します。これはコレクションに対して反復処理を行い、現在の要素とメモをブロックに渡します。
 
 ```ruby
 %w(foo bar).each_with_object({}) { |str, hsh| hsh[str] = str.upcase }
@@ -345,7 +345,7 @@ class Vendor < ActiveRecord::Base
 end
 ```
 
-上は`vendor#account_email` と `vendor#account_password` という委譲メソッドを生成します。また、以下のようにカスタムのプレフィックスも指定できます。
+上は`vendor#account_email`と`vendor#account_password`という委譲メソッドを生成します。また、以下のようにカスタムのプレフィックスも指定できます。
 
 ```ruby
 class Vendor < ActiveRecord::Base
@@ -354,30 +354,30 @@ class Vendor < ActiveRecord::Base
 end
 ```
 
-上は`vendor#owner_email` and `vendor#owner_password`という委譲メソッドを生成します。
+上は`vendor#owner_email`および`vendor#owner_password`という委譲メソッドを生成します。
 
 リードコントリビュータ: [Daniel Schierbeck](http://workingwithrails.com/person/5830-daniel-schierbeck)
 
 ### その他のActive Supportの変更
 
-* `ActiveSupport::Multibyte` が大幅に更新されました。Ruby 1.9 との互換性のための修正も含まれます。
-* `ActiveSupport::Rescuable` が追加され、任意のクラスが `rescue_from` 構文にミックスインできるようになりました。
-* `Date` と `Time` クラスに `past?`, `today?`, `future?` が追加され、日付や時間を比較しやすくなりました。
-* `Array#[1]`〜`Array#[4]` までのエイリアスとして `Array#second`〜`Array#fifth` が追加されました。
-* `Enumerable#many?` は `collection.size > 1` をカプセル化したものです。
-* `Inflector#parameterize` は、 入力を URL で利用可能な形に変換します（`to_param` で使われます）。
-* 日数や週数の端数を`1.7.weeks.ago` や `1.5.hours.since` のように認識できるようになりました。
+* `ActiveSupport::Multibyte`が大幅に更新されました。Ruby 1.9との互換性のための修正も含まれます。
+* `ActiveSupport::Rescuable`が追加され、任意のクラスが`rescue_from`構文にミックスインできるようになりました。
+* `Date`と`Time`クラスに`past?`, `today?`, `future?`が追加され、日付や時間を比較しやすくなりました。
+* `Array#[1]`〜`Array#[4]`までのエイリアスとして`Array#second`〜`Array#fifth`が追加されました。
+* `Enumerable#many?`は`collection.size > 1`をカプセル化したものです。
+* `Inflector#parameterize`は、入力をURLで利用可能な形に変換します（`to_param`で使われます）。
+* 日数や週数の端数を`1.7.weeks.ago`や`1.5.hours.since`のように認識できるようになりました。
 * 付属のTzInfoライブラリがバージョン0.3.12にアップグレードされました。
-* `ActiveSupport::StringInquirer` は、文字列が等しいかどうかをスマートにテストする方法を提供します（`ActiveSupport::StringInquirer.new("abc").abc? => true`）。
+* `ActiveSupport::StringInquirer`は、文字列が等しいかどうかをスマートにテストする方法を提供します（`ActiveSupport::StringInquirer.new("abc").abc? => true`）。
 
 Railties
 --------
 
-Railties（Railsのコアコード）で最も大きな変更は、`config.gems` の仕組みです。
+Railties（Railsのコアコード）で最も大きな変更は、`config.gems`の仕組みです。
 
 ### `config.gems`
 
-Railsアプリケーションで必要なすべてのgemsのコピーを `/vendor/gems` に配置可能にすることで、デプロイの問題を回避し、Railsアプリケーションを自己完結性を高められるようになりました。この機能はRails 2.1で初めて登場しましたが、Rails 2.2ではより柔軟で堅牢になり、gems間の複雑な依存関係も扱えるようになりました。RailsのGem管理では以下のコマンドが使えます。
+Railsアプリケーションで必要なすべてのgemsのコピーを`/vendor/gems`に配置可能にすることで、デプロイの問題を回避し、Railsアプリケーションを自己完結性を高められるようになりました。この機能はRails 2.1で初めて登場しましたが、Rails 2.2ではより柔軟で堅牢になり、gems間の複雑な依存関係も扱えるようになりました。RailsのGem管理では以下のコマンドが使えます。
 
 * `config.gem _gem名_`: `config/environment.rb`ファイルに対応するgemを設定
 * `rake gems`: 設定済みのgemをすべて表示する。gem（および依存関係が）インストール済みか、frozenか、フレームワークgemかも表示されます（フレームワークgemは他のgemが実行されるよりも先に読み込まれ、frozenにできない）。
@@ -397,12 +397,12 @@ Railsアプリケーションで必要なすべてのgemsのコピーを `/vendo
 
 ### その他のRailtiesの変更
 
-* [Thin](http://code.macournoyer.com/thin/) Webサーバのファンに朗報です。`script/server` が Thin を直接サポートするようになりました。
-* `script/plugin install &lt;plugin&gt; -r &lt;revision&gt;` が svn ベースのプラグインと同様に git ベースのプラグインでも動作するようになりました。
-* `script/console` で `--debugger` オプションがサポートされました。
+* [Thin](http://code.macournoyer.com/thin/) Webサーバのファンに朗報です。`script/server`がThinを直接サポートするようになりました。
+* `script/plugin install &lt;plugin&gt; -r &lt;revision&gt;`がsvnベースのプラグインと同様にgitベースのプラグインでも動作するようになりました。
+* `script/console`で`--debugger`オプションがサポートされました。
 * Rails自体をビルドするためのCIサーバの設定方法は、Railsのソースコードに含まれています。
-* `rake notes:custom ANNOTATION=MYFLAG` でカスタムアノテーションをリストアップできます。
-* `Rails.env` が `StringInquirer` でラップされ、 `Rails.env.development?` が使えるようになりました。
+* `rake notes:custom ANNOTATION=MYFLAG`でカスタムアノテーションをリストアップできます。
+* `Rails.env`が`StringInquirer`でラップされ、`Rails.env.development?`が使えるようになりました。
 * Railsで非推奨の警告が表示されないようにし、gemの依存性を適切に扱うためには、rubygems 1.3.1以降が必須となりました。
 
 非推奨化されたもの
@@ -421,15 +421,15 @@ Railsアプリケーションで必要なすべてのgemsのコピーを `/vendo
     end
     ```
 
-    以前は、上記のコードで'customer'パーシャル内の `customer` というローカル変数が利用可能でした。現在は、すべての変数を明示的に`:locals`ハッシュで渡す必要があります。
+    以前は、上記のコードで'customer'パーシャル内の`customer`というローカル変数が利用可能でした。現在は、すべての変数を明示的に`:locals`ハッシュで渡す必要があります。
 
-* `country_select`が削除されました。詳細および代替プラグインについては、[http://www.rubyonrails.org/deprecation/list-of-countries](http://www.rubyonrails.org/deprecation/list-of-countries) を参照してください（訳注: このページは現在無効です）。
-* `ActiveRecord::Base.allow_concurrency` は無効になりました。
-* `ActiveRecord::Errors.default_error_messages` は非推奨化されました。`I18n.translate('activerecord.errors.messages')`をお使い下さい。
-* `%s` と `%d` の式展開構文は国際化で非推奨化されました。
-* `String#chars` は非推奨化され、代わりに `String#mb_chars` が採用されました。
+* `country_select`が削除されました。詳細および代替プラグインについては、[http://www.rubyonrails.org/deprecation/list-of-countries](http://www.rubyonrails.org/deprecation/list-of-countries)を参照してください（訳注: このページは現在無効です）。
+* `ActiveRecord::Base.allow_concurrency`は無効になりました。
+* `ActiveRecord::Errors.default_error_messages`は非推奨化されました。`I18n.translate('activerecord.errors.messages')`をお使い下さい。
+* `%s`と`%d`の式展開構文は国際化で非推奨化されました。
+* `String#chars`は非推奨化され、代わりに`String#mb_chars`が採用されました。
 * 小数で表される月や年の長さが非推奨化されました。代わりに、Rubyコアの`Date`クラスや`Time`クラスの演算をお使いください。
-* `Request#relative_url_root` は非推奨化されました。代わりに `ActionController::Base.relative_url_root` をお使いください。
+* `Request#relative_url_root`は非推奨化されました。代わりに`ActionController::Base.relative_url_root`をお使いください。
 
 クレジット表記
 -------

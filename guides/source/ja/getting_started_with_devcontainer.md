@@ -27,7 +27,7 @@ Dockerのインストールが完了したら、Dockerアプリケーション�
 
 ### VS Codeをインストールする
 
-Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeの dev container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてdev containerにアクセス（または作成）する方法をVS Codeに指示します。これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
+Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeのdev container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてdev containerにアクセス（または作成）する方法をVS Codeに指示します。これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
 
 VS Codeは、[公式Webサイト](https://code.visualstudio.com/)からダウンロードしてインストールできます。
 
@@ -44,7 +44,7 @@ dev container拡張機能は、[マーケットプレイス](https://marketplace
 
 Railsにはジェネレーターと呼ばれる多数のスクリプトが付属しており、特定のタスクの作業を開始するのに必要なものをすべて生成することで開発作業を容易にするように設計されています。新規アプリケーションを作成するジェネレーターもその1つで、新しいRailsアプリケーションの基本部分はこのジェネレータが提供するので、自分でアプリケーションを作成する必要はありません。`rails-new`ツールは、新しいRailsアプリケーションを作成するときにこのジェネレーターを利用します。
 
-NOTE: 以下の例では、UNIX系 OSのターミナルプロンプトを`$`で表していますが、環境によっては他のプロンプトが表示されるようにカスタマイズされている可能性もあります。
+NOTE: 以下の例では、UNIX系OSのターミナルプロンプトを`$`で表していますが、環境によっては他のプロンプトが表示されるようにカスタマイズされている可能性もあります。
 
 `rails-new`でアプリを生成するには、ターミナルを開き、ファイルを作成する権限があるディレクトリに移動して、以下のコマンドを実行します。
 

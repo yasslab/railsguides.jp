@@ -94,10 +94,10 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:action`     | アクション                                                  |
 | `:request`    | [`ActionDispatch::Request`][]オブジェクト                   |
 | `:params`     | リクエストパラメータのハッシュ（フィルタされたパラメータは含まない）   |
-| `:headers`    | リクエスト ヘッダー                                           |
-| `:format`     | html/js/json/xml など                                      |
-| `:method`     | HTTP リクエストメソッド（verb）                               |
-| `:path`       | リクエスト パス                                              |
+| `:headers`    | リクエストヘッダー                                           |
+| `:format`     | html/js/json/xmlなど                                      |
+| `:method`     | HTTPリクエストメソッド（verb）                               |
+| `:path`       | リクエストパス                                              |
 
 ```ruby
 {
@@ -118,13 +118,13 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:controller` | コントローラ名                                                 |
 | `:action`     | アクション                                                    |
 | `:params`     | リクエストパラメータのハッシュ（フィルタされたパラメータは含まない）     |
-| `:headers`    | リクエスト ヘッダー                                            |
-| `:format`     | html/js/json/xml など                                       |
-| `:method`     | HTTP リクエストメソッド（verb）                                 |
-| `:path`       | リクエスト パス                                               |
+| `:headers`    | リクエストヘッダー                                            |
+| `:format`     | html/js/json/xmlなど                                       |
+| `:method`     | HTTPリクエストメソッド（verb）                                 |
+| `:path`       | リクエストパス                                               |
 | `:request`      | [`ActionDispatch::Request`][]オブジェクト                   |
 | `:response`     | [`ActionDispatch::Response`][]オブジェクト                  |
-| `:status`       | HTTP ステータスコード                                        |
+| `:status`       | HTTPステータスコード                                        |
 | `:view_runtime` | ビューでかかった合計時間（ms）                                 |
 | `:db_runtime`   | データベースへのクエリ実行にかかった時間（ms）                    |
 
@@ -161,7 +161,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 
 | キー         | 値                                      |
 | ----------- | --------------------------------------- |
-| `:status`   | HTTP レスポンス コード                     |
+| `:status`   | HTTPレスポンスコード                     |
 | `:location` | リダイレクト先URL                          |
 | `:request`  | [`ActionDispatch::Request`][]オブジェクト |
 
@@ -641,7 +641,7 @@ end
 
 #### `cache_delete_matched.active_support`
 
-このイベントは、[`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore]、 [`FileStore`][ActiveSupport::Cache::FileStore]、または[`MemoryStore`][ActiveSupport::Cache::MemoryStore]を使った場合にのみ発火します。
+このイベントは、[`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore]、[`FileStore`][ActiveSupport::Cache::FileStore]、または[`MemoryStore`][ActiveSupport::Cache::MemoryStore]を使った場合にのみ発火します。
 
 | キー      | 値                    |
 | -------- | --------------------- |

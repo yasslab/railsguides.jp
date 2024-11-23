@@ -382,7 +382,7 @@ SELECT n.nspname AS enum_schema,
 * [pgcryptoのジェネレータ関数][pgcrypto]
 * [uuid-osspのジェネレータ関数][uuid_ossp]
 
-NOTE: バージョン13.0より前のPostgreSQLを使っている場合は、UUIDを利用するために特別な拡張機能を有効にする必要が生じる場合があります。`pgcrypto`拡張機能（PostgreSQL 9.4以上）または`uuid-ossp`拡張機能 (それ以前のバージョン) を有効にしてください。
+NOTE: バージョン13.0より前のPostgreSQLを使っている場合は、UUIDを利用するために特別な拡張機能を有効にする必要が生じる場合があります。`pgcrypto`拡張機能（PostgreSQL 9.4以上）または`uuid-ossp`拡張機能（それ以前のバージョン）を有効にしてください。
 
 ```ruby
 # db/migrate/20131220144913_create_revisions.rb
