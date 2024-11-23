@@ -163,10 +163,10 @@ Railties
 
 ### 非推奨
 
-*   `config.static_cache_control`を廃止。今後は`config.public_file_server.headers`を使用。
+*   `config.static_cache_control`を廃止。今後は`config.public_file_server.headers`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/22173))
 
-*  `config.serve_static_files`を廃止。今後は`config.public_file_server.enabled`を使用。
+*  `config.serve_static_files`を廃止。今後は`config.public_file_server.enabled`を
     ([Pull Request](https://github.com/rails/rails/pull/22173))
 
 *   `rails`タスク名前空間のタスクを削除。今後は`app`名前空間が使われる。
@@ -207,7 +207,7 @@ Railties
 *   新しいアプリケーションでは、IncludeSudomainsヘッダのHSTS（HTTP Strict Transport Security）がデフォルトで有効になる。
     ([Pull Request](https://github.com/rails/rails/pull/23852))
 
-*   アプリケーション ジェネレータから、新しく`config/spring.rb`ファイルが出力される。これを使用してSpringの監視対象となる共通ファイルを追加できる。
+*   アプリケーション ジェネレータから、新しく`config/spring.rb`ファイルが出力される。これを用いてSpringの監視対象となる共通ファイルを追加できる。
     ([commit](https://github.com/rails/rails/commit/b04d07337fd7bc17e88500e9d6bcd361885a45f8))
 
 *  新規アプリケーション生成時にAction Mailerをスキップする`--skip-action-mailer` を追加。
@@ -216,7 +216,7 @@ Railties
 *   `tmp/sessions`ディレクトリと、これに関連するclear rakeタスクを削除。
     ([Pull Request](https://github.com/rails/rails/pull/18314))
 
-*   scaffoldジェネレータで生成する`_form.html.erb`を、ローカル変数を使用するように変更。
+*   scaffoldジェネレータで生成する`_form.html.erb`を、ローカル変数を使うように変更。
     ([Pull Request](https://github.com/rails/rails/pull/13434))
 
 *   production環境でクラスの自動読み込みを無効化。
@@ -270,13 +270,13 @@ Action Pack
 
 ### 非推奨
 
-*   `*_filter`コールバックをすべて非推奨に指定。今後は`*_action`コールバックを使用。
+*   `*_filter`コールバックをすべて非推奨に指定。今後は`*_action`コールバックを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/18410))
 
 *   結合テストメソッド`*_via_redirect`を非推奨に指定。今後同じ動作が必要な場合は、はリクエストの呼出し後に `follow_redirect!`を手動で実行すること。
     ([Pull Request](https://github.com/rails/rails/pull/18693))
 
-*  `AbstractController#skip_action_callback`を非推奨に指定。今後は個別のskip_callbackメソッドを使用。
+*  `AbstractController#skip_action_callback`を非推奨に指定。今後は個別のskip_callbackメソッドを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/19060))
 
 *  `render`メソッドの`:nothing`オプションを非推奨に指定。
@@ -291,10 +291,10 @@ Action Pack
 *  MIMEタイプを定数として利用することを非推奨に指定（`Mime::HTML`など）。今後は「`Mime[:html]`」のように添字演算子内でシンボルを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/21869))
 
-*  `redirect_to :back`を非推奨に指定。今後は`RedirectBackError`を避けるために、`redirect_back`を使用して必須の`fallback_location`引数を受け取ること。
+*  `redirect_to :back`を非推奨に指定。今後は`RedirectBackError`を避けるために、`redirect_back`を使って必須の`fallback_location`引数を受け取ること。
     ([Pull Request](https://github.com/rails/rails/pull/22506))
 
-*   `ActionDispatch::IntegrationTest`と`ActionController::TestCase`で位置引数（positional argument）を非推奨に指定。今後はキーワード引数を使用。([Pull Request](https://github.com/rails/rails/pull/18323))
+*   `ActionDispatch::IntegrationTest`と`ActionController::TestCase`で位置引数（positional argument）を非推奨に指定。今後はキーワード引数を使うこと。([Pull Request](https://github.com/rails/rails/pull/18323))
 
 *  パスパラメータ`:controller`と`:action`を非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/23980))
@@ -302,7 +302,7 @@ Action Pack
 *   コントローラのインスタンスでのenvメソッドを非推奨に指定。
     ([commit](https://github.com/rails/rails/commit/05934d24aff62d66fc62621aa38dae6456e276be))
 
-*   `ActionDispatch::ParamsParser`を非推奨に指定し、ミドルウェアスタックから削除。今後パラメーターパーサーの構成が必要な場合は`ActionDispatch::Request.parameter_parsers=`を使用。
+*   `ActionDispatch::ParamsParser`を非推奨に指定し、ミドルウェアスタックから削除。今後パラメーターパーサーの構成が必要な場合は`ActionDispatch::Request.parameter_parsers=`を使うこと。
     ([commit](https://github.com/rails/rails/commit/38d2bf5fd1f3e014f2397898d371c339baa627b1), [commit](https://github.com/rails/rails/commit/5ed38014811d4ce6d6f957510b9153938370173b))
 
 ### 主な変更点
@@ -340,7 +340,7 @@ Action Pack
 *   `protect_from_forgery`のprependのデフォルトを`false`に変更。
     ([commit](https://github.com/rails/rails/commit/39794037817703575c35a75f1961b01b83791191))
 
-*   `ActionController::TestCase`はRails 5.1で専用gemに移行する予定。今後は`ActionDispatch::IntegrationTest`を使用。
+*   `ActionController::TestCase`はRails 5.1で専用gemに移行する予定。今後は`ActionDispatch::IntegrationTest`を使うこと。
     ([commit](https://github.com/rails/rails/commit/4414c5d1795e815b102571425974a8b1d46d932d))
 
 *   Railsで生成するETagを「強い」ものから「弱い」ものに変更。
@@ -470,7 +470,7 @@ Active Record
 *  非推奨の`ActiveRecord::Base.disable_implicit_join_references=`を削除。
     ([commit](https://github.com/rails/rails/commit/0fbd1fc888ffb8cbe1191193bf86933110693dfc))
 
-*  文字列アクセサによる接続使用へのアクセス（非推奨）を削除。
+*  文字列アクセサによるコネクション利用へのアクセス（非推奨）を削除。
     ([commit](https://github.com/rails/rails/commit/efdc20f36ccc37afbb2705eb9acca76dd8aabd4f))
 
 *  インスタンスに依存するプリロード（非推奨）のサポートを削除。
@@ -485,7 +485,7 @@ Active Record
 
 *  `ActiveRecord::Serialization::XmlSerializer`をコアから削除。この機能は[activemodel-serializers-xml](https://github.com/rails/activemodel-serializers-xml) gemに移行済み。([Pull Request](https://github.com/rails/rails/pull/21161))
 
-*  古い`mysql`データベースアダプタのサポートをコアから削除。今後は原則として`mysql2`を使用。今後古いアダプタのメンテナンス担当者が決まった場合、アダプタは別のgemに切り出される予定。([Pull Request 1](https://github.com/rails/rails/pull/22642)], [Pull Request 2](https://github.com/rails/rails/pull/22715))
+*  古い`mysql`データベースアダプタのサポートをコアから削除。今後は原則として`mysql2`を使うこと。今後古いアダプタのメンテナンス担当者が決まった場合、アダプタは別のgemに切り出される予定。([Pull Request 1](https://github.com/rails/rails/pull/22642)], [Pull Request 2](https://github.com/rails/rails/pull/22715))
 
 * `protected_attributes` gem のサポートを終了。
     ([commit](https://github.com/rails/rails/commit/f4fbc0301021f13ae05c8e941c8efc4ae351fdf9))
@@ -505,22 +505,22 @@ Active Record
 *  `ActiveRecord::Base.errors_in_transactional_callbacks=`を非推奨に指定。
     ([commit](https://github.com/rails/rails/commit/07d3d402341e81ada0214f2cb2be1da69eadfe72))
 
-*   `Relation#uniq`を非推奨に指定。今後は`Relation#distinct`を使用。
+*   `Relation#uniq`を非推奨に指定。今後は`Relation#distinct`を使うこと。
     ([commit](https://github.com/rails/rails/commit/adfab2dcf4003ca564d78d4425566dd2d9cd8b4f))
 
-*   PostgreSQLの`:point` typeを非推奨に指定。今後は`Array`ではなく`Point`オブジェクトを返す新しいtypeを使用。
+*   PostgreSQLの`:point` typeを非推奨に指定。今後は`Array`ではなく`Point`オブジェクトを返す新しいtypeを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/20448))
 
 *   trueになる引数を関連付け用メソッドに渡して関連付けを強制的に再読み込みする手法を非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/20888))
 
-*   関連付け`restrict_dependent_destroy`エラーのキーを非推奨に指定。今後は新しいキー名を使用。
+*   関連付け`restrict_dependent_destroy`エラーのキーを非推奨に指定。今後は新しいキー名を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/20668))
 
 *   `#tables`の動作を統一。
     ([Pull Request](https://github.com/rails/rails/pull/21601))
 
-*   `SchemaCache#tables`、`SchemaCache#table_exists?`、`SchemaCache#clear_table_cache!`を非推奨に指定。今後は新しい同等のデータソースを使用。
+*   `SchemaCache#tables`、`SchemaCache#table_exists?`、`SchemaCache#clear_table_cache!`を非推奨に指定。今後は新しい同等のデータソースを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/21715))
 
 *   SQLite3アダプタとMySQLアダプタの`connection.tables`を非推奨に指定。
@@ -532,14 +532,14 @@ Active Record
 *   `table_exists?`を非推奨に指定。`#table_exists?`メソッドでテーブルとビューが両方チェックされていることがあるため。`#tables`の動作を統一するため、今後`#table_exists?`はテーブルのみをチェックするようになる予定。
     ([Pull Request](https://github.com/rails/rails/pull/21601))
 
-*   `find_nth`に`offset`を引数として渡すことを非推奨に指定。今後リレーションでは`offset`メソッドを使用。
+*   `find_nth`に`offset`を引数として渡すことを非推奨に指定。今後リレーションでは`offset`メソッドを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/22053))
 
 *   `DatabaseStatements`の`{insert|update|delete}_sql`を非推奨に指定。
-   今後は`{insert|update|delete}`パブリックメソッドを使用。
+   今後は`{insert|update|delete}`パブリックメソッドを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/23086))
 
-*   `use_transactional_fixtures`を非推奨に指定。今後はより明瞭な`use_transactional_tests`を使用。
+*   `use_transactional_fixtures`を非推奨に指定。今後はより明瞭な`use_transactional_tests`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/19282))
 
 *  `ActiveRecord::Connection#quote`にカラムを渡すことを非推奨に指定。
@@ -584,7 +584,7 @@ Active Record
 *   `ActiveRecord::Base.suppress`を追加。指定のブロックを実行中にレシーバーが保存されないようにする。
     ([Pull Request](https://github.com/rails/rails/pull/18910))
 
-*   関連付けが存在しない場合、`belongs_to`でバリデーションエラーが発生するようになった。この機能は関連付けごとに`optional: true`でオフにできる。また、`belongs_to`の`required`オプションも非推奨に指定。今後は`optional`を使用。
+*   関連付けが存在しない場合、`belongs_to`でバリデーションエラーが発生するようになった。この機能は関連付けごとに`optional: true`でオフにできる。また、`belongs_to`の`required`オプションも非推奨に指定。今後は`optional`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/18937))
 
 *  `db:structure:dump`の動作を設定する`config.active_record.dump_schemas`を追加。
@@ -640,7 +640,7 @@ config/database.ymlに`prepared_statements: true`と記述することでプリ�
 *  `ActiveRecord::Relation#update`を追加。リレーションオブジェクトに対して、そのリレーションにあるすべてのオブジェクトのコールバックでバリデーション（検証）を実行できる。
     ([Pull Request](https://github.com/rails/rails/pull/11898))
 
-*  `save`メソッドに`:touch`オプションを追加。タイムスタンプを変更せずにレコードを保存する場合に使用。
+*  `save`メソッドに`:touch`オプションを追加。タイムスタンプを変更せずにレコードを保存する場合に使える。
     ([Pull Request](https://github.com/rails/rails/pull/18225))
 
 *  PostgreSQL向けに式インデックスと演算子クラスのサポートを追加。
@@ -658,7 +658,7 @@ config/database.ymlに`prepared_statements: true`と記述することでプリ�
 *  `foreign_key_exists?`メソッドを追加。テーブルに外部キーが存在するかどうかを確認できる。
     ([Pull Request](https://github.com/rails/rails/pull/18662))
 
-*  `touch`メソッドに`:time`オプションを追加。レコードに現在時刻以外の時刻を指定する場合に使用。
+*  `touch`メソッドに`:time`オプションを追加。レコードに現在時刻以外の時刻を指定する場合に使える。
     ([Pull Request](https://github.com/rails/rails/pull/18956))
 
 Active Model
@@ -684,7 +684,7 @@ Active Model
 *  `ActiveModel::Errors#get`、`ActiveModel::Errors#set`、`ActiveModel::Errors#[]=`メソッドの動作が一貫していないため、非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/18634))
 
-*  `validates_length_of`の`:tokenizer`オプションを非推奨に指定。今後はRubyの純粋な機能を使用。
+*  `validates_length_of`の`:tokenizer`オプションを非推奨に指定。今後はRubyの純粋な機能を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/19585))
 
 *  `ActiveModel::Errors#add_on_empty`と`ActiveModel::Errors#add_on_blank`を非推奨に指定。置き換え先の機能はなし。
@@ -758,10 +758,10 @@ Active Support
     ([commit](https://github.com/rails/rails/commit/a3ce6ca30ed0e77496c63781af596b149687b6d7))
 
 *  非推奨の`Class#superclass_delegating_accessor`を削除。
-   今後は`Class#class_attribute`を使用。
+   今後は`Class#class_attribute`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/16938))
 
-*  非推奨の`ThreadSafe::Cache`を削除。今後は`Concurrent::Map`を使用。
+*  非推奨の`ThreadSafe::Cache`を削除。今後は`Concurrent::Map`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/21679))
 
 *  Ruby 2.2 で既に実装されている`Object#itself`を削除。
@@ -769,34 +769,34 @@ Active Support
 
 ### 非推奨
 
-*  `MissingSourceFile`を非推奨に指定。今後は`LoadError`を使用。
+*  `MissingSourceFile`を非推奨に指定。今後は`LoadError`を使うこと。
     ([commit](https://github.com/rails/rails/commit/734d97d2))
 
-*  `alias_method_chain`を非推奨に指定。今後はRuby 2.0 で導入された`Module#prepend`を使用。
+*  `alias_method_chain`を非推奨に指定。今後はRuby 2.0 で導入された`Module#prepend`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/19434))
 
-*  `ActiveSupport::Concurrency::Latch`を非推奨に指定。今後はconcurrent-rubyの`Concurrent::CountDownLatch`を使用。
+*  `ActiveSupport::Concurrency::Latch`を非推奨に指定。今後はconcurrent-rubyの`Concurrent::CountDownLatch`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/20866))
 
 *  `number_to_human_size`の`:prefix`オプションを非推奨に指定。置き換え先はなし。
     ([Pull Request](https://github.com/rails/rails/pull/21191))
 
-*  `Module#qualified_const_`を非推奨に指定。今後はビルトインの`Module#const_`メソッドを使用。
+*  `Module#qualified_const_`を非推奨に指定。今後はビルトインの`Module#const_`メソッドを使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/17845))
 
 *  コールバック定義に文字列を渡すことを非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/22598))
 
 *  `ActiveSupport::Cache::Store#namespaced_key`、`ActiveSupport::Cache::MemCachedStore#escape_key`、`ActiveSupport::Cache::FileStore#key_file_path`を非推奨に指定。
-   今後は`normalize_key`を使用。([Pull Request](https://github.com/rails/rails/pull/22215)、[commit](https://github.com/rails/rails/commit/a8f773b0))
+   今後は`normalize_key`を使うこと。([Pull Request](https://github.com/rails/rails/pull/22215)、[commit](https://github.com/rails/rails/commit/a8f773b0))
 
-*   `ActiveSupport::Cache::LocaleCache#set_cache_value`を非推奨に指定。今後は`write_cache_value`を使用。
+*   `ActiveSupport::Cache::LocaleCache#set_cache_value`を非推奨に指定。今後は`write_cache_value`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/22215))
 
 *  `assert_nothing_raised`に引数を渡すことを非推奨に指定。
     ([Pull Request](https://github.com/rails/rails/pull/23789))
 
-*  `Module.local_constants`を非推奨に指定。今後は`Module.constants(false)`を使用。
+*  `Module.local_constants`を非推奨に指定。今後は`Module.constants(false)`を使うこと。
     ([Pull Request](https://github.com/rails/rails/pull/23936))
 
 

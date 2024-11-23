@@ -27,7 +27,7 @@ Rails 4.2へのアップグレード
 
 Active Jobとは、Rails 4.2から採用された新しいフレームワークです。Active Jobは、[Resque](https://github.com/resque/resque)、[Delayed Job](https://github.com/collectiveidea/delayed_job)、[Sidekiq](https://github.com/mperham/sidekiq)など、さまざまなクエリシステムの最上位に位置するものです。
 
-Active Job APIを使用して記述されたジョブは、Active Jobがサポートするどのクエリシステムでもアダプタを介して実行できます。Active Jobは、ジョブを直ちに実行できるインラインランナー (inline runner) として最初から構成済みです。
+Active Job APIで記述されたジョブは、Active Jobがサポートするどのクエリシステムでもアダプタを介して実行できます。Active Jobは、ジョブを直ちに実行できるインラインランナー (inline runner) として最初から構成済みです。
 
 ジョブの引数にActive Recordオブジェクトを与えたくなることはよくあります。Active Jobでは、オブジェクト参照をURI (uniform resource identifiers) として渡します。オブジェクト自身をマーシャリングしません。このURIは、Railsに新しく導入された[Global ID](https://github.com/rails/globalid)ライブラリによって生成され、ジョブはこれを元にオブジェクトを参照します。Active Recordオブジェクトをジョブの引数として渡すと、内部的には単にGlobal IDが渡されます。
 
@@ -45,9 +45,9 @@ end
 
 ### メールの非同期処理
 
-今回のリリースで、Action MailerはActive Jobの最上位に配置され、`deliver_later`メソッドを使用してジョブキューからメールを送信できるようになりました。これにより、キューを非同期 (asynchronous) に設定すればコントローラやモデルの動作がキューによってブロックされなくなりました (ただしデフォルトのインラインキューではコントローラやモデルの動作はブロックされます)。
+今回のリリースで、Action MailerはActive Jobの最上位に配置され、`deliver_later`メソッドを用いてジョブキューからメールを送信可能になりました。これにより、キューを非同期 (asynchronous) に設定すればコントローラやモデルの動作がキューによってブロックされなくなりました (ただしデフォルトのインラインキューではコントローラやモデルの動作はブロックされます)。
 
-`deliver_now`メソッドを使用すれば、メールを直ちに送信できます。
+`deliver_now`メソッドを使うと、メールを直ちに送信できます。
 
 ### Adequate Record
 
@@ -70,10 +70,10 @@ post.comments(true)
 
 上の例で、メソッド呼び出しで渡された値そのものは準備済みSQL文のキャッシュに含まれていない点にご注目ください。全体をキャッシュしているのではなく、キャッシュされたSQL文が値のプレースホルダーとなっており、値だけ差し替えられている点が重要です。
 
-以下のような場合にはキャッシュは使用されません。
+以下のような場合にはキャッシュは使われません。
 
 - モデルにデフォルトスコープが設定されている
-- モデルで単一テーブル継承 (STI) が使用されている
+- モデルで単一テーブル継承 (STI) が使われている
 - `find`で (単一のidではなく) idのリストを検索する。例:
 
 ```ruby
@@ -82,7 +82,7 @@ post.comments(true)
   Post.find([1,2])
 ```
 
-- `find_by`でSQLフラグメントを使用している
+- `find_by`でSQLフラグメントが使われている
 
 ```ruby
   Post.find_by('published_at < ?', 2.weeks.ago)
@@ -129,7 +129,7 @@ remove_foreign_key :accounts, column: :owner_id
 
 ### `respond_with`とクラスレベルの`respond_to`の扱いについて
 
-`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使用したい場合は、`Gemfile`に`gem "responders", "~> 2.0"`を追記してください。
+`respond_with`と、これに対応するクラスレベルの`respond_to`は[responders](https://github.com/plataformatec/responders) gemに移動されました。この機能を使いたい場合は、`Gemfile`に`gem "responders", "~> 2.0"`を追記してください。
 
 ```ruby
 # app/controllers/users_controller.rb
@@ -186,7 +186,7 @@ HTMLサニタイザは[Loofah](https://github.com/flavorjones/loofah)と
 ### `assert_select`
 
 `assert_select`は[Nokogiri](https://github.com/sparklemotion/nokogiri)ベースで実装されました。
-これにより、以前は有効であったセレクタの一部がサポートされなくなりました。アプリケーションでこれらを使用している場合は、アプリケーションを変更する必要があります。
+これにより、以前は有効であったセレクタの一部がサポートされなくなりました。アプリケーションでこれらを使っている場合は、アプリケーションを変更する必要があります。
 
 *   属性セレクタの値に英文字以外の文字が含まれる場合は、値を引用符で囲む必要が生じることがあります
 
@@ -269,7 +269,7 @@ Railties
 *   モデル関連付けをおこなうジェネレータに`required`オプションが追加されました。
     ([Pull Request](https://github.com/rails/rails/pull/16062))
 
-*   カスタム設定オプションを定義する時に使用する`x`名前空間が導入されました。
+*   カスタム設定オプションを定義する時に利用できる`x`名前空間が導入されました。
 
     ```ruby
     # config/environments/production.rb
@@ -278,7 +278,7 @@ Railties
     config.x.super_debugger              = true
     ```
 
-    これらのオプションは、以下のようにconfigurationオブジェクト全体で使用できます。
+    これらのオプションは、以下のようにconfigurationオブジェクト全体で利用できます。
 
     ```ruby
     Rails.configuration.x.payment_processing.schedule # => :daily
@@ -319,7 +319,7 @@ development:
 *   `rake notes`に新しい拡張子を登録するためのAPIが導入されました。
     ([Pull Request](https://github.com/rails/rails/pull/14379))
 
-*   Railsテンプレートで使用する`after_bundle`コールバックが導入されました。
+*   Railsテンプレートで使う`after_bundle`コールバックが導入されました。
     ([Pull Request](https://github.com/rails/rails/pull/16359))
 
 *   `Rails.gem_version`メソッドが導入されました。これは`Gem::Version.new(Rails.version)`を簡単に得るためのものです。
@@ -337,15 +337,15 @@ Action Pack
 Gemfileに`gem "responders", "~> 2.0"`を追加してください。
     ([Pull Request](https://github.com/rails/rails/pull/16526)、[詳細](upgrading_ruby_on_rails.html#responders-gem))
 
-*   非推奨の`AbstractController::Helpers::ClassMethods::MissingHelperError`が削除されました。今後は`AbstractController::Helpers::MissingHelperError`を使用してください。
+*   非推奨の`AbstractController::Helpers::ClassMethods::MissingHelperError`が削除されました。今後は`AbstractController::Helpers::MissingHelperError`をお使いください。
     ([Commit](https://github.com/rails/rails/commit/a1ddde15ae0d612ff2973de9cf768ed701b594e8))
 
 ### 非推奨
 
-*   `*_path`ヘルパーで`only_path`オプションを使用することが非推奨になりました。
+*   `*_path`ヘルパーで`only_path`オプションを利用することが非推奨になりました。
     ([Commit](https://github.com/rails/rails/commit/aa1fadd48fb40dd9396a383696134a259aa59db9))
 
-*   `assert_tag`、`assert_no_tag`、`find_tag`、`find_all_tag`が非推奨になりました。今後は`assert_select`を使用してください。
+*   `assert_tag`、`assert_no_tag`、`find_tag`、`find_all_tag`が非推奨になりました。今後は`assert_select`をお使いください。
     ([Commit](https://github.com/rails/rails-dom-testing/commit/b12850bc5ff23ba4b599bf2770874dd4f11bf750))
 
 *   ルーティングの`:to`オプションで、`#`という文字を含まないシンボルや文字列のサポートが非推奨になりました。
@@ -359,7 +359,7 @@ Gemfileに`gem "responders", "~> 2.0"`を追加してください。
 
     ([Commit](https://github.com/rails/rails/commit/cc26b6b7bccf0eea2e2c1a9ebdcc9d30ca7390d9))
 
-*   URLヘルパー内において、ハッシュのキーに文字列を使用することが非推奨になりました。例:
+*   URLヘルパー内において、ハッシュのキーに文字列を使うことが非推奨になりました。例:
 
     ```ruby
     # 良くない例
@@ -373,7 +373,7 @@ Gemfileに`gem "responders", "~> 2.0"`を追加してください。
 
 ### 主な変更点
 
-*   `*_filter`に関するメソッド群をドキュメントから削除しました。これらのメソッドの使用は推奨されていません。今後は`*_action`を使用するようにしてください。
+*   `*_filter`に関するメソッド群をドキュメントから削除しました。これらのメソッドの利用は推奨されていません。今後は`*_action`をお使いください。
 
     ```
     after_filter          => after_action
@@ -403,7 +403,7 @@ Gemfileに`gem "responders", "~> 2.0"`を追加してください。
 
 *   URLヘルパーに渡されるセグメントが自動的にエスケープされるようになりました。([Commit](https://github.com/rails/rails/commit/5460591f0226a9d248b7b4f89186bd5553e7768f))
 
-*   グローバルに使用してよいパラメータを指定するための`always_permitted_parameters`が導入されました。この設定のデフォルト値は`['controller', 'action']`です。
+*   グローバルに使ってよいパラメータを指定するための`always_permitted_parameters`が導入されました。この設定のデフォルト値は`['controller', 'action']`です。
     ([Pull Request](https://github.com/rails/rails/pull/15933))
 
 *   [RFC 4791](https://tools.ietf.org/html/rfc4791)に基づいた`MKCALENDAR`というHTTPメソッドを追加しました。
@@ -453,7 +453,7 @@ Action View
 *   フォームヘルパーが変更され、インラインCSSを持つ`<div>`要素が隠しフィールドの周辺で生成されなくなりました。
     ([Pull Request](https://github.com/rails/rails/pull/14738))
 
-*   `#{partial_name}_iteration`という特殊なローカル変数が導入されました。このローカル変数は、コレクションのレンダリング時にパーシャルを使用します。これにより、`#index`や`#size`、`#first?`や`last?`メソッドを使って現在のイテレート中の状態にアクセスできるようになりました。
+*   `#{partial_name}_iteration`という特殊なローカル変数が導入されました。このローカル変数は、コレクションのレンダリング時にパーシャルを使います。これにより、`#index`や`#size`、`#first?`や`last?`メソッドを使って現在のイテレート中の状態にアクセスできるようになりました。
     ([Pull Request](https://github.com/rails/rails/pull/7698))
 
 *   プレースホルダの国際化 (I18n) が`label`の国際化と同じルールに従うようになりました。
@@ -467,10 +467,10 @@ Action Mailer
 
 ### 非推奨
 
-*   Action Mailerの`*_path`ヘルパーが非推奨になりました。今後は必ず`*_url`ヘルパーを使用してください。
+*   Action Mailerの`*_path`ヘルパーが非推奨になりました。今後は必ず`*_url`ヘルパーをお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/15840))
 
-*   `deliver` や`deliver!`が非推奨になりました。今後は`deliver_now`や`deliver_now!`を使用してください。
+*   `deliver` や`deliver!`が非推奨になりました。今後は`deliver_now`や`deliver_now!`をお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/16582))
 
 ### 主な変更点
@@ -498,7 +498,7 @@ Active Record
 *   非推奨の`ActiveRecord::Base.quoted_locking_column`メソッドが削除されました。
     ([Pull Request](https://github.com/rails/rails/pull/15612))
 
-*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代わりに使用してください。
+*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代わりにお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/15512))
 
 *   未使用の`:timestamp`タイプが削除されました。今後は常に透過的に`:datetime`にエイリアスされるようになります。これにより、XMLシリアライズなどでカラムの種類がActive Recordの外に送信された場合の不整合が修正されます。
@@ -520,13 +520,13 @@ Active Record
     現時点における、開始値を増分 (increment) する解決方法は正しくないため、非推奨になりました。増分の方法が不明なサブタイプ (例: `#succ`は増分方法が未定義) については、開始値を除外する範囲指定によって`ArgumentError`が発生します。
     ([Commit](https://github.com/rails/rails/commit/91949e48cf41af9f3e4ffba3e5eecf9b0a08bfc3))
 
-*   接続が行われていない状態での`DatabaseTasks.load_schema`の呼び出しが非推奨になりました。今後は`DatabaseTasks.load_schema_current`を使用してください。
+*   接続が行われていない状態での`DatabaseTasks.load_schema`の呼び出しが非推奨になりました。今後は`DatabaseTasks.load_schema_current`をお使いください。
     ([Commit](https://github.com/rails/rails/commit/f15cef67f75e4b52fd45655d7c6ab6b35623c608))
 
-*   Replacementを使わずに`sanitize_sql_hash_for_conditions`を使用することが非推奨になりました。クエリを発行したり更新する際には`Relation`を使用することが、推奨APIとなります。
+*   Replacementを使わずに`sanitize_sql_hash_for_conditions`を使うことが非推奨になりました。クエリを発行したり更新する際には`Relation`を使うことが、推奨APIとなります。
     ([Commit](https://github.com/rails/rails/commit/d5902c9e))
 
-*   `:null`オプションを渡さずに`add_timestamps`や`t.timestamps`を使用することが非推奨になりました。現在の初期値は`null: true`ですが、 Rails 5では`null: false`に変更される予定です。
+*   `:null`オプションを渡さずに`add_timestamps`や`t.timestamps`を使うことが非推奨になりました。現在の初期値は`null: true`ですが、 Rails 5では`null: false`に変更される予定です。
     ([Pull Request](https://github.com/rails/rails/pull/16481))
 
 *   `Reflection#source_macro`が非推奨になりました。今後Active Recordでの必要性がなくなったため、代替はありません。
@@ -576,7 +576,7 @@ Active Record
 *   PostgreSQLアダプターでユーザ定義のRangeタイプがサポートされました。
     ([Commit](https://github.com/rails/rails/commit/4cb47167e747e8f9dc12b0ddaf82bdb68c03e032))
 
-*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代わりに`sqlite3:some/path`のような表記を使用してください
+*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代わりに`sqlite3:some/path`のような表記をお使いください
 (従来`sqlite3:///some/path`は`some/path`のような相対パスで解決されていましたが、これはRails 4.1で非推奨となっていました)。
     ([Pull Request](https://github.com/rails/rails/pull/14569))
 
@@ -606,10 +606,10 @@ Active Model
 
 ### 非推奨
 
-*   `reset_#{attribute}`が非推奨になりました。今後は`restore_#{attribute}`を使用してください。
+*   `reset_#{attribute}`が非推奨になりました。今後は`restore_#{attribute}`をお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/16180))
 
-*   `ActiveModel::Dirty#reset_changes`が非推奨になりました。今後は`clear_changes_information`を使用してください。
+*   `ActiveModel::Dirty#reset_changes`が非推奨になりました。今後は`clear_changes_information`をお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/16180))
 
 ### 主な変更点
@@ -644,7 +644,7 @@ Active Support
 *   `Kernel#silence_stderr`、`Kernel#capture`、`Kernel#quietly`が非推奨になりました。代替はありません。
     ([Pull Request](https://github.com/rails/rails/pull/13392))
 
-*   `Class#superclass_delegating_accessor`が非推奨になりました。今後は`Class#class_attribute`を使用してください。
+*   `Class#superclass_delegating_accessor`が非推奨になりました。今後は`Class#class_attribute`をお使いください。
     ([Pull Request](https://github.com/rails/rails/pull/14271))
 
 *   `ActiveSupport::SafeBuffer#prepend!` が非推奨となりました。現在は `ActiveSupport::SafeBuffer#prepend` が同様の振る舞いをします。
