@@ -345,7 +345,7 @@ create_table :products do |t|
 end
 ```
 
-上のマイグレーションによって`category_id`カラムが作成されます。以下のように、`belongs_to`の代わりに`references`をエイリアスとして使うことも可能です。
+上のマイグレーションによって`category_id`カラムが作成されます。以下のように、`references`の代わりに`belongs_to`をエイリアスとして使うことも可能です。
 
 ```ruby
 create_table :products do |t|
