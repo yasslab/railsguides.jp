@@ -904,7 +904,7 @@ Railsはデフォルトで、`test/fixtures`フォルダにあるすべてのフ
 2. フィクスチャのデータをテーブルに読み込む
 3. フィクスチャに直接アクセスしたい場合はフィクスチャのデータをメソッドにダンプする
 
-TIP: Railsでは、データベースから既存のデータベースを削除するために外部キーやチェック制約といった参照整合性（referential integrity）トリガを無効にしようとします。テスト実行時のパーミッションエラーが発生して困っている場合は、test環境のデータベースユーザーがこれらのトリガを無効にする特権を持っていることをご確認ください（PostgreSQLの場合、すべてのトリガを無効にできるのはsuperuserのみです。PostgreSQLのパーミッションについて詳しくは[こちらの記事](https://www.postgresql.jp/document/current/html/sql-altertable.html)を参照してください）。
+TIP: Railsでは、データベースから既存のデータベースを削除するために外部キーやチェック制約といった参照整合性（referential integrity）トリガーを無効にしようとします。テスト実行時のパーミッションエラーが発生して困っている場合は、test環境のデータベースユーザーがこれらのトリガーを無効にする特権を持っていることをご確認ください（PostgreSQLの場合、すべてのトリガーを無効にできるのはsuperuserのみです。PostgreSQLのパーミッションについて詳しくは[こちらの記事](https://www.postgresql.jp/document/current/html/sql-altertable.html)を参照してください）。
 
 #### フィクスチャはActive Recordオブジェクト
 
