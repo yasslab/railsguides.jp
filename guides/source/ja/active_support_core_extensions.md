@@ -1868,7 +1868,7 @@ NOTE: 定義は`active_support/core_ext/string/inflections.rb`にあります。
 
 #### `downcase_first`
 
-The method [`downcase_first`][String#downcase_first] converts the first letter of the receiver to lowercase:
+[`downcase_first`][String#downcase_first]メソッドはレシーバの冒頭の文字を小文字にします。
 
 ```ruby
 "If I had read Alice in Wonderland".downcase_first # => "if I had read Alice in Wonderland"
