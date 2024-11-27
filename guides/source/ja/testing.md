@@ -427,7 +427,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 <!-- 製版の都合上ここはリスト形式とする -->
 
-**[`assert_difference(expressions, difference = 1, message = nil) {...}`][]**
+**[`assert_difference(expressions, difference = 1, message = nil)`][]**
 
 * `yield`されたブロックで評価された結果である式の戻り値における数値の違いをテストする。
 
@@ -463,7 +463,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 * 渡されたリダイレクトオプションが、最後に実行されたアクションで呼び出されたリダイレクトのオプションと一致することを主張する。`assert_redirected_to root_path`などの名前付きルートを渡すことも、`assert_redirected_to @article`などのActive Recordオブジェクトを渡すことも可能。
 
-[`assert_queries_count(count = nil, include_schema: false, &block)`][]**
+**[`assert_queries_count(count = nil, include_schema: false, &block)`][]**
 
 * `&block`がSQLクエリの`int`数値を生成することを主張する。
 
@@ -479,7 +479,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 * `&block`が指定のパターンにマッチするSQLクエリを生成しないことを主張する。
 
-[`assert_difference(expressions, difference = 1, message = nil) {...}`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference)
+[`assert_difference(expressions, difference = 1, message = nil)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference
 [`assert_no_difference(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference
 [`assert_changes(expressions, message = nil, from:, to:, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_changes
 [`assert_no_changes(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes
