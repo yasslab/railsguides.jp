@@ -3368,7 +3368,7 @@ NOTE: 定義は[`active_support/core_ext/date_and_time/calculations.rb`](https:/
 
 ##### `weeks_ago`、`weeks_since`
 
-[`weeks_ago`][DateAndTime::Calculations#weeks_ago]メソッドや[`weeks_since`][DateAndTime::Calculations#week_since]メソッドは、同じ要領で週に対して行います。
+[`weeks_ago`][DateAndTime::Calculations#weeks_ago]メソッドや[`weeks_since`][DateAndTime::Calculations#weeks_since]メソッドは、同じ要領で週に対して行います。
 
 ```ruby
 Date.new(2010, 5, 24).weeks_ago(1)   # => Mon, 17 May 2010
