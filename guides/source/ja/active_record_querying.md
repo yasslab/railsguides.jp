@@ -2364,7 +2364,7 @@ irb> Customer.pluck(:first_name)
 irb> Order.joins(:customer, :books).pluck("orders.created_at, customers.email, books.title")
 ```
 
-さらに`pluck`は、`select`などの`Relation`スコープと異なり、クエリを直接トリガするので、その後ろに他のスコープをチェインできません。ただし、構成済みのスコープを`pluck`の前に置くことは可能です。
+さらに`pluck`は、`select`などの`Relation`スコープと異なり、クエリを直接トリガーするので、その後ろに他のスコープをチェインできません。ただし、構成済みのスコープを`pluck`の前に置くことは可能です。
 
 ```irb
 irb> Customer.pluck(:first_name).limit(1)
@@ -2631,7 +2631,7 @@ EXPLAIN SELECT "customers".* FROM "customers" INNER JOIN "orders" ON "orders"."c
 (7 rows)
 ```
 
-eager loadingを使うと、内部的には複数のクエリがトリガされることがあり、このとき一部のクエリが先行するクエリの結果を必要とすることがあります。このためexplainは、このクエリを実際に実行した後で、クエリプランを要求します。以下に例を示します。
+eager loadingを使うと、内部的には複数のクエリがトリガーされることがあり、このとき一部のクエリが先行するクエリの結果を必要とすることがあります。このためexplainは、このクエリを実際に実行した後で、クエリプランを要求します。以下に例を示します。
 
 ```ruby
 Customer.where(id: 1).includes(:orders).explain

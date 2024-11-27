@@ -427,7 +427,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 <!-- 製版の都合上ここはリスト形式とする -->
 
-**[`assert_difference(expressions, difference = 1, message = nil) {...}`][]**
+**[`assert_difference(expressions, difference = 1, message = nil)`][]**
 
 * `yield`されたブロックで評価された結果である式の戻り値における数値の違いをテストする。
 
@@ -463,7 +463,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 * 渡されたリダイレクトオプションが、最後に実行されたアクションで呼び出されたリダイレクトのオプションと一致することを主張する。`assert_redirected_to root_path`などの名前付きルートを渡すことも、`assert_redirected_to @article`などのActive Recordオブジェクトを渡すことも可能。
 
-[`assert_queries_count(count = nil, include_schema: false, &block)`][]**
+**[`assert_queries_count(count = nil, include_schema: false, &block)`][]**
 
 * `&block`がSQLクエリの`int`数値を生成することを主張する。
 
@@ -479,7 +479,7 @@ Railsは`minitest`フレームワークに以下のような独自のカスタ�
 
 * `&block`が指定のパターンにマッチするSQLクエリを生成しないことを主張する。
 
-[`assert_difference(expressions, difference = 1, message = nil) {...}`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference)
+[`assert_difference(expressions, difference = 1, message = nil)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_difference
 [`assert_no_difference(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_difference
 [`assert_changes(expressions, message = nil, from:, to:, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_changes
 [`assert_no_changes(expressions, message = nil, &block)`]: https://api.rubyonrails.org/classes/ActiveSupport/Testing/Assertions.html#method-i-assert_no_changes
@@ -904,7 +904,7 @@ Railsはデフォルトで、`test/fixtures`フォルダにあるすべてのフ
 2. フィクスチャのデータをテーブルに読み込む
 3. フィクスチャに直接アクセスしたい場合はフィクスチャのデータをメソッドにダンプする
 
-TIP: Railsでは、データベースから既存のデータベースを削除するために外部キーやチェック制約といった参照整合性（referential integrity）トリガを無効にしようとします。テスト実行時のパーミッションエラーが発生して困っている場合は、test環境のデータベースユーザーがこれらのトリガを無効にする特権を持っていることをご確認ください（PostgreSQLの場合、すべてのトリガを無効にできるのはsuperuserのみです。PostgreSQLのパーミッションについて詳しくは[こちらの記事](https://www.postgresql.jp/document/current/html/sql-altertable.html)を参照してください）。
+TIP: Railsでは、データベースから既存のデータベースを削除するために外部キーやチェック制約といった参照整合性（referential integrity）トリガーを無効にしようとします。テスト実行時のパーミッションエラーが発生して困っている場合は、test環境のデータベースユーザーがこれらのトリガーを無効にする特権を持っていることをご確認ください（PostgreSQLの場合、すべてのトリガーを無効にできるのはsuperuserのみです。PostgreSQLのパーミッションについて詳しくは[こちらの記事](https://www.postgresql.jp/document/current/html/sql-altertable.html)を参照してください）。
 
 #### フィクスチャはActive Recordオブジェクト
 

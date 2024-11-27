@@ -740,7 +740,7 @@ s = sanitize(user_input, tags: tags, attributes: %w(href title))
 
 この方法なら指定されたタグのみが許可されるため、あらゆる攻撃方法や悪質なタグに対してフィルタが正常に機能します。
 
-Action ViewとAction Textは、どちらも[rails-html-sanitizer][] gemの上に[サニタイズヘルパー][[sanitization helpers]]を構築しています。
+Action ViewとAction Textは、どちらも[rails-html-sanitizer][] gemの上に[サニタイズヘルパー][sanitization helpers]を構築しています。
 
 第2段階として、**Webアプリケーションからの出力を1つ残らずエスケープする**ことが優れた対策となります。これは特に、ユーザー入力の段階でフィルタされなかった文字列がWeb画面に再表示された場合に有効です。**`html_escape()`（または別名の`h()`）メソッド**を用いて、HTML入力文字（`&`、`"`、`<`、`>`）を無害なHTML表現形式（`&amp;`、`&quot;`、`&lt;`、`&gt;`）に置き換えます。
 
