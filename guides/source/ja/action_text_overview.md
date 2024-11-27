@@ -187,17 +187,17 @@ Trixのスタイルのいずれかを更新したい場合は、`app/assets/styl
 
 ### 署名済みGlobalID
 
-Action Textでは、Active Storage経由でアップロードした添付ファイルを埋め込むことも、[署名済みグローバルID](https://github.com/rails/globalid#signed-global-ids)で解決可能な任意のデータを埋め込むことも可能です。
+Action Textでは、Active Storage経由でアップロードした添付ファイルを埋め込めるだけでなく、[署名済みグローバルID](https://github.com/rails/globalid#signed-global-ids)で解決可能な任意のデータを埋め込むことも可能です。
 
-グローバルIDは`gid://YourApp/Some::Model/id`のような形式を取る、モデルのインスタンスを一意に識別するアプリ全体のURIです。グローバルIDは、オブジェクトのさまざまなクラスを一意に参照する識別子が必要な場合に有用です。
+グローバルIDは、`gid://YourApp/Some::Model/id`のような形式を取る、モデルのインスタンスをアプリ全体を通して一意に識別するURIです。グローバルIDは、クラスが異なる様々なオブジェクトを一意に参照する識別子が必要な場合に有用です。
 
-この方法を使う場合、Action Textの添付ファイルで署名済みグローバルID（sgid）が必要になります。Railsアプリ内のすべてのActive Recordモデルは、デフォルトで`GlobalID::Identification`のconcernにミックスインされていて署名済みグローバルIDで解決可能になっているので、`ActionText::Attachable`と互換性があります。
+グローバルIDを使う場合、Action Textは添付ファイルに対して署名済みグローバルID（sgid）を使うことを求めます。Railsアプリ内のすべてのActive Recordモデルは、デフォルトで`GlobalID::Identification`のconcernをミックスインしているので、署名済みグローバルIDで解決可能であり、したがって、`ActionText::Attachable`と互換性があります。
 
-Action Textは、挿入したHTMLを保存時に参照するため、後で最新のコンテンツで再レンダリングできます。これにより、参照しているモデルのレコードが変更されたときに常に最新のコンテンツを表示できるようになります。
+Action Textは、保存時に挿入されたHTMLを参照し、後で最新のコンテンツで再レンダリングできるようにします。これにより、モデルの参照が可能となり、そのモデルのレコードが変更されたときに常に最新のコンテンツを表示できるようになります。
 
-Action Textは、モデルをグローバルIDから読み込むことで、コンテンツをレンダリングするときにデフォルトのパーシャルパスを用いてモデルをレンダリングします。
+Action Textは、モデルをグローバルIDから読み込み、そのモデルのコンテンツをレンダリングする際にデフォルトのパーシャルパスを用います。
 
-Action Textの添付ファイルは次のようになります。
+以下は、Action Textの添付ファイルの例です。
 
 ```html
 <action-text-attachment sgid="BAh7CEkiCG…"></action-text-attachment>
@@ -239,7 +239,7 @@ user.to_global_id.to_s #=> gid://MyRailsApp/User/1
 user.to_signed_global_id.to_s #=> BAh7CEkiCG…
 ```
 
-NOTE: `.find(id)`クラスメソッドを利用すれば、`GlobalID::Identification`を任意のモデルにミックスインできます。このサポートはActive Recordに自動的に`include`されます。
+NOTE: `.find(id)`クラスメソッドを持つ任意のモデルに、`GlobalID::Identification`をミックスインできます。Active Recordでは、このサポートは自動的に含まれます。
 
 上記のコードは、モデルのインスタンスを一意に識別するための識別子を返します。
 
