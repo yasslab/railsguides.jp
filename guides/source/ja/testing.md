@@ -516,7 +516,7 @@ NOTE: `Minitest`について詳しくは、[Minitestのドキュメント](https
 [`ActionView::TestCase`]: https://api.rubyonrails.org/classes/ActionView/TestCase.html
 [`ActiveJob::TestCase`]: https://api.rubyonrails.org/classes/ActiveJob/TestCase.html
 [`ActionDispatch::IntegrationTest`]: https://api.rubyonrails.org/classes/ActionDispatch/IntegrationTest.html
-[`ActionDispatch::SystemTestCase`]: https://api.rubyonrails.org/classes/ActionDispatch/SystemTestCase.tml
+[`ActionDispatch::SystemTestCase`]: https://api.rubyonrails.org/classes/ActionDispatch/SystemTestCase.html
 [`Rails::Generators::TestCase`]: https://api.rubyonrails.org/classes/Rails/Generators/TestCase.html
 
 ### トランザクション
