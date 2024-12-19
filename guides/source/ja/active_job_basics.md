@@ -435,7 +435,7 @@ ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
 
 ### 一括登録のコールバック
 
-`perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされません。この振る舞いは、Active Recordの他の一括処理系メソッドと一貫しています。コールバックは個別のジョブに対して実行されるので、`perform_all_later`メソッドでは一括処理の恩恵を受けられません。
+`perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされません。この振る舞いは、Active Recordの他の一括処理系メソッドと一貫しています。コールバックは個別のジョブに対して個々に実行されるので、`perform_all_later`メソッドが持つ一括処理の性質の恩恵を受けられません。
 
 ただし、`perform_all_later`メソッドは、`ActiveSupport::Notifications`でサブスクライブできる[`enqueue_all.active_job`][]イベントをトリガーします。
 
@@ -532,15 +532,17 @@ end
 
 ```ruby
 # app/serializers/money_serializer.rb
-  # あるオブジェクトを、オブジェクト型をサポートするもっとシンプルな表現形式に変換する。
-  # 表現形式としては特定のキーを持つハッシュが推奨される。キーには基本型のみが利用可能。
-  # `super`を読んでカスタムシリアライザ型をハッシュに追加すべき
+class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
+  # あるオブジェクトを、サポートされているオブジェクト型を使用して、よりシンプルな表現形式に変換する。
+  # 推奨される表現形式は、特定のキーを持つハッシュ。キーには基本型のみが利用可能。
+  # カスタムシリアライザ型をこのハッシュに追加するには、`super`を呼ぶ必要がある。
   def serialize(money)
     super(
       "amount" => money.amount,
       "currency" => money.currency
     )
   end
+
   # シリアライズされた値を正しいオブジェクトに逆変換する
   def deserialize(hash)
     Money.new(hash["amount"], hash["currency"])
@@ -618,7 +620,7 @@ end
 
 GlobalIDによって`#perform`に渡された完全なActive Recordオブジェクトのシリアライズが可能になります。
 
-ジョブがキューに登録された後で、渡したレコードが1件削除され、かつ`#perform`メソッドをまだ呼び出していない場合は、Active Jobによって[`ActiveJob::DeserializationError`][]エラーがraiseされます。
+ジョブがキューに登録された後で、`#perform`メソッドが呼び出される前に、渡されたレコードが削除された場合は、Active Jobは[`ActiveJob::DeserializationError`][]例外をraiseします。
 
 [`ActiveJob::DeserializationError`]: https://api.rubyonrails.org/classes/ActiveJob/DeserializationError.html
 
