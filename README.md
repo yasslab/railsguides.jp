@@ -71,6 +71,21 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 - CI が通らなかった場合は、該当箇所を修正してください。（`bundle exec rake test`でローカル環境でも確認できます）
 - マージされない限り本番環境には反映されないので、PR は気軽に送ってください! 😆👌
 
+## Podmanを利用したRailsガイドの生成方法
+
+Podmanを利用して、簡単にローカルでRailsガイドの編集内容を確認することも可能です。
+必要になるのはシェルスクリプトを実行できる環境とPodmanのみです。
+Podmanのインストールに関しては[Podmanの公式インストールガイド](https://podman.io/docs/installation)をご覧ください。
+
+Podmanがインストールできていれば、以下の手順でRailsガイドの編集と確認が行えます。
+
+1. `/guides/source/ja` 内の Markdown ファイルを編集する
+2. `$ bin/pmconfirm`
+3. localhost:4000 から変更結果を確認する
+
+なお、`$ bin/pmconfirm`は`vendor/bundle/`にgemをインストールしますので、
+動作不良の際など、gemを一度全て削除したい場合は`rm -rf vendor/bundle/`で削除して下さい。
+
 <!--
 ## 翻訳方法の変遷
 

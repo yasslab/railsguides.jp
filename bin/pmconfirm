@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ver=`cat .ruby-version`
+podman run -it --rm -v "$PWD":/x -w /x -p 4000:4000 "ruby:$ver" bash -c "bundle config set --global path 'vendor/bundle' && bundle install && bundle exec rake assets:precompile && bundle exec jekyll server --host 0.0.0.0"
