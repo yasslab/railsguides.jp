@@ -2,22 +2,26 @@
 
 [![Ruby on Rails ガイド - 体系的に Rails を学ぼう](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/guides/assets/images/header-railsguides.png)](https://railsguides.jp/)
 
-## 『Railsガイド』とは？
+<div id='about'></div>
+
+## 📕 Railsガイドとは？
 
 『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。   
 Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
 
-Ruby on Rails ガイド   
+📕 Ruby on Rails ガイド   
 https://railsguides.jp/
 
-これから Rails を勉強する方は『Railsチュートリアル』がオススメです。   
+初めて Rails でプロダクト開発するに方は『[Railsチュートリアル](https://railstutorial.jp/)』がオススメです。   
 
-Ruby on Rails チュートリアル：実例を使ってRailsを学ぼう   
+🎓 Ruby on Rails チュートリアル   
 https://railstutorial.jp/
 
 <br>
 
-## フィードバックについて
+<div id='feedback'></div>
+
+## 📮 フィードバックについて
 
 Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら、下記の『[ブラウザでRailsガイドの修正を提案する](https://github.com/yasslab/railsguides.jp#%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7rails%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AE%E4%BF%AE%E6%AD%A3%E3%82%92%E6%8F%90%E6%A1%88%E3%81%99%E3%82%8B-%E3%82%AA%E3%82%B9%E3%82%B9%E3%83%A1)』に沿って [Pull Request](https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (プルリク) を送っていただけると嬉しいです 😌
 
@@ -27,7 +31,9 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 <br>
 
-### ブラウザでRailsガイドの修正を提案する (オススメ)
+<div id='pr'></div>
+
+### :octocat: ブラウザでRailsガイドの修正を提案する (オススメ)
 
 多分これが一番簡単だと思います...!! 😆
 
@@ -45,10 +51,13 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 <br>
 
-## Railsガイドの生成方法
+<div id='build'></div>
+
+## 🛠️ Railsガイドの生成方法
 
 Pull Request を送る前に生成結果を確認したい場合は下記をご参照ください。   
-(生成結果を確認せずに Pull Request を送って頂いても大丈夫です! 😆👌)
+**_(※ 生成結果を確認せずに Pull Request を送って頂いても大丈夫です! 😆👌)_**
+
 
 ### 1. 既存のHTMLファイルをローカルで生成および確認(Jekyll)
 
@@ -127,7 +136,9 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 <br>
 
-## 運営チーム
+<div id='team'></div>
+
+## 👥 運営チーム
 
 本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
@@ -143,10 +154,10 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 <br>
 
-YassLab 社以外にも、次の方々が協力してくれました! 🤝✨    
-様々なご意見・フィードバックありがとうございます! (＞人＜ )✨
+また他にも多くの方々から [1,500 以上の修正提案 (PR)](https://github.com/yasslab/railsguides.jp/pulls?q=is%3Apr+is%3Aclosed) を頂きました! 🤝✨    
+さまざまな修正提案、ご意見・フィードバックありがとうございます...!! 🙇💖
 
-### 協力者
+### 💖 協力者
 
 - 👥 共同発起人 
   - [@hachi8833](https://github.com/hachi8833)
@@ -157,8 +168,8 @@ YassLab 社以外にも、次の方々が協力してくれました! 🤝✨
   - [@willnet](https://github.com/willnet)
 - 👏 他、[Issues](https://github.com/yasslab/railsguides.jp/issues) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors) を送ってくださった多くの方々。
 
-### 支援・協賛
-Railsガイドでは、ドキュメントを通してRuby/Railsコミュニティを一緒に支援してくださる企業を募集しております。詳細は「<a href='https://railsguides.jp/sponsors'>協賛プラン</a>」のページよりご確認ください。
+### 🤝 支援・協賛
+Railsガイドでは、ドキュメントを通してRuby/Railsコミュニティを一緒に支援してくださる企業を募集しております。詳細は「[協賛プラン](https://railsguides.jp/sponsors)」のページよりご確認ください。
 
 協賛プラン: [https://railsguides.jp/sponsors](https://railsguides.jp/sponsors)
 
@@ -166,7 +177,9 @@ Railsガイドでは、ドキュメントを通してRuby/Railsコミュニテ�
 
 <br>
 
-## ライセンス
+<div id='license'></div>
+
+## ⚖️ ライセンス
 
 [![CC BY-SA International](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/CC-BY-SA.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)
 
@@ -176,7 +189,11 @@ Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.
 
 [Ruby on Rails のソースコード](https://github.com/rails/rails)は [MIT ライセンス](http://www.opensource.org/licenses/MIT)に基づいて公開されています。
 
-### クレジット
+<br>
+
+<div id='credit'></div>
+
+## ©️ クレジット
 
 - 原著: [https://edgeguides.rubyonrails.org/#footer](https://edgeguides.rubyonrails.org/#footer)
 - 本書: [https://railsguides.jp/#contributors](https://railsguides.jp/#contributors)
