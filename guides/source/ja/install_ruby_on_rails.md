@@ -1,131 +1,133 @@
-Install Ruby on Rails Guide
+Ruby on Rails インストールガイド
 ===========================
 
-This guide will walk you through installing the Ruby programming language and the Rails framework on your operating system.
+本ガイドでは、Rubyプログラミング言語とRailsフレームワークをOS（オペレーティングシステム）にインストールする手順を説明します。
 
-While your OS might come with Ruby pre-installed, it's often outdated and can't be upgraded. Using a version manager like [Mise](https://mise.jdx.dev/getting-started.html) allows you to install the latest Ruby version, use a different Ruby version for each app, and easily upgrade to new versions when they're released.
+OSにはRubyがプリインストールされている場合もありますが、最新でないことが多いうえに、アップグレードできないようになっています。[Mise](https://mise.jdx.dev/getting-started.html)などのバージョン管理ソフトウェアを使うことで、最新バージョンのRubyをインストールできるようになり、アプリごとに異なるバージョンのRubyを使い分けることも、新しいバージョンがリリースされたときのアップグレードも手軽に行えるようになります。
 
-Alternatively, you can use Dev Containers to run Rails without installing Ruby or Rails directly on your machine. Check out the [Getting Started with Dev Containers](getting_started_with_devcontainer.html) guide to learn more.
+自分のコンピュータにRubyやRailsを直接インストールする代わりに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
 
 --------------------------------------------------------------------------------
 
-## Choose Your Operating System
+## OSごとのRubyインストール方法
 
-Follow the section for the operating system you use:
+今使っているOSに応じて、以下のセクションを参照してください。
 
-* [macOS](#install-ruby-on-macos)
+* [macOS](#macosにrubyをインストールする)
 * [Ubuntu](#install-ruby-on-ubuntu)
 * [Windows](#install-ruby-on-windows)
 
-TIP: Any commands prefaced with a dollar sign `$` should be run in the terminal.
+TIP: `$`で始まるコマンドはターミナルで実行してください。
 
-### Install Ruby on macOS
+TIP: 訳注: [Rails Girls インストール・レシピ](https://railsgirls.jp/install)にもRubyとRailsのインストール方法が記載されています。こちらではmacOS環境のRubyインストールに[rbenv](https://github.com/rbenv/rbenv)を使っています。
 
-You'll need macOS Catalina 10.15 or newer to follow these instructions.
+### macOSにRubyをインストールする
 
-For macOS, you'll need Xcode Command Line Tools and Homebrew to install dependencies needed to compile Ruby.
+これらの手順を実行するには、macOS Catalina 10.15以降が必要です。
 
-Open Terminal and run the following commands:
+macOSでRubyをコンパイルするために必要な依存関係をインストールするには、Xcode Command Line ToolsとHomebrewが必要です。
+
+ターミナルを開き、次のコマンドを実行します。
 
 ```shell
-# Install Xcode Command Line Tools
+# Xcode Command Line Toolsをインストールする
 $ xcode-select --install
 
-# Install Homebrew and dependencies
+# Homebrewと依存関係をインストールする
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 $ echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
 $ source ~/.zshrc
 $ brew install openssl@3 libyaml gmp rust
 
-# Install Mise version manager
+# Miseバージョンマネージャをインストールする
 $ curl https://mise.run | sh
 $ echo 'eval "$(~/.local/bin/mise activate)"' >> ~/.zshrc
 $ source ~/.zshrc
 
-# Install Ruby globally with Mise
+# MiseでRubyをグローバルにインストールする
 $ mise use -g ruby@3
 ```
 
-### Install Ruby on Ubuntu
+### UbuntuにRubyをインストールする
 
-You'll need Ubuntu Jammy 22.04 or newer to follow these instructions.
+これらの手順を実行するには、Ubuntu Jammy 22.04以降が必要です。
 
-Open Terminal and run the following commands:
+ターミナルを開き、次のコマンドを実行します。
 
 ```bash
-# Install dependencies with apt
+# aptで依存関係をインストールする
 $ sudo apt update
 $ sudo apt install build-essential rustc libssl-dev libyaml-dev zlib1g-dev libgmp-dev
 
-# Install Mise version manager
+# Miseバージョンマネージャをインストールする
 $ curl https://mise.run | sh
 $ echo 'eval "$(~/.local/bin/mise activate)"' >> ~/.bashrc
 $ source ~/.bashrc
 
-# Install Ruby globally with Mise
+# MiseでRubyをグローバルにインストールする
 $ mise use -g ruby@3
 ```
 
-### Install Ruby on Windows
+### WindowsにRubyをインストールする
 
-The Windows Subsystem for Linux (WSL) will provide the best experience for Ruby on Rails development on Windows. It runs Ubuntu inside of Windows which allows you to work in an environment that is close to what your servers will run in production.
+Windows Subsystem for Linux（WSL）は、WindowsでのRuby on Rails開発に最適なエクスペリエンスを提供します。WSLではWindows内でUbuntuを実行するため、production（本番）環境でサーバーが実行される環境に近い環境で作業できます。
 
-You will need Windows 11 or Windows 10 version 2004 and higher (Build 19041 and higher).
+Windows 11、またはWindows 10バージョン 2004 以降（ビルド 19041 以降）が必要です。
 
-Open PowerShell or Windows Command Prompt and run:
+PowerShell（またはWindowsコマンドプロンプト）を開いて、以下を実行します。
 
 ```bash
 $ wsl --install --distribution Ubuntu-24.04
 ```
 
-You may need to reboot during the installation process.
+インストールプロセス中に再起動を求められる場合があります。
 
-Once installed, you can open Ubuntu from the Start menu. Enter a username and password for your Ubuntu user when prompted.
+インストールが終わると、スタートメニューからUbuntuを開けるようになります。プロンプトが表示されたら、Ubuntuユーザーのユーザー名とパスワードを入力します。
 
-Then run the following commands:
+続いて、以下のコマンドを実行します。
 
 ```bash
-# Install dependencies with apt
+# aptで依存関係をインストールする
 $ sudo apt update
 $ sudo apt install build-essential rustc libssl-dev libyaml-dev zlib1g-dev libgmp-dev
 
-# Install Mise version manager
+# Miseバージョンマネージャをインストールする
 $ curl https://mise.run | sh
 $ echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 $ source ~/.bashrc
 
-# Install Ruby globally with Mise
+# MiseでRubyをグローバルにインストールする
 $ mise use -g ruby@3
 ```
 
-Verifying Your Ruby Install
+Rubyがインストールされたことを確認する
 ---------------------------
 
-Once Ruby is installed, you can verify it works by running:
+Rubyがインストールされたら、以下のコマンドを実行して動作を確認できます。
 
 ```bash
 $ ruby --version
 ruby 3.3.6
 ```
 
-Installing Rails
+Railsをインストールする
 ----------------
 
-A "gem" in Ruby is a self-contained package of a library or Ruby program. We can use Ruby's `gem` command to install the latest version of Rails and its dependencies from [RubyGems.org](https://rubygems.org).
+Rubyの「gem」とは、RubyのライブラリであるRubyプログラムの自己完結型パッケージです。Rubyの`gem`コマンドを使うことで、[RubyGems.org](https://rubygems.org)から最新バージョンのRailsと依存関係をインストールできます。
 
-Run the following command to install the latest Rails and make it available in your terminal:
+以下のコマンドを実行して最新のRailsをインストールし、ターミナルで使えるようにします。
 
 ```bash
 $ gem install rails
 ```
 
-To verify that Rails is installed correctly, run the following and you should see a version number printed out:
+Railsが正しくインストールされていることを確認するには、以下のコマンドを実行するとバージョン番号が表示されます。
 
 ```bash
 $ rails --version
 Rails 8.0.0
 ```
 
-NOTE: If the `rails` command is not found, try restarting your terminal.
+NOTE: `rails`コマンドが見つからない場合は、ターミナルを再起動してみてください。
 
-You're ready to [Get Started with Rails](getting_started.html)!
+以上で、RubyとRailsのインストールが完了します。[Railsをはじめよう](getting_started.html)ガイドに進みましょう！
