@@ -14,8 +14,8 @@ OSにはRubyがプリインストールされている場合もありますが�
 今使っているOSに応じて、以下のセクションを参照してください。
 
 * [macOS](#macosにrubyをインストールする)
-* [Ubuntu](#install-ruby-on-ubuntu)
-* [Windows](#install-ruby-on-windows)
+* [Ubuntu](#ubuntuにrubyをインストールする)
+* [Windows](#windowsにrubyをインストールする)
 
 TIP: `$`で始まるコマンドはターミナルで実行してください。
 
