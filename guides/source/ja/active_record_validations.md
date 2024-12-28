@@ -26,9 +26,9 @@ end
 
 ```irb
 irb> Person.new(name: "John Doe").valid?
-=> true
+#=> true
 irb> Person.new(name: nil).valid?
-=> false
+#=> false
 ```
 
 上でわかるように、このバリデーションは`Person`に`name`属性が存在しない場合に無効であることを知らせます。2つ目の`Person`はデータベースに保存されません。
@@ -61,7 +61,7 @@ Railsではバリデーションを簡単に利用できるよう、一般に利
 * コントローラレベルのバリデーションは一度はやってみたくなるものですが、たいてい手に負えなくなり、テストも保守も困難になりがちなので良くありません。
   アプリケーションの寿命を延ばし、メンテナンス作業を苦痛にしないためにも、コントローラのコード量は可能な限り減らすべきです。
 
-上で紹介したその他のバリデーション方法については、特定の状況に応じて適宜追加してください。Railsチームは、ほとんどの場合モデルレベルのバリデーションが最も適切であると考えています。
+Railsチームは、ほとんどの場合モデルレベルのバリデーションが最も適切であると考えていますが、場合によっては上述の別の検証方法を併用することもあります。
 
 ### バリデーションが実行されるタイミング
 
@@ -102,11 +102,11 @@ irb> p.persisted?
 
 新規レコードを保存すると、SQLの`INSERT`操作がデータベースに送信され、既存のレコードを更新すると、SQLの`UPDATE`操作が送信されます。バリデーションは、これらのコマンドがデータベースに送信される前に実行されるのが普通です。
 
-バリデーションが失敗すると、オブジェクトは無効（invalid）とマーキングされ、Active Recordによる`INSERT`や`UPDATE`操作は実行されません。このようにして、無効なオブジェクトがデータベースに保存されるのを防げます。
+バリデーションが失敗すると、オブジェクトは無効（invalid）とマーキングされ、Active Recordによる`INSERT`や`UPDATE`操作は実行されません。このようにして、無効なオブジェクトがデータベースに保存されるのを防ぎます。
 
 オブジェクトの作成、保存、更新時に特定のバリデーションを実行することも可能です。
 
-WARNING: Railsのバリデーション機能は、無効なデータがデータベースに保存されるのを基本的に防ぎますが、Railsのメソッドの中にはバリデーションをトリガーしないものがある点に注意することが重要です。[バリデーションをバイパスする一部のメソッド](#バリデーションのスキップ)を使うと、バリデーションをトリガーせずにデータベースに直接変更を加えることが可能になるため、注意しておかないとオブジェクトを無効な状態で保存してしまう可能性があります。
+WARNING: Railsのバリデーション機能は、無効なデータがデータベースに保存されるのを基本的に防ぎますが、Railsのメソッドの中にはバリデーションをトリガーしないものもある点に注意することが重要です。[バリデーションをバイパスする一部のメソッド](#バリデーションのスキップ)を使うと、バリデーションをトリガーせずにデータベースに直接変更を加えることが可能になるため、注意しておかないとオブジェクトを無効な状態で保存してしまう可能性があります。
 
 以下のメソッドを実行するとバリデーションがトリガーされ、オブジェクトが有効な場合にのみデータベースに保存されます。
 
@@ -217,14 +217,14 @@ end
 
 ```irb
 irb> Person.new(name: "John Doe").valid?
-=> true
+#=> true
 irb> Person.new(name: nil).valid?
-=> false
+#=> false
 ```
 
 Active Recordでバリデーションが行われた後で[`errors`][]インスタンスメソッドを使うと、失敗したバリデーションにアクセスできます。このメソッドはエラーのコレクションを返します。
 
-定義により、バリデーション実行後にコレクションが空である場合はオブジェクトは**有効**である点にご注意ください。
+定義により、バリデーション実行後にコレクションが空である場合は、オブジェクトが**有効**になる点にご注意ください。
 
 NOTE: ただし、`new`でインスタンス化した保存前のオブジェクトは、たとえ技術的には無効であってもエラーは出力されないので、注意が必要です。バリデーションが自動的に実行されるのは、`create`や`save`メソッドなどでオブジェクトが保存されたときだけです。
 
@@ -261,9 +261,9 @@ ActiveRecord::RecordInvalid: Validation failed: Name can't be blank
 [`invalid?`]: https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-invalid-3F
 [`valid?`]: https://api.rubyonrails.org/classes/ActiveRecord/Validations.html#method-i-valid-3F
 
-### エラー処理のしくみを理解する
+### エラーを調べて処理する
 
-[`errors[:attribute]`][Errors#squarebrackets]を使うと、特定のオブジェクトの属性が有効かどうかを確認できます。このメソッドは、`:attribute`のすべてのエラーの配列を返します。指定された属性でエラーが発生しなかった場合は、空の配列が返されます。これを用いて、特定の属性でバリデーションに問題があるかどうかを手軽に判断できます。
+[`errors[:attribute]`][Errors_squarebrackets]を使うと、特定のオブジェクトの属性が有効かどうかを確認できます。このメソッドは、`:attribute`のすべてのエラーの配列を返します。指定された属性でエラーが発生しなかった場合は、空の配列が返されます。これを用いて、特定の属性でバリデーションに問題があるかどうかを手軽に判断できます。
 
 属性が正しいかどうかをチェックする例を以下に示します。
 
@@ -276,13 +276,13 @@ end
 ```irb
 irb> new_person = Person.new
 irb> new_person.errors[:name]
-#=> [] # no errors since validations are not run until saved
+#=> [] # saveするまではバリデーションされないのでエラーにならない
 irb> new_person.errors[:name].any?
 #=> false
 
 irb> create_person = Person.create
 irb> create_person.errors[:name]
-#=> ["can't be blank"] # validation error because `name` is required
+#=> ["can't be blank"] # `name`は必須なのでバリデーションエラーになる
 irb> create_person.errors[:name].any?
 #=> true
 ```
@@ -299,7 +299,7 @@ end
 
 NOTE: より高レベルなバリデーションエラーについては、[バリデーションエラーの取り扱い](#バリデーションエラーに対応する)セクションを参照してください。
 
-[Errors#squarebrackets]:
+[Errors_squarebrackets]:
     https://api.rubyonrails.org/classes/ActiveModel/Errors.html#method-i-5B-5D
 [`errors.add`]:
   https://api.rubyonrails.org/classes/ActiveModel/Errors.html#method-i-add
@@ -345,7 +345,7 @@ INFO: 利用可能なデフォルトヘルパーのリストについては、[`
 
 このバリデータは、指定された属性が「存在してはならない」ことをバリデーションします。
 
-NOTE: なお、属性の値が`nil`や空文字列（空か[ホワイトスペース](https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9#%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9)のみで構成される文字列）ではないかどうかのチェックのため、内部で[`Object#present?`][]メソッドが使われています。
+NOTE: このバリデータの内部では、属性の値が`nil`や空白（blank: つまり空文字列`""`または[ホワイトスペース][whitespace]のみで構成される文字列）ではないことのチェックに[`Object#present?`][]メソッドが使われています。
 
 `#absence`は、`if`オプションと組み合わせた条件付きバリデーションでよく使われます。
 
@@ -361,7 +361,7 @@ irb> person.valid?
 #=> true # absenceバリデーションがパスしたことを表す
 ```
 
-関連付けが存在していないことを確認したい場合、関連付けをマッピングするのに使われる外部キーが存在しないかどうかをバリデーションするのではなく、関連付け先のオブジェクト自体が存在しないかどうかをバリデーションする必要があります。
+関連付けが存在しないことを確認したい場合、関連付けをマッピングするのに使われる外部キーが存在しないかどうかをバリデーションするのではなく、関連付け先のオブジェクト自体が存在しないかどうかをバリデーションする必要があります。
 
 ```ruby
 class LineItem < ApplicationRecord
@@ -383,8 +383,9 @@ irb> line_item_with_order.valid?
 
 NOTE: `belongs_to`関連付けの場合、関連付けが存在することはデフォルトでバリデーションされます。関連付けの存在をバリデーションしたくない場合は、`optional: true`を指定してください。
 
-Railsは通常、逆関連付けを自動的に推測します。
+Railsは通常、逆方向の関連付けを自動的に推測します。
 カスタムの`:foreign_key`や`:through`関連付けを使う場合は、関連付けの探索を最適化するために`:inverse_of`オプションを明示的に指定することが重要です。これにより、バリデーション中に不要なデータベースクエリが発生することを回避できます。
+
 詳しくは、関連付けガイドの[双方向関連付け](association_basics.html#双方向関連付け)を参照してください。
 
 NOTE: 関連付けが存在することと、関連付けが有効であることを同時に確認したい場合は、`validates_associated`も使う必要があります。詳しくは[`validates_associated`](#validates-associated)で後述します。
@@ -404,7 +405,9 @@ validates :field_name, exclusion: { in: [true, false] }
 
 ### `acceptance`
 
-このバリデータは、フォームが送信されたときにユーザーインターフェイス上のチェックボックスがオンになっているかどうかをチェックします。ユーザーによるサービス利用条項への同意が必要な場合や、ユーザーが何らかの文書に目を通したことを確認させる場合によく使われます。
+このバリデータは、フォームが送信されたときにユーザーインターフェイス上のチェックボックスがオンになっているかどうかをチェックします。
+
+ユーザーによるサービス利用条項への同意が必要な場合や、ユーザーが何らかの文書に目を通したことを確認させる場合によく使われます。
 
 ```ruby
 class Person < ApplicationRecord
@@ -412,10 +415,10 @@ class Person < ApplicationRecord
 end
 ```
 
-このチェックは、`terms_of_service`が`nil`でない場合にのみ実行されます。
+上のチェックは、`terms_of_service`が`nil`でない場合にのみ実行されます。
 このヘルパーのデフォルトエラーメッセージは「must be accepted」です。
 
-次のようにカスタムメッセージを`message`オプションで渡すこともできます。
+以下のように、バリデーション失敗時のカスタムメッセージを`message`オプションで渡すこともできます。
 
 ```ruby
 class Person < ApplicationRecord
@@ -474,7 +477,8 @@ end
 このバリデータのデフォルトメッセージは「doesn't match confirmation」です。
 `message`オプションでカスタムメッセージを渡すことも可能です。
 
-このバリデータを使う場合は、`:if`オプションと組み合わせて、レコードを保存するたびに「`_confirmation`」フィールドをバリデーションするのではなく、初期フィールドが変更されたときのみバリデーションするのが一般的です。詳しくは[条件付きバリデーション](#条件付きバリデーション)で後述します。
+このバリデータを使う場合は、`:if`オプションと組み合わせて、レコードを保存するたびに「`_confirmation`」フィールドをバリデーションするのではなく、初期フィールドが変更されたときのみバリデーションするのが一般的です。
+詳しくは[条件付きバリデーション](#条件付きバリデーション)で後述します。
 
 ```ruby
 class Person < ApplicationRecord
@@ -614,11 +618,11 @@ end
 
 * `:minimum`: 属性はこの値より小さな値を取れません。
 * `:maximum`: 属性はこの値より大きな値を取れません。
-* `:in`または`:within`: 属性の長さは、与えられた区間以内でなければなりません。このオプションの値は範囲でなければなりません。
+* `:in`または`:within`: 属性の長さは、与えられた区間以内でなければなりません。
+  このオプションの値はrangeでなければなりません。
 * `:is`: 属性の長さは与えられた値と等しくなければなりません。
 
-デフォルトのエラーメッセージは、実行されるバリデーションの種類によって異なります。デフォルトのメッセージは`:wrong_length`、`:too_long`、`:too_short`オプションを使ってカスタマイズすることも、`%{count}`を長さ制限に対応する数値のプレースホルダにも使えます。
-`:message`オプションを使ってエラーメッセージを指定することもできます。
+デフォルトのエラーメッセージは、実行されるバリデーションの種類によって異なります。デフォルトのメッセージは以下のように`:wrong_length`、`:too_long`、`:too_short`オプションを使ってカスタマイズすることも、`%{count}`を長さ制限に対応する数値のプレースホルダに使うことも可能です。`:message`オプションを使ってエラーメッセージを指定することもできます。
 
 ```ruby
 class Person < ApplicationRecord
@@ -683,7 +687,7 @@ NOTE: デフォルトでは、`numericality`オプションで`nil`値は許容�
 
 このバリデータは、指定された属性が空（empty）でないことをチェックします。
 
-NOTE: なお、属性の値が`nil`や空文字列（空か[ホワイトスペース](https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9#%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9)のみで構成される文字列）かどうかのチェックのため、内部で[`Object#blank?`][]メソッドが使われています。
+NOTE: このバリデータの内部では、属性の値が`nil`や空白（blank: つまり空文字列`""`または[ホワイトスペース][whitespace]のみで構成される文字列）であることのチェックに[`Object#blank?`][]メソッドが使われています。
 
 ```ruby
 class Person < ApplicationRecord
@@ -724,17 +728,8 @@ irb> invalid_supplier.valid?
 #=> false # presenceバリデーションが失敗したことを示す
 ```
 
-複数の関連付けられたオブジェクトが存在することを検証したい場合は、`:inverse_of`オプションを指定してください。
-
-```ruby
-class Order < ApplicationRecord
-  has_many :line_items, inverse_of: :order
-end
-```
-
-NOTE: If you want to ensure that the association is both present and valid, you also need to use `validates_associated`. More on that [below](#validates-associated).
-
 カスタムの`:foreign_key`や`:through`関連付けを使う場合は、関連付けの探索を最適化するために`:inverse_of`オプションを明示的に指定することが重要です。これにより、バリデーション中に不要なデータベースクエリが発生することを回避できます。
+
 詳しくは、関連付けガイドの[双方向関連付け](association_basics.html#双方向関連付け)を参照してください。
 
 NOTE: 関連付けが存在することと、関連付けが有効であることを同時に確認したい場合は、`validates_associated`も使う必要があります。詳しくは[`validates_associated`](#validates-associated)で後述します。
@@ -754,7 +749,11 @@ validates :boolean_field_name, exclusion: [nil]
 
 デフォルトのエラーメッセージは「can't be blank」です。
 
-[`Object#blank?`]: https://api.rubyonrails.org/classes/Object.html#method-i-blank-3F
+[whitespace]:
+  https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9#%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9
+
+[`Object#blank?`]:
+  https://api.rubyonrails.org/classes/Object.html#method-i-blank-3F
 
 ### `uniqueness`
 
@@ -777,11 +776,12 @@ class Holiday < ApplicationRecord
 end
 ```
 
-WARNING: このバリデーションはデータベースに一意性制約（uniqueness constraint）を作成しないので、異なる2つのデータベース接続が使われていると、一意であるべきカラムに同じ値を持つレコードが2つ作成される可能性があります。これを避けるには、データベースでそのカラムにuniqueインデックスを作成する必要があります。
+WARNING: このバリデーションはデータベースに一意性制約（uniqueness constraint）を作成しないので、異なる2つのデータベース接続が使われていると、一意であるべきカラムに同じ値を持つレコードが2つ作成される可能性があります。これを避けるには、データベース側でそのカラムにuniqueインデックスを作成する必要があります。
 
 データベースに一意性データベース制約を追加するには、マイグレーションで[`add_index`][]ステートメントを使って`unique: true`オプションを指定します。
 
-一意性バリデーションで`:scope`オプションを指定し、かつ一意性バリデーション違反を防ぐデータベース制約を作成したい場合は、データベース側で両方のカラムにuniqueインデックスを作成しなければなりません。[MySQLのマニュアル][]や[MariaDBのマニュアル][]でマルチカラムインデックスについての情報を参照するか、[PostgreSQLのマニュアル][]などでカラムのグループを参照する一意性制約についての例を参照してください。
+一意性バリデーションで`:scope`オプションを指定し、かつ一意性バリデーション違反を防ぐデータベース制約を作成したい場合は、データベース側で両方のカラムにuniqueインデックスを作成しなければなりません。
+詳しくは、[MySQLのマニュアル][]や[MariaDBのマニュアル][]でマルチカラムインデックスについての情報を参照するか、[PostgreSQLのマニュアル][]などでカラムのグループを参照する一意性制約についての例を参照してください。
 
 `:case_sensitive`オプションを指定することで、一意性制約で大文字小文字を区別するかどうか、またはデータベースのデフォルトの照合順序（collation）を尊重すべきかどうかを定義できます。このオプションは、データベースのデフォルト照合順序をデフォルトで尊重します。
 
@@ -816,7 +816,7 @@ validates :name, uniqueness: { conditions: -> { where(status: "active") } }
 
 ### `validates_associated`
 
-常に有効でなければならない関連付けがモデルにある場合は、このバリデータを使う必要があります。オブジェクトを保存しようとするたびに、関連するオブジェクトごとに`valid?`が呼び出されます。
+常に有効でなければならない関連付けがモデルにある場合は、このバリデータを使う必要があります。オブジェクトを保存しようとするたびに、関連付けられているオブジェクトごとに`valid?`が呼び出されます。
 
 ```ruby
 class Library < ApplicationRecord
@@ -840,7 +840,7 @@ NOTE: [`validates_associated`][]はActive Recordオブジェクトでしか利�
 
 ### `validates_each`
 
-このバリデータは、ブロックに対して属性をバリデーションします。
+このバリデータは、属性をブロックでバリデーションします。
 事前定義されたバリデーション関数を持っていないため、ブロックを扱うバリデーション関数を独自に作成する必要があります。[`validates_each`][]に渡されたすべての属性は、そのブロックに対してテストされます。
 
 以下の例は、小文字で始まる名前と姓を却下します。
@@ -930,7 +930,7 @@ class Invoice < ApplicationRecord
 end
 ```
 
-NOTE: このバリデータは、アプリケーションのライフサイクル内で**一度しか初期化されない**点にご注意ください。バリデーションが実行されるたびに初期化されることはないため、インスタンス変数を使う場合は十分な注意が必要です。
+NOTE: このバリデータは、アプリケーションのライフサイクル内で**一度しか初期化されない**点にご注意ください。バリデーションが実行されるたびに初期化されることはないため、バリデータ内でインスタンス変数を使う場合は十分な注意が必要です。
 
 作成したバリデータが複雑になってインスタンス変数を使いたくなった場合は、代わりに素のRubyオブジェクトを使う方がやりやすいでしょう。
 
@@ -978,7 +978,7 @@ end
 * [`:strict`](#厳密なバリデーション): バリデーション失敗時にraiseする。
 * [`:if`と`:unless`](#条件付きバリデーション): バリデーションする場合やしない場合の条件を指定する。
 
-NOTE: 一部のバリデータは、これらのオプションをサポートしていません。詳しくは[`ActiveModel::Validations`][]のAPIドキュメントを参照してください。
+NOTE: 一部のバリデータは、これらのオプションをサポートしていません。詳しくは[`ActiveModel::Validations`][] APIドキュメントを参照してください。
 
 [`ActiveModel::Validations`]:
   https://api.rubyonrails.org/classes/ActiveModel/Validations.html
@@ -996,30 +996,30 @@ end
 
 ```irb
 irb> Coffee.create(size: nil).valid?
-=> true
+#=> true
 irb> Coffee.create(size: "mega").valid?
-=> false
+#=> false
 ```
 
 `message:`引数の完全なオプションについては、[`:message`](#message)の項を参照してください。
 
 ### `:allow_blank`
 
-`:allow_blank`オプションは`:allow_nil`オプションと似ています。このオプションを指定すると、属性の値が`blank?`に該当する場合（`nil`や空文字列`""`など）にバリデーションがパスします。
+`:allow_blank`オプションは`:allow_nil`オプションと似ています。このオプションを指定すると、属性の値が`blank?`に該当する場合（`nil`や空文字列`""`など）はバリデーションがパスします。
 
 ```ruby
 class Topic < ApplicationRecord
-  validates :title, length: { is: 5 }, allow_blank: true
+  validates :title, length: { is: 6 }, allow_blank: true
 end
 ```
 
 ```irb
 irb> Topic.create(title: "").valid?
-=> true
+#=> true
 irb> Topic.create(title: nil).valid?
-=> true
+#=> true
 irb> Topic.create(title: "short").valid?
-=> false # 'short' is not of length 5, so validation fails even though it's not blank
+#=> false # 'short'は長さ6ではないので、blankでなくてもバリデーションは失敗する
 ```
 
 ### `:message`
@@ -1028,8 +1028,6 @@ irb> Topic.create(title: "short").valid?
 このオプションを使わない場合、Active Recordはバリデーションヘルパーごとにデフォルトのエラーメッセージを使います。
 
 `:message`オプションは`String`または`Proc`を値として受け取ります。
-
-`String`の`:message`値には、`%{value}`や`%{attribute}`や`%{model}`をオプションで含められます。これらはバリデーション失敗時に動的に置き換えられます。置き換えはi18n gemで行われます。プレースホルダは正確にマッチしなければならず、スペースは許されません。
 
 `String`の`:message`値には、オプションで`%{value}`、`%{attribute}`、`%{model}`のいずれか、またはすべてを含められます。
 これらのプレースホルダは、バリデーションが失敗した場合に動的に置き換えられます。この置き換えには[i18n gem](https://github.com/ruby-i18n/i18n)が使われるため、プレースホルダは完全に一致する必要があり、プレースホルダ内にはスペースを含んではいけません。
@@ -1063,14 +1061,17 @@ class Person < ApplicationRecord
 end
 ```
 
-エラーメッセージを翻訳する方法について詳しくは、[I18nガイド](i18n.html#error-message-scopes)を参照してください。
+エラーメッセージを翻訳する方法について詳しくは、[国際化（I18n）ガイド](i18n.html#エラーメッセージのスコープ)を参照してください。
 
 ### `:on`
 
 `:on`オプションは、バリデーション実行のタイミングを指定するときに使います。
-
 組み込みのバリデーションは、デフォルトでは保存時（レコードの作成時および更新時の両方）に実行されます。
-バリデーションのタイミングを変更したい場合、`on: :create`を指定すればレコード新規作成時にのみバリデーションが行われ、`on: :update`を指定すればレコードの更新時にのみバリデーションが行われます。
+
+バリデーションが実行されるタイミングは、以下で変更できます。
+
+- `on: :create`: レコード新規作成時にのみバリデーションを行います。
+- `on: :update`: レコードの更新時にのみバリデーションを行います。
 
 ```ruby
 class Person < ApplicationRecord
@@ -1212,7 +1213,8 @@ end
 
 `with_options`ブロックの内側にあるすべてのバリデーションに`if: :is_admin?`という条件が渡されます。
 
-[`with_options`]: https://api.rubyonrails.org/classes/Object.html#method-i-with_options
+[`with_options`]:
+  https://api.rubyonrails.org/classes/Object.html#method-i-with_options
 
 ### バリデーションの条件を組み合わせる
 
@@ -1258,7 +1260,7 @@ end
 
 ```irb
 irb> Person.new.valid?
-=> TokenGenerationException: Token can't be blank
+#=> TokenGenerationException: Token can't be blank
 ```
 
 ### バリデータを一覧表示する
@@ -1323,7 +1325,11 @@ end
 
 個別の属性をバリデーションするカスタムバリデータを追加するには、[`ActiveModel::EachValidator`][]を使うのが最も手軽で便利です。
 
-カスタムバリデータクラスを作成するときは、`record`、`attribute`、`value`の3つの引数を受け取る`validate_each`メソッドを実装する必要があります。3つの引数は、それぞれ「インスタンスに対応するレコード」「バリデーションを行う属性」「渡されたインスタンスの属性の値」に対応します。
+カスタムバリデータクラスを作成するときは、以下の3つの引数を受け取る`validate_each`メソッドを実装する必要があります。
+
+- `record`: インスタンスに対応するレコード
+- `attribute`: バリデーション対象となる属性
+- `value`: 渡されたインスタンスの属性の値
 
 ```ruby
 class EmailValidator < ActiveModel::EachValidator
@@ -1493,10 +1499,10 @@ irb> person.errors.first.details
 
 ### `errors[]`
 
-[`errors[]`][Errors#squarebrackets]は、特定の属性についてエラーメッセージをチェックしたい場合に使います。指定の属性に関するすべてのエラーメッセージの文字列の配列を返します（1つの文字列に1つのエラーメッセージが対応します）。属性に関連するエラーがない場合は空の配列を返します。
+[`errors[]`][Errors_squarebrackets]は、特定の属性についてエラーメッセージをチェックしたい場合に使います。指定の属性に関するすべてのエラーメッセージの文字列の配列を返します（1つの文字列に1つのエラーメッセージが対応します）。属性に関連するエラーがない場合は空の配列を返します。
 
 `errors[]`は、あくまでオブジェクトの個々の属性でエラーが見つかったかどうかをチェックするだけなので、このメソッドが役に立つのは、バリデーションの実行が完了した後だけです（`errors`のコレクションにエラーがあるかどうかを調べるだけで、バリデーション自体はトリガーしません）。
-オブジェクト全体の有効性に関するバリデーションは行わないので、上で説明した`ActiveRecord::Base#invalid?`メソッドとは異なります。
+`errors[]`はオブジェクト全体の有効性に関するバリデーションは行わないので、上で説明した`ActiveRecord::Base#invalid?`メソッドとは異なります。
 
 ```ruby
 class Person < ApplicationRecord
@@ -1723,7 +1729,7 @@ irb> person.errors.empty?
 </div>
 ```
 
-この`<div>`タグに好みのスタイルを追加できます。Railsが生成するデフォルトのscaffoldによって、以下のCSSルールが追加されます。
+この`<div>`タグに好みのスタイルを追加できます。Railsがscaffoldで生成するデフォルトのCSSルールは以下のようになります。
 
 ```css
 .field_with_errors {
@@ -1733,7 +1739,7 @@ irb> person.errors.empty?
 }
 ```
 
-このCSSは、エラーを含むフィールドを太さ2ピクセルの赤い枠で囲みます。
+このCSSは、バリデーションエラーが発生したフィールドを太さ2ピクセルの赤い枠で囲みます。
 
 ### エラー表示用フィールドのラッパーをカスタマイズする
 
