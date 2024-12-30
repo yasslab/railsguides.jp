@@ -5,10 +5,10 @@ Active Record コールバック
 
 このガイドの内容:
 
-* Active Recordオブジェクトのどのライフサイクルでどのイベントが発生するか
+* Active Recordオブジェクトのどのライフサイクルでイベントが発生するか
 * それらのイベントに応答するコールバックを登録・実行・スキップする方法
 * リレーション/関連付け/条件付き/トランザクションのコールバックを作成する方法
-* コールバックを再利用するためのオブジェクトを作成する方法
+* コールバックを再利用するために共通の振る舞いをカプセル化するオブジェクトを作成する方法
 
 --------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ irb> BirthdayCake.create
 Congratulations, the callback has run!
 ```
 
-このように、ライフサイクルにはさまざまなイベントがあり、イベントの「前」「後」「前後」のフックするさまざまなオプションがあります。
+このように、ライフサイクルにはさまざまなイベントがあり、イベントの「前」「後」「前後」でフックするさまざまなオプションがあります。
 
 コールバックを登録する
 ------------------
@@ -170,7 +170,9 @@ Active Recordで利用可能なコールバックの一覧を以下に示しま�
 
 #### バリデーション時のコールバック
 
-バリデーション時のコールバックは、レコードが[`valid?`][]（またはエイリアスの[`validate`][]）、または[`invalid?`][]メソッドで直接バリデーションされるか、もしくは`create`、`update`、`save`で間接的にバリデーションされるたびにトリガーされます。これらはバリデーションフェーズの直前（`before_validation`）または直後（`after_validation`）に呼び出されます。
+バリデーション時のコールバックは、レコードが[`valid?`][]（またはエイリアスの[`validate`][]）、または[`invalid?`][]メソッドで直接バリデーションされるか、もしくは`create`、`update`、`save`で間接的にバリデーションされるたびにトリガーされます。
+
+`before_validation`はバリデーションフェーズの直前に呼び出され、`after_validation`はバリデーションフェーズの直後に呼び出されます。
 
 ```ruby
 class User < ApplicationRecord
@@ -194,12 +196,14 @@ end
 
 ```irb
 irb> user = User.new(name: "", email: "john.doe@example.com", password: "abc123456")
-=> #<User id: nil, email: "john.doe@example.com", created_at: nil, updated_at: nil, name: "">
+#=> #<User id: nil, email: "john.doe@example.com", created_at: nil, updated_at: nil, name: "">
+
 irb> user.valid?
 Name titleized to
 Validation failed: Name can't be blank
-=> false
+#=> false
 ```
+
 
 [`valid?`]:
   https://api.rubyonrails.org/classes/ActiveModel/Validations.html#method-i-valid-3F
@@ -210,7 +214,9 @@ Validation failed: Name can't be blank
 
 #### 保存時のコールバック
 
-保存時のコールバックは、レコードが`create`、`update`、または`save`メソッドで背後のデータベースに永続化（保存）されるたびにトリガーされます。これらは、オブジェクトが保存される直前（`before_save`）、保存された直後（`after_save`）、および保存の直前直後（`around_save`）に呼び出せます。
+保存時のコールバックは、レコードが`create`、`update`、または`save`メソッドで背後のデータベースに永続化（保存）されるたびにトリガーされます。
+
+`before_save`はオブジェクトが保存される直前に呼び出され、`after_save`は保存の直後に、`around_save`は保存の直前直後に呼び出されます。
 
 ```ruby
 class User < ApplicationRecord
@@ -239,16 +245,19 @@ end
 
 ```irb
 irb> user = User.create(name: "Jane Doe", password: "password", email: "jane.doe@example.com")
-Password encrypted for user with email: jane.doe@example.com
+
+Password hashed for user with email: jane.doe@example.com
 Saving user with email: jane.doe@example.com
 User saved with email: jane.doe@example.com
 Update Cache
-=> #<User id: 1, email: "jane.doe@example.com", created_at: "2024-03-20 16:02:43.685500000 +0000", updated_at: "2024-03-20 16:02:43.685500000 +0000", name: "Jane Doe">
+#=> #<User id: 1, email: "jane.doe@example.com", created_at: "2024-03-20 16:02:43.685500000 +0000", updated_at: "2024-03-20 16:02:43.685500000 +0000", name: "Jane Doe">
 ```
 
 #### 作成時のコールバック
 
-作成時のコールバックは、レコードが背後のデータベースに**初めて**保存されるたびに、つまり、`create`または`save`メソッドで新規レコードを保存するときにトリガーされます。これらは、オブジェクトが作成される直前（`before_create`）、作成された直後（`after_create`）、および作成の直前直後（`around_create`）に呼び出されます。
+作成時のコールバックは、レコードが背後のデータベースに**初めて**保存されるたびに、つまり、`create`または`save`メソッドで新規レコードを保存するときにトリガーされます。
+
+`before_create`はオブジェクトが作成される直前に呼び出され、`after_create`は作成の直後に、`around_create`は作成の直前直後に呼び出されます。
 
 ```ruby
 class User < ApplicationRecord
@@ -277,11 +286,12 @@ end
 
 ```irb
 irb> user = User.create(name: "John Doe", email: "john.doe@example.com")
+
 User role set to default: user
 Creating user with email: john.doe@example.com
 User created with email: john.doe@example.com
 User welcome email sent to: john.doe@example.com
-=> #<User id: 10, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe">
+#=> #<User id: 10, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe">
 ```
 
 ### オブジェクトの更新
@@ -339,7 +349,8 @@ end
 
 ```irb
 irb> user = User.find(1)
-=> #<User id: 1, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe", role: "user" >
+#=> #<User id: 1, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe", role: "user" >
+
 irb> user.update(role: "admin")
 User role changed to admin
 Updating user with email: john.doe@example.com
@@ -349,7 +360,9 @@ Update email sent to: john.doe@example.com
 
 #### コールバックを組み合わせる
 
-欲しい振る舞いを実現するには、コールバックを組み合わせて使う必要が生じることがよくあります。たとえば、ユーザーが作成された後に確認メールを送信したいが、そのユーザーが新規で更新されていない場合のみ確認メールを送信したい場合や、ユーザー更新時に重要な情報が変更された場合は管理者に通知したい場合があります。
+欲しい振る舞いを実現するには、コールバックを組み合わせて使う必要が生じることがよくあります。
+
+たとえば、ユーザーが作成された後に確認メールを送信したいが、そのユーザーが新規で更新されていない場合のみ確認メールを送信したい場合や、ユーザー更新時に重要な情報が変更された場合は管理者に通知したい場合があります。
 
 この場合、`after_create`コールバックと`after_update`コールバックを組み合わせて使えます。
 
@@ -376,15 +389,18 @@ end
 ```irb
 irb> user = User.create(name: "John Doe", email: "john.doe@example.com")
 Confirmation email sent to: john.doe@example.com
-=> #<User id: 1, email: "john.doe@example.com", ...>
+#=> #<User id: 1, email: "john.doe@example.com", ...>
+
 irb> user.update(email: "john.doe.new@example.com")
 Notification sent to admin about critical info update for: john.doe.new@example.com
-=> true
+#=> true
 ```
 
 ### オブジェクトの破棄
 
-破棄（destroy）時のコールバックは、レコードが破棄されるたびにトリガーされますが、レコードが削除（delete）されるときは無視されます。破棄時のコールバックは、オブジェクトが破棄される直前（`before_destroy`）、破棄された直後（`after_destroy`）、および破棄される直前直後（`around_destroy`）に呼び出されます。
+破棄（destroy）時のコールバックは、レコードが破棄されるたびにトリガーされますが、レコードが削除（delete）されるときは無視されます。
+
+`before_destroy`はオブジェクトが破棄される直前に呼び出され、`after_destroy`は破棄された直後に、`around_destroy`は破棄される直前直後に呼び出されます。
 
 * [`before_destroy`][]
 * [`around_destroy`][]
@@ -431,7 +447,7 @@ end
 
 ```irb
 irb> user = User.find(1)
-=> #<User id: 1, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe", role: "admin">
+#=> #<User id: 1, email: "john.doe@example.com", created_at: "2024-03-20 16:19:52.405195000 +0000", updated_at: "2024-03-20 16:19:52.405195000 +0000", name: "John Doe", role: "admin">
 
 irb> user.destroy
 Checked the admin count
@@ -444,7 +460,9 @@ Notification sent to other users about user deletion
 
 [`after_initialize`][]コールバックは、Active Recordオブジェクトが`new`で直接インスタンス化されるたびに、またはレコードがデータベースから読み込まれるたびに呼び出されます。これを利用すれば、Active Recordの`initialize`メソッドを直接オーバーライドせずに済みます。
 
-[`after_find`][]コールバックは、Active Recordがデータベースからレコードを1件読み込むたびに呼び出されます。`after_find`と`after_initialize`が両方定義されている場合は、`after_find`が先に呼び出されます。
+[`after_find`][]コールバックは、Active Recordがデータベースからレコードを読み込むたびに呼び出されます。
+
+`after_find`と`after_initialize`が両方定義されている場合は、`after_find`が先に呼び出されます。
 
 NOTE: `after_initialize`と`after_find`コールバックには、対応する`before_*`メソッドはありません。
 
@@ -465,12 +483,12 @@ end
 ```irb
 irb> User.new
 オブジェクトは初期化されました
-=> #<User id: nil>
+#=> #<User id: nil>
 
 irb> User.first
 オブジェクトが見つかりました
 オブジェクトは初期化されました
-=> #<User id: 1>
+#=> #<User id: 1>
 ```
 
 [`after_find`]:
@@ -491,12 +509,12 @@ end
 ```
 
 ```irb
-user = User.create(name: "Kuldeep")
-=> #<User id: 1, name: "Kuldeep", created_at: "2013-11-25 12:17:49", updated_at: "2013-11-25 12:17:49">
+irb> user = User.create(name: "Kuldeep")
+#=> #<User id: 1, name: "Kuldeep", created_at: "2013-11-25 12:17:49", updated_at: "2013-11-25 12:17:49">
 
 irb> user.touch
 オブジェクトにtouchしました
-=> true
+#=> true
 ```
 
 このコールバックは`belongs_to`と併用できます。
@@ -522,12 +540,12 @@ end
 
 ```irb
 irb> book = Book.last
-=> #<Book id: 1, library_id: 1, created_at: "2013-11-25 17:04:22", updated_at: "2013-11-25 17:05:05">
+#=> #<Book id: 1, library_id: 1, created_at: "2013-11-25 17:04:22", updated_at: "2013-11-25 17:05:05">
 
 irb> book.touch # book.library.touchがトリガーされる
 Bookがtouchされました
 Book/Libraryがtouchされました
-=> true
+#=> true
 ```
 
 [`after_touch`]:
@@ -573,7 +591,7 @@ Book/Libraryがtouchされました
 
 `after_initialize`コールバックは、そのクラスの新しいオブジェクトが初期化されるたびに呼び出されます。
 
-NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自動的に生成される動的なfinderメソッドです。詳しくは[動的finderのセクション](active_record_querying.html#動的検索)を参照してください。
+NOTE: `find_by_*`メソッドと`find_by_*!`メソッドは、属性ごとに自動的に生成される動的なfinderメソッドです。詳しくは[動的finder](active_record_querying.html#動的検索)セクションを参照してください。
 
 条件付きコールバック
 ---------------------
@@ -654,7 +672,7 @@ end
 コールバックをスキップする
 ------------------
 
-[バリデーション](active_record_validations.html)の場合と同様、以下のメソッドを使うことでコールバックをスキップできます。
+[バリデーション](active_record_validations.html)の場合と同様、以下のメソッドを使うとコールバックはスキップされます。
 
 * [`decrement!`][]
 * [`decrement_counter`][]
@@ -699,7 +717,7 @@ irb> user.update_columns(email: 'new_email@example.com')
 
 上は、`before_save`コールバックをトリガーせずにユーザーのメールアドレスを更新しています。
 
-WARNING: コールバックには、スキップしてはならない重要なビジネスルールやアプリケーションロジックが設定されている可能性もあるので、これらのメソッドの利用には十分注意すべきです。この点を理解せずにコールバックをバイパスすると、データの不整合が発生する可能性があります。
+WARNING: コールバックによっては、スキップしてはならない重要なビジネスルールやアプリケーションロジックが設定されている可能性もあるので、これらのメソッドの利用には十分注意すべきです。この点を理解せずにコールバックをバイパスすると、データの不整合が発生する可能性があります。
 
 [`decrement!`]:
     https://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-decrement-21
@@ -716,13 +734,13 @@ WARNING: コールバックには、スキップしてはならない重要な�
 [`increment_counter`]:
     https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html#method-i-increment_counter
 [`insert`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-insert
 [`insert!`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert-21
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-insert-21
 [`insert_all`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-insert_all
 [`insert_all!`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-insert_all-21
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-insert_all-21
 [`touch_all`]:
     https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-touch_all
 [`update_column`]:
@@ -734,45 +752,49 @@ WARNING: コールバックには、スキップしてはならない重要な�
 [`update_counters`]:
     https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-update_counters
 [`upsert`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-upsert
 [`upsert_all`]:
-    https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert_all
+    https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-upsert_all
 
-コールバックを抑制する
+保存を抑制する
 ---------------------
 
-特定のシナリオでは、Railsアプリケーション内で特定のコールバックの実行を一時的に抑制しなければならなくなる場合があります。これは、コールバックを恒久的に無効にせずに、特定の操作で特定のアクションをスキップしたい場合に便利です。
+ある種のシナリオでは、コールバック内でレコードが保存されないように一時的に保存を抑制する必要が生じることがあります。保存の抑制は、レコードの関連付けが複雑にネストしている状況で、コールバックを恒久的に無効にしたり複雑な条件付きロジックを導入したりせずに、特定の操作中にのみ特定のレコードの保存をスキップしたい場合に役立ちます。
 
-Railsは、[`ActiveRecord::Suppressor`モジュール](https://api.rubyonrails.org/classes/ActiveRecord/Suppressor.html)でコールバックを抑制する（suppress）メカニズムを提供しています。コールバックを抑制したいコードブロックをこのモジュールでラップすれば、その特定の操作中はコールバックが実行されないようにできます。
+Railsは、[`ActiveRecord::Suppressor`モジュール](https://api.rubyonrails.org/classes/ActiveRecord/Suppressor.html)でコールバックを抑制する（suppress）メカニズムを提供しています。コールバックを抑制したいコードブロックをこのモジュールでラップすると、その操作中はコールバックが実行されなくなります。
 
-`User`モデルがあり、新規ユーザーがサインアップした後に「ようこそメール」を送信するコールバックがモデルに含まれているシナリオを考えてみましょう。ただし、ようこそメールを送信せずにユーザーを作成しなければならない場合もあります（データベースにテストデータをシードするときなど）。
-
+ユーザーに対してさまざまな通知が行われるシナリオを考えてみましょう。
+以下の`User`を作成すると、`Notification`レコードも自動的に作成されます。
 
 ```ruby
 class User < ApplicationRecord
-  after_create :send_welcome_email
+  has_many :notifications
 
-  def send_welcome_email
-    puts "Welcome email sent to #{self.email}"
+  after_create :create_welcome_notification
+
+  def create_welcome_notification
+    notifications.create(event: "sign_up")
   end
+end
+
+class Notification < ApplicationRecord
+  belongs_to :user
 end
 ```
 
-この例の`after_create`コールバックは、新しいユーザーが作成されるたびに`send_welcome_email`メソッドをトリガーします。
-
-ようこそメールを送信せずにユーザーを作成するには、次のように`ActiveRecord::Suppressor`モジュールを利用します。
+ユーザーを作成するときに通知を作成しないようにするには、次のように`ActiveRecord::Suppressor`モジュールを利用します。
 
 ```ruby
-User.suppress do
+Notification.suppress do
   User.create(name: "Jane", email: "jane@example.com")
 end
 ```
 
-上記のコードでは、`User.suppress`ブロックによって、"Jane"ユーザーの作成中は`send_welcome_email`コールバックが実行されないようにし、ようこそメールを送信せずにユーザーを作成できるようにしています。
+上のコードは、`Notification.suppress`ブロックにより、ユーザー"Jane"の作成中は `Notification`を保存しなくなります。
 
-WARNING: `ActiveRecord::Suppressor`を利用すると、コールバックの実行を選択的に制御できるメリットがある反面、コードが複雑になって思わぬ振る舞いが発生する可能性もあります。コールバックを抑制すると、アプリケーションで意図したフローがわかりにくくなり、今後のコードベースの理解やメンテナンスが困難になる可能性があります。コールバックを抑制した場合の影響の大きさを慎重に検討し、ドキュメント作成やテストを入念に実施して、意図しない副作用やパフォーマンスの問題、テストの失敗のリスクを軽減する必要があります。
+WARNING: `ActiveRecord::Suppressor`を利用すると、コールバックの実行を選択的に制御できるメリットがある反面、コードが複雑になって思わぬ振る舞いが発生する可能性もあります。コールバックを抑制すると、アプリケーションで意図したフローがわかりにくくなり、今後のコードベースの理解やメンテナンスが困難になる可能性があります。`ActiveRecord::Suppressor`を利用した場合の影響の大きさを慎重に検討し、ドキュメント作成やテストを入念に実施して、意図しない副作用やテストの失敗のリスクを軽減する必要があります。
 
-コールバックの停止
+コールバックを停止する
 -----------------
 
 モデルに新しくコールバックを登録すると、コールバックは実行キューに入ります。このキューには、あらゆるモデルに対するバリデーション、登録済みコールバック、実行待ちのデータベース操作が置かれます。
@@ -806,7 +828,7 @@ Product.create # => false
 ただし、（`create`ではなく）`create!`を呼び出した場合は`ActiveRecord::RecordNotSaved`が発生します。この例外は、コールバックの中断によりレコードが保存されなかったことを示します。
 
 ```ruby
-User.create! # => raises an ActiveRecord::RecordNotSaved
+User.create! # => ActiveRecord::RecordNotSavedをraiseする
 ```
 
 `throw :abort`がdestroy系のコールバックで呼び出された場合は、`destroy`はfalseを返します。
@@ -824,7 +846,7 @@ User.first.destroy # => false
 ただし、（`destroy`ではなく）`destroy!`を呼び出した場合は`ActiveRecord::RecordNotDestroyed`が発生します。
 
 ```ruby
-User.first.destroy! # => raises an ActiveRecord::RecordNotDestroyed
+User.first.destroy! # => ActiveRecord::RecordNotDestroyedをraiseする
 ```
 
 関連付けのコールバック
@@ -915,12 +937,12 @@ end
 
 ```irb
 irb> user = User.first
-=> #<User id: 1>
+#=> #<User id: 1>
 irb> user.articles.create!
-=> #<Article id: 1, user_id: 1>
+#=> #<Article id: 1, user_id: 1>
 irb> user.destroy
 Article destroyed
-=> #<User id: 1>
+#=> #<User id: 1>
 ```
 
 WARNING: `before_destroy`コールバックを使う場合は、レコードが`dependent: :destroy`で削除される前に実行されるように、`dependent: :destroy`関連付けの前に配置する（または`prepend: true`オプションを指定する）必要があります。
@@ -933,7 +955,6 @@ WARNING: `before_destroy`コールバックを使う場合は、レコードが`
 データベースのトランザクションが完了したときにトリガーされるコールバックが2つあります。[`after_commit`][]と[`after_rollback`][]です。
 
 これらのコールバックは`after_save`コールバックときわめて似ていますが、データベースの変更のコミットまたはロールバックが完了するまでトリガーされない点が異なります。これらのメソッドは、Active Recordのモデルから、データベーストランザクションの一部に含まれていない外部のシステムとやりとりしたい場合に特に便利です。
-
 
 例として、`PictureFile`モデルで、対応するレコードが削除された後にファイルを1つ削除する必要があるとしましょう。
 
@@ -961,7 +982,6 @@ end
 
 `after_commit`コールバックを使えば、このような場合に対応できます。
 
-
 ```ruby
 class PictureFile < ApplicationRecord
   after_commit :delete_picture_file_from_disk, on: :destroy
@@ -975,7 +995,8 @@ end
 
 NOTE: `:on`オプションは、コールバックがトリガーされるタイミングを指定します。`:on`オプションを指定しないと、すべてのアクションでコールバックがトリガーされます。詳しくは[`:on`の利用方法](#ライフサイクルイベントで実行されるコールバックを登録する)を参照してください。
 
-トランザクションが完了すると、そのトランザクション内で作成・更新・破棄されたすべてのモデルに対して`after_commit`コールバックまたは`after_rollback`コールバックが呼び出されます。ただし、これらのコールバックのいずれかで例外が発生した場合、その例外はバブルアップされ、残りの`after_commit`や`after_rollback`メソッドは実行されません。
+トランザクションが完了すると、そのトランザクション内で作成・更新・破棄されたすべてのモデルに対して`after_commit`コールバックまたは`after_rollback`コールバックが呼び出されます。
+ただし、これらのコールバックのいずれかで例外が発生した場合、その例外はバブルアップされ、残りの`after_commit`や`after_rollback`メソッドは実行されません。
 
 ```ruby
 class User < ActiveRecord::Base
@@ -989,7 +1010,7 @@ end
 
 WARNING: コールバックコードで例外が発生した場合は、他のコールバック実行が中断されないよう、その例外を`rescue`してコールバック内で処理する必要があります。
 
-`after_commit`の保証は、`after_save`や`after_update`や`after_destroy`とはまったく異なる保証です。たとえば、以下の`after_save`で例外が発生した場合、トランザクションはロールバックし、データは保持されません。
+`after_commit`の保証は、`after_save`や`after_update`や`after_destroy`の保証とはまったく異なります。たとえば、以下の`after_save`で例外が発生した場合、トランザクションはロールバックし、データは保持されません。
 
 ```ruby
 class User < ActiveRecord::Base
@@ -1013,7 +1034,8 @@ end
 
 `after_commit`コールバックや`after_rollback`コールバック内で実行されるコード自体は、トランザクション内に囲まれません。
 
-データベース内の同じレコードを単一のトランザクションのコンテキストで表現する場合、`after_commit`コールバックや`after_rollback`コールバックで注意すべき重要な動作があります。これらのコールバックは、トランザクション内で変更される**特定のレコードの最初のオブジェクトに対してのみトリガーされます**。読み込まれている他のオブジェクトは、同じデータベースレコードを表現しているにもかかわらず、`after_commit`コールバックや`after_rollback`コールバックはどのオブジェクトでもトリガーされません。
+データベース内の同じレコードを単一のトランザクションのコンテキストで表現する場合、`after_commit`コールバックや`after_rollback`コールバックで注意すべき重要な動作があります。
+これらのコールバックは、トランザクション内で変更される**特定のレコードの最初のオブジェクトに対してのみトリガーされます**。読み込まれている他のオブジェクトは、同じデータベースレコードを表現しているにもかかわらず、`after_commit`コールバックや`after_rollback`コールバックはどのオブジェクトでもトリガーされません。
 
 ```ruby
 class User < ApplicationRecord
@@ -1165,7 +1187,9 @@ class FileDestroyerCallback
 end
 ```
 
-クラス内で上記のように宣言すると、コールバックメソッドはモデルオブジェクトをパラメーターとして受け取ります。これは次のように、そのクラスを利用するすべてのモデルで機能します。
+クラス内で上のように宣言すると、コールバックメソッドはモデルオブジェクトをパラメーターとして受け取ります。
+
+これは次のように、そのクラスを利用するすべてのモデルで機能します。
 
 ```ruby
 class PictureFile < ApplicationRecord
@@ -1173,7 +1197,9 @@ class PictureFile < ApplicationRecord
 end
 ```
 
-ここではコールバックをインスタンスメソッドとして宣言しているので、`FileDestroyerCallback`オブジェクトを`new`でインスタンス化する必要があることにご注意ください。これは、コールバックがインスタンス化されたオブジェクトのステートを利用する場合に特に便利です。ただし多くの場合、以下のようにコールバックをクラスメソッドとして宣言する方が合理的です。
+ここではコールバックをインスタンスメソッドとして宣言しているので、`FileDestroyerCallback`オブジェクトを`new`でインスタンス化する必要があることにご注意ください。これは、コールバックがインスタンス化されたオブジェクトのステートを利用する場合に特に便利です。
+
+ただし多くの場合、以下のようにコールバックをクラスメソッドとして宣言する方が合理的です。
 
 ```ruby
 class FileDestroyerCallback
