@@ -5,7 +5,7 @@ Ruby on Rails インストールガイド
 
 OSにはRubyがプリインストールされている場合もありますが、最新でないことが多いうえに、アップグレードできないようになっています。[Mise](https://mise.jdx.dev/getting-started.html)などのバージョン管理ソフトウェアを使うことで、最新バージョンのRubyをインストールできるようになり、アプリごとに異なるバージョンのRubyを使い分けることも、新しいバージョンがリリースされたときのアップグレードも手軽に行えるようになります。
 
-自分のコンピュータにRubyやRailsを直接インストールする代わりに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
+Dockerが使える環境であれば、自分のコンピュータにRubyやRailsを直接インストールする代わりに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
 
 --------------------------------------------------------------------------------
 
