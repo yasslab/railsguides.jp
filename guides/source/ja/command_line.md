@@ -65,7 +65,12 @@ $ rails new my_app
 | `--skip-system-test`    | システムテストのファイルをスキップ                        |
 | `--skip-bootsnap`       | bootsnap gemをスキップ                               |
 | `--skip-dev-gems`       | development用gemの追加をスキップ                      |
+| `--skip-thruster`       | Thrusterのセットアップをスキップ                       |
 | `--skip-rubocop`        | RuboCopのセットアップをスキップ                       |
+| `--skip-brakeman`       | Brakemanのセットアップをスキップ                       |
+| `--skip-ci`             | GitHub CIファイルのセットアップをスキップ                 |
+| `--skip-kamal`          | Kamalのセットアップをスキップ                       |
+| `--skip-solid`          | Solid Cache、Solid Queue、Solid Cableのセットアップをスキップ |
 
 `rails new`には他にも多くのオプションを渡せます。すべてのオプションを表示するには`rails new --help`を実行してください。
 
@@ -115,6 +120,30 @@ development:
 ```
 
 PostgreSQLを選択したことに対応するデータベース設定が生成されたことがわかります。
+
+### デフォルトをスキップする
+
+一部のファイルの生成をスキップしたい場合や、一部のライブラリを完全にスキップしたい場合は、以下のように`rails new`コマンドに`--skip`で始まるオプション引数の1つを渡せます。
+
+```bash
+$ rails new sas --skip-active-storage
+Based on the specified options, the following options will also be activated:
+
+  --skip-action-mailbox [due to --skip-active-storage]
+  --skip-action-text [due to --skip-active-storage]
+
+      create
+      create  README.md
+      ...
+```
+
+上の例では、Active Storageがスキップされるのに加えて、Active Storage機能に依存しているAction MailboxとAction Textもスキップされます。
+
+オプションの完全なリスト (スキップ可能なものを含む) については、`--help`で確認してください。
+
+```bash
+$ rails new --help
+```
 
 コマンドラインの基礎
 -------------------
