@@ -342,7 +342,7 @@ Railsが定数を自動読み込みするパスの配列を渡せます。デフ
 
 #### `config.cache_store`
 
-Railsでのキャッシュ処理に使われるキャッシュストアを設定します。指定できるオプションは次のシンボル`:memory_store`、`:file_store`、`:mem_cache_store`、`:null_store`、`:redis_cache_store`のいずれか、またはキャッシュAPIを実装するオブジェクトです。デフォルト値は`:file_store`です。ストアごとの設定オプションについては[キャッシュストア](caching_with_rails.html#キャッシュストア)を参照してください。
+Railsでのキャッシュ処理に使われるキャッシュストアを設定します。指定できるオプションは次のシンボル`:memory_store`、`:file_store`、`:mem_cache_store`、`:null_store`、`:redis_cache_store`のいずれか、またはキャッシュAPIを実装するオブジェクトです。デフォルト値は`:file_store`です。ストアごとの設定オプションについては[キャッシュストア](caching_with_rails.html#その他のキャッシュストア)を参照してください。
 
 #### `config.colorize_logging`
 
