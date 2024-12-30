@@ -17,7 +17,9 @@ Active Jobについて
 
 Active Jobは、バックグラウンドジョブを宣言してキューイングバックエンドで実行するために設計されたRailsのフレームワークです。
 
-メールの送信、データの処理、クリーンアップや料金の請求といった定期的なメンテナンス業務の処理などのタスクを実行するための、標準化されたインターフェイスを提供します。Active Jobは、これらのタスクをメインアプリケーションスレッドで処理する代わりに、デフォルトのSolid Queueなどのキューイングバックエンドに処理させることで、時間のかかる操作がリクエスト・レスポンスのサイクルをブロックしないようにします。これにより、アプリケーションのパフォーマンスと応答性が向上し、タスクを並行して処理できるようになります。
+メールの送信、データの処理、クリーンアップや料金の請求といった定期的なメンテナンス業務の処理などのタスクを実行するための、標準化されたインターフェイスを提供します。
+
+Active Jobは、これらのタスクをメインアプリケーションスレッドで処理する代わりに、デフォルトのSolid Queueなどのキューイングバックエンドに処理させることで、時間のかかる操作がリクエスト・レスポンスのサイクルをブロックしないようにします。これにより、アプリケーションのパフォーマンスと応答性が向上し、タスクを並行して処理できるようになります。
 
 ジョブを作成して登録する
 --------------
@@ -26,7 +28,7 @@ Active Jobは、バックグラウンドジョブを宣言してキューイン�
 
 ### ジョブを作成する
 
-Active Jobは、ジョブ作成用のRailsジェネレータを提供しています。以下を実行すると、`app/jobs`にジョブが1つ作成されます。
+Active Jobは、ジョブ作成用のRailsジェネレータを提供しています。以下を実行すると、`app/jobs/`ディレクトリの下にジョブが1つ作成されます。
 
 ```bash
 $ bin/rails generate job guests_cleanup
@@ -41,7 +43,7 @@ create  app/jobs/guests_cleanup_job.rb
 $ bin/rails generate job guests_cleanup --queue urgent
 ```
 
-ジェネレータを使いたくない場合は、`app/jobs`の下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
+ジェネレータを使いたくない場合は、`app/jobs/`ディレクトリの下に自分でジョブファイルを作成することもできます。ジョブファイルでは必ず`ApplicationJob`を継承してください。
 
 作成されたジョブは以下のようになります。
 
@@ -105,6 +107,10 @@ GuestsCleanupJob.perform_later(guest1, guest2, filter: "some_filter")
 [`set`]:
     https://api.rubyonrails.org/classes/ActiveJob/Core/ClassMethods.html#method-i-set
 
+### 複数のジョブを一括登録する
+
+[`perform_all_later`][]を使うと、複数のジョブを一括登録できます。詳しくは後述の[一括登録](#一括登録)を参照してください。
+
 Solid Queue: デフォルトのバックエンド
 ------------------------------
 
@@ -128,7 +134,7 @@ config.active_job.queue_adapter = :solid_queue
 config.solid_queue.connects_to = { database: { writing: :queue } }
 ```
 
-上の設定では、production環境におけるActive Jobのデフォルトと同様にdevelopment環境に`:solid_queue`アダプターが設定され、書き込み用に`queue`データベースに接続します。
+上の設定では、production環境におけるActive Jobのデフォルトと同様に、development環境に`:solid_queue`アダプタが設定され、書き込み用に`queue`データベースに接続します。
 
 次に、development環境用のデータベース設定で以下のように`queue`を追加します。
 
@@ -249,7 +255,7 @@ Solid Queueの設定オプションを理解するには、さまざまな種類
 
 ### キューの順序
 
-設定の`queues`オプションには、後述する[設定](#configuration)のオプションに沿って、ワーカーがジョブを選択するキューのリストを記述します。キューのリストでは、キューの順序が重要です。ワーカーはリストの最初のキューからジョブを選択し、最初のキューにジョブがなくなると、2番目のキューに移動し、以下同様に繰り返します。
+設定の`queues`オプションには、後述する[設定](#設定オプション)のオプションに沿って、ワーカーがジョブを選択するキューのリストを記述します。キューのリストでは、キューの順序が重要です。ワーカーはリストの最初のキューからジョブを選択し、最初のキューにジョブがなくなると、2番目のキューに移動し、以下同様に繰り返します。
 
 ```yaml
 # config/queue.yml
@@ -266,13 +272,13 @@ NOTE: ワイルドカード`*`の利用は、「単独」または「キュー�
 
 WARNING: `queues: active_storage*`のようにキュー名でワイルドカードを利用すると、マッチするすべてのキューを識別するために`DISTINCT`クエリが必要になるため、ポーリングのパフォーマンスが低下して大きなテーブルでは遅くなる可能性があります。パフォーマンスを落とさないためには、ワイルドカードを使わずに正確なキュー名を指定することが推奨されます。
 
-Active Jobは、ジョブをエンキューするときに正の整数の優先度をサポートします（後述の[優先度](#priority)セクションを参照）。 1件のキュー内では、優先度に基づいてジョブが選択されます（整数が小さいほど優先度が高くなります）。
+Active Jobは、ジョブをエンキューするときに正の整数の優先度をサポートします（後述の[優先度](#優先度)セクションを参照）。 1件のキュー内では、優先度に基づいてジョブが選択されます（整数が小さいほど優先度が高くなります）。
 
 ただしキューが複数ある場合は、キュー自体の順序が優先されます。たとえば、`production`と`background`という2つのキューがこの順序で設定されている場合、場合、`background`キュー内の一部のジョブの優先度の方が高い場合でも、`production`キュー内のジョブが常に最初に処理されます。
 
 ### スレッド、プロセス、シグナル
 
-Solid Queueの並列処理は、**スレッド**（[`threads`](#configuration)パラメータで設定可能）、**プロセス**（[`processes`](#configuration)パラメータで設定可能）、または**水平スケーリング**によって実現されます。
+Solid Queueの並列処理は、**スレッド**（[`threads`](#設定オプション)パラメータで設定可能）、**プロセス**（[`processes`](#設定オプション)パラメータで設定可能）、または**水平スケーリング**によって実現されます。
 
 スーパーバイザーはプロセスを管理し、以下のシグナルに応答します。
 
@@ -282,13 +288,23 @@ Solid Queueの並列処理は、**スレッド**（[`threads`](#configuration)�
 - **QUIT**: プロセスを強制的に即時終了します。
 
 ワーカーが`KILL`シグナルなどによって予期せず強制終了された場合、実行中のジョブは失敗としてマークされ、`SolidQueue::Processes::ProcessExitError`や`SolidQueue::Processes::ProcessPrunedError`などのエラーが発生します。
-ハートビート設定は、期限切れのプロセスを管理および検出するのに有用です。詳しくは[Solid Queueドキュメントの「スレッド、プロセス、シグナル」](https://github.com/rails/solid_queue?tab=readme-ov-file#threads-processes-and-signals)を参照してください。
+ハートビート設定は、期限切れのプロセスを管理および検出するのに有用です。
 
-### エンキュー時のエラー
+スレッド、プロセス、シグナルについて詳しくは[Solid Queueのドキュメント][threads-processes-and-signals]を参照してください。
 
-Solid Queueは、ジョブのエンキュー中にActive Recordエラーが発生すると、`SolidQueue::Job::EnqueueError`を発生させます。このエラーは、Active Jobによって発生する`ActiveJob::EnqueueError`（エラーを処理して`perform_later`が`false`を返すようにする）とは異なることにご注意ください。このため、Railsや`Turbo::Streams::BroadcastJob`などのサードパーティgemによってエンキューされたジョブのエラー処理が複雑になります。
+[threads-processes-and-signals]:
+  https://github.com/rails/solid_queue?tab=readme-ov-file#threads-processes-and-signals
 
-定期的なタスクの場合、エンキュー中に発生したエラーはすべてログに出力されますが、エラーをraiseしません。詳しくは[Solid Queue ドキュメントの「エンキュー時のエラー」](https://github.com/rails/solid_queue?tab=readme-ov-file#errors-when-enqueuing)を参照してください。
+### キュー登録時のエラー
+
+Solid Queueは、ジョブのエンキュー中にActive Recordエラーが発生すると、`SolidQueue::Job::EnqueueError`を発生させます。
+
+このエラーは、Active Jobによって発生する`ActiveJob::EnqueueError`（エラーを処理して`perform_later`が`false`を返すようにする）とは異なることにご注意ください。このため、Railsや`Turbo::Streams::BroadcastJob`などのサードパーティgemによってエンキューされたジョブのエラー処理が複雑になります。
+
+定期的なタスクの場合、エンキュー中に発生したエラーはすべてログに出力されますが、エラーをraiseしません。エンキュー時のエラーについて詳しくは[Solid Queueのドキュメント][errors-when-enqueuing]を参照してください。
+
+[errors-when-enqueuing]:
+  https://github.com/rails/solid_queue?tab=readme-ov-file#errors-when-enqueuing
 
 ### コンカレンシーの制御
 
@@ -320,7 +336,10 @@ end
 
 これにより、特定の連絡先（contact）に対して一度に実行できるジョブは、ジョブクラスにかかわらず1件だけになります。
 
-詳しくは[Solid Queueドキュメントの「同時実行制御」](https://github.com/rails/solid_queue?tab=readme-ov-file#concurrency-controls)を参照してください。
+コンカレンシー制御について詳しくは[Solid Queueのドキュメント][concurrency-controls]を参照してください。
+
+[concurrency-controls]:
+  https://github.com/rails/solid_queue?tab=readme-ov-file#concurrency-controls
 
 ### ジョブのエラー報告
 
@@ -358,7 +377,12 @@ class ApplicationJob < ActiveJob::Base
 end
 ```
 
-また、Solid Queueジョブ用のデータベースコネクションを別途設定することで、トランザクションの整合性の問題を回避しながら、アプリと同一のデータベースを利用するようにSolid Queueを構成することも可能です。詳しくは[Solid Queueドキュメントの「トランザクションの整合性」](https://github.com/rails/solid_queue?tab=readme-ov-file#jobs-and-transactional-integrity)を参照してください。
+また、Solid Queueジョブ用のデータベースコネクションを別途設定することで、トランザクションの整合性の問題を回避しながら、アプリと同一のデータベースを利用するようにSolid Queueを構成することも可能です。
+
+トランザクションの整合性について詳しくは[Solid Queueのドキュメント][jobs-and-transactional-integrity]を参照してください。
+
+[jobs-and-transactional-integrity]:
+  https://github.com/rails/solid_queue?tab=readme-ov-file#jobs-and-transactional-integrity
 
 ### 定期的なタスク
 
@@ -379,13 +403,19 @@ production:
 上の設定例の`MyJob`のように、`args`オプションでジョブに引数を渡すことも可能です。`args`オプションには「単一の引数」「ハッシュ」「引数の配列」のいずれかを渡すことが可能で、配列の場合は最後の要素にキーワード引数も含められます。
 このようにして、ジョブを定期実行したり、指定の時間に実行したりできます。
 
-詳しくは[Solid Queueドキュメントの「定期タスク」](https://github.com/rails/solid_queue?tab=readme-ov-file#recurring-tasks)を参照してください。
+定期的なタスクについて詳しくは[Solid Queueのドキュメント][recurring-tasks]を参照してください。
+
+[recurring-tasks]:
+  https://github.com/rails/solid_queue?tab=readme-ov-file#recurring-tasks
 
 ### ジョブのトラッキングと管理
 
-失敗したジョブの監視や管理を一元化するには、[`mission_control-jobs`](https://github.com/rails/mission_control-jobs)などのツールが有用です、ジョブのステータス、ジョブ失敗の理由、ジョブ再試行の動作に関する洞察を提供し、問題をより効果的にトラッキングして解決を支援します。
+失敗したジョブの監視や管理を一元化するには、[`mission_control-jobs`][]などのツールが有用です、ジョブのステータス、ジョブ失敗の理由、ジョブ再試行の動作に関する洞察を提供し、問題をより効果的にトラッキングして解決を支援します。
 
 `mission_control-jobs`ツールを使うと、たとえば大きなファイルを処理するジョブがタイムアウトで失敗したときに、失敗を検査し、ジョブの引数や実行履歴を確認して、「再試行」「再キューイング」「破棄」のいずれかを決定するのに役立ちます。
+
+[`mission_control-jobs`]:
+  https://github.com/rails/mission_control-jobs
 
 キュー
 ------
@@ -435,7 +465,7 @@ end
 # 自分のジョブキューにプレフィックスが設定されなくなります
 ```
 
-キュー名のプレフィックスのデフォルト区切り文字は'\_'です。
+キュー名のプレフィックスのデフォルト区切り文字はアンダースコア`_`です。
 この区切り文字は、[`config.active_job.queue_name_delimiter`][]設定で変更できます。
 
 ```ruby
@@ -491,9 +521,12 @@ MyJob.set(queue: :another_queue).perform_later(record)
 NOTE: [SOLID QUEUE以外の一部のバックエンド](#代替キューイングバックエンド
 )では、リッスンするキューを指定する必要が生じることもあります。
 
-[`config.active_job.queue_name_delimiter`]: configuring.html#config-active-job-queue-name-delimiter
-[`config.active_job.queue_name_prefix`]: configuring.html#config-active-job-queue-name-prefix
-[`queue_as`]: https://api.rubyonrails.org/classes/ActiveJob/QueueName/ClassMethods.html#method-i-queue_as
+[`config.active_job.queue_name_delimiter`]:
+  configuring.html#config-active-job-queue-name-delimiter
+[`config.active_job.queue_name_prefix`]:
+  configuring.html#config-active-job-queue-name-prefix
+[`queue_as`]:
+  https://api.rubyonrails.org/classes/ActiveJob/QueueName/ClassMethods.html#method-i-queue_as
 
 優先度
 --------------
@@ -508,6 +541,7 @@ end
 ```
 
 デフォルトのキューイングバックエンドであるSolid Queueは、キューの順序に基づいてジョブの優先順位を決定します。詳しくは前述の[キューの順序](#キューの順序)セクションを参照してください。
+
 Solid Queueでキューの順序と優先度オプションを両方使っている場合、キューの順序が優先され、優先度オプションは個別のキュー内でのみ適用されます。
 
 Solid Queue以外のキューイングバックエンドでは、ジョブを同じキュー内や複数のキュー間の他のジョブと比較する形で優先度を指定できる場合があります。詳しくは、利用するバックエンドのドキュメントを参照してください。
@@ -603,6 +637,7 @@ end
     https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_perform
 
 `perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされなくなる点にご注意ください。
+
 詳しくは[一括登録のコールバック](#一括登録のコールバック)を参照してください。
 
 一括登録
@@ -628,7 +663,8 @@ guest_cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest).set(wai
 ActiveJob.perform_all_later(guest_cleanup_jobs)
 ```
 
-`perform_all_later`は、正常にエンキューされたジョブの個数をログ出力します。たとえば、上の`Guest.all.map`の結果`guest_cleanup_jobs`が3個になった場合、`Enqueued 3 jobs to Async (3 GuestsCleanupJob)`とログ出力されます（エンキューがすべて成功した場合）。
+`perform_all_later`は、正常にエンキューされたジョブの個数をログ出力します。
+たとえば、上の`Guest.all.map`の結果`guest_cleanup_jobs`が3個になった場合、`Enqueued 3 jobs to Async (3 GuestsCleanupJob)`とログ出力されます（エンキューがすべて成功した場合）。
 
 `perform_all_later`の戻り値は`nil`です。これは、`perform_later`の戻り値が、エンキューされたジョブクラスのインスタンスであるのと異なる点にご注意ください。
 
@@ -676,16 +712,17 @@ ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
 
 ### キューバックエンドのサポート
 
-`perform_all_later`によるキューへの一括登録（一括エンキュー）は、キューバックエンド側でのサポートが必要ですす。デフォルトのキューバックエンドであるSolid Queueは、`enqueue_all`で一括登録をサポートします。
+`perform_all_later`によるキューへの一括登録（バルクエンキュー）は、キューバックエンド側でのサポートが必要ですす。デフォルトのキューバックエンドであるSolid Queueは、`enqueue_all`で一括登録をサポートします。
 
-Sidekiqなどの[他のバックエンド](#alternate-queuing-backends)には`push_bulk`メソッドがあり、大量のジョブをRedisにプッシュして、ラウンドトリップネットワークの遅延を防ぐようになっています。GoodJobも`GoodJob::Bulk.enqueue`メソッドで一括登録をサポートします。
+Sidekiqなどの[他のバックエンド](#代替キューイングバックエンド)には`push_bulk`メソッドがあり、大量のジョブをRedisにプッシュして、ラウンドトリップネットワークの遅延を防ぐようになっています。GoodJobも`GoodJob::Bulk.enqueue`メソッドで一括登録をサポートします。
 
 キューへの一括登録がキューバックエンドでサポートされていない場合、`perform_all_later`はジョブを1件ずつキューに登録します。
 
 Action Mailer
 ------------
 
-最近のWebアプリケーションでよく実行されるジョブといえば、リクエスト・レスポンスサイクルの外でメールを送信することでしょう。これにより、ユーザーが送信を待つ必要がなくなります。Active JobはAction Mailerと統合されているので、非同期メール送信を手軽に行えます。
+最近のWebアプリケーションでよく実行されるジョブといえば、リクエスト・レスポンスサイクルの外でメールを送信することで、アプリケーションのユーザーが待たされないようにすることでしょう。
+Active JobはAction Mailerと統合されているので、非同期メール送信を手軽に行えます。
 
 ```ruby
 # すぐにメール送信するなら#deliver_now
@@ -731,7 +768,10 @@ Active Jobの引数では、デフォルトで以下の型をサポートしま�
 GlobalID
 --------
 
-Active Jobでは[GlobalID](https://github.com/rails/globalid/blob/main/README.md)がパラメータとしてサポートされています。GlobalIDを使えば、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がありません。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ（deserialize）する必要がありました。従来のジョブが以下のようなものだったとします。
+Active Jobでは[GlobalID][]がパラメータとしてサポートされています。
+GlobalIDを使えば、動作中のActive Recordオブジェクトをジョブに渡す際にクラスとidを指定する必要がなくなります。クラスとidを指定する従来の方法では、後で明示的にデシリアライズ（deserialize）する必要がありました。
+
+従来のジョブが以下のようなものだったとします。
 
 ```ruby
 class TrashableCleanupJob < ApplicationJob
@@ -753,6 +793,9 @@ end
 ```
 
 このコードは、`GlobalID::Identification`をミックスインするすべてのクラスで動作します。このモジュールはActive Recordクラスにデフォルトでミックスインされます。
+
+[GlobalID]:
+  https://github.com/rails/globalid/blob/main/README.md
 
 ### シリアライザ
 
@@ -791,7 +834,9 @@ end
 Rails.application.config.active_job.custom_serializers << MoneySerializer
 ```
 
-初期化中は、再読み込み可能なコードの自動読み込みがサポートされていない点にご注意ください。そのため、たとえば以下のように`config/application.rb`を修正するなどして、シリアライザが1度だけ読み込まれるように設定することをおすすめします。
+初期化中は、再読み込み可能なコードの自動読み込みがサポートされていない点にご注意ください。
+
+そのため、たとえば以下のように`config/application.rb`を修正するなどして、シリアライザが1度だけ読み込まれるように設定することをおすすめします。
 
 ```ruby
 # config/application.rb
@@ -851,7 +896,7 @@ end
 
 ### デシリアライズ
 
-GlobalIDによって`#perform`に渡された完全なActive Recordオブジェクトのシリアライズが可能になります。
+GlobalIDを使うと、`#perform`に渡された完全なActive Recordオブジェクトをシリアライズできるようになります。
 
 ジョブがキューに登録された後で、`#perform`メソッドが呼び出される前に、渡されたレコードが削除された場合は、Active Jobは[`ActiveJob::DeserializationError`][]例外をraiseします。
 
@@ -871,7 +916,9 @@ GlobalIDによって`#perform`に渡された完全なActive Recordオブジェ�
 代替キューイングバックエンド
 --------------------------
 
-Active Jobでは、複数のキューイングバックエンド（Sidekiq、Resque、Delayed Job など）用の組み込みアダプタも利用できます。アダプタの最新リストについては[`ActiveJob::QueueAdapters`][]のAPIドキュメントを参照してください。
+Active Jobでは、複数のキューイングバックエンド（Sidekiq、Resque、Delayed Job など）用の組み込みアダプタも利用できます。
+
+アダプタの最新リストについては[`ActiveJob::QueueAdapters`][]のAPIドキュメントを参照してください。
 
 [`ActiveJob::QueueAdapters`]:
     https://api.rubyonrails.org/classes/ActiveJob/QueueAdapters.html
@@ -910,9 +957,9 @@ end
 
 ### バックエンドを起動する
 
-ジョブはRailsアプリケーションと並行して実行されるため、ほとんどのキューイングライブラリでは、ジョブ処理を機能させるために、Railsアプリの起動とは別に、ライブラリ固有のキューイングサービスも起動しておく必要があります。キューバックエンドの起動手順については、利用するライブラリのドキュメントを参照してください。
+ジョブはRailsアプリケーションと並行して実行されるため、ほとんどのキューイングライブラリでは、ジョブ処理を機能させるために、Railsアプリの起動とは別に、ライブラリ固有のキューイングサービスも起動しておく必要があります。
 
-主なドキュメントの一覧を以下に示します（すべてを網羅しているわけではありません）。
+キューバックエンドの起動手順については、利用するライブラリのドキュメントを参照してください。主なドキュメントの一覧を以下に示します（すべてを網羅しているわけではありません）。
 
 - [Sidekiq](https://github.com/mperham/sidekiq/wiki/Active-Job)
 - [Resque](https://github.com/resque/resque/wiki/ActiveJob)
