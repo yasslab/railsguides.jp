@@ -1379,7 +1379,7 @@ end
 
 これで、すべてのテストを実行するとパスするようになったはずです。
 
-NOTE: [BASIC認証](getting_started.html#basic認証)セクションの手順に沿う場合は、すべてのテストをパスさせるために`setup`ブロックに以下を追加する必要があります。
+NOTE: [BASIC認証](getting_started.html#認証機能を追加する)セクションの手順に沿う場合は、すべてのテストをパスさせるために`setup`ブロックに以下を追加する必要があります。
 
 ```ruby
 post articles_url, params: { article: { body: "Rails is awesome!", title: "Hello Rails" } }, headers: { Authorization: ActionController::HttpAuthentication::Basic.encode_credentials("dhh", "secret") }
