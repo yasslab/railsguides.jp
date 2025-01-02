@@ -5,7 +5,6 @@ Rails アップグレードガイド
 
 --------------------------------------------------------------------------------
 
-
 一般的なアドバイス
 --------------
 
@@ -51,7 +50,10 @@ Railsのバージョン間を移動するには以下のようにします。
 3. [アップデートタスク](#アップデートタスク)を実行する。
 4. テストを実行する。
 
-リリースされたすべてのRails gemリストについては[rubygems.org](https://rubygems.org/gems/rails/versions)を参照してください。
+リリースされたすべてのRails gemリストについては[rubygems.org][]を参照してください。
+
+[rubygems.org]:
+  https://rubygems.org/gems/rails/versions
 
 ### アップデートタスク
 
@@ -73,7 +75,7 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 
 新しいバージョンのRailsでは、前のバージョンとデフォルト設定が異なるものがあります。しかし上述の手順に従うことで、アプリケーションが引き続き**従来**バージョンのRailsのデフォルト設定で実行されます（`config/application.rb`の`config.load_defaults`の値がまだ変更されていないため）。
 
-`app:update`タスクでは、アプリケーションを新しいデフォルト設定に1つずつアップグレードできるように、`config/initializers/new_framework_defaults_X.Y.rb`ファイルが作成されます（ファイル名にはRailsのバージョンが含まれます）。このファイル内のコメントを解除して、新しいデフォルト設定を有効にする必要があります。この作業は、数回のデプロイに分けて段階的に実行できます。アプリケーションを新しいデフォルト設定で動かせる準備が整ったら、このファイルを削除して`config.load_defaults`の値を新しいバージョンに変更できます。
+`app:update`タスクでは、アプリケーションを新しいデフォルト設定に1つずつアップグレードできるように、`config/initializers/new_framework_defaults_X_Y.rb`ファイルが作成されます（ファイル名にはRailsのバージョンが含まれます）。このファイル内のコメントを解除して、新しいデフォルト設定を有効にする必要があります。この作業は、数回のデプロイに分けて段階的に実行できます。アプリケーションを新しいデフォルト設定で動かせる準備が整ったら、このファイルを削除して`config.load_defaults`の値を新しいバージョンに変更できます。
 
 Rails 7.2からRails 8.0へのアップグレード
 -------------------------------------
@@ -93,15 +95,14 @@ Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべて�
 
 `queue_adapter`コンフィグを提供しない場合は、引き続き`TestAdapter`が使われます。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」でまとめています。
-
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」にまとめられています。
 
 Rails 7.0からRails 7.1へのアップグレード
 -------------------------------------
 
 Rails 7.1で行われた変更について詳しくは、[Rails 7.1のリリースノート](7_1_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_Knowledge)」にまとめられています。
 
 ### development環境とtest環境のsecret_key_baseファイル名が変更された
 
@@ -118,7 +119,7 @@ production環境およびその他の環境は影響を受けません。
 
 ### 自動読み込みされるパスが`$LOAD_PATH`に含まれなくなった
 
-* [Disable config.add_autoload_paths_to_load_path by default in Rails 7.1 by casperisfine · Pull Request #44133 · rails/rails](https://github.com/rails/rails/pull/44133)
+* [Disable config.add_autoload_paths_to_load_path by default in Rails 7.1 by casperisfine · Pull Request #44133 · rails/rails][44133]
 
 Rails 7.1以降、オートローダーが管理するすべてのディレクトリは`$LOAD_PATH`に追加されなくなりました。
 これにより、手動で`require`を呼び出してそれらを読み込むことはできなくなります（いずれにしろ手動の`require`は行うべきではありません）。
@@ -135,9 +136,12 @@ config.add_autoload_paths_to_load_path = true
 
 `lib`ディレクトリはこのフラグの影響を受けず、常に`$LOAD_PATH`に追加されます。
 
+[44133]:
+  https://github.com/rails/rails/pull/44133
+
 ### config.autoload_libとconfig.autoload_lib_onceについて
 
-* [Introduce config.autoload_lib_once(ignore:) by fxn · Pull Request #48610 · rails/rails](https://github.com/rails/rails/pull/48610)
+* [Introduce config.autoload_lib_once(ignore:) by fxn · Pull Request #48610 · rails/rails][48610]
 
 アプリケーションの`lib`ディレクトリがautoloadのパスやautoload onceのパスに含まれていない場合、このセクションをスキップしてください。
 
@@ -192,19 +196,26 @@ config.autoload_lib(ignore: %w(assets tasks templates generators middleware))
 Rails.autoloaders.main.do_not_eager_load(config.root.join("lib"))
 ```
 
-`config.autoload_lib_once`メソッドは、アプリケーションの[`config.autoload_once_paths`]に`lib`がある場合と同様に振る舞います。
+`config.autoload_lib_once`メソッドは、アプリケーションの[`config.autoload_once_paths`][]に`lib`がある場合と同様に振る舞います。
 
-[`config-autoload-once-paths`]: https://railsguides.jp/configuring.html#config-autoload-once-paths
+[48610]:
+  https://github.com/rails/rails/pull/48610
+
+[`config.autoload_once_paths`]:
+  https://railsguides.jp/configuring.html#config-autoload-once-paths
 
 ### `ActiveStorage::BaseController`がストリーミングのconcernを`include`しなくなった
 
-* [Don't stream redirect controller responses by bubba · Pull Request #44244 · rails/rails](https://github.com/rails/rails/pull/44244)
+* [Don't stream redirect controller responses by bubba · Pull Request #44244 · rails/rails][44244]
 
 `ActiveStorage::BaseController`を継承し、カスタムファイル配信ロジックをストリーミングで実装するアプリケーションコントローラは、明示的に`ActiveStorage::Streaming`モジュールを`include`する必要があります。
 
+[44244]:
+  https://github.com/rails/rails/pull/44244
+
 ### `MemCacheStore`と`RedisCacheStore`がデフォルトでコネクションプールを使うようになった
 
-* [Enable connection pooling by default for `MemCacheStore` and `RedisCacheStore` by fatkodima · Pull Request #45235 · rails/rails](https://github.com/rails/rails/pull/45235)
+* [Enable connection pooling by default for `MemCacheStore` and `RedisCacheStore` by fatkodima · Pull Request #45235 · rails/rails][45235]
 
 `connection_pool` gemが`activesupport`gemの依存関係として追加され、`MemCacheStore`と`RedisCacheStore`はデフォルトでコネクションプールを使うようになりました。
 
@@ -216,15 +227,18 @@ config.cache_store = :mem_cache_store, "cache.example.com", { pool: false }
 
 詳しくは、[Rails のキャッシュ機構](caching_with_rails.html#コネクションプールのオプション)ガイドを参照してください。
 
+[45235]:
+  https://github.com/rails/rails/pull/45235
+
 ### `SQLite3Adapter`が文字列の`strict`モードで設定されるようになった
 
-* [Add `:strict` option to default SQLite database.yml template by fatkodima · Pull Request #45346 · rails/rails](https://github.com/rails/rails/pull/45346)
+* [Add `:strict` option to default SQLite database.yml template by fatkodima · Pull Request #45346 · rails/rails][45346]
 
 `strict`文字列モードによって、二重引用符`""`で囲まれた文字列リテラルが無効になります。
 
 SQLiteは、二重引用符で囲まれた文字列リテラルについて、いくつかの癖があります。
 SQLiteは最初に、二重引用符で囲まれた文字列を識別子名と見なそうとしますが、識別子が存在しない場合は文字列リテラルと見なします。これが原因で入力ミスを見落としてしまう可能性があります。
-たとえば、存在しないカラムに対してインデックスを作成できてしまいます。詳しくは[SQLiteドキュメント](https://www.sqlite.org/quirks.html#double_quoted_string_literals_are_accepted)を参照してください。
+たとえば、存在しないカラムに対してインデックスを作成できてしまいます。詳しくは[SQLiteドキュメント][quirks]を参照してください。
 
 `SQLite3Adapter`を`strict`モードで使いたくない場合は、以下の設定でこの動作を無効にできます。
 
@@ -233,9 +247,15 @@ SQLiteは最初に、二重引用符で囲まれた文字列を識別子名と�
 config.active_record.sqlite3_adapter_strict_strings_by_default = false
 ```
 
+[45346]:
+  https://github.com/rails/rails/pull/45346
+
+[quirks]:
+  https://www.sqlite.org/quirks.html#double_quoted_string_literals_are_accepted
+
 ### `ActionMailer::Preview`でプレビューのパスを複数指定できるようになった
 
-* [Support multiple preview paths for mailers by fatkodima · Pull Request #31595 · rails/rails](https://github.com/rails/rails/pull/31595)
+* [Support multiple preview paths for mailers by fatkodima · Pull Request #31595 · rails/rails][31595]
 
 `config.action_mailer.preview_path`オプション（単数形）は非推奨化され、今後は`config.action_mailer.preview_paths`オプション（複数形）を使うようになります。
 この設定オプションにパスを追加すると、メーラーのプレビューの探索でそれらのパスが使われるようになります。
@@ -244,9 +264,12 @@ config.active_record.sqlite3_adapter_strict_strings_by_default = false
 config.action_mailer.preview_paths << "#{Rails.root}/lib/mailer_previews"
 ```
 
+[31595]:
+  https://github.com/rails/rails/pull/31595
+
 ### `config.i18n.raise_on_missing_translations = true`で訳文が見つからない場合に常にエラーをraiseするようになった
 
-* [Make `raise_on_missing_translations` raise on any missing translation by ghiculescu · Pull Request #47105 · rails/rails](https://github.com/rails/rails/pull/47105)
+* [Make `raise_on_missing_translations` raise on any missing translation by ghiculescu · Pull Request #47105 · rails/rails][47105]
 
 従来は、ビューやコントローラで呼び出されたときだけraiseしていました。今後は、`I18n.t`に認識できないキーが与えられると常にraiseします。
 
@@ -278,6 +301,9 @@ I18n.t("missing.key") # 7.0/7.1どちらもraiseしない
 詳しくは[国際化（i18n）ガイド](i18n.html#%E6%A8%99%E6%BA%96%E4%BB%A5%E5%A4%96%E3%81%AE%E4%BE%8B%E5%A4%96%E3%83%8F%E3%83%B3%E3%83%89%E3%83%A9%E3%82%92%E4%BD%BF%E3%81%86)を参照してください。
 
 `AbstractController::Translation.raise_on_missing_translations`は削除されました。これはprivate APIですが、万一これに依存している場合は、`config.i18n.raise_on_missing_translations`またはカスタムの例外ハンドラに移行する必要があります。
+
+[47105]:
+  https://github.com/rails/rails/pull/47105
 
 ### `bin/rails test`で`test:prepare`タスクが実行されるようになった
 
@@ -342,8 +368,6 @@ puts Rails.logger.class      #=> BroadcastLogger
 puts Rails.logger.broadcasts #=> [MyLogger]
 ```
 
-[`assert_match`]: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-assert_match
-
 ### Active Record暗号化アルゴリズムの変更について
 
 Active Record暗号化で、ハッシュダイジェストアルゴリズムとしてSHA-256を使うようになりました。従来のRailsバージョンで暗号化したデータがある場合は、アップグレードで考慮すべき2つのシナリオがあります。
@@ -352,6 +376,12 @@ Active Record暗号化で、ハッシュダイジェストアルゴリズムと�
 
     ```ruby
     config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA1
+    ```
+
+    すべてのデータが非決定論的に暗号化されている場合（`encrypts`で`deterministic: true`を指定しない限り、これがデフォルトです）、代わりに以下のシナリオ2のように Active Record 暗号化にSHA-256を設定したうえで以下のように設定することで、これまでSHA-1で暗号化されたカラムを復号できるようにすることも可能です。
+
+    ```ruby
+    config.active_record.encryption.support_sha1_for_non_deterministic_encryption = true
     ```
 
 2. [`config.active_support.key_generator_hash_digest_class`](configuring.html#config-active-support-key-generator-hash-digest-class)が**SHA-256**に設定されている場合（Rails 7.0の新しいデフォルト）、Active Record暗号化で以下の設定も**SHA-256**に設定する必要があります。
@@ -392,8 +422,7 @@ Rails 6.1からRails 7.0へのアップグレード
 
 Rails 7.0で行われた変更について詳しくは、[Rails 7.0のリリースノート](7_0_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_Knowledge)」でまとめています。
-
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_Knowledge)」にまとめられています。
 
 ### `ActionView::Helpers::UrlHelper#button_to`の振る舞いが変更された
 
@@ -741,13 +770,12 @@ end
 
 NOTE: Rails 7.0で初めてスキーマをダンプすると、そのファイルでカラム情報などさまざまな変更が行われていることがわかります。必ず新しいスキーマファイルの内容を確認してから、リポジトリにコミットすることを忘れないようにしましょう。
 
-
 Rails 6.0からRails 6.1へのアップグレード
 -------------------------------------
 
 Rails 6.1の変更点について詳しくは[Rails 6.1のリリースノート](6_1_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_Knowledge)」にまとめられています。
 
 
 ### `Rails.application.config_for`の戻り値をStringキーでアクセスするサポートが終了した
@@ -881,7 +909,7 @@ Rails 5.2からRails 6.0へのアップグレード
 
 Rails 6.0の変更点について詳しくは[Rails 6.0のリリースノート](6_0_release_notes.html)を参照してください。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_Knowledge)」でまとめています。
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 6.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_Knowledge)」にまとめられています。
 
 
 ### Webpackerの利用について
