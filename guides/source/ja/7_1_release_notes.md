@@ -764,6 +764,8 @@ Active Record
 [#48930]: https://github.com/rails/rails/pull/48930
 [#49100]: https://github.com/rails/rails/pull/49100
 
+* `encrypts`で定義した属性で使われる`ActiveRecord::Encryption`のデフォルトのハッシュダイジェストが、デフォルト設定の`SHA1`から`SHA256`に変更された。これらのデフォルトには`support_sha1_for_non_deterministic_encryption = false` も含まれており、データが再暗号化されていない場合、アプリは古いデフォルトのハッシュダイジェストで暗号化されたデータを復号化できなくなる可能性がある。
+
 Active Storage
 --------------
 
