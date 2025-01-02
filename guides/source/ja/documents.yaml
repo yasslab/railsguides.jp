@@ -68,6 +68,11 @@
       url: action_controller_overview.html
       description: 本ガイドでは、コントローラの動作と、アプリケーションのリクエストサイクルでコントローラがどのように使われるかについて説明します。セッション、フィルタ、cookie、データストリーミング、リクエストによって発生する例外、その他多くの話題を取り扱っています。
     -
+      name: Action Controller の高度なトピック
+      url: action_controller_advanced_topics.html
+      description: >
+        本ガイドでは、クロスサイトリクエストフォージェリの防止、HTTP認証、データストリーミング、例外の処理、ログのフィルタリングなど、Railsアプリケーションのコントローラーに関連する多くの高度なトピックを扱います。
+    -
       name: Rails のルーティング
       url: routing.html
       description: Railsのルーティング機能について解説します。Railsアプリケーションで行われているルーティングのしくみについて理解したい場合は、ここからお読みください。
@@ -119,14 +124,6 @@
       url: testing.html
       description: Railsでさまざまなテストを実行するための総合的な解説を行います。「テスティングとは何か」から結合テストまですべてのトピックを扱います。
     -
-      name: Rails セキュリティガイド
-      url: security.html
-      description: Webアプリケーション全般におけるセキュリティ問題と、Railsでこれらの問題を回避する方法について解説します。
-    -
-      name: Rails アプリケーションのエラー通知
-      url: error_reporting.html
-      description: Railsアプリケーションで発生するエラーを管理する方法について解説します。
-    -
       name: Rails アプリケーションのデバッグ
       url: debugging_rails_applications.html
       description: Railsアプリケーションのデバッグ方法について解説します。さまざまなデバッグ方法や、作成したコードの舞台裏でどのような動作が行われているかについても解説します。
@@ -141,7 +138,7 @@
     -
       name: アセットパイプライン
       url: asset_pipeline.html
-      description: アセットパイプラインに関するドキュメントです。
+      description: アセットパイプラインガイドでは、重要なアセット管理タスクを処理するフレームワークであるPropshaftの使い方について解説します。
     -
       name: Rails で JavaScript を利用する
       url: working_with_javascript_in_rails.html
@@ -164,10 +161,6 @@
       url: classic_to_zeitwerk_howto.html
       description: RailsアプリケーションをClassicモードからZeitwerkモードに移行する手順を解説します。
     -
-      name: Rails のキャッシュ機構
-      url: caching_with_rails.html
-      description: キャッシュを活用してRailsを高速化する方法について解説します。
-    -
       name: Active Support Instrumentation で計測
       work_in_progress: true
       url: active_support_instrumentation.html
@@ -185,7 +178,18 @@
       name: デプロイ用パフォーマンスチューニング
       url: tuning_performance_for_deployment.html
       description: Ruby on Railsアプリケーションをproduction環境にデプロイする際のパフォーマンスとコンカレンシーの設定について解説します。
-
+    -
+      name: Rails のキャッシュ機構
+      url: caching_with_rails.html
+      description: キャッシュを活用してRailsを高速化する方法について解説します。
+    -
+      name: Rails セキュリティガイド
+      url: security.html
+      description: Webアプリケーション全般におけるセキュリティ問題と、Railsでこれらの問題を回避する方法について解説します。
+    -
+      name: Rails アプリケーションのエラー通知
+      url: error_reporting.html
+      description: Railsアプリケーションで発生するエラーを管理する方法について解説します。
 -
   name: Active Recordの高度な話題
   documents:
