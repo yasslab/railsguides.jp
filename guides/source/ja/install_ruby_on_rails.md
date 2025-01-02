@@ -5,7 +5,7 @@ Ruby on Rails インストールガイド
 
 OSにはRubyがプリインストールされている場合もありますが、最新でないことが多いうえに、アップグレードできないようになっています。[Mise](https://mise.jdx.dev/getting-started.html)などのバージョン管理ソフトウェアを使うことで、最新バージョンのRubyをインストールできるようになり、アプリごとに異なるバージョンのRubyを使い分けることも、新しいバージョンがリリースされたときのアップグレードも手軽に行えるようになります。
 
-Dockerが使える環境であれば、自分のコンピュータにRubyやRailsを直接インストールする代わりに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
+Dockerが使える環境であれば、自分のコンピュータにRubyやRailsを直接インストールせずに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
 
 --------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ Dockerが使える環境であれば、自分のコンピュータにRubyやRail
 * [Ubuntu](#ubuntuにrubyをインストールする)
 * [Windows](#windowsにrubyをインストールする)
 
-TIP: `$`で始まるコマンドはターミナルで実行してください。
+TIP: `$`で始まるコマンドはターミナルで実行する必要があります。
 
 TIP: 訳注: [Rails Girls インストール・レシピ](https://railsgirls.jp/install)にもRubyとRailsのインストール方法が記載されています。こちらではmacOS環境のRubyインストールに[rbenv](https://github.com/rbenv/rbenv)を使っています。
 
@@ -27,7 +27,7 @@ TIP: 訳注: [Rails Girls インストール・レシピ](https://railsgirls.jp/
 
 macOSでRubyをコンパイルするために必要な依存関係をインストールするには、Xcode Command Line ToolsとHomebrewが必要です。
 
-ターミナルを開き、次のコマンドを実行します。
+ターミナルを開いて、次のコマンドを実行します。
 
 ```shell
 # Xcode Command Line Toolsをインストールする
@@ -70,7 +70,7 @@ $ mise use -g ruby@3
 
 ### WindowsにRubyをインストールする
 
-Windows Subsystem for Linux（WSL）は、WindowsでのRuby on Rails開発に最適なエクスペリエンスを提供します。WSLではWindows内でUbuntuを実行するため、production（本番）環境でサーバーが実行される環境に近い環境で作業できます。
+[Windows Subsystem for Linux（WSL）][WSL]は、WindowsでのRuby on Rails開発に最適なエクスペリエンスを提供します。WSLではWindows内でUbuntuを実行するため、production（本番）環境でサーバーが実行される環境に近い環境で作業できます。
 
 Windows 11、またはWindows 10バージョン 2004 以降（ビルド 19041 以降）が必要です。
 
@@ -82,7 +82,7 @@ $ wsl --install --distribution Ubuntu-24.04
 
 インストールプロセス中に再起動を求められる場合があります。
 
-インストールが終わると、スタートメニューからUbuntuを開けるようになります。プロンプトが表示されたら、Ubuntuユーザーのユーザー名とパスワードを入力します。
+インストールが終わると、スタートメニューからWSLのUbuntuを開けるようになります。プロンプトが表示されたら、Ubuntuユーザーのユーザー名とパスワードを入力します。
 
 続いて、以下のコマンドを実行します。
 
@@ -99,6 +99,9 @@ $ source ~/.bashrc
 # MiseでRubyをグローバルにインストールする
 $ mise use -g ruby@3
 ```
+
+[WSL]:
+  https://ja.wikipedia.org/wiki/Windows_Subsystem_for_Linux
 
 Rubyがインストールされたことを確認する
 ---------------------------
@@ -130,4 +133,4 @@ Rails 8.0.0
 
 NOTE: `rails`コマンドが見つからない場合は、ターミナルを再起動してみてください。
 
-以上で、RubyとRailsのインストールが完了します。[Railsをはじめよう](getting_started.html)ガイドに進みましょう！
+以上で、RubyとRailsのインストールは完了です。[Railsをはじめよう](getting_started.html)ガイドに進みましょう！
