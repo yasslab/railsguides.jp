@@ -1,10 +1,11 @@
 Rails セキュリティガイド
 ============================
 
-このマニュアルでは、Webアプリケーション全般におけるセキュリティの問題と、Railsでそれらの問題を回避する方法について説明します。
+本ガイドでは、Webアプリケーション全般におけるセキュリティの問題と、Railsでそれらの問題を回避する方法について説明します。
 
 このガイドの内容:
 
+* Rails組み込みの認証機能ジェネレータの利用法
 * **本ガイドで取り上げられている問題**に対するあらゆる対策
 * Railsにおけるセッションの概念、セッションに含めるべき項目、有名なセッション攻撃
 * Webサイトを開くだけで（CSRFによる）セキュリティ問題が発生するしくみ
@@ -27,6 +28,173 @@ Gartner Groupは、攻撃の75%がWebアプリケーション層に対して行�
 Webアプリケーションに対する脅威には、ユーザーアカウントのハイジャック、アクセス制御のバイパス、機密データの読み出しや改ざん、不正なコンテンツの表示など、さまざまなものがあります。さらに、攻撃者が金目当てや企業資産の改ざんによる企業イメージ損壊の目的で、トロイの木馬プログラムや迷惑メール自動送信プログラムを仕込んだりすることもあります。このような攻撃を防ぎ、影響を最小限にとどめ、攻撃されやすいポイントを除去するためには、まず敵の攻撃方法を完全に理解し、それから対策を練る必要があります。以上が本ガイドの目的です。
 
 安全なWebアプリケーションを開発するためには、すべての層について最新情報を入手することと、敵を知ることが必要です。最新情報を得るには、セキュリティメーリングリストを購読し、セキュリティブログにしっかり目を通し、更新プログラムを適用し、セキュリティチェックの習慣を身に付けることです（[#追加資料](#追加資料)も参照してください）。厄介な論理上のセキュリティ問題を発見するには、これらを手動で行うのがよいでしょう。
+
+認証機能
+--------------
+
+**認証**（authentication）は、多くのWebアプリケーションで最初に実装される機能の1つです。認証はユーザーデータを保護するための基盤として機能し、最新のWebアプリケーションのほとんどで採用されています。
+
+Rails 8.0からは、認証機能ジェネレータがデフォルトで付属しています。ジェネレータで生成した認証機能は、検証されたユーザーのみにアクセスを許可することでアプリケーションを保護するための確実な出発点として利用できます。
+
+認証機能ジェネレータは、基本認証とパスワードリセット機能に必要なすべての関連モデル、コントローラー、ビュー、ルーティング、マイグレーションを追加します。
+
+認証機能ジェネレータをアプリケーションで利用するには、`rails generate authentication`コマンドを実行します。ジェネレータによって変更されるすべてのファイルと新規追加ファイルは以下のとおりです。
+
+```bash
+$ rails generate authentication
+      invoke  erb
+      create    app/views/passwords/new.html.erb
+      create    app/views/passwords/edit.html.erb
+      create    app/views/sessions/new.html.erb
+      create  app/models/session.rb
+      create  app/models/user.rb
+      create  app/models/current.rb
+      create  app/controllers/sessions_controller.rb
+      create  app/controllers/concerns/authentication.rb
+      create  app/controllers/passwords_controller.rb
+      create  app/mailers/passwords_mailer.rb
+      create  app/views/passwords_mailer/reset.html.erb
+      create  app/views/passwords_mailer/reset.text.erb
+      create  test/mailers/previews/passwords_mailer_preview.rb
+        gsub  app/controllers/application_controller.rb
+       route  resources :passwords, param: :token
+       route  resource :session
+        gsub  Gemfile
+      bundle  install --quiet
+    generate  migration CreateUsers email_address:string!:uniq password_digest:string! --force
+       rails  generate migration CreateUsers email_address:string!:uniq password_digest:string! --force
+      invoke  active_record
+      create    db/migrate/20241010215312_create_users.rb
+    generate  migration CreateSessions user:references ip_address:string user_agent:string --force
+       rails  generate migration CreateSessions user:references ip_address:string user_agent:string --force
+      invoke  active_record
+      create    db/migrate/20241010215314_create_sessions.rb
+```
+
+上で示したように、認証機能ジェネレータは`Gemfile`を変更して[bcrypt](https://github.com/bcrypt-ruby/bcrypt-ruby/) gemを追加します。データベースには、この`bcrypt` gemを利用して作成したパスワードハッシュが保存されるので、平文のパスワードがデータベースに保存されることはありません。
+
+また、パスワードハッシュの生成プロセスは不可逆的なので、ハッシュから平文パスワードを復元する方法はありません。ただし、ハッシュアルゴリズムは決定論的であるため、保存したパスワードを認証時にユーザーが入力したパスワードのハッシュと比較することは可能です。
+
+認証機能ジェネレータは、`user`テーブルと`session`テーブルを作成するためのマイグレーションファイルを2つ追加します。追加されたマイグレーションは、以下のコマンドで実行します。
+
+```bash
+$ bin/rails db:migrate
+```
+
+これで、Railsアプリケーションを起動してブラウザで`/session/new`にアクセスすると（このルーティングもジェネレータによって`routes.rb`に追加されます）、メールアドレスとパスワードを入力するフォームと「サインイン」ボタンが表示されます。
+
+データベースに登録されているユーザーのメールアドレスとパスワードを入力して「サインイン」ボタンを押すと、入力した情報を用いて正常に認証され、アプリケーションにログインできます。
+
+NOTE: ユーザーの`User`レコードを新規作成してサインアップ（新規登録）するためのコードは、認証機能ジェネレータでは**生成されません**。そうしたユーザー新規登録機能については、認証機能ジェネレータの実行後に、開発者がアプリケーションの要件に応じて必要なビューやルーティングやコントローラアクションを追加することで、独自のサインアップフローを実装する必要があります。
+
+ジェネレータによって変更されるファイルのリストは以下のとおりです。
+
+```bash
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  modified:   Gemfile
+  modified:   Gemfile.lock
+  modified:   app/controllers/application_controller.rb
+  modified:   config/routes.rb
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+  app/controllers/concerns/authentication.rb
+  app/controllers/passwords_controller.rb
+  app/controllers/sessions_controller.rb
+  app/mailers/passwords_mailer.rb
+  app/models/current.rb
+  app/models/session.rb
+  app/models/user.rb
+  app/views/passwords/
+  app/views/passwords_mailer/
+  app/views/sessions/
+  db/migrate/
+  db/schema.rb
+  test/mailers/previews/
+```
+
+### パスワードをリセットする
+
+パスワードのリセット機能も認証機能ジェネレータによって追加されます。
+「サインイン」ページに「forgot password?（パスワードを忘れましたか？）」リンクが表示され、そのリンクをクリックすると`/passwords/new`パスに移動して`PasswordsController`にルーティングされます。`PasswordsController`クラスの`new`メソッドは、パスワードリセット用のメールを送信するフローを実行します。
+
+**パスワードのリセット**用のメーラーも認証機能ジェネレータによって`app/mailers/password_mailer.rb`で設定されます。このメーラーは、以下のメールをユーザー送信用にレンダリングします。
+
+```html+erb
+# app/views/passwords_mailer/reset.html.erb
+<p>
+  You can reset your password within the next 15 minutes on
+  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token) %>.
+</p>
+```
+
+### 実装の詳細
+
+本セクションでは、認証機能ジェネレータによって追加される認証フローに関する実装の詳細の一部である`has_secure_password`メソッドと`authenticate_by`メソッド、 および`Authentication` concernについて説明します。
+
+#### `has_secure_password`
+
+ `User`モデルに追加される[`has_secure_password`][]メソッドは、保存されるパスワードが`bcrypt`アルゴリズムでハッシュ化されるようにします。
+
+```ruby
+class User < ApplicationRecord
+  has_secure_password
+  has_many :sessions, dependent: :destroy
+
+  normalizes :email_address, with: -> e { e.strip.downcase }
+end
+```
+
+[`has_secure_password`]:
+  https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password
+
+#### `authenticate_by`
+
+[`authenticate_by`][]メソッドは、`SessionsController`で新しいセッションを作成するときに使われ、ユーザーが入力した認証情報（credential）が、そのユーザーのデータベースに保存されているパスワードなどの認証情報と一致するかどうかを検証します。
+
+```ruby
+class SessionsController < ApplicationController
+  def create
+    if user = User.authenticate_by(params.permit(:email_address, :password))
+      start_new_session_for user
+      redirect_to after_authentication_url
+    else
+      redirect_to new_session_url, alert: "Try another email address or password."
+    end
+  end
+
+  # ...
+end
+```
+
+認証情報が有効な場合、そのユーザーに対して新しい`Session`が作成されます。
+
+[`authenticate_by`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/SecurePassword/ClassMethods.html
+
+#### セッション管理
+
+セッション管理のコア機能は、アプリケーションの`ApplicationController`で`include`される`Authentication`（コントローラ用のconcern）に実装されています。このconcernについて詳しくは[ソースコード][authentication-concern]で確認できます。
+
+`Authentication` concernで注目すべきメソッドの1つは、ビューテンプレートで使えるヘルパーメソッドである`authenticated?`です。このメソッドを呼び出すことで、ユーザーが現在認証されているかどうかに応じて、リンクやボタンを以下のように条件付きで表示できます。
+
+```html+erb
+<% if authenticated? %>
+  <%= button_to "Sign Out", session_path, method: :delete  %>
+<% else %>
+  <%= link_to "Sign In", new_session_path %>
+<% end %>
+```
+
+TIP: 認証機能ジェネレータの詳細はすべてRailsのソースコードで確認できます。実装の詳細を調べ、認証をブラックボックスとして扱わないようにしてください。
+
+認証機能ジェネレータを使って認証を設定すれば、アプリケーションはわずか数ステップでより安全なユーザー認証やパスワード回復プロセスに対応できるようになります。
+
+[authentication-concern]:
+  https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/authentication/templates/app/controllers/concerns/authentication.rb.tt
 
 セッション
 --------
@@ -398,10 +566,6 @@ send_file filename, disposition: "inline"
 
 ユーザー管理
 ---------------
-
-NOTE: **認証（authentication）と認可（authorization）は、ほぼすべてのWebアプリケーションで不可欠の機能です。認証システムは自作せず、広く使われていて実績のあるプラグイン（訳注: 現在ならgem）を使うことをおすすめします。ただし、常に最新の状態にアップデートすること。この他にいくつかの注意を守ることで、アプリケーションがよりセキュアになります。**
-
-Railsではさまざまな認証用プラグインを利用できます。人気の高い[devise](https://github.com/plataformatec/devise)や[authlogic](https://github.com/binarylogic/authlogic)などの優れたプラグインは、パスワードを平文ではなく常に暗号化した状態で保存します。Rails 3.1以降は、セキュアなパスワードハッシュ化・確認・復旧メカニズムをサポートする[`has_secure_password`](https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password)メソッドも組み込まれています。
 
 ### アカウントに対する総当たり攻撃
 
