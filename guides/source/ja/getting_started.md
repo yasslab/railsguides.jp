@@ -129,7 +129,7 @@ Railsのコードは、[MVC（Model-View-Controller）](https://ja.wikipedia.org
 
 <picture class="flowdiagram">
   <source srcset="images/getting_started/mvc_architecture_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/mvc_architecture_light.jpg">
+  <img src="images/getting_started/mvc_architecture_light.jpg" alt="MVCアーキテクチャの図">
 </picture>
 
 MVCの基本部分を理解したので、MVCがどのようにRailsで使われるかを見てみましょう。
@@ -625,7 +625,7 @@ end
 
 <picture class="flowdiagram">
   <source srcset="images/getting_started/routing_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/routing_light.jpg">
+  <img src="images/getting_started/routing_light.jpg" alt="Railsのルーティングの流れ">
 </picture>
 
 別の例も見てみましょう。
@@ -2545,7 +2545,7 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 
 <picture class="flowdiagram">
   <source srcset="images/getting_started/background_jobs_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/background_jobs_light.jpg">
+  <img src="images/getting_started/background_jobs_light.jpg" alt="バックグラウンドジョブの流れ">
 </picture>
 
 今後のステップ
