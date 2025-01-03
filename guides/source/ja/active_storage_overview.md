@@ -1409,7 +1409,7 @@ end
 
 ### フィクスチャに添付ファイルを追加する
 
-既存の[フィクスチャ][]に添付ファイルを追加できます。最初に、独立したストレージサービスを作成します。
+既存の[フィクスチャ](testing.html#フィクスチャ)に添付ファイルを追加できます。最初に、独立したストレージサービスを作成します。
 
 ```yml
 # config/storage.yml
@@ -1478,8 +1478,6 @@ Minitest.after_run do
 end
 ```
 
-[フィクスチャ]:
-  testing.html#フィクスチャのしくみ
 [`ActiveStorage::FixtureSet`]:
   https://api.rubyonrails.org/classes/ActiveStorage/FixtureSet.html
 

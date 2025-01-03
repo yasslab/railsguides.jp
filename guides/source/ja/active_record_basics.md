@@ -240,7 +240,7 @@ class Book < ApplicationRecord
 end
 ```
 
-テーブル名をこのように上書き指定する場合は、テストの定義で`set_fixture_class`メソッドを使い、[フィクスチャ](testing.html#フィクスチャのしくみ)(`my_books.yml`)に対応するクラス名を別途定義しておく必要があります。
+テーブル名をこのように上書き指定する場合は、テストの定義で`set_fixture_class`メソッドを使い、[フィクスチャ](testing.html#フィクスチャ)（`my_books.yml`）に対応するクラス名を別途定義しておく必要があります。
 
 ```ruby
 # test/models/book_test.rb

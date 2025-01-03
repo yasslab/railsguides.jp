@@ -12,7 +12,7 @@ Dev Containerでの開発ガイド
 
 本ガイドは、[dev container（development container）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、RubyやRailsやそれらの依存関係をローカルコンピュータに直接インストールせずに、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
 
-これは、[Rails をはじめよう](getting_started.html#railsプロジェクトを新規作成する)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#railsプロジェクトを新規作成する)ガイドでアプリケーション構築作業を続行できます。
+これは、[Rails をはじめよう](getting_started.html#railsアプリを新規作成する)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#railsアプリを新規作成する)ガイドでアプリケーション構築作業を続行できます。
 
 セットアップとインストール
 ----------------------
@@ -27,7 +27,10 @@ Dockerのインストールが完了したら、Dockerアプリケーション�
 
 ### VS Codeをインストールする
 
-Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeのdev container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてdev containerにアクセス（または作成）する方法をVS Codeに指示します。これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
+Visual Studio Code（VS Code）は、Microsoftによって開発されたオープンソースのコードエディタです。VS Codeのdev container拡張機能を利用することで、コンテナ内の（またはコンテナにマウントされた）フォルダを開けばVisual Studio Codeの機能をすべて利用できるようになります。
+
+プロジェクトフォルダ内の[devcontainer.json](https://code.visualstudio.com/docs/devcontainers/containers#_create-a-devcontainerjson-file)ファイルは、明確に定義されたツールや、ランタイムスタックを用いてdev containerにアクセス（または作成）する方法をVS Codeに指示します。
+これにより、コンテナを直ちに起動して、ターミナルコマンドへのアクセスやコードのデバッグを行うことも、拡張機能の利用も可能になります。
 
 VS Codeは、[公式Webサイト](https://code.visualstudio.com/)からダウンロードしてインストールできます。
 
@@ -39,32 +42,38 @@ dev container拡張機能は、[マーケットプレイス](https://marketplace
 
 `rails-new`ツールをインストールするには、[README](https://github.com/rails/rails-new?tab=readme-ov-file#installation)のインストール手順に従ってください。
 
-ブログアプリケーションを作成する
+storeアプリケーションを作成する
 -----------------------------
 
-Railsにはジェネレーターと呼ばれる多数のスクリプトが付属しており、特定のタスクの作業を開始するのに必要なものをすべて生成することで開発作業を容易にするように設計されています。新規アプリケーションを作成するジェネレーターもその1つで、新しいRailsアプリケーションの基本部分はこのジェネレータが提供するので、自分でアプリケーションを作成する必要はありません。`rails-new`ツールは、新しいRailsアプリケーションを作成するときにこのジェネレーターを利用します。
+Railsにはジェネレータと呼ばれる多数のスクリプトが付属しており、特定のタスクの作業を開始するのに必要なものをすべて生成することで開発作業を容易にするように設計されています。
+
+新規アプリケーションを作成するジェネレーターもその1つで、新しいRailsアプリケーションの基本部分はこのジェネレータが提供するので、自分でアプリケーションを作成する必要はありません。
+
+`rails-new`ツールは、新しいRailsアプリケーションを作成するときにこのジェネレータを利用します。
 
 NOTE: 以下の例では、UNIX系OSのターミナルプロンプトを`$`で表していますが、環境によっては他のプロンプトが表示されるようにカスタマイズされている可能性もあります。
 
 `rails-new`でアプリを生成するには、ターミナルを開き、ファイルを作成する権限があるディレクトリに移動して、以下のコマンドを実行します。
 
 ```bash
-$ rails-new blog --devcontainer
+$ rails-new store --devcontainer
 ```
 
-これによって`blog`ディレクトリが作成され、その中にBlogという名前のRailsアプリケーションが作成されます。
+これによって`store`ディレクトリが作成され、その中にStoreという名前のRailsアプリケーションが作成されます。
 
 TIP: `rails-new --help`を実行すると、Railsのアプリケーションジェネレータに渡せるのと同じコマンドラインオプションが表示されていることがわかります。
 
-ブログアプリケーションを作成したら、以下のコマンドを実行してそのディレクトリに移動します。
+storeアプリケーションを作成したら、以下のコマンドを実行してそのディレクトリに移動します。
 
 ```bash
-$ cd blog
+$ cd store
 ```
 
-この`blog`ディレクトリには、Railsアプリケーションの構造を構成するために生成されたファイルとフォルダが多数含まれています。このチュートリアルの作業のほとんどは`app`フォルダで行います。このブログアプリケーションの全概要については、[Rails をはじめよう](getting_started.html#ブログアプリケーションを作成する)ガイドを参照してください。
+この`store`ディレクトリには、Railsアプリケーションの構造を構成するために生成されたファイルとフォルダが多数含まれています。このチュートリアルの作業のほとんどは`app`フォルダで行います。
 
-Blogアプリケーションをdev containerで開く
+このstoreアプリケーションの全概要については、[Rails をはじめよう](getting_started.html#railsアプリを新規作成する)ガイドを参照してください。
+
+storeアプリケーションをdev containerで開く
 -----------------------------------------------
 
 新しいRailsアプリケーションには、すぐ利用できる形で構成済みのdev containerが付属しています。dev containerの起動と操作にVS Codeを使うことにします。最初に、VS Codeを起動してアプリケーションを開きます。
@@ -80,4 +89,5 @@ $ rails --version
 Rails 8.0.0
 ```
 
-これで、["Rails をはじめよう"ガイドの「railsで「hello」と表示する」セクション](getting_started.html#railsで「hello」と表示する)からブログアプリケーションの構築を開始できます。構築作業はVS Code内で行うことになります。VS Codeはアプリケーションのdev containerへのエントリポイントの役割を果たすことになるので、コードの実行、テストの実行、アプリケーションの実行はVS Codeから行えるようになります。
+これで、["Rails をはじめよう"ガイドの「最初のRailsアプリケーションを作成する」セクション](getting_started.html#最初のrailsアプリケーションを作成する)からstoreアプリケーションの構築を開始できます。
+構築作業はVS Code内で行うことになります。VS Codeはアプリケーションのdev containerへのエントリポイントの役割を果たすことになるので、コードの実行、テストの実行、アプリケーションの実行はVS Codeから行えるようになります。

@@ -482,7 +482,7 @@ end
 
 #### `config.file_watcher`
 
-`config.reload_classes_only_on_change`が`true`の場合に、ファイルシステム上のファイル更新検出に使われるクラスを指定します。デフォルトのRailsでは`ActiveSupport::FileUpdateChecker`、および`ActiveSupport::EventedFileUpdateChecker`が指定されます。カスタムクラスはこの`ActiveSupport::FileUpdateChecker` APIに従わなければなりません。
+`config.reload_classes_only_on_change`が`true`の場合に、ファイルシステム上のファイル更新検出に使われるクラスを指定します。デフォルトのRailsでは`ActiveSupport::FileUpdateChecker`、および`ActiveSupport::EventedFileUpdateChecker`が指定されます。カスタムクラスはこの`ActiveSupport::FileUpdateChecker`APIに従わなければなりません。
 
 `ActiveSupport::EventedFileUpdateChecker`の利用は、[listen](https://github.com/guard/listen) gemに依存します
 
@@ -667,7 +667,7 @@ config.session_store :my_custom_store
 
 #### `config.silence_healthcheck_path`
 
-ログ出力を抑制すべきヘルスチェックのパスを指定します。抑制の実装には`Rails::Rack::SilenceRequest`が使われ地ます。これはすべて、特に初期段階のアプリケーションで、ヘルスチェックがproduction環境のログが詰まらないようにするためのものです。
+ログ出力を抑制すべきヘルスチェックのパスを指定します。抑制の実装には`Rails::Rack::SilenceRequest`が使われます。これはすべて、特に初期段階のアプリケーションで、ヘルスチェックがproduction環境のログが詰まらないようにするためのものです。
 
 ```
 config.silence_healthcheck_path = "/up"
@@ -1502,7 +1502,7 @@ Active Recordの複数のインスタンスがトランザクション内で同�
 #### `config.active_record.query_log_tags_enabled`
 
 クエリコメントをアダプタレベルで有効にするかどうかを指定します。
-デフォルト値は`false`です。
+デフォルト値は`false`です。ただしデフォルトで生成される`config/environments/development.rb`ファイルでは`true`に設定されます。
 
 NOTE: これを`true`に設定すると、データベースの「prepared statement」は自動的に無効になります。
 
@@ -2634,7 +2634,7 @@ config.active_support.message_serializer = YAML
 
 利用が許されない非推奨警告メッセージの振る舞いを設定します。指定可能なオプションについては[`Deprecation::Behavior`][deprecation_behavior]を参照してください。
 
-デフォルトで生成される`config/environments`以下のファイルでは、development環境とtest環境では`:raise`が設定されます。production環境ではこの設定は無視され、[`config.active_support.report_deprecations`] (#config-active-support-report-deprecations)の設定が使われます。
+このオプションは、development環境とtest環境での利用を想定しています。production環境では[`config.active_support.report_deprecations`] (#config-active-support-report-deprecations)をお使いください。
 
 #### `config.active_support.disallowed_deprecation_warnings`
 
@@ -3647,7 +3647,7 @@ Railsにはフック可能な初期化イベントが5つあります。以下�
 
 #### `to_prepare`
 
-このフックは、Railtiesの初期化処理とアプリケーション自身の初期化処理がすべて完了した後で、かつeager loadingとミドルウェアスタックの構築が行われる前に実行されます。さらに重要な点は、このフックは`development`モードではサーバーへのリクエストのたびに必ず実行されますが、`production`モードと`test`モードでは起動時に1度しか実行されないことです。
+このフックは、Railties（およびアプリケーション自身）の初期化処理がすべて完了した後で、ミドルウェアスタックがビルドされた**直後**、かつeager loadingの**直前**に実行されます。さらに重要な点は、このフックは`development`モードではコードが再読み込みされるたびに必ず実行されますが、`production`モードと`test`モードでは起動時に1度しか実行されないことです。
 
 #### `before_eager_load`
 
