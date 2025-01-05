@@ -60,8 +60,6 @@ RubyやRailsをインストールする必要がある場合は、[Ruby on Rails
 
 TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https://github.co.jp/features/codespaces)』には、[公式のRuby on Railsテンプレート](https://github.com/codespaces/templates)が用意されています。`Use this template`ボタンから、ワンクリックでRailsを動かせるクラウド開発環境が手に入ります。（参考: [GitHub Codespacesを利用する - Rails Girls](https://railsgirls.jp/install/codespaces)）
 
-TIP: 訳注: Dockerが使えるローカル環境であれば、[rails-new](https://github.com/rails/rails-new)ツールをインストールしておき、`rails-new -u <Rubyバージョン> -r <Railsバージョン> <アプリ名> （オプション）`を実行することで、ローカル環境のDockerコンテナ内でRailsアプリケーションを手軽に作成することも可能です（この方法はローカルのRuby/Rails環境を変更せずに済みます）。実行例: `rails-new -u 3.3.6 -r 8.0.1 store --devcontainer`（`--devcontainer`を指定しておくと、VS CodeなどDev Containerに対応したコードエディタで開けば自動的にDev Container環境がビルドされます）
-
 正しいバージョンのRailsがインストールされていることを確認しておきましょう。現在のバージョンを表示するには、ターミナルを開いて以下のコマンドを実行すると、バージョン番号が出力されます。
 
 ```bash
