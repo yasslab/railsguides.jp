@@ -69,7 +69,7 @@ HTML
             "ERB"
           when "html"
             "XML" # HTML is understood, but there are .xml rules in the CSS
-          when "bash"
+          when "bash", "shell"
             "ConsoleLexer"
           else
             "PlainText"
