@@ -150,7 +150,7 @@ assert true
 
 この例では、特定の基準を満たさなければ記事は保存されないというアサーションが使われています。したがって、記事が正常に保存されると、テストは失敗し、テストの失敗が示されます。
 
-```ruby#4-7
+```ruby
 require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
