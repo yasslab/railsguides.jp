@@ -913,7 +913,7 @@ indexページに個別のshowページへのリンクを追加して、クリ�
 
 そこで、`app/views/products/index.html.erb`ビューを以下のように更新して、新しく作ったshowページへのリンクを追加しましょう。`show`アクションへのパスには`<a>`タグを利用できます。
 
-```erb#6,8
+```erb
 <h1>Products</h1>
 
 <div id="products">
@@ -956,7 +956,7 @@ URLヘルパーを`link_to`ヘルパーによる`<a>`タグ生成と組み合わ
 
 これらのヘルパーを使って`app/views/products/index.html.erb`をリファクタリングすると、以下のように簡潔なビューコードになります。
 
-```erb#6
+```erb
 <h1>Products</h1>
 
 <div id="products">
@@ -999,7 +999,7 @@ end
 
 次は`app/views/products/index.html.erb`を以下のように更新して、`new`アクションにリンクできるようにします。
 
-```erb#3
+```erb
 <h1>Products</h1>
 
 <%= link_to "New product", new_product_path %>
@@ -1169,7 +1169,7 @@ end
 
 次に、`app/views/products/show.html.erb`ビューテンプレートにEditページへのリンクを追加します。
 
-```erb#4
+```erb
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1240,7 +1240,7 @@ end
 
 それと同時に、ビューで使われているインスタンス変数をすべてローカル変数に置き換えたいと思います。ローカル変数は、パーシャルをレンダリングするときに定義できます。これを行うには、パーシャル内の`@product`を以下のように`product`に置き換えます。
 
-```erb#1
+```erb
 <%= form_with model: product do |form| %>
   <div>
     <%= form.label :name %>
@@ -1257,7 +1257,7 @@ TIP: ローカル変数を使うと、値だけが異なるパーシャルを同
 
 作成したこのパーシャルを`app/views/products/new.html.erb`ビューで使うには、フォームの部分を以下のようにパーシャルの`render`呼び出しに置き換えます。
 
-```erb#3
+```erb
 <h1>New product</h1>
 
 <%= render "form", product: @product %>
@@ -1268,7 +1268,7 @@ Editビューも、フォームの`_form.html.erb`パーシャルのおかげで
 
 以下の内容で`app/views/products/edit.html.erb`を作成しましょう。
 
-```erb#3
+```erb
 <h1>Edit product</h1>
 
 <%= render "form", product: @product %>
@@ -1337,7 +1337,7 @@ end
 
 製品を削除できるようにするには、`app/views/products/show.html.erb`で以下のようにDeleteボタンを追加する必要があります。
 
-```erb#5
+```erb
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1398,7 +1398,7 @@ $ bin/rails server
 
 以下のように、`<body>`タグ内にホームへのリンクとログアウトボタンを含む小さな`<nav>`セクションを追加し、Rubyの`yield`メソッドを`<main>`タグで囲みます。
 
-```erb#5-8,10,12
+```erb
 <!DOCTYPE html>
 <html>
   <!-- （省略） -->
@@ -1451,7 +1451,7 @@ Log outボタンをクリックすると、indexページのNew productリンク
 
 また、`app/views/products/show.html.erb`ビューのEditリンクとDestroyリンクを以下のように更新して、認証済みの場合にのみEditリンクとDestroyリンクを表示するようにしてもよいでしょう。
 
-```erb#4,7
+```erb
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1469,7 +1469,7 @@ Railsは、データベース上に構築されるキャッシュストアであ
 
 `cache`メソッドを使うと、HTMLをキャッシュに保存できます。`app/views/products/show.html.erb`の`<h1>`見出しを以下のように囲んで、キャッシュを有効にしてみましょう。
 
-```erb#1,3
+```erb
 <% cache @product do %>
   <h1><%= @product.name %></h1>
 <% end %>
@@ -1532,7 +1532,7 @@ end
 
 これで、`app/views/products/_form.html.erb`のフォームを以下のように更新して、送信ボタンの上に説明の編集用リッチテキストフィールドを追加できるようになります。
 
-```erb#4-7
+```erb
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1558,7 +1558,7 @@ end
 
 さらに、showビュー（`app/views/products/show.html.erb`）の`cache`ブロックも以下のように更新して、説明フィールドを表示する必要があります。
 
-```erb#3
+```erb
 <% cache @product do %>
   <h1><%= @product.name %></h1>
   <%= @product.description %>
@@ -1592,7 +1592,7 @@ end
 
 続いて、`app/views/products/_form.html.erb`フォームのSubmitボタンの上に、以下のようにファイルアップロード用フィールドを追加します。
 
-```erb#4-7
+```erb
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1731,7 +1731,7 @@ $ bin/rails db:migrate
 
 製品の`app/views/products/_form.html.erb`フォームにも、以下のように在庫数のフィールドを追加する必要があります。
 
-```erb#4-7
+```erb
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1827,7 +1827,7 @@ end
 
 このflashメッセージを表示するには、`app/views/layouts/application.html.erb`レイアウトの`<body>`タグで以下のように通知を追加します。
 
-```erb#4
+```erb
 <html>
   <!-- （省略） -->
   <body>
@@ -2124,7 +2124,7 @@ end
 
 `app/views/product_mailer/in_stock.html.erb`で以下のように`link_to`を追加します。
 
-```erb#5
+```erb
 <h1>Good news!</h1>
 
 <p><%= link_to @product.name, product_url(@product) %> is back in stock.</p>
@@ -2134,7 +2134,7 @@ end
 
 `app/views/product_mailer/in_stock.text.erb`にも以下のように平文でURLを追加します。
 
-```erb#6
+```erb
 Good news!
 
 <%= @product.name %> is back in stock.
@@ -2209,7 +2209,7 @@ section.product img {
 
 続いて、`app/views/products/show.html.erb`ファイルを以下のように更新して、新しいスタイルを反映します。
 
-```erb#1,3,6,18-19
+```erb
 <p><%= link_to "Back", products_path %></p>
 
 <section class="product">
