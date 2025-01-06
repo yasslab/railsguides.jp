@@ -1055,7 +1055,7 @@ Railsのフォームビルダーによって、セキュリティ用のCSRFト�
 
 ここから送信されるフォームを処理するには、まずコントローラに`create`アクションを以下のように実装する必要があります。
 
-```ruby#14-26
+```ruby
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -1124,7 +1124,7 @@ Railsは`Products`コントローラにいることを認識しているので�
 
 コントローラで以下のコードを実装してみましょう。
 
-```ruby#23-34
+```ruby
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -1186,7 +1186,7 @@ end
 
 これは、DRY（Don't Repeat Yourself: 繰り返しを避けよ）原則が実際に機能している良い例です。
 
-```ruby#2,8-9,24-25,27-33,36-38
+```ruby
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update ]
 
@@ -1284,7 +1284,7 @@ Editビューも、フォームの`_form.html.erb`パーシャルのおかげで
 
 `before_action :set_product`コールバックに`destroy`を追加すると、他のアクションと同じ方法で`@product`インスタンス変数を設定できるようになります。
 
-```ruby#2,35-38
+```ruby
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
@@ -1424,7 +1424,7 @@ Log outボタンをクリックすると、`session_path`に`DELETE`リクエス
 
 ゲストが製品を表示できるようにするには、コントローラで以下のように認証なしのアクセスを許可します。
 
-```ruby#2
+```ruby
 class ProductsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   # （省略）
@@ -1523,7 +1523,7 @@ $ bin/rails db:migrate
 
 まず、`Product`モデルに以下のコードを追加します。
 
-```ruby#2
+```ruby
 class Product < ApplicationRecord
   has_rich_text :description
   validates :name, presence: true
@@ -1549,7 +1549,7 @@ end
 
 この新しいパラメータをフォームで送信するには、`app/controllers/products_controller.rb`コントローラ側で許可する必要があるので、`expect`で許可するパラメータを以下のように更新して、`description`を追加します。
 
-```ruby#3
+```ruby
     # 信頼できるパラメータリストのみを許可する
     def product_params
       params.expect(product: [ :name, :description ])
@@ -1582,7 +1582,7 @@ Active Storageは、Action Textと別に直接利用することも可能です�
 
 `Product`モデルに製品画像を添付する機能も追加してみましょう。
 
-```ruby#2
+```ruby
 class Product < ApplicationRecord
   has_one_attached :featured_image
   has_rich_text :description
@@ -1609,7 +1609,7 @@ end
 
 これまでと同様に、`:featured_image`も許可済みパラメータとして`app/controllers/products_controller.rb`に追加します。
 
-```ruby#3
+```ruby
     # 信頼できるパラメータリストのみを許可する
     def product_params
       params.expect(product: [ :name, :description, :featured_image ])
@@ -1659,7 +1659,7 @@ ja:
 
 最も手軽な方法は、ロケールパラメータをURLから探すことです。`app/controllers/application_controller.rb`で以下のコードを追加することで、これを実現できます。
 
-```ruby#4,6-9
+```ruby
 class ApplicationController < ActionController::Base
   # （省略）
 
@@ -1748,7 +1748,7 @@ $ bin/rails db:migrate
 
 `app/controllers/products_controller.rb`コントローラでも、`expect`で許可するパラメータに`:inventory_count`を追加する必要があります。
 
-```ruby#2
+```ruby
     def product_params
       params.expect(product: [ :name, :description, :featured_image, :inventory_count ])
     end
@@ -1756,7 +1756,7 @@ $ bin/rails db:migrate
 
 在庫数が決して負の数にならないようにしておくと便利なので、`app/models/product.rb`モデルにそのためのバリデーションも追加します。
 
-```ruby#6
+```ruby
 class Product < ApplicationRecord
   has_one_attached :featured_image
   has_rich_text :description
@@ -1788,7 +1788,7 @@ $ bin/rails db:migrate
 
 ただし、1つの製品に購読者が複数存在する可能性もあるため、`Product`モデルにも`has_many :subscribers, dependent: :destroy`を手動で追加することで、2つのモデル同士の関連付けの残りの部分も指定します。これにより、2つのデータベーステーブル間のクエリをjoin（結合）する方法が Railsで認識されます。
 
-```ruby#2
+```ruby
 class Product < ApplicationRecord
   has_many :subscribers, dependent: :destroy
   has_one_attached :featured_image
@@ -1885,7 +1885,7 @@ $ bin/rails g mailer Product in_stock
 
 購読者のメールアドレスにメールを送信できるようにするには、この`in_stock`メソッドを以下のように更新します。
 
-```ruby#7-10
+```ruby
 class ProductMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -1986,7 +1986,7 @@ Performed ActionMailer::MailDeliveryJob (Job ID: 5e2bd5f2-f54f-4088-ace3-3f6eb15
 
 これらのメールをトリガーするには、在庫数が0から正の数に変わるたびにメールを送信するコールバックを`Product`モデルに追加します。
 
-```ruby#9-19
+```ruby
 class Product < ApplicationRecord
   has_one_attached :featured_image
   has_rich_text :description
@@ -2054,7 +2054,7 @@ end
 
 通知をトリガーするコードを`Notification`モジュールに切り出したので、`app/models/product.rb`モデルで以下のように`Notifications`モジュールを`include`してコードを簡潔にできます。
 
-```ruby#2
+```ruby
 class Product < ApplicationRecord
   include Notifications
 
@@ -2091,7 +2091,7 @@ concernは、Railsアプリケーションの機能を整理するための優�
 
 Active Recordには、さまざまな目的でデータベースレコードを検索するための一意のトークンを生成できる[`generates_token_for`](https://api.rubyonrails.org/classes/ActiveRecord/TokenFor/ClassMethods.html#method-i-generates_token_for)という機能があります。これを使って、電子メールの登録解除用URLに含める一意の登録解除用トークンを`Subscriber`モデルで生成できます。
 
-```ruby#3
+```ruby
 class Subscriber < ApplicationRecord
   belongs_to :product
   generates_token_for :unsubscribe
