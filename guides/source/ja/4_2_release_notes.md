@@ -576,7 +576,7 @@ Active Record
 *   PostgreSQLアダプターでユーザ定義のRangeタイプがサポートされました。
     ([Commit](https://github.com/rails/rails/commit/4cb47167e747e8f9dc12b0ddaf82bdb68c03e032))
 
-*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代りに`sqlite3:some/path`のような表記を使用してください
+*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代わりに`sqlite3:some/path`のような表記を使用してください
 (従来`sqlite3:///some/path`は`some/path`のような相対パスで解決されていましたが、これはRails 4.1で非推奨となっていました)。
     ([Pull Request](https://github.com/rails/rails/pull/14569))
 
