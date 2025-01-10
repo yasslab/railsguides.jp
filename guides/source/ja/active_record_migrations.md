@@ -59,7 +59,7 @@ class ChangeProductsPrice < ActiveRecord::Migration[5.0]
 end
 ```
 
-`change`の代りに`up`と`down`を使うこともできます。
+`change`の代わりに`up`と`down`を使うこともできます。
 
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration[5.0]
@@ -510,7 +510,7 @@ end
 
 ### `up`/`down`メソッドを使う
 
-`change`の代りに、従来の`up`メソッドと`down`メソッドを使うこともできます。
+`change`の代わりに、従来の`up`メソッドと`down`メソッドを使うこともできます。
 `up`メソッドにはスキーマに対する変換方法を記述し、`down`メソッドには`up`メソッドによって行われた変換を逆転する方法を記述する必要があります。つまり、`up`の後に`down`を実行した場合、スキーマが変更されないようにする必要があります。
 たとえば、`up`メソッドでテーブルを作成したら、`down`メソッドではそのテーブルを削除する必要があります。`down`メソッド内で行なう変換の順序は、`up`メソッド内で行なうのとは逆順にするのが賢明と言えます。先の`reversible`セクションの例は以下と同等になります。
 

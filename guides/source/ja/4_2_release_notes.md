@@ -498,7 +498,7 @@ Active Record
 *   非推奨の`ActiveRecord::Base.quoted_locking_column`メソッドが削除されました。
     ([Pull Request](https://github.com/rails/rails/pull/15612))
 
-*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代りに使用してください。
+*   非推奨の`ActiveRecord::Migrator.proper_table_name`が削除されました。今後は`ActiveRecord::Migration`の`proper_table_name`インスタンスメソッドを代わりに使用してください。
     ([Pull Request](https://github.com/rails/rails/pull/15512))
 
 *   未使用の`:timestamp`タイプが削除されました。今後は常に透過的に`:datetime`にエイリアスされるようになります。これにより、XMLシリアライズなどでカラムの種類がActive Recordの外に送信された場合の不整合が修正されます。
@@ -576,7 +576,7 @@ Active Record
 *   PostgreSQLアダプターでユーザ定義のRangeタイプがサポートされました。
     ([Commit](https://github.com/rails/rails/commit/4cb47167e747e8f9dc12b0ddaf82bdb68c03e032))
 
-*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代りに`sqlite3:some/path`のような表記を使用してください
+*   `sqlite3:///some/path`のようなパスは今後絶対システムパスで解決されるようになりました。相対パスが必要な場合は、代わりに`sqlite3:some/path`のような表記を使用してください
 (従来`sqlite3:///some/path`は`some/path`のような相対パスで解決されていましたが、これはRails 4.1で非推奨となっていました)。
     ([Pull Request](https://github.com/rails/rails/pull/14569))
 

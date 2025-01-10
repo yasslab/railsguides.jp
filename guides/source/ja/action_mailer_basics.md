@@ -419,7 +419,7 @@ config.action_mailer.default_url_options = { host: 'example.com' }
 <%= link_to 'ようこそ', welcome_path %>
 ```
 
-上のコードの代りに、以下のコードを使う必要があります。
+上のコードの代わりに、以下のコードを使う必要があります。
 
 ```
 <%= link_to 'ようこそ', welcome_url %>
