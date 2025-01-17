@@ -559,7 +559,7 @@ Railsのログ出力をどのぐらい詳細にするかを指定します。デ
 
 * フォーマッターをサポートする場合は、`config.log_formatter`の値を手動でロガーに代入しなければなりません。
 * タグ付きログをサポートする場合は、そのログのインスタンスを`ActiveSupport::TaggedLogging`でラップしなければなりません。
-* ログ出力の抑制をサポートするには、`LoggerSilence`モジュールを`include`しなければなりません。`ActiveSupport::Logger`クラスは既にこれらのモジュールに`include`されています。
+* ログ出力の抑制をサポートするには、`LoggerSilence`モジュールを`include`しなければなりません。`ActiveSupport::Logger`クラスは既にこれらのモジュールを`include`しています。
 
 ```ruby
 class MyLogger < ::Logger
