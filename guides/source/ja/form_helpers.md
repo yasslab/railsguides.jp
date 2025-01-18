@@ -17,7 +17,7 @@ Webアプリケーションのフォームは、ユーザー入力で多用さ�
 
 このガイドはフォームヘルパーとその引数について網羅的に説明するものではありません。完全なリファレンスについては[RailsのヘルパーAPIドキュメント][]を参照してください。
 
-[Rails APIドキュメント]:
+[RailsのヘルパーAPIドキュメント]:
   https://api.rubyonrails.org/classes/ActionView/Helpers.html
 
 基本的なフォームを作成する
