@@ -9,7 +9,7 @@ getting_started:
   url: https://railstutorial.jp
 
 install_ruby_on_rails:
-- title: Railsガイド - Dev Containerでの開発ガイド
+- title: Railsガイド - Dev Container での開発ガイド
   url: https://railsguides.jp/getting_started_with_devcontainer.html
 - title: Rails Girls - GitHub Codespaces を利用する
   url: https://railsgirls.jp/install/codespaces

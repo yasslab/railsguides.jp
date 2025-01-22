@@ -11,7 +11,7 @@
       url: install_ruby_on_rails.html
       description: Rubyプログラミング言語とRuby on Railsのインストール方法について解説します。
     -
-      name: Dev Containerでの開発ガイド
+      name: Dev Container での開発ガイド
       url: getting_started_with_devcontainer.html
       description: VS CodeとDev Containerを使ってRailsアプリケーションの開発を行う方法について解説します。
 -
