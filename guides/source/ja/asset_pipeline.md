@@ -16,10 +16,6 @@
 アセットパイプラインについて
 ---------------------------
 
-アセットパイプライン（asset pipeline）は、JavaScriptとCSSアセットの配信を処理するためのフレームワークを提供します。これは、HTTP/2のような技術や、アセットの連結や最小化といった技術を活用することによって行われます。アプリケーションは、最終的に他のgemのアセットと自動的に結合できるようになります。
-
-アセットパイプラインは[importmap-rails](https://github.com/rails/importmap-rails) gem、[sprockets](https://github.com/rails/sprockets) gem、[sprockets-rails](https://github.com/rails/sprockets-rails) gemによって実装されており、デフォルトで有効になっています。新しいアプリケーションを作成する際に、以下のように`--skip-asset-pipeline`オプションを渡すとアセットパイプラインを無効にできます。
-
 Railsのアセットパイプライン（Asset Pipeline）は、JavaScript、CSS、画像ファイルなどの静的アセットを整理・キャッシュ・配信するために設計されたライブラリです。これらのアセットの管理を合理化および最適することで、アプリケーションのパフォーマンスとメンテナンス性を高めます。
 
 Railsのアセットパイプラインは、[**Propshaft**](https://github.com/rails/propshaft)によって管理されています。Propshaftは、基本的なアプリケーションにおけるトランスパイルやバンドルや圧縮が、ブラウザでのサポート強化やネットワーク高速化、HTTP/2機能によって以前ほど重要ではなくなった時代に合わせて構築されています。
@@ -89,7 +85,7 @@ Propshaftを使うと、依存ファイルの読み込み順序を制御でき�
 
 4. バンドラーでJavaScriptやCSSをバンドルする
 
-    プロジェクトで依存関係の連鎖やCSSの前処理などの機能が必要な場合は、Propshaftの他に[高度なアセット管理](#高度なアセット管理)も検討してください。
+    プロジェクトで依存関係の連鎖やCSSの前処理などの機能が必要な場合は、Propshaft以外の[高度なアセット管理](#高度なアセット管理)も検討してください。
 
     [`js-bundling-rails`](https://github.com/rails/jsbundling-rails)などのツールは、[Bun](https://bun.sh/)、[esbuild](https://esbuild.github.io/)、[rollup.js](https://rollupjs.org/)、[Webpack](https://webpack.js.org/)をRails アプリケーションに統合します。
 
@@ -160,7 +156,7 @@ Railsにデフォルトで含まれる[`turbo-rails`](https://github.com/hotwire
 <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 ```
 
-`app/assets/images/ ディレクトリの下にある画像は、ビューで以下のようにアクセスできます。
+`app/assets/images/`ディレクトリの下にある画像は、ビューで以下のようにアクセスできます。
 
 ```erb
 <%= image_tag "rails.png" %>
@@ -380,7 +376,7 @@ Apacheの設定例:
 </Location>
 ```
 
-NGINXの設定例::
+NGINXの設定例:
 
 ```nginx
 location ~ ^/assets/ {
@@ -413,7 +409,7 @@ CDNサーバーの設定が終わったら、今度はブラウザに対して�
 config.asset_host = "mycdnsubdomain.fictional-cdn.com"
 ```
 
-NOTE: ここに記述する必要があるのは「ホスト名（サブドメインとルートドメインを合わせたもの）」だけです。`http://`や`https://`などのプロトコルスキームを記述する必要はありません。アセットへのリンクで使われるプロトコルスキームは、Webページヘのリクエスト発生時に、そのページへのデフォルトのアクセス方法に合わせて適切に生成されます
+NOTE: ここに記述する必要があるのは「ホスト名（サブドメインとルートドメインを合わせたもの）」だけです。`http://`や`https://`などのプロトコルスキームを記述する必要はありません。アセットへのリンクで使われるプロトコルスキームは、Webページヘのリクエスト発生時に、そのページへのデフォルトのアクセス方法に合わせて適切に生成されます。
 
 この値は、以下のように[環境変数](https://ja.wikipedia.org/wiki/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0)でも設定できます。環境変数を使うと、stagingサーバーを実行しやすくなります。
 
@@ -429,7 +425,7 @@ NOTE: 上の設定を有効にするには、サーバーの`CDN_HOST`環境変�
 <%= asset_path('smile.png') %>
 ```
 
-この場合、`http://mycdnsubdomain.fictional-cdn.com/assets/smile.png`のような完全CDN URLが生成されます（読みやすくするためダイジェスト文字は省略してあります）。
+この場合、`http://mycdnsubdomain.fictional-cdn.com/assets/smile.png`のようなCDNの完全なURLが生成されます（読みやすくするためダイジェスト文字は省略してあります）。
 
 `smile.png`のコピーがCDNにあれば、CDNが代わりにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら気づきません。ファイルのコピーがCDNにない場合は、CDNが「origin」（この場合は`example.com/assets/smile.png`）を探して今後のために保存しておきます。
 
@@ -574,7 +570,7 @@ const greet = (name) => {
 };
 ```
 
-従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCS はこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。。
+従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCS はこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
 
 #### バンドル❌
 
@@ -652,7 +648,7 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 6. トランスパイルにSprocketsを使っている場合は、Nodeベースのトランスパイラ（Webpack、esbuild、Viteなど）に切り替える必要があります。`jsbundling-rails` gemと`cssbundling-rails` gemを使うことで、これらのツールをRailsアプリケーションに統合できます。
 
-詳しくは、Propshaft READMEの[SprocketsからPropshaftに移行する方法の詳細ガイド](https://github.com/rails/propshaft/blob/main/UPGRADING.md)を参照してください。。
+詳しくは、Propshaft READMEの[SprocketsからPropshaftに移行する方法の詳細ガイド](https://github.com/rails/propshaft/blob/main/UPGRADING.md)を参照してください。
 
 ## 高度なアセット管理
 
@@ -757,7 +753,7 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 - インストールされると、`importmap-rails`はJavaScriptモジュールを`<script type="module">`タグでブラウザに直接読み込むようRailsアプリを設定します。
 - JavaScriptの依存関係は`bin/importmap`コマンドで管理されます。
-  このコマンドは、バンドル済みブラウザ対応版のライブラリ（[jsDelivr](https://www.jsdelivr.com/)などのCDNでホストされることが多い）をホストするURLにモジュールを固定（pinning）します。これにより、Node.jsの`node_modules/`ディレクトリやパッケージマネージャーが不要になります。
+  このコマンドは、バンドル済みブラウザ対応版のライブラリ（[jsDelivr](https://www.jsdelivr.com/)などのCDNでホストされることが多い）をホストするURLにモジュールをピン留め（pinning）します。これにより、Node.jsの`node_modules/`ディレクトリやパッケージマネージャーが不要になります。
 - 開発中はバンドルが発生しないため、JavaScriptの更新が即座に利用できるようになり、ワークフローが合理化されます。
 - production環境では、`importmap-rails` gemはPropshaftと統合され、アセットパイプラインの一部としてJavaScriptファイルを配信します。
   Propshaftは、ファイルがダイジェスト・キャッシュされて、production環境に対応していることを保証します。
