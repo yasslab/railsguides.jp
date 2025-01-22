@@ -8,6 +8,22 @@ getting_started:
 - title: Ruby on Railsチュートリアル - プロダクト開発の０→１を学ぼう
   url: https://railstutorial.jp
 
+install_ruby_on_rails:
+- title: Railsガイド - Dev Containerでの開発ガイド
+  url: https://railsguides.jp/getting_started_with_devcontainer.html
+- title: Rails Girls - GitHub Codespaces を利用する
+  url: https://railsgirls.jp/install/codespaces
+- title: Codespace Template の作成例 (codespaces-railstutorial)
+  url: https://github.com/yasslab/codespaces-railstutorial
+
+getting_started_with_devcontainer:
+- title: Railsガイド - Ruby on Rails インストールガイド
+  url: https://railsguides.jp/install_ruby_on_rails.html
+- title: Rails Girls - GitHub Codespaces を利用する
+  url: https://railsgirls.jp/install/codespaces
+- title: Codespace Template の作成例 (codespaces-railstutorial)
+  url: https://github.com/yasslab/codespaces-railstutorial
+
 active_record_querying:
 - title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/pocke/
