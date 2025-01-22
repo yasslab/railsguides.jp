@@ -12,7 +12,7 @@ Dev Containerでの開発ガイド
 
 本ガイドは、[dev container（development container）](https://containers.dev/)を用いた完全な開発環境のセットアップを支援するためのものです。dev containerは、RubyやRailsやそれらの依存関係をローカルコンピュータに直接インストールせずに、RailsアプリケーションをDockerコンテナ内で実行するために使われます。これは、Railsアプリケーションを立ち上げて実行する最短の方法です。
 
-これは、[Rails をはじめよう](getting_started.html#railsアプリを新規作成する)ガイドで説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Rails をはじめよう](getting_started.html#railsアプリを新規作成する)ガイドでアプリケーション構築作業を続行できます。
+これは、[Railsをはじめよう](getting_started.html#railsアプリを新規作成する)で説明されている、RubyやRailsを自分のコンピュータに直接インストールする方法とは別の方法です。本ガイドを完了したら、[Railsをはじめよう - Railsアプリを新規作成する](getting_started.html#railsアプリを新規作成する)から読み進められます。
 
 セットアップとインストール
 ----------------------

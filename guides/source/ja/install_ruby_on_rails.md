@@ -5,7 +5,7 @@ Ruby on Rails インストールガイド
 
 OSにはRubyがプリインストールされている場合もありますが、最新でないことが多いうえに、アップグレードできないようになっています。[Mise](https://mise.jdx.dev/getting-started.html)などのバージョン管理ソフトウェアを使うことで、最新バージョンのRubyをインストールできるようになり、アプリごとに異なるバージョンのRubyを使い分けることも、新しいバージョンがリリースされたときのアップグレードも手軽に行えるようになります。
 
-Dockerが使える環境であれば、自分のコンピュータにRubyやRailsを直接インストールせずに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerガイド](getting_started_with_devcontainer.html)を参照してください。
+Dockerが使える環境であれば、自分のコンピュータにRubyやRailsを直接インストールせずに、Dev Container環境内でRailsを実行することも可能です。詳しくは[Dev Containerでの開発ガイド](getting_started_with_devcontainer.html)を参照してください。
 
 --------------------------------------------------------------------------------
 
@@ -133,4 +133,4 @@ Rails 8.0.0
 
 NOTE: `rails`コマンドが見つからない場合は、ターミナルを再起動してみてください。
 
-以上で、RubyとRailsのインストールは完了です。[Railsをはじめよう](getting_started.html)ガイドに進みましょう！
+以上で、RubyとRailsのインストールは完了です。[Railsをはじめよう](getting_started.html)に進みましょう！
