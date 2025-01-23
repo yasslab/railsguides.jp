@@ -1,15 +1,14 @@
 アセットパイプライン
 ==================
 
-本ガイドでは、アセットパイプライン（asset pipeline）について解説します。
+本ガイドでは、必要なアセット管理タスクの処理方法について解説します。
 
 このガイドの内容:
 
-* アセットパイプラインの概要と機能
-* アプリケーションのアセットを正しく編成する方法
-* アセットパイプラインのメリット
-* アセットパイプラインにプリプロセッサを追加する
-* アセットをgemパッケージにする
+* アセットパイプラインについて
+* Propshaftの主な機能とセットアップ方法
+* SprocketsからPropshaftへの移行方法
+* より高度なアセット管理用ライブラリの利用法
 
 --------------------------------------------------------------------------------
 
@@ -17,446 +16,348 @@
 アセットパイプラインについて
 ---------------------------
 
-アセットパイプライン（asset pipeline）は、JavaScriptとCSSアセットの配信を処理するためのフレームワークを提供します。これは、HTTP/2のような技術や、アセットの連結や最小化といった技術を活用することによって行われます。アプリケーションは、最終的に他のgemのアセットと自動的に結合できるようになります。
+Railsのアセットパイプライン（Asset Pipeline）は、JavaScript、CSS、画像ファイルなどの静的アセットを整理・キャッシュ・配信するために設計されたライブラリです。これらのアセットの管理を合理化および最適することで、アプリケーションのパフォーマンスとメンテナンス性を高めます。
 
-アセットパイプラインは[importmap-rails](https://github.com/rails/importmap-rails) gem、[sprockets](https://github.com/rails/sprockets) gem、[sprockets-rails](https://github.com/rails/sprockets-rails) gemによって実装されており、デフォルトで有効になっています。新しいアプリケーションを作成する際に、以下のように`--skip-asset-pipeline`オプションを渡すとアセットパイプラインを無効にできます。
+Railsのアセットパイプラインは、[**Propshaft**](https://github.com/rails/propshaft)によって管理されています。Propshaftは、基本的なアプリケーションにおけるトランスパイルやバンドルや圧縮が、ブラウザでのサポート強化やネットワーク高速化、HTTP/2機能によって以前ほど重要ではなくなった時代に合わせて構築されています。
 
-```bash
-$ rails new appname --skip-asset-pipeline
-```
+Propshaftは、基本的なアセット管理タスクに特化しています。JavaScriptやCSSのバンドルや最小化といった複雑なタスクについては、アプリケーションで個別に追加できる[`js-bundling-rails`](https://github.com/rails/jsbundling-rails)や[`css-bundling-rails`](https://github.com/rails/cssbundling-rails)などの専用ツールに任せています。Propshaftは[フィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)の処理に重点を置いており、アセットのダイジェストをベースとしたURLを生成することに注力しています。これにより、ブラウザがアセットをキャッシュできるようになり、複雑なコンパイルやバンドルの必要性が最小限に抑えられます。
 
-NOTE: 本ガイドでは、CSSの処理に`sprockets`を、JavaScriptの処理に`importmap-rails`のみを利用するデフォルトのアセットパイプラインに重点を置いています。この2つの主な制限は、トランスパイルをサポートしていないため、Babel、TypeScript、Sass、React JSX format、Tailwind CSSといったものが使えないことです。JavaScriptやCSSのトランスパイルが必要な場合は、「[別のライブラリを使う](#別のライブラリを使う)」セクションをお読みください。
-
-### 主要な機能
-
-アセットパイプラインの第1の機能は、各ファイル名にSHA256フィンガープリントを挿入し、ファイルがWebブラウザとCDNによってキャッシュされるようにすることです。このフィンガープリントは、ファイルの内容を変更すると自動的に更新され、キャッシュが無効化されます。
-
-アセットパイプラインの第2の機能は、JavaScriptファイルの配信に[import maps](https://github.com/WICG/import-maps)を使うことです。これにより、ESモジュール（ESM）用に作られたJavaScriptライブラリを利用する、トランスパイルやバンドリングを必要としないモダンなアプリケーションを構築できるようになり、**Webpack、yarn、nodeなどのJavaScriptツールチェーンが不要になります**。
-
-アセットパイプラインの第3の機能は、すべてのCSSファイルを1個のメイン`.css`ファイルに連結して、最小化（minify）または圧縮することです。本ガイドの後半で学ぶように、この戦略をカスタマイズして、好みの形でファイルをグループ化できます。production環境のRailsでは、各ファイル名にSHA256フィンガープリントを挿入して、ファイルがWebブラウザでキャッシュされるようにします。このフィンガープリントを変更することでキャッシュを無効にすることが可能です。フィンガープリントの変更は、ファイルの内容を変更するたびに自動的に行われます。
-
-アセットパイプラインの第4の機能は、CSSの上位言語によるアセットコーディングを可能にすることです。
-
-### フィンガープリントと注意点
-
-フィンガープリント（fingerprinting）は、アセットファイルの内容に応じてアセットファイル名を変更する技術です。アセットファイルの内容が少しでも変わると、アセットファイル名も必ずそれに応じて変わります。静的なコンテンツや変更頻度の低いコンテンツについては、フィンガープリントをチェックすれば内容が変更されていないかどうかを容易に確認できます。これはサーバーやデプロイ日が異なっていても有効です。
-
-コンテンツの変更に応じてファイル名も一意に変化するようになっていれば、CDN、ISP、ネットワーク機器、Webブラウザなどあらゆる場面で有効なキャッシュをHTTPヘッダに設定できます。ファイルの内容が更新されると、フィンガープリントも必ず更新されます。これにより、リモートクライアントはコンテンツの新しいコピーをサーバーにリクエストするようになります。この手法を一般に「キャッシュ破棄（cache busting）」と呼びます。
-
-Sprocketsがフィンガープリントを使う際には、ファイルの内容をハッシュ化したものをファイル名（通常は末尾）に追加します。たとえば、`global.css`というCSSファイル名は以下のようになります。
-
-```
-global-908e25f4bf641868d8683022a5b62f54.css
-```
-
-これはRailsのアセットパイプラインの戦略として採用されています。
-
-フィンガープリントは、development環境とproduction環境の両方でデフォルトで有効になっています。フィンガープリントは、設定の[`config.assets.digest`][]オプションで有効または無効にできます。
-
-### import mapと注意点
-
-import mapは、バージョンとダイジェストを持つファイルに対応する論理名を用いて、ブラウザから直接JavaScriptモジュールをインポートできます。そのため、トランスパイルやバンドリングを必要とせず、ESモジュール（ESM）用に作られたJavaScriptライブラリを用いて最新のJavaScriptアプリケーションを構築できるようになります
-
-import mapの方法では、1個の巨大なJavaScriptファイルの代わりに、多数の小さなJavaScriptファイルを送信することになります。HTTP/2のおかげで、最初の転送時に重大なパフォーマンス上のペナルティが発生しなくなっていますし、実際、より優れたキャッシュの力学により、本質的なメリットを長期的に得られます。
-
-import mapをJavaScriptアセットパイプラインとして使う
------------------------------
-
-import mapは、RailsのデフォルトのJavaScriptプロセッサです。import mapを生成するロジックは[`importmap-rails`](https://github.com/rails/importmap-rails) gemによって処理されます。
-
-WARNING: import mapはJavaScriptファイル専用であり、CSSの配信には利用できません。CSSについては、[Sprocketsの利用法](#sprocketsの利用法)セクションを参照してください。
-
-詳しい使い方は`importmap-rails` gemのホームページで確認できますが、`importmap-rails`の基本を理解しておくことが大切です。
-
-### しくみ
-
-import mapsは、基本的に「bare module specifiers」と呼ばれるものの文字列置換です。これにより、JavaScriptモジュールのインポート名を標準化できるようになります。
-
-たとえば以下のインポート定義は、import mapがなければ機能しません。
-
-```javascript
-import React from "react"
-```
-
-インポート定義を有効にするには、たとえば以下のように定義する必要があるでしょう。
-
-```javascript
-import React from "https://ga.jspm.io/npm:react@17.0.2/index.js"
-```
-
-ここでimport mapが登場して、`https://ga.jspm.io/npm:react@17.0.2/index.js`アドレスにピン留めする`react`名を定義します。このような情報が提供されれば、ブラウザは簡略化された`import React from "react"`定義を受け取れるようになります。import mapは、ライブラリのソースアドレスのエイリアスのようなものと見なせます。
-
-### 利用法
-
-`importmap-rails`では、ライブラリパスを`pin`で名前にピン留め（pinning）したimportmap設定ファイルを作成します。
-
-```ruby
-# config/importmap.rb
-pin "application"
-pin "react", to: "https://ga.jspm.io/npm:react@17.0.2/index.js"
-```
-
-設定されたすべてのimport mapは、アプリケーションで`<head>`要素に`<%= javascript_importmap_tags %>`を追加することでアタッチする必要があります。`javascript_importmap_tags`は、`head`要素で多くのスクリプトをまとめてレンダリングします。
-
-- import mapの設定がすべて完了しているJSON
-
-```html
-<script type="importmap">
-{
-  "imports": {
-    "application": "/assets/application-39f16dc3f3....js"
-    "react": "https://ga.jspm.io/npm:react@17.0.2/index.js"
-  }
-}
-</script>
-```
-
-- `app/javascript/application.js`からのJavaScriptの読み込みのエントリポイント:
-
-```html
-<script type="module">import "application"</script>
-```
-
-NOTE: v2.0.0より前の`importmap-rails`は、古いブラウザでのimport mapを確実にサポートするため、[`Es-module-shims`](https://github.com/guybedford/es-module-shims)をポリフィルとして`javascript_importmap_tags`の出力に挿入していました。しかし現在は、すべての主要ブラウザでimport mapがネイティブサポートされているので、v2.0.0でバンドルされていたshimは削除されました。import mapをサポートしていないレガシーブラウザをサポートする場合は、`javascript_importmap_tags`の前に`Es-module-shims`を手動で挿入してください。詳しくは、[importmap-railsのREADME](https://github.com/rails/importmap-rails?tab=readme-ov-file#supporting-legacy-browsers-such-as-safari-on-ios-15)を参照してください。
-
-### npmパッケージをJavaScript CDN経由で利用する
-
-`importmap-rails`インストールの一部として追加される`bin/importmap`コマンドを使って、import map内のnpmパッケージを`pin`、`unpin`、または更新できます。binstubではCDNとして[`JSPM.org`](https://jspm.org/)を利用しています。
-
-このコマンドは以下のように動作します。
+[Propshaft](https://github.com/rails/propshaft) gemは、新しいアプリケーションではデフォルトで有効になっています。何らかの理由で`rails new`で無効にしたい場合は、`--skip-asset-pipeline`オプションを指定できます。
 
 ```bash
-$ bin/importmap pin react react-dom
-Pinning "react" to https://ga.jspm.io/npm:react@17.0.2/index.js
-Pinning "react-dom" to https://ga.jspm.io/npm:react-dom@17.0.2/index.js
-Pinning "object-assign" to https://ga.jspm.io/npm:object-assign@4.1.1/index.js
-Pinning "scheduler" to https://ga.jspm.io/npm:scheduler@0.20.2/index.js
-
-bin/importmap json
-
-{
-  "imports": {
-    "application": "/assets/application-37f365cbecf1fa2810a8303f4b6571676fa1f9c56c248528bc14ddb857531b95.js",
-    "react": "https://ga.jspm.io/npm:react@17.0.2/index.js",
-    "react-dom": "https://ga.jspm.io/npm:react-dom@17.0.2/index.js",
-    "object-assign": "https://ga.jspm.io/npm:object-assign@4.1.1/index.js",
-    "scheduler": "https://ga.jspm.io/npm:scheduler@0.20.2/index.js"
-  }
-}
+$ rails new app_name --skip-asset-pipeline
 ```
 
-上のように、reactとreact-domという2つのパッケージは、jspmのデフォルトで解決すると、合計4つの依存関係に解決されます。
+NOTE: Rails 8より前のバージョンのアセットパイプラインは、[Sprockets](https://github.com/rails/sprockets) gemによって実行されていました。Sprocketsによるアセットパイプラインについては、[Railsガイドの以前のバージョン](https://railsguides.jp/v7.2/asset_pipeline.html)で読めます。また、Railsのアセットパイプラインが時間の経過とともにどのように進化してきたかについては、本ガイドで後述する[アセット管理技術の進化](#アセット管理技術の進化)で確認できます。
 
-これで、他のモジュールと同じように、`application.js`のエントリポイントでこれらを利用できるようになります。
+Propshaftの機能
+------------------
 
-```javascript
-import React from "react"
-import ReactDOM from "react-dom"
-```
+Propshaftでは、アセットがすでにブラウザ対応の形式（プレーンCSS、JavaScript、前処理済みのJPEG画像やPNG画像など）になっていることを前提としています。Propshaftの役割は、それらのアセットを効率的に整理・バージョニングしてブラウザに配信することです。本セクションでは、Propshaftの主な機能とその仕組みについて解説します。
 
-`pin`コマンドでは、以下のようにバージョンも指定できます。
+### アセットの読み込み順
 
-```bash
-$ bin/importmap pin react@17.0.1
-Pinning "react" to https://ga.jspm.io/npm:react@17.0.1/index.js
-Pinning "object-assign" to https://ga.jspm.io/npm:object-assign@4.1.1/index.js
-```
+Propshaftを使うと、依存ファイルの読み込み順序を制御できます。これは、各アセットファイルを明示的に指定して手動で読み込み順を制御するか、HTML内やレイアウトファイル内に適切な順序で配置することで行います。これにより、自動化された依存関係管理ツールに依存せずに、依存関係の管理や読み込みを行えるようになります。以下は、依存関係を管理するためのいくつかの戦略です。
 
-`pin`したパッケージは、以下のように`unpin`で削除できます。
+1. アセットを手動で正しい順序で指定する
 
-```bash
-$ bin/importmap unpin react
-Unpinning "react"
-Unpinning "object-assign"
-```
+    HTMLレイアウトファイル（Railsアプリの場合は通常`application.html.erb`）では、各アセットファイルを以下のように特定の順序で個別に記述することで、CSSファイルやJavaScriptファイルの読み込み順序を正確に指定できます。
 
-production（デフォルト）とdevelopmentでビルドが分かれているパッケージでは、以下のように`--env`でパッケージの環境を制御できます。
+    ```erb
+    <!-- application.html.erb -->
+    <head>
+     <%= stylesheet_link_tag "reset" %>
+     <%= stylesheet_link_tag "base" %>
+     <%= stylesheet_link_tag "main" %>
+    </head>
+    <body>
+     <%= javascript_include_tag "utilities" %>
+     <%= javascript_include_tag "main" %>
+    </body>
+    ```
 
-```bash
-$ bin/importmap pin react --env development
-Pinning "react" to https://ga.jspm.io/npm:react@17.0.2/dev.index.js
-Pinning "object-assign" to https://ga.jspm.io/npm:object-assign@4.1.1/index.js
-```
+    たとえば、`main.js`が`utilities.js`に依存していて`utilities.js`を最初に読み込む必要がある場合、この順序で指定することが重要です。
 
-また、`pin`実行時に、サポートされている別のCDNプロバイダー（[`unpkg`](https://unpkg.com/)や[`jsdelivr`](https://www.jsdelivr.com/)など）も指定できます。デフォルトのCDNは[`jspm`](https://jspm.org/)です。
+2. JavaScriptのモジュール（ES6）を利用する
 
-```bash
-$ bin/importmap pin react --from jsdelivr
-Pinning "react" to https://cdn.jsdelivr.net/npm/react@17.0.2/index.js
-```
+    JavaScriptファイル内に依存関係がある場合は、ES6モジュールが役立つことがあります。JavaScriptコード内の依存関係は、`import`ステートメントで明示的に制御できます。HTMLで`<script type="module">`を記述して、JavaScriptファイルがモジュールとして設定されるようにしてください。
 
-ただし、`pin`をあるCDNプロバイダから別のプロバイダに切り替える場合、最初のプロバイダが追加した依存関係のうち、次のプロバイダで使われていないものを整理しなければならない場合があります。
+    ```javascript
+    // main.js
+    import { initUtilities } from "./utilities.js";
+    import { setupFeature } from "./feature.js";
 
-単に`bin/importmap`を実行すると、すべてのオプションが表示されます。
+    initUtilities();
+    setupFeature();
+    ```
 
-なお、この`importmap`コマンドは、単に論理パッケージ名をCDN URLに解決するための便宜的なラッパーです。
-また、CDN URLを自分で調べて`pin`することも可能です。たとえば、ReactにSkypackを使いたい場合は、`config/importmap.rb`に以下を追加できます。
+    main.jsで上のように指定したら、レイアウトファイルで以下の記述を追加します。
 
-```ruby
-pin "react", to: "https://cdn.skypack.dev/react"
-```
+    ```erb
+    <script type="module" src="main.js"></script>
+    ```
 
-### ピン留めしたモジュールをプリロードする
+    こうすることで、Propshaftに依存することなくJavaScriptファイル内の依存関係を管理できます。モジュールをインポートすることで、ファイルが読み込まれる順序を制御して依存関係を満たせるようになります。
 
-ウォーターフォール効果（ブラウザがネストの最も深いインポートに到達するまで次々とファイルを読み込まなければならなくなる現象）を避けるために、importmap-railsは[modulepreload links](https://developer.chrome.com/blog/modulepreload/)をサポートしています。`pin`したモジュールに`preload: true`を追加することでプリロードできるようになります。
+3. 必要に応じてファイルを組み合わせる
 
-以下のように、アプリ内で使うライブラリやフレームワークをプリロードしておくと、早い段階でダウンロードするようブラウザに指示できます。
+    常に一緒に読み込まれなければならないJavaScriptファイルやCSSファイルが複数ある場合は、それらを1つのファイルにまとめられます。たとえば、他のスクリプトからコードをインポートまたはコピーする`combined.js`ファイルを作成できます。次にレイアウトファイルで`combined.js`を指定すれば、ファイルが別々に順序付けされるのを回避できます。これは、ユーティリティ関数のセットや特定のコンポーネント用のスタイルのグループなど、常に一緒に読み込まれる必要があるファイルで有用です。このアプローチは、小規模なプロジェクトや単純なユースケースでは機能しますが、大規模なアプリケーションでは手間が増えてエラーが発生しやすくなる可能性があります。
 
-```ruby
-# config/importmap.rb
-pin "@github/hotkey", to: "https://ga.jspm.io/npm:@github/hotkey@1.4.4/dist/index.js", preload: true
-pin "md5", to: "https://cdn.jsdelivr.net/npm/md5@2.3.0/md5.js"
-```
+4. バンドラーでJavaScriptやCSSをバンドルする
 
-```erb
-<%# app/views/layouts/application.html.erb %>
-<%= javascript_importmap_tags %>
+    プロジェクトで依存関係の連鎖やCSSの前処理などの機能が必要な場合は、Propshaft以外の[高度なアセット管理](#高度なアセット管理)も検討してください。
 
-<%# これにより、importmapがセットアップされる前に以下のリンクがインクルードされる: %>
-<link rel="modulepreload" href="https://ga.jspm.io/npm:@github/hotkey@1.4.4/dist/index.js">
-...
-```
+    [`js-bundling-rails`](https://github.com/rails/jsbundling-rails)などのツールは、[Bun](https://bun.sh/)、[esbuild](https://esbuild.github.io/)、[rollup.js](https://rollupjs.org/)、[Webpack](https://webpack.js.org/)をRails アプリケーションに統合します。
 
-NOTE: 最新のドキュメントについては[`importmap-rails`](https://github.com/rails/importmap-rails)リポジトリを参照してください。
+    一方、[`css-bundling-rails`](https://github.com/rails/cssbundling-rails)は、スタイルシートを[Tailwind CSS](https://tailwindcss.com/)、[Bootstrap](https://getbootstrap.com/)、[Bulma](https://bulma.io/)、[PostCSS](https://postcss.org/)、[Dart Sass](https://sass-lang.com/)などで処理するために利用できます。
 
-Sprocketsの利用法
------------------------------
-
-アプリケーションのアセットをWebで公開する素朴なアプローチは、`public`フォルダの`images`や`stylesheets`などのサブディレクトリにアセットを保存することでしょう。現代のWebアプリケーションは、アセットの圧縮やフィンガープリントの追加といった特定の方法で処理する必要があるため、これを手動で行うことは困難です。
-
-Sprocketsは、設定済みディレクトリに保存されたアセットを自動的に前処理し、処理後にフィンガープリント追加、圧縮、ソースマップ生成といった設定可能な機能を使って`public/assets`フォルダに公開するように設計されています。
-
-アセットを引き続き`public`階層に配置することは可能です。[`config.public_file_server.enabled`][]がtrueに設定されている場合、`public`以下のアセットは、アプリケーションまたはWebサーバによって静的ファイルとして配信されます。配信前に何らかの前処理が必要なファイルについては、`manifest.js`ディレクティブを定義しておく必要があります。
-
-Railsのproduction環境では、これらのファイルをデフォルトで`public/assets`にプリコンパイルします。プリコンパイルされたファイルは、Webサーバで静的アセットとして配信されます。`app/assets`にあるファイルそのものは、productionで直接配信されることは決してありません。
-
-[`config.public_file_server.enabled`]: configuring.html#config-public-file-server-enabled
-
-### マニフェストファイルとディレクティブ
-
-Sprocketsでアセットをコンパイルするとき、Sprocketsはどのトップレベルターゲットをコンパイルするかを決める必要があります（通常は`application.css`と画像ファイルです）。トップレベルターゲットはSprocketsの`manifest.js`ファイルで定義されます。
-
-```js
-//= link_tree ../images
-//= link_directory ../stylesheets .css
-//= link_tree ../../javascript .js
-//= link_tree ../../../vendor/javascript .js
-```
-
-このファイルには**ディレクティブ**（directive）が含まれています。ディレクティブは、単一のCSSファイルやJavaScriptファイルをビルドするためにどのファイルが必要かをSprocketsに指示します。
-
-上のマニフェストファイルは、`./app/assets/images`ディレクトリやそのサブディレクトリにあるすべてのファイル、`./app/javascript`ディレクトリや`./vendor/javascript`で直接JSとして認識されるすべてのファイルの内容をインクルードすることを意味しています。
-
-このマニフェストファイルは`./app/assets/stylesheets`ディレクトリにあるすべてのCSSを読み込みます（ただしサブディレクトリは含めません）。
-`./app/assets/stylesheets`フォルダに`application.css`ファイルと`marketing.css`ファイルがあると仮定すると、ビューに`<%= stylesheet_link_tag "application" %>`または`<%= stylesheet_link_tag "marketing" %>`と書くことでこれらのスタイルシートを読み込めるようになります。
-
-JavaScriptファイルは、デフォルトでは`assets`ディレクトリから読み込まれないことにお気づきでしょうか。その理由は、`./app/javascript`が既に`importmap-rails` gemのデフォルトのエントリポイントになっていて、`vendor`フォルダはダウンロードしたJSパッケージの置き場所になっているからです。
-
-`manifest.js`では、ディレクトリ全体ではなく、特定のファイルを読み込むために`link`ディレクティブを指定することも可能です。`link`ディレクティブでは、ファイルの拡張子を明示的に指定する必要があります。
-
-Sprocketsは、指定されたファイルを読み込んで必要に応じて処理し、1個のファイルに連結した後、（`config.assets.css_compressor`または`config.assets.js_compressor`の値に基づいて）圧縮を行います。圧縮することでファイルサイズが小さくなり、ブラウザのファイルダウンロードがより高速になります。
-
-### コントローラ固有のアセット
-
-Railsでscaffoldやコントローラを生成すると、そのコントローラ用のCSSファイルも生成されます。scaffoldで生成する場合は、`scaffolds.css`というファイルも生成されます。
-
-たとえば、`ProjectsController`を生成すると、Railsは`app/assets/stylesheets/projects.css`というファイルも追加します。デフォルトでは、`manifest.js`ファイル内の`link_directory`ディレクティブを使うことで、これらのファイルをアプリケーションですぐに利用可能になります。
-
-また、以下の方法で、コントローラ固有のスタイルシートファイルを、それぞれのコントローラにのみインクルードすることも可能です。
-
-```html+erb
-<%= stylesheet_link_tag params[:controller] %>
-```
-
-ただし、この方法を使う場合は、`application.css`に対して`require_tree`ディレクティブを使わないでください。そうしないと、コントローラ固有のアセットが複数回インクルードされる可能性があります。
+    これらのツールが複雑な処理を担当することでPropshaftを補完し、Propshaftは最終アセットを効率的に整理して配信することに専念します。
 
 ### アセットの編成
 
-パイプラインのアセットは、アプリケーション内部の3つの場所（`app/assets`、`lib/assets`、`vendor/assets`）のいずれかに配置できます。
+Propshaftは、アセットを`app/assets/`ディレクトリ内で編成します。このディレクトリには、`images`、`javascripts`、`stylesheets`などのサブディレクトリが含まれます。JavaScript、CSS、画像ファイル、その他のアセットをこれらのディレクトリの下に配置すると、プリコンパイルプロセス中にPropshaftがそれらのアセットを管理します。
 
-* `app/assets`: アプリケーションが所有するアセット（カスタムの画像やスタイルシートなど）はここに配置します。
+また、`config/initializers/assets.rb`ファイルの`config.assets.paths`設定を以下のように変更することで、Propshaftが探索するアセットパスを追加することも可能です。
 
-* `app/javascript`: アプリケーションのJavaScriptコードはここに配置します。
-
-* `vendor/[assets|javascript]`: 外部のエンティティ（CSSフレームワークやJavaScriptライブラリなど）が所有するアセットはここに配置します。アセットパイプラインで処理される他のファイル（画像、スタイルシートなど）への参照を持つサードパーティのコードは、`asset_path`などのヘルパーを使う形に書き換える必要があることにご注意ください。
-
-`manifest.js`ファイルで設定可能なその他の場所については、[マニフェストファイルとディレクティブ](#マニフェストファイルとディレクティブ)を参照してください。
-
-#### 探索パス
-
-ファイルがマニフェストやヘルパーから参照されると、Sprocketsは`manifest.js`で指定されたすべての場所を探索してファイルを探します。探索パスは、Railsコンソールで[`Rails.application.config.assets.paths`](configuring.html#config-assets-paths)を調べることで表示できます。
-
-#### indexファイルをフォルダのプロキシとして使う
-
-Sprocketsでは、`index`（および関連する拡張子）という名前のファイルを特殊な目的のために利用します。
-
-たとえば、多数のモジュールを持つCSSライブラリが`lib/assets/stylesheets/library_name`ディレクトリに置かれている場合、`lib/assets/stylesheets/library_name/index.css`ファイルは、このライブラリ内のすべてのファイルに対するマニフェストとして機能します。この`index`ファイルには、必要なすべてのファイルの順序付きリストか、シンプルな`require_tree`ディレクティブを含めることが可能です。
-
-これは、`/library_name`へのリクエストで`public/library_name/index.html`にあるファイルに到達できるのと多少似ています。つまり、インデックスファイルは直接利用できません。
-
-ライブラリ全体としては、`.css`ファイルから以下のようにアクセスできます。
-
-```css
-/* ...
-*= require library_name
-*/
+```ruby
+# アセット読み込みパスにアセットを追加する
+Rails.application.config.assets.paths << Emoji.images_path
 ```
 
-こうすることで、関連するコードを他の場所でインクルードする前にグループ化できるようになり、設定がシンプルになってメンテナンスしやすくなります。
+Propshaftは、設定されたパスにあるすべてのアセットを配信できるようにします。Propshaftは、プリコンパイルプロセス中にこれらのアセットを`public/assets/`ディレクトリにコピーすることで、production環境で利用可能な状態にします。
 
-### アセットにリンクするコードを書く
+アセットは、`asset_path`、`image_tag`、`javascript_include_tag`、その他のアセットヘルパータグなどのヘルパーを使うことで、[論理パスを介して参照](#ダイジェスト化されたアセットをビューで利用する)できます。[production環境で`assets:precompile`を実行](#production環境の場合)すると、これらの論理参照は[`.manifest.json`ファイル](#マニフェストファイル)によって自動的にフィンガープリントパスに変換されます。
 
-Sprocketsはアセットにアクセスするためのメソッドを特に追加しません。使い慣れている`stylesheet_link_tag`を引き続き使います。
+このプロセスから特定のディレクトリを除外することもできます。詳しくは以下の[フィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)セクションを参照してください。
+
+### フィンガープリント: ダイジェストベースのURLによるバージョニング
+
+Rails では、アセットのバージョニングでフィンガープリント（fingerprinting）を利用することで、アセットのファイル名に一意の識別子を追加します。
+
+フィンガープリンティングとは、ファイルの内容に応じてファイル名を決定する手法で、ファイルの内容を元に一定の長さのダイジェストを生成してファイル名に追加します。こうすることで、ファイルの内容が少しでも変更されると、ファイルのダイジェストも変化し、ひいてはファイル名も変化します。
+このメカニズムは、アセットを効果的にキャッシュするために不可欠です。コンテンツが変更されたときに、ブラウザは常に更新版のアセットを読み込むので、パフォーマンスが向上します。静的なコンテンツや更新が頻繁でないコンテンツの場合、これにより、サーバーが異なっていたりデプロイ日時が異なっていても、2つのファイルのバージョンが同一であるかどうかをアセットファイル名のダイジェストで簡単に判別できます。
+
+#### アセットのダイジェスト化
+
+[アセットの編成](#アセットの編成)で述べたように、Propshaftでは、`config.assets.paths`で設定されたパスにあるすべてのアセットを配信可能です。これらのアセットは`public/assets/`ディレクトリにコピーされます。
+
+フィンガープリントが行われると、`styles.css`などのアセットファイル名はたとえば`styles-a1b2c3d4e5f6.css`のような名前に変更されます。これにより、`styles.css`が更新されるとファイル名も必ず変更され、ブラウザはキャッシュされた古いコピーではなく最新バージョンのアセットファイルをダウンロードするようになります。
+
+#### マニフェストファイル
+
+Propshaftは、アセットのプリコンパイル中に `.manifest.json`ファイルを自動的に生成します。このマニフェスト（manifest）ファイルは、元のアセットファイル名をフィンガープリント付きのファイル名に対応付けて、適切なキャッシュ無効化と効率的なアセット管理を保証します。`public/assets/`ディレクトリにある`.manifest.json`ファイルは、Railsが実行時にアセットパスを解決するのに役立ち、適切にフィンガープリントされたファイルを参照できるようにします。
+
+`.manifest.json`ファイルには、`application.js`や`application.css`などのメインアセットのエントリと、画像などのその他のファイルが含まれます。このJSONファイルの例を以下に示します。
+
+```json
+{
+  "application.css": "application-6d58c9e6e3b5d4a7c9a8e3.css",
+  "application.js": "application-2d4b9f6c5a7c8e2b8d9e6.js",
+  "logo.png": "logo-f3e8c9b2a6e5d4c8.png",
+  "favicon.ico": "favicon-d6c8e5a9f3b2c7.ico"
+}
+```
+
+ファイル名が一意で、ダイジェストがファイルの内容に基づいている場合、HTTPヘッダーを設定して、あらゆる場所（CDN、ISP、ネットワーク機器、Webブラウザなど）のキャッシュに、コンテンツのコピーを独自に保持することを促進できます。コンテンツが更新されればフィンガープリントも変更されるので、リモートクライアントはコンテンツの新しいコピーをリクエストします。これは一般にキャッシュバスティング（cache busting）と呼ばれます。
+
+#### ダイジェスト化されたアセットをビューで利用する
+
+Rails標準のアセットヘルパー（`asset_path`、`image_tag`、`javascript_include_tag`、`stylesheet_link_tag`など）を利用することで、ビューでダイジェストアセットを参照できます。
+
+たとえば、レイアウトファイルでは、スタイルシートを以下のように指定できます。
 
 ```erb
 <%= stylesheet_link_tag "application", media: "all" %>
 ```
 
-Railsにデフォルトで含まれている[`turbo-rails`](https://github.com/hotwired/turbo-rails) gemを使う場合は、以下のように`data-turbo-track`オプションも含めることで、アセットが更新されているかどうかをTurboがチェックし、更新されていればアセットをページに読み込むようになります。
+Railsにデフォルトで含まれる[`turbo-rails`](https://github.com/hotwired/turbo-rails) gemを使っている場合は、以下のように`data-turbo-track`オプションも指定できます。これにより、Turboはアセットが更新されたかどうかを確認し、更新されている場合はページで再読み込みします。
 
 ```erb
 <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 ```
 
-通常のビューでは、以下のような方法で`app/assets/images`ディレクトリの画像にアクセスできます。
+`app/assets/images/`ディレクトリの下にある画像は、ビューで以下のようにアクセスできます。
 
 ```erb
 <%= image_tag "rails.png" %>
 ```
 
-パイプラインが有効で、かつ現在の環境で無効になっていない場合、このファイルはSprocketsによって配信されます。ファイルが`public/assets/rails.png`に置かれている場合、Webサーバーによって配信されます。
+アセットパイプラインが有効になっていれば、この画像ファイルはPropshaftによって配信されます。ファイルが`public/assets/rails.png`に存在する場合は、Webサーバーによって配信されます。
 
-`public/assets/rails-f90d8a84c707a8dc923fca1ca1895ae8ed0a09237f6992015fef1e11be77c023.png`など、ファイル名にSHA256ハッシュを含むファイルへのリクエストについても同様に扱われます。ハッシュの生成法については、本ガイドの[production環境の場合](#production環境の場合)で後述します。
+あるいは、フィンガープリント化されたアセット（例: `rails-f90d8a84c707a8dc923fca1ca1895ae8ed0a09237f6992015fef1e11be77c023.png`）を使う場合、これらもPropshaftによって正しく配信されます。フィンガープリントは、プリコンパイルプロセス中に自動的に適用されます。
 
-画像は、必要に応じてサブディレクトリで整理し、以下のようにタグでディレクトリ名を指定してアクセスすることも可能です。
+画像ファイルはサブディレクトリで分類することも可能で、以下のようにタグでディレクトリを指定して参照できます。
 
 ```erb
 <%= image_tag "icons/rails.png" %>
 ```
 
-WARNING: アセットのプリコンパイルを行っている場合（[production環境の場合](#production環境の場合)を参照）、存在しないアセットへのリンクを含むページを呼び出すと例外が発生します。空文字列へのリンクも同様に例外が発生します。ユーザーから提供されるデータに対して`image_tag`などのヘルパーを使う場合はご注意ください。
-
-#### CSSとERB
-
-アセットパイプラインは自動的にERBを評価します。たとえば、cssアセットファイルに`erb`という拡張子を追加すると（`application.css.erb`など）、以下のようにCSS内で`asset_path`などのヘルパーが利用可能になります。
+最後に、CSSファイル内でも以下のように画像を参照できます。
 
 ```css
-.class { background-image: url(<%= asset_path 'image.png' %>) }
+background: url("/bg/pattern.svg");
 ```
 
-ここには、参照される特定のアセットへのパスを記述します。上の例では、アセット読み込みパスのいずれかにある画像ファイル（`app/assets/images/image.png`など）が指定されたと解釈されます。この画像が既にフィンガープリント付きで`public/assets`にあれば、このパスによる参照は有効になります。
-
-[データURIスキーム](https://ja.wikipedia.org/wiki/Data_URI_scheme)（CSSファイルにデータを直接埋め込む手法）を使いたい場合は、`asset_data_uri`ヘルパーが利用できます。
+Propshaftは上を自動的に以下に変換します。
 
 ```css
-#logo { background: url(<%= asset_data_uri 'logo.png' %>) }
+background: url("/assets/bg/pattern-2169cbef.svg");
 ```
 
-上のコードは、CSSソースに正しくフォーマットされたdata URIを挿入します。
+WARNING: アセットをプリコンパイルするときに（[production環境](#production環境の場合)を参照）、存在しないアセットにリンクしていると、呼び出しページで例外が発生します。これには、空文字列へのリンクも含まれます。ユーザーがアップロードして提供したデータに対して`image_tag`などのヘルパーを利用する場合は注意してください。これらに注意することで、ブラウザが常に正しいバージョンのアセットを取得するようになります。
 
-この場合、`-%>`でタグを閉じることはできませんのでご注意ください。
+#### ダイジェスト化されたアセットをJavaScriptで利用する
 
-### アセットが見つからない場合にエラーをraiseする
+JavaScriptでアセットにアクセスするには、`RAILS_ASSET_URL`マクロを用いてアセット変換を手動でトリガーする必要があります。以下に例を示します。
 
-sprockets-rails 3.2.0以降を使っている場合は、アセットの探索時に何も見つからなかった場合の挙動を設定できます。以下のように`unknown_asset_fallback`を`false`にすると、アセットが見つからない場合にエラーをraiseします。
+```javascript
+export default class extends Controller {
+  init() {
+    this.img = RAILS_ASSET_URL("/icons/trash.svg");
+  }
+}
+```
+
+上のコードは以下のように変換されます。
+
+```javascript
+export default class extends Controller {
+  init() {
+    this.img = "/assets/icons/trash-54g9cbef.svg";
+  }
+}
+```
+
+これにより、JavaScriptコードで正しいダイジェストファイルを利用可能になります。
+
+[Webpack](https://webpack.js.org/)や[esbuild](https://esbuild.github.io/)などのバンドラーを利用する場合は、ダイジェスト処理をこれらのバンドラーに任せる必要があります。Propshaftは、ファイル名にすでにダイジェストが含まれていることを検出すると（例: `script-2169cbef.js`）、不要な再処理を避けるためにファイルのダイジェスト処理をスキップします。
+
+アセットを[importmap](#importmap-rails)で管理する場合、importmapで参照されるアセットはPropshaftによって適切に処理され、プリコンパイル中にダイジェストパスにマッピングされます。
+
+#### ダイジェスト処理をバイパスする
+
+ファイルを相互に参照する必要がある場合（JavaScriptファイルとそのsource mapファイルなど）にダイジェスト処理を避けたい場合は、これらのファイルを事前に手動ダイジェストできます。Propshaftは、`-[digest].digested.js`というパターンを持つファイルを「ダイジェスト済みファイル」として認識し、ファイル名を安定させます。
+
+#### ダイジェスト処理から特定ディレクトリを除外する
+
+`config.assets.excluded_pa​​ths`設定で以下のように特定のディレクトリを追加することで、プリコンパイルやダイジェスト処理から除外できます。これは、たとえば`app/assets/stylesheets/`ディレクトリが[Dart Sass](https://sass-lang.com/)などのコンパイラへの入力として使われていて、これらのファイルをアセット読み込みパスの一部にしたくない場合に便利です。
 
 ```ruby
-config.assets.unknown_asset_fallback = false
+config.assets.excluded_paths = [Rails.root.join("app/assets/stylesheets")]
 ```
 
-`unknown_asset_fallback`を`true`にすると、エラーをraiseせずにパスを出力します。アセットのフォールバック動作はデフォルトでは無効です。
+これにより、指定のディレクトリはPropshaftで処理されなくなりますが、プリコンパイルプロセスからは除外されません。
 
-### ダイジェストをオフにする
+Propshaftを利用する
+----------------------
 
-`config/environments/development.rb`を更新して以下を記述すると、ダイジェストをオフにできます。
+Rails 8以降では、Propshaftがデフォルトで同梱されます。Propshaftを使うには、Propshaftを適切に設定して、Railsが効率よく配信できるようにアセットを配置する必要があります。
 
+### セットアップ
+
+RailsアプリケーションでPropshaftを設定するには、以下の手順を実行します。
+
+1. 新しいRailsアプリケーションを作成します。
+
+    ```bash
+    $ rails new app_name
+    ```
+
+2. アセットを配置します。
+
+    Propshaftは、アセットが`app/assets/`ディレクトリ以下に配置されていることを前提としています。アセットは、JavaScriptファイルの場合は`app/assets/javascripts/`、CSSファイルの場合は`app/assets/stylesheets/`、画像の場合は`app/assets/images/`などのサブディレクトリで分類できます。
+
+    たとえば、`app/assets/javascripts/`ディレクトリで以下のように新しいJavaScriptファイルを作成できます。
+
+    ```javascript
+    // app/assets/javascripts/main.js
+    console.log("Hello, world!");
+    ```
+
+    新しいCSSファイルは`app/assets/stylesheets/`ディレクトリの下で以下のように作成できます。
+
+    ```css
+    /* app/assets/stylesheets/main.css */
+    body {
+      background-color: red;
+    }
+    ```
+
+3. アプリケーションのレイアウトファイルでアセットにリンクします。
+
+    アプリケーションのレイアウトファイル（通常は`app/views/layouts/application.html.erb`）では、以下のように`stylesheet_link_tag`ヘルパーと`javascript_include_tag`ヘルパーを使ってアセットを追加できます。
+
+    ```erb
+    <!-- app/views/layouts/application.html.erb -->
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>MyApp</title>
+        <%= stylesheet_link_tag "main" %>
+      </head>
+      <body>
+        <%= yield %>
+        <%= javascript_include_tag "main" %>
+      </body>
+    </html>
+    ```
+
+    このレイアウトファイルには、アプリケーションの`main.css`スタイルシートと`main.js` JavaScriptファイルが含まれます。
+
+4. Railsサーバーを起動します。
+
+    ```bash
+    $ bin/rails server
+    ```
+
+5. アプリケーションをプレビューします。
+
+    Webブラウザで`http://localhost:3000`を開くと、アセットが含まれたRailsアプリケーションが表示されます。
+
+### development環境の場合
+
+RailsとPropshaftは、development環境でスムーズに開発できるようにするために、production環境とは異なる設定になっています。
+
+#### キャッシュは無効化される
+
+development環境のRailsでは、アセットキャッシュをバイパスするように設定されています。つまり、アセットファイル（CSS、JavaScriptなど）を変更すると、ファイルシステムから最新バージョンを直接配信します。キャッシュは完全にスキップされるため、バージョニングやファイル名の変更について気にする必要はありません。ページを再読み込みするたびに、ブラウザは自動的に最新バージョンのアセットを取得します。
+
+#### アセットの自動再読み込み
+
+development環境でPropshaftを単体で利用すると、リクエストのたびにJavaScript、CSS、画像などのアセットの更新が自動的にチェックされます。つまり、これらのファイルを編集してブラウザをリロードすると、Railsサーバーを再起動せずに変更をブラウザ上で即座に確認できます。
+
+[esbuild](https://esbuild.github.io/)や[Webpack](https://webpack.js.org/)などのJavaScriptバンドラーをPropshaftと併用する場合、以下のように両方のツールをワークフローで効果的に組み合わせられます。
+
+- バンドラーはJavaScriptファイルとCSSファイルの変更を監視し、適切なビルドディレクトリでコンパイルしてファイルを最新の状態に保ちます。
+- Propshaftは、リクエストが行われるたびに最新のコンパイル済みアセットがブラウザに提供されるようにします。
+
+これらの設定では、`./bin/dev`コマンドを実行したときに、Railsサーバーとアセットバンドラーの開発用サーバーが両方とも起動します。
+
+どちらの場合でも、Propshaftは、サーバーを再起動しなくても、ブラウザページがリロードされたらアセットへの変更がただちに反映されるようにします。
+
+#### ファイルウォッチャー
+
+development環境のPropshaftは、アプリケーションのファイルウォッチャー（デフォルトでは `ActiveSupport::FileUpdateChecker`）によって、各リクエストの前にアセットが更新されたかどうかをチェックします。アセットの数が多い場合は、`listen` gemを追加して、`config/environments/development.rb`ファイルに以下の設定を追加することでパフォーマンスが向上します。
 
 ```ruby
-config.assets.digest = false
+config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 ```
 
-このオプションが`true`の場合は、ダイジェストが生成されてアセットへのURLに含まれるようになります。
+これにより、ファイル更新をチェックするオーバーヘッドが削減され、効率よく開発できるようになります。
 
-### ソースマップをオンにする
+### Production環境の場合
 
-`config/environments/development.rb`に以下を記述すると、[ソースマップ](https://developer.mozilla.org/ja/docs/Tools/Debugger/How_to/Use_a_source_map)（Source Map）を有効にできます。
+production環境のRailsは、キャッシュを有効にしてアセットを配信し、パフォーマンスを最適化して、アプリケーションが大量のトラフィックを効率よく処理できるようにします。
 
+#### Production環境のアセットキャッシュとバージョニング
 
-```ruby
-config.assets.debug = true
-```
+[フィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)セクションで説明したように、ファイルの内容が変更されると、そのダイジェストも変更されるため、更新版のファイルがブラウザで使われるようになります。一方、ファイルの内容が変更されていない場合は、キャッシュされたファイルがブラウザで使われます。
 
-デバッグモードを有効にすると、Sprocketsはアセットごとにソースマップを生成します。このソースマップによって、ブラウザの開発コンソールで個別のファイルをデバッグできるようになります。
+#### アセットのプリコンパイル
 
-アセットは、サーバー起動後に最初のリクエストを受けてコンパイルされ、キャッシュされます。
-Sprocketは、以後のリクエストでコンパイルのオーバーヘッドを減らすために、[Cache-Control](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control) HTTPヘッダーに`must-revalidate`を設定します。ブラウザは、これらのリクエストで[HTTP 304（Not Modified）](https://developer.mozilla.org/ja/docs/Web/HTTP/Status/304)レスポンスを受け取ります。
+production環境では、最新バージョンのアセットが配信されるようにするため、デプロイメント中にプリコンパイルが実行されるのが普通です。Propshaftは、完全なトランスパイラ機能を提供するようには設計されていません。ただし、入力->出力コンパイラ設定が提供されており、デフォルトでは、CSSの`url(asset)`関数呼び出しを`url(digested-asset)`に変換し、ソースマッピングのコメントも同様に変換します。
 
-リクエストとリクエストの間にマニフェスト内のファイルが変更されると、サーバーは新たにコンパイルしたファイルを用いてレスポンスを返します。
-
-production環境の場合
--------------
-
-Sprocketsは、production環境では上述のフィンガープリントによるスキームを利用します。デフォルトでは、Railsのアセットはプリコンパイル済みかつ静的なアセットとしてWebサーバーから配信されることが前提になっています。
-
-プリコンパイル中に、コンパイルされるファイルの内容を元にSHA256ハッシュを生成し、ディスクに保存するときにファイル名に挿入します。フィンガープリントが追加されたファイル名は、Railsヘルパーによってマニフェストファイルの代わりに使われます。
-
-以下の例で説明します。
-
-```erb
-<%= stylesheet_link_tag "application" %>
-```
-
-上のコードによって以下のようなフィンガープリントが生成されます。
-
-```html
-<link href="/assets/application-4dd5b109ee3439da54f5bdfd78a80473.css" rel="stylesheet" />
-```
-
-フィンガープリントの振る舞いについては、[`config.assets.digest`][]初期化オプションで制御できます。デフォルトでは`true`です。
-
-NOTE: 通常の利用状況では、デフォルトの`config.assets.digest`オプションを変更するべきではありません。ファイル名にダイジェストがなく、期限の失効がヘッダーで遠い将来に設定されている場合、リモートクライアントはファイルの内容が変更されたときに再取得することを認識できなくなります。
-
-[`config.assets.digest`]: configuring.html#config-assets-digest
-
-### アセットをプリコンパイルする
-
-Railsには、パイプラインにあるアセットのマニフェストなどのファイルを手動でコンパイルするためのコマンドがバンドルされています。
-
-コンパイルされたアセットは、[`config.assets.prefix`][]で指定された場所に保存されます。この保存場所は、デフォルトでは`/assets`ディレクトリです。
-
-デプロイ時にこのタスクをサーバー上で呼び出すと、コンパイル済みアセットをサーバー上で直接作成できます。ローカル環境でコンパイルする方法については次のセクションを参照してください。
-
-以下がそのコマンドです。
+プリコンパイルを手動で実行するには、以下のコマンドを使います。
 
 ```bash
 $ RAILS_ENV=production rails assets:precompile
 ```
 
-これにより、`config.assets.prefix`で指定されたフォルダが`shared/assets`にリンクされます。
-既にこの共有フォルダを利用している場合は、独自のデプロイ用タスクを作成する必要があります。
+このコマンドを実行すると、読み込みパス内にあるすべてのアセットがプリコンパイル中にコピーされ（[高度なアセット管理](#高度なアセット管理)を利用している場合はコンパイルが実行され）、ダイジェストハッシュがアセットファイル名に追加されます。
 
-古いコンパイル済みアセットを参照するリモートキャッシュ済みページが、そのキャッシュ済みページの期限が切れるまで動作するには、このフォルダを複数のデプロイで共有しておくことが重要です。
+さらに、`ENV["SECRET_KEY_BASE_DUMMY"]`環境変数を以下のように設定すると、一時ファイルに保存されているランダムに生成された`secret_key_base`が利用されるようになります。これは、production環境のsecrets（秘密情報）にアクセスする必要がないビルドステップの一部としてproduction環境用のアセットをプリコンパイルする場合に便利です。
 
-NOTE: 常に`.js`または`.css`で終わるコンパイル済みファイル名を指定してください。
-
-このコマンドは、`.sprockets-manifest-randomhex.json`（`randomhex`は16バイトのランダムな16進文字列を表す）も生成します。このJSONファイルには、すべてのアセットとそれぞれのフィンガープリントのリストが含まれます。これは、RailsヘルパーメソッドでマッピングリクエストをSprocketsに送信するのを避けるために使われます。
-以下は典型的なマニフェストファイルです。
-
-```json
-{"files":{"application-<fingerprint>.js":{"logical_path":"application.js","mtime":"2016-12-23T20:12:03-05:00","size":412383,
-"digest":"<fingerprint>","integrity":"sha256-<random-string>"}},
-"assets":{"application.js":"application-<fingerprint>.js"}}
+```bash
+$ RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 rails assets:precompile
 ```
 
-実際のアプリケーションでは、マニフェストに記載されるファイルやアセットはこれよりも増え、`<fingerprint>`や`<random-string>`の部分も生成されます。
+production環境のアセットは、デフォルトでは`/assets/`ディレクトリから配信されます。
 
-マニフェストのデフォルトの置き場所は、`config.assets.prefix`で指定された場所のルートディレクトリ）です（デフォルトは`/assets`）。
+WARNING: development環境で`rails assets:precompile`コマンドを実行すると、`.manifest.json`というマーカーファイルが生成され、コンパイル済みアセットを配信可能であることがアプリケーションに通知されます。その結果、ソースアセットに変更を加えても、プリコンパイル済みアセットが更新されるまでブラウザに反映されなくなります。developmentモードでアセットが更新されなくなってしまった場合の解決策は、`public/assets/`ディレクトリの下にある`.manifest.json`ファイルを削除することです。また、`rails asset:clobber`コマンドを実行すると、すべてのプリコンパイル済みアセットと`.manifest.json`ファイルを削除できます。これにより、Railsはアセットを即座に再コンパイルして最新の変更を反映するようになります。
 
-NOTE: productionモードでプリコンパイル済みファイルが見つからない場合は、見つからないファイル名をエラーメッセージに含む例外`Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError`が発生します。
+NOTE: コンパイル済みファイル名が期待通りに`.js`または`.css`で終わるよう常に確認してください。
 
-[`config.assets.prefix`]: configuring.html#config-assets-prefix
-
-#### 遠い将来に期限が切れるヘッダー
+##### 遠い将来に期限が切れるヘッダー
 
 プリコンパイル済みのアセットはファイルシステム上に置かれ、Webサーバーから直接クライアントに配信されます。これらプリコンパイル済みアセットには、いわゆる「遠い将来に失効するヘッダー（far-future headers）」はデフォルトでは含まれません。したがって、フィンガープリントのメリットを得るためには、サーバーの設定を更新してこのヘッダを含める必要があります。
 
@@ -469,7 +370,7 @@ Apacheの設定例:
   # Last-Modifiedフィールドが存在する場合はETagの利用は推奨されない
   Header unset ETag
   FileETag None
-  # RFCによるとキャッシュは最長1年まで
+  # RFCによるとキャッシュは最長でも1年まで
   ExpiresActive On
   ExpiresDefault "access plus 1 year"
 </Location>
@@ -486,72 +387,23 @@ location ~ ^/assets/ {
 }
 ```
 
-### ローカルでプリコンパイルする
-
-場合によっては、productionサーバーでアセットをコンパイルしたくないことがあります。たとえば、productionファイルシステムへの書き込みアクセスが制限されている場合や、アセットを変更しないデプロイが頻繁に行われる場合などが考えられます。
-
-そのような場合は、アセットを**ローカルで**プリコンパイルできます。つまり、production向けの最終的なコンパイル済みアセットを、production環境にデプロイする前にソースコードリポジトリに追加するということです。この方法なら、productionサーバーにデプロイするたびにproductionで別途プリコンパイルを実行する必要はありません。
-
-以下を実行すると、production向けにプリコンパイルできます。
-
-```bash
-$ RAILS_ENV=production rails assets:precompile
-```
-
-ただし以下の注意点があります。
-
-*  プリコンパイル済みのアセットが配信可能な状態になっていると、元の（コンパイルされていない）アセットと一致していなくてもプリコンパイル済みのアセットが配信されてしまいます。**これはdevelopmentサーバーでも同じことが起きます**。
-
-    developmentサーバーが常にアセット変更のたびにオンザフライでコンパイルし、常に最新のコードが反映されるようにするには、development環境ではproductionと異なるディレクトリにプリコンパイル済みアセットを保存する設定が必要です。そうしないと、production用のプリコンパイル済みアセットがdevelopment環境でのブラウザ表示に影響を与えてしまいます（つまりアセットを変更してもブラウザに反映されなくなります）。
-
-    この設定は、`config/environments/development.rb`ファイルに以下の行を追加することでできます。
-
-    ```ruby
-    config.assets.prefix = "/dev-assets"
-    ```
-
-* Capistranoなどの開発ツールで行われるアセットプリコンパイルは無効にしておく必要があります。
-
-* アセットの圧縮や最小化に必要なツールをdevelopment環境のシステムで利用可能にしておく必要があります。
-
-また、`ENV["SECRET_KEY_BASE_DUMMY"]`を設定すると、一時ファイルに保存されるランダム生成の`secret_key_base`が使われるようになります。これは、ビルド中にproduction用のsecretsにアクセスせずに、production用のアセットをプリコンパイルしたい場合に便利です。
-
-```bash
-$ SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
-```
-
-### 動的コンパイル
-
-状況によっては動的コンパイル（live compilation）を使いたいこともあります。動的コンパイルモードでは、パイプラインのアセットへのリクエストは直接Sprocketsによって扱われます。
-
-このオプションを有効にするには以下を設定します。
-
-```ruby
-config.assets.compile = true
-```
-
-最初のリクエストを受けると、[アセットのキャッシュストア](#アセットのキャッシュストア)で説明したとおりにアセットがコンパイルおよびキャッシュされ、ヘルパーで使われるマニフェスト名にSHA256ハッシュが含まれるようになります。
-
-また、Sprocketsは[`Cache-Control` HTTPヘッダー](https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control)を`max-age=31536000`に変更します。このヘッダーは、サーバーとクライアントブラウザの間にあるすべてのキャッシュ（プロキシなど）に対して「サーバーが配信するこのコンテンツは1年間キャッシュに保存してよい」と通知します。これにより、そのサーバーのアセットに対するリクエスト数を削減でき、アセットをローカルブラウザのキャッシュやその他の中間キャッシュで代替するよい機会を得られます。
-
-
-このモードはデフォルトよりもメモリ消費が多くパフォーマンスも落ちるため、推奨されません。
-
-### CDN
+#### CDN
 
 [CDN（コンテンツデリバリーネットワーク）](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF)は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。CDNを利用すると、ブラウザからアセットをリクエストしたときに、ネットワーク上で地理的に最も「近く」にあるキャッシュのコピーが使われます。production環境のRailsサーバーから（中間キャッシュを使わずに）直接アセットを配信しているのであれば、アプリケーションとブラウザの間でCDNを利用するのがベストプラクティスです。
 
 CDNの典型的な利用法は、productionサーバーを"origin"サーバーとして設定することです。つまり、ブラウザがCDN上のアセットをリクエストしてキャッシュが見つからない場合は、オンデマンドでサーバーからアセットファイルを取得してキャッシュします。
 
-たとえば、Railsアプリケーションを`example.com`というドメインで運用しており、`mycdnsubdomain.fictional-cdn.com`というCDNが設定済みであるとします。ブラウザから`mycdnsubdomain.fictional-cdn.com/assets/smile.png`がリクエストされると、CDNはいったん元のサーバーの`example.com/assets/smile.png`にアクセスしてこのリクエストをキャッシュします。
+たとえば、Railsアプリケーションをexample.comというドメインで運用しており、mycdnsubdomain.fictional-cdn.comというCDNが設定済みであるとします。ブラウザからmycdnsubdomain.fictional-cdn.com/assets/smile.pngがリクエストされると、CDNはいったん元のサーバーのexample.com/assets/smile.pngにアクセスしてこのリクエストをキャッシュします。
 
-CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーにヒットします。CDNがアセットを直接配信可能な場合は、ブラウザからのリクエストが直接Railsサーバーに到達することはありません。CDNが配信するアセットはネットワーク上でブラウザと地理的に「近い」位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをできるだけ高速で配信することに専念できます。
+CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーにヒットします。CDNがアセットを直接配信可能な場合は、ブラウザからのリクエストが直接Railsサーバーに到達することはありません。CDNが配信するアセットはネットワーク上でブラウザと「地理的に」近い位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをできるだけ高速で配信することに専念できます。
 
-#### CDNで静的なアセットを配信する
+##### CDNで静的なアセットを配信する
 
-CDNを設定するには、Railsアプリケーションがインターネット上でproductionモードで運用されており、`example.com`などのような一般公開されているURLでアクセス可能になっている必要があります。次に、クラウドホスティングプロバイダが提供するCDNサービスと契約を結ぶ必要もあります。その際、CDNの"origin"設定をRailsアプリケーションのWebサイト`example.com`にする必要もあります。originサーバーの設定方法のドキュメントについてはプロバイダーにお問い合わせください。
+CDNを設定するには、Railsアプリケーションがインターネット上でproductionモードで運用されており、example.comなどのような一般公開されているURLでアクセス可能になっている必要があります。次に、クラウドホスティングプロバイダが提供するCDNサービスと契約を結ぶ必要もあります。その際、CDNの"origin"設定をRailsアプリケーションのWebサイトexample.comにする必要もあります。originサーバーの設定方法のドキュメントについてはプロバイダーにお問い合わせください。
 
-利用するCDNから、アプリケーションで使うカスタムサブドメイン（例: `mycdnsubdomain.fictional-cdn.com`）を交付してもらう必要もあります（注: fictional-cdn.comは説明用のドメインであり、少なくとも執筆時点では本当のCDNプロバイダーではありません）。CDNサーバーの設定が終わったら、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、`config/environments/production.rb`の[`config.asset_host`][]を以下のように設定します。
+利用するCDNから、アプリケーションで使うカスタムサブドメイン（例: mycdnsubdomain.fictional-cdn.com）を交付してもらう必要もあります（注: fictional-cdn.comは説明用のドメインであり、少なくとも執筆時点では本当のCDNプロバイダーではありません）。
+
+CDNサーバーの設定が終わったら、今度はブラウザに対して、Railsサーバーに直接アクセスするのではなく、CDNからアセットを取得するように通知する必要があります。これを行なうには、従来の相対パスに代えてCDNをアセットのホストサーバーとするようRailsを設定します。Railsでアセットホストを設定するには、`config/environments/production.rb`の[`config.asset_host`][]を以下のように設定します。
 
 ```ruby
 config.asset_host = "mycdnsubdomain.fictional-cdn.com"
@@ -573,32 +425,34 @@ NOTE: 上の設定を有効にするには、サーバーの`CDN_HOST`環境変�
 <%= asset_path('smile.png') %>
 ```
 
-この場合、`http://mycdnsubdomain.fictional-cdn.com/assets/smile.png`のような完全CDN URLが生成されます（読みやすくするためダイジェスト文字は省略してあります）。
+この場合、`http://mycdnsubdomain.fictional-cdn.com/assets/smile.png`のようなCDNの完全なURLが生成されます（読みやすくするためダイジェスト文字は省略してあります）。
 
 `smile.png`のコピーがCDNにあれば、CDNが代わりにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら気づきません。ファイルのコピーがCDNにない場合は、CDNが「origin」（この場合は`example.com/assets/smile.png`）を探して今後のために保存しておきます。
 
-一部のアセットだけをCDNで配信したい場合は、アセットヘルパーのカスタム`:host`オプションで[`config.action_controller.asset_host`][]の値セットを上書きすることも可能です。
+一部のアセットだけをCDNで配信したい場合は、以下のようにアセットヘルパーのカスタム`:host`オプションで[`config.action_controller.asset_host`][]の値セットを上書きすることも可能です。
 
 ```erb
 <%= asset_path 'image.png', host: 'mycdnsubdomain.fictional-cdn.com' %>
 ```
 
-[`config.action_controller.asset_host`]: configuring.html#config-action-controller-asset-host
-[`config.asset_host`]: configuring.html#config-asset-host
+[`config.action_controller.asset_host`]:
+  configuring.html#config-action-controller-asset-host
+[`config.asset_host`]:
+  configuring.html#config-asset-host
 
-#### CDNのキャッシュの動作をカスタマイズする
+##### CDNのキャッシュの動作をカスタマイズする
 
 CDNは、コンテンツをキャッシュすることで動作します。CDNに保存されているコンテンツが古くなったり壊れていたりすると、メリットよりも害の方が大きくなります。本セクションでは、多くのCDNにおける一般的なキャッシュの動作について解説します。プロバイダによってはこの記述のとおりでないことがありますのでご注意ください。
 
-##### CDNリクエストキャッシュ
+###### CDNリクエストキャッシュ
 
-これまでCDNがアセットをキャッシュするのに向いていると説明しましたが、実際にキャッシュされているのはアセット単体ではなくリクエスト全体です。リクエストにはアセット本体の他に各種ヘッダーも含まれています。
+CDNはアセットをキャッシュするのに向いていると言われていますが、CDNで実際にキャッシュされているのはアセット単体ではなくリクエスト全体です。リクエストにはアセット本体の他に各種ヘッダーも含まれています。
 
-ヘッダーの中でもっとも重要なのは`Cache-Control`です。これはCDN（およびWebブラウザ）にキャッシュの取り扱い方法を通知するためのものです。たとえば、誰かが実際には存在しないアセット`/assets/i-dont-exist.png`にリクエストを行い、Railsが404エラーを返したとします。このときに`Cache-Control`ヘッダーが有効になっていると、CDNがこの404エラーページをキャッシュする可能性があります。
+ヘッダーの中でもっとも重要なのは`Cache-Control`です。これはCDN（およびWebブラウザ）にキャッシュの取り扱い方法を通知するためのものです。たとえば、誰かが実際には存在しないアセット`/assets/i-dont-exist.png`にリクエストを行い、Railsが404エラーを返したとします。このときに有効な`Cache-Control`ヘッダーが存在すると、CDNがこの404エラーページをキャッシュする可能性があります。
 
-##### CDNヘッダをデバッグする
+###### CDNヘッダをデバッグする
 
-このヘッダが正しくキャッシュされているかどうかを確認する方法の1つは、[curl]( http://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com)を使う方法です。curlを使ってサーバーとCDNにそれぞれリクエストを送信し、ヘッダーが同じであるかどうかを以下のように確認できます。
+このヘッダが正しくキャッシュされているかどうかを確認する方法の1つは、[curl](https://explainshell.com/explain?cmd=curl+-I+http%3A%2F%2Fwww.example.com)を使う方法です。curlを使ってサーバーとCDNにそれぞれリクエストを送信し、ヘッダーが同じであるかどうかを以下のように確認できます。
 
 ```bash
 $ curl -I http://www.example/assets/application-
@@ -640,13 +494,13 @@ X-Timer: S1408912125.211638212,VS0,VE0
 
 CDNが提供する`X-Cache`などの機能やCDNが追加するヘッダなどの追加情報については、CDNのドキュメントを参照してください。
 
-##### CDNとCache-Controlヘッダ
+###### CDNとCache-Controlヘッダ
 
 [`Cache-Control`][]ヘッダーは、リクエストがキャッシュされる方法を定めたW3Cの仕様です。CDNを使わない場合は、ブラウザはこのヘッダ情報に基づいてコンテンツをキャッシュします。このヘッダのおかげで、アセットで変更が発生していない場合にブラウザがCSSやJavaScriptをリクエストのたびに再度ダウンロードせずに済むので、非常に有用です。
 
-アセットの`Cache-Control`ヘッダは一般に"public"にしておくものであり、RailsサーバーはCDNやブラウザに対して、そのことをこのヘッダで通知します。アセットが"public"であるということは、そのリクエストをどのキャッシュに保存してもよいということを意味します。
+アセットの`Cache-Control`ヘッダーは"public"にしておくのが一般的であり、RailsサーバーはCDNやブラウザに対して、そのことをこのヘッダで通知します。アセットが"public"であるということは、そのリクエストをどのキャッシュに保存してもよいということを意味します。
 
-同様に、`max-age`もこのヘッダでCDNやブラウザに通知されます。`max-age`は、オブジェクトをキャッシュに保存する期間を指定します。この期間を過ぎるとキャッシュは廃棄されます。`max-age`の値は秒単位で指定します。最大値は`31536000`であり、これは1年に相当します。
+同様に、キャッシュがオブジェクトを保存する期間である`max-age`を設定することもよくあります。この期間を過ぎるとキャッシュは廃棄されます。`max-age`の値は秒単位で指定し、最大値は`31536000`です（1年に相当）。
 
 Railsでは以下の設定でこの期間を指定できます。
 
@@ -658,9 +512,10 @@ config.public_file_server.headers = {
 
 これで、production環境のアセットがアプリケーションから配信されると、キャッシュは1年間保存されます。多くのCDNはリクエストのキャッシュも保存しているので、この`Cache-Control`ヘッダーはアセットをリクエストするすべてのブラウザ（将来登場するブラウザも含む）に渡されます。ブラウザはこのヘッダを受け取ると、次回再度リクエストが必要になったときに備えて、そのアセットを非常に長い期間キャッシュに保存してよいことを認識します。
 
-[`Cache-Control`]: https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/Cache-Control
+[`Cache-Control`]:
+    https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
 
-##### CDNにおけるURLベースのキャッシュ無効化について
+###### CDNにおけるURLベースのキャッシュ無効化について
 
 多くのCDNでは、アセットのキャッシュを完全なURLに基いて行います。たとえば以下のアセットへのリクエストがあるとします。
 
@@ -674,205 +529,243 @@ http://mycdnsubdomain.fictional-cdn.com/assets/smile-123.png
 http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
 ```
 
-`Cache-Control`の`max-age`を遠い将来に設定する場合は、アセットに変更が生じた時にこれらのキャッシュが確実に無効化されるようにしてください。たとえば、ニコニコマーク画像の色を黄色から青に変更したら、サイトを訪れた人には変更後の青いニコニコマークが見えるようにしたいはずです。
+`Cache-Control`の`max-age`を遠い将来に設定する場合は、アセットが変更されたときにこれらのキャッシュが確実に無効化されるようにしてください。たとえば、ニコニコマーク画像の色を黄色から青に変更したら、サイトを訪れた人には変更後の青いニコニコマークが見えるようにしたいはずです。
 
 RailsでCDNを併用している場合、Railsのアセットパイプライン設定`config.assets.digest`はデフォルトで`true`に設定されるので、アセットの内容が少しでも変更されれば必ずファイル名も変更されます。
 
-このとき、キャッシュ内の項目を手動で削除する必要はありません。アセットファイル名が内容に応じて常に一意になるので、ユーザーは常に最新のアセットを利用できます。
+このとき、キャッシュ内の項目を手動で無効にする必要はありません。アセットファイル名が内容に応じて常に一意になるので、ユーザーは常に最新のアセットを利用できます。
 
-パイプラインをカスタマイズする
-------------------------
+SprocketsからPropshaftへの移行
+-------------------------------------
 
-### CSSを圧縮する
+### アセット管理技術の進化
 
-YUIはCSS圧縮方法の1つです。[YUI CSS compressor](https://yui.github.io/yuicompressor/css.html)は最小化機能を提供します。
+ここ数年、Web技術の進化により、Webアプリケーションでのアセットの管理方法に影響を与える大きな変化が起こりました。このような変化には以下のものが含まれます。
 
-YUI圧縮は以下の記述で有効にできます。これには`yui-compressor` gemが必要です。
+1. **ブラウザサポート**: 最新のブラウザでは新しい機能や構文のサポートが強化され、トランスパイルやポリフィルの必要性が減りました。
 
-```ruby
-config.assets.css_compressor = :yui
+2. **HTTP/2**: HTTP/2プロトコルの導入により、複数のファイルを並行して配信しやすくなり、アセットをバンドルする必要性が減りました。
+
+3. **ES6+**: 最新のJavaScript構文（ES6以降）はほとんどの最新のブラウザでサポートされているため、トランスパイルの必要性が減りました。
+
+そのため、Propshaftで動作するアセットパイプラインには、デフォルトでアセットの「トランスパイル」「バンドル」「圧縮」機能が含まれなくなりました。ただし、フィンガープリントは引き続き不可欠な機能です。以下では、アセット管理技術の進化と、それらの進化がSprocketsからPropshaftへの変更にどのように影響したかについて詳しく解説します。
+
+#### トランスパイル❌
+
+トランスパイル（transpile）は、コードをある言語やフォーマットから別の言語やフォーマットへ変換する処理に関連します。
+
+たとえば、TypeScriptをJavaScriptに変換する場合を考えてみましょう。
+
+```typescript
+const greet = (name: string): void => {
+  console.log(`Hello, ${name}!`);
+};
 ```
 
-### JavaScriptを圧縮する
+トランスパイルによって、上のコードは以下のように変わります。
 
-JavaScriptの圧縮オプションには、`:terser`、`:closure`、`:uglifier`、`:yui`のいずれかを指定できます。それぞれ、`terser` gem、`closure-compiler` gem、`uglifier` gem、`yui-compressor` gemが必要です。
-
-ここでは`terser` gemを例にします。
-Railsの`Gemfile`にはデフォルトで[terser](https://github.com/terser/terser)が含まれています。このgemは、Node.js向けのコードをRubyでラップしたものです。terserによる圧縮は次のように行われます。ホワイトスペースとコメントを除去し、ローカル変数名を短くし、可能であれば`if`と`else`を三項演算子に置き換えるなどの細かな最適化を行います。
-
-
-以下の設定により、JavaScriptの圧縮に`terser`が使われます。
-
-```ruby
-config.assets.js_compressor = :terser
+```javascript
+const greet = (name) => {
+  console.log(`Hello, ${name}!`);
+};
 ```
 
-NOTE: `terser`を利用するには[ExecJS](https://github.com/sstephenson/execjs#readme)をサポートするJavaScriptランタイムが必要です。macOSやWindowsを利用している場合は、OSにJavaScriptランタイムをインストールしてください。
+従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCS はこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
 
-NOTE: JavaScriptの圧縮は、`importmap-rails` gemや`jsbundling-rails` gemsでアセットを読み込む場合でも有効です。
+#### バンドル❌
 
-### gzip圧縮されたアセットを配信する
+バンドル（bundling）は、複数のファイルを1つに結合することで、ブラウザがページをレンダリングするのに必要なHTTPリクエスト数を減らす技術です。
 
-非圧縮版のアセットに加えて、gzip圧縮されたコンパイル済みアセットもデフォルトで生成されます。gzipアセットはデータ転送を削減するのに有用です。これを指定するには`gzip`フラグを設定します。
+たとえば、アプリケーションに以下の3つのJavaScriptファイルがあるとします。
 
-```ruby
-config.assets.gzip = false # gzipアセットの生成を無効にする場合
+- menu.js
+- cart.js
+- checkout.js
+
+これら3つのファイルをバンドルすると、以下の1つのapplication.jsファイルにマージされます。
+
+```javascript
+// app/javascript/application.js
+// （menu.js、cart.js、checkout.jsの内容が結合されてここに配置される）
 ```
 
-gzip形式のアセットの配信方法については、利用しているWebサーバーのドキュメントを参照してください。
+バンドルは、1ドメインあたりの同時接続数が6～8に制限されていたHTTP/1.1の時代には重要でした。HTTP/2では、ブラウザが複数のファイルを並行して取得するため、最新のアプリケーションではバンドルが以前ほど重要ではなくなりました。
 
-### 独自の圧縮機能を使う
+#### 圧縮❌
 
-CSSやJavaScriptの圧縮設定にはあらゆるオブジェクトを渡せます。設定に与えるオブジェクトには`compress`メソッドが実装されている必要があります。このメソッドは文字列のみを引数として受け取り、圧縮結果を文字列で返す必要があります。
+圧縮（compression）では、ファイルをより効率的な形式でエンコードして、ユーザーに配信するときにサイズをさらに縮小します。一般的な圧縮手法は[Gzip圧縮](https://ja.wikipedia.org/wiki/Gzip)です。
 
-```ruby
-class Transformer
-  def compress(string)
-    do_something_returning_a_string(string)
-  end
-end
-```
+たとえば、200KBのCSSファイルは、Gzip圧縮するとわずか50KBに圧縮されることもあります。ブラウザは、このような圧縮済みファイルを受信時に自動的に解凍することで、帯域幅を節約して速度を向上させます。
 
-上のコードを有効にするには、`application.rb`の設定オプションに新しいオブジェクトを渡します。
+ただし、現代ではCDNがアセットを自動圧縮するようになったため、手動で圧縮する必要性は薄れました。
 
-```ruby
-config.assets.css_compressor = Transformer.new
-```
+### SprocketsとPropshaftの違い
 
-### アセットのパスを変更する
+#### 読み込みの順序
 
-Sprocketsが利用するデフォルトのパブリックなパスは`/assets`です。
+Sprocketsは、ファイルをリンクして正しい順序で読み込まれるようにできます。たとえば、他のファイルに依存するメインのJavaScriptファイルでは、Sprocketsによって依存関係が自動的に管理され、すべてが正しい順序で読み込まれるようになります。
 
-このパスは以下のように変更可能です。
+Propshaftでは、これらの依存関係は自動的に処理されませんが、代わりに[アセットの読み込み順序を手動で管理できます](#アセットの読み込み順)。
 
-```ruby
-config.assets.prefix = "/他のパス"
-```
+#### バージョニング
 
-このオプションは、アセットパイプラインを利用していない既存のプロジェクトがあり、そのプロジェクトの既存のパスを指定したり、別途新しいリソース用のパスを指定したりする場合に便利です。
+Sprocketsは、アセットが更新されるたびにファイル名にハッシュを追加することでアセットのフィンガープリント処理をシンプルにして、適切なキャッシュ無効化を保証します。
 
-### X-Sendfileヘッダー
+Propshaftでは、特定の側面について手動で処理する必要があります。たとえば、アセットのフィンガープリント処理は行われますが、ファイル名が正しく更新されるようにするには、バンドラーを使うか、JavaScriptファイルの変換を手動でトリガーする必要が生じる場合があります。詳しくは[Propshaftでのフィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)セクションを参照してください。
 
-`X-Sendfile`ヘッダーはWebサーバーに対するディレクティブであり、アプリケーションからのレスポンスをブラウザに送信せずに破棄し、代わりに別のファイルをディスクから読みだしてブラウザに送信します。
+#### プリコンパイル
 
-このオプションはデフォルトでは無効ですが、サーバーがこのヘッダーをサポートしていれば有効にできます。このオプションをオンにすると、それらのファイル送信がWebサーバーに一任され、それによって高速化されます。
-この機能の利用方法については、[`send_file`](http://api.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file) APIドキュメントを参照してください。
+Sprocketsは、バンドルに明示的に含まれているアセットを処理しました。
 
-ApacheとNGINXではこのオプションがサポートされており、以下のように`config/environments/production.rb`で有効にできます。
+対照的に、Propshaftは明示的なバンドルを必要とせずに、画像、スタイルシート、JavaScriptファイルなど、指定されたパスにあるすべてのアセットを自動的に処理します。詳しくは[アセットダイジェスト](#アセットのダイジェスト化)セクションを参照してください。
 
-```ruby
-# config.action_dispatch.x_sendfile_header = "X-Sendfile" # Apache用
-# config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # NGINX用
-```
+### SprocketsからPropshaftへの移行手順
 
-WARNING: 既存のRailsアプリケーションをアップグレードする際にこの機能の利用を検討している場合は、このオプションの貼り付け先に十分ご注意ください。このオプションを貼り付けてよいのは`production.rb`と、production環境として振る舞わせたい他の環境ファイルだけです。`application.rb`ではありません。
+Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よりもシンプルになっており、そのためSprocketsからの移行に必要な作業がそれなりに増える可能性があります。これは、特に[TypeScript](https://www.typescriptlang.org/)や[Sass](https://sass-lang.com/)のトランスパイルなどのタスクがSprocketsに依存している場合や、この機能を提供するgemを利用している場合に当てはまります。
 
-TIP: 詳しくは、production環境で利用するWebサーバーのドキュメントを参照してください。
-- [Apache](https://tn123.org/mod_xsendfile/)
-- [NGINX](http://wiki.nginx.org/XSendfile)
+このような場合は、トランスパイルの利用をやめるか、[`jsbundling-rails`](https://github.com/rails/jsbundling-rails)と[`cssbundling-rails`](https://github.com/rails/cssbundling-rails)で提供されるNode.jsベースのトランスパイラに切り替える必要があります。詳しくは[高度なアセット管理](#高度なアセット管理)セクションを参照してください。
 
-アセットのキャッシュストア
-------------------
+ただし、現在すでにNodeベースのセットアップを用いてJavaScriptとCSSをバンドルしている場合は、Propshaftをワークフローにスムーズに統合できます。バンドルやトランスパイル用の追加ツールは必要ないため、Propshaftは主にアセットのダイジェスト処理と配信を処理します。
 
-デフォルトのSprocketsは、development環境とproduction環境で`tmp/cache/assets`にアセットをキャッシュします。これは以下のように変更できます。
+移行の主な手順は以下のとおりです。
 
-```ruby
-config.assets.configure do |env|
-  env.cache = ActiveSupport::Cache.lookup_store(:memory_store,
-                                                { size: 32.megabytes })
-end
-```
+1. 以下のコマンドを実行して一部のgemを削除します。
 
-アセットキャッシュストアを無効にするには以下のようにします。
+    ```bash
+    bundle remove sprockets
+    bundle remove sprockets-rails
+    bundle remove sass-rails
+    ```
 
-```ruby
-config.assets.configure do |env|
-  env.cache = ActiveSupport::Cache.lookup_store(:null_store)
-end
-```
+2. プロジェクトから`config/assets.rb`ファイルと`assets/config/manifest.js`ファイルを削除します。
 
-アセットをGemに追加する
---------------------------
+3. 既にRails 8にアップグレードしている場合は、Propshaftがアプリケーションに含まれています。まだRails 8にアップ具グレードしていない場合は、`bundle add propshaft`コマンドを実行してPropshaftをインストールします。
 
-アセットはgemの形式で外部から持ち込むこともできます。
+4. `application.rb`ファイルの`config.assets.paths << Rails.root.join('app', 'assets')`行を削除します。
 
-そのよい例は`jquery-rails` gemです。これは標準のJavaScriptライブラリをgemとしてRailsに提供します。このgemには`Rails::Engine`から継承したエンジンクラスが含まれています。このgemを導入することにより、Railsはこのgem用のディレクトリにアセットを配置可能であることを認識し、`app/assets`、`lib/assets`、`vendor/assets`ディレクトリがSprocketsの検索パスに追加されます。
+5. Propshaftは相対パスを使うので、アセットヘルパーのすべてのインスタンス（`image_url`など）を標準URLに置き換えて、アセットヘルパーを移行します。
+  たとえば、`image_url("logo.png")`は `url("/logo.png")`に置き換えます。
 
-ライブラリやGemをプリプロセッサ化する
-------------------------------------------
+6. トランスパイルにSprocketsを使っている場合は、Nodeベースのトランスパイラ（Webpack、esbuild、Viteなど）に切り替える必要があります。`jsbundling-rails` gemと`cssbundling-rails` gemを使うことで、これらのツールをRailsアプリケーションに統合できます。
 
-Sprocketsでは機能を拡張するのにProcessors、Transformers、Compressors、Exportersを使います。詳しくはSprocketsのREADME「[Extending Sprockets](https://github.com/rails/sprockets/blob/main/guides/extending_sprockets.md)」を参照してください。以下ではtext/css (`.css`)ファイルの末尾にコメントを追加するプリプロセッサを登録しています。
+詳しくは、Propshaft READMEの[SprocketsからPropshaftに移行する方法の詳細ガイド](https://github.com/rails/propshaft/blob/main/UPGRADING.md)を参照してください。
 
-```ruby
-module AddComment
-  def self.call(input)
-    { data: input[:data] + "/* Hello From my sprockets extension */" }
-  end
-end
-```
+## 高度なアセット管理
 
-これで入力データを変更するモジュールができたので、続いてMIMEタイプのプリプロセッサとして登録します。
+アセットを処理するためのデフォルトのアプローチが長年にわたって複数存在し、Webが進化するにつれて、JavaScriptを多用するアプリケーションが増え始めました。私たちはRailsドクトリンの[メニューはomakase（おまかせ）](https://rubyonrails.org/doctrine#omakase)を信じているので、Propshaftは、デフォルトで最新のブラウザにproduction環境対応のセットアップを提供することに重点を置いています。
 
-```ruby
-Sprockets.register_preprocessor "text/css", AddComment
-```
+実にさまざまなJavaScriptやCSSフレームワークと拡張機能を利用可能である現代において、すべてに対応できる万能のソリューションは存在しません。ただし、Railsエコシステムでは、デフォルトのセットアップでは不十分な場合に役立つ他のバンドルライブラリも利用できます。
 
+### `jsbundling-rails`
 
-別のライブラリを使う
-------------------------------------------
-
-長年にわたり、アセットを処理するためのデフォルトの手法は複数ありました。Webが進化して、JavaScriptを多用するアプリケーションが増えてきました。The Rails Doctrineでは[メニューは"おまかせ"](https://rubyonrails.org/doctrine#omakase)と考えているので、デフォルトのセットアップである**Sprocketsとimport map**に重点を置きました。
-
-私たちは、さまざまなJavaScriptフレームワークやCSSのフレームワーク、拡張機能に対して万能なソリューションが存在しないことを認識しています。Railsのエコシステムには他にもさまざまなバンドルライブラリがあり、デフォルトのセットアップでは不十分な場合に頼りにできるはずです。
-
-### jsbundling-rails
-
-[`jsbundling-rails`](https://github.com/rails/jsbundling-rails) gemを使うと、`importmap-rails`方式の代わりに以下のいずれかをJavaScriptのバンドルに利用できるようになります。
+[`jsbundling-rails`](https://github.com/rails/jsbundling-rails) gemを使うと、以下を含む最新JavaScriptバンドラーをRailsアプリケーションに統合できます。
 
 - [Bun](https://bun.sh)
 - [esbuild](https://esbuild.github.io/)
 - [rollup.js](https://rollupjs.org/)
 - [Webpack](https://webpack.js.org/)
 
-`jsbundling-rails` gemは、`yarn build --watch`プロセスを提供し、development環境で自動的に出力を生成します。production環境では`javascript:build`タスクを`assets:precompile`タスクに自動的にフックし、パッケージの依存関係がすべてインストールされ、すべてのエントリポイントに対してJavaScriptがビルドされるようにできます。
+これらのツールを使うことでJavaScriptアセットを管理・バンドルできるようになり、柔軟性とパフォーマンスを必要とする開発者にランタイム依存のアプローチを提供します。
 
-**`importmap-rails`の代わりに使うのがよい場合**: JavaScriptコードがトランスパイルに依存している場合（例: [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、React JSXフォーマット）は、`jsbundling-rails`が正しい方法となります。
+#### `jsbundling-rails`のしくみ
 
-### Webpacker/Shakapacker
+1. インストールされると、指定のJavaScriptバンドラーを利用するようにRailsアプリを設定します。
+2. JavaScriptアセットをコンパイルするために、`package.json`ファイル内に`build`スクリプトを作成します。
+3. 開発中にアセットに変更を加えると、`build:watch`スクリプトによってアセットがライブ更新されます。
+4. production環境では、`jsbundling-rails` gemによって、プリコンパイル時にJavaScriptが自動的にビルドされて組み込まれるため、手動による介入を削減できます。デプロイ中にすべてのエントリポイントのJavaScriptをビルドするために、これをRailsの`assets:precompile`タスクにフックします。この統合により、最小限の構成でJavaScriptをproduction環境で使用できるようになります。
 
-[`Webpacker`](https://github.com/rails/webpacker)は、Rails 5および6のデフォルトのJavaScriptプリプロセッサ兼バンドラでした。現在は開発が終了しています。後継として[`shakapacker`](https://github.com/shakacode/shakapacker)が存在しますが、Railsチームやプロジェクトはメンテナンスしていません。
+`jsbundling-rails` gemはエントリポイントを自動的に検出します。つまり、Railsの規約に沿ってバンドルされる主要なJavaScriptファイルを自動的に特定します。通常は、`app/javascript/`ディレクトリや設定で追加したディレクトリを検索します。Railsの規約に沿うことで、`jsbundling-rails`は複雑なJavaScriptワークフローをシンプルなプロセスでRailsプロジェクトに統合できるようになります。
 
-このリストにある他のライブラリと異なり、`webpacker`/`shakapacker`はSprocketsから完全に独立していて、JavaScriptとCSSの両方のファイルを処理できます。
+#### `jsbundling-rails`が適している場合
 
-NOTE: `jsbundling-rails`と`webpacker`/`shakapacker`の違いについては、[Webpackerとの比較](https://github.com/rails/jsbundling-rails/blob/main/docs/comparison_with_webpacker.md)ドキュメントをお読みください。
+`jsbundling-rails`は、以下のようなRailsアプリケーションに最適です。
 
-### cssbundling-rails
+- ES6+、TypeScript、JSXなどの最新のJavaScript機能を必要としている。
+- ツリーシェイキング、コード分割、最小化などのバンドラー固有の最適化を活用する必要がある。
+- アセット管理に`Propshaft`を利用しているが、プリコンパイルされたJavaScriptをより広範なRailsアセットパイプラインに統合するための信頼性の高い方法を必要としている。
+- ビルドステップに依存するライブラリやフレームワークを利用している。
+  たとえばトランスパイルを必要とするプロジェクト（[Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、React JSXを利用しているプロジェクトなど）は、`jsbundling-rails`によって大きなメリットを得られます。これらのツールはビルドステップに依存しており、`jsbundling-rails` gemによってシームレスにサポートされます。
 
-[`cssbundling-rails`](https://github.com/rails/cssbundling-rails) gemは、以下のいずれかを利用するCSSをバンドルおよび処理して、アセットパイプライン経由でCSSを配信します。
+`jsbundling-rails` gemを利用すると、JavaScriptワークフローが簡素化されるとともに、`Propshaft`などのRailsツールにも統合されるので、 Railsの規約に準拠しながら高い生産性を維持する、リッチで動的なフロントエンドを構築できます。
 
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Bootstrap](https://getbootstrap.com/)
-- [Bulma](https://bulma.io/)
-- [PostCSS](https://postcss.org/)
-- [Dart Sass](https://sass-lang.com/)
+### `cssbundling-rails`
 
-`cssbundling-rails`の動作は`jsbundling-rails`と似ています。development環境では`yarn build:css --watch`プロセスでスタイルシートを再生成し、production環境では`assets:precompile`タスクにフックしてアプリケーションにNode.js依存関係を追加します。
+[`cssbundling-rails`](https://github.com/rails/cssbundling-rails) gemは、最新のCSSフレームワークとツールをRailsアプリケーションに統合することで、スタイルシートをバンドルして処理できるようになります。処理が完了すると、得られたCSSがRailsのアセットパイプライン経由で配信されます。
 
-**Sprocketsとの違い**: Sprockets単体ではSassをCSSにトランスパイルできないため、`.sass`ファイルから`.css`ファイルを生成するためにNode.jsが必要です。`.css`ファイルが生成されれば、Sprocketsからクライアントに配信できるようになります。
+#### `cssbundling-rails`のしくみ
 
-NOTE: `cssbundling-rails`はCSSの処理をNode.jsに依存しています。
-`dartsass-rails` gemと`tailwindcss-rails` gemは、それぞれTailwind CSSとDart Sassのスタンドアロン版実行ファイルを使うので、Node.jsに依存しません。
-JavaScriptを`importmap-rails`で処理し、CSSを`dartsass-rails`または`tailwindcss-rails`で処理する形にすれば、Node依存を完全に避けられるので、よりシンプルなソリューションとなります。
+1. インストールされると、指定したCSSフレームワークやCSSプロセッサを利用するようにRailsアプリを設定します。
+2. `package.json`ファイル内に、スタイルシートをコンパイルするための`build:css`スクリプトを作成します。
+3. 開発中は、`build:css --watch`タスクにより、CSSに変更を加えるとCSSがライブ更新され、スムーズで応答性の高いワークフローが実現します。
+4. production環境では、`cssbundling-rails` gemによってスタイルシートがコンパイルされ、デプロイを準備します。
+  `assets:precompile`ステップでは、すべての`package.json`依存関係が`bun`、`yarn`、`pnpm`、`npm`のいずれかを介してインストールされます。
+  次に`build:css`タスクが実行され、スタイルシートのエントリポイントが処理されます。
+  得られたCSS出力は、アセットパイプラインによってダイジェスト化され、他のアセットパイプラインファイルと同様に`public/assets/`ディレクトリにコピーされます。
 
-### dartsass-rails
+この統合により、すべてのCSSが効率的に管理・処理されると同時に、production環境対応のスタイルを準備するプロセスが簡素化されます。
 
-アプリケーションで[Sass](https://sass-lang.com/)を使いたい場合は、レガシーな`sassc-rails` gemの代わりにこの[`dartsass-rails`](https://github.com/rails/dartsass-rails) gemが提供されています。
-`dartsass-rails` gemは、`sassc-rails` gemで使われていた[LibSass](https://sass-lang.com/blog/libsass-is-deprecated)（2020年に非推奨化）に代えてDart Sassの実装を利用しています。
+#### `cssbundling-rails`が適している場合
 
-この新しい`dartsass-rails` gemは`sassc-rails`とは異なり、Sprocketsと直接統合されているわけではありません。インストールや移行の手順については、[dartsass-rails gem](https://github.com/rails/dartsass-rails)のドキュメントを参照してください。
+`cssbundling-rails`は、以下のようなRailsアプリケーションに最適です。
 
-WARNING: 以前広く使われていた`sassc-rails` gemは、2019年以降メンテナンスされていません。
+- 開発中やデプロイ中にビルド処理を必要とするCSSフレームワークを利用している。
+  （[Tailwind CSS](https://tailwindcss.com/)、[Bootstrap](https://getbootstrap.com/)、[Bulma](https://bulma.io/)などの）
+- [PostCSS](https://postcss.org/)や[Dart Sass](https://sass-lang.com/)プラグインによるカスタム前処理などの高度なCSS機能を必要としている。
+- 処理されたCSSをRailsのアセットパイプラインにシームレスに統合する必要がある。
+- 開発中の手動介入を最小限にとどめてスタイルシートをライブ更新できる。
 
-### tailwindcss-rails
+**注意**: `cssbundling-rails`を利用すると、Node.js依存関係が導入されます（[`dartsass-rails`](https://github.com/rails/dartsass-rails)や[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)はNode.jsに依存せず、それぞれ[Dart Sass](https://sass-lang.com/)と[Tailwind CSS](https://tailwindcss.com/)のスタンドアロン版を利用する点が異なります）。そのため、`cssbundling-rails` gemは、JavaScriptの処理をNodeに依存する`jsbundling-rails`などのgemを既に利用しているアプリケーションに適しています。
+ただし、JavaScriptに[`importmap-rails`](https://github.com/rails/importmap-rails)を利用していてNode.jsへの依存を避けたい場合は、[`dartsass-rails`](https://github.com/rails/dartsass-rails)や[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)などのスタンドアロンの代替手段を利用することでセットアップが簡単になります。
 
-[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails) gemは、Tailwind CSS v3フレームワークの[スタンドアロン実行可能版](https://tailwindcss.com/blog/standalone-cli)をラップしています。新しいアプリケーションを開発する際に、`rails new`コマンドに`--css tailwind`を指定することで利用できます。development環境では、Tailwindの出力を自動的に生成するための`watch`プロセスが提供されます。production環境では、`assets:precompile`タスクにフックします。
+`cssbundling-rails`は、最新のCSSワークフローを統合してproduction環境でのビルドを自動化し、Railsアセットパイプラインを活用することで、開発者が動的なCSSスタイルを効率的に管理および配信できるようにします。
+
+### `tailwindcss-rails`
+
+[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)は、[Tailwind CSS](https://tailwindcss.com/)をRailsアプリケーションに統合するラッパーgemです。
+
+`tailwindcss-rails` gemは、Tailwind CSSの[スタンドアロン実行可能ファイル](https://tailwindcss.com/blog/standalone-cli)をバンドルすることで、Node.jsや追加のJavaScript依存関係が不要になります。これにより、Railsアプリケーションをスタイリングする軽量で効率的なソリューションを実現します。
+
+#### `tailwindcss-rails`のしくみ
+
+1. `rails new`コマンドに`--css tailwind`オプションを指定すると、Tailwind設定をカスタマイズするための`tailwind.config.js`ファイルと、CSSエントリポイントを管理するための`stylesheets/application.tailwind.css`ファイルが生成されます。
+2. `tailwindcss-rails` gemはNode.jsに依存する代わりに、コンパイル済みのTailwind CSS実行可能バイナリを利用します。
+  このスタンドアロンアプローチにより、プロジェクトにJavaScriptランタイムを追加せずにCSSを処理・コンパイルできるようになります。
+3. 開発中、Tailwindの設定ファイルやCSSファイルの変更は自動的に検出・処理されます。
+  `tailwindcss-rails` gemはスタイルシートを再構築し、開発中にTailwind出力を自動的に生成するための`watch`プロセスを提供します。
+4. production環境では、`assets:precompile`タスクにフックすることで、Tailwind CSSファイルを処理し、production環境に最適化されたスタイルシートを生成してアセットパイプラインに含めます。出力はフィンガープリント化され、効率的な配信のためにキャッシュされます。
+
+#### `tailwindcss-rails`が適している場合
+
+`tailwindcss-rails`は、以下のようなRailsアプリケーションに最適です。
+
+- Node.js依存関係やJavaScriptビルドツールを導入せずに[Tailwind CSS](https://tailwindcss.com/)を使いたい。
+- ユーティリティファーストのCSSフレームワークを管理する最小限のセットアップが必要。
+- Tailwindの強力な機能（カスタムテーマやバリアント、プラグインなど）を複雑な設定なしで利用する必要がある。
+
+`tailwindcss-rails` gemは、PropshaftなどのRailsのアセットパイプラインツールとシームレスに連携し、CSSを前処理・ダイジェスト化して、production環境で効率的に配信されるようにします。
+
+### `importmap-rails`
+
+[`importmap-rails`](https://github.com/rails/importmap-rails)を使うと、RailsアプリケーションのJavaScriptをNode.jsなしで管理できるようになります。
+最新ブラウザでの[ESモジュール](https://developer.mozilla.org/ja-JP/docs/Web/JavaScript/Guide/Modules)サポートを活用して、バンドルやトランスパイルを必要とせずにブラウザで直接JavaScriptを読み込みます。このアプローチは、Railsのシンプルさと「設定より規約を重視」という方針にも一致しています。
+
+#### `importmap-rails`のしくみ
+
+- インストールされると、`importmap-rails`はJavaScriptモジュールを`<script type="module">`タグでブラウザに直接読み込むようRailsアプリを設定します。
+- JavaScriptの依存関係は`bin/importmap`コマンドで管理されます。
+  このコマンドは、バンドル済みブラウザ対応版のライブラリ（[jsDelivr](https://www.jsdelivr.com/)などのCDNでホストされることが多い）をホストするURLにモジュールをピン留め（pinning）します。これにより、Node.jsの`node_modules/`ディレクトリやパッケージマネージャーが不要になります。
+- 開発中はバンドルが発生しないため、JavaScriptの更新が即座に利用できるようになり、ワークフローが合理化されます。
+- production環境では、`importmap-rails` gemはPropshaftと統合され、アセットパイプラインの一部としてJavaScriptファイルを配信します。
+  Propshaftは、ファイルがダイジェスト・キャッシュされて、production環境に対応していることを保証します。
+  依存関係はバージョニング・フィンガープリントされ、手動介入なしで効率的に配信されます。
+
+**注意**: Propshaftはアセットが適切に処理されるようにしますが、JavaScriptの処理や変換は行いません。`importmap-rails`は、JavaScriptがすでにブラウザ互換形式であることを前提としています。これが、トランスパイルやバンドルを必要としないプロジェクトに最適な理由です。
+
+`importmap-rails`は、ビルドステップとNode.jsの必要性を排除することで、JavaScript管理を簡素化します。
+
+#### `importmap-rails`が適している場合
+
+`importmap-rails`は、以下のようなRailsアプリケーションに最適です:
+
+- トランスパイルやバンドルなどの複雑なJavaScript機能を必要としない。
+- 最新のJavaScriptを[Babel](https://babeljs.io/)などのツールに依存せずに利用する。
