@@ -1051,7 +1051,7 @@ NOTE: 機能テストでは、そのリクエストがアクションで受け�
 
 ### XHR（Ajax）リクエストをテストする
 
-AJAX（Asynchronous Javscript and XML）リクエストは、非同期HTTPリクエストを用いてサーバーからコンテンツを取得し、ページ全体を読み込まずにページの関連部分だけを更新する手法です。
+AJAX（Asynchronous JavaScript and XML）リクエストは、非同期HTTPリクエストを用いてサーバーからコンテンツを取得し、ページ全体を読み込まずにページの関連部分だけを更新する手法です。
 
 `get`、`post`、`patch`、`put`、`delete`メソッドで、以下のように`xhr: true`を指定することでAjaxリクエストをテストできます。
 
