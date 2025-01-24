@@ -936,7 +936,7 @@ indexページに個別のshowページへのリンクを追加して、クリ�
 しかしこれはさらに改善できます。
 
 Railsは、パスとURLを生成するためのヘルパーメソッドを提供します。
-`bin/railsroutes`を実行すると以下のように表示されるPrefix列の`products`や`product`は、RubyコードでURLを生成できるヘルパーメソッド名に対応します。
+`bin/rails routes`を実行すると以下のように表示されるPrefix列の`products`や`product`は、RubyコードでURLを生成できるヘルパーメソッド名に対応します。
 
 ```
                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
