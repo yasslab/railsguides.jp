@@ -518,7 +518,7 @@ ProcessVideoJob.perform_later(Video.last)
 MyJob.set(queue: :another_queue).perform_later(record)
 ```
 
-NOTE: [SOLID QUEUE以外の一部のバックエンド](#代替キューイングバックエンド
+NOTE: [Solid Queue以外の一部のバックエンド](#代替キューイングバックエンド
 )では、リッスンするキューを指定する必要が生じることもあります。
 
 [`config.active_job.queue_name_delimiter`]:
