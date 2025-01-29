@@ -944,7 +944,7 @@ Book.includes(:author).order(books: { print_year: :desc }, authors: { name: :asc
 Book.includes(:author).order("books.print_year desc", "authors.name asc")
 ```
 
-WARNING: 多くのデータベースシステムでは、`select`、`pluck`、`ids`メソッドを使ってフィールドを選択しています。これらのデータベースシステムでは、選択しているリストに`order`句を使ったフィールドが含まれていないと、`order`メソッドで`ActiveRecord::StatementInvalid`例外が発生します。結果から特定のフィールドを取り出す方法については、次のセクションを参照してください。
+WARNING: 多くのデータベースシステムでは、`select`、`pluck`、`ids`メソッドを使った結果に対して`distinct`を利用して絞り込んだとき、`order`句で指定したフィールドがselectのリストに含まれていないと`ActiveRecord::StatementInvalid`例外が発生します。結果から特定のフィールドを取り出す方法については、次のセクションを参照してください。
 
 特定のフィールドだけを取り出す
 -------------------------
