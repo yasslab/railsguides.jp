@@ -164,3 +164,5 @@ Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.
 - 本書: [https://railsguides.jp/#contributors](https://railsguides.jp/#contributors)
 
 [![YassLab Inc.](https://yasslab.jp/img/logos/800x200.png)](https://yasslab.jp/ja/)
+
+<!-- IC動作確認 -->
