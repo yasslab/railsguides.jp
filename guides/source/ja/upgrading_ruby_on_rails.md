@@ -700,7 +700,7 @@ Rails 5 では、JavaScriptで作成されたフォームによるコードイ�
 
 #### Action Mailerのキュー名がカスタマイズ可能に
 
-デフォルトのメイラー キュー名は`mailers`です。新しい設定オプションを使うと、キュー名をグローバルに変更できます。以下の方法で設定します。
+デフォルトのメーラー キュー名は`mailers`です。新しい設定オプションを使うと、キュー名をグローバルに変更できます。以下の方法で設定します。
 
     config.action_mailer.deliver_later_queue_name = :new_queue_name
 
@@ -872,7 +872,7 @@ SSL攻撃を緩和するために、`form_authenticity_token`がマスクされ�
 
 ### Action Mailer
 
-従来は、メイラークラスでメイラーメソッドを呼び出すと、該当するインスタンスメソッドが直接実行されました。Active Jobと`#deliver_later`メソッドの導入に伴い、この動作が変更されました。Rails 4.2では、これらのインスタンスメソッド呼び出しは`deliver_now`や`deliver_later`が呼び出されるまで実行延期されます。以下に例を示します。
+従来は、メーラークラスでメーラーメソッドを呼び出すと、該当するインスタンスメソッドが直接実行されました。Active Jobと`#deliver_later`メソッドの導入に伴い、この動作が変更されました。Rails 4.2では、これらのインスタンスメソッド呼び出しは`deliver_now`や`deliver_later`が呼び出されるまで実行延期されます。以下に例を示します。
 
 ```ruby
 class Notifier < ActionMailer::Base
@@ -886,7 +886,7 @@ mail = Notifier.notify(user, ...) # Notifier#notifyはこの時点では呼び�
 mail = mail.deliver_now           # "Called"を出力する
 ```
 
-この変更によって実行結果が大きく異なるアプリケーションはそれほどないと思われます。ただし、メイラー以外のメソッドを同期的に実行したい場合、かつ従来の同期的プロキシ動作に依存している場合は、これらのメソッドをメイラークラスにクラスメソッドとして直接定義する必要があります。
+この変更によって実行結果が大きく異なるアプリケーションはそれほどないと思われます。ただし、メーラー以外のメソッドを同期的に実行したい場合、かつ従来の同期的プロキシ動作に依存している場合は、これらのメソッドをメーラークラスにクラスメソッドとして直接定義する必要があります。
 
 ```ruby
 class Notifier < ActionMailer::Base
@@ -1286,7 +1286,7 @@ class UsersController < ApplicationController
 end
 ```
 
-このアクションがパブリックなAPIで使われておらず、HTTPメソッドを自由に変更できるのであれば、ルーティングを更新して`patch`を`put`の代りに利用できます。
+このアクションがパブリックなAPIで使われておらず、HTTPメソッドを自由に変更できるのであれば、ルーティングを更新して`patch`を`put`の代わりに利用できます。
 
 Rails 4で`PUT`リクエストを`/users/:id`に送信すると、従来と同様`update`にルーティングされます。このため、実際のPUTリクエストを受け取るAPIは今後も利用できます。この場合、`PATCH`リクエストも`/users/:id`経由で`update`アクションにルーティングされます。
 
@@ -1296,7 +1296,7 @@ resources :users do
 end
 ```
 
-このアクションがパブリックなAPIで使われており、HTTPメソッドを自由に変更できないのであれば、フォームを更新して`PUT`を代りに使えます。
+このアクションがパブリックなAPIで使われており、HTTPメソッドを自由に変更できないのであれば、フォームを更新して`PUT`を代わりに使えます。
 
 ```erb
 <%= form_for [ :update_name, @user ], method: :put do |f| %>
@@ -1437,9 +1437,9 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
 セッションcookiesを暗号化する方法の詳しくは[Pull Request #9978](https://github.com/rails/rails/pull/9978) を参照してください。
 
-* Rails 4.0では`ActionController::Base.asset_path`オプションが廃止されました。代りにアセットパイプライン機能をご利用ください。
+* Rails 4.0では`ActionController::Base.asset_path`オプションが廃止されました。代わりにアセットパイプライン機能をご利用ください。
 
-* Rails 4.0では`ActionController::Base.page_cache_extension`オプションが非推奨になりました。代りに`ActionController::Base.default_static_extension`をご利用ください。
+* Rails 4.0では`ActionController::Base.page_cache_extension`オプションが非推奨になりました。代わりに`ActionController::Base.default_static_extension`をご利用ください。
 
 * Rails 4.0のAction PackからActionとPageのキャッシュ機能が取り除かれました。コントローラで`caches_action`を使いたい場合は`actionpack-action_caching` gemを、`caches_page`を使いたい場合は`actionpack-page_caching` gemをそれぞれGemfileに追加する必要があります。
 
@@ -1453,7 +1453,7 @@ Rails 4.0では、シンボルやprocがnilを返す場合の、デフォルト�
 
 * Rails 4.0では`link_to`ヘルパーでの`:confirm`オプションが非推奨になりました。代わりにデータ属性をお使いください (例： `data: { confirm: 'Are you sure?' }`)。`link_to_if`や`link_to_unless`などでも同様の対応が必要です。
 
-* Rails 4.0では`assert_generates`、`assert_recognizes`、`assert_routing`の動作が変更されました。これらのアサーションからは`ActionController::RoutingError`の代りに`Assertion`が発生するようになりました。
+* Rails 4.0では`assert_generates`、`assert_recognizes`、`assert_routing`の動作が変更されました。これらのアサーションからは`ActionController::RoutingError`の代わりに`Assertion`が発生するようになりました。
 
 * Rails 4.0では、名前付きルートの定義が重複している場合に`ArgumentError`が発生するようになりました。このエラーは、明示的に定義された名前付きルートや`resources`メソッドによってトリガされます。名前付きルート`example_path`が衝突している例を2つ示します。
 
@@ -1520,7 +1520,7 @@ config.middleware.insert_before(Rack::Lock, ActionDispatch::BestStandardsSupport
 
 * Rails 4.0では、リクエストされたフォーマットがアクションで扱えなかった場合に`ActionController::UnknownFormat`が発生するようになりました。デフォルトでは、この例外は406 Not Acceptable応答として扱われますが、この動作をオーバーライドすることができます。Rails 3では常に406 Not Acceptableが返されます。オーバーライドはできません。
 
-* Rails 4.0では、`ParamsParser`がリクエストパラメータをパースできなかった場合に一般的な`ActionDispatch::ParamsParser::ParseError`例外が発生するようになりました。`MultiJson::DecodeError`のような低レベルの例外の代りにこの例外をレスキューすることができます。
+* Rails 4.0では、`ParamsParser`がリクエストパラメータをパースできなかった場合に一般的な`ActionDispatch::ParamsParser::ParseError`例外が発生するようになりました。`MultiJson::DecodeError`のような低レベルの例外の代わりにこの例外をレスキューすることができます。
 
 * Rails 4.0では、URLプレフィックスで指定されたアプリケーションにエンジンがマウントされている場合に`SCRIPT_NAME`が正しく入れ子になるようになりました。今後はURLプレフィックスの上書きを回避するために`default_url_options[:script_name]`を設定する必要はありません。
 
@@ -1551,7 +1551,7 @@ Rails 4.0では複数のディレクトリからのヘルパーの読み込み�
 
 ### sprockets-rails
 
-* `assets:precompile:primary`および`assets:precompile:all`は削除されました。`assets:precompile`を代りにお使いください。
+* `assets:precompile:primary`および`assets:precompile:all`は削除されました。`assets:precompile`を代わりにお使いください。
 * `config.assets.compress`オプションは、たとえば以下のように`config.assets.js_compressor` に変更する必要があります。
 
 ```ruby
