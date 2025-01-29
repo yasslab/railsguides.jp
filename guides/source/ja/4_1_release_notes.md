@@ -199,7 +199,7 @@ end
 
 JavaScriptレスポンスを伴うGETリクエストもクロスサイトリクエストフォージェリ (CSRF) 保護の対象となりました。この保護によって、第三者のサイトが重要なデータの奪取のために自分のサイトのJavaScript URLを参照して実行しようとすることを防止します。
 
-これは、`xhr`を使わない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。``XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代りに、明示的に`xhr :post, :create, format: :js`をお使いください。
+これは、`xhr`を使わない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。``XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代わりに、明示的に`xhr :post, :create, format: :js`をお使いください。
 
 
 Railties
@@ -243,11 +243,11 @@ Action Pack
 
 ### 削除されたもの
 
-* 非推奨の、結合テスト用Railsアプリケーションフォールバックが削除されました。`ActionDispatch.test_app`を代りにお使いください。
+* 非推奨の、結合テスト用Railsアプリケーションフォールバックが削除されました。`ActionDispatch.test_app`を代わりにお使いください。
 
 * 非推奨の`page_cache_extension` configが削除されました。
 
-* 非推奨の`ActionController::RecordIdentifier`が削除されました。`ActionView::RecordIdentifier`を代りにお使いください。
+* 非推奨の`ActionController::RecordIdentifier`が削除されました。`ActionView::RecordIdentifier`を代わりにお使いください。
 
 * 以下の非推奨の定数がAction Controllerから削除されました。
 
@@ -263,7 +263,7 @@ Action Pack
 
 ### 主な変更点
 
-* `protect_from_forgery`によって、クロスオリジン`<script>`タグも利用できなくなりました。テストをアップデートして、 `get :foo, format: :js`の代りに`xhr :get, :foo, format: :js`を使うようにしてください。([Pull Request](https://github.com/rails/rails/pull/13345))
+* `protect_from_forgery`によって、クロスオリジン`<script>`タグも利用できなくなりました。テストをアップデートして、 `get :foo, format: :js`の代わりに`xhr :get, :foo, format: :js`を使うようにしてください。([Pull Request](https://github.com/rails/rails/pull/13345))
 
 * `#url_for`は、オプションのハッシュを配列の中で使えるようになりました。([Pull Request](https://github.com/rails/rails/pull/9599))
 
@@ -287,7 +287,7 @@ Action Mailer
 
 ### 主な変更点
 
-* 37 Signals社のmail_view gemを元にメイラーのプレビュー機能が追加されました。([Commit](https://github.com/rails/rails/commit/d6dec7fcb6b8fddf8c170182d4fe64ecfc7b2261))
+* 37 Signals社のmail_view gemを元にメーラーのプレビュー機能が追加されました。([Commit](https://github.com/rails/rails/commit/d6dec7fcb6b8fddf8c170182d4fe64ecfc7b2261))
 
 * Action Mailerメッセージの生成が計測されるようになりました。メッセージを生成するのにかかった時間がログに記録されます。([Pull Request](https://github.com/rails/rails/pull/12556))
 
@@ -313,7 +313,7 @@ Active Record
 
 * 非推奨の`increment_open_transactions`が削除されました。
 
-* 非推奨の`PostgreSQLAdapter#outside_transaction?`メソッドが削除されました。代りに`#transaction_open?`をお使いください。
+* 非推奨の`PostgreSQLAdapter#outside_transaction?`メソッドが削除されました。代わりに`#transaction_open?`をお使いください。
 
 * 非推奨の`ActiveRecord::Fixtures.find_table_name`が削除されました。`ActiveRecord::Fixtures.default_fixture_model_name`をお使いください。
 
@@ -385,7 +385,7 @@ Active Record
 
 * 引数を`nil`にして`update_attributes`を呼び出すと、常に`ArgumentError`エラーが発生します。具体的には、渡された引数が`stringify_keys`に応答しない場合にエラーが発生します。([Pull Request](https://github.com/rails/rails/pull/9860))
 
-* `CollectionAssociation#first`/`#last` (`has_many`など) による結果の取り出しで、コレクション全体を読み出すクエリの代りに、限定的なクエリが使われるようになりました。([Pull Request](https://github.com/rails/rails/pull/12137))
+* `CollectionAssociation#first`/`#last` (`has_many`など) による結果の取り出しで、コレクション全体を読み出すクエリの代わりに、限定的なクエリが使われるようになりました。([Pull Request](https://github.com/rails/rails/pull/12137))
 
 * Active Recordモデルクラスの`inspect`は新しい接続を初期化しなくなりました。つまり、データベースが見つからない状態で`inspect`を呼び出した場合に例外を発生しなくなりました。([Pull Request](https://github.com/rails/rails/pull/11014))
 
@@ -480,7 +480,7 @@ Active Support
 
 * 時間表現`Numeric#{ago,until,since,from_now}`が非推奨になりました。この値はAS::Durationに明示的に変換してください。例: `5.ago` => `5.seconds.ago` ([Pull Request](https://github.com/rails/rails/pull/12389))
 
-* requireパス`active_support/core_ext/object/to_json`が非推奨になりました。`active_support/core_ext/object/json`を代りにrequireしてください。([Pull Request](https://github.com/rails/rails/pull/12203))
+* requireパス`active_support/core_ext/object/to_json`が非推奨になりました。`active_support/core_ext/object/json`を代わりにrequireしてください。([Pull Request](https://github.com/rails/rails/pull/12203))
 
 * `ActiveSupport::JSON::Encoding::CircularReferenceError`が非推奨になりました。この機能は[activesupport-json_encoder](https://github.com/rails/activesupport-json_encoder) gemに書き出されました。([Pull Request](https://github.com/rails/rails/pull/10785) / [詳細](upgrading_ruby_on_rails.html#jsonの扱いの変更点))
 

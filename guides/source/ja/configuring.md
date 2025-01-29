@@ -387,7 +387,7 @@ PostgreSQLアダプターを使うと、以下の設定オプションが1つ追
 
 `config.action_controller`には多数の設定が含まれています。
 
-* `config.action_controller.asset_host`: アセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使いたい場合に便利です。
+* `config.action_controller.asset_host`: アセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代わりにCDN(コンテンツ配信ネットワーク)を使いたい場合に便利です。
 
 * `config.action_controller.perform_caching`: Action Controllerコンポーネントが提供するキャッシュ機能をアプリケーションで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。指定のない場合は`true`になります。
 
@@ -600,7 +600,7 @@ config.action_dispatch.rescue_responses = {
 
 * `config.action_mailer.perform_deliveries`: メールを実際に配信するかどうかを指定します。デフォルトは`true`です。テスト時にメール送信を抑制するのに便利です。
 
-* `config.action_mailer.default_options`: Action Mailerのデフォルトを設定します。これは、メイラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
+* `config.action_mailer.default_options`: Action Mailerのデフォルトを設定します。これは、メーラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
 
     ```ruby
     mime_version:  "1.0",
@@ -629,21 +629,21 @@ config.action_dispatch.rescue_responses = {
     config.action_mailer.interceptors = ["MailInterceptor"]
     ```
 
-* `config.action_mailer.preview_path`: メイラーのプレビュー場所を指定します
+* `config.action_mailer.preview_path`: メーラーのプレビュー場所を指定します
 
     ```ruby
     config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
     ```
 
-* `config.action_mailer.show_previews`: メイラーのプレビューを有効または無効にします。デフォルトではdevelopment環境で`true`です。
+* `config.action_mailer.show_previews`: メーラーのプレビューを有効または無効にします。デフォルトではdevelopment環境で`true`です。
 
     ```ruby
     config.action_mailer.show_previews = false
     ```
 
-* `config.action_mailer.deliver_later_queue_name`: メイラーで使うキュー名を指定します。デフォルトは`mailers`です。
+* `config.action_mailer.deliver_later_queue_name`: メーラーで使うキュー名を指定します。デフォルトは`mailers`です。
 
-* `config.action_mailer.perform_caching`: メイラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。指定のない場合のデフォルト値は`true`です。
+* `config.action_mailer.perform_caching`: メーラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。指定のない場合のデフォルト値は`true`です。
 
 * `config.action_mailer.delivery_job`: メールの配信ジョブを指定します。デフォルトは`ActionMailer::DeliveryJob`です。
 
