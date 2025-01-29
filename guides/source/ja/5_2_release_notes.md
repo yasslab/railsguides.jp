@@ -440,7 +440,7 @@ Active Record
 * ダーティなレコードで`lock!`を呼ぶとraiseするようになった。
     ([Commit](https://github.com/rails/rails/commit/63cf15877bae859ff7b4ebaf05186f3ca79c1863))
 
-* SQliteアダプタ利用時にインデックスのカラム順が`db/schema.rb`に記載されないバグを修正。
+* SQLiteアダプタ利用時にインデックスのカラム順が`db/schema.rb`に記載されないバグを修正。
     ([Pull Request](https://github.com/rails/rails/pull/30970))
 
 * `bin/rails db:migrate`で`VERSION`を指定した場合の動作を修正。VERSIONが空の`bin/rails db:migrate`の振る舞いは、`VERSION`を指定していない場合の動作と同じになった。
