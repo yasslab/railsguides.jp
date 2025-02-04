@@ -208,7 +208,7 @@ SELECT * FROM authors WHERE first_name = 'Jane' AND last_name = 'Doe'
 複合主キーのパラメータ
 ------------------------
 
-れているため、各値を抽出してActive Recordに渡す必要があります。このユースケースでは、`extract_value`メソッドを活用できます。
+複合キーパラメータは1個のパラメータに複数の値が含まれているため、各値を抽出してActive Recordに渡す必要があります。このユースケースでは、`extract_value`メソッドを活用できます。
 
 以下のコントローラがあるとします。
 
