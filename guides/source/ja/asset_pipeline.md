@@ -570,7 +570,7 @@ const greet = (name) => {
 };
 ```
 
-従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCS はこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
+従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCSSはこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
 
 #### バンドル❌
 
