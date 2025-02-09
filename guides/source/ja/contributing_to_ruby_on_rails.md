@@ -16,7 +16,7 @@ Ruby on Railsは、「どこかで誰かがうまくやってくれているフ�
 [RailsのREADME][README]にも記載されているように、Railsのコードベースやサブプロジェクトのコードベースについて、issueトラッカーやチャットルーム、discussionボード、メーリングリストでやり取りする方はすべて、Railsの[行動規範][CoC]に従うことが期待されます。
 
 [README]: https://github.com/rails/rails/blob/main/README.md
-[CoC]: https://rubyonrails.org/conduct/
+[CoC]: https://rubyonrails.org/conduct
 
 --------------------------------------------------------------------------------
 
