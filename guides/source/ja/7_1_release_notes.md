@@ -192,7 +192,7 @@ ENV["DATABASE_URL"] # => "trilogy://localhost/blog_development?pool=5"
 
 ### `ActiveSupport::MessagePack`が追加
 
-[`ActiveSupport::MessagePack`][]は、[`msgpack`][] gemと統合されたシリアライザです（[#47770][]）。`ActiveSupport::MessagePack`は、`msgpack`でサポートされている基本的なRubyの型に加えて、`Time`、`ActiveSupport::TimeWithZone`、`ActiveSupport::HashWithIndifferentAccess`などの追加の型もシリアライズできます。`ActiveSupport::MessagePack`は、`JSON`や`Marshal`に比べてペイロードサイズを削減しパフォーマンスを向上させることが可能です。
+[`ActiveSupport::MessagePack`][]は、[`msgpack`](https://github.com/msgpack/msgpack-ruby) gemと統合されたシリアライザです（[#47770][]）。`ActiveSupport::MessagePack`は、`msgpack`でサポートされている基本的なRubyの型に加えて、`Time`、`ActiveSupport::TimeWithZone`、`ActiveSupport::HashWithIndifferentAccess`などの追加の型もシリアライズできます。`ActiveSupport::MessagePack`は、`JSON`や`Marshal`に比べてペイロードサイズを削減しパフォーマンスを向上させることが可能です。
 
 `ActiveSupport::MessagePack`は、以下のように[メッセージシリアライザ](configuring.html#config-active-support-message-serializer)として利用できます。
 
