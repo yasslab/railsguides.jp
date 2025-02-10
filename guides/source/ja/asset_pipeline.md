@@ -353,7 +353,7 @@ $ RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 rails assets:precompile
 
 production環境のアセットは、デフォルトでは`/assets/`ディレクトリから配信されます。
 
-WARNING: development環境で`rails assets:precompile`コマンドを実行すると、`.manifest.json`というマーカーファイルが生成され、コンパイル済みアセットを配信可能であることがアプリケーションに通知されます。その結果、ソースアセットに変更を加えても、プリコンパイル済みアセットが更新されるまでブラウザに反映されなくなります。developmentモードでアセットが更新されなくなってしまった場合の解決策は、`public/assets/`ディレクトリの下にある`.manifest.json`ファイルを削除することです。また、`rails asset:clobber`コマンドを実行すると、すべてのプリコンパイル済みアセットと`.manifest.json`ファイルを削除できます。これにより、Railsはアセットを即座に再コンパイルして最新の変更を反映するようになります。
+WARNING: development環境で`rails assets:precompile`コマンドを実行すると、`.manifest.json`というマーカーファイルが生成され、コンパイル済みアセットを配信可能であることがアプリケーションに通知されます。その結果、ソースアセットに変更を加えても、プリコンパイル済みアセットが更新されるまでブラウザに反映されなくなります。developmentモードでアセットが更新されなくなってしまった場合の解決策は、`public/assets/`ディレクトリの下にある`.manifest.json`ファイルを削除することです。また、`rails assets:clobber`コマンドを実行すると、すべてのプリコンパイル済みアセットと`.manifest.json`ファイルを削除できます。これにより、Railsはアセットを即座に再コンパイルして最新の変更を反映するようになります。
 
 NOTE: コンパイル済みファイル名が期待通りに`.js`または`.css`で終わるよう常に確認してください。
 
