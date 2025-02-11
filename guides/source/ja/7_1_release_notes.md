@@ -220,7 +220,7 @@ ActiveSupport::Cache.lookup_store(:file_store, "tmp/cache", serializer: :message
 ```
 
 [`ActiveSupport::MessagePack`]: https://api.rubyonrails.org/v7.1/classes/ActiveSupport/MessagePack.html
-[`msgpack` gem]: https://github.com/msgpack/msgpack-ruby
+[`msgpack`]: https://github.com/msgpack/msgpack-ruby
 
 [#47770]: https://github.com/rails/rails/pull/47770
 [#48103]: https://github.com/rails/rails/pull/48103
