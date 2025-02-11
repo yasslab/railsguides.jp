@@ -1936,7 +1936,7 @@ end
 eager loadingをテストする
 ---------------------
 
-通常、アプリケーションは`development`環境や`test`環境で高速化のためにeager loadingを行うことはありませんが、production`環境では行います。
+通常、アプリケーションは`development`環境や`test`環境で高速化のためにeager loadingを行うことはありませんが、`production`環境では行います。
 
 プロジェクトのファイルの一部が何らかの理由で読み込めない場合、`production`環境にデプロイする前にそのことを検出する方がよいでしょう。
 
