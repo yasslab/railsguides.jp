@@ -129,11 +129,6 @@ Railsのコードは、[MVC（Model-View-Controller）](https://ja.wikipedia.org
 * **ビュー**: レスポンスをHTML、JSON、XMLなどのさまざまな形式でレンダリングします。
 * **コントローラ**: ユーザー操作や各リクエストのロジックを処理します。
 
-<!-- darkモードでの画像切り替え未対応、また電子書籍ビルド対応のためシンプルに記述 -->
-<!-- <picture class="flowdiagram">
-  <source srcset="images/getting_started/mvc_architecture_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/mvc_architecture_light.jpg" alt="MVCアーキテクチャの図">
-</picture> -->
 ![MVCアーキテクチャの図](images/getting_started/mvc_architecture_light.jpg)
 
 
@@ -636,11 +631,6 @@ end
 
 なお、クエリパラメータは、Railsがリクエストに適用できるオプションのようなもので必須ではなく、通常はコントローラでデータをフィルタリングするときに使われます。
 
-<!-- darkモードでの画像切り替え未対応、また電子書籍ビルド対応のためシンプルに記述 -->
-<!-- <picture class="flowdiagram">
-  <source srcset="images/getting_started/routing_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/routing_light.jpg" alt="Railsのルーティングの流れ">
-</picture> -->
 ![Railsのルーティングの流れ](images/getting_started/routing_light.jpg)
 
 別の例も見てみましょう。
@@ -2581,11 +2571,6 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 
 メールがAction Mailerの`deliver_later`メソッドによって送信されると、これらのメールはバックグラウンド送信のためにActive Jobに送信されるので、HTTPリクエストが遅延せずに済みます。production環境でSolid Queueを使うと、メールはバックグラウンドで送信され、送信に失敗した場合に自動的に再試行され、ジョブは再起動中でもデータベースに安全に保持されます。
 
-<!-- darkモードでの画像切り替え未対応、また電子書籍ビルド対応のためシンプルに記述 -->
-<!-- <picture class="flowdiagram">
-  <source srcset="images/getting_started/background_jobs_dark.jpg" media="(prefers-color-scheme:dark)">
-  <img src="images/getting_started/background_jobs_light.jpg" alt="バックグラウンドジョブの流れ">
-</picture> -->
 ![バックグラウンドジョブの流れ](images/getting_started/background_jobs_light.jpg)
 
 今後のステップ
