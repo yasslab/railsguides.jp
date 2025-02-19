@@ -220,7 +220,7 @@ export default class extends Controller {
 
 #### ダイジェスト処理から特定ディレクトリを除外する
 
-`config.assets.excluded_pa​​ths`設定で以下のように特定のディレクトリを追加することで、プリコンパイルやダイジェスト処理から除外できます。これは、たとえば`app/assets/stylesheets/`ディレクトリが[Dart Sass](https://sass-lang.com/)などのコンパイラへの入力として使われていて、これらのファイルをアセット読み込みパスの一部にしたくない場合に便利です。
+`config.assets.excluded_paths`設定で以下のように特定のディレクトリを追加することで、プリコンパイルやダイジェスト処理から除外できます。これは、たとえば`app/assets/stylesheets/`ディレクトリが[Dart Sass](https://sass-lang.com/)などのコンパイラへの入力として使われていて、これらのファイルをアセット読み込みパスの一部にしたくない場合に便利です。
 
 ```ruby
 config.assets.excluded_paths = [Rails.root.join("app/assets/stylesheets")]
