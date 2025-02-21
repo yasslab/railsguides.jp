@@ -936,8 +936,8 @@ Railsは、パスとURLを生成するためのヘルパーメソッドを提供
 
 これらのルーティングプレフィックスに対応するヘルパーメソッドは、以下のようになります。
 
-* `products_path`: `"/products`"`というパスを生成する
-* `products_url`: `"http://localhost:3000/products`"`というURLを生成する
+* `products_path`: `"/products"`というパスを生成する
+* `products_url`: `"http://localhost:3000/products"`というURLを生成する
 * `product_path(1)`: `"/products/1"`というパスを生成する
 * `product_url(1)`: `"http://localhost:3000/products/1"`というURLを生成する
 
