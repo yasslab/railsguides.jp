@@ -852,7 +852,7 @@ end
 
 ### 自動読み込みとエンジン
 
-自動読み込みとエンジンの詳細については、「Railsの自動読み込みと再読み込み」ガイドの[自動読み込みとRailsエンジン](autoloading_and_reloading_constants.html#自動読み込みとrailsエンジン)を参照してください。
+自動読み込みとエンジンの詳細については、別ガイド「Railsの自動読み込みと再読み込み」内にある[自動読み込みとRailsエンジン](autoloading_and_reloading_constants.html#自動読み込みとrailsエンジン)を参照してください。
 
 ### ビューをオーバーライドする
 

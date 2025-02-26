@@ -809,7 +809,7 @@ Action Mailerを設定する
 
 本セクションでは、Action Mailerの設定例の一部を示すにとどめます。
 
-さまざまな設定オプションの説明について詳しくは、「Rails アプリケーションを設定する」ガイドの[Action Mailerを設定する](configuring.html#action-mailerを設定する)を参照してください。これらのオプションは、`production.rb`などの環境固有の設定ファイルで設定できます。
+さまざまな設定オプションの説明について詳しくは、別ガイド「Railsアプリケーションを設定する」内にある[Action Mailerを設定する](configuring.html#action-mailerを設定する)を参照してください。これらのオプションは、`production.rb`などの環境固有の設定ファイルで設定できます。
 
 ### Action Mailerの設定例
 
