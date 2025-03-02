@@ -42,6 +42,10 @@ action_mailer_basics:
 - title: メール送信を使ったパスワード再設定 - Railsチュートリアル
   url: https://railstutorial.jp/chapters/password_reset?version=5.1
 
+autoloading_and_reloading_constants:
+- title: Zeitwerk と Ruby のコード読み込みを理解する
+  url: https://zenn.dev/hayaokimura/articles/understand-zeitwerk
+
 classic_to_zeitwerk_howto:
 - title: Zeitwerkの壊し方
   url: https://qiita.com/fursich/items/717a720d9f4465e4cbbb
@@ -51,8 +55,11 @@ classic_to_zeitwerk_howto:
   url: https://moneyforward-dev.jp/entry/2022/05/20/zeitwerk-and-require_dependency/
 
 constant_autoloading_and_reloading:
+- title: Railsガイド - Classic から Zeitwerk への移行
+  url: https://railsguides.jp/classic_to_zeitwerk_howto.html
 - title: Railsガイドを読む (定数の自動読み込みと再読み込み)
   url: https://qiita.com/yui-knk/items/8f7e693b89423d983097
+
 
 contributing_to_ruby_on_rails:
 - title: OSS入門としてのRailsガイド
