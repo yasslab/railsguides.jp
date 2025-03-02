@@ -1,4 +1,4 @@
-定数の自動読み込みと再読み込み (Classic)
+Rails の自動読み込みと再読み込み (Classic)
 ===================================
 
 本書では`Classic`モードでの自動読み込みおよび再読み込みの仕組みについて説明します。
@@ -18,7 +18,7 @@
 はじめに
 ------------
 
-INFO: 本ガイドでは、Rails 5.2以前の`Classic`モード自動読み込みについて解説します。Rails 6.0以降の`Zeitwerk`モードについては、[定数の自動読み込みと再読み込み (Zeitwerk)](autoloading_and_reloading_constants.html)を参照してください。
+INFO: 本ガイドでは、Rails 5.2以前の`Classic`モード自動読み込みについて解説します。Rails 6.0以降の`Zeitwerk`モードについては、[Railsの自動読み込みと再読み込み (Zeitwerk)](autoloading_and_reloading_constants.html)を参照してください。
 
 Ruby on Railsでコードを書き換えると、開発者がサーバーを再起動しなくても、プリロードされたかのように動作します。
 

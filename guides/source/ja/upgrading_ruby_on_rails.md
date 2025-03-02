@@ -1065,7 +1065,7 @@ All is good!
 
 `require_dependency`の既知のユースケースはすべて排除されました。自分のプロジェクトをgrepして`require_dependency`を削除してください。
 
-アプリケーションでSTI（単一テーブル継承）が使われている場合は、[定数の自動読み込みと再読み込み（Zeitwerkモード）](autoloading_and_reloading_constants.html#sti（単一テーブル継承）)ガイドの該当セクションを参照してください。
+アプリケーションでSTI（単一テーブル継承）が使われている場合は、[Railsの自動読み込みと再読み込み（Zeitwerkモード）](autoloading_and_reloading_constants.html#sti（単一テーブル継承）)の該当セクションを参照してください。
 
 #### クラス定義やモジュール定義の完全修飾名
 

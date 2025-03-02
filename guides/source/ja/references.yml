@@ -49,9 +49,9 @@ autoloading_and_reloading_constants:
   url: https://zenn.dev/hayaokimura/articles/understand-zeitwerk
 
 classic_to_zeitwerk_howto:
-- title: Railsガイド - 定数の自動読み込みと再読み込み (Classic) ※ Rails 5.2 以前
+- title: Railsガイド - Railsの自動読み込みと再読み込み (Classic) ※ Rails 5.2 以前
   url: https://railsguides.jp/autoloading_and_reloading_constants_classic_mode.html
-- title: Railsガイド - 定数の自動読み込みと再読み込み (Zeitwerk) ※ Rails 6.0 以降
+- title: Railsガイド - Railsの自動読み込みと再読み込み (Zeitwerk) ※ Rails 6.0 以降
   url: https://railsguides.jp/autoloading_and_reloading_constants.html
 - title: Zeitwerkの壊し方
   url: https://qiita.com/fursich/items/717a720d9f4465e4cbbb

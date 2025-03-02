@@ -315,7 +315,7 @@ end
 config.autoload_lib(ignore: %w(assets tasks generators))
 ```
 
-詳しくは[定数の自動読み込みガイド](autoloading_and_reloading_constants.html)を参照してください。
+詳しくは別ガイド『[Railsの自動読み込みと再読み込み](autoloading_and_reloading_constants.html)』を参照してください。
 
 #### `config.autoload_lib_once(ignore:)`
 
@@ -330,7 +330,7 @@ config.autoload_lib(ignore: %w(assets tasks generators))
 
 #### `config.autoload_paths`
 
-Railsが定数を自動読み込みするパスの配列を渡せます。デフォルト値は空の配列です。[Rails 6](upgrading_ruby_on_rails.html#自動読み込み)以降は、この設定の変更は推奨されません。詳しくは[定数の自動読み込みと再読み込み](autoloading_and_reloading_constants.html)を参照してください。
+Railsが定数を自動読み込みするパスの配列を渡せます。デフォルト値は空の配列です。[Rails 6](upgrading_ruby_on_rails.html#自動読み込み)以降は、この設定の変更は推奨されません。詳しくは別ガイド『[Railsの自動読み込みと再読み込み](autoloading_and_reloading_constants.html)』を参照してください。
 
 #### `config.beginning_of_week`
 
