@@ -639,7 +639,7 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 2. プロジェクトから`config/assets.rb`ファイルと`assets/config/manifest.js`ファイルを削除します。
 
-3. 既にRails 8にアップグレードしている場合は、Propshaftがアプリケーションに含まれています。まだRails 8にアップ具グレードしていない場合は、`bundle add propshaft`コマンドを実行してPropshaftをインストールします。
+3. 既にRails 8にアップグレードしている場合は、Propshaftがアプリケーションに含まれています。まだRails 8にアップグレードしていない場合は、`bundle add propshaft`コマンドを実行してPropshaftをインストールします。
 
 4. `application.rb`ファイルの`config.assets.paths << Rails.root.join('app', 'assets')`行を削除します。
 
