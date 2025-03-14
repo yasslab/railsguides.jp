@@ -484,7 +484,7 @@ irb> raise_validation_error: Validation failed: Terms can't be blank (ActiveReco
 
 ```ruby
 if @supplier.account.nil?
-  @msg = "この本の著者が見つかりません"
+  @msg = "この供給元のアカウントが見つかりません"
 end
 ```
 
