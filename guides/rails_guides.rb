@@ -25,6 +25,5 @@ RailsGuides::GeneratorJa.new(
   all:      env_flag["ALL"],
   only:     env_value["ONLY"],
   kindle:   env_flag["KINDLE"],
-  dash:     env_flag["DASH"],
   language: env_value["GUIDES_LANGUAGE"]
 ).generate
