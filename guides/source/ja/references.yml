@@ -122,3 +122,5 @@ working_with_javascript_in_rails:
   url: https://zenn.dev/shita1112/books/cat-hotwire-turbo
 - title: Hotwire for Frontend Developers - フロントエンドエンジニアのためのHotwire入門
   url: https://hotwire-and-next.vercel.app/
+- title: Importmapを使ったJavaScriptの読み込みとブラウザアドオンの影響 - Kaigi on Rails
+  url: https://kaigionrails.org/2024/talks/swamp09/
