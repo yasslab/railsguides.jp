@@ -140,7 +140,7 @@ config.solid_queue.connects_to = { database: { writing: :queue } }
 
 ```yaml
 # config/database.yml
-development
+development:
   primary:
     <<: *default
     database: storage/development.sqlite3
