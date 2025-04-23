@@ -94,16 +94,12 @@ security:
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
 
 upgrading_ruby_on_rails:
-- title: Railsアップグレードガイド - ruby-jp (Scrapbox)
-  url: https://scrapbox.io/ruby-jp/Railsアップグレードガイド
-- title: Rails 7.1 Upgrade knowledge - ruby-jp (Scrapbox)
-  url: https://scrapbox.io/ruby-jp/Rails_7.1_Upgrade_knowledge
-- title: Rails 7.0 Upgrade knowledge - ruby-jp (Scrapbox)
-  url: https://scrapbox.io/ruby-jp/Rails_7.0_Upgrade_knowledge
-- title: Rails 6.1 Upgrade knowledge - ruby-jp (Scrapbox)
-  url: https://scrapbox.io/ruby-jp/Rails_6.1_Upgrade_knowledge
-- title: Rails 6.0 Upgrade knowledge - ruby-jp (Scrapbox)
-  url: https://scrapbox.io/ruby-jp/Rails_6.0_Upgrade_knowledge
+- title: Railsアップグレードガイド - ruby-jp
+  url: https://cosen.se/ruby-jp/Railsアップグレードガイド
+- title: Rubyアップグレードガイド - ruby-jp
+  url: https://cosen.se/ruby-jp/Rubyアップグレードガイド
+- title: GitHubは200万行規模のRailsアプリケーションであり、毎週RailsとRubyを最新版にアップデートし続けている - Publickey
+  url: https://www.publickey1.jp/blog/23/github200railsrailsruby.html
 
 webpacker:
 - title: Webpacker→jsbundling-rails+webpackアップグレード手順 - Techracho
