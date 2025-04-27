@@ -77,6 +77,10 @@ i18n:
 - title: "Rails: 失われたメッセージを巡る冒険 | タイムインターメディア"
   url: https://www.timedia.co.jp/tech/20240409-tech/
 
+initialization:
+- title: Rackを理解しRailsアプリケーション開発の足腰を鍛えよう - Kaigi on Rails
+  url: https://kaigionrails.org/2024/workshop/
+
 threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
   url: https://kaigionrails.org/2023/talks/Envek/
