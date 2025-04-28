@@ -78,6 +78,10 @@ i18n:
   url: https://www.timedia.co.jp/tech/20240409-tech/
 
 initialization:
+- title: rails/rails - GitHub
+  url: https://github.com/rails/rails
+- title: Ruby on Rails に貢献する方法 - Railsガイド
+  url: https://railsguides.jp/contributing_to_ruby_on_rails.html
 - title: Rackを理解しRailsアプリケーション開発の足腰を鍛えよう - Kaigi on Rails
   url: https://kaigionrails.org/2024/workshop/
 
