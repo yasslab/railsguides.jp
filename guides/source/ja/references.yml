@@ -82,14 +82,16 @@ initialization:
   url: https://github.com/rails/rails
 - title: Ruby on Rails に貢献する方法 - Railsガイド
   url: https://railsguides.jp/contributing_to_ruby_on_rails.html
-- title: Rackを理解しRailsアプリケーション開発の足腰を鍛えよう - Kaigi on Rails
-  url: https://kaigionrails.org/2024/workshop/
 
 threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
   url: https://kaigionrails.org/2023/talks/Envek/
 
 rails_on_rack:
+- title: "たのしいOSSコードリーディング: Let's read \"cookies\"🍪 - @coe401_ (Misaki Shioi)"
+  url: https://qiita.com/coe401_/items/ad7dc2f3e319c5beaf40
+- title: Rackを理解しRailsアプリケーション開発の足腰を鍛えよう - Kaigi on Rails
+  url: https://kaigionrails.org/2024/workshop/
 - title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
 
