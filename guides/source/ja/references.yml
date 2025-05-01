@@ -90,8 +90,6 @@ threading_and_code_execution:
   url: https://kaigionrails.org/2023/talks/Envek/
 
 rails_on_rack:
-- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
-  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
 - title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
 
@@ -100,6 +98,10 @@ security:
   url: https://www.ipa.go.jp/security/vuln/websecurity/index.html
 - title: "Railsでセッションリプレイ攻撃を防ぐ方法（翻訳）| TechRacho"
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
+
+tuning_performance_for_deployment:
+- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
+  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
 
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp
