@@ -1,7 +1,9 @@
 getting_started:
-- title: Ruby on Railsガイドのすすめ
+- title: Rails 8はSQLiteで大幅に強化された「個人が扱えるフレームワーク」
+  url: https://note.com/yasslab/n/n89d6850e296d
+- title: Ruby on Railsガイドのすすめ - yui-knk
   url: https://qiita.com/yui-knk/items/4b4aaf4b8dea049efe6e
-- title: OSS入門としてのRailsガイド
+- title: OSS入門としてのRailsガイド (OSS Gate のご紹介)
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
 - title: Top Ruby Companies (Rubyを活用している上場企業まとめサイト)
   url: https://toprubycompanies.info/
