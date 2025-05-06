@@ -19,7 +19,7 @@ Dockerが使える環境であれば、自分のコンピュータにRubyやRail
 
 TIP: `$`で始まるコマンドはターミナルで実行する必要があります。
 
-TIP: 訳注: [Rails Girls インストール・レシピ](https://railsgirls.jp/install)にもRubyとRailsのインストール方法が記載されています。こちらではmacOS環境のRubyインストールに[rbenv](https://github.com/rbenv/rbenv)を使っています。
+TIP: 訳注: ブラウザ上で動かせるクラウドIDE「GitHub Codespaces」を使った環境構築については、本ガイド下部にある「[参考資料 (日本語)](#参考資料（日本語）) をご参照ください。
 
 ### macOSにRubyをインストールする
 

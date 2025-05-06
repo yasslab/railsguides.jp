@@ -15,7 +15,7 @@ install_ruby_on_rails:
   url: https://railsguides.jp/getting_started_with_devcontainer.html
 - title: Rails Girls - GitHub Codespaces を利用する
   url: https://railsgirls.jp/install/codespaces
-- title: Railsチュートリアル - さっそく動かす（環境構築）
+- title: Railsチュートリアル - さっそく動かす（GitHub Codespaces 対応）
   url: 'https://railstutorial.jp/chapters/beginning#sec-development_environment'
 
 getting_started_with_devcontainer:
