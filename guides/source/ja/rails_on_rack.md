@@ -222,7 +222,7 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 **`ActionDispatch::Static`**
 
-* 静的ファイルの配信に使います。[`config.public_file_server.enabled`][]`を`false`にするとオフになります。
+* 静的ファイルの配信に使います。[`config.public_file_server.enabled`][]を`false`にするとオフになります。
 
 [`config.public_file_server.enabled`]: configuring.html#config-public-file-server-enabled
 
