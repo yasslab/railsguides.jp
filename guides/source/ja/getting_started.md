@@ -1533,7 +1533,7 @@ end
 
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.rich_text_area :description %>
+    <%= form.rich_textarea :description %>
   </div>
 
   <div>
