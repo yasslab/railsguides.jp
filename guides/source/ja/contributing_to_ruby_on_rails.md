@@ -485,7 +485,7 @@ $ bundle exec rake TEST=test/cases/associations/has_many_associations_test.rb
 
 #### テストでデバッガを使う
 
-外部デバッガ（pry、byebugなど）を利用する場合は、デバッガをインストールして通常どおりに使います。デバッガの問題が発生した場合は、`PARALLEL_WORKERS=1`を設定してテストをシリアル実行するか、`n test_long_test_name`で単一のテストを実行してください。
+外部デバッガ（pry、byebugなど）を利用する場合は、デバッガをインストールして通常どおりに使います。デバッガの問題が発生した場合は、`PARALLEL_WORKERS=1`を設定してテストをシリアル実行するか、`-n test_long_test_name`で単一のテストを実行してください。
 
 ### 警告の扱いについて
 
