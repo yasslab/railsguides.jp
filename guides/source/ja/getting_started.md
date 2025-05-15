@@ -58,7 +58,7 @@ TIP: ドル記号`$`で始まるコマンドは、ターミナルで実行する
 
 RubyやRailsをインストールする必要がある場合は、[Ruby on Rails インストールガイド](install_ruby_on_rails.html)に記載されている手順に従ってください。
 
-TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https://github.co.jp/features/codespaces)』には、[公式のRuby on Railsテンプレート](https://github.com/codespaces/templates)が用意されています。`Use this template`ボタンから、ワンクリックでRailsを動かせるクラウド開発環境が手に入ります。（参考: [GitHub Codespacesを利用する - Rails Girls](https://railsgirls.jp/install/codespaces)）
+TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https://github.co.jp/features/codespaces)』の[公式Ruby on Railsテンプレート](https://github.com/codespaces/templates)を使うと、数クリックでRailsを動かせるクラウド開発環境が手に入ります。（参考: [GitHub Codespacesを利用する - Railsチュートリアル](https://railstutorial.jp/docs/codespaces)）
 
 正しいバージョンのRailsがインストールされていることを確認しておきましょう。現在のバージョンを表示するには、ターミナルを開いて以下のコマンドを実行すると、バージョン番号が出力されます。
 
