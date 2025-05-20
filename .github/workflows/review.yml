@@ -16,5 +16,5 @@ jobs:
       - name: 🔔 Review Request Notify to Slack
         uses: yasslab/review_request_notify@main
         with:
-          channel-id: public-guides-news
+          channel-id:      ${{ secrets.SLACK_CHANNEL_NAME }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
