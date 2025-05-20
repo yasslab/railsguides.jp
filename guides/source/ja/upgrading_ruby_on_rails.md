@@ -82,6 +82,8 @@ Rails 7.2からRails 8.0へのアップグレード
 
 Rails 8.0で行われた変更について詳しくは、[Rails 8.0のリリースノート](8_0_release_notes.html)を参照してください。
 
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 8.0 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_8.0_Upgrade_Knowledge)」にまとめられています。
+
 Rails 7.1からRails 7.2へのアップグレード
 -------------------------------------
 
