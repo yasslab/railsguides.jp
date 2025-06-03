@@ -13,18 +13,14 @@ getting_started:
 install_ruby_on_rails:
 - title: Railsガイド - Dev Container での開発ガイド
   url: https://railsguides.jp/getting_started_with_devcontainer.html
-- title: Rails Girls - GitHub Codespaces を利用する
-  url: https://railsgirls.jp/install/codespaces
-- title: Railsチュートリアル - さっそく動かす（GitHub Codespaces 対応）
-  url: 'https://railstutorial.jp/chapters/beginning#sec-development_environment'
+- title: Railsチュートリアル - GitHub Codespaces を利用する
+  url: https://railstutorial.jp/docs/codespaces.html
 
 getting_started_with_devcontainer:
 - title: Railsガイド - Ruby on Rails インストールガイド
   url: https://railsguides.jp/install_ruby_on_rails.html
-- title: Rails Girls - GitHub Codespaces を利用する
-  url: https://railsgirls.jp/install/codespaces
-- title: Railsチュートリアル - さっそく動かす（環境構築）
-  url: 'https://railstutorial.jp/chapters/beginning#sec-development_environment'
+- title: Railsチュートリアル - GitHub Codespaces を利用する
+  url: https://railstutorial.jp/docs/codespaces.html
 
 active_record_querying:
 - title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
