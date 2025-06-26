@@ -2361,7 +2361,7 @@ Finished in 0.343842s, 2.9083 runs/s, 5.8166 assertions/s.
 1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-`product_test.rb`のテストはパスしました１
+`product_test.rb`のテストはパスしました
 
 `ProductMailer`を生成したときにも、`test/mailers/product_mailer_test.rb`にサンプルテストが生成されていますので、こちらも以下のように更新してパスするようにしましょう。
 
