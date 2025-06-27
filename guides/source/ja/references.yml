@@ -102,6 +102,8 @@ security:
 tuning_performance_for_deployment:
 - title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
   url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
+- title: '推し活のハイトラフィックに立ち向かうRailsとアーキテクチャ - Kaigi on Rails'
+  url: https://kaigionrails.org/2024/talks/falcon8823/
 
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp
