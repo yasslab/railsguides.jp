@@ -2520,7 +2520,7 @@ config.active_support.message_serializer = YAML
 
 非推奨警告メッセージの振る舞いを設定します。指定可能なオプションについては[`Deprecation::Behavior`][deprecation_behavior]を参照してください。
 
-デフォルトで生成される`config/environments`以下のファイルでは、development環境では`:log`が、test環境では`:stderr`がそれぞれ設定されます。production環境ではこの設定は無視され、[`config.active_support.report_deprecations`] (#config-active-support-report-deprecations)の設定が使われます。
+デフォルトで生成される`config/environments`以下のファイルでは、development環境では`:log`が、test環境では`:stderr`がそれぞれ設定されます。production環境ではこの設定は省略されており、[`config.active_support.report_deprecations`] (#config-active-support-report-deprecations)の設定が使われます。
 
 [deprecation_behavior]: https://api.rubyonrails.org/classes/ActiveSupport/Deprecation/Behavior.html#method-i-behavior-3D
 
