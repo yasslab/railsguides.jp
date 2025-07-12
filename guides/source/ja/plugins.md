@@ -186,16 +186,6 @@ module Yaffle
 end
 ```
 
-```ruby
-# yaffle/lib/yaffle/acts_as_yaffle.rb
-
-module Yaffle
-  module ActsAsYaffle
-    # ここにコードを書く
-  end
-end
-```
-
 ### クラスメソッドを追加する
 
 このプラグインはモデルに`last_squawk`という名前のメソッドが追加されていることを前提にしています。しかし、プラグインがインストールされた環境には、そのモデルに目的の異なる`last_squawk`という名前のメソッドが既にあるかもしれません。そこで、このプラグインでは`yaffle_text_field`という名前のクラスメソッドを1つ追加することによって名前を変更できるようにしたいと思います。
