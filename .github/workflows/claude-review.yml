@@ -29,7 +29,7 @@ jobs:
       actions:       read  # Actionsログへの権限
       issues:        write # Issueコメントの権限
       pull-requests: write # PR 内コメントの権限
-      #id-token:     write # AWS 等を使う場合のみ
+      #id-token:     write # AWS 等への外部アクセスが必要な場合のみ
 
     steps:
       - name: Checkout
