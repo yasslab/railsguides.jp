@@ -1,6 +1,7 @@
 # Don't put *.swp, *.bak, etc here; those belong in a global ~/.gitignore.
 # Check out https://help.github.com/articles/ignoring-files for how to set that up.
 
+CLAUDE.md
 .Gemfile
 .byebug_history
 debug.log
