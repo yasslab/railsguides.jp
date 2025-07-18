@@ -1,0 +1,43 @@
+name: Claude Review
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [opened, synchronize]
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    if: |
+      (github.event_name == 'issues'                      && contains(github.event.issue.body,        '@claude')) ||
+      (github.event_name == 'issue_comment'               && contains(github.event.comment.body,      '@claude')) ||
+      (github.event_name == 'pull_request'                && contains(github.event.pull_request.body, '@claude')) ||
+      (github.event_name == 'pull_request_review'         && contains(github.event.review.body,       '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body,      '@claude'))
+
+    runs-on: ubuntu-latest
+
+    # 推奨: 最小限の権限のみ付与
+    permissions:
+      contents:      read  # Repository 内の権限
+      actions:       read  # Actionsログへの権限
+      issues:        read  # Issueコメントの権限
+      pull-requests: read  # PR 内コメントの権限
+      id-token:      write # 実行時に適切な権限を取得
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Claude Review
+        uses: yasslab/claude_review_action@main
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
