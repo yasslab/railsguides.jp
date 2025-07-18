@@ -27,9 +27,9 @@ jobs:
     permissions:
       contents:      read  # Repository 内の権限
       actions:       read  # Actionsログへの権限
-      issues:        read  # Issueコメントの権限
-      pull-requests: read  # PR 内コメントの権限
-      id-token:      write # 実行時に適切な権限を取得
+      issues:        write # Issueコメントの権限
+      pull-requests: write # PR 内コメントの権限
+      #id-token:     write # AWS 等を使う場合のみ
 
     steps:
       - name: Checkout
