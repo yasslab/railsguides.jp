@@ -89,6 +89,8 @@ Rails 7.1からRails 7.2へのアップグレード
 
 Rails 7.2で行われた変更について詳しくは、[Rails 7.2のリリースノート](7_2_release_notes.html)を参照してください。
 
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」にまとめられています。
+
 ### `active_job.queue_adapter`コンフィグがすべてのテストで尊重されるようになった
 
 従来は、`config/application.rb`や`config/environments/test.rb`で`config.active_job.queue_adapter`を設定しても、指定したアダプタがすべてのテストで一貫して使われるわけではありませんでした。一部のテストでは指定のアダプタが使われますが、`TestAdapter`が使われることもありました。
@@ -97,7 +99,6 @@ Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべて�
 
 `queue_adapter`コンフィグを提供しない場合は、引き続き`TestAdapter`が使われます。
 
-TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」にまとめられています。
 
 Rails 7.0からRails 7.1へのアップグレード
 -------------------------------------
