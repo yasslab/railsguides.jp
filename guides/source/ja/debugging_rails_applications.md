@@ -145,7 +145,7 @@ TIP: Railsのデフォルトログレベルは全環境で`debug`です。
 
 ### メッセージ送信
 
-コントローラ、モデル、メイラーから現在のログに書き込みたい場合は、`logger.(debug|info|warn|error|fatal)`を使用します。
+コントローラ、モデル、メーラーから現在のログに書き込みたい場合は、`logger.(debug|info|warn|error|fatal)`を使用します。
 
 ```ruby
 logger.debug "Person attributes hash: #{@person.attributes.inspect}"
@@ -820,7 +820,7 @@ Valgrindのインストール方法とRuby内での使用方法については�
 * [Footnotes](https://github.com/josevalim/rails-footnotes): すべてのRailsページに脚注を追加し、リクエスト情報を表示したり、TextMateでソースを開くためのリンクを表示したりします。
 * [Query Trace](https://github.com/ruckus/active-record-query-trace/tree/master): ログにクエリ元のトレースを追加します。
 * [Query Reviewer](https://github.com/nesquena/query_reviewer): このRailsプラグインは、開発中のselectクエリの前に"EXPLAIN"を実行します。また、ページごとにDIVセクションを追加して、分析対象のクエリごとの警告の概要をそこに表示します。
-* [Exception Notifier](https://github.com/smartinez87/exception_notification/tree/master): Railsアプリケーションでのエラー発生時用の、メイラーオブジェクトとメール通知送信テンプレートのデフォルトセットを提供します。
+* [Exception Notifier](https://github.com/smartinez87/exception_notification/tree/master): Railsアプリケーションでのエラー発生時用の、メーラーオブジェクトとメール通知送信テンプレートのデフォルトセットを提供します。
 * [Better Errors](https://github.com/charliesome/better_errors): Rails標準のエラーページを新しい表示に置き換えて、ソースコードや変数検査などのコンテキスト情報を見やすくしてくれます。
 * [RailsPanel](https://github.com/dejan/rails_panel): Rails開発用のChrome機能拡張です。これがあればdevelopment.logでtailコマンドを実行する必要がなくなります。Railsアプリケーションのリクエストに関するすべての情報をブラウザ上 (Developer Toolsパネル) に表示できます。
 db時間、レンダリング時間、トータル時間、パラメータリスト、出力したビューなども表示されます。

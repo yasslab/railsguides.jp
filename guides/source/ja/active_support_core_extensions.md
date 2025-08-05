@@ -260,7 +260,7 @@ def log_info(sql, name, ms)
 end
 ```
 
-`try`メソッドは引数の代りにブロックを与えて呼び出すこともできます。この場合オブジェクトが`nil`でない場合にのみブロックが実行されます。
+`try`メソッドは引数の代わりにブロックを与えて呼び出すこともできます。この場合オブジェクトが`nil`でない場合にのみブロックが実行されます。
 
 ```ruby
 @person.try { |p| "#{p.first_name} #{p.last_name}" }
@@ -772,7 +772,7 @@ delegate :table_name, to: :class
 
 WARNING: `:prefix`オプションが`true`の場合、一般性が低下します (後述)。
 
-委譲時に`NoMethodError`が発生して対象が`nil`の場合、例外が発生します。`:allow_nil`オプションを使用すると、例外の代りに`nil`を返すようにすることができます。
+委譲時に`NoMethodError`が発生して対象が`nil`の場合、例外が発生します。`:allow_nil`オプションを使用すると、例外の代わりに`nil`を返すようにすることができます。
 
 ```ruby
 delegate :name, to: :profile, allow_nil: true
@@ -1641,7 +1641,7 @@ end
 
 従って、このメソッドは、同じ場所でRubyが定数を評価したときの値と必ずしも等価ではありません。
 
-メイラー (mailer) のテストケースでは、テストするクラスの名前からテスト対象のメイラーを取得するのに`constantize`メソッドを使用します。
+メーラー (mailer) のテストケースでは、テストするクラスの名前からテスト対象のメーラーを取得するのに`constantize`メソッドを使用します。
 
 ```ruby
 # action_mailer/test_case.rb
@@ -3610,7 +3610,7 @@ Time.current
 
 `DateTime`と同様、述語`past?`と`future?`は`Time.current`を起点とします。
 
-構成される時間が、実行プラットフォームの`Time`でサポートされる範囲を超えている場合は、usecは破棄され、`DateTime`オブジェクトが代りに返されます。
+構成される時間が、実行プラットフォームの`Time`でサポートされる範囲を超えている場合は、usecは破棄され、`DateTime`オブジェクトが代わりに返されます。
 
 #### 期間
 
