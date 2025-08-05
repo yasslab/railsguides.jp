@@ -303,7 +303,7 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 
 `config.action_controller`には多数の設定が含まれています。
 
-* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
+* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代わりにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
 
 * `config.action_controller.perform_caching`は、アプリケーションでキャッシュを行なうかどうかを指定します。developmentモードではfalse、productionモードではtrueに設定します。
 

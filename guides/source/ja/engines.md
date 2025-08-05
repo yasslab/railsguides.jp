@@ -476,7 +476,7 @@ NOTE: Deviseなどの他のエンジンではこの点が若干異なり、ル�
 $ rake blorgh:install:migrations
 ```
 
-マイグレーションをコピーする必要のあるエンジンがいくつもある場合は、代りに`railties:install:migrations`を使用します。
+マイグレーションをコピーする必要のあるエンジンがいくつもある場合は、代わりに`railties:install:migrations`を使用します。
 
 ```bash
 $ rake railties:install:migrations
