@@ -555,7 +555,7 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 * `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルトは`true`です。テスト時にメール送信を抑制するのに便利です。
 
-* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メイラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
+* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メーラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
 
     ```ruby
     mime_version:  "1.0",
@@ -584,21 +584,21 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
     config.action_mailer.interceptors = ["MailInterceptor"]
     ```
 
-* `config.action_mailer.preview_path`は、メイラーのプレビュー場所を指定します
+* `config.action_mailer.preview_path`は、メーラーのプレビュー場所を指定します
  
     ```ruby
     config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
     ```
  
-* `config.action_mailer.show_previews`は、メイラーのプレビューを有効または無効にします。デフォルトではdevelopment環境で`true`です。
+* `config.action_mailer.show_previews`は、メーラーのプレビューを有効または無効にします。デフォルトではdevelopment環境で`true`です。
  
     ```ruby
     config.action_mailer.show_previews = false
     ```
  
-* `config.action_mailer.deliver_later_queue_name`は、メイラーで使うキュー名を指定します。デフォルトは`mailers`です。
+* `config.action_mailer.deliver_later_queue_name`は、メーラーで使うキュー名を指定します。デフォルトは`mailers`です。
 
-* `config.action_mailer.perform_caching`は、メイラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。デフォルトではすべての環境で`false`です。
+* `config.action_mailer.perform_caching`は、メーラーのテンプレートでフラグメントキャッシュを有効にするべきかどうかを指定します。デフォルトではすべての環境で`false`です。
 
 ### Active Supportを設定する
 
