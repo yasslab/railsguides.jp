@@ -572,7 +572,7 @@ location ~ ^/assets/ {
 
 #### GZip圧縮
 
-ファイルをプリコンパイルする際に、Sprocketsによって[gzipされた](http://ja.wikipedia.org/wiki/Gzip) (.gz) アセットも作成されます。Webサーバーによる圧縮はほどほどの圧縮率で行われるのが普通ですが、プリコンパイルが1度発生するとSprocketsによって最大圧縮率で圧縮され、Webサーバーからのデータ転送量が最小化されます。逆に、圧縮されてないファイルを自前で圧縮する代りに、事前に圧縮しておいたコンテンツを直接ディスクに配置しておくようWebサーバーを設定することもできます。
+ファイルをプリコンパイルする際に、Sprocketsによって[gzipされた](http://ja.wikipedia.org/wiki/Gzip) (.gz) アセットも作成されます。Webサーバーによる圧縮はほどほどの圧縮率で行われるのが普通ですが、プリコンパイルが1度発生するとSprocketsによって最大圧縮率で圧縮され、Webサーバーからのデータ転送量が最小化されます。逆に、圧縮されてないファイルを自前で圧縮する代わりに、事前に圧縮しておいたコンテンツを直接ディスクに配置しておくようWebサーバーを設定することもできます。
 
 NGINXでは`gzip_static`を使用することでこれを自動的に行なうことができます。
 
@@ -685,7 +685,7 @@ NOTE: 上の設定が有効になるためには、サーバーの`CDN_HOST`環�
 http://mycdnsubdomain.fictional-cdn.com/assets/smile.png
 ```
 
-`smile.png`のコピーがCDNにあれば、CDNが代りにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら知りません。ファイルのコピーがCDNにない場合、CDNは "origin" (この場合`example.com/assets/smile.png`) を探して今後のために保存しておきます。
+`smile.png`のコピーがCDNにあれば、CDNが代わりにこのファイルをブラウザに送信します。元のサーバーはリクエストがあったことすら知りません。ファイルのコピーがCDNにない場合、CDNは "origin" (この場合`example.com/assets/smile.png`) を探して今後のために保存しておきます。
 
 CDNで扱うアセットを一部だけに限っておきたい場合、アセットヘルパーのカスタム`:host`オプションを使用して`config.action_controller.asset_host`の値セットを上書きすることもできます。
 
@@ -844,7 +844,7 @@ config.assets.prefix = "/他のパス"
 
 ### X-Sendfileヘッダー
 
-X-SendfileヘッダーはWebサーバーに対するディレクティブであり、アプリケーションからのレスポンスをブラウザに送信せずに破棄し、代りに別のファイルをディスクから読みだしてブラウザに送信します。このオプションはデフォルトでは無効です。サーバーがこのヘッダーをサポートしていればオンにできます。このオプションをオンにすると、それらのファイル送信はWebサーバーに一任され、それによって高速化されます。この機能の使用法については[send_file](http://api.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file)を参照してください。
+X-SendfileヘッダーはWebサーバーに対するディレクティブであり、アプリケーションからのレスポンスをブラウザに送信せずに破棄し、代わりに別のファイルをディスクから読みだしてブラウザに送信します。このオプションはデフォルトでは無効です。サーバーがこのヘッダーをサポートしていればオンにできます。このオプションをオンにすると、それらのファイル送信はWebサーバーに一任され、それによって高速化されます。この機能の使用法については[send_file](http://api.rubyonrails.org/classes/ActionController/DataStreaming.html#method-i-send_file)を参照してください。
 
 ApacheとNGINXではこのオプションがサポートされており、以下のように`config/environments/production.rb`で有効にすることができます。
 
