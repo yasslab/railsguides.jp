@@ -286,7 +286,7 @@ Action Mailer
 
 ### 主な変更点
 
-* 37 Signals社のmail_view gemを元にメイラーのプレビュー機能が追加されました。([Commit](https://github.com/rails/rails/commit/d6dec7fcb6b8fddf8c170182d4fe64ecfc7b2261))
+* 37 Signals社のmail_view gemを元にメーラーのプレビュー機能が追加されました。([Commit](https://github.com/rails/rails/commit/d6dec7fcb6b8fddf8c170182d4fe64ecfc7b2261))
 
 * Action Mailerメッセージの生成が計測されるようになりました。メッセージを生成するのにかかった時間がログに記録されます。([Pull Request](https://github.com/rails/rails/pull/12556))
 

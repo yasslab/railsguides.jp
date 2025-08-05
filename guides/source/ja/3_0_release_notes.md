@@ -560,7 +560,7 @@ Action Mailer
 
 Action Mailerで、メールライブラリとしてTMailに代えて新たに[Mail](http://github.com/mikel/mail)に置き換えられた新しいAPIが提供されました。Action Mailer自身はほぼ完全に書き換えられ、多くのコードに手が入れられました。その結果Action MailerはAbstract Controllerをシンプルに継承するようになり、Rails DSLでMail gemをラップするようになりました。これにより、Action Mailer内の他のライブラリとのコード量や重複が著しく削減されました。
 
-* すべてのメイラーがデフォルトで`app/mailers`に置かれるようになった
+* すべてのメーラーがデフォルトで`app/mailers`に置かれるようになった
 * 新しいAPIを用いて3とおりの方法（`attachments`、`headers`、`mail`）でメールを送信できるようになった
 * Action Mailerが`attachments.inline`メソッドを用いてインライン添付ファイルをネイティブでサポートするようになった
 * Action Mailerのメール送信メソッドが`Mail::Message`オブジェクトを返すようになり、`deliver`メッセージを送信することで自分自身を送信できるようになった
@@ -568,18 +568,18 @@ Action Mailerで、メールライブラリとしてTMailに代えて新たに[M
 * `mail`配信メソッドが、有効なメールヘッダーのハッシュ（それらの値ペアを含む）を受け取れるようになった
 * `mail`配信メソッドがAction Controllerの`respond_to`と似た振る舞いになり、テンプレートを明示的または暗黙的にレンダリングできるようになった（Action Mailerはメールを必要に応じてマルチパートメールにする）
 * `mail`のブロック内で`format.mime_type`呼び出しにprocを1つ渡すことで、特定の種類のテキストを明示的にレンダリングしたり、レイアウトや別のテンプレートを追加したりできるようになった。そのproc内の`render`呼び出しはAbstract Controllerのもので、同じオプションをサポートする。
-* メイラーの単体テスト項目が機能テストに移動した
+* メーラーの単体テスト項目が機能テストに移動した
 * Action Mailerがヘッダーフィールドや本文（body）の自動エンコーディングをMail gemに委譲した
 * Action Mailerがメールの本文やヘッダーを自動エンコードするようになった
 
 以下は非推奨化されました。
 
 * `:charset`、`:content_type`、`:mime_version`、`:implicit_parts_order`はすべて非推奨化され、今後は`ActionMailer.default :key => value`方式の宣言になった
-* メイラーの動的な`create_method_name`や`deliver_method_name`が非推奨化された: 今後は単に`method_name`を呼ぶこと（`Mail::Message`オブジェクトが1つ返る）
+* メーラーの動的な`create_method_name`や`deliver_method_name`が非推奨化された: 今後は単に`method_name`を呼ぶこと（`Mail::Message`オブジェクトが1つ返る）
 * `ActionMailer.deliver(message)`が非推奨化された: 今後は単に`message.deliver`を呼ぶこと
 * `template_root`が非推奨化された: 今後は`mail`生成ブロック内の`format.mime_type`メソッドからのproc内でrender呼び出しにオプションを渡すこと
 * インスタンス変数を定義する`body`メソッド（`body {:ivar => value}`）が非推奨化された: 今後はインスタンス変数をメソッド内で直接宣言するだけでビューで利用できるようになる
-* メイラーを`app/models`に配置することが非推奨化された: 今後は`app/mailers`を使うこと
+* メーラーを`app/models`に配置することが非推奨化された: 今後は`app/mailers`を使うこと
 
 詳しくは以下を参照してください。
 
