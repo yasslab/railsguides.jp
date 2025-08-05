@@ -491,7 +491,7 @@ TODO: https://github.com/yasslab/railsguides.jp/commit/a9e6632d185dd7436d8c4eca3
 $ bin/rails blorgh:install:migrations
 ```
 
-マイグレーションをコピーする必要のあるエンジンがいくつもある場合は、代りに`railties:install:migrations`を使用します。
+マイグレーションをコピーする必要のあるエンジンがいくつもある場合は、代わりに`railties:install:migrations`を使用します。
 
 ```bash
 $ bin/rails railties:install:migrations

@@ -376,7 +376,7 @@ ExampleModel.where("boolean_column = 'f'").update_all(boolean_column: 0)
 
 `config.action_controller`には多数の設定が含まれています。
 
-* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリサーバーの代りにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
+* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリサーバーの代わりにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
 
 * `config.action_controller.perform_caching`は、Action Controllerコンポーネントが提供するキャッシュ機能をアプリで使うかどうかを指定します。developmentモードでは`false`、productionモードでは`true`に設定します。
 
