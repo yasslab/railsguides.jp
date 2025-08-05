@@ -425,13 +425,13 @@ Action Mailer
 *   テンプレートを検索するときにデフォルトのロケールとi18nにフォールバックするようになった。
     ([commit](https://github.com/rails/rails/commit/ecb1981b))
 
-*  ジェネレーターで生成されたメイラーに`_mailer`サフィックスを追加。コントローラやジョブと同様の命名規則に従う。
+*  ジェネレーターで生成されたメーラーに`_mailer`サフィックスを追加。コントローラやジョブと同様の命名規則に従う。
     ([Pull Request](https://github.com/rails/rails/pull/18074))
 
 *   `assert_enqueued_emails`と`assert_no_enqueued_emails`を追加。
     ([Pull Request](https://github.com/rails/rails/pull/18403))
 
-*  メイラーキュー名を設定する`config.action_mailer.deliver_later_queue_name`設定を追加。
+*  メーラーキュー名を設定する`config.action_mailer.deliver_later_queue_name`設定を追加。
     ([Pull Request](https://github.com/rails/rails/pull/18587))
 
 *  Action Mailerビューでフラグメントキャッシュをサポート。

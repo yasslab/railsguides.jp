@@ -858,7 +858,7 @@ class AuthService
 end
 ```
 
-さらにアプリケーションで`AuthService.instance`を代りに使うという方法があります。`AuthService`は必要に応じて読み込まれ、自動読み込みとよく調和するでしょう。
+さらにアプリケーションで`AuthService.instance`を代わりに使うという方法があります。`AuthService`は必要に応じて読み込まれ、自動読み込みとよく調和するでしょう。
 
 ### `require_dependency`とイニシャライザ
 
