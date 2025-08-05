@@ -303,7 +303,7 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 
 `config.action_controller`には多数の設定が含まれています。
 
-* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代りにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
+* `config.action_controller.asset_host`はアセットを置くためのホストを設定します。これは、アセットをホストする場所としてアプリケーションサーバーの代わりにCDN(コンテンツ配信ネットワーク)を使用したい場合に便利です。
 
 * `config.action_controller.perform_caching`は、アプリケーションでキャッシュを行なうかどうかを指定します。developmentモードではfalse、productionモードではtrueに設定します。
 
@@ -409,7 +409,7 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 
 * `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルトはtrueです。テスト時にメール送信を抑制するのに便利です。
 
-* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メイラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
+* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メーラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
 
     ```ruby
     mime_version:  "1.0",
