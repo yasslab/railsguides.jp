@@ -850,7 +850,7 @@ class UsersController < ApplicationController
 end
 ```
 
-このアクションがパブリックなAPIで使用されておらず、HTTPメソッドを自由に変更できるのであれば、ルーティングを更新して`patch`を`put`の代りに使用できます。
+このアクションがパブリックなAPIで使用されておらず、HTTPメソッドを自由に変更できるのであれば、ルーティングを更新して`patch`を`put`の代わりに使用できます。
 
 Rails 4で`PUT`リクエストを`/users/:id`に送信すると、従来と同様`update`にルーティングされます。このため、実際のPUTリクエストを受け取るAPIは今後も利用できます。この場合、`PATCH`リクエストも`/users/:id`経由で`update`アクションにルーティングされます。
 
@@ -860,7 +860,7 @@ resources :users do
 end
 ```
 
-このアクションがパブリックなAPIで使用されており、HTTPメソッドを自由に変更できないのであれば、フォームを更新して`PUT`を代りに使用できます。
+このアクションがパブリックなAPIで使用されており、HTTPメソッドを自由に変更できないのであれば、フォームを更新して`PUT`を代わりに使用できます。
 
 ```erb
 <%= form_for [ :update_name, @user ], method: :put do |f| %>
@@ -1001,9 +1001,9 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
 セッションcookiesを暗号化する方法の詳細については[Pull Request #9978](https://github.com/rails/rails/pull/9978) を参照してください。
 
-* Rails 4.0 では`ActionController::Base.asset_path`オプションが廃止されました。代りにアセットパイプライン機能をご利用ください。
+* Rails 4.0 では`ActionController::Base.asset_path`オプションが廃止されました。代わりにアセットパイプライン機能をご利用ください。
 
-* Rails 4.0では`ActionController::Base.page_cache_extension`オプションが非推奨になりました。代りに`ActionController::Base.default_static_extension`をご利用ください。
+* Rails 4.0では`ActionController::Base.page_cache_extension`オプションが非推奨になりました。代わりに`ActionController::Base.default_static_extension`をご利用ください。
 
 * Rails 4.0のAction PackからActionとPageのキャッシュ機能が取り除かれました。コントローラで`caches_action`を使用したい場合は`actionpack-action_caching` gemを、`caches_pages`を使用したい場合は`actionpack-page_caching` gemをそれぞれGemfileに追加する必要があります。
 
@@ -1017,7 +1017,7 @@ Rails 4.0 では、シンボルやprocがnilを返す場合の、デフォルト
 
 * Rails 4.0では`link_to`ヘルパーでの`:confirm`オプションが非推奨になりました。代わりにデータ属性を使用してください (例： `data: { confirm: 'Are you sure?' }`)。`link_to_if`や`link_to_unless`などでも同様の対応が必要です。
 
-* Rails 4.0では`assert_generates`、`assert_recognizes`、`assert_routing`の動作が変更されました。これらのアサーションからは`ActionController::RoutingError`の代りに`Assertion`が発生するようになりました。
+* Rails 4.0では`assert_generates`、`assert_recognizes`、`assert_routing`の動作が変更されました。これらのアサーションからは`ActionController::RoutingError`の代わりに`Assertion`が発生するようになりました。
 
 * Rails 4.0では、名前付きルートの定義が重複している場合に`ArgumentError`が発生するようになりました。このエラーは、明示的に定義された名前付きルートや`resources`メソッドによってトリガされます。名前付きルート`example_path`が衝突している例を2つ示します。
 
@@ -1073,7 +1073,7 @@ config.middleware.insert_before(Rack::Lock, ActionDispatch::BestStandardsSupport
 
 * Rails 4.0では、リクエストされたフォーマットがアクションで扱えなかった場合に`ActionController::UnknownFormat`が発生するようになりました。デフォルトでは、この例外は406 Not Acceptable応答として扱われますが、この動作をオーバーライドすることができます。Rails 3では常に406 Not Acceptableが返されます。オーバーライドはできません。
 
-* Rails 4.0では、`ParamsParser`がリクエストパラメータをパースできなかった場合に一般的な`ActionDispatch::ParamsParser::ParseError`例外が発生するようになりました。`MultiJson::DecodeError`のような低レベルの例外の代りにこの例外をレスキューすることができます。
+* Rails 4.0では、`ParamsParser`がリクエストパラメータをパースできなかった場合に一般的な`ActionDispatch::ParamsParser::ParseError`例外が発生するようになりました。`MultiJson::DecodeError`のような低レベルの例外の代わりにこの例外をレスキューすることができます。
 
 * Rails 4.0では、URLプレフィックスで指定されたアプリケーションにエンジンがマウントされている場合に`SCRIPT_NAME`が正しく入れ子になるようになりました。今後はURLプレフィックスの上書きを回避するために`default_url_options[:script_name]`を設定する必要はありません。
 
@@ -1104,7 +1104,7 @@ Rails 4.0では複数のディレクトリからのヘルパーの読み込み�
 
 ### sprockets-rails
 
-* `assets:precompile:primary`および`assets:precompile:all`は削除されました。`assets:precompile`を代りに使用してください。
+* `assets:precompile:primary`および`assets:precompile:all`は削除されました。`assets:precompile`を代わりに使用してください。
 * `config.assets.compress`オプションは、たとえば以下のように`config.assets.js_compressor` に変更する必要があります。
 
 ```ruby
