@@ -409,7 +409,7 @@ MySQLアダプターを使用すると、以下の設定オプションが1つ�
 
 * `config.action_mailer.perform_deliveries`は、メールを実際に配信するかどうかを指定します。デフォルトはtrueです。テスト時にメール送信を抑制するのに便利です。
 
-* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メイラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
+* `config.action_mailer.default_options`は、Action Mailerのデフォルトを設定します。これは、メーラーごとに`from`や`reply_to`などを設定します。デフォルトは以下のとおりです。
 
     ```ruby
     mime_version:  "1.0",

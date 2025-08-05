@@ -480,7 +480,7 @@ Action Mailer
 *   `deliver_later`が導入されました。これは、アプリケーション内キューにジョブを流し込み、メールを非同期配信します。
     ([Pull Request](https://github.com/rails/rails/pull/16485))
 
-*   `show_previews`設定オプションが追加されました。これはdevelopment環境の外でメイラーをプレビューできるようにするためのものです。
+*   `show_previews`設定オプションが追加されました。これはdevelopment環境の外でメーラーをプレビューできるようにするためのものです。
     ([Pull Request](https://github.com/rails/rails/pull/15970))
 
 
