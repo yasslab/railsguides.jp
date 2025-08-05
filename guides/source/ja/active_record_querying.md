@@ -1137,7 +1137,7 @@ Active Recordでは、`joins`のように事前読み込みされた関連付け
 Article.includes(:comments).where(comments: { visible: true })
 ```
 
-このコードは、`LEFT OUTER JOIN`を含むクエリを1つ生成します。`joins`メソッドを使用していたら、代りに`INNER JOIN`を使用するクエリが生成されていたでしょう。
+このコードは、`LEFT OUTER JOIN`を含むクエリを1つ生成します。`joins`メソッドを使用していたら、代わりに`INNER JOIN`を使用するクエリが生成されていたでしょう。
 
 ```ruby
   SELECT "articles"."id" AS t0_r0, ... "comments"."updated_at" AS t1_r5 FROM "articles" LEFT OUTER JOIN "comments" ON "comments"."article_id" = "articles"."id" WHERE (comments.visible = 1)
@@ -1450,7 +1450,7 @@ Client.find_or_create_by!(first_name: 'Andy')
 
 ### `find_or_initialize_by`
 
-`find_or_initialize_by`メソッドは`find_or_create_by`と同様に動作しますが、`create`の代りに`new`を呼ぶ点が異なります。つまり、モデルの新しいインスタンスは作成されますが、その時点ではデータベースに保存されていません。`find_or_create_by`の例を少し変えて説明を続けます。今度は'Nick'という名前のクライアントが必要だとします。
+`find_or_initialize_by`メソッドは`find_or_create_by`と同様に動作しますが、`create`の代わりに`new`を呼ぶ点が異なります。つまり、モデルの新しいインスタンスは作成されますが、その時点ではデータベースに保存されていません。`find_or_create_by`の例を少し変えて説明を続けます。今度は'Nick'という名前のクライアントが必要だとします。
 
 ```ruby
 nick = Client.find_or_initialize_by(first_name: 'Nick')
@@ -1496,7 +1496,7 @@ Client.find_by_sql("SELECT * FROM clients
 
 ### `select_all`
 
-`find_by_sql`は`connection#select_all`と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを使用してデータベースからオブジェクトを取り出しますが、取り出したオブジェクトのインスタンス化を行わない点が異なります。代りに、ハッシュの配列を返します。1つのハッシュが1レコードを表します。
+`find_by_sql`は`connection#select_all`と深い関係があります。`select_all`は`find_by_sql`と同様、カスタムSQLを使用してデータベースからオブジェクトを取り出しますが、取り出したオブジェクトのインスタンス化を行わない点が異なります。代わりに、ハッシュの配列を返します。1つのハッシュが1レコードを表します。
 
 ```ruby
 Client.connection.select_all("SELECT first_name, created_at FROM clients WHERE id = '1'")
