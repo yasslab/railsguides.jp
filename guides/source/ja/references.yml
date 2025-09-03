@@ -15,6 +15,8 @@ install_ruby_on_rails:
   url: https://railsguides.jp/getting_started_with_devcontainer.html
 - title: Railsチュートリアル - GitHub Codespaces を利用する
   url: https://railstutorial.jp/docs/codespaces.html
+- title: Railsチュートリアル - Docker と RubyMine を使って開発する
+  url: 'https://railstutorial.jp/help#rubymine'
 
 getting_started_with_devcontainer:
 - title: Railsガイド - Ruby on Rails インストールガイド
