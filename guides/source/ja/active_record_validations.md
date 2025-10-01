@@ -1573,10 +1573,14 @@ irb> person.errors.where(:name, :too_short, minimum: 3)
 これらのエラーオブジェクトから、さまざまな情報を読み出せます。
 
 ```irb
-irb> error.message
-#=> "is too short (minimum is 3 characters)"
-irb> error.full_message
-#=> "Name is too short (minimum is 3 characters)"
+irb> error = person.errors.where(:name).last
+
+irb> error.attribute
+=> :name
+irb> error.type
+=> :too_short
+irb> error.options[:count]
+=> 3
 ```
 
 エラーメッセージを生成することも可能です。
