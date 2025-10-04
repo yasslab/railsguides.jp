@@ -3092,8 +3092,6 @@ NOTE: `Rails::HTML5::Sanitizer`はJRubyではサポートされていないた�
 
 詳しくはRubyドキュメントの[`Regexp.timeout=`](https://docs.ruby-lang.org/en/3.3/Regexp.html#method-c-timeout-3D)を参照してください。
 
-See Ruby's documentation for [`Regexp.timeout=`](https://docs.ruby-lang.org/en/3.3/Regexp.html#method-c-timeout-3D).
-
 ### データベースを設定する
 
 ほぼすべてのRailsアプリケーションは、何らかの形でデータベースにアクセスします。データベースへの接続は、環境変数`ENV['DATABASE_URL']`を設定するか、`config/database.yml`というファイルを設定することで行えます。
