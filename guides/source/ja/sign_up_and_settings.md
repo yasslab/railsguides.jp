@@ -1,53 +1,39 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON <https://guides.rubyonrails.org>.**
-
-Sign Up and Settings
+サインアップ機能と設定機能の構築ガイド
 ====================
 
-This guide covers adding Sign Up and Settings to the store e-commerce
-application in the [Getting Started Guide](getting_started.html). We will use
-the final code from that guide as a starting place.
+本ガイドでは、[Railsをはじめよう](getting_started.html)ガイドの`store`というeコマースアプリケーションにサインアップ機能と設定機能を追加する方法について解説します。本ガイドでは、『Railsをはじめよう』ガイドの最終コードを出発点とします。
 
-After reading this guide, you will know how to:
+このガイドの内容:
 
-* Add user Sign Up
-* Rate limit controller actions
-* Create a nested layout
-* Separate controllers by role (users and admins)
-* Write tests for users with different roles
+* ユーザーのサインアップ機能を追加
+* コントローラーアクションのレート制限
+* ネステッドレイアウトの作成
+* ロール（ユーザーと管理者）ごとにコントローラを分ける
+* ロールの異なるユーザーに対するテストの作成
 
 --------------------------------------------------------------------------------
 
-Introduction
+はじめに
 ------------
 
-One of the most common features to add to any application is a sign up process
-for registering new users. The e-commerce application we've built so far only
-has authentication and users must be created in the Rails console or a script.
+サインアップ（sign up）機能は、新しいユーザーを登録する処理であり、アプリケーションに追加する最も一般的な機能の1つです。[Railsをはじめよう](getting_started.html)ガイドで構築したeコマースアプリケーションには認証機能しかなく、ユーザーを登録するにはRailsコンソールやスクリプトで作成しなければなりません。
 
-This feature is required before we can add other features. For example, to let
-users create wishlists, they will need to be able to sign up first before they
-can create a wishlist associated with their account.
+このサインアップ機能は、他の機能を追加する前に実装しておく必要があります。たとえば、ユーザーがウィッシュリストを作成可能にするには、まずユーザーがサインアップできる必要があります。その後、アカウントに関連付けられたウィッシュリストを作成できます。
 
-Let's get started!
+それでは始めましょう。
 
-Adding Sign Up
+サインアップ機能を追加する
 --------------
 
-We've already used the
-[Rails authentication generator in the Getting Started guide](/getting_started.html#adding-authentication)
-to allow users to login to their accounts. The generator created a `User` model
-with `email_address:string` and `password_digest:string` columns in the
-database. It also added `has_secure_password` to the `User` model which handles
-passwords and confirmations. This takes care of most of what we need to add sign
-up to our application.
+認証機能ジェネレータでユーザーを自分のアカウントにログインさせる機能は、既にに[Railsをはじめよう](getting_started.html#認証機能を追加する)ガイドで使いました。認証機能ジェネレータを用いて、`User`モデルを作成し、データベースに`email_address:string`と`password_digest:string`のカラムを追加しました。また、`User`モデルに`has_secure_password`メソッドを追加し、パスワードと確認を処理します。これにより、サインアップ機能をアプリケーションに追加するために必要な処理はほぼ完了します。
 
-### Adding Names To Users
+### ユーザーに名前を追加する
 
-It's also a good idea to collect the user's name at sign up. This allows us to
-personalize their experience and address them directly in the application. Let's
-start by adding `first_name` and `last_name` columns to the database.
+サインアップのときに、ユーザーの名前も保存しておくとよいでしょう。これにより、アプリケーション内でユーザー体験をパーソナライズし、ユーザーを「XX様」のように直接名前で呼びかけることが可能になります。
 
-In the terminal, create a migration with these columns:
+それでは、データベースに`first_name`と`last_name`のカラムを追加しましょう。
+
+ターミナルで以下のコマンドを実行して、これらのカラムを持つマイグレーションを作成します。
 
 ```bash
 $ bin/rails g migration AddNamesToUsers first_name:string last_name:string
@@ -59,12 +45,13 @@ Then migrate the database:
 $ bin/rails db:migrate
 ```
 
-Let's also add a method to combine `first_name` and `last_name`, so that we can
-display the user's full name.
+`first_name`と`last_name`をつなげるメソッドも追加して、ユーザーのフルネームを表示できるようにしておきましょう。
 
-Open `app/models/user.rb` and add the following:
+`app/models/user.rb`ファイルを開いて、以下を追加します。
 
-```ruby#7-11
+<!-- コードブロックのハイライトが日本語版にないため、削除しています -->
+
+```ruby
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
@@ -79,30 +66,25 @@ class User < ApplicationRecord
 end
 ```
 
-TIP: `has_secure_password` only validates the presence of the password. Consider
-adding more validations for password minimum length or complexity to improve
-security.
+TIP: `has_secure_password`メソッドは、パスワードがパスワードが存在することだけをバリデーションします。セキュリティを強化するため、パスワードの最小文字数のチェックやパスワードが十分複雑かどうかのバリデーションも追加することを検討しましょう。
 
-Next, let's add sign up so we can register new users.
+次に、サインアップ機能を追加して新しいユーザーを登録できるようにしましょう。
 
-### Sign Up Routes & Controller
+### サインアップ用のルーティングとコントローラ
 
-Now that our database has all the necessary columns to register new users, the
-next step is to create a route for sign up and its matching controller.
+新しいユーザーを登録するのに必要なカラムがすべて揃ったので、次のステップではサインアップ用のルーティングとそれに対応するコントローラを作成します。
 
-In `config/routes.rb`, let's add a resource for sign up:
+`config/routes.rb`にサインアップ用のリソースを追加します。
 
-```ruby#3
+```ruby
 resource :session
 resources :passwords, param: :token
 resource :sign_up
 ```
 
-We're using a singular resource here because we want a singular route for
-`/sign_up`.
+ここでは、`/sign_up`に対する単一のルーティングを作成するために、単数形の`resource`を使っています。
 
-This route directs requests to `app/controllers/sign_ups_controller.rb` so let's
-create that controller file now.
+このルーティングは、リクエストを`app/controllers/sign_ups_controller.rb`に送信します。次は、そのルーティングに対応するコントローラファイルを作成しましょう。
 
 ```ruby
 class SignUpsController < ApplicationController
@@ -112,11 +94,9 @@ class SignUpsController < ApplicationController
 end
 ```
 
-We're using the `show` action to create a new `User` instance, which will be
-used to display the sign up form.
+`User`の新しいインスタンスを作成するために、`show`アクションを使っています。これはサインアップフォームを表示するアクションです。
 
-Let's create the form next. Create `app/views/sign_ups/show.html.erb` with the
-following code:
+次に、フォームを作成しましょう。`app/views/sign_ups/show.html.erb`を作成し、以下のコードを追加します。
 
 ```erb
 <h1>Sign Up</h1>
@@ -157,19 +137,13 @@ following code:
 <% end %>
 ```
 
-This form collects the user's name, email, and password. We're using the
-`autocomplete` attribute to help the browser suggest the values for these fields
-based on the user's saved information.
+このフォームは、ユーザーの名前、メールアドレス、パスワードを収集します。`autocomplete`属性を用いて、ブラウザに保存されたユーザー情報に基づいて、これらのフィールドの値を自動的に補完します。
 
-You'll also notice we set `url: sign_up_path` in the form alongside
-`model: @user`. Without this `url:` argument, `form_with` would see we have a
-`User` and send the form to `/users` by default. Since we want the form to
-submit to `/sign_up`, we set the `url:` to override the default route.
+このフォームでは、`model: @user`と一緒に`url: sign_up_path`も指定していることにご注意ください。`form_with`メソッドに`url:`引数を指定しない場合は、`User`モデルが存在すると見なして、フォームをデフォルトで`/users`に送信します。ここではフォームを`/users`ではなく`/sign_up`に送信したいので、`url:`を設定してデフォルトのルーティングをオーバーライドしています。
 
-Back in `app/controllers/sign_ups_controller.rb` we can handle the form
-submission by adding the `create` action.
+再び`app/controllers/sign_ups_controller.rb`をエディタで開いて、フォームの送信を処理する`create`アクションを追加します。
 
-```ruby#6-19
+```ruby
 class SignUpsController < ApplicationController
   def show
     @user = User.new
@@ -192,21 +166,17 @@ class SignUpsController < ApplicationController
 end
 ```
 
-The `create` action assigns parameters and attempts to save the user to the
-database. If successful, it logs the user in and redirects to `root_path`,
-otherwise it re-renders the form with errors.
+`create`アクションはパラメータを割り当てて、データベースにユーザーを保存することを試みます。保存に成功した場合はユーザーをログインさせて`root_path`にリダイレクトし、失敗した場合はエラー付きのフォームを再表示します。
 
-Visit https://localhost:3000/sign_up to try it out.
+ブラウザで`https://localhost:3000/sign_up`を開いて、フォームが正しく動作することを確認してみましょう。
 
-### Requiring Unauthenticated Access
+### アカウント作成時にログインなしのアクセスを必須にする
 
-Authenticated users can still access `SignUpsController` and create another
-account while they're logged in which is confusing.
+認証されたユーザーは、ログインした状態のまま`SignUpsController`にアクセスして別のアカウントを作成できてしまうため、このままでは混乱を招く可能性があります。
 
-Let's fix this by adding a helper to the `Authentication` module in
-`app/controllers/concerns/authentication.rb`.
+これを修正するために、`app/controllers/concerns/authentication.rb`ファイルの`Authentication`モジュールにヘルパーを追加しましょう。
 
-```ruby#14-17
+```ruby
 module Authentication
   extend ActiveSupport::Concern
 
@@ -228,12 +198,11 @@ module Authentication
     # ...
 ```
 
-The `unauthenticated_access_only` class method can be used in any controller
-where we want to restrict actions to unauthenticated users only.
+`unauthenticated_access_only`クラスメソッドは、アクションの利用を認証されていないユーザーのみに限定したいコントローラで利用できます。
 
-We can then use this method at the top of `SignUpsController`.
+このメソッドを`SignUpsController`の冒頭で以下のように追加できます。
 
-```ruby#2
+```ruby
 class SignUpsController < ApplicationController
   unauthenticated_access_only
 
@@ -241,17 +210,13 @@ class SignUpsController < ApplicationController
 end
 ```
 
-### Rate Limiting Sign Up
+### サインアップにレート制限を追加する
 
-Our application will be accessible on the internet so we're bound to have
-malicious bots and users trying to spam our application. We can add rate
-limiting to sign up to slow down anyone submitting too many requests.
+このアプリケーションはインターネット上でアクセス可能になるため、悪意のあるボットやユーザーがアプリケーションにスパムの送信を試みる可能性があります。サインアップにレート制限を追加して、大量のリクエストを送信するユーザーのアクセス速度を下げることが可能です。
 
-Rails makes this easy with the
-[`rate_limit`](https://api.rubyonrails.org/classes/ActionController/RateLimiting/ClassMethods.html)
-method in controllers.
+Railsでは、コントローラ内で[`rate_limit`](https://api.rubyonrails.org/classes/ActionController/RateLimiting/ClassMethods.html)メソッドを使ってレート制限を簡単に実現できます。
 
-```ruby#3
+```ruby
 class SignUpsController < ApplicationController
   unauthenticated_access_only
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to sign_up_path, alert: "Try again later." }
@@ -260,30 +225,22 @@ class SignUpsController < ApplicationController
 end
 ```
 
-This will block any form submissions that happen more than 10 times within 3
-minutes.
+これで、サインアップフォームの送信頻度が3分間あたり10回を超えると、リクエストがブロックされるようになります。
 
-Editing Passwords
+パスワードの編集機能
 -----------------
 
-Now that users can login, let's create all the usual places that users would
-expect to update their profile, password, email address, and other settings.
+ユーザーがログインできるようになったので、ユーザーが期待する「プロフィール」「パスワード」「メールアドレス」などの設定を更新するための場所をすべて作成しましょう。
 
-### Using Namespaces
+### 名前空間を使ったパスワードルーティング
 
-The Rails authentication generator already created a controller at
-`app/controllers/passwords_controller.rb` for password resets. This means we
-need to use a different controller for editing passwords of authenticated users.
+パスワードリセット用の`app/controllers/passwords_controller.rb`コントローラは、Railsの認証ジェネレータによって既に作成されています。つまり、認証済みユーザーのパスワードを編集するには、別のコントローラを使う必要があります。
 
-To prevent conflicts, we can use a feature called **namespaces**. A namespace
-organizes routes, controllers, and views into folders and helps prevent
-conflicts like our two passwords controllers.
+この競合を防ぐために、**名前空間**と呼ばれる機能を利用できます。名前空間は、ルーティング、コントローラ、ビューをフォルダに整理し、2つのパスワードコントローラのような競合を防ぐのに役立ちます。
 
-We'll create a namespace called "Settings" to separate out the user and store
-settings from the rest of our application.
+ここでは"Settings"という名前空間を作成して、ユーザーとストアの設定をアプリケーションの他の部分から分離することにします。
 
-In `config/routes.rb` we can add the Settings namespace along with a resource
-for editing passwords:
+`config/routes.rb`ファイルにSettings名前空間を追加し、その内側にパスワード編集用のリソースを追加します。
 
 ```ruby
 namespace :settings do
@@ -291,18 +248,13 @@ namespace :settings do
 end
 ```
 
-This will generate a route for `/settings/password` for editing the current
-user's password which is separate from the password resets routes at
-`/password`.
+これにより、現在のユーザーのパスワードを編集するための`/settings/password`ルーティングが別途生成されます。これは、`/password`にあるパスワードリセット用のルーティングとは別物です。
 
-### Adding the Namespaced Passwords Controller & View
+### 名前空間化されたパスワードコントローラとビューを追加する
 
-Namespaces also move controllers into a matching module in Ruby. This controller
-will be in a `settings` folder to match the namespace.
+名前空間は、コントローラをRubyの対応するモジュールに移動します。このコントローラは、名前空間に合わせて`settings/`フォルダに配置されます。
 
-Let's create the folder and controller at
-`app/controllers/settings/passwords_controller.rb` and start with the `show`
-action.
+`app/controllers/settings/`フォルダと`app/controllers/settings/passwords_controller.rb`コントローラを作成します。最初は`show`アクションを作成しましょう。
 
 ```ruby
 class Settings::PasswordsController < ApplicationController
@@ -311,8 +263,7 @@ class Settings::PasswordsController < ApplicationController
 end
 ```
 
-Views also move to a `settings` folder so let's create the folder and view at
-`app/views/settings/passwords/show.html.erb` for this action.
+対応するビューも`settings/`フォルダに移動するので、この`show`アクションに対応するフォルダとビューを`app/views/settings/passwords/show.html.erb`に作成しましょう。
 
 ```erb
 <h1>Password</h1>
@@ -343,23 +294,17 @@ Views also move to a `settings` folder so let's create the folder and view at
 <% end %>
 ```
 
-We've set the `url:` argument to ensure the form submits to our namespaced route
-and is processed by the `Settings::PasswordsController`.
+名前空間化されたルーティングにフォームが送信されるよう、フォームで`url:`引数を設定してあるので、リクエストは`Settings::PasswordsController`で処理されます。
 
-Passing `model: Current.user` also tells `form_with` to submit a `PATCH` request
-to process the form with the `update` action.
+`form_with`に`model: Current.user`引数を渡してあるので、フォームを`update`アクションで処理するときは`PATCH`リクエストを送信します。
 
-TIP: `Current.user` comes from
-[CurrentAttributes](https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html)
-which is a per-request attribute which resets automatically before and after
-each request. The Rails authentication generator uses this to keep track of the
-logged in User.
+TIP: `Current.user`は、Active Supportの[`CurrentAttributes`](https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html)から来ています。これはリクエストごとの属性であり、各リクエストの前後で自動的にリセットされます。Railsの認証ジェネレータはこれを利用して、ログインしているユーザーをトラッキングしています。
 
-### Safely Updating Passwords
+### パスワードを安全に更新する
 
-Let's add that `update` action to the controller now.
+コントローラに`update`アクションを追加しましょう。
 
-```ruby#5-16
+```ruby
 class Settings::PasswordsController < ApplicationController
   def show
   end
@@ -379,29 +324,19 @@ class Settings::PasswordsController < ApplicationController
 end
 ```
 
-For security, we need to ensure that the user is the only one who can update
-their password. The `has_secure_password` method in our `User` model provides
-this attribute. If `password_challenge` is present, it will validate the
-password challenge against the user's current password in the database to
-confirm it matches.
+セキュリティを維持するために、ユーザー本人だけがパスワードを更新できるようにする必要があります。`User`モデルの`has_secure_password`メソッドはこの属性を提供します。`password_challenge`フィールドが存在する場合、データベース内のユーザーの現在のパスワードと照合して一致することを確認します。
 
-A malicious user could try deleting the `password_challenge` field in the
-browser to bypass this validation. To prevent this and ensure the validation
-always runs, we use `.with_defaults(password_challenge: "")` to set a default
-value even if the `password_challenge` parameter is missing.
+悪意のあるユーザーがブラウザで`password_challenge`フィールドそのものを削除してこのバリデーションを回避しようとする可能性があります。これを防いでバリデーションが常に実行されるようにするために、`password_challenge`パラメータが存在しない場合でもデフォルト値を設定するために`.with_defaults(password_challenge: "")`を呼び出しています。
 
-You can now visit http://localhost:3000/settings/password to update your
-password.
+これで、ユーザーはブラウザで`http://localhost:3000/settings/password`にアクセスしてパスワードを更新できるようになりました。
 
-### Renaming The Password Challenge Attribute
+### `password_challenge`属性をリネームする
 
-While `password_challenge` is a good name for our code, users are used to seeing
-"Current password" for this form field. We can rename this with locales in Rails
-to change how this attribute is displayed on the frontend.
+`password_challenge`という名前はコード上では適切ですが、ユーザーにとってはこのフォームフィールドが「Current password（現在のパスワード）」と表示される方が自然です。Railsのロケールを使って、フロントエンドでのこの属性表示をリネームできます。
 
-Add the following to `config/locales/en.yml`:
+`config/locales/en.yml`ロケールファイルに以下を追加します。
 
-```yaml#7-10
+```yaml
 en:
   hello: "Hello world"
   products:
@@ -414,22 +349,18 @@ en:
         password_challenge: "Current password"
 ```
 
-To learn more, check out the
-[I18n Guide](https://guides.rubyonrails.org/i18n.html#translations-for-active-record-models)
+詳しくは、[国際化（I18n）ガイド](i18n.html#active-recordモデルで翻訳を行なう)を参照してください。
 
-Editing User Profiles
+ユーザープロファイルを編集する
 ---------------------
 
-Next, let's add a page so users can edit their profile, like updating their
-first and last name.
+次は、ユーザーがプロフィールを編集できるページを追加しましょう（名前の変更など）。
 
-### Profile Routes & Controller
+### プロファイル用のルーティングとコントローラ
 
-In `config/routes.rb`, add a profile resource under the settings namespace. We
-can also add a root to the namespace to handle any visits to `/settings` and
-redirect them to profile settings.
+`config/routes.rb`ファイルを開いて、Settings名前空間の下にプロファイルリソースを追加します。名前空間に`root`を追加することで、`/settings`へのアクセスを処理してプロフィール設定にリダイレクトすることも可能です。
 
-```ruby#3,5
+```ruby
 namespace :settings do
   resource :password, only: [ :show, :update ]
   resource :profile, only: [ :show, :update ]
@@ -438,8 +369,7 @@ namespace :settings do
 end
 ```
 
-Let's create our controller for editing profiles at
-`app/controllers/settings/profiles_controller.rb`.
+プロファイル編集用のコントローラを`app/controllers/settings/profiles_controller.rb`に作成しましょう。
 
 ```ruby
 class Settings::ProfilesController < ApplicationController
@@ -461,11 +391,9 @@ class Settings::ProfilesController < ApplicationController
 end
 ```
 
-This is very similar to the passwords controller but only allows updating the
-user's profile details like first and last name.
+このコントローラは、パスワードココントローラと非常に似ていますが、ユーザーのプロフィールの詳細（名前など）を更新することしかできない点が異なります。
 
-Then create `app/views/settings/profiles/show.html.erb` to show the edit profile
-form.
+続いて、プロファイル編集フォームを表示する`app/views/settings/profiles/show.html.erb`を作成しましょう。
 
 ```erb
 <h1>Profile</h1>
@@ -491,17 +419,15 @@ form.
 <% end %>
 ```
 
-You can now visit http://localhost:3000/settings/profile to update your name.
+これで、ブラウザで`http://localhost:3000/settings/profile`にアクセスして、プロフィールを更新できるようになりました。
 
-### Updating Navigation
+### 更新用のリンクを更新する
 
-Let's update the navigation to include a link to Settings next to the Log out
-button.
+更新用のリンクを更新してログアウトボタンの横に配置し、「Settings」にリンクしましょう。
 
-Open `app/views/layouts/application.html.erb` and update the navbar. We'll also
-add a div for any alert messages from our controllers while we're here.
+`app/views/layouts/application.html.erb`レイアウトを開いて、ナビゲーションバーを更新します。ここで、コントローラからのアラートメッセージを表示するための`<div>`も追加します。
 
-```erb#9,13-19
+```erb
 <!DOCTYPE html>
 <html>
   <head>
@@ -524,19 +450,15 @@ add a div for any alert messages from our controllers while we're here.
     </nav>
 ```
 
-You'll now see a Settings link in the navbar when authenticated.
+これで、ユーザーが認証されると、ナビゲーションバーに「Settings」リンクが表示されるようになります。
 
-### Settings Layout
+### 「Settings」にレイアウトを追加する
 
-While we're here, let's add a new layout for Settings so we can organize them in
-a sidebar. To do this, we're going to use a
-[Nested Layout](layouts_and_rendering.html#using-nested-layouts).
+ついでに、「Settings」用の新しいレイアウトを追加して、設定をサイドバーで整理できるようにしましょう。これは[ネステッドレイアウト](layouts_and_rendering.html#ネステッドレイアウトを使う)（nested layout）で実現します。
 
-A nested layout allows you add HTML (like a sidebar) while still rendering the
-application layout. This means we don't have to duplicate our head tags or
-navigation in our Settings layout.
+ネステッドレイアウトを使うことで、アプリケーションレイアウトをレンダリングしつつ、HTML（サイドバーなど）を追加できます。これにより、「Settings」のレイアウトでヘッドタグやナビゲーションを重複させる必要がなくなります。
 
-Let's create `app/views/layouts/settings.html.erb` and add the following:
+`app/views/layouts/settings.html.erb`レイアウトファイルを作成して、以下を追加します。
 
 ```erb
 <%= content_for :content do %>
@@ -556,13 +478,11 @@ Let's create `app/views/layouts/settings.html.erb` and add the following:
 <%= render template: "layouts/application" %>
 ```
 
-In the settings layout, we're providing HTML for the sidebar and telling Rails
-to render the application layout as the parent.
+「Settings」のレイアウトではサイドバー用のHTMLを提供し、アプリケーションレイアウトを親としてレンダリングするようRailsに指示しています。
 
-We need to modify the application layout to render the content from the nested
-layout using `yield(:content)`.
+そのためには、`yield(:content)`を使って、ネステッドレイアウトからのコンテンツをレンダリングするようにアプリケーションレイアウト（`app/views/layouts/application.html.erb`）を修正する必要があります。
 
-```erb#11,23
+```erb
 <!DOCTYPE html>
 <html>
   <head>
@@ -591,16 +511,13 @@ layout using `yield(:content)`.
 </html
 ```
 
-This allows the application controller to be used normally with `yield` or it
-can be a parent layout if `content_for(:content)` is used in a nested layout.
+これにより、アプリケーションコントローラを`yield`で通常通りに利用できるようになります。ネステッドレイアウト内で`content_for(:content)`が使われている場合は、親レイアウトとしても利用できます。
 
-We now have two separate `<nav>` tags, so we need to update our existing CSS
-selectors to avoid conflicts.
+2つのレイアウトの両方に`<nav>`タグがあるため、CSSセレクタを更新して競合を避ける必要があります。
 
-To do this, add the `.navbar` class to these selectors in
-`app/assets/stylesheets/application.css`.
+これを行うには、`app/assets/stylesheets/application.css`ファイル内にあるこれらのセレクタに`.navbar`クラスを追加します。
 
-```css#1,11
+```css
 nav.navbar {
   justify-content: flex-end;
   display: flex;
@@ -616,7 +533,7 @@ nav.navbar a {
 }
 ```
 
-Then add some CSS to display the Settings nav as a sidebar.
+次に、「Settings」レイアウトにサイドバー用のスタイルを設定します。
 
 ```css
 section.settings {
@@ -633,14 +550,11 @@ section.settings nav a {
 }
 ```
 
-To use this new layout, we can tell the controller we want to use a specific
-layout. We can add `layout "settings"` to any controller to change the layout
-that is rendered.
+コントローラで特定のレイアウトを指定することで、この新しいレイアウトを利用できます。`layout "settings"`を任意のコントローラに追加することで、レンダリングされるレイアウトを変更できます。
 
-Since we will have many controllers that use this layout, we can create a base
-class to define shared configuration and use inheritance to use them.
+このレイアウトは多くのコントローラで利用されるため、設定を共有するためのベースクラスを作成して共有設定を定義し、継承を使ってそれらを利用できます。
 
-Add `app/controllers/settings/base_controller.rb` and add the following:
+`app/controllers/settings/base_controller.rb`ファイルを作成し、以下を追加します。
 
 ```ruby
 class Settings::BaseController < ApplicationController
@@ -648,27 +562,25 @@ class Settings::BaseController < ApplicationController
 end
 ```
 
-Then update `app/controllers/settings/passwords_controller.rb` to inherit from
-this controller.
+次に、`app/controllers/settings/passwords_controller.rb`を更新して、このコントローラがベースコントローラを継承するようにします。
 
 ```ruby
 class Settings::PasswordsController < Settings::BaseController
 ```
 
-And update `app/controllers/settings/profiles_controller.rb` to inherit from it
-too.
+`app/controllers/settings/profiles_controller.rb`も同様に更新して、ベースコントローラを継承するようにします。
 
 ```ruby
 class Settings::ProfilesController < Settings::BaseController
 ```
 
-Deleting Accounts
+アカウントを削除する
 -----------------
 
-Next, let's add the ability to delete your account. We'll start by adding
-another namespaced route for account to `config/routes.rb`.
+次に、アカウントを削除する機能を追加しましょう。
+まず、`config/routes.rb`ファイルにアカウント用の別の名前空間化ルーティングを追加します。
 
-```ruby#4
+```ruby
 namespace :settings do
   resource :password, only: [ :show, :update ]
   resource :profile, only: [ :show, :update ]
@@ -678,8 +590,7 @@ namespace :settings do
 end
 ```
 
-To handle these new routes, create
-`app/controllers/settings/users_controller.rb` and add the following:
+これらの新しいルーティングを処理するために、`app/controllers/settings/users_controller.rb`ファイルを作成し、以下を追加します。
 
 ```ruby
 class Settings::UsersController < Settings::BaseController
@@ -694,13 +605,9 @@ class Settings::UsersController < Settings::BaseController
 end
 ```
 
-The controller for deleting accounts is pretty straightforward. We have a `show`
-action to display the page and a `destroy` action to logout and delete the user.
-It also inherits from `Settings::BaseController` so it will use the settings
-layout like the others.
+アカウント削除用のコントローラは非常にシンプルです。`show`アクションでページを表示し、`destroy`アクションでログアウトしてユーザーを削除します。また、他のコントローラと同様に`Settings::BaseController`を継承しているため、「Settings」レイアウトが使われます。
 
-Now let's add the view at `app/views/settings/users/show.html.erb` with the
-following:
+次に、`app/views/settings/users/show.html.erb`ファイルに以下のビューを追加します。
 
 ```erb
 <h1>Account</h1>
@@ -708,9 +615,9 @@ following:
 <%= button_to "Delete my account", settings_user_path, method: :delete, data: { turbo_confirm: "Are you sure? This cannot be undone." } %>
 ```
 
-And finally, we'll add a link to Account in the setting layout's sidebar.
+最後に、「Settings」レイアウトのサイドバーにアカウントへのリンクを追加します。
 
-```erb#7
+```erb
 <%= content_for :content do %>
   <section class="settings">
     <nav>
@@ -729,37 +636,32 @@ And finally, we'll add a link to Account in the setting layout's sidebar.
 <%= render template: "layouts/application" %>
 ```
 
-That's it! You can now delete your account.
+できました！これでアカウントを削除できるようになりました。
 
-Updating Email Addresses
+メールアドレスの更新機能を追加する
 ------------------------
 
-Occasionally, users need to change the email address on their account. To do
-this safely, we need to store the new email address and send an email to confirm
-the change.
+ユーザーがメールアドレスを変更する必要が生じることがあります。安全に変更を行うために、新しいメールアドレスを保存し、変更を確認するためのメールを送信する必要があります。
 
-### Adding Unconfirmed Email To Users
+### ユーザーによる確認が完了していないメールをusersテーブルに追加する
 
-We'll start by adding a new field to the users table in our database. This will
-store the new email address while we're waiting for confirmation.
+まず、データベースのusersテーブルに新しいフィールドを追加します。これは、確認を待っている間に新しいメールアドレスを保存するためのものです。
 
 ```bash
 $ bin/rails g migration AddUnconfirmedEmailToUsers unconfirmed_email:string
 ```
 
-Then migrate the database.
+続いて、データベースのマイグレーションを実行します。
 
 ```bash
 $ bin/rails db:migrate
 ```
 
+### メール用のルーティングとコントローラを追加する
 
-### Email Routes & Controller
+次に、`config/routes.rb`ファイル内の`settings`名前空間にメール用のルーティングを追加します。
 
-Next we can add an email route under the `:settings` namespace in
-`config/routes.rb`.
-
-```ruby#2
+```ruby
 namespace :settings do
   resource :email, only: [ :show, :update ]
   resource :password, only: [ :show, :update ]
@@ -770,8 +672,7 @@ namespace :settings do
 end
 ```
 
-Then we'll create `app/controllers/settings/emails_controller.rb` to display
-this.
+次に、これを表示するための`app/controllers/settings/emails_controller.rb`ファイルを作成します。
 
 ```ruby
 class Settings::EmailsController < Settings::BaseController
@@ -780,7 +681,7 @@ class Settings::EmailsController < Settings::BaseController
 end
 ```
 
-And finally, we'll create our view at `app/views/settings/emails/show.html.erb`:
+最後に、`app/views/settings/emails/show.html.erb`ファイルに以下の内容でビューを作成します。
 
 ```erb
 <h1>Change Email</h1>
@@ -806,14 +707,11 @@ And finally, we'll create our view at `app/views/settings/emails/show.html.erb`:
 <% end %>
 ```
 
-To keep things secure, we need to ask for the new email address and validate
-user's current password to ensure only the owner of the account can change the
-email.
+処理をセキュアにするため、新しいメールアドレスをユーザーが入力したら、ユーザーの現在のパスワードをバリデーションして、アカウントの所有者だけがメールを変更できるようにする必要があります。
 
-In our controller, we will validate the current password and save the new email
-address before sending an email to confirm the new email address.
+コントローラの`update`アクションでは、現在のパスワードをバリデーションし、新しいメールアドレスをテーブルに保存してから、新しいメールアドレスを確認するためのメールを送信します。
 
-```ruby#5-17
+```ruby
 class Settings::EmailsController < Settings::BaseController
   def show
   end
@@ -834,15 +732,13 @@ class Settings::EmailsController < Settings::BaseController
 end
 ```
 
-This uses the same `with_defaults(password_challenge: "")` as
-`Settings::PasswordsController` to trigger the password challenge validation.
+ここでは、`Settings::PasswordsController`の場合と同じ`with_defaults(password_challenge: "")`を使って、パスワードチャレンジのバリデーションをトリガーしています。
 
-We haven't created the `UserMailer` yet, so let's do that next.
+次に、まだ作成していなかった`UserMailer`メーラーを作成する必要があります。
 
-### New Email Confirmation
+### 新しいメールの確認
 
-Let's use the mailer generator to create the `UserMailer` we referenced in
-`Settings::EmailsController`:
+Railsのメーラージェネレータを使って、`Settings::EmailsController`で参照されている`UserMailer`を作成しましょう。
 
 ```bash
 $ bin/rails generate mailer User email_confirmation
@@ -856,10 +752,9 @@ $ bin/rails generate mailer User email_confirmation
       create    test/mailers/previews/user_mailer_preview.rb
 ```
 
-We'll need to generate a token to include in the email body. Open
-`app/models/user.rb` and add the following:
+メール本文に含めるためのトークンを生成する必要があります。`app/models/user.rb`ファイルを開いて、以下を追加します。
 
-```ruby#9-15
+```ruby
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
@@ -882,16 +777,13 @@ class User < ApplicationRecord
 end
 ```
 
-This adds a token generator we can use for email confirmations. The token
-encodes the unconfirmed email, so it becomes invalid if the email changes or the
-token expires.
+これで、メール確認用のトークンを生成する`generates_token_for`メソッドが追加されました。このトークンには確認完了前のメールアドレスがエンコードされるため、メールアドレスが異なっていたりトークンが期限切れになった場合は無効になります。
 
-Let's update `app/mailers/user_mailer.rb` to generate a new token for the email:
+次に、`app/mailers/user_mailer.rb`ファイルを更新して、メール用の新しいトークンを生成しましょう。
 
-```ruby#6-9
+```ruby
 class UserMailer < ApplicationMailer
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
+  # メールの件名は、I18n用のconfig/locales/en.ymlファイルで以下のように設定可能
   #
   #   en.user_mailer.email_confirmation.subject
   def email_confirmation
@@ -901,8 +793,7 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-We'll include the token in the HTML view at
-`app/views/user_mailer/email_confirmation.html.erb`:
+このトークン（`@token`）を、`app/views/user_mailer/email_confirmation.html.erb`ファイルのHTMLビューに含めます。
 
 ```erb
 <h1>Verify your email address</h1>
@@ -910,18 +801,17 @@ We'll include the token in the HTML view at
 <p><%= link_to "Confirm your email", email_confirmation_url(token: @token) %></p>
 ```
 
-And `app/views/user_mailer/email_confirmation.text.erb`:
+`app/views/user_mailer/email_confirmation.text.erb`ファイルにも同様にトークンを含めます。
 
 ```erb
 Confirm your email: <%= email_confirmation_url(token: @token) %>
 ```
 
-### Email Confirmation Controller
+### メール確認
 
-The confirmation email includes a link to our Rails app to verify the email
-change.
+確認メールには、Railsアプリへのリンクが含まれています。このリンクをクリックすると、メールアドレスの変更が確認されます。
 
-Let's add a route for this to `config/routes.rb`
+`config/routes.rb`ファイルで以下のようにルーティングを追加しましょう。
 
 ```ruby
 namespace :email do
@@ -929,11 +819,9 @@ namespace :email do
 end
 ```
 
-When a user clicks a link in their email, it will open a browser and make a GET
-request to the app. This means we only need the `show` action for this
-controller.
+ユーザーが確認メールのリンクをクリックすると、アプリがGETリクエストを受け取ります。このため、このコントローラで必要なのは`show`アクションだけです。
 
-Next, add the following to `app/controllers/email/confirmations_controller.rb`
+次に、`app/controllers/email/confirmations_controller.rb`ファイルに以下を追加します。
 
 ```ruby
 class Email::ConfirmationsController < ApplicationController
@@ -951,16 +839,11 @@ class Email::ConfirmationsController < ApplicationController
 end
 ```
 
-We want to confirm the email address whether the user is authenticated or not,
-so this controller allows unauthenticated access. We use the `find_by_token_for`
-method to validate the token and look up the matching `User` record. If
-successful, we call the `confirm_email` method to update the user's email and
-reset `unconfirmed_email` to `nil`. If the token isn't valid, the `user`
-variable will be `nil`, and we will display an alert message.
+メールアドレスの確認は、ユーザーが認証済みであってもなくても行えるようにしたいので、このコントローラでは認証されていないアクセスを許可しています。トークンを`find_by_token_for`メソッドで検証し、`User`モデル内の一致するレコードを検索します。成功した場合は、`confirm_email`メソッドを呼び出してユーザーのメールアドレスを更新し、`unconfirmed_email`を`nil`にリセットします。トークンが有効でない場合、`user`変数は`nil`になり、アラートメッセージを表示します。
 
-Finally, let's add a link to Email in the settings layout sidebar:
+最後に、「Settings」レイアウトのサイドバーにメール送信用のリンクを追加しましょう（`settings_email_path`）。
 
-```erb#6
+```erb
 <%= content_for :content do %>
   <section class="settings">
     <nav>
@@ -980,49 +863,38 @@ Finally, let's add a link to Email in the settings layout sidebar:
 <%= render template: "layouts/application" %>
 ```
 
-Test out this process by navigating to https://localhost:3000/settings/email and
-updating your email address. Watch the Rails server logs for the email contents
-and open the confirm link in your browser to update the email in the database.
+この機能を試すには、ブラウザで`https://localhost:3000/settings/email`を開いてメールアドレスを更新します。次にメールの内容をRailsサーバーログで確認し、ブラウザで確認リンクを開いてデータベース内のメールアドレスを更新します。
 
-Separating Admins & Users
+管理者とユーザーを分離する
 -------------------------
 
-Now that anyone can sign up for an account on our store, we need to
-differentiate between regular users and admins.
+誰でもstoreアプリでアカウントを作成できるようになったので、通常のユーザーと管理者を区別する必要があります。
 
-### Adding An Admin Flag
+### 管理者フラグを追加する
 
-We'll start by adding a column to the User model.
+まず、`User`モデルにカラムを追加します。
 
 ```bash
 $ bin/rails g migration AddAdminToUsers admin:boolean
 ```
 
-Then migrate the database.
+次に、データベースをマイグレーションします。
 
 ```bash
 $ bin/rails db:migrate
 ```
 
-A `User` with `admin` set to `true` should be able to add and remove products
-and access other administrative areas of the store.
+`User`モデルで`admin`を`true`に設定すると、そのユーザーはstoreアプリの管理者となり、製品の削除などの管理タスクを実行できるようになります。
 
-### Readonly Attributes
+### Readonly属性
 
-We need to be very careful that `admin` is not editable by any malicious users.
-This is easy enough by keeping the `:admin` attribute out of any permitted
-parameters list.
+`admin`属性が悪意のあるユーザーによって編集されることのないように十分注意する必要があります。これは、`:admin`属性を許可されたパラメータリストから外すことで簡単に実現できます。
 
-Optionally, we can mark the admin attribute as readonly for added security. This
-will tell Rails to raise an error anytime the admin attribute is changed. It can
-still be set when creating a record, but provides an additional layer of
-security against unauthorized changes. You may want to skip this if you'll be
-changing the admin flag for users often but in our e-commerce store, it's a
-useful safeguard.
+オプションとして、セキュリティをさらに強化するために`admin`属性を読み取り専用としてマーキングする方法もあります。これにより、`admin`属性が変更されるたびにRailsでエラーが発生するようになります。レコードの作成時には引き続き`admin`属性を設定できますが、不正な変更に対する追加のセキュリティ層が提供されます。ユーザーの`admin`フラグを頻繁に変更する場合はこのオプションを導入しないことも可能ですが、このeコマースストアでは有用な保護手段です。
 
-We can add `attr_readonly` in our model to protect the attribute from updates.
+以下のようにモデルに`attr_readonly`属性を追加することで、属性の更新を防止できます。
 
-```ruby#5
+```ruby
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
@@ -1032,11 +904,9 @@ class User < ApplicationRecord
   # ...
 ```
 
-When `admin` is read-only, we have to directly update this in the database
-instead of using Active Record.
+`admin`属性を読み取り専用にすると、`admin`属性をActive Record経由で更新できなくなります。代わりに、データベースに対して直接SQL操作を行って`admin`属性を更新する必要があります。
 
-Rails has a command called `dbconsole` that will open a database console where
-we can directly interact with the database using SQL.
+Railsには、データベースに直接アクセスするための`dbconsole`コマンドがあります。これを用いて、データベースとSQLで直接対話できます。
 
 ```bash
 $ bin/rails dbconsole
@@ -1045,27 +915,24 @@ Enter ".help" for usage hints.
 sqlite>
 ```
 
-In the SQLite prompt, we can update the admin column for a record using an
-`UPDATE` statement and using `WHERE` to filter to a single user ID.
+表示されたSQLiteプロンプトで、レコードの`admin`カラムを`UPDATE`文で更新し、`WHERE`で特定のユーザーIDに絞り込めます。
 
 ```sql
 UPDATE users SET admin=true WHERE users.id=1;
 ```
 
-To close the SQLite prompt, enter the following command:
+SQLiteプロンプトを閉じるには、以下のコマンドを入力します。
 
 ```
 .quit
 ```
 
-Viewing All Users
+すべてのユーザーを表示する
 -----------------
 
-As a store admin, we will want to view and manage users for customer support,
-marketing and other use cases.
+storeアプリの管理者は、顧客サポートやマーケティングなどのユースケースのために、ユーザーの表示や管理機能を必要とします。
 
-First, we'll need to add a route for users in a new `store` namespace in
-`config/routes.rb`.
+まず、`config/routes.rb`ファイルに新しい`store`名前空間でユーザーのルーティングを追加しましょう。
 
 ```ruby
 # Admins Only
@@ -1074,13 +941,11 @@ namespace :store do
 end
 ```
 
-### Adding Admin Only Access
+### 管理者限定のアクセスを追加する
 
-The controller for users should be accessible to admins only. Before we create
-that controller, let's create an `Authorization` module with a class method to
-restrict access to admins only.
+ユーザーのコントローラへのアクセスは管理者のみに限定する必要があります。コントローラを作成する前に、管理者アクセスのみに制限するクラスメソッドを備えた`Authorization`モジュールを作成しましょう。
 
-Create `app/controllers/concerns/authorization.rb` with the following code:
+`app/controllers/concerns/authorization.rb`ファイルを作成して、以下のコードを追加します。
 
 ```ruby
 module Authorization
@@ -1094,10 +959,10 @@ module Authorization
 end
 ```
 
-To use this module in our controllers, include it in
-`app/controllers/application_controller.rb`
+作成した`Authorization`モジュールをコントローラで利用するには、`app/controllers/application_controller.rb`ファイルで以下のように`include`します。
 
-```ruby#3
+
+```ruby
 class ApplicationController < ActionController::Base
   include Authentication
   include Authorization
@@ -1105,14 +970,11 @@ class ApplicationController < ActionController::Base
   # ...
 ```
 
-The `Authorization` module features can be used in any controller in our app.
-This module provides a home for any additional helpers to manage access for
-admins or other types of roles in the future.
+この`Authorization`モジュールの機能は、アプリ内の任意のコントローラで利用できます。このモジュールは、将来的に管理者や他のタイプのロールのアクセスを管理するための追加ヘルパーを配置する場所にもなります。
 
-### Users Controller & Views
+### Usersコントローラとビューを追加する
 
-First, create a base class for the `store` namespace at
-`app/controllers/store/base_controller.rb`.
+まず、`app/controllers/store/base_controller.rb`ファイルに`store`名前空間を持つベースクラスを作成します。
 
 ```ruby
 class Store::BaseController < ApplicationController
@@ -1121,11 +983,9 @@ class Store::BaseController < ApplicationController
 end
 ```
 
-This controller will restrict access to admins only using the
-`admin_access_only` method we just created. It will also use the same settings
-layout to display the sidebar.
+このコントローラへのアクセスは、先ほど作成した`admin_access_only`メソッドによって管理者のみに制限されます。また、サイドバーを表示するときも同じ「Settings」レイアウトを利用します。
 
-Next, create `app/controllers/store/users_controller.rb` and add the following:
+次に、`app/controllers/store/users_controller.rb`ファイルを作成し、以下のコードを追加します。
 
 ```ruby
 class Store::UsersController < Store::BaseController
@@ -1163,10 +1023,9 @@ class Store::UsersController < Store::BaseController
 end
 ```
 
-This gives admins the ability to read, update, and destroy users in the
-database.
+これで、管理者はデータベース上のユーザーの一覧表示、編集、更新、削除ができるようになりました。
 
-Next, let's create the index view at `app/views/store/users/index.html.erb`
+次に、`app/views/store/users/index.html.erb`ファイルでインデックスビューを作成しましょう。
 
 ```erb
 <h1><%= pluralize @users.count, "user" %></h1>
@@ -1178,14 +1037,14 @@ Next, let's create the index view at `app/views/store/users/index.html.erb`
 <% end %>
 ```
 
-Then, the edit user view at `app/views/store/users/edit.html.erb`:
+次に、`app/views/store/users/edit.html.erb`ファイルで編集ビューを作成します。
 
 ```erb
 <h1>Edit User</h1>
 <%= render "form", user: @user %>
 ```
 
-And the form partial at `app/views/store/users/_form.html.erb`:
+フォームのパーシャルを`app/views/store/users/_form.html.erb`ファイルに作成します。
 
 ```erb
 <%= form_with model: [ :store, user ] do |form| %>
@@ -1210,7 +1069,7 @@ And the form partial at `app/views/store/users/_form.html.erb`:
 <% end %>
 ```
 
-And finally, the user show view at `app/views/store/users/show.html.erb`:
+最後に、ユーザー表示用のビューを`app/views/store/users/show.html.erb`ファイルに作成します。
 
 ```erb
 <%= link_to "Back to all users", store_users_path %>
@@ -1224,16 +1083,13 @@ And finally, the user show view at `app/views/store/users/show.html.erb`:
 </div>
 ```
 
-### Settings Navigation
+### 「Settings」へのリンクを追加する
 
-Next, we want to add this to the Settings sidebar navigation. Since this should
-be only visible to admins, we need to wrap it in a conditional to ensure the
-current user is an admin.
+次に、この管理画面へのリンクを「Settings」サイドバーのナビゲーションに追加しましょう。これは管理者にのみ表示されるべきなので、現在のユーザーが管理者であることを確認する条件でラップする必要があります。
 
-Add the following to the settings layout in
-`app/views/layouts/settings.html.erb`:
+`app/views/layouts/settings.html.erb`ファイルの「Settings」レイアウトに以下を追加します。
 
-```erb#10-13
+```erb
 <%= content_for :content do %>
   <section class="settings">
     <nav>
@@ -1258,22 +1114,16 @@ Add the following to the settings layout in
 <%= render template: "layouts/application" %>
 ```
 
-Separating Products Controllers
+Productsコントローラを分離する
 -------------------------------
 
-Now that we have a separation for regular users and admins, we can re-organize
-our Products controller to take advantage of this change. Instead of a single
-controller, we can split the Products controller in two: one public facing and
-one admin facing.
+一般ユーザーと管理者を分離できたので、これに合わせてProductsコントローラを再編成できるようになりました。従来の単一のProductsコントローラを、公開用と管理用の2つに分割できます。
 
-The public facing controller will handle the storefront views and the admin
-controller will handle managing products.
+公開用のProductsコントローラはストアフロントのビューを処理し、管理用のコントローラは製品管理を担当します。
 
-### Public Products Controller
+### 公開用のProductsコントローラ
 
-For the public storefront, we only need to let users view products. This means
-`app/controllers/products_controller.rb` can be simplified down to the
-following.
+一般向けのストアフロントでは、製品を表示するだけで十分です。つまり、`app/controllers/products_controller.rb`は以下のようにシンプルな形に変更できます。
 
 ```ruby
 class ProductsController < ApplicationController
@@ -1289,28 +1139,25 @@ class ProductsController < ApplicationController
 end
 ```
 
-We can then adjust the views for the products controller.
+続いて、Productsコントローラのビューを調整しましょう。
 
-First, let's copy these views to the `store` namespace since this is where we
-want to manage products for the store.
+まず、従来のProducts用ビューを`store`名前空間にコピーしましょう。この名前空間でストア用の製品管理を行います。
 
 ```bash
 $ cp -R app/views/products app/views/store
 ```
 
-### Clean Up Public Product Views
+### 公開用のProductsビューをクリーンアップする
 
-Now let's remove all the create, update and destroy functionality from the
-public product views.
+それでは、公開用のProductsビューから作成・更新・削除の機能をすべて削除しましょう。
 
-In `app/views/products/index.html.erb`, let's remove the link to "New product".
-We'll use the Settings area to create new products instead.
+`app/views/products/index.html.erb`ファイルから"New product"へのリンクを削除します。今後は、管理者が「Settings」エリアで新しい製品を作成します。
 
 ```diff
 -<%= link_to "New product", new_product_path if authenticated? %>
 ```
 
-Remove the Edit and Delete links in `app/views/products/show.html.erb`
+`app/views/products/show.html.erb`ファイルから、編集と削除のリンクを削除します。
 
 ```diff
 -    <% if authenticated? %>
@@ -1319,18 +1166,17 @@ Remove the Edit and Delete links in `app/views/products/show.html.erb`
 -    <% end %>
 ```
 
-Then remove:
+以下はファイルごと削除します。
 
 - `app/views/products/new.html.erb`
 - `app/views/products/edit.html.erb`
 - `app/views/products/_form.html.erb`
 
-### Admin Products CRUD
+### 管理者用のProducts CRUDを追加する
 
-First, let's add the namespaced route for products to `config/routes.rb` and
-also set a root route for this namespace:
+まず、`config/routes.rb`ファイルにProductsへのルーティングを`store`名前空間付きで追加しましょう。
 
-```ruby#2,5
+```ruby
   namespace :store do
     resources :products
     resources :users
@@ -1339,10 +1185,9 @@ also set a root route for this namespace:
   end
 ```
 
-And then update the settings layout navigation in
-`app/views/layouts/settings.html.erb`:
+続いて、`app/views/layouts/settings.html.erb`ファイルのサイドバーにProductsの管理画面へのリンクを追加します。
 
-```erb#12
+```erb
 <%= content_for :content do %>
   <section class="settings">
     <nav>
@@ -1368,7 +1213,7 @@ And then update the settings layout navigation in
 <%= render template: "layouts/application" %>
 ```
 
-Next, create `app/controllers/store/products_controller.rb` with the following:
+次に、`app/controllers/store/products_controller.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 class Store::ProductsController < Store::BaseController
@@ -1421,22 +1266,18 @@ class Store::ProductsController < Store::BaseController
 end
 ```
 
-This controller is almost the same as `ProductsController` previously, but two
-important changes:
+このコントローラは、従来の`ProductsController`とほぼ同じですが、2つの重要な変更点があります。
 
-1. We have `admin_access_only` to restrict access to admin users only.
-2. Redirects use the `store` namespace to keep the user in the store settings
-   area.
+1. `admin_access_only`を追加して、管理者ユーザーのみにアクセスを制限するようになった。
+2. リダイレクトで`store`名前空間を使うことで、管理者ユーザーをストアの「Settings」に留めるようにした。
 
-### Updating Admin Product Views
+### 管理者用のProductsビューを更新する
 
-The admin views need some tweaks to work inside the `store` namespace.
+管理者用のビューは、`store`名前空間内で動作するようにいくつかの調整が必要です。
 
-First, let's fix the form by updating the `model:` argument to use the `store`
-namespace. We should also display validation errors in the form while we're
-here.
+まず、`form_with`メソッドの`model:`引数で`store`名前空間を使うように更新します。また、このビュー内でバリデーションエラーを表示するようにします。
 
-```erb#1-4
+```erb
 <%= form_with model: [ :store, product ] do |form| %>
   <% if form.object.errors.any? %>
     <div>Error: <%= form.object.errors.full_messages.first %></div>
@@ -1450,11 +1291,9 @@ here.
   <%# ... %>
 ```
 
-Then we can remove the `authenticated?` check from
-`app/views/store/products/index.html.erb` and use the `store` namespace for
-links:
+`app/views/store/products/index.html.erb`ファイルの`authenticated?`チェックを削除し、リンクも`store`名前空間で更新します。
 
-```erb#3,8
+```erb
 <h1><%= t ".title" %></h1>
 
 <%= link_to "New product", new_store_product_path %>
@@ -1468,11 +1307,9 @@ links:
 </div>
 ```
 
-Since this view is now in the `store` namespace, the h1 tag's relative
-translation cannot be found. We can add another translation to
-`config/locales/en.yml` to fix this:
+このビューは`store`名前空間に移動したので、見出しの`<h1>`タグの相対的な訳文を参照できなくなっています。これを修正するために、`config/locales/en.yml`に以下の訳文を追加できます。
 
-```yaml#7-10
+```yaml
 en:
   hello: "Hello world"
   products:
@@ -1490,28 +1327,27 @@ en:
         password_challenge: "Current password"
 ```
 
-We need to update the Cancel link to use the `store` namespace in
-`app/views/store/products/new.html.erb`:
+`app/views/store/products/new.html.erb`ファイル内の"Cancel"リンクも`store`名前空間で更新する必要があります。
 
-```erb#4
+```erb
 <h1>New product</h1>
 
 <%= render "form", product: @product %>
 <%= link_to "Cancel", store_products_path %>
 ```
 
-Do the same in `app/views/store/products/edit.html.erb`:
+`app/views/store/products/edit.html.erb`ファイルも同様に更新します。
 
-```erb#4
+```erb
 <h1>Edit product</h1>
 
 <%= render "form", product: @product %>
 <%= link_to "Cancel", store_product_path(@product) %>
 ```
 
-Update `app/views/store/products/show.html.erb` with the following:
+`app/views/store/products/show.html.erb`ファイルも以下のように更新します。
 
-```erb#1,12-14
+```erb
 <p><%= link_to "Back", store_products_path %></p>
 
 <section class="product">
@@ -1530,35 +1366,28 @@ Update `app/views/store/products/show.html.erb` with the following:
 </section>
 ```
 
-This updates the `show` action so that:
+これで、`show`アクションが以下のように更新されました。
 
-- Links now use to the `store` namespace.
-- A "View in Storefront" link is added to make it easier for admins to see how a
-  product looks to the public.
-- The inventory partial is removed since that's only useful on the public
-  storefront.
+- リンクで`store`名前空間が使われるようになった。
+- "View in Storefront"リンクが追加され、管理者が製品の一般向け表示を手軽に確認できるようになった。
+- 一般向けストアフロント以外では不要なパーシャルテンプレートを削除可能になった。
 
-Since we're not using the `_inventory.html.erb` partial in the admin area, let's
-remove it:
+管理画面では`_inventory.html.erb`パーシャルが不要になったため、削除しましょう。
 
 ```bash
 $ rm app/views/store/products/_inventory.html.erb
 ```
 
-Adding Tests
+テストを追加する
 ------------
 
-Let's add some tests to verify that our features work correctly.
+機能が正常に動作することを検証するため、テストをいくつか追加しましょう。
 
-### Authentication Test Helpers
+### 認証テストのヘルパーを追加する
 
-In our test suite, we'll need to sign in users in our tests. The Rails
-authentication generator has been updated to include helpers for authentication,
-but your application may have been created before this, so let's ensure these
-files exist before writing our tests.
+このテストスイートでは、ユーザーをテスト内でサインインさせる必要があります。Railsの認証ジェネレータは認証用のヘルパーを含むように更新されていますが、認証ジェネレータがなかった時期にアプリケーションを作成した場合は、テストを書き始める前にこれらのファイルが存在することを確認しておきましょう。
 
-In `test/test_helpers/session_test_helper.rb`, you should see the following. If
-you don't, go ahead and create this file.
+`test/test_helpers/session_test_helper.rb`ファイルには以下の内容が含まれているはずです。このファイルが存在しない場合は、ファイルを作成します。
 
 ```ruby
 module SessionTestHelper
@@ -1578,10 +1407,9 @@ module SessionTestHelper
 end
 ```
 
-In `test/test_helper.rb`, you should see these lines. If not, go ahead and add
-them.
+`test/test_helper.rb`には以下のコードがあるはずです。ない場合は追加しておきましょう。
 
-```ruby#4,8
+```ruby
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
@@ -1591,24 +1419,22 @@ module ActiveSupport
   class TestCase
     include SessionTestHelper
 
-    # Run tests in parallel with specified workers
+    # ワーカー数を指定してテストを並列実行する
     parallelize(workers: :number_of_processors)
 
-    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+    # test/fixtures/*.yml内のすべてのフィクスチャをアルファベット順でセットアップする
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    # 全テスト共通で使われるヘルパーメソッドをここに追加する
   end
 end
 ```
 
-### Testing Sign Up
+### サインアップ機能をテストする
 
-We have a few different things to test for sign up. Let's start with a simple
-test to view the page.
+サインアップに関してテストするべきことがいくつかあります。まずは、ページを表示するためのシンプルなテストから始めましょう。
 
-Create a controller test at `test/controllers/sign_ups_controller_test.rb` with
-the following:
+`test/controllers/sign_ups_controller_test.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 require "test_helper"
@@ -1621,9 +1447,9 @@ class SignUpsControllerTest < ActionDispatch::IntegrationTest
 end
 ```
 
-This test will visit `/sign_up` and ensure that it receives a 200 OK response.
+このテストは、`/sign_up`にアクセスしたときに"200 OK"レスポンスが返されることを確認します。
 
-Let's run the test and see if it passes:
+テストを実行してパスするかどうかを確認しましょう。
 
 ```bash
 $ bin/rails test test/controllers/sign_ups_controller_test.rb:4
@@ -1638,10 +1464,9 @@ Finished in 0.559107s, 1.7886 runs/s, 1.7886 assertions/s.
 1 runs, 1 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-Next, let's sign in a user and try to visit the sign up page. In this situation,
-the user should be redirected because they're already authenticated.
+次に、ユーザーをサインインさせてサインアップページにアクセスしてみましょう。この場合、ユーザーは既に認証済みなので、リダイレクトされるはずです。
 
-Add the following test to the file.
+以下のテストをファイルに追加します。
 
 ```ruby
 test "view sign up when authenticated" do
@@ -1651,10 +1476,9 @@ test "view sign up when authenticated" do
 end
 ```
 
-Run the tests again and you should see this one passes too.
+テストを再実行すると、このテストもパスするはずです。
 
-Next, let's add a test to ensure a new user is created when they fill out the
-form.
+次に、フォームに入力したときに新しいユーザーが作成されることを確認するテストを追加しましょう。
 
 ```ruby
 test "successful sign up" do
@@ -1665,10 +1489,9 @@ test "successful sign up" do
 end
 ```
 
-For this test, we need submit params with a POST request to test the `create`
-action.
+このテストでは、`create`アクションをテストするためにPOSTリクエストでパラメータを送信する必要があります。
 
-Let's also test with invalid data to ensure the controller returns an error.
+無効なデータを渡すとコントローラがエラーを返すことを確認することもテストしましょう。
 
 ```ruby
 test "invalid sign up" do
@@ -1679,13 +1502,9 @@ test "invalid sign up" do
 end
 ```
 
-This test should be invalid because the user's name is missing. Since this
-request is invalid, we need to assert the response is a 422 Unprocessable
-Entity. We can also assert that there is no difference in the `User.count` to
-ensure no User was created.
+このテストではユーザー名を指定していないので、無効になるはずです。このリクエストは無効なので、レスポンスが"422 Unprocessable Entity"になるというアサーションが必要です。また、`User.count`の値が変わらないというアサーションによって、無効なリクエストでユーザーが作成されないことも確認できます。
 
-Another important test to add is ensuring that sign up does not accept the
-`admin` attribute.
+次に追加する重要なテストは、サインアップに`admin`属性を渡せないことを確認するテストです。
 
 ```ruby
 test "sign up ignores admin attribute" do
@@ -1697,19 +1516,15 @@ test "sign up ignores admin attribute" do
 end
 ```
 
-This test is just like a successful sign up, but it tries to set `admin: true`.
-After asserting the user is created, we also need to assert that the user is
-_not_ an admin.
+これは、先ほどの成功するサインアップと同じテストですが、`admin: true`を不正に設定しようとしている点が異なります。ユーザーが作成されたというアサーションに続いて、ユーザーが管理者「ではない」というアサーションも必要です。
 
-### Testing Email Changes
+### メールアドレスの変更機能をテストする
 
-Changing a user's email is a multi-step process that is important to test as
-well.
+ユーザーのメールアドレス変更機能は複数のステップで構成されるため、これもテストしておくことが重要です。
 
-To start, let's create a controller test to ensure the email update form handles
-everything correctly.
+まず、メールアアドレのｎ更新フォームがすべて正しく処理されることを確認するためのコントローラテストを作成しましょう。
 
-In `test/controllers/settings/emails_controller_test.rb` add the following:
+`test/controllers/settings/emails_controller_test.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 require "test_helper"
@@ -1726,12 +1541,9 @@ class Settings::EmailsControllerTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Our first test is going to be a submission with an invalid password challenge.
-For this, we want to ensure the response is an error and the unconfirmed email
-was not changed. We can also ensure that no emails were sent in this case as
-well.
+1つ目のテストは、無効なパスワードチャレンジを含むフォーム送信をテストします。ここでは、レスポンスがエラーになることと、`unconfirmed_email`属性が変更されていないことを確認します。メールが送信されていないこともこのテストで確認できます。
 
-Then we can write a test for the success case:
+次に、フォーム送信が成功した場合のテストを作成します。
 
 ```ruby
 test "sends email confirmation on successful update" do
@@ -1744,11 +1556,9 @@ test "sends email confirmation on successful update" do
 end
 ```
 
-This tests submits successful params, confirms the email is saved to the
-database, the user was redirected and the confirmation email was queued for
-delivery.
+このテストは、有効なパラメータを送信したときに、メールアドレスがデータベースに保存されることと、ユーザーがリダイレクトされ、確認メールが配信キューに登録されることを確認します。
 
-Let's run these tests and make sure they pass:
+これらのテストを実行して、すべてのテストがパスすることを確認しましょう。
 
 ```bash
 $ bin/rails test test/controllers/settings/emails_controller_test.rb
@@ -1763,11 +1573,9 @@ Finished in 0.954590s, 2.0951 runs/s, 6.2854 assertions/s.
 2 runs, 6 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-We also need to test the `Email::ConfirmationsController` to ensure confirmation
-tokens are validated the email update process completes successfully.
+`Email::ConfirmationsController`のテストも必要です。メールアドレス更新の確認用トークンが期待通りバリデーションされ、メールアドレスの更新プロセスが正常に完了することを確認します。
 
-Let's add another controller test at
-`test/controllers/email/confirmations_controller_test.rb` with the following:
+`test/controllers/email/confirmations_controller_test.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 require "test_helper"
@@ -1795,17 +1603,11 @@ class Email::ConfirmationsControllerTest < ActionDispatch::IntegrationTest
 end
 ```
 
-The first test simulates a user confirming their email change with an invalid
-token. We assert the error message was set and the email address did not change.
+1つ目のテストは、無効なトークンでメールアドレスの変更を確認しようとするシナリオをシミュレートします。エラーメッセージが表示されるというアサーションと、メールアドレスが変更されていないというアサーションを行っています。
 
-The second test uses valid token and asserts the success notice was set and the
-email address was updated in the database.
+2つ目のテストは、有効なトークンでメールアドレスの変更を確認するシナリオをシミュレートします。成功メッセージが表示されるというアサーションと、データベース内のメールアドレスが更新されているというアサーションを行っています。
 
-We need to fix one more test related to email confirmations and that is the
-automatically generated tests for `UserMailer`. Let's update that to match our
-application logic.
-
-Change `test/mailers/user_mailer_test.rb` to the following:
+`test/mailers/user_mailer_test.rb`ファイルを以下の内容で更新します。
 
 ```ruby
 require "test_helper"
@@ -1822,20 +1624,15 @@ class UserMailerTest < ActionMailer::TestCase
 end
 ```
 
-This test ensures the user has an `unconfirmed_email` and the email is sent to
-that email address. It also ensures that the email body contains the path to
-`/email/confirmations` so we know it contains the link for the user to click and
-confirm their new email address.
+このテストでは、ユーザーの`unconfirmed_email`属性が設定されていることを確認し、そのメールアドレスにメールが送信されることを確認します。メール本文に`/email/confirmations/`パスが含まれていることも確認します。これにより、ユーザーがクリックして新しいメールアドレスを確認するためのリンクがメールに含まれていることを確認できます。
 
-### Testing Settings
+### 「Settings」ナビゲーションをテストする
 
-Another area that we should test is the Settings navigation. We want to ensure
-the appropriate links are visible to admins and not visible to regular users.
+もう1つテストすべき領域は、設定ナビゲーションです。管理者に適切なリンクが表示され、通常のユーザーには表示されないことを確認したいと思います。
 
-Let's first create an admin user fixture in `test/fixtures/users.yml` and add
-names to the fixtures so they pass validations.
+まず、`test/fixtures/users.yml`に管理者ユーザーのフィクスチャを作成し、通常ユーザーの名前も追加して、バリデーションにパスするようにします。
 
-```yaml#6-7,12-13,15-20
+```yaml
 <% password_digest = BCrypt::Password.create("password") %>
 
 one:
@@ -1858,7 +1655,7 @@ admin:
   admin: true
 ```
 
-Then create a test file for this at `test/integration/settings_test.rb`.
+続いて、このフィクスチャを使うテストを`test/integration/settings_test.rb`ファイルに作成します。
 
 ```ruby
 require "test_helper"
@@ -1880,16 +1677,15 @@ class SettingsTest < ActionDispatch::IntegrationTest
 end
 ```
 
-These tests ensure that only admins will see the Store settings in the navbar.
+これらのテストによって、管理者のナビゲーションバーにだけストアの「Settings」を表示できることを確認できます。
 
-You can run these tests with:
+以下のコマンドでこれらのテストを実行できます。
 
 ```bash
 $ bin/rails test test/integration/settings_test.rb
 ```
 
-We also want to ensure regular users cannot access the Store settings for
-Products and Users. Let's add some tests for that.
+一般ユーザーがProductsとUsersのストア「Settings」にアクセスできないことも確認しておきたいと思います。これらのテストも追加しましょう。
 
 ```ruby
 test "regular user cannot access /store/products" do
@@ -1907,11 +1703,9 @@ test "regular user cannot access /store/users" do
 end
 ```
 
-These tests use a regular user to access the admin only areas and ensures they
-are redirected away with a flash message.
+これらのテストでは、管理者専用エリアに一般ユーザーがアクセスしようとすると、リダイレクトされてフラッシュメッセージが表示されることが確認されます。
 
-Let's complete these tests by ensuring that admin users _can_ access these
-areas.
+最後に、管理者ユーザーが管理者専用エリアにアクセス可能であることを確認するテストを追加しましょう。
 
 ```ruby
 test "admins can access /store/products" do
@@ -1927,7 +1721,7 @@ test "admins can access /store/users" do
 end
 ```
 
-Run the test file again and you should see they all pass.
+テストを再実行して、すべてのテストがパスすることを確認します。
 
 ```bash
 $ bin/rails test test/integration/settings_test.rb
@@ -1942,7 +1736,7 @@ Finished in 0.625542s, 9.5917 runs/s, 12.7889 assertions/s.
 6 runs, 8 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-And let's run the full test suite one more time to make sure all the tests pass.
+最後にテストスイート全体をもう一度実行して、すべてのテストがパスすることを確認します。
 
 ```bash
 $ bin/rails test
@@ -1957,26 +1751,22 @@ Finished in 0.915621s, 19.6588 runs/s, 51.3313 assertions/s.
 18 runs, 47 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-Great! Now, let's deploy this to production.
+素晴らしい！それではこれをproduction環境にデプロイしましょう。
 
-Deploying To Production
+production環境にデプロイする
 -----------------------
 
-Since we previously setup Kamal in the
-[Getting Started Guide](getting_started.html#deploying-to-production), we just
-need to push our code changes to our Git repository and run:
+[Railsをはじめよう](getting_started.html#kamalでproduction環境にデプロイする)ガイドでKamalをセットアップしているので、コードの変更をGitリポジトリにプッシュして、以下のコマンドを実行するだけでデプロイは完了します。
 
 ```bash
 $ bin/kamal deploy
 ```
 
-This will build a new container for our application and deploy it to our
-production server.
+これで、storeアプリケーションの新しいコンテナがビルドされ、productionサーバーにデプロイされます。
 
-### Setting Admins In Production
+### production環境で管理者アカウントを設定する
 
-If you added `attr_readonly :admin`, you'll need to use the dbconsole to update
-your account.
+`User``atにｎr_readonly :admin`を追加した場合は、以下のようにdbconsoleでアカウントを更新する必要があります。
 
 ```bash
 $ bin/kamal dbc
@@ -1984,27 +1774,26 @@ UPDATE users SET admin=true WHERE users.email='you@example.org';
 .quit
 ```
 
-Otherwise, you can use the Rails console to update your account.
+あるいは、以下のようにRailsコンソールでアカウントを更新することも可能です。
 
 ```bash
 $ bin/kamal console
 irb> User.find_by(email: "you@example.org").update(admin: true)
 ```
 
-You can now access the Store settings in production with your account.
+これで、このアカウントを使ってproduction環境でStoreの「Settings」にアクセスできるようになりました。
 
-What's Next
+今後の機能
 -----------
 
-You did it! Your e-commerce store now supports user sign up, account management,
-and an admin area for managing products and users.
+以上ですべて完了しました！eコマースストアで「サインアップ」「アカウント管理」「製品とユーザーの管理用の管理者エリア」がサポートされるようになりました。
 
-Here are a few ideas to build on to this:
+これらの機能を元にして、さらに以下のような機能も構築できます。
 
-- Add shareable wishlists
-- Write more tests to ensure the application works correctly
-- Add payments to buy products
+- 共有可能なウィッシュリストを追加する
+- テストをさらに追加して、アプリケーションが正しく動作することを確認する
+- 製品購入のための支払い機能を追加する
 
 Happy building!
 
-[Return to all tutorials](https://rubyonrails.org/docs/tutorials)
+[全レベルユーザー向けのチュートリアル紹介ページ（英語）に戻る](https://rubyonrails.org/docs/tutorials)
