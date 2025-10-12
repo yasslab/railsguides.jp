@@ -10,234 +10,220 @@ Rails 8.1にアップグレードする
 
 既存のアプリケーションをアップグレードするのであれば、その前に質のよいテストカバレッジを用意するのはよい考えです。アプリケーションがRails 8.0までアップグレードされていない場合は先にそれを完了し、アプリケーションが正常に動作することを十分確認してからRails 8.1にアップデートしてください。アップグレードの注意点などについては[Railsアップグレードガイド](upgrading_ruby_on_rails.html#rails-8-0からrails-8-1へのアップグレード)を参照してください。
 
-2
-
-If you're upgrading an existing application, it's a great idea to have good test
-coverage before going in. You should also first upgrade to Rails 8.0 in case you
-haven't and make sure your application still runs as expected before attempting
-an update to Rails 8.1. A list of things to watch out for when upgrading is
-available in the
-[Upgrading Ruby on Rails](upgrading_ruby_on_rails.html#upgrading-from-rails-8-0-to-rails-8-1)
-guide.
-
-Major Features
+主要な機能
 --------------
 
 Railties
 --------
 
-Please refer to the [Changelog][railties] for detailed changes.
+変更点について詳しくは[Changelog][railties]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `rails/console/methods.rb` file.
+* 非推奨化されていた`rails/console/methods.rb`ファイルを削除。
 
-*   Remove deprecated `bin/rake stats` command.
+* 非推奨化されていた`bin/rake stats`コマンドを削除。
 
-*   Remove deprecated `STATS_DIRECTORIES`.
+* 非推奨化されていた`STATS_DIRECTORIES`グローバル定数を削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Cable
 ------------
 
-Please refer to the [Changelog][action-cable] for detailed changes.
+変更点について詳しくは[Changelog][action-cable]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Pack
 -----------
 
-Please refer to the [Changelog][action-pack] for detailed changes.
+変更点について詳しくは[Changelog][action-pack]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated support to skipping over leading brackets in parameter names in the parameter parser.
+*   パラメータパーサー内で、パラメータ名の冒頭に含まれるブラケット`[]`をスキップするサポート（非推奨化）を削除。
 
-    Before:
+    削除前:
 
     ```ruby
     ActionDispatch::ParamBuilder.from_query_string("[foo]=bar") # => { "foo" => "bar" }
     ActionDispatch::ParamBuilder.from_query_string("[foo][bar]=baz") # => { "foo" => { "bar" => "baz" } }
     ```
 
-    After:
+    削除後:
 
     ```ruby
     ActionDispatch::ParamBuilder.from_query_string("[foo]=bar") # => { "[foo]" => "bar" }
     ActionDispatch::ParamBuilder.from_query_string("[foo][bar]=baz") # => { "[foo]" => { "bar" => "baz" } }
     ```
 
-*   Remove deprecated support for using semicolons as a query string separator.
+*   セミコロンをクエリ文字列パラメータとして利用するサポート（非推奨化）を削除。
 
-    Before:
+    削除前:
 
     ```ruby
     ActionDispatch::QueryParser.each_pair("foo=bar;baz=quux").to_a
     # => [["foo", "bar"], ["baz", "quux"]]
     ```
 
-    After:
+    削除後:
 
     ```ruby
     ActionDispatch::QueryParser.each_pair("foo=bar;baz=quux").to_a
     # => [["foo", "bar;baz=quux"]]
     ```
 
-*   Remove deprecated support to a route to multiple paths.
+*   複数パスへのルーティング（非推奨化）を削除。
 
-### Deprecations
+### 非推奨化
 
-*   Deprecate `Rails.application.config.action_dispatch.ignore_leading_brackets`.
+*   `Rails.application.config.action_dispatch.ignore_leading_brackets`を非推奨化。
 
-### Notable changes
+### 主な変更
 
 Action View
 -----------
 
-Please refer to the [Changelog][action-view] for detailed changes.
+変更点について詳しくは[Changelog][action-view]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Mailer
 -------------
 
-Please refer to the [Changelog][action-mailer] for detailed changes.
+変更点について詳しくは[Changelog][action-mailer]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Record
 -------------
 
-Please refer to the [Changelog][active-record] for detailed changes.
+変更点について詳しくは[Changelog][active-record]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `:retries` option for the SQLite3 adapter.
+*   SQLite3アダプタで非推奨化されていた`:retries`オプションを削除。
 
-*   Remove deprecated `:unsigned_float` and `:unsigned_decimal` column methods for MySQL.
+*   MySQL用の非推奨化された`:unsigned_float`および`:unsigned_decimal`カラムメソッドを削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
-*   The table columns inside `schema.rb` are [now sorted alphabetically.](https://github.com/rails/rails/pull/53281)
+*   `schema.rb`内のテーブルカラムのソート順がアルファベット順に変更された（[#53281](https://github.com/rails/rails/pull/53281)）。
 
 Active Storage
 --------------
 
-Please refer to the [Changelog][active-storage] for detailed changes.
+変更点について詳しくは[Changelog][active-storage]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated `:azure` storage service.
+*   非推奨化されていた`:azure`ストレージサービスを削除。
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Model
 ------------
 
-Please refer to the [Changelog][active-model] for detailed changes.
+変更点について詳しくは[Changelog][active-model]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Active Support
 --------------
 
-Please refer to the [Changelog][active-support] for detailed changes.
+変更点について詳しくは[Changelog][active-support]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove deprecated passing a Time object to `Time#since`.
+*   `Time#since`にTimeオブジェクトを渡せるサポート（非推奨化）を削除。
 
-*   Remove deprecated `Benchmark.ms` method. It is now defined in the `benchmark` gem.
+*   非推奨化されていた`Benchmark.ms`メソッドを削除。現在は`benchmark` gem内で定義されている。
 
-*   Remove deprecated addition for `Time` instances with `ActiveSupport::TimeWithZone`.
+*   `Time`インスタンスと`ActiveSupport::TimeWithZone`を加算できる機能（非推奨化）を削除。
 
-*   Remove deprecated support for `to_time` to preserve the system local time. It will now always preserve the receiver
-    timezone.
+*   `to_time`メソッドがシステムのローカル時間を保持するサポート（非推奨化）を削除。今後は常にレシーバーのタイムゾーンを保持する。
 
-### Deprecations
+### 非推奨化
 
-*   Deprecate `config.active_support.to_time_preserves_timezone`.
+*   `config.active_support.to_time_preserves_timezone`を非推奨化。
 
-### Notable changes
+### 主な変更
 
 Active Job
 ----------
 
-Please refer to the [Changelog][active-job] for detailed changes.
+変更点について詳しくは[Changelog][active-job]を参照してください。
 
-### Removals
+### 削除されたもの
 
-*   Remove support to set `ActiveJob::Base.enqueue_after_transaction_commit` to `:never`, `:always` and `:default`.
+*   `ActiveJob::Base.enqueue_after_transaction_commit`に`:never`、`:always`、 `:default`を設定するサポートを削除。
 
-*   Remove deprecated `Rails.application.config.active_job.enqueue_after_transaction_commit`.
+*   非推奨化されていた`Rails.application.config.active_job.enqueue_after_transaction_commit`を削除。
 
-*   Remove deprecated internal `SuckerPunch` adapter in favor of the adapter included with the `sucker_punch` gem.
+*   非推奨化されていた組み込み`SuckerPunch`アダプタを削除。今後は`sucker_punch` gemに含まれるアダプタを使うこと。
 
-### Deprecations
+### 非推奨化
 
-*   Custom Active Job serializers must have a public `#klass` method.
+*   Active Jobのカスタムシリアライザには`#klass` publicメソッドを含めなければならない。
 
-### Notable changes
+### 主な変更
 
 Action Text
 ----------
 
-Please refer to the [Changelog][action-text] for detailed changes.
+変更点について詳しくは[Changelog][action-text]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Action Mailbox
 ----------
 
-Please refer to the [Changelog][action-mailbox] for detailed changes.
+変更点について詳しくは[Changelog][action-mailbox]を参照してください。
 
-### Removals
+### 削除されたもの
 
-### Deprecations
+### 非推奨化
 
-### Notable changes
+### 主な変更
 
 Ruby on Rails Guides
 --------------------
 
-Please refer to the [Changelog][guides] for detailed changes.
++変更点について詳しくは[Changelog][guides]を参照してください。
 
-### Notable changes
+### 主な変更
 
-Credits
+クレジット
 -------
 
-See the
-[full list of contributors to Rails](https://contributors.rubyonrails.org/)
-for the many people who spent many hours making Rails, the stable and robust
-framework it is. Kudos to all of them.
+Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
 [railties]:       https://github.com/rails/rails/blob/8_1_stable/railties/CHANGELOG.md
 [action-pack]:    https://github.com/rails/rails/blob/8_1_stable/actionpack/CHANGELOG.md
