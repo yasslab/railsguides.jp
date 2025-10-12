@@ -92,6 +92,60 @@ Rails 7.2では、`queue_adapter`コンフィグを指定すれば、すべて�
 TIP: 訳注：アップグレード事例については [ruby-jp](https://ruby-jp.github.io/) の「[Rails 7.2 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_7.2_Upgrade_Knowledge)」でまとめています。
 
 
+### `alias_attribute`が元の属性のカスタムメソッドをバイパスするようになった（[2025/08/14追加](https://github.com/rails/rails/commit/743a75e1617d9dcac2464319752431091cb6d9c0#diff-f5ff9aa07f44111a79d56c09ec37d774b462d97aff68f32490c2e56e74c95783)）
+
+Rails 7.2の`alias_attribute`は、元の属性に定義されたカスタムメソッドをバイパスして、背後のデータベース値に直接アクセスするようになりました（[#48533](https://github.com/rails/rails/pull/48533)）。この変更は、Rails 7.1の非推奨警告で発表されました。
+
+**変更前（Rails 7.1）:**
+
+```ruby
+class User < ActiveRecord::Base
+  def email
+    "custom_#{super}"
+  end
+
+  alias_attribute :username, :email
+end
+
+user = User.create!(email: "test@example.com")
+user.username
+# => "custom_test@example.com"
+```
+
+**変更後（Rails 7.2）:**
+
+```ruby
+user = User.create!(email: "test@example.com")
+user.username
+# => "test@example.com"  # データベースの生の値
+```
+
+非推奨警告「"Since Rails 7.2 `#{method_name}` will not be calling `#{target_name}` anymore"」が表示される場合は、以下のエイリアスメソッドを手動で定義する必要があります。
+
+```ruby
+class User < ActiveRecord::Base
+  def email
+    "custom_#{super}"
+  end
+
+  def username
+    email  # これはカスタムメールメソッドを呼び出す
+  end
+end
+```
+
+以下のように`alias_method`を利用することも可能です。
+
+```ruby
+class User < ActiveRecord::Base
+  def email
+    "custom_#{super}"
+  end
+
+  alias_method :username, :email
+end
+```
+
 Rails 7.0からRails 7.1へのアップグレード
 -------------------------------------
 
