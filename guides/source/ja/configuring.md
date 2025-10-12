@@ -57,6 +57,24 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 
 ターゲットバージョンごとに関連するデフォルト値を以下に示します。値が矛盾する場合は、新しいバージョンが古いバージョンより優先されます。
 
+#### ターゲットバージョン8.1のデフォルト値
+<!-- ビルド対応として、設定項目と値の間に改行を追加、コードに含まれないことを明確にするためコロンを全角にした -->
+
+- [`config.action_controller.action_on_path_relative_redirect`](#config-action-controller-action-on-path-relative-redirect)
+： `:raise`
+- [`config.action_controller.escape_json_responses`](#config-action-controller-escape-json-responses)
+： `false`
+- [`config.action_view.remove_hidden_field_autocomplete`](#config-action-view-remove-hidden-field-autocomplete)
+： `true`
+- [`config.action_view.render_tracker`](#config-action-view-render-tracker)
+： `:ruby`
+- [`config.active_record.raise_on_missing_required_finder_order_columns`](#config-active-record-raise-on-missing-required-finder-order-columns)
+： `true`
+- [`config.active_support.escape_js_separators_in_json`](#config-active-support-escape-js-separators-in-json)
+： `false`
+- [`config.yjit`](#config-yjit)
+： `!Rails.env.local?`
+
 #### ターゲットバージョン8.0のデフォルト値
 <!-- ビルド対応として、設定項目と値の間に改行を追加、コードに含まれないことを明確にするためコロンを全角にした -->
 
@@ -64,8 +82,6 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 ： `1`
 - [`config.action_dispatch.strict_freshness`](#config-action-dispatch-strict-freshness)
 ： `true`
-- [`config.active_support.to_time_preserves_timezone`](#config-active-support-to-time-preserves-timezone)
-： `:zone`
 
 #### ターゲットバージョン7.2のデフォルト値
 <!-- ビルド対応として、設定項目と値の間に改行を追加、コードに含まれないことを明確にするためコロンを全角にした -->
@@ -75,7 +91,7 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 - [`config.active_record.validate_migration_timestamps`](#config-active-record-validate-migration-timestamps)
 ： `true`
 - [`config.active_storage.web_image_content_types`](#config-active-storage-web-image-content-types)
-： `%w[image/png image/jpeg image/gif image/webp]`
+： `%w( image/png image/jpeg image/gif image/webp )`
 - [`config.yjit`](#config-yjit)
 ： `true`
 
@@ -132,8 +148,8 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 
 #### ターゲットバージョン7.0のデフォルト値
 
-- [`config.action_controller.raise_on_open_redirects`](#config-action-controller-raise-on-open-redirects)
-： `true`
+- [`config.action_controller.action_on_open_redirect`](#config-action-controller-action-on-open-redirect):
+： `:raise`
 - [`config.action_controller.wrap_parameters_by_default`](#config-action-controller-wrap-parameters-by-default)
 ： `true`
 - [`config.action_dispatch.cookies_serializer`](#config-action-dispatch-cookies-serializer)
@@ -243,8 +259,6 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 ： `true`
 - [`config.active_record.belongs_to_required_by_default`](#config-active-record-belongs-to-required-by-default)
 ： `true`
-- [`config.active_support.to_time_preserves_timezone`](#config-active-support-to-time-preserves-timezone)
-： `:offset`
 - [`config.ssl_options`](#config-ssl-options)
 ： `{ hsts: { subdomains: true } }`
 
@@ -260,10 +274,10 @@ Zeitwerkは内部的に絶対パスを使っており、`:zeitwerk`モードで�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-|（オリジナル）            | `true`               |
-| 7.1以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.1以降        | `false`      |
 
 `lib`ディレクトリはこのフラグの影響を受けません。常に`$LOAD_PATH`に追加されます。
 
@@ -365,17 +379,21 @@ console do
 end
 ```
 
+#### `config.content_security_policy_nonce_auto`
+
+セキュリティガイドの[nonceを追加する](security.html#nonceを追加する)を参照。
+
 #### `config.content_security_policy_nonce_directives`
 
-セキュリティガイドの[nonceを追加する](security.html#nonceを追加する)を参照
+セキュリティガイドの[nonceを追加する](security.html#nonceを追加する)を参照。
 
 #### `config.content_security_policy_nonce_generator`
 
-セキュリティガイドの[nonceを追加する](security.html#nonceを追加する)を参照
+セキュリティガイドの[nonceを追加する](security.html#nonceを追加する)を参照。
 
 #### `config.content_security_policy_report_only`
 
-セキュリティガイドの[違反をレポートする](security.html#違反をレポートする)を参照
+セキュリティガイドの[違反をレポートする](security.html#違反をレポートする)を参照。
 
 #### `config.credentials.content_path`
 
@@ -408,10 +426,10 @@ Action View、Action Dispatch、`rails-dom-testing`のテストヘルパーで�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-|（オリジナル）            | `:html4`             |
-| 7.1以降                | `:html5`（以下の注を参照）|
+| バージョン     | デフォルト値               |
+| -------------- | -------------------------- |
+| （オリジナル） | `:html4`                   |
+| 7.1以降        | `:html5`（以下の注を参照） |
 
 NOTE: NokogiriのHTML5パーサーはJRubyではサポートされていないため、JRubyプラットフォームのRailsは`:html4`にフォールバックします。
 
@@ -442,43 +460,6 @@ NOTE: NokogiriのHTML5パーサーはJRubyではサポートされていない�
 
 例外が発生したときに`ShowException`ミドルウェアによって呼び出される例外アプリケーションを設定します。
 デフォルト値は`ActionDispatch::PublicExceptions.new(Rails.public_path)`です。
-
-例外アプリケーションは`ActionDispatch::Http::MimeNegotiation::InvalidType`エラーを処理する必要があります。このエラーは、クライアントが無効な`Accept`ヘッダーまたは`Content-Type`ヘッダーを送信したときに発生します。
-
-デフォルトの`ActionDispatch::PublicExceptions`アプリケーションは自動的にこれを行い、`Content-Type`を`text/html`に設定し、`406 Not Acceptable`ステータスを返します。
-
-このエラーを処理しないと、`500 Internal Server Error`が発生します。
-
-例外アプリケーションとして`Rails.application.routes`や`RouteSet`を使う場合にも、この特殊な処理が必要になります。次のような感じになります。
-
-```ruby
-# config/application.rb
-config.exceptions_app = CustomExceptionsAppWrapper.new(exceptions_app: routes)
-```
-
-```ruby
-# lib/custom_exceptions_app_wrapper.rb
-class CustomExceptionsAppWrapper
-  def initialize(exceptions_app:)
-    @exceptions_app = exceptions_app
-  end
-
-  def call(env)
-    request = ActionDispatch::Request.new(env)
-
-    fallback_to_html_format_if_invalid_mime_type(request)
-
-    @exceptions_app.call(env)
-  end
-
-  private
-    def fallback_to_html_format_if_invalid_mime_type(request)
-      request.formats
-    rescue ActionDispatch::Http::MimeNegotiation::InvalidType
-      request.set_header "CONTENT_TYPE", "text/html"
-    end
-end
-```
 
 #### `config.file_watcher`
 
@@ -581,10 +562,10 @@ config.logger      = ActiveSupport::TaggedLogging.new(mylogger)
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-|（オリジナル）            | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 [`ActiveSupport::ParameterFilter.precompile_filters`]: https://api.rubyonrails.org/classes/ActiveSupport/ParameterFilter.html#method-c-precompile_filters
 
@@ -679,10 +660,10 @@ config.silence_healthcheck_path = "/up"
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `{}`                 |
-| 5.0以降                | `{ hsts: { subdomains: true } }` |
+| バージョン     | デフォルト値                     |
+| -------------- | -------------------------------- |
+| （オリジナル） | `{}`                             |
+| 5.0以降        | `{ hsts: { subdomains: true } }` |
 
 #### `config.time_zone`
 
@@ -702,11 +683,12 @@ Rails.configuration.x.payment_processing.schedule # => :daily
 #### `config.yjit`
 
 Ruby 3.3以降でYJITを有効にするための設定です。メモリ制約のある環境でデプロイする場合は、`false`に設定できます。
+また、`{ stats: true }`などのハッシュでYJITオプションを渡すことも可能です。
 
-| 以下のバージョン以降      | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.2                   | `true`               |
+| 以下のバージョン以降 | デフォルト値 |
+| -------------------- | ------------ |
+| （オリジナル）       | `false`      |
+| 7.2以降              | `true`       |
 
 ### アセットを設定する
 
@@ -736,10 +718,10 @@ gzipされていないバージョンの作成に加えて、コンパイル済�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| 以下のバージョン以降      | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 5.1                   | `false`              |
+| 以下のバージョン以降 | デフォルト値 |
+| -------------------- | ------------ |
+| （オリジナル）       | `true`       |
+| 5.1以降              | `false`      |
 
 #### `config.assets.prefix`
 
@@ -755,7 +737,7 @@ gzipされていないバージョンの作成に加えて、コンパイル済�
 
 #### `config.assets.debug`
 
-デバッグ用にアセットの結合と圧縮をやめるかどうかを指定します。`development.rb`ではデフォルトで`true`に設定されます。
+デバッグ用にアセットの結合と圧縮をやめるかどうかを指定します。
 
 #### `config.assets.version`
 
@@ -842,11 +824,11 @@ Rails.application.config.hosts << /.*\.product\.com/
 
 指定した正規表現はアンカー（`\A`と`\z`）で囲まれるので、ホスト名全体とマッチしなければなりません。たとえば`/product.com/`はアンカーで囲まれると`www.product.com`とのマッチに失敗します。
 
-特殊なケースとして、すべてのサブドメインの許可がサポートされます。
+特殊なケースとして、そのドメインとすべてのサブドメインの許可がサポートされます。
 
 ```ruby
-# `www.product.com`や`beta1.product.com`のようなサブドメインからの
-# リクエストを許可する
+# `product.com`ドメイン自身や、
+# `www.product.com`や`beta1.product.com`などのサブドメインからのリクエストを許可する
 Rails.application.config.hosts << ".product.com"
 ```
 
@@ -1130,13 +1112,15 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 
 Railsが探すデータベースのテーブル名を単数形にするか複数形にするかを指定します。`true`に設定すると、Customerクラスが使うテーブル名は複数形の`customers`になります（デフォルト）。`false`に設定すると、Customerクラスが使うテーブル名は単数形の`customer`になります。
 
+WARNING: Railsのジェネレータによっては、この設定を無視して常に複数形のテーブルを作成するものがあります（特に`active_storage:install`と`action_text:install`）。`pluralize_table_names`を`false`に設定した場合は、一貫性を保つためにインストール後にそれらのテーブル名も手動で変更する必要があります。この制限が存在する理由は、これらのインストーラがマイグレーションで利用するテーブル名が、互換性上の理由から固定されているためです。
+
 #### `config.active_record.default_timezone`
 
 データベースから日付・時刻を取り出した際のタイムゾーンを`Time.local`（`:local`を指定した場合）と`Time.utc`（`:utc`を指定した場合）のどちらにするかを指定します。デフォルト値は`:utc`です。
 
 #### `config.active_record.schema_format`
 
-データベーススキーマをファイルに書き出すときのフォーマットを指定します。デフォルト値は`:ruby`で、データベースには依存せず、マイグレーションに依存します。`:sql`を指定するとSQL文で書き出されますが、この場合潜在的にデータベースに依存する可能性があります。
+データベーススキーマをファイルに書き出すときのフォーマットを指定します。デフォルト値は`:ruby`で、データベースには依存せず、マイグレーションに依存します。`:sql`を指定するとSQL文で書き出されますが、この場合潜在的にデータベースに依存する可能性があります。この設定は、データベース設定ファイルで`schema_format`を設定することで、データベースごとに上書きできます。
 
 #### `config.active_record.error_on_ignored_order`
 
@@ -1186,9 +1170,9 @@ class Comment < ApplicationRecord
 end
 ```
 
-| 以下のバージョン以降      | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
 
 #### `config.active_record.validate_migration_timestamps`
 
@@ -1198,10 +1182,10 @@ end
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| 以下のバージョン以降      | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.2                   | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.2以降        | `true`       |
 
 #### `config.active_record.db_warnings_action`
 
@@ -1261,6 +1245,30 @@ end
 config.active_record.migration_strategy = CustomMigrationStrategy
 ```
 
+#### `config.active_record.schema_versions_formatter`
+
+スキーマダンパーでバージョン情報をフォーマットするフォーマッタクラスを制御します。カスタムクラスを提供することでデフォルトの動作を変更できます。
+
+```ruby
+class CustomSchemaVersionsFormatter
+  def initialize(connection)
+    @connection = connection
+  end
+
+  def format(versions)
+    # バージョンのソート順を特殊な方法で変更して、競合の可能性を削減する
+    sorted_versions = versions.sort { |a, b| b.to_s.reverse <=> a.to_s.reverse }
+
+    sql = +"INSERT INTO schema_migrations (version) VALUES\n"
+    sql << sorted_versions.map { |v| "(#{@connection.quote(v)})" }.join(",\n")
+    sql << ";"
+    sql
+  end
+end
+
+config.active_record.schema_versions_formatter = CustomSchemaVersionsFormatter
+```
+
 #### `config.active_record.lock_optimistically`
 
 Active Recordで楽観的ロック（optimistic locking）を使うかどうかを指定します。デフォルト値は`true`（利用する）です。
@@ -1279,10 +1287,10 @@ Active Recordで楽観的ロック（optimistic locking）を使うかどうか�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 7.0以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.0以降        | `false`      |
 
 #### `config.active_record.partial_updates`
 
@@ -1305,10 +1313,10 @@ Active Recordで楽観的ロック（optimistic locking）を使うかどうか�
 トランザクションに登録されているすべてのレコードに対して、`before_committed!`コールバックを有効にします。
 従来の動作は、トランザクションに登録されている同じレコードのコピーが複数ある場合、レコードの最初のコピーに対してのみコールバックを実行します。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-|（オリジナル）            | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 #### `config.active_record.belongs_to_required_by_default`
 
@@ -1316,20 +1324,20 @@ Active Recordで楽観的ロック（optimistic locking）を使うかどうか�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `nil`                |
-| 5.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `nil`        |
+| 5.0以降        | `true`       |
 
 #### `config.active_record.belongs_to_required_validates_foreign_key`
 
 親が必須である場合に、親に関連するカラムについてのみ存在をバリデーションします。
 従来の動作では、親レコードの存在をバリデーションするときに、親が変更されていない場合でも、子レコードが更新されるたびに親を取得するクエリが余分に実行されていました。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 7.1以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.1以降        | `false`      |
 
 #### `config.active_record.marshalling_format_version`
 
@@ -1338,10 +1346,10 @@ Active Recordで楽観的ロック（optimistic locking）を使うかどうか�
 これによりシリアライズ形式が変更されるため、この方法でシリアライズされたモデルは古いバージョンのRails（< 7.1）では読み込めなくなります。
 ただし、この最適化が有効かどうかにかかわらず、古い形式が使われているメッセージは引き続き読み込めます。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `6.1`                |
-| 7.1以降                | `7.1`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `6.1`        |
+| 7.1以降        | `7.1`        |
 
 #### `config.active_record.action_on_strict_loading_violation`
 
@@ -1370,10 +1378,10 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.2以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.2以降        | `true`       |
 
 #### `config.active_record.collection_cache_versioning`
 
@@ -1381,10 +1389,10 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 6.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 6.0以降        | `true`       |
 
 #### `config.active_record.has_many_inversing`
 
@@ -1392,10 +1400,10 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 6.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 6.1以降        | `true`       |
 
 #### `config.active_record.automatic_scope_inversing`
 
@@ -1403,10 +1411,10 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 #### `config.active_record.destroy_association_async_job`
 
@@ -1434,20 +1442,20 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 #### `config.active_record.raise_on_assign_to_attr_readonly`
 
 `attr_readonly`属性への代入時のraiseを有効にします。
 従来の動作では代入してもraiseしませんが、変更がデータベースで永続化されません。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 #### `config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction`
 
@@ -1464,10 +1472,10 @@ Active Recordの複数のインスタンスがトランザクション内で同�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 7.1以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.1以降        | `false`      |
 
 #### `config.active_record.default_column_serializer`
 
@@ -1481,10 +1489,10 @@ Active Recordの複数のインスタンスがトランザクション内で同�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `YAML`               |
-| 7.1以降                | `nil`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `YAML`       |
+| 7.1以降        | `nil`        |
 
 #### `config.active_record.run_after_transaction_callbacks_in_order_defined`
 
@@ -1494,10 +1502,10 @@ Active Recordの複数のインスタンスがトランザクション内で同�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 #### `config.active_record.query_log_tags_enabled`
 
@@ -1512,20 +1520,31 @@ SQLコメントに挿入するキーバリュータグを指定する`Array`を�
 デフォルト値は、`[ :application, :controller, :action, :job ]`です。
 利用可能なタグは、`:application`、`:controller`、`:namespaced_controller`、`:action`、`:job`、`:source_location`です。
 
+WARNING: クエリの`:source_location`の算出は遅くなる可能性があるため、production環境で利用する場合はその影響を考慮しておく必要があります。
+
 #### `config.active_record.query_log_tags_format`
 
 `QueryLogs`のタグに使うフォーマッタを`Symbol`で指定します。有効な値は`:sqlcommenter`と`:legacy`です。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:legacy`            |
-| 7.1以降                | `:sqlcommenter`      |
+| バージョン     | デフォルト値    |
+| -------------- | --------------- |
+| （オリジナル） | `:legacy`       |
+| 7.1以降        | `:sqlcommenter` |
 
 #### `config.active_record.cache_query_log_tags`
 
 クエリログタグのキャッシュを有効にするかどうかを指定します。クエリ数が非常に多いアプリケーションでは、クエリログタグのキャッシュを有効にすると、リクエストやジョブの実行中にコンテキストが変更されない場合にパフォーマンスが向上します。
+デフォルト値は`false`です。
+
+#### `config.active_record.query_log_tags_prepend_comment`
+
+クエリログタグのコメントをクエリの「冒頭に」付加するかどうかを指定します。
+
+デフォルトでは、コメントはクエリの末尾に追加されます。MySQLなどの一部のデータベースでは、クエリテキストが切り詰められます。これは、遅いクエリログや、一部のInnoDB内部テーブルをクエリした結果で、クエリの長さが1024バイトを超える場合に発生します。
+このオプションでコメントの追加場所を冒頭に変更することで、クエリログタグのコメントが失われるのを防げます。
+
 デフォルト値は`false`です。
 
 #### `config.active_record.schema_cache_ignored_tables`
@@ -1548,10 +1567,10 @@ SQLiteは最初に、二重引用符で囲まれた文字列を識別子名と�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 #### `config.active_record.postgresql_adapter_decode_dates`
 
@@ -1564,10 +1583,10 @@ ActiveRecord::Base.connection
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.2                   | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.2            | `true`       |
 
 #### `config.active_record.async_query_executor`
 
@@ -1578,7 +1597,7 @@ ActiveRecord::Base.connection
 
 `:global_thread_pool`: アプリケーションが接続するすべてのデータベースで単一のプールを使います。この設定は、データベースが1つしかないアプリケーションや、データベースのシャードに1度に1件しかクエリを発行しないアプリケーションに適しています。
 
-`:multi_thread_pool`: データベースごとに1つのプールを使います。各プールのサイズは、`database.yml`ファイルの`max_threads`プロパティや`min_thread`プロパティで設定できます。この設定は、クエリを複数のデータベースに対して発行することが多いアプリケーションで、並行処理の最大数をより正確に定義したい場面で有用です。
+`:multi_thread_pool`: データベースごとに1つのプールを使います。各プールのサイズは、`database.yml`ファイルの`max_threads`プロパティや`min_threads`プロパティで設定できます。この設定は、クエリを複数のデータベースに対して発行することが多いアプリケーションで、並行処理の最大数をより正確に定義したい場面で有用です。
 
 #### `config.active_record.global_executor_concurrency`
 
@@ -1632,10 +1651,10 @@ record.save!
 record.token # => "fwZcXX6SkJBJRogzMdciS7wf"
 ```
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:create`            |
-| 7.1以降                | `:initialize`        |
+| バージョン     | デフォルト値  |
+| -------------- | ------------- |
+| （オリジナル） | `:create`     |
+| 7.1以降        | `:initialize` |
 
 
 #### `config.active_record.permanent_connection_checkout`
@@ -1648,18 +1667,42 @@ record.token # => "fwZcXX6SkJBJRogzMdciS7wf"
 
 設定可能な値は、`:disallowed`（エラーを発生）、`:deprecated`（非推奨警告）、`true`（どちらも行わない）です。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
 
 #### `config.active_record.database_cli`
 
-`rails dbconsole`を実行するときにデータベースへのアクセスに利用するCLIツールを制御します。デフォルトでは、データベースの標準ツールが使われます（例: PostgreSQLの場合は`psql`、MySQLの場合は`mysql`）。このオプションは、データベースシステムごとにツールを指定するハッシュを受け取り、フォールバックオプションが必要な場合は配列を渡せます。
+`bin/rails dbconsole`を実行するときにデータベースへのアクセスに利用するCLIツールを制御します。デフォルトでは、データベースの標準ツールが使われます（例: PostgreSQLの場合は`psql`、MySQLの場合は`mysql`）。このオプションは、データベースシステムごとにツールを指定するハッシュを受け取り、フォールバックオプションが必要な場合は配列を渡せます。
 
 ```ruby
 # config/application.rb
 config.active_record.database_cli = { postgresql: "pgcli", mysql: %w[ mycli mysql ] }
 ```
+
+
+#### `config.active_record.use_legacy_signed_id_verifier`
+
+署名付きIDの生成と検証にレガシーオプションを利用するかどうかを制御します。以下のいずれかに設定できます。
+
+* `:generate_and_verify`（デフォルト）: 以下のレガシーオプションで署名付きIDを生成および検証します。
+
+    ```ruby
+    { digest: "SHA256", serializer: JSON, url_safe: true }
+    ```
+
+* `:verify`: [`Rails.application.message_verifiers`][]のオプションを用いて署名付きIDを生成および検証しますが、`generate_and_verify`と同じオプションによる検証にフォールバックします。
+
+* `false`: [`Rails.application.message_verifiers`][]のオプションのみを用いて署名付きIDを生成および検証します。
+
+
+このコンフィグの目的は、すべてのメッセージベリファイアに対して統一された設定にスムーズに移行することです。設定を統一することで、secretsのローテーションや署名アルゴリズムのアップグレードが容易になります
+
+WARNING: `Rails.application.message_verifiers`が適切に設定されていない状態でこれを`false`に設定すると、古い署名付きIDが読み取れなくなる可能性があります。[`MessageVerifiers#rotate`][ActiveSupport::MessageVerifiers#rotate]または[`MessageVerifiers#prepend`][ActiveSupport::MessageVerifiers#prepend]を利用して、`:digest`や`:url_safe`などの適切なオプションで`Rails.application.message_verifiers`を設定してください。
+
+[`Rails.application.message_verifiers`]: https://api.rubyonrails.org/classes/Rails/Application.html#method-i-message_verifiers
+[ActiveSupport::MessageVerifiers#rotate]: https://api.rubyonrails.org/classes/ActiveSupport/MessageVerifiers.html#method-i-rotate
+[ActiveSupport::MessageVerifiers#prepend]: https://api.rubyonrails.org/classes/ActiveSupport/MessageVerifiers.html#method-i-prepend
 
 #### `ActiveRecord::ConnectionAdapters::Mysql2Adapter.emulate_booleans`と`ActiveRecord::ConnectionAdapters::TrilogyAdapter.emulate_booleans`
 
@@ -1713,10 +1756,10 @@ Active Record Encryptionで利用するダイジェストアルゴリズムを�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値                |
-|-----------------------|---------------------------|
-| （オリジナル）           | `OpenSSL::Digest::SHA1`   |
-| 7.1以降                | `OpenSSL::Digest::SHA256` |
+| バージョン     | デフォルト値              |
+| -------------- | ------------------------- |
+| （オリジナル） | `OpenSSL::Digest::SHA1`   |
+| 7.1以降        | `OpenSSL::Digest::SHA256` |
 
 #### `config.active_record.encryption.support_sha1_for_non_deterministic_encryption`
 
@@ -1724,10 +1767,10 @@ SHA-1ダイジェストクラスを用いて暗号化された既存のデータ
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値                |
-|-----------------------|---------------------------|
-| （オリジナル）           | `true`                    |
-| 7.1以降                | `false`                   |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.1以降        | `false`      |
 
 #### `config.active_record.encryption.compressor`
 
@@ -1743,6 +1786,38 @@ config.active_record.protocol_adapters.mysql = "trilogy"
 ```
 
 マッピングが見つからない場合、プロトコルがアダプタ名として使われます。
+
+#### `config.active_record.deprecated_associations_options`
+
+この設定を使う場合は、以下のように`:mode`キーや`:backtrace`キーを含むハッシュを指定する必要があります。
+
+```ruby
+config.active_record.deprecated_associations_options = { mode: :notify, backtrace: true }
+```
+
+- `mode: :warn`: 非推奨化された関連付けにアクセスすると、Active Recordロガーに警告が出力されます。これはデフォルトのモードです。
+
+- `mode: :raise`: 非推奨化された関連付けにアクセスすると、`ActiveRecord::DeprecatedAssociationError`例外が発生して同様のメッセージが出力され、例外オブジェクトにはクリーンなバックトレースが含まれます。
+
+- `mode: :notify`: 非推奨化された関連付けにアクセスすると、Active Supportの`deprecated_association.active_record`通知が発行されます。詳しくは[Active Support Instrumentationガイド](active_support_instrumentation.html)を参照してください。
+
+バックトレースはデフォルトで無効になっています。`:backtrace`が`true`に設定されている場合、警告メッセージにはクリーンなバックトレースが含まれ、Active Support通知にはペイロードの`:backtrace`キーが含まれます（クリーンな`Thread::Backtrace::Location`オブジェクトもここに含まれます）。例外には常にクリーンなスタックトレースが含まれます。
+
+クリーンなバックトレースは、Active Recordのバックトレースクリーナーで計算されます。
+
+#### `config.active_record.raise_on_missing_required_finder_order_columns`
+
+以下の場合にエラーを発生するかどうかを指定します。
+
+- 順序に依存するfinderメソッド（例: `#first`、`#second`）が呼び出されるときに、リレーションの`order`値が指定されていない、かつ
+- モデルがフォールバックする順序カラム（`implicit_order_column`、`query_constraints`、または`primary_key`）が存在しない
+
+デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 8.1以降        | `true`       |
 
 ### Action Controllerを設定する
 
@@ -1786,10 +1861,10 @@ CSRFの追加対策として、HTTPの`Origin`ヘッダーがサイトのorigin�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.0以降        | `true`       |
 
 #### `config.action_controller.per_form_csrf_tokens`
 
@@ -1797,10 +1872,10 @@ CSRFトークンの正当性をそれらが生成されたメソッドやアク�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.0以降        | `true`       |
 
 #### `config.action_controller.default_protect_from_forgery`
 
@@ -1808,10 +1883,10 @@ CSRFトークンの正当性をそれらが生成されたメソッドやアク�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.2以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.2以降        | `true`       |
 
 #### `config.action_controller.relative_url_root`
 
@@ -1855,10 +1930,10 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 コールバックの`:only`オプションや`:except`オプションで指定したアクションがコントローラ内に存在しない場合に`AbstractController::ActionNotFound`をraiseするかどうかを指定します。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1                   | `true`（developmentとtest）、`false`（その他の環境）|
+| バージョン     | デフォルト値                                         |
+| -------------- | ---------------------------------------------------- |
+| （オリジナル） | `false`                                              |
+| 7.1            | `true`（developmentとtest）、`false`（その他の環境） |
 
 #### `config.action_controller.raise_on_open_redirects`
 
@@ -1866,14 +1941,47 @@ Rendered recordings/threads/_thread.html.erb in 1.5 ms [cache miss]
 
 この設定が`true`の場合、外部ホストを含むURLが[`redirect_to`][]に渡されると、`ActionController::Redirecting::UnsafeRedirectError`が発生します。オープンリダイレクトを許可する必要がある場合は、`redirect_to`呼び出しに`allow_other_host: true`オプションを追加できます。
 
-デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
-
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
 
 [`redirect_to`]: https://api.rubyonrails.org/classes/ActionController/Redirecting.html#method-i-redirect_to
+
+#### `config.action_controller.action_on_open_redirect`
+
+Railsでオープンリダイレクト（外部ホストへのリダイレクト）の試みを処理する方法を制御します。
+
+NOTE: この設定は、非推奨化されて今後のRailsバージョンで削除される予定の[`config.action_controller.raise_on_open_redirects`](#config-action-controller-raise-on-open-redirects)を置き換えます。この新しい設定は、オープンリダイレクト保護に対してより柔軟な制御を提供します。
+
+- `:log`: オープンリダイレクトを検出するとログに警告を出力する。
+- `:notify`: `open_redirect.action_controller`通知イベントを発行する。
+- `:raise`: `ActionController::Redirecting::UnsafeRedirectError`エラーが発生する
+
+非推奨の`raise_on_open_redirects`を`true`に設定しても、後方互換性のためにこの設定が優先され、`:raise`の動作が強制されます。
+
+デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:log`       |
+| 8.1以降        | `:raise`     |
+
+#### `config.action_controller.action_on_path_relative_redirect`
+
+Railsでパス相対的なURLリダイレクトを処理する方法を制御します。
+
+- `:log`（デフォルト）: パス相対的なURLリダイレクトを検出するとログに警告を出力する。
+- `:notify`: `unsafe_redirect.action_controller`通知イベントを発行する。
+- `:raise`: `ActionController::Redirecting::UnsafeRedirectError`エラーが発生する
+
+これは、オープンリダイレクト攻撃を悪用した安全でない可能性のあるリダイレクトを検出するのに有用です。
+
+デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:log`       |
+| 7.0以降        | `:raise`     |
 
 #### `config.action_controller.log_query_tags_around_actions`
 
@@ -1889,16 +1997,33 @@ Rails 7.0より前は、新しいアプリケーションを生成するとき�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 [params_wrapper]: https://api.rubyonrails.org/classes/ActionController/ParamsWrapper.html
+
+#### `config.action_controller.allowed_redirect_hosts`
+
+リダイレクトを許可するホストのリストを指定します。許可したホストに`redirect_to`メソッドでリダイレクトするときに`UnsafeRedirectError`エラーを発生しなくなります。
 
 #### `ActionController::Base.wrap_parameters`
 
 [`ParamsWrapper`](https://api.rubyonrails.org/classes/ActionController/ParamsWrapper.html)を設定します。これはトップレベルで呼び出すことも、コントローラで個別に呼び出すこともできます。
+
+#### `config.action_controller.escape_json_responses`
+
+JSONレンダラーで、JavaScriptで無効なHTMLエンティティやUnicode文字をエスケープするかどうかを設定します。
+
+これは、HTMLの`<script>`タグにJSONドキュメントを埋め込んで、JSONレスポンスでそれらの文字をエスケープしたい場合に便利です。
+
+この設定は主に、Railsアプリケーションをアップグレードする際の互換性を維持するためのものです。特定のコントローラアクションで`render json:`に`:escape`オプションを追加することも可能です。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 8.1以降        | `false`      |
 
 ### Action Dispatchを設定する
 
@@ -1908,10 +2033,10 @@ cookieで使うシリアライザを指定します。[`config.active_support.me
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:marshal`           |
-| 7.0以降                | `:json`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:marshal`   |
+| 7.0以降        | `:json`      |
 
 #### `config.action_dispatch.debug_exception_log_level`
 
@@ -1919,10 +2044,10 @@ cookieで使うシリアライザを指定します。[`config.active_support.me
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:fatal`             |
-| 7.1以降                | `:error`             |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:fatal`     |
+| 7.1以降        | `:error`     |
 
 [`ActionDispatch::DebugExceptions`]: https://api.rubyonrails.org/classes/ActionDispatch/DebugExceptions.html
 
@@ -1932,11 +2057,11 @@ HTTPヘッダーで使われるハッシュです。このヘッダーはデフ�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "1; mode=block",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Download-Options" => "noopen",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre> |
-| 7.0                  | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "0",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Download-Options" => "noopen",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre> |
-| 7.1以降               | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "0",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre> |
+| バージョン     | デフォルト値                                                                                                                                                                                                                                                                                                          |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| （オリジナル） | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "1; mode=block",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Download-Options" => "noopen",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre> |
+| 7.0            | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "0",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Download-Options" => "noopen",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre>             |
+| 7.1以降        | <pre><code>{<br>  "X-Frame-Options" => "SAMEORIGIN",<br>  "X-XSS-Protection" => "0",<br>  "X-Content-Type-Options" => "nosniff",<br>  "X-Permitted-Cross-Domain-Policies" => "none",<br>  "Referrer-Policy" => "strict-origin-when-cross-origin"<br>}</code></pre>                                                    |
 
 #### `config.action_dispatch.default_charset`
 
@@ -1945,6 +2070,28 @@ HTTPヘッダーで使われるハッシュです。このヘッダーはデフ�
 #### `config.action_dispatch.tld_length`
 
 アプリケーションで使うトップレベルドメイン（TLD）の長さを指定します。デフォルト値は`1`です。
+
+#### `config.action_dispatch.domain_extractor`
+
+Action Dispatchがホスト名をドメインとサブドメインの構成要素に解析するときのドメイン抽出戦略を設定します。
+このオブジェクトは、`domain_from(host, tld_length)`メソッドと `subdomains_from(host, tld_length)`メソッドに応答する必要があります。
+
+デフォルトでは、標準的なドメイン解析ロジックを提供する`ActionDispatch::Http::URL::DomainExtractor`が使われます。
+以下のようなカスタム抽出関数を指定することで、特殊なドメイン解析動作を実装できます。
+
+```ruby
+class CustomDomainExtractor
+  def self.domain_from(host, tld_length)
+    # カスタムのドメイン抽出ロジックをここに書く
+  end
+
+  def self.subdomains_from(host, tld_length)
+    # カスタムのサブドメイン抽出ロジックをここに書く
+  end
+end
+
+config.action_dispatch.domain_extractor = CustomDomainExtractor
+```
 
 #### `config.action_dispatch.ignore_accept_header`
 
@@ -1992,10 +2139,10 @@ HTTP Authのsalt値（訳注: ハッシュの安全性を強化するために�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.2以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.2以降        | `true`       |
 
 #### `config.action_dispatch.use_cookies_with_metadata`
 
@@ -2003,10 +2150,10 @@ HTTP Authのsalt値（訳注: ハッシュの安全性を強化するために�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 6.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 6.0以降        | `true`       |
 
 #### `config.action_dispatch.perform_deep_munge`
 
@@ -2047,7 +2194,7 @@ config.action_dispatch.rescue_responses["MyAuthenticationError"] = :unauthorized
 }
 ```
 
-設定されていない例外はすべて500 Internal Server Errorに割り当てられます。
+設定されていない例外はすべて`500 Internal Server Error`に割り当てられます。
 
 #### `config.action_dispatch.cookies_same_site_protection`
 
@@ -2061,10 +2208,10 @@ end
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `nil`                |
-| 6.1以降                | `lax`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `nil`        |
+| 6.1以降        | `lax`        |
 
 #### `config.action_dispatch.ssl_default_redirect_status`
 
@@ -2072,10 +2219,10 @@ end
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `307`                |
-| 6.1以降                | `308`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `307`        |
+| 6.1以降        | `308`        |
 
 #### `config.action_dispatch.log_rescued_responses`
 
@@ -2095,10 +2242,10 @@ end
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)で宣言されている例外をエラーページで表示する
 * `:none`: すべての例外をraiseする
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`                |
-| 7.1以降                | `:all`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.1以降        | `:all`       |
 
 #### `config.action_dispatch.strict_freshness`
 
@@ -2108,10 +2255,10 @@ end
 
 `false`に設定すると、両方のヘッダーが存在する場合、両方のヘッダーがチェックされ、レスポンスが新しいと見なされるためには両方が一致する必要があります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | --------------------- |
-| （オリジナル）           | `false`               |
-| 8.0以降                | `true`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 8.0以降        | `true`       |
 
 #### `config.action_dispatch.always_write_cookie`
 
@@ -2120,6 +2267,11 @@ end
 `true`に設定すると、この条件が満たされない場合でもcookieを書き込みます。
 
 デフォルト値は、`development`環境では`true`、その他の環境では`false`です。
+
+#### `config.action_dispatch.verbose_redirect_logs`
+
+リダイレクトのソース位置を関連するログ行の下にログ出力するかどうかを指定します。
+デフォルト値は、development環境では`true`、その他のすべての環境では`false`です。
 
 #### `ActionDispatch::Callbacks.before`
 
@@ -2191,10 +2343,10 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| 5.1                   | `true`               |
-| 6.1以降                | `false`              |
+| バージョン | デフォルト値 |
+| ---------- | ------------ |
+| 5.1        | `true`       |
+| 6.1以降    | `false`      |
 
 #### `config.action_view.form_with_generates_ids`
 
@@ -2202,10 +2354,10 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.2以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.2以降        | `true`       |
 
 #### `config.action_view.default_enforce_utf8`
 
@@ -2213,16 +2365,17 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 6.0以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 6.0以降        | `false`      |
 
 #### `config.action_view.image_loading`
 
 `image_tag`ヘルパーでレンダリングされた`<img>`タグの`loading`属性のデフォルト値を指定します。
 
-たとえば`"lazy"`を設定すると、`image_tag`ヘルパーでレンダリングされた`<img>`タグに`loading="lazy"`が含まれ、[画像がビューポートに近づくまで読み込みを遅延するようブラウザに指示します](https://html.spec.whatwg.org/#lazy-loading-attributes)（`image_tag`に`loading: "eager"`渡すなどの方法で、画像ごとに挙動を上書きできます）。デフォルト値は`nil`です。
+たとえば`"lazy"`を設定すると、`image_tag`ヘルパーでレンダリングされた`<img>`タグに`loading="lazy"`が含まれ、[画像がビューポートに近づくまで読み込みを遅延するようブラウザに指示します](https://developer.mozilla.org/ja-JP/docs/Web/API/HTMLImageElement/loading#lazy)（`image_tag`に`loading: "eager"`渡すなどの方法で、画像ごとに挙動を上書きできます）。
+デフォルト値は`nil`です。
 
 #### `config.action_view.image_decoding`
 
@@ -2238,10 +2391,10 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `nil`                |
-| 6.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `nil`        |
+| 6.1以降        | `true`       |
 
 #### `config.action_view.button_to_generates_button_tag`
 
@@ -2261,10 +2414,10 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 #### `config.action_view.apply_stylesheet_media_default`
 
@@ -2272,10 +2425,10 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `true`               |
-| 7.0以降                | `false`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 7.0以降        | `false`      |
 
 #### `config.action_view.prepend_content_exfiltration_prevention`
 
@@ -2285,12 +2438,37 @@ ERBテンプレートを`# frozen_string_literal: true`マジックコメント�
 
 Action Viewで利用されるHTMLサニタイザのセットを設定するには、`ActionView::Helpers::SanitizeHelper.sanitizer_vendor`を設定します。デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン   | デフォルト値                 | マークアップの解釈 |
-|------------|----------------------------|------------------------|
-|（オリジナル） | `Rails::HTML4::Sanitizer`  | HTML4            |
-| 7.1以降     | `Rails::HTML5::Sanitizer`（以下の注を参照）| HTML5     |
+| バージョン     | デフォルト値                                | マークアップの解釈 |
+| -------------- | ------------------------------------------- | ------------------ |
+| （オリジナル） | `Rails::HTML4::Sanitizer`                   | HTML4              |
+| 7.1以降        | `Rails::HTML5::Sanitizer`（以下の注を参照） | HTML5              |
 
 NOTE: `Rails::HTML5::Sanitizer`はJRubyではサポートされないため、JRubyプラットフォームのRailsでは`Rails::HTML4::Sanitizer`にフォールバックします。
+
+#### `config.action_view.remove_hidden_field_autocomplete`
+
+この設定を有効にすると、以下で生成される隠し入力の`autocomplete="off"`がオフになります。
+
+- `form_tag`
+- `token_tag`
+- `method_tag`
+- `button_to`フォームに含まれる隠しパラメータフィールド
+
+デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 8.1以降        | `true`       |
+
+#### `config.action_view.render_tracker`
+
+Action Viewテンプレート間の依存関係をトラッキングするときの戦略を指定します。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:regex`     |
+| 8.1以降        | `:ruby`      |
 
 ### Action Mailboxを設定する
 
@@ -2319,10 +2497,10 @@ config.action_mailbox.incinerate_after = 14.days
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:action_mailbox_incineration` |
-| 6.1以降                | `nil`                |
+| バージョン     | デフォルト値                   |
+| -------------- | ------------------------------ |
+| （オリジナル） | `:action_mailbox_incineration` |
+| 6.1以降        | `nil`                          |
 
 #### `config.action_mailbox.queues.routing`
 
@@ -2330,10 +2508,10 @@ config.action_mailbox.incinerate_after = 14.days
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:action_mailbox_routing` |
-| 6.1以降                | `nil`                |
+| バージョン     | デフォルト値              |
+| -------------- | ------------------------- |
+| （オリジナル） | `:action_mailbox_routing` |
+| 6.1以降        | `nil`                     |
 
 #### `config.action_mailbox.storage_service`
 
@@ -2363,7 +2541,7 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 * `:authentication`: メールサーバーで認証が要求される場合は、ここで認証の種類を指定します。`:plain`、`:login`、`:cram_md5`のいずれかのシンボルを指定できます。
 * `:enable_starttls`: SMTPサーバーにSTARTTLSで接続します（サポートされていない場合は失敗します）。デフォルト値は`false`です。
 * `:enable_starttls_auto`: 利用するSMTPサーバーでSTARTTLSが有効かどうかを検出し、可能な場合は使います。デフォルト値は`true`です。
-* `:openssl_verify_mode`: TLSを使う場合、OpenSSLの認証方法を設定できます。これは、自己署名証明書やワイルドカード証明書が必要な場合に便利です。OpenSSLの検証定数である`:none`や`:peer`を指定することも、`OpenSSL::SSL::VERIFY_NONE`定数や`OpenSSL::SSL::VERIFY_PEER`定数を直接指定することもできます。
+* `:openssl_verify_mode`: TLSを使う場合、OpenSSLの認証方法を設定できます。これは、自己署名証明書やワイルドカード証明書が必要な場合に便利です。OpenSSLの検証定数名である`:none`や`:peer`を指定することも、`OpenSSL::SSL::VERIFY_NONE`定数や`OpenSSL::SSL::VERIFY_PEER`定数を直接指定することもできます。
 * `:ssl/:tls`: SMTP接続でSMTP/TLS（SMTPS: SMTP over direct TLS connection）を有効にします。
 * `:open_timeout`: コネクション開始の試行中の待ち時間を秒で指定します。
 * `:read_timeout`: read(2)呼び出しのタイムアウトを秒で指定します。
@@ -2376,10 +2554,10 @@ Log4rのインターフェイスまたはデフォルトのRuby Loggerクラス�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `nil`                |
-| 7.0以降                | `5`                  |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `nil`        |
+| 7.0以降        | `5`          |
 
 #### `config.action_mailer.sendmail_settings`
 
@@ -2484,10 +2662,10 @@ Active Jobアダプタも指定されたキューを処理するように設定�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:mailers`           |
-| 6.1以降                | `nil`                |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `:mailers`   |
+| 6.1以降        | `nil`        |
 
 #### `config.action_mailer.delivery_job`
 
@@ -2495,10 +2673,10 @@ Active Jobアダプタも指定されたキューを処理するように設定�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `ActionMailer::MailDeliveryJob` |
-| 6.0以降                | `"ActionMailer::MailDeliveryJob"` |
+| バージョン     | デフォルト値                      |
+| -------------- | --------------------------------- |
+| （オリジナル） | `ActionMailer::MailDeliveryJob`   |
+| 6.0以降        | `"ActionMailer::MailDeliveryJob"` |
 
 ### Active Supportを設定する
 
@@ -2530,11 +2708,11 @@ JSONエンコードされた時間値の精度を指定します。デフォル�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `OpenSSL::Digest::MD5` |
-| 5.2                   | `OpenSSL::Digest::SHA1` |
-| 7.0以降                | `OpenSSL::Digest::SHA256` |
+| バージョン     | デフォルト値              |
+| -------------- | ------------------------- |
+| （オリジナル） | `OpenSSL::Digest::MD5`    |
+| 5.2            | `OpenSSL::Digest::SHA1`   |
+| 7.0以降        | `OpenSSL::Digest::SHA256` |
 
 #### `config.active_support.key_generator_hash_digest_class`
 
@@ -2542,10 +2720,10 @@ JSONエンコードされた時間値の精度を指定します。デフォル�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `OpenSSL::Digest::SHA1` |
-| 7.0以降                | `OpenSSL::Digest::SHA256` |
+| バージョン     | デフォルト値              |
+| -------------- | ------------------------- |
+| （オリジナル） | `OpenSSL::Digest::SHA1`   |
+| 7.0以降        | `OpenSSL::Digest::SHA256` |
 
 #### `config.active_support.use_authenticated_message_encryption`
 
@@ -2553,22 +2731,22 @@ AES-256-CBCの代わりに、AES-256-GCM認証済み暗号をメッセージ暗�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.2以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 5.2以降        | `true`       |
 
 #### `config.active_support.message_serializer`
 
 [`ActiveSupport::MessageEncryptor`][]および[`ActiveSupport::MessageVerifier`][]インスタンスで利用するデフォルトのシリアライザを指定します。シリアライザ間の移行を容易にするため、提供されるシリアライザには複数のデシリアライズ形式をサポートするフォールバックメカニズムが組み込まれています。
 
-|シリアライザ| シリアライズとデシリアライズ | デシリアライズのフォールバック|
-| ---------- | ------------------------- | -------------------- |
-| `:marshal` | `Marshal` | `ActiveSupport::JSON`、`ActiveSupport::MessagePack` |
-| `:json` | `ActiveSupport::JSON` | `ActiveSupport::MessagePack` |
-| `:json_allow_marshal` | `ActiveSupport::JSON` | `ActiveSupport::MessagePack`、`Marshal` |
-| `:message_pack` | `ActiveSupport::MessagePack` | `ActiveSupport::JSON` |
-| `:message_pack_allow_marshal` | `ActiveSupport::MessagePack` | `ActiveSupport::JSON`、`Marshal` |
+| シリアライザ                  | シリアライズとデシリアライズ | デシリアライズのフォールバック                      |
+| ----------------------------- | ---------------------------- | --------------------------------------------------- |
+| `:marshal`                    | `Marshal`                    | `ActiveSupport::JSON`、`ActiveSupport::MessagePack` |
+| `:json`                       | `ActiveSupport::JSON`        | `ActiveSupport::MessagePack`                        |
+| `:json_allow_marshal`         | `ActiveSupport::JSON`        | `ActiveSupport::MessagePack`、`Marshal`             |
+| `:message_pack`               | `ActiveSupport::MessagePack` | `ActiveSupport::JSON`                               |
+| `:message_pack_allow_marshal` | `ActiveSupport::MessagePack` | `ActiveSupport::JSON`、`Marshal`                    |
 
 WARNING: `Marshal`は、メッセージ署名のsecret（秘密情報）が漏洩した場合にデシリアライズ攻撃のベクタになる可能性があります。**可能であれば、`Marshal`をサポートしていないシリアライザを選択すること。**
 
@@ -2584,10 +2762,10 @@ config.active_support.message_serializer = YAML
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:marshal`           |
-| 7.1以降                | `:json_allow_marshal`|
+| バージョン     | デフォルト値          |
+| -------------- | --------------------- |
+| （オリジナル） | `:marshal`            |
+| 7.1以降        | `:json_allow_marshal` |
 
 [`ActiveSupport::MessageEncryptor`]: https://api.rubyonrails.org/classes/ActiveSupport/MessageEncryptor.html
 [`ActiveSupport::MessageVerifier`]: https://api.rubyonrails.org/classes/ActiveSupport/MessageVerifier.html
@@ -2600,10 +2778,10 @@ config.active_support.message_serializer = YAML
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
 
 #### `config.active_support.cache_format_version`
 
@@ -2617,10 +2795,10 @@ config.active_support.message_serializer = YAML
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| 7.0                   | `7.0`                |
-| 7.1以降                | `7.1`                |
+| バージョン | デフォルト値 |
+| ---------- | ------------ |
+| 7.0        | `7.0`        |
+| 7.1以降    | `7.1`        |
 
 #### `config.active_support.deprecation`
 
@@ -2657,26 +2835,10 @@ Rails内部ステートのほとんどの局所性（locality）を設定しま�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
-
-#### `config.active_support.to_time_preserves_timezone`
-
-`to_time`メソッドが受信者のUTCオフセットを保持するか、タイムゾーンを保持するかを指定します。
-
-`:zone`に設定すると、`to_time`メソッドは受信者のタイムゾーンを利用します。
-`:offset`に設定すると、`to_time`メソッドはUTCオフセットを利用します。
-`false`の場合、`to_time`メソッドは代わりにローカルシステムのUTCオフセットに変換します。
-
-デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
-
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.0                   | `:offset`            |
-| 8.0                   | `:zone`              |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 #### `ActiveSupport::Logger.silencer`
 
@@ -2686,41 +2848,80 @@ Rails内部ステートのほとんどの局所性（locality）を設定しま�
 
 キャッシュストア操作で使うロガーを指定します。
 
-#### `ActiveSupport.to_time_preserves_timezone`
-
-`to_time`メソッドでレシーバのUTCオフセットを保持するかどうかを指定します。`false`の場合、`to_time`メソッドはローカルシステムのUTCオフセットに変換されます。
-
-デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
-
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 5.0以降                | `true`               |
-
 #### `ActiveSupport.utc_to_local_returns_utc_offset_times`
 
-`ActiveSupport::TimeZone.utc_to_local`で、そのオフセットを考慮したUTC時間ではなく、UTCオフセット付きのローカル時間を返すように設定します。
+[`ActiveSupport::TimeZone.utc_to_local`][]で、そのオフセットを考慮したUTC時間ではなく、UTCオフセット付きのローカル時間を返すように設定します。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 6.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 6.1以降        | `true`       |
+
+[`ActiveSupport::TimeZone.utc_to_local`]: https://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html#method-i-utc_to_local
 
 #### `config.active_support.raise_on_invalid_cache_expiration_time`
 
-`Rails.cache`の`fetch`または`write`に無効な`expires_at`または`expires_in`時刻を指定した場合に、`ArgumentError`を発生させるかどうかを指定します。
+`Rails.cache`の[`fetch`][ActiveSupport::Cache::Store#fetch]または[`write`][ActiveSupport::Cache::Store#write]に無効な`expires_at`または`expires_in`時刻を指定した場合に、`ArgumentError`を発生させるかどうかを指定します。
 
 オプションは`true`と`false`です。
 `false`の場合、例外は`handled`として報告され、代わりにログに出力されます。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.1以降        | `true`       |
+
+[ActiveSupport::Cache::Store#fetch]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch
+[ActiveSupport::Cache::Store#write]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-write
+
+#### `config.active_support.event_reporter_context_store`
+
+イベントレポーター用のカスタムコンテキストストアを設定します。このコンテキストストアは、レポーターが発行するあらゆるイベントにアタッチされるメタデータの管理に使われます。
+
+イベントレポーターが利用するデフォルトの`ActiveSupport::EventContext`は、Fiberローカルのストレージにコンテキストを保存します。
+
+カスタムのコンテキストストアを利用する場合は、コンテキストストアのインターフェイスを実装するクラスで、このコンフィグを設定します。
+
+```ruby
+# config/application.rb
+config.active_support.event_reporter_context_store = CustomContextStore
+
+class CustomContextStore
+  class << self
+    def context
+      # コンテキストハッシュを返す
+    end
+
+    def set_context(context_hash)
+      # 既存のコンテキストストアにcontext_hashを追記する
+    end
+
+    def clear
+      # コンテキストハッシュをクリアする
+    end
+  end
+end
+```
+
+デフォルト値は`nil`です。この場合、デフォルトで`ActiveSupport::EventContext`ストアが使われます。
+
+#### `config.active_support.escape_js_separators_in_json`
+
+JSON生成時に、Unicodeの[LINE SEPARATOR (U+2028)](https://www.compart.com/en/unicode/U+2028)および[PARAGRAPH SEPARATOR (U+2029)](https://www.compart.com/en/unicode/U+2029)をエスケープするかどうかを指定します。
+
+これらの文字は 歴史的にはJavaScriptリテラル文字列内では有効ではありませんでしたが、ECMAScript 2019で変更されました。
+そのため、最新のブラウザでは問題になりません: [JavaScript built-in: JSON: JavaScript is a superset of JSON | Can I use](https://caniuse.com/mdn-javascript_builtins_json_json_superset)
+
+デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
+
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `true`       |
+| 8.1以降        | `false`      |
 
 ### Active Jobを設定する
 
@@ -2805,10 +3006,10 @@ Active Jobのログ情報に使うロガーとして、Log4rのインターフ�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `0.0`                |
-| 6.1以降                | `0.15`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `0.0`        |
+| 6.1以降        | `0.15`       |
 
 #### `config.active_job.log_query_tags_around_perform`
 
@@ -2846,23 +3047,37 @@ Action Cableサーバーが受け入れるリクエストの送信元を決定�
 
 `config.active_storage`では以下の設定オプションが提供されています。
 
+#### `config.active_storage.checksum_implementation`
+
+内部チェックサム用のダイジェスト実装を指定します。
+値はRubyの`Digest`インターフェイスに応答しなければなりません。
+
+| バージョン     | デフォルト値                                |
+| -------------- | ------------------------------------------- |
+| （オリジナル） | `OpenSSL::Digest::MD5` または `Digest::MD5` |
+
 #### `config.active_storage.variant_processor`
 
-`:mini_magick`または`:vips`いずれかのシンボルを渡せます。これらはvariantの変換やblob解析にMiniMagickとruby-vipsのどちらを使うかを指定します。
+`:mini_magick`、`:vips`、`:disabled`のいずれかのシンボルを指定できます。バリアントを変換するかどうか、およびblob解析にMiniMagickとruby-vipsのどちらを使うかを指定します。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `:mini_magick`        |
-| 7.0以降                | `:vips`               |
+| バージョン     | デフォルト値   |
+| -------------- | -------------- |
+| （オリジナル） | `:mini_magick` |
+| 7.0以降        | `:vips`        |
 
 #### `config.active_storage.analyzers`
 
 Active Storageのblob（binary large object）で利用できるアナライザを指定するクラスの配列を受け取ります。デフォルトでは以下のように定義されます。
 
 ```ruby
-config.active_storage.analyzers = [ActiveStorage::Analyzer::ImageAnalyzer::Vips, ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick, ActiveStorage::Analyzer::VideoAnalyzer, ActiveStorage::Analyzer::AudioAnalyzer]
+config.active_storage.analyzers = [
+  ActiveStorage::Analyzer::ImageAnalyzer::Vips,
+  ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick,
+  ActiveStorage::Analyzer::VideoAnalyzer,
+  ActiveStorage::Analyzer::AudioAnalyzer
+]
 ```
 
 画像アナライザは、画像blobの幅（width）や高さ（height）を取り出せます。
@@ -2870,6 +3085,12 @@ config.active_storage.analyzers = [ActiveStorage::Analyzer::ImageAnalyzer::Vips,
 動画アナライザは、動画blobの幅（width）、高さ（height）、再生時間（duration）、角度（angle）、縦横比（aspect ratio、アスペクト比）、動画/音声チャンネルの有無を取り出せます。
 
 音声アナライザは、音声blobの再生時間やビットレートを取り出せます。
+
+アナライザを無効にするには、以下のように空の配列を設定します。
+
+```ruby
+config.active_storage.analyzers = []
+```
 
 #### `config.active_storage.previewers`
 
@@ -2897,7 +3118,7 @@ config.active_storage.paths[:ffprobe] = "/usr/local/bin/ffprobe"
 
 #### `config.active_storage.variable_content_types`
 
-Active Storageがvariantプロセッサで変換可能なContent-Typeを示す文字列を配列で受け取ります。デフォルトでは以下のように定義されます。
+Active Storageがバリアントプロセッサで変換可能なContent-Typeを示す文字列を配列で受け取ります。デフォルトでは以下のように定義されます。
 
 ```ruby
 config.active_storage.variable_content_types = %w(image/png image/gif image/jpeg image/tiff image/bmp image/vnd.adobe.photoshop image/vnd.microsoft.icon image/webp image/avif image/heic image/heif)
@@ -2905,16 +3126,16 @@ config.active_storage.variable_content_types = %w(image/png image/gif image/jpeg
 
 #### `config.active_storage.web_image_content_types`
 
-variantをフォールバック用のPNGフォーマットに変換せずに処理可能なWeb画像Content-Typeを示す文字列を配列で受け取ります。
+バリアントをフォールバック用のPNGフォーマットに変換せずに処理可能なWeb画像Content-Typeを示す文字列を配列で受け取ります。
 
 たとえば、アプリケーションのバリアント処理に`AVIF`を使いたい場合は、この配列に`image/avif`を追加できます。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `%w(image/png image/jpeg image/gif)`            |
-| 7.2以降                | `%w(image/png image/jpeg image/gif image/webp)` |
+| バージョン     | デフォルト値                                    |
+| -------------- | ----------------------------------------------- |
+| （オリジナル） | `%w(image/png image/jpeg image/gif)`            |
+| 7.2以降        | `%w(image/png image/jpeg image/gif image/webp)` |
 
 #### `config.active_storage.content_types_to_serve_as_binary`
 
@@ -2938,14 +3159,15 @@ config.active_storage.content_types_allowed_inline = %w(image/webp image/avif im
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| 6.0                   | `:active_storage_analysis` |
-| 6.1以降                | `nil`                |
+| バージョン | デフォルト値               |
+| ---------- | -------------------------- |
+| 6.0        | `:active_storage_analysis` |
+| 6.1以降    | `nil`                      |
 
-#### `config.active_storage.queues.mirror`
+#### `config.active_storage.queues.transform`
 
-ダイレクトアップロードのミラーリングジョブに用いるActive Jobキューをシンボルで指定します。このオプションが`nil`の場合、ミラーリングジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
+バリアントの前処理に用いるActive Jobキューをシンボルで指定します。
+このオプションが`nil`の場合、ミラーリングジョブはデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
 
 #### `config.active_storage.queues.preview_image`
 
@@ -2957,10 +3179,10 @@ purgeジョブに用いるActive Jobキューをシンボルで指定します�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| 6.0                   | `:active_storage_purge` |
-| 6.1以降                | `nil`                |
+| バージョン | デフォルト値            |
+| ---------- | ----------------------- |
+| 6.0        | `:active_storage_purge` |
+| 6.1以降    | `nil`                   |
 
 #### `config.active_storage.queues.transform`
 
@@ -3014,18 +3236,14 @@ variantをデータベースに記録するかどうかを指定します。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 6.1以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 6.1以降        | `true`       |
 
 #### `config.active_storage.draw_routes`
 
 Active Storageのルーティング生成をオンオフできます。デフォルト値は`true`です。
-
-#### `config.active_storage.replace_on_assign_to_many`
-
-（準備中）
 
 #### `config.active_storage.resolve_model_to_route`
 
@@ -3044,10 +3262,10 @@ ffmpegの動画プレビュー画像生成方法を変更できます。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `"-y -vframes 1 -f image2"` |
-| 7.0以降                | `"-vf 'select=eq(n\\,0)+eq(key\\,1)+gt(scene\\,0.015)"`<sup><mark><strong><em>1</em></strong></mark></sup> <br> `+ ",loop=loop=-1:size=2,trim=start_frame=1'"`<sup><mark><strong><em>2</em></strong></mark></sup><br> `+ " -frames:v 1 -f image2"` <br><br> <ol><li>冒頭の動画フレームとキーフレーム、閾値に合う場面変更のフレームを選択する。</li> <li>他のフレームが条件を満たさない場合は、選択した冒頭の動画フレームにフォールバックして動画をループするか、選択した2つの動画フレームにフォールバックして動画をループする（冒頭のループフレームは使わない）。</li></ol> |
+| バージョン     | デフォルト値                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| （オリジナル） | `"-y -vframes 1 -f image2"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 7.0以降        | `"-vf 'select=eq(n\\,0)+eq(key\\,1)+gt(scene\\,0.015)"`<sup><mark><strong><em>1</em></strong></mark></sup> <br> `+ ",loop=loop=-1:size=2,trim=start_frame=1'"`<sup><mark><strong><em>2</em></strong></mark></sup><br> `+ " -frames:v 1 -f image2"` <br><br> <ol><li>冒頭の動画フレームとキーフレーム、閾値に合う場面変更のフレームを選択する。</li> <li>他のフレームが条件を満たさない場合は、選択した冒頭の動画フレームにフォールバックして動画をループするか、選択した2つの動画フレームにフォールバックして動画をループする（冒頭のループフレームは使わない）。</li></ol> |
 
 #### `config.active_storage.multiple_file_field_include_hidden`
 
@@ -3057,10 +3275,10 @@ Rails 7.1以降、Active Storageの`has_many_attached`リレーションシッ�
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
 #### `config.active_storage.precompile_assets`
 
@@ -3076,15 +3294,15 @@ Rails 7.1以降、Active Storageの`has_many_attached`リレーションシッ�
 
 Action Textで利用するHTMLサニタイザを設定します。`ActionText::ContentHelper.sanitizer`には、ベンダーの`.safe_list_sanitizer`メソッドから返されるクラスのインスタンスが設定されます。デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 
-| バージョン              | デフォルト値           |
-| --------------------- | -------------------- |
-| （オリジナル）           | `false`              |
-| 7.0以降                | `true`               |
+| バージョン     | デフォルト値 |
+| -------------- | ------------ |
+| （オリジナル） | `false`      |
+| 7.0以降        | `true`       |
 
-| バージョン | デフォルト値 | マークアップ解析ライブラリ |
-|-----------------------|--------------------------------------|------------------------|
-| （オリジナル）          | `Rails::HTML4::Sanitizer`            | HTML4                  |
-| 7.1                   | `Rails::HTML5::Sanitizer`（以下の注を参照）| HTML5                  |
+| バージョン     | デフォルト値                                | マークアップ解析ライブラリ |
+| -------------- | ------------------------------------------- | -------------------------- |
+| （オリジナル） | `Rails::HTML4::Sanitizer`                   | HTML4                      |
+| 7.1            | `Rails::HTML5::Sanitizer`（以下の注を参照） | HTML5                      |
 
 NOTE: `Rails::HTML5::Sanitizer`はJRubyではサポートされていないため、JRubyプラットフォームのRailsは`Rails::HTML4::Sanitizer`にフォールバックします。
 
@@ -3235,7 +3453,7 @@ production:
 
 #### SQLite3データベースを設定する
 
-Railsには[SQLite3](https://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは、production環境の負荷に耐えるよう、より適切に設定されますが、production環境の負荷が高すぎる場合はSQLiteが過負荷になる可能性があります。Railsで新規プロジェクトを作成するとデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
+Railsには[SQLite3](https://www.sqlite.org)のサポートが組み込まれています。SQLiteは軽量かつ専用サーバーの不要なデータベースアプリケーションです。SQLiteは、production環境の負荷に耐えるよう、より適切に設定されますが、production環境の負荷が高すぎる場合はSQLiteが過負荷になる可能性があります。SQLiteはゼロコンフィグで利用できるため、新規プロジェクトを作成する場合はデフォルトでSQLiteが指定されますが、これはいつでも後から変更できます。
 
 以下はデフォルトのコネクション設定ファイル（`config/database.yml`）に含まれる、開発環境用のコネクション設定です。
 
@@ -3247,7 +3465,20 @@ development:
   timeout: 5000
 ```
 
-NOTE: Railsでデータ保存用にSQLite3データベースが採用されている理由は、設定なしですぐに使えるからです。RailsではSQLiteの他にMySQL（MariaDB含む）やPostgreSQLなども使えますし、データベースコネクション用のプラグインも多数あります。production環境で何らかのデータベースを使う場合、そのためのアダプタはたいていの場合探せば見つかります。
+`sqlite3` gem v2.4.0以降を使う場合は、設定ファイルの`extensions`を設定することで[SQLite拡張](https://sqlite.org/loadext.html)を利用できます。
+
+``` yaml
+development:
+  adapter: sqlite3
+  extensions:
+    - SQLean::UUID                     # モジュール名が`.to_path`や
+    - .sqlpkg/nalgeon/crypto/crypto.so # ファイルシステムパスや
+    - <%= AppExtensions.location %>    # またはパスを返すrubyコードに応答するようになる
+```
+
+SQLite拡張を追加することで、多くの機能をSQLiteに追加できます。SQLite拡張の一覧については、[SQLite extension hub](https://sqlpkg.org/)を参照してください。また、[`sqlpkg-ruby`](https://github.com/fractaledmind/sqlpkg-ruby)や[`sqlean-ruby`](https://github.com/flavorjones/sqlean-ruby)などのgemを使ってSQLite拡張を手軽に管理することも可能です。
+
+その他の設定オプションについては、[SQLite3AdapterのAPIドキュメント]( https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SQLite3Adapter.html)を参照してください。
 
 #### MySQLやMariaDBデータベースを設定する
 
@@ -3288,12 +3519,11 @@ development:
   pool: 5
 ```
 
-Active Recordでは、Prepared StatementsやAdvisory Locksなどの機能がデフォルトでオンになります。PgBouncerなどの外部コネクションプーラーを用いる場合、これらの機能をオフにできます。
+Active Recordでは、Advisory Locksと呼ばれるデータベース機能がデフォルトでオンになります。PgBouncerなどの外部コネクションプーラーを用いる場合、これらの機能をオフにできます。
 
 ```yaml
 production:
   adapter: postgresql
-  prepared_statements: false
   advisory_locks: false
 ```
 
@@ -3585,50 +3815,51 @@ end
 
 以下の読み込みフックは独自のコードで利用可能です。以下のクラスのいずれかの初期化プロセスにフックするには、利用可能なフックを使います。
 
-| クラス名                              |フック                                 |
-| -------------------------------------| ------------------------------------ |
-| `ActionCable`                        | `action_cable`                       |
-| `ActionCable::Channel::Base`         | `action_cable_channel`               |
-| `ActionCable::Connection::Base`      | `action_cable_connection`            |
-| `ActionCable::Connection::TestCase`  | `action_cable_connection_test_case`  |
-| `ActionController::API`              | `action_controller_api`              |
-| `ActionController::API`              | `action_controller`                  |
-| `ActionController::Base`             | `action_controller_base`             |
-| `ActionController::Base`             | `action_controller`                  |
-| `ActionController::TestCase`         | `action_controller_test_case`        |
-| `ActionDispatch::IntegrationTest`    | `action_dispatch_integration_test`   |
-| `ActionDispatch::Response`           | `action_dispatch_response`           |
-| `ActionDispatch::Request`            | `action_dispatch_request`            |
-| `ActionDispatch::SystemTestCase`     | `action_dispatch_system_test_case`   |
-| `ActionMailbox::Base`                | `action_mailbox`                     |
-| `ActionMailbox::InboundEmail`        | `action_mailbox_inbound_email`       |
-| `ActionMailbox::Record`              | `action_mailbox_record`              |
-| `ActionMailbox::TestCase`            | `action_mailbox_test_case`           |
-| `ActionMailer::Base`                 | `action_mailer`                      |
-| `ActionMailer::TestCase`             | `action_mailer_test_case`            |
-| `ActionText::Content`                | `action_text_content`                |
-| `ActionText::Record`                 | `action_text_record`                 |
-| `ActionText::RichText`               | `action_text_rich_text`              |
-| `ActionText::EncryptedRichText`      | `action_text_encrypted_rich_text`    |
-| `ActionView::Base`                   | `action_view`                        |
-| `ActionView::TestCase`               | `action_view_test_case`              |
-| `ActiveJob::Base`                    | `active_job`                         |
-| `ActiveJob::TestCase`                | `active_job_test_case`               |
-| `ActiveModel::Model`                 | `active_model`                       |
-| `ActiveModel::Translation`           | `active_model_translation`           |
-| `ActiveRecord::Base`                 | `active_record`                      |
-| `ActiveRecord::Encryption`           | `active_record_encryption`           |
-| `ActiveRecord::TestFixtures`         | `active_record_fixtures`             |
-| `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter`    | `active_record_postgresqladapter`    |
-| `ActiveRecord::ConnectionAdapters::Mysql2Adapter`        | `active_record_mysql2adapter`        |
-| `ActiveRecord::ConnectionAdapters::TrilogyAdapter`       | `active_record_trilogyadapter`       |
-| `ActiveRecord::ConnectionAdapters::SQLite3Adapter`       | `active_record_sqlite3adapter`       |
-| `ActiveStorage::Attachment`          | `active_storage_attachment`          |
-| `ActiveStorage::VariantRecord`       | `active_storage_variant_record`      |
-| `ActiveStorage::Blob`                | `active_storage_blob`                |
-| `ActiveStorage::Record`              | `active_storage_record`              |
-| `ActiveSupport::TestCase`            | `active_support_test_case`           |
-| `i18n`                               | `i18n`                               |
+| クラス名                                              | フック                                  |
+| ----------------------------------------------------- | --------------------------------------- |
+| `ActionCable`                                         | `action_cable`                          |
+| `ActionCable::Channel::Base`                          | `action_cable_channel`                  |
+| `ActionCable::Connection::Base`                       | `action_cable_connection`               |
+| `ActionCable::Connection::TestCase`                   | `action_cable_connection_test_case`     |
+| `ActionController::API`                               | `action_controller_api`                 |
+| `ActionController::API`                               | `action_controller`                     |
+| `ActionController::Base`                              | `action_controller_base`                |
+| `ActionController::Base`                              | `action_controller`                     |
+| `ActionController::TestCase`                          | `action_controller_test_case`           |
+| `ActionDispatch::IntegrationTest`                     | `action_dispatch_integration_test`      |
+| `ActionDispatch::Response`                            | `action_dispatch_response`              |
+| `ActionDispatch::Request`                             | `action_dispatch_request`               |
+| `ActionDispatch::SystemTestCase`                      | `action_dispatch_system_test_case`      |
+| `ActionMailbox::Base`                                 | `action_mailbox`                        |
+| `ActionMailbox::InboundEmail`                         | `action_mailbox_inbound_email`          |
+| `ActionMailbox::Record`                               | `action_mailbox_record`                 |
+| `ActionMailbox::TestCase`                             | `action_mailbox_test_case`              |
+| `ActionMailer::Base`                                  | `action_mailer`                         |
+| `ActionMailer::TestCase`                              | `action_mailer_test_case`               |
+| `ActionText::Content`                                 | `action_text_content`                   |
+| `ActionText::Record`                                  | `action_text_record`                    |
+| `ActionText::RichText`                                | `action_text_rich_text`                 |
+| `ActionText::EncryptedRichText`                       | `action_text_encrypted_rich_text`       |
+| `ActionView::Base`                                    | `action_view`                           |
+| `ActionView::TestCase`                                | `action_view_test_case`                 |
+| `ActiveJob::Base`                                     | `active_job`                            |
+| `ActiveJob::TestCase`                                 | `active_job_test_case`                  |
+| `ActiveModel::Model`                                  | `active_model`                          |
+| `ActiveModel::Translation`                            | `active_model_translation`              |
+| `ActiveRecord::Base`                                  | `active_record`                         |
+| `ActiveRecord::DatabaseConfigurations`                | `active_record_database_configurations` |
+| `ActiveRecord::Encryption`                            | `active_record_encryption`              |
+| `ActiveRecord::TestFixtures`                          | `active_record_fixtures`                |
+| `ActiveRecord::ConnectionAdapters::PostgreSQLAdapter` | `active_record_postgresqladapter`       |
+| `ActiveRecord::ConnectionAdapters::Mysql2Adapter`     | `active_record_mysql2adapter`           |
+| `ActiveRecord::ConnectionAdapters::TrilogyAdapter`    | `active_record_trilogyadapter`          |
+| `ActiveRecord::ConnectionAdapters::SQLite3Adapter`    | `active_record_sqlite3adapter`          |
+| `ActiveStorage::Attachment`                           | `active_storage_attachment`             |
+| `ActiveStorage::VariantRecord`                        | `active_storage_variant_record`         |
+| `ActiveStorage::Blob`                                 | `active_storage_blob`                   |
+| `ActiveStorage::Record`                               | `active_storage_record`                 |
+| `ActiveSupport::TestCase`                             | `active_support_test_case`              |
+| `i18n`                                                | `i18n`                                  |
 
 初期化イベント
 ---------------------
@@ -3709,7 +3940,7 @@ WARNING: イニシャライザの起動順序は、論理的に矛盾が生じ�
 
 #### `load_active_support`
 
-Active Supportの基本部分を設定する`active_support/dependencies`を`require`します。`config.active_support.bare`がない場合はデフォルトで`active_support/all`を`require`します。
+`config.active_support.bare`がない場合はオプションで`active_support/all`を`require`します（デフォルトの動作）。
 
 #### `initialize_logger`
 
@@ -3843,7 +4074,7 @@ Action Controllerの`helpers_path`をアプリケーションの`helpers_path`�
 
 #### `set_autoload_paths`
 
-このイニシャライザは`bootstrap_hook`の前に実行されます。`app/`以下のすべてのサブディレクトリと、`config.autoload_paths`、`config.eager_load_paths`、`config.autoload_once_paths`で指定したすべてのパスが`ActiveSupport::Dependencies.autoload_paths`に追加されます。
+このイニシャライザは`bootstrap_hook`の「前に」実行されます。`app/`以下のすべてのサブディレクトリと、`config.autoload_paths`、`config.eager_load_paths`、`config.autoload_once_paths`で指定したすべてのパスが`ActiveSupport::Dependencies.autoload_paths`に追加されます。
 
 #### `add_routing_paths`
 
