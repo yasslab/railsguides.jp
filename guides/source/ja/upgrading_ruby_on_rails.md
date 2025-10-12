@@ -381,7 +381,7 @@ Rails 7.1では、この設定に渡せる値が`true`と`false`から、`:all`�
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](/configuring.html#config-action-dispatch-rescue-responses)で宣言されている例外についてはHTMLエラーページを表示する
 * `:none`（`false`と同等）: 例外をrescueしない
 
-Rails 7.1以降で生成したアプリケーションの`config/environments/test.rb`には `config.action_dispatch.show_exceptions = :rescuable`が設定されます。アップグレードする場合、既存のアプリケーションの`config.action_dispatch.show_exceptions = :rescuable`を新しい振る舞いに沿って変更することも、古い値を対応する新しい値に置き換える（`true`を`:all`に置き換え、`false`を`:none`に置き換える）ことも可能です。
+Rails 7.1以降で生成したアプリケーションの`config/environments/test.rb`には`config.action_dispatch.show_exceptions = :rescuable`が設定されます。アップグレードする場合、既存のアプリケーションの`config.action_dispatch.show_exceptions = :rescuable`を新しい振る舞いに沿って変更することも、古い値を対応する新しい値に置き換える（`:all`を`true`に置き換え、`:none`を`false`に置き換える）ことも可能です。
 
 Rails 6.1からRails 7.0へのアップグレード
 -------------------------------------
