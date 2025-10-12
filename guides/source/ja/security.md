@@ -38,10 +38,10 @@ Rails 8.0からは、認証機能ジェネレータがデフォルトで付属�
 
 認証機能ジェネレータは、基本認証とパスワードリセット機能に必要なすべての関連モデル、コントローラー、ビュー、ルーティング、マイグレーションを追加します。
 
-認証機能ジェネレータをアプリケーションで利用するには、`rails generate authentication`コマンドを実行します。ジェネレータによって変更されるすべてのファイルと新規追加ファイルは以下のとおりです。
+認証機能ジェネレータをアプリケーションで利用するには、`bin/rails generate authentication`コマンドを実行します。ジェネレータによって変更されるすべてのファイルと新規追加ファイルは以下のとおりです。
 
 ```bash
-$ rails generate authentication
+$ bin/rails generate authentication
       invoke  erb
       create    app/views/passwords/new.html.erb
       create    app/views/passwords/edit.html.erb
@@ -120,6 +120,8 @@ Untracked files:
 
 パスワードのリセット機能も認証機能ジェネレータによって追加されます。
 「サインイン」ページに「forgot password?（パスワードを忘れましたか？）」リンクが表示され、そのリンクをクリックすると`/passwords/new`パスに移動して`PasswordsController`にルーティングされます。`PasswordsController`クラスの`new`メソッドは、パスワードリセット用のメールを送信するフローを実行します。
+
+このリンクは、デフォルトで15分間有効ですが、`has_secure_password`で設定を変更できます。
 
 **パスワードのリセット**用のメーラーも認証機能ジェネレータによって`app/mailers/password_mailer.rb`で設定されます。このメーラーは、以下のメールをユーザー送信用にレンダリングします。
 
@@ -920,7 +922,7 @@ Action ViewとAction Textは、どちらも[rails-html-sanitizer][] gemの上に
   &#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>
 ```
 
-上の例を実行するとメッセージボックスが表示されます。なお、これは上の`sanitize()`フィルタで認識されます。[Hackvertor](https://hackvertor.co.uk/public)は文字列の難読化とエンコードを行なう優れたツールであり、「敵を知る」のに最適です。Railsの`sanitize()`メソッドを使うと、このようなエンコーディング攻撃を回避できます。
+上の例を実行するとメッセージボックスが表示されます。なお、これは上の`sanitize()`フィルタで認識されます。[Hackvertor](https://hackvertor.co.uk/)は文字列の難読化とエンコードを行なう優れたツールであり、「敵を知る」のに最適です。Railsの`sanitize()`メソッドを使うと、このようなエンコーディング攻撃を回避できます。
 
 #### アンダーグラウンドでの攻撃例
 
@@ -938,7 +940,7 @@ Action ViewとAction Textは、どちらも[rails-html-sanitizer][] gemの上に
 
 webmailワームの他の概念実証的な事例としてNdujaを取り上げます。詳しくは[Rosario Valotta'の論文](http://www.xssed.com/news/37/Nduja_Connection_A_cross_webmail_worm_XWW/)を参照してください。どちらのwebmailワームも営利目的の犯罪的ハッカーによるメールアドレスの収集が狙いです。
 
-2006年12月、実在する34,000人のユーザー名とパスワードが[MySpaceへのフィッシング攻撃](https://news.netcraft.com/archives/2006/10/27/myspace_accounts_compromised_by_phishers.html)によって盗み出されました。この攻撃では「login_home_index_html」というURLのプロファイルページが捏造され、ユーザーからはいかにも普通のログインURLのように見えました。MySpaceの本物のWebページコンテンツは特殊なHTML/CSSによって隠され、代わりに独自の偽ログインページを表示しました。
+2006年12月、実在する34,000人のユーザー名とパスワードが[MySpaceへのフィッシング攻撃](https://www.schneier.com/essays/archives/2006/12/myspace_passwords_ar.html)によって盗み出されました。この攻撃では「login_home_index_html」というURLのプロファイルページが捏造され、ユーザーからはいかにも普通のログインURLのように見えました。MySpaceの本物のWebページコンテンツは特殊なHTML/CSSによって隠され、代わりに独自の偽ログインページを表示しました。
 
 ### CSSインジェクション
 
@@ -1156,11 +1158,11 @@ end
 Railsをデフォルトでセキュアにするために、`deep_munge`メソッドは一部の値を`nil`に置き換えます。リクエストで送信された`JSON`ベースのパラメータがどのように見えるかを以下の表に示します。
 
 | JSON                              | パラメータ               |
-|-----------------------------------|--------------------------|
+| --------------------------------- | ------------------------ |
 | `{ "person": null }`              | `{ :person => nil }`     |
-| `{ "person": [] }`                | `{ :person => [] }`     |
-| `{ "person": [null] }`            | `{ :person => [] }`     |
-| `{ "person": [null, null, ...] }` | `{ :person => [] }`     |
+| `{ "person": [] }`                | `{ :person => [] }`      |
+| `{ "person": [null] }`            | `{ :person => [] }`      |
+| `{ "person": [null, null, ...] }` | `{ :person => [] }`      |
 | `{ "person": ["foo", null] }`     | `{ :person => ["foo"] }` |
 
 リスクと取扱い上の注意を十分理解している場合に限り、以下の設定で`deep_munge`をオフにしてアプリケーションを従来の動作に戻せます。
@@ -1374,6 +1376,16 @@ Rails.application.config.content_security_policy_nonce_directives = %w(script-sr
 <%= stylesheet_link_tag "style.css", nonce: true %>
 ```
 
+対応するディレクティブが`config.content_security_policy_nonce_directives`で指定されている場合に、`javascript_tag`、`javascript_include_tag`、および`stylesheet_link_tag`にnonceを自動的に添付するには、`config.content_security_policy_nonce_auto`を`true`に設定します。
+
+```ruby
+Rails.application.config.content_security_policy_nonce_auto = true
+```
+
+これは、サードパーティgemなどのビューが[`Content-Security-Policy`](#content-security-policyヘッダー)でnonceベースのソース式を利用している場合に特に便利です。
+
+NOTE: キャッシュに注意してください。nonceは通常リクエストごとに生成されるため、キャッシュ戦略で動的なnonceを考慮していない場合、この機能を有効にするとキャッシュの断片化やコンテンツが古くなるなどの可能性があります。
+
 セッションごとにインライン`<script>`タグを許可するnonce値を含む"csp-nonce"メタタグを生成するには、[`csp_meta_tag`](https://api.rubyonrails.org/classes/ActionView/Helpers/CspHelper.html#method-i-csp_meta_tag)ヘルパーをお使いください。
 
 ```html+erb
@@ -1464,7 +1476,7 @@ XSS対策の注入に関するセクションも参照してください。
 
 クロスサイトリクエストフォージェリ（Cross-Site Request Forgery）はクロスサイトリファレンスフォージェリ（XSRF: Cross-Site Reference Forgery）とも呼ばれ、非常に強力な攻撃手法です。この攻撃を受けると、管理者やイントラネットユーザーが実行可能な操作をすべて行えるようになってしまいます。CSRFについては既に説明しましたので、ここでは攻撃者がイントラネットや管理画面に対して攻撃を仕掛ける手順をいくつかの事例で説明します。
 
-現実に起きた事例として[CSRFによるルーター再構成](http://www.h-online.com/security/Symantec-reports-first-active-attack-on-a-DSL-router--/news/102352)を取り上げましょう。この攻撃者は、CSRFを仕込んだ危険なメールをメキシコの多数のユーザーに送信しました。このメールには、「お客様のeカードをご用意いたしました」と書かれており、imageタグが含まれていました。そしてそのタグには、ユーザーのルーターを再構成してしまうHTTP GETリクエストが仕込まれていました。このルーターは、メキシコで広く普及しているモデルでした。このリクエストによってDNS設定が変更され、メキシコで事業を行っているネットバンキングWebサイトの一部が、攻撃者のWebサイトにマッピングされてしまいました。このルーターを経由してこのネットバンキングサイトにアクセスすると、攻撃者が設置した偽のWebサイトが開き、認証情報が盗まれてしまいました。
+現実に起きた事例として、CSRFによるルーター再構成を取り上げましょう。この攻撃者は、CSRFを仕込んだ危険なメールをメキシコの多数のユーザーに送信しました。このメールには、「お客様のeカードをご用意いたしました」と書かれており、imageタグが含まれていました。そしてそのタグには、ユーザーのルーターを再構成してしまうHTTP GETリクエストが仕込まれていました。このルーターは、メキシコで広く普及しているモデルでした。このリクエストによってDNS設定が変更され、メキシコで事業を行っているネットバンキングWebサイトの一部が、攻撃者のWebサイトにマッピングされてしまいました。このルーターを経由してこのネットバンキングサイトにアクセスすると、攻撃者が設置した偽のWebサイトが開き、認証情報が盗まれてしまいました。
 
 Google Adsenseのメールアドレスとパスワードが変更された事例もあります。標的ユーザーがGoogle AdsenseにログインしてGoogle広告キャンペーン用の管理画面を開くと、攻撃者が標的ユーザーの認証情報を改変可能になるというものでした。
 
