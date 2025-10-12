@@ -2914,7 +2914,7 @@ variantをフォールバック用のPNGフォーマットに変換せずに処�
 | バージョン              | デフォルト値           |
 | --------------------- | -------------------- |
 | （オリジナル）           | `%w(image/png image/jpeg image/gif)`            |
-| 7.0以降                | `%w(image/png image/jpeg image/gif image/webp)` |
+| 7.2以降                | `%w(image/png image/jpeg image/gif image/webp)` |
 
 #### `config.active_storage.content_types_to_serve_as_binary`
 
