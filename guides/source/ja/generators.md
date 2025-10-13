@@ -210,7 +210,7 @@ Railsは、ジェネレータのテンプレートファイルを解決すると
 これを実際に行うために、`lib/templates/erb/scaffold/index.html.erb.tt`ファイルを作成して以下のコンテンツを追加してみましょう。
 
 ```erb
-<%% @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
+<%%= @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
 ```
 
 ここで作成するERBテンプレートは、**別の**ERBテンプレートをレンダリングします。そのため、**生成される**テンプレートに出力する`<%`は、**ジェネレータ**のテンプレートで`<%%`のようにすべてエスケープしておく必要がある点にご注意ください。
@@ -227,7 +227,7 @@ $ bin/rails generate scaffold Post title:string
 `app/views/posts/index.html.erb`ファイルを開くと、以下のようになっているはずです。
 
 ```erb
-<% @posts.count %> Posts
+<%= @posts.count %> Posts
 ```
 
 [scaffold controller template]: https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/scaffold_controller/templates/controller.rb.tt
