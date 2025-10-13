@@ -35,7 +35,7 @@ NOTE: 訳注: 「ページキャッシュ」と「アクションキャッシュ
 ここでは、キャッシュの手法をいくつか紹介します。
 
 Action Controllerのキャッシュは、デフォルトではproduction環境でのみ有効になります。
-`rails dev:cache`コマンドを実行するか、`config/environments/development.rb`ファイルで[`config.action_controller.perform_caching`][]を`true`に設定することで、ローカルでキャッシュを試せるようになります。
+`bin/rails dev:cache`コマンドを実行するか、`config/environments/development.rb`ファイルで[`config.action_controller.perform_caching`][]を`true`に設定することで、ローカルでキャッシュを試せるようになります。
 
 NOTE: `config.action_controller.perform_caching`値の変更は、Action Controllerコンポーネントで提供されるキャッシュでのみ有効です。つまり、後述する[低レベルキャッシュ](#rails-cacheによる低レベルキャッシュ)の動作には影響しません。
 
@@ -270,7 +270,6 @@ NOTE: クエリキャッシュはアクションの開始時に作成され、�
 ```ruby
 render partial: "comments/comment", collection: commentable.comments
 render "comments/comments"
-render "comments/comments"
 render("comments/comments")
 
 render "header" # render("comments/header")に変換される
@@ -358,7 +357,7 @@ Solid Cacheは、Rails 8.0以降ではデフォルトで有効になっていま
 rails new app_name --skip-solid
 ```
 
-WARNING: `--skip-solid`フラグを指定すると、Solid CacheとSolid Queueが両方ともスキップされます。Solid Queueを利用するがSolid Cacheは利用しない場合は、`rails app:enable-solid-queue`を実行することでSolid Queueを有効にできます。
+WARNING: `--skip-solid`フラグを指定すると、Solid Cache、Solid Queue、Solid Cableがすべてスキップされます。たとえばSolid QueueとSolid Cableは利用するがSolid Cacheは利用しない場合は、[Solid QueueのREADME](https://github.com/rails/solid_queue#installation)と[Solid CableのREADME](https://github.com/rails/solid_cable#installation)の手順に沿って個別にインストールできます。
 
 [SSD]:
   https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%AA%E3%83%83%E3%83%89%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96
