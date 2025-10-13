@@ -29,7 +29,7 @@ macOSでRubyをコンパイルするために必要な依存関係をインス�
 
 ターミナルを開いて、次のコマンドを実行します。
 
-```shell
+```bash
 # Xcode Command Line Toolsをインストールする
 $ xcode-select --install
 
@@ -57,7 +57,7 @@ $ mise use -g ruby@3
 ```bash
 # aptで依存関係をインストールする
 $ sudo apt update
-$ sudo apt install build-essential rustc libssl-dev libyaml-dev zlib1g-dev libgmp-dev
+$ sudo apt install build-essential rustc libssl-dev libyaml-dev zlib1g-dev libgmp-dev git
 
 # Miseバージョンマネージャをインストールする
 $ curl https://mise.run | sh
