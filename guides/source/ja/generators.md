@@ -1,17 +1,17 @@
 Rails ジェネレータとテンプレート入門
 =====================================================
 
-Railsの各種ジェネレータは、ワークフローの改善に欠かせないツールです。本ガイドは、Railsジェネレータの作成方法および既存のジェネレータのカスタマイズ方法について解説します。
+Railsの各種ジェネレータとアプリケーションテンプレートは、定型コードを自動的に生成してワークフローを改善するツールとして非常に有用です。
 
 このガイドの内容:
 
 * アプリケーションで利用できるジェネレータを確認する方法
 * テンプレートでジェネレータを作成する方法
 * Railsがジェネレータを起動前に探索する方法
-* ジェネレータのテンプレートをオーバーライドしてscaffoldをカスタマイズする方法
-* ジェネレータをオーバーライドしてscaffoldをカスタマイズする方法
+* ジェネレータとテンプレートをオーバーライドしてscaffoldをカスタマイズする方法
 * 多数のジェネレータを誤って上書きしないためのフォールバック方法
-* アプリケーションテンプレートの作成方法
+* Railsアプリケーションをテンプレートで作成・カスタマイズする方法
+* RailsテンプレートAPIを使って独自の再利用可能なアプリケーションテンプレートを書く方法
 
 --------------------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ Railsは、ジェネレータのテンプレートファイルを解決すると
 これを実際に行うために、`lib/templates/erb/scaffold/index.html.erb.tt`ファイルを作成して以下のコンテンツを追加してみましょう。
 
 ```erb
-<%% @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
+<%%= @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
 ```
 
 ここで作成するERBテンプレートは、**別の**ERBテンプレートをレンダリングします。そのため、**生成される**テンプレートに出力する`<%`は、**ジェネレータ**のテンプレートで`<%%`のようにすべてエスケープしておく必要がある点にご注意ください。
@@ -227,7 +227,7 @@ $ bin/rails generate scaffold Post title:string
 `app/views/posts/index.html.erb`ファイルを開くと、以下のようになっているはずです。
 
 ```erb
-<% @posts.count %> Posts
+<%= @posts.count %> Posts
 ```
 
 [scaffold controller template]: https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/scaffold_controller/templates/controller.rb.tt
@@ -390,11 +390,17 @@ $ bin/rails generate scaffold Comment body:text
 アプリケーションテンプレート
 ---------------------
 
-アプリケーションテンプレートは特殊なジェネレータです。このテンプレートでは、[ジェネレータのヘルパーメソッド](#ジェネレータのヘルパーメソッド)をすべて利用可能ですが、RubyクラスではなくRubyスクリプトとして記述する点が異なります。以下はアプリケーションテンプレートの例です。
+アプリケーションテンプレートは、ジェネレータと若干異なる点があります。ジェネレータは、既存のRailsアプリケーションにモデルやビューなどのファイルを追加しますが、テンプレートは新しいRailsアプリケーションのセットアップを自動化するのに使われます。アプリケーションテンプレートは、新しいRailsアプリケーションを生成した直後にカスタマイズするRubyスクリプトであり、通常は`template.rb`という名前です。
+
+Railsアプリケーションを作成するときにアプリケーションテンプレートを使う方法を見てみましょう。
+
+### テンプレートを作成して利用する
+
+最初は、サンプルのRubyスクリプトテンプレートを作成してみましょう。
+以下のテンプレートは、ユーザーに確認した後、`Gemfile`にDeviseを追加し、Deviseユーザーモデル名を入力できるようにします。`bundle install`の実行後、テンプレートはDeviseジェネレータとマイグレーションを実行します。最後に、`git add`と`git commit`を実行します。
 
 ```ruby
 # template.rb
-
 if yes?("Deviseをインストールしますか?")
   gem "devise"
   devise_model = ask("ユーザモデル名は何にしますか?", default: "User")
@@ -411,49 +417,285 @@ after_bundle do
 end
 ```
 
-このテンプレートでは、最初にDevise gemをインストールするかどうかをユーザーに尋ねます。ユーザーが「yes」（または「y」）を入力すると、テンプレートは`Gemfile`にDeviseを追加し、Deviseのユーザーモデル名をユーザーに尋ねます（デフォルトは`User`）。その後、`bundle install`が実行された後、Deviseモデルが指定されている場合はDeviseジェネレータと`rails db:migrate`を実行します。最後に、テンプレートはアプリケーションディレクトリ全体に対して`git add`と`git commit`を実行します。
-
-新しいRailsアプリケーションを`rails new`コマンドで生成するときに`-m`オプションを渡すことで、このテンプレートを実行できます。
+このテンプレートを使って新しいRailsアプリケーションを作成するには、`-m`オプションでテンプレートの場所を指定します。
 
 ```bash
-$ rails new my_cool_app -m path/to/template.rb
+$ rails new blog -m ~/template.rb
 ```
 
-また、既存のアプリケーション内で`bin/rails app:template`でテンプレートを実行することも可能です。
+これで、新規Railsアプリケーションが`blog`という名前で作成されるときに、Devise gemも設定されます。
+
+`app:template`コマンドを使えば、既存のRailsアプリケーションにテンプレートを適用することも可能です。
+この場合、テンプレートファイルの場所は`LOCATION`環境変数で指定する必要があります。
 
 ```bash
-$ bin/rails app:template LOCATION=path/to/template.rb
+$ bin/rails app:template LOCATION=~/template.rb
 ```
 
-テンプレートは必ずしもローカルに保存する必要はありません。パスの代わりにURLも指定できます。
+テンプレートは必ずしもローカルに保存する必要はありません。ファイルパスの代わりにURLも指定できます。
 
 ```bash
-$ rails new my_cool_app -m http://example.com/template.rb
-$ bin/rails app:template LOCATION=http://example.com/template.rb
+$ rails new blog -m https://example.com/template.rb
+$ bin/rails app:template LOCATION=https://example.com/template.rb
 ```
 
-ジェネレータのヘルパーメソッド
-------------------------
+WARNING: 第三者が提供するリモートスクリプトを実行するときは注意が必要です。テンプレートは単なるRubyスクリプトなので、ローカルマシンを危険にさらすコード（ウイルスのダウンロード、ファイルの削除、個人ファイルのサーバーへのアップロードなど）が仕込まれやすくなる可能性があります。
 
-Thorは、以下のような多くのヘルパーメソッドを[`Thor::Actions`][]でジェネレータに提供しています。
+上述の`template.rb`ファイルでは、`after_bundle`や`rails_command`などのヘルパーメソッドを使い、`yes?`のようなユーザーインタラクティビティも追加しています。これらのメソッドはすべて[Rails Template API](https://edgeapi.rubyonrails.org/classes/Rails/Generators/Actions.html)の一部です。これらのメソッドの利用例を次のセクションで示します。
 
-* [`copy_file`][]
-* [`create_file`][]
-* [`gsub_file`][]
-* [`insert_into_file`][]
-* [`inside`][]
+RailsジェネレータAPI
+--------------------
 
-また、Railsも[`Rails::Generators::Actions`][]で以下のような多くのヘルパーメソッドを提供しています。
+ジェネレータと、テンプレートのRubyスクリプトは、[DSL](https://en.wikipedia.org/wiki/Domain-specific_language)（ドメイン固有言語）を使っていくつかのヘルパーメソッドにアクセスできます。これらのメソッドはRailsジェネレータAPIの一部であり、詳しくは[`Thor::Actions`][]や[`Rails::Generators::Actions`][]のAPIドキュメントで確認できます。
 
-* [`environment`][]
-* [`gem`][]
-* [`generate`][]
-* [`git`][]
-* [`initializer`][]
-* [`lib`][]
-* [`rails_command`][]
-* [`rake`][]
-* [`route`][]
+もう一つの典型的なRailsテンプレートの例を見てみましょう。このテンプレートはモデルをscaffoldで生成してからマイグレーションを実行し、変更をgitでコミットします。
+
+```ruby
+# template.rb
+generate(:scaffold, "person name:string")
+route "root to: 'people#index'"
+rails_command("db:migrate")
+
+after_bundle do
+  git :init
+  git add: "."
+  git commit: %Q{ -m 'Initial commit' }
+end
+```
+
+NOTE: 以下の例で使われているコードスニペットは、すべて上記の`template.rb`ファイルなどのテンプレートファイルで利用可能です。
+
+### `add_source`
+
+[`add_source`][]メソッドは、指定したソース（gemの取得元）を、生成されるアプリケーションの`Gemfile`に追加します。
+
+```ruby
+add_source "https://rubygems.org"
+```
+
+このメソッドにブロックを渡すと、ブロック内のgemエントリがソースグループにラップされます。たとえば、gemを`"http://gems.github.com"`から取得する必要がある場合は以下のようにします。
+
+```ruby
+add_source "http://gems.github.com/" do
+  gem "rspec-rails"
+end
+```
+
+### `after_bundle`
+
+[`after_bundle`][]メソッドは、gemのバンドルが完了した後に実行されるコールバックを登録します。
+たとえば、`tailwindcss-rails`と`devise`のインストールコマンドは、それらのgemがバンドルされた後に実行するのが合理的です。
+
+```ruby
+# gemをインストールする
+after_bundle do
+  # TailwindCSSをインストールする
+  rails_command "tailwindcss:install"
+
+  # Deviseをインストールする
+  generate "devise:install"
+end
+```
+
+このコールバックは、`rails new`コマンドで`--skip-bundle`オプションを指定した場合でも実行される点にご注意ください。
+
+### `environment`
+
+[`environment`][]メソッドは、`config/application.rb`の`Application`クラス内に行を追加します。`options[:env]`が指定されている場合、その行は`config/environments/`ディレクトリ内の対応するファイルに追加されます。
+
+```ruby
+environment 'config.action_mailer.default_url_options = {host: "http://yourwebsite.example.com"}', env: "production"
+```
+
+上のコードは、`config/environments/production.rb`に設定行を追加します。
+
+### `gem`
+
+[`gem`][]メソッドは、指定のgemエントリを、生成されたアプリケーションの`Gemfile`に追加します。
+
+たとえば、アプリケーションが`devise` gemと`tailwindcss-rails` gemに依存している場合は、以下のようにします。
+
+```ruby
+gem "devise"
+gem "tailwindcss-rails"
+```
+
+このメソッドは、gemを`Gemfile`に追加するだけで、gemのインストールは行わない点にご注意ください。
+
+gemのバージョンも指定できます。
+
+```ruby
+gem "devise", "~> 4.9.4"
+```
+
+`Gemfile`にコメント付きでgemを追加することも可能です。
+
+```ruby
+gem "devise", comment: "Add devise for authentication."
+```
+
+### `gem_group`
+
+[`gem_group`][]メソッドは、gemエントリをグループにラップします。たとえば、`rspec-rails`を`development`グループと`test`グループでのみ読み込むには、以下のようにします。
+
+```ruby
+gem_group :development, :test do
+  gem "rspec-rails"
+end
+```
+
+### `generate`
+
+[`generate`][]メソッドを使うと、`template.rb`ファイル内でRailsジェネレータを呼び出せます。
+たとえば、`scaffold`ジェネレータを呼び出して`Person`モデルを生成するには、以下のようにします。
+
+```ruby
+generate(:scaffold, "person", "name:string", "address:text", "age:number")
+```
+
+### `git`
+
+[`git`][]ヘルパーメソッドを使うと、Railsテンプレート内で任意のgitコマンドを実行できます。
+
+```ruby
+git :init
+git add: "."
+git commit: "-a -m 'Initial commit'"
+```
+
+### `initializer`、`vendor`、`lib`、`file`
+
+[`initializer`][]ヘルパーメソッドは、生成されたアプリケーションの`config/initializers/`ディレクトリにイニシャライザファイルを追加します。
+
+`template.rb`ファイルに以下のコードを追加すると、アプリケーションで`Object#not_nil?`と`Object#not_blank?`を使えるようになります。
+
+```ruby
+initializer "not_methods.rb", <<-CODE
+  class Object
+    def not_nil?
+      !nil?
+    end
+
+    def not_blank?
+      !blank?
+    end
+  end
+CODE
+```
+
+同様に、[`lib`][]メソッドは`lib/`ディレクトリにファイルを作成し、
+[`vendor`][]メソッドは`vendor/`ディレクトリにファイルを作成します。
+
+`file`メソッドは[`create_file`][]のエイリアスです。`Rails.root`からの相対パスを受け取って、必要なディレクトリとファイルをすべて作成します。
+
+```ruby
+file "app/components/foo.rb", <<-CODE
+  class Foo
+  end
+CODE
+```
+
+上のコードは`app/components/`ディレクトリを作成し、その中に`foo.rb`を配置します。
+
+### `rakefile`
+
+[`rakefile`][]メソッドは、指定のタスクを含む新しいRakeファイルを`lib/tasks/`ディレクトリに作成します。
+
+```ruby
+rakefile("bootstrap.rake") do
+  <<-TASK
+    namespace :boot do
+      task :strap do
+        puts "I like boots!"
+      end
+    end
+  TASK
+end
+```
+
+上のコードは、`lib/tasks/bootstrap.rake`ファイルを作成し、`boot:strap` rakeタスクを定義します。
+
+### `run`
+
+[`run`][]メソッドは、任意のコマンドを実行します。たとえば、`README.rdoc`ファイルを削除したい場合は、以下のようにします。
+
+```ruby
+run "rm README.rdoc"
+```
+
+### `rails_command`
+
+[`rails_command`][]メソッドを使うと、生成されたアプリケーションでRailsコマンドを実行できます。
+
+たとえば、テンプレートのRubyスクリプト内でデータベースをマイグレーションしたい場合は、以下のようにします。
+
+```ruby
+rails_command "db:migrate"
+```
+
+Railsの環境を指定してコマンドを実行することも可能です。
+
+```ruby
+rails_command "db:migrate", env: "production"
+```
+
+`abort_on_failure`オプションを指定することで、コマンド実行に失敗した場合はアプリケーションの生成を中止することも可能です。
+
+```ruby
+rails_command "db:migrate", abort_on_failure: true
+```
+
+### `route`
+
+[`route`][]メソッドは、`config/routes.rb`ファイルにエントリを追加します。
+
+アプリケーションのデフォルトページを`PeopleController#index`にするには、以下を追加します。
+
+```ruby
+route "root to: 'person#index'"
+```
+
+この他にも、[`copy_file`][]、[`create_file`][]、[`insert_into_file`][]、[`inside`][]などのローカルファイルシステムを操作するヘルパーメソッドが多数用意されています。詳しくは[ThorのAPIドキュメント](https://www.rubydoc.info/gems/thor/Thor/Actions)を参照してください。以下にそのようなメソッドの例を示します。
+
+### `inside`
+
+[`inside`][]メソッドは、指定したディレクトリからコマンドを実行できるようにします.
+たとえば、新しいアプリケーションからedge railsのコピーへのシンボリックリンクを作成したい場合は、以下のようにします。
+
+```ruby
+inside("vendor") do
+  run "ln -s ~/my-forks/rails rails"
+end
+```
+
+この他に、[`ask`][]、[`yes?`][], [`no?`][]など、Rubyテンプレートからユーザーと対話できるメソッドもあります。すべてのユーザー対話メソッドについては、[Thorのシェルドキュメント](https://www.rubydoc.info/gems/thor/Thor/Shell/Basic)で確認できます。以下に`ask`、`yes?`、`no?`の例を示します。
+
+### `ask`
+
+[`ask`][]メソッドを使うと、ユーザーからの指示を受け付けてテンプレートで利用できます。
+
+たとえば、新しいライブラリの名前をユーザーに尋ねたい場合は、以下のようにします。
+
+```ruby
+lib_name = ask("What do you want to call the shiny library?")
+lib_name << ".rb" unless lib_name.index(".rb")
+
+lib lib_name, <<-CODE
+  class Shiny
+  end
+CODE
+```
+
+### `yes?`と`no?`
+
+[`yes?`][]メソッドや[`no?`][]メソッドを使って、yes/noで答えられる質問を手軽にユーザーに表示して、その答えに基づいて処理の流れを決められます。
+
+たとえば、ユーザーにマイグレーションを実行するかどうか尋ねたい場合は、以下のようにします。
+
+```ruby
+rails_command("db:migrate") if yes?("Run database migrations?")
+# no? questions acts the opposite of yes?
+```
 
 ジェネレータをテストする
 ------------------
@@ -486,3 +728,14 @@ Railsではその他にも、[`Rails::Generators::Testing::Assertions`][]で追�
 [`Rails::Generators::Testing::Behaviour`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html
 [`run_generator`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html#method-i-run_generator
 [`Rails::Generators::Testing::Assertions`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Assertions.htm
+[`add_source`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-add_source
+[`after_bundle`]: https://api.rubyonrails.org/classes/Rails/Generators/AppGenerator.html#method-i-after_bundle
+[`gem_group`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem_group
+[`vendor`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-vendor
+[`rakefile`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rakefile
+[`run`]: https://www.rubydoc.info/gems/thor/Thor/Actions#run-instance_method
+[`copy_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#copy_file-instance_method
+[`create_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#create_file-instance_method
+[`ask`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#ask-instance_method
+[`yes`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#yes%3F-instance_method
+[`no`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#no%3F-instance_method
