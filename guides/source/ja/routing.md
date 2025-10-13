@@ -30,7 +30,7 @@ GET /users/17
 最初にマッチしたのが以下のルーティングだとします。
 
 ```ruby
-get "/users/:id", to: "user#show"
+get "/users/:id", to: "users#show"
 ```
 
 このリクエストは`UsersController`クラスの`show`アクションに一致し、`params`ハッシュには`{ id: '17' }`が含まれます。
@@ -134,15 +134,15 @@ resources :photos
 
 上の記述により、アプリケーション内に以下の7つのルーティングが作成され、いずれも`PhotosController`に対応付けられます。
 
-| HTTP verb | パス             | コントローラ#アクション | 目的                                     |
-| --------- | ---------------- | ----------------- | -------------------------------------------- |
-| GET       | /photos          | photos#index      | すべての写真の一覧を表示                 |
-| GET       | /photos/new      | photos#new        | 写真を1つ作成するためのHTMLフォームを返す |
-| POST      | /photos          | photos#create     | 写真を1つ作成する                           |
-| GET       | /photos/:id      | photos#show       | 特定の写真を表示する                     |
-| GET       | /photos/:id/edit | photos#edit       | 写真編集用のHTMLフォームを1つ返す      |
-| PATCH/PUT | /photos/:id      | photos#update     | 特定の写真を更新する                      |
-| DELETE    | /photos/:id      | photos#destroy    | 特定の写真を削除する                      |
+| HTTP verb | パス             | コントローラ#アクション | 目的                                      |
+| --------- | ---------------- | ----------------------- | ----------------------------------------- |
+| GET       | /photos          | photos#index            | すべての写真の一覧を表示                  |
+| GET       | /photos/new      | photos#new              | 写真を1つ作成するためのHTMLフォームを返す |
+| POST      | /photos          | photos#create           | 写真を1つ作成する                         |
+| GET       | /photos/:id      | photos#show             | 特定の写真を表示する                      |
+| GET       | /photos/:id/edit | photos#edit             | 写真編集用のHTMLフォームを1つ返す         |
+| PATCH/PUT | /photos/:id      | photos#update           | 特定の写真を更新する                      |
+| DELETE    | /photos/:id      | photos#destroy          | 特定の写真を削除する                      |
 
 Railsのルーターでは、サーバーへのリクエストをマッチさせる際にHTTP verbとURLを**組み合わせる形で**使っているため、4種類のURL（`/photos`、`/photos/new`、`/photos/:id`、`/photos/:id/edit`）を7種類の異なるアクション（`index`、`show`、`new`、`create`、`edit`、`update`、`destroy`）に割り当てています。たとえば、同じ`photos/`パスであっても、HTTP verbが`GET`のときは`photos#index`にマッチし、HTTP verbが`POST`のときは`photos#create`にマッチします。
 
@@ -154,18 +154,18 @@ NOTE: Railsのルーティングファイル`routes.rb`では、ルーティン�
 
 たとえば、`resources :photos`というルーティングをルーティングファイルに追加すると、コントローラやビューで以下の`_path`ヘルパーが使えるようになります。
 
-| `_path`ヘルパー | 返すURL |
-| --------- | ---------------- |
-| `photos_path` | /photos |
-| `new_photo_path` | /photos/new |
+| `_path`ヘルパー        | 返すURL          |
+| ---------------------- | ---------------- |
+| `photos_path`          | /photos          |
+| `new_photo_path`       | /photos/new      |
 | `edit_photo_path(:id)` | /photos/:id/edit |
-| `photo_path(:id)` | /photos/:id |
+| `photo_path(:id)`      | /photos/:id      |
 
 上記の`:id`などのパスヘルパーのパラメーターは、生成されたURLに渡されます。つまり、`edit_photo_path(10)`は`/photos/10/edit`を返します。
 
 これらの`_path`ヘルパーに対応する`_url`ヘルパー（`photos_url`など）も生成されます。`_url`ヘルパーは、同じパスの前に「現在のホスト名」「ポート番号」「パスのプレフィックス」を追加して返します。
 
-TIP: "_path"や"_url"の前に付けられるプレフィックスには、ルーティング名が使われます。これは、`rails routes`コマンド出力の"prefix"列を確認することで特定できます。詳しくは、後述の[既存のルールを一覧表示する](#既存のルールを一覧表示する)を参照してください。
+TIP: "_path"や"_url"の前に付けられるプレフィックスには、ルーティング名が使われます。これは、`bin/rails routes`コマンド出力の"prefix"列を確認することで特定できます。詳しくは、後述の[既存のルールを一覧表示する](#既存のルールを一覧表示する)を参照してください。
 
 ### 複数のリソースを同時に定義する
 
@@ -198,24 +198,24 @@ NOTE: 上の`resolve`呼び出しは、`Geocoder`のインスタンスを[レコ
 
 `Geocoders`コントローラに割り当てられた以下の6つのルーティングを作成します。
 
-| HTTP verb | パス             | コントローラ#アクション | 目的                                     |
-| --------- | -------------- | ----------------- | --------------------------------------------- |
-| GET       | /geocoder/new  | geocoders#new     | geocoder作成用のHTMLフォームを返す |
-| POST      | /geocoder      | geocoders#create  | geocoderを作成する                       |
-| GET       | /geocoder      | geocoders#show    | 1つしかないgeocoderリソースを表示する    |
-| GET       | /geocoder/edit | geocoders#edit    | geocoder編集用のHTMLフォームを返す  |
-| PATCH/PUT | /geocoder      | geocoders#update  | 1つしかないgeocoderリソースを更新する     |
-| DELETE    | /geocoder      | geocoders#destroy | geocoderリソースを削除する                  |
+| HTTP verb | パス           | コントローラ#アクション | 目的                                  |
+| --------- | -------------- | ----------------------- | ------------------------------------- |
+| GET       | /geocoder/new  | geocoders#new           | geocoder作成用のHTMLフォームを返す    |
+| POST      | /geocoder      | geocoders#create        | geocoderを作成する                    |
+| GET       | /geocoder      | geocoders#show          | 1つしかないgeocoderリソースを表示する |
+| GET       | /geocoder/edit | geocoders#edit          | geocoder編集用のHTMLフォームを返す    |
+| PATCH/PUT | /geocoder      | geocoders#update        | 1つしかないgeocoderリソースを更新する |
+| DELETE    | /geocoder      | geocoders#destroy       | geocoderリソースを削除する            |
 
 NOTE: 単数形リソースは、複数形のコントローラに対応付けられます。たとえば、`geocoder`という単数形リソースは、`GeocodersController`という複数形の名前を持つコントローラに対応付けられます。
 
 単数形のリソースフルなルーティングを使うと、以下のヘルパーメソッドが生成されます。
 
-| `_path`ヘルパー | 返すURL |
-| --------- | ---------------- |
-| `new_geocoder_path` | /geocoder/new |
+| `_path`ヘルパー      | 返すURL        |
+| -------------------- | -------------- |
+| `new_geocoder_path`  | /geocoder/new  |
 | `edit_geocoder_path` | /geocoder/edit |
-| `geocoder_path)` | /geocoder |
+| `geocoder_path)`     | /geocoder      |
 
 複数形リソースの場合と同様に、末尾が`_url`で終わる同じヘルパー名でも「現在のホスト名」「ポート番号」「パスのプレフィックス」が含まれます。
 
@@ -229,17 +229,17 @@ namespace :admin do
 end
 ```
 
-上のルーティングにより、`articles`コントローラや`comments`コントローラへのルーティングが多数生成されます。たとえば、`Admin::ArticlesController`向けに作成されるルーティングは以下のとおりです。
+たとえば、`Admin::ArticlesController`向けに作成されるルーティングは以下のとおりです。
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | ------------------------ | ---------------------- | ---------------------------- |
-| GET       | /admin/articles          | admin/articles#index   | admin_articles_path          |
-| GET       | /admin/articles/new      | admin/articles#new     | new_admin_article_path       |
-| POST      | /admin/articles          | admin/articles#create  | admin_articles_path          |
-| GET       | /admin/articles/:id      | admin/articles#show    | admin_article_path(:id)      |
-| GET       | /admin/articles/:id/edit | admin/articles#edit    | edit_admin_article_path(:id) |
-| PATCH/PUT | /admin/articles/:id      | admin/articles#update  | admin_article_path(:id)      |
-| DELETE    | /admin/articles/:id      | admin/articles#destroy | admin_article_path(:id)      |
+| HTTP verb | パス                     | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | ------------------------ | ----------------------- | ---------------------------- |
+| GET       | /admin/articles          | admin/articles#index    | admin_articles_path          |
+| GET       | /admin/articles/new      | admin/articles#new      | new_admin_article_path       |
+| POST      | /admin/articles          | admin/articles#create   | admin_articles_path          |
+| GET       | /admin/articles/:id      | admin/articles#show     | admin_article_path(:id)      |
+| GET       | /admin/articles/:id/edit | admin/articles#edit     | edit_admin_article_path(:id) |
+| PATCH/PUT | /admin/articles/:id      | admin/articles#update   | admin_article_path(:id)      |
+| DELETE    | /admin/articles/:id      | admin/articles#destroy  | admin_article_path(:id)      |
 
 上記の例では、`namespace`のデフォルトの規則に沿って、すべてのパスに`/admin`プレフィックスが追加されていることにご注目ください。
 
@@ -282,15 +282,15 @@ resources :articles, path: "/admin/articles"
 最後のケースでは、`ArticlesController`に以下のパスが対応付けられます。
 
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | --------------------- | ----------------- | ------------------- |
-| GET       | /admin/articles          | articles#index       | articles_path          |
-| GET       | /admin/articles/new      | articles#new         | new_article_path       |
-| POST      | /admin/articles          | articles#create      | articles_path          |
-| GET       | /admin/articles/:id      | articles#show        | article_path(:id)      |
-| GET       | /admin/articles/:id/edit | articles#edit        | edit_article_path(:id) |
-| PATCH/PUT | /admin/articles/:id      | articles#update      | article_path(:id)      |
-| DELETE    | /admin/articles/:id      | articles#destroy     | article_path(:id)      |
+| HTTP verb | パス                     | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | ------------------------ | ----------------------- | ---------------------------- |
+| GET       | /admin/articles          | articles#index          | articles_path                |
+| GET       | /admin/articles/new      | articles#new            | new_article_path             |
+| POST      | /admin/articles          | articles#create         | articles_path                |
+| GET       | /admin/articles/:id      | articles#show           | article_path(:id)            |
+| GET       | /admin/articles/:id/edit | articles#edit           | edit_article_path(:id)       |
+| PATCH/PUT | /admin/articles/:id      | articles#update         | article_path(:id)            |
+| DELETE    | /admin/articles/:id      | articles#destroy        | article_path(:id)            |
 
 TIP: `namespace`ブロックの内部で異なるコントローラ名前空間を使いたい場合、「`get '/foo', to: '/foo#index'`」のような絶対コントローラパスを指定することもできます。
 
@@ -321,15 +321,15 @@ end
 
 上のルーティングによって、雑誌（magazines）へのルーティングに加えて、広告（ads）を`AdsController`にもルーティングできるようになりました。ネストした`ads`リソースの全ルーティングは以下のようになります。
 
-| HTTP verb | パス             | コントローラ#アクション | 目的                                     |
-| --------- | ------------------------------------ | ----------------- | -------------------------------------------------------------------------- |
-| GET       | /magazines/:magazine_id/ads          | ads#index         | ある雑誌1冊に含まれる広告をすべて表示する                          |
-| GET       | /magazines/:magazine_id/ads/new      | ads#new           | ある1冊の雑誌用の広告を1つ作成するHTMLフォームを返す |
-| POST      | /magazines/:magazine_id/ads          | ads#create        | ある1冊の雑誌用の広告を1つ作成する                           |
-| GET       | /magazines/:magazine_id/ads/:id      | ads#show          | ある雑誌1冊に含まれる広告を1つ表示する                    |
-| GET       | /magazines/:magazine_id/ads/:id/edit | ads#edit          | ある雑誌1冊に含まれる広告1つを編集するHTMLフォームを返す     |
-| PATCH/PUT | /magazines/:magazine_id/ads/:id      | ads#update        | ある雑誌1冊に含まれる広告を1つ更新する                      |
-| DELETE    | /magazines/:magazine_id/ads/:id      | ads#destroy       | ある雑誌1冊に含まれる広告を1つ削除する                      |
+| HTTP verb | パス                                 | コントローラ#アクション | 目的                                                     |
+| --------- | ------------------------------------ | ----------------------- | -------------------------------------------------------- |
+| GET       | /magazines/:magazine_id/ads          | ads#index               | ある雑誌1冊に含まれる広告をすべて表示する                |
+| GET       | /magazines/:magazine_id/ads/new      | ads#new                 | ある1冊の雑誌用の広告を1つ作成するHTMLフォームを返す     |
+| POST      | /magazines/:magazine_id/ads          | ads#create              | ある1冊の雑誌用の広告を1つ作成する                       |
+| GET       | /magazines/:magazine_id/ads/:id      | ads#show                | ある雑誌1冊に含まれる広告を1つ表示する                   |
+| GET       | /magazines/:magazine_id/ads/:id/edit | ads#edit                | ある雑誌1冊に含まれる広告1つを編集するHTMLフォームを返す |
+| PATCH/PUT | /magazines/:magazine_id/ads/:id      | ads#update              | ある雑誌1冊に含まれる広告を1つ更新する                   |
+| DELETE    | /magazines/:magazine_id/ads/:id      | ads#destroy             | ある雑誌1冊に含まれる広告を1つ削除する                   |
 
 これによって、パスとURLについて通常のルーティングヘルパーも作成されます。ヘルパーは`magazine_ads_url`や`edit_magazine_ad_path`のような名前になります。`ads`リソースは`magazines`の下にネストしているので、adのURLではmagazineを省略できません。これらのヘルパーは、最初のパラメータとしてMagazineモデルのインスタンスを1つ受け取ります（`magazine_ads_url(@magazine, @ad)`）。
 
@@ -388,29 +388,29 @@ end
 
 この`articles`リソースでは以下のルーティングが生成されます。
 
-| HTTP verb | パス             | コントローラ#アクション | 名前付きルーティングヘルパー         |
-| --------- | -------------------------------------------- | ----------------- | ------------------------ |
-| GET       | /articles/:article_id/comments(.:format)     | comments#index    | article_comments_path    |
-| POST      | /articles/:article_id/comments(.:format)     | comments#create   | article_comments_path    |
-| GET       | /articles/:article_id/comments/new(.:format) | comments#new      | new_article_comment_path |
-| GET       | /comments/:id/edit(.:format)                 | comments#edit     | edit_comment_path        |
-| GET       | /comments/:id(.:format)                      | comments#show     | comment_path             |
-| PATCH/PUT | /comments/:id(.:format)                      | comments#update   | comment_path             |
-| DELETE    | /comments/:id(.:format)                      | comments#destroy  | comment_path             |
-| GET       | /articles/:article_id/quotes(.:format)       | quotes#index      | article_quotes_path      |
-| POST      | /articles/:article_id/quotes(.:format)       | quotes#create     | article_quotes_path      |
-| GET       | /articles/:article_id/quotes/new(.:format)   | quotes#new        | new_article_quote_path   |
-| GET       | /quotes/:id/edit(.:format)                   | quotes#edit       | edit_quote_path          |
-| GET       | /quotes/:id(.:format)                        | quotes#show       | quote_path               |
-| PATCH/PUT | /quotes/:id(.:format)                        | quotes#update     | quote_path               |
-| DELETE    | /quotes/:id(.:format)                        | quotes#destroy    | quote_path               |
-| GET       | /articles(.:format)                          | articles#index    | articles_path            |
-| POST      | /articles(.:format)                          | articles#create   | articles_path            |
-| GET       | /articles/new(.:format)                      | articles#new      | new_article_path         |
-| GET       | /articles/:id/edit(.:format)                 | articles#edit     | edit_article_path        |
-| GET       | /articles/:id(.:format)                      | articles#show     | article_path             |
-| PATCH/PUT | /articles/:id(.:format)                      | articles#update   | article_path             |
-| DELETE    | /articles/:id(.:format)                      | articles#destroy  | article_path             |
+| HTTP verb | パス                                         | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | -------------------------------------------- | ----------------------- | ---------------------------- |
+| GET       | /articles/:article_id/comments(.:format)     | comments#index          | article_comments_path        |
+| POST      | /articles/:article_id/comments(.:format)     | comments#create         | article_comments_path        |
+| GET       | /articles/:article_id/comments/new(.:format) | comments#new            | new_article_comment_path     |
+| GET       | /comments/:id/edit(.:format)                 | comments#edit           | edit_comment_path            |
+| GET       | /comments/:id(.:format)                      | comments#show           | comment_path                 |
+| PATCH/PUT | /comments/:id(.:format)                      | comments#update         | comment_path                 |
+| DELETE    | /comments/:id(.:format)                      | comments#destroy        | comment_path                 |
+| GET       | /articles/:article_id/quotes(.:format)       | quotes#index            | article_quotes_path          |
+| POST      | /articles/:article_id/quotes(.:format)       | quotes#create           | article_quotes_path          |
+| GET       | /articles/:article_id/quotes/new(.:format)   | quotes#new              | new_article_quote_path       |
+| GET       | /quotes/:id/edit(.:format)                   | quotes#edit             | edit_quote_path              |
+| GET       | /quotes/:id(.:format)                        | quotes#show             | quote_path                   |
+| PATCH/PUT | /quotes/:id(.:format)                        | quotes#update           | quote_path                   |
+| DELETE    | /quotes/:id(.:format)                        | quotes#destroy          | quote_path                   |
+| GET       | /articles(.:format)                          | articles#index          | articles_path                |
+| POST      | /articles(.:format)                          | articles#create         | articles_path                |
+| GET       | /articles/new(.:format)                      | articles#new            | new_article_path             |
+| GET       | /articles/:id/edit(.:format)                 | articles#edit           | edit_article_path            |
+| GET       | /articles/:id(.:format)                      | articles#show           | article_path                 |
+| PATCH/PUT | /articles/:id(.:format)                      | articles#update         | article_path                 |
+| DELETE    | /articles/:id(.:format)                      | articles#destroy        | article_path                 |
 
 
 ブロック内で[`shallow`][]メソッドを使うと、すべてのネストが1階層浅くなるように内側にスコープを1つ作成します。これによって生成されるルーティングは、最初の例と完全に同じです。
@@ -438,15 +438,15 @@ end
 
 上の場合、`comments`リソースのルーティングは以下のようになります。
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | -------------------------------------------- | ----------------- | ------------------------ |
-| GET       | /articles/:article_id/comments(.:format)     | comments#index    | article_comments_path    |
-| POST      | /articles/:article_id/comments(.:format)     | comments#create   | article_comments_path    |
-| GET       | /articles/:article_id/comments/new(.:format) | comments#new      | new_article_comment_path |
-| GET       | /sekret/comments/:id/edit(.:format)          | comments#edit     | edit_comment_path        |
-| GET       | /sekret/comments/:id(.:format)               | comments#show     | comment_path             |
-| PATCH/PUT | /sekret/comments/:id(.:format)               | comments#update   | comment_path             |
-| DELETE    | /sekret/comments/:id(.:format)               | comments#destroy  | comment_path             |
+| HTTP verb | パス                                         | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | -------------------------------------------- | ----------------------- | ---------------------------- |
+| GET       | /articles/:article_id/comments(.:format)     | comments#index          | article_comments_path        |
+| POST      | /articles/:article_id/comments(.:format)     | comments#create         | article_comments_path        |
+| GET       | /articles/:article_id/comments/new(.:format) | comments#new            | new_article_comment_path     |
+| GET       | /sekret/comments/:id/edit(.:format)          | comments#edit           | edit_comment_path            |
+| GET       | /sekret/comments/:id(.:format)               | comments#show           | comment_path                 |
+| PATCH/PUT | /sekret/comments/:id(.:format)               | comments#update         | comment_path                 |
+| DELETE    | /sekret/comments/:id(.:format)               | comments#destroy        | comment_path                 |
 
 `:shallow_prefix`オプションを使うと、指定されたパラメータを`_path`および`_url`ルーティングヘルパー名の冒頭に追加します。
 
@@ -460,15 +460,15 @@ end
 
 上の場合、`comments`リソースのルーティングは以下のようになります。
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | -------------------------------------------- | ----------------- | --------------------------- |
-| GET       | /articles/:article_id/comments(.:format)     | comments#index    | article_comments_path       |
-| POST      | /articles/:article_id/comments(.:format)     | comments#create   | article_comments_path       |
-| GET       | /articles/:article_id/comments/new(.:format) | comments#new      | new_article_comment_path    |
-| GET       | /comments/:id/edit(.:format)                 | comments#edit     | edit_sekret_comment_path    |
-| GET       | /comments/:id(.:format)                      | comments#show     | sekret_comment_path         |
-| PATCH/PUT | /comments/:id(.:format)                      | comments#update   | sekret_comment_path         |
-| DELETE    | /comments/:id(.:format)                      | comments#destroy  | sekret_comment_path         |
+| HTTP verb | パス                                         | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | -------------------------------------------- | ----------------------- | ---------------------------- |
+| GET       | /articles/:article_id/comments(.:format)     | comments#index          | article_comments_path        |
+| POST      | /articles/:article_id/comments(.:format)     | comments#create         | article_comments_path        |
+| GET       | /articles/:article_id/comments/new(.:format) | comments#new            | new_article_comment_path     |
+| GET       | /comments/:id/edit(.:format)                 | comments#edit           | edit_sekret_comment_path     |
+| GET       | /comments/:id(.:format)                      | comments#show           | sekret_comment_path          |
+| PATCH/PUT | /comments/:id(.:format)                      | comments#update         | sekret_comment_path          |
+| DELETE    | /comments/:id(.:format)                      | comments#destroy        | sekret_comment_path          |
 
 [`shallow`]: https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-shallow
 
@@ -742,7 +742,7 @@ NOTE: セキュリティ上の理由により、クエリパラメータでデ�
 `:as`オプションを使うと、任意のルーティングの`_path`ヘルパーと`_url`ヘルパーで使われる名前を指定できます。
 
 ```ruby
-get 'exit', to: 'sessions#destroy', as: :logout
+get "exit", to: "sessions#destroy", as: :logout
 ```
 
 上のルーティングでは`logout_path`と`logout_url`がアプリケーションのルーティングヘルパーとして作成されます。`logout_path`を呼び出すと`/exit`が返されます。
@@ -826,10 +826,8 @@ get "photos", to: "photos#index", constraints: { subdomain: "admin" }
 [`constraints`][]ブロックで制限を指定することも可能です。
 
 ```ruby
-namespace :admin do
-  constraints subdomain: "admin" do
-    resources :photos
-  end
+constraints subdomain: "admin" do
+  resources :photos
 end
 ```
 
@@ -1119,15 +1117,15 @@ resources :photos, controller: "images"
 
 上のルーティングは、`/photos`で始まるパスを認識しますが、ルーティング先を`Images`コントローラにします。
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | ---------------- | ----------------- | -------------------- |
-| GET       | /photos          | images#index      | photos_path          |
-| GET       | /photos/new      | images#new        | new_photo_path       |
-| POST      | /photos          | images#create     | photos_path          |
-| GET       | /photos/:id      | images#show       | photo_path(:id)      |
-| GET       | /photos/:id/edit | images#edit       | edit_photo_path(:id) |
-| PATCH/PUT | /photos/:id      | images#update     | photo_path(:id)      |
-| DELETE    | /photos/:id      | images#destroy    | photo_path(:id)      |
+| HTTP verb | パス             | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | ---------------- | ----------------------- | ---------------------------- |
+| GET       | /photos          | images#index            | photos_path                  |
+| GET       | /photos/new      | images#new              | new_photo_path               |
+| POST      | /photos          | images#create           | photos_path                  |
+| GET       | /photos/:id      | images#show             | photo_path(:id)              |
+| GET       | /photos/:id/edit | images#edit             | edit_photo_path(:id)         |
+| PATCH/PUT | /photos/:id      | images#update           | photo_path(:id)              |
+| DELETE    | /photos/:id      | images#destroy          | photo_path(:id)              |
 
 名前空間内のコントローラは以下のように直接指定できます。
 
@@ -1172,15 +1170,15 @@ resources :photos, as: "images"
 
 上のルーティングは`/photos`にマッチし、リクエストを通常どおり`PhotosController`にルーティングしますが、ヘルパーには`:as`オプションで指定した値を用いて`images_path`などの名前を付けます。
 
-| HTTP verb  | パス                  | コントローラ#アクション   | 名前付きルーティングヘルパー              |
-| --------- | ---------------- | ----------------- | -------------------- |
-| GET       | /photos          | photos#index      | images_path          |
-| GET       | /photos/new      | photos#new        | new_image_path       |
-| POST      | /photos          | photos#create     | images_path          |
-| GET       | /photos/:id      | photos#show       | image_path(:id)      |
-| GET       | /photos/:id/edit | photos#edit       | edit_image_path(:id) |
-| PATCH/PUT | /photos/:id      | photos#update     | image_path(:id)      |
-| DELETE    | /photos/:id      | photos#destroy    | image_path(:id)      |
+| HTTP verb | パス             | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | ---------------- | ----------------------- | ---------------------------- |
+| GET       | /photos          | photos#index            | images_path                  |
+| GET       | /photos/new      | photos#new              | new_image_path               |
+| POST      | /photos          | photos#create           | images_path                  |
+| GET       | /photos/:id      | photos#show             | image_path(:id)              |
+| GET       | /photos/:id/edit | photos#edit             | edit_image_path(:id)         |
+| PATCH/PUT | /photos/:id      | photos#update           | image_path(:id)              |
+| DELETE    | /photos/:id      | photos#destroy          | image_path(:id)              |
 
 ### `new`や`edit`のパス名をリネームする
 
@@ -1301,15 +1299,15 @@ end
 
 上のようにすることで、以下のような`Categories`コントローラへのルーティングが作成されます。
 
-| HTTP verb  | パス | コントローラ#アクション | 名前付きルーティングヘルパー |
-| --------- | -------------------------- | ------------------ | ----------------------- |
-| GET       | /kategorien                | categories#index   | categories_path         |
-| GET       | /kategorien/neu            | categories#new     | new_category_path       |
-| POST      | /kategorien                | categories#create  | categories_path         |
-| GET       | /kategorien/:id            | categories#show    | category_path(:id)      |
-| GET       | /kategorien/:id/bearbeiten | categories#edit    | edit_category_path(:id) |
-| PATCH/PUT | /kategorien/:id            | categories#update  | category_path(:id)      |
-| DELETE    | /kategorien/:id            | categories#destroy | category_path(:id)      |
+| HTTP verb | パス                       | コントローラ#アクション | 名前付きルーティングヘルパー |
+| --------- | -------------------------- | ----------------------- | ---------------------------- |
+| GET       | /kategorien                | categories#index        | categories_path              |
+| GET       | /kategorien/neu            | categories#new          | new_category_path            |
+| POST      | /kategorien                | categories#create       | categories_path              |
+| GET       | /kategorien/:id            | categories#show         | category_path(:id)           |
+| GET       | /kategorien/:id/bearbeiten | categories#edit         | edit_category_path(:id)      |
+| PATCH/PUT | /kategorien/:id            | categories#update       | category_path(:id)           |
+| DELETE    | /kategorien/:id            | categories#destroy      | category_path(:id)           |
 
 ### リソースの単数形を指定する
 
