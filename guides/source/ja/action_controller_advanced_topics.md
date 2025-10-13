@@ -88,7 +88,7 @@ CSRF攻撃やCSRF対策について詳しくは、[セキュリティガイド](
 ユーザーが利用してよいブラウザバージョンを制御する
 ------------------------------------
 
-Rails 8.0からは、`ApplicationController`で[`allow_browser`][]メソッドを使うことで、デフォルトでは「モダンな」ブラウザの利用のみをユーザーに許可し、古いブラウザではアクセスできなくなります。
+Rails 7.2からは、`ApplicationController`で[`allow_browser`][]メソッドを使うことで、デフォルトでは「モダンな」ブラウザの利用のみをユーザーに許可し、古いブラウザではアクセスできなくなります。
 
 ```ruby
 class ApplicationController < ActionController::Base
