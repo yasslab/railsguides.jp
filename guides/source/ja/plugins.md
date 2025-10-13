@@ -61,6 +61,15 @@ spec.metadata["changelog_uri"] = "http://example.com"
 
 終わったら`bundle install`コマンドを実行します。
 
+次に、テスト用のデータベースをセットアップします。`test/dummy`ディレクトリに移動して以下のコマンドを実行します。
+
+```bash
+$ cd test/dummy
+$ bin/rails db:create
+```
+
+データベースが作成されたら、プラグインのrootディレクトリに戻ります（`cd ../..`）。
+
 これで、自動生成されたテストを`bin/test`コマンドで実行すると以下のような結果が出力されるはずです。
 
 ```bash
