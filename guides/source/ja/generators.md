@@ -411,7 +411,7 @@ after_bundle do
 end
 ```
 
-このテンプレートでは、最初にDevise gemをインストールするかどうかをユーザーに尋ねます。ユーザーが「yes」（または「y」）を入力すると、テンプレートは`Gemfile`にDeviseを追加し、Deviseのユーザーモデル名をユーザーに尋ねます（デフォルトは`User`）。その後、`bundle install`が実行された後、Deviseモデルが指定されている場合はDeviseジェネレータと`rails db:migrate`を実行します。最後に、テンプレートはアプリケーションディレクトリ全体に対して`git add`と`git commit`を実行します。
+このテンプレートでは、最初にDevise gemをインストールするかどうかをユーザーに尋ねます。ユーザーが「yes」（または「y」）を入力すると、テンプレートは`Gemfile`にDeviseを追加し、Deviseのユーザーモデル名をユーザーに尋ねます（デフォルトは`User`）。その後、`bundle install`が実行された後、Deviseモデルが指定されている場合はDeviseジェネレータと`bin/rails db:migrate`を実行します。最後に、テンプレートはアプリケーションディレクトリ全体に対して`git add`と`git commit`を実行します。
 
 新しいRailsアプリケーションを`rails new`コマンドで生成するときに`-m`オプションを渡すことで、このテンプレートを実行できます。
 
