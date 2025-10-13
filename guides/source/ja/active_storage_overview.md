@@ -20,7 +20,7 @@ Active Storage の概要
 Active Storageについて
 -----------------------
 
-Active Storageは、Amazon S3、Google Cloud Storage、Microsoft Azure Storageなどのクラウドストレージサービスへのファイルのアップロードや、ファイルをActive Recordオブジェクトにアタッチする機能を提供します。
+Active Storageは、Amazon S3やGoogle Cloudなどのクラウドストレージサービスへのファイルのアップロードや、ファイルをActive Recordオブジェクトにアタッチする機能を提供します。
 development環境とtest環境向けのローカルディスクベースのサービスを利用できるようになっており、ファイルを下位のサービスにミラーリングしてバックアップや移行に用いることも可能です。
 
 Active Storageは、アプリケーションにアップロードした画像の変形や、PDFや動画などの画像以外のアップロードファイルの内容を代表する画像の生成、任意のファイルからのメタデータ抽出にも利用できます
@@ -32,12 +32,6 @@ Active Storageの多くの機能は、Railsによってインストールされ�
 * [libvips](https://github.com/libvips/libvips) v8.6以降（または[ImageMagick](https://imagemagick.org/index.php)）: 画像解析や画像変形用
 * [ffmpeg](http://ffmpeg.org/) v3.4以降: 動画プレビュー、ffprobeによる動画/音声解析
 * [poppler](https://poppler.freedesktop.org/)または[muPDF](https://mupdf.com/): PDFプレビュー用
-
-画像分析や画像加工のために`image_processing` gemも必要です。`Gemfile`の`image_processing` gemをコメント解除するか、必要に応じて追加します。
-
-```ruby
-gem "image_processing", ">= 1.2"
-```
 
 TIP: ImageMagickは、libvipsに比べて知名度が高く普及も進んでいます。しかしlibvipsは[10倍高速かつメモリ消費も1/10です](https://github.com/libvips/libvips/wiki/Speed-and-memory-use)。JPEGファイルの場合、`libjpeg-dev`を`libjpeg-turbo-dev`に置き換えると[2〜7倍高速](https://libjpeg-turbo.org/About/Performance)になります。
 
@@ -56,11 +50,11 @@ $ bin/rails db:migrate
 - `active_storage_attachments`
 - `active_storage_variant_records`
 
-| テーブル      | 目的 |
-| ------------------- | ----- |
-| `active_storage_blobs` | アップロードされたファイルに関するデータ（ファイル名、Content-Typeなど）を保存します。|
-| `active_storage_attachments` | [モデルをblobsに接続する](#ファイルをレコードに添付する)ポリモーフィックjoinテーブルです。モデルのクラス名が変更された場合は、このテーブルでマイグレーションを実行して、背後の`record_type`をモデルの新しいクラス名に更新する必要があります。|
-| `active_storage_variant_records` | [バリアントトラッキング](#ファイルをレコードに添付する)が有効な場合は、生成された各バリアントに関するレコードを保存します。 |
+| テーブル                         | 目的                                                                                                                                                                                                                                          |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `active_storage_blobs`           | アップロードされたファイルに関するデータ（ファイル名、Content-Typeなど）を保存します。                                                                                                                                                        |
+| `active_storage_attachments`     | [モデルをblobsに接続する](#ファイルをレコードに添付する)ポリモーフィックjoinテーブルです。モデルのクラス名が変更された場合は、このテーブルでマイグレーションを実行して、背後の`record_type`をモデルの新しいクラス名に更新する必要があります。 |
+| `active_storage_variant_records` | [バリアントトラッキング](#ファイルをレコードに添付する)が有効な場合は、生成された各バリアントに関するレコードを保存します。                                                                                                                   |
 
 
 WARNING: モデルの主キーに整数値ではなくUUIDを使っている場合は、生成されるマイグレーションファイルの`active_storage_attachments.record_id`と`active_storage_variant_records.id`のカラム型も変更する必要があります。
@@ -123,11 +117,6 @@ google:
   service: GCS
   # ...
   bucket: your_own_bucket-<%= Rails.env %>
-
-azure:
-  service: AzureStorage
-  # ...
-  container: your_container_name-<%= Rails.env %>
 ```
 
 組み込みのサービスアダプタ（`Disk`や`S3`など）、およびそれらで必要な設定についての詳細を次に説明します。
@@ -199,26 +188,6 @@ digitalocean:
 ```
 
 この他にもさまざまなオプションが利用できます。[AWS S3 Client](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3/Client.html#initialize-instance_method) APIドキュメントを参照してください。
-
-
-### Microsoft Azure Storageサービス
-
-Azure Storageサービスは`config/storage.yml`で宣言します。
-
-```yaml
-# `bin/rails credentials:edit`でAzure Storage secretを設定すること（azure_storage:storage_access_keyとして）
-azure:
-  service: AzureStorage
-  storage_account_name: your_account_name
-  storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
-  container: your_container_name-<%= Rails.env %>
-```
-
-`Gemfile`に[`azure-storage-blob`](https://github.com/Azure/azure-storage-ruby) gemを追加します。
-
-```ruby
-gem "azure-storage-blob", "~> 2.0", require: false
-```
 
 ### Google Cloud Storageサービス
 
@@ -345,7 +314,7 @@ public_gcs:
   public: true
 ```
 
-バケットがパブリックアクセス用に適切に設定されていることを必ず確認してください。ストレージサービスでパブリックな読み取りパーミッションを有効にする方法については、[Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/block-public-access-bucket.html)、[Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/making-data-public?hl=ja#buckets)、[Microsoft Azure](https://learn.microsoft.com/ja-jp/azure/storage/blobs/anonymous-read-access-configure?tabs=portal#set-container-public-access-level-in-the-azure-portal)のドキュメントをそれぞれ参照してください。Amazon S3では`s3:PutObjectAcl`パーミッションも必要です。
+バケットがパブリックアクセス用に適切に設定されていることを必ず確認してください。ストレージサービスでパブリックな読み取りパーミッションを有効にする方法については、[Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/block-public-access-bucket.html)、[Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/making-data-public?hl=ja#buckets)のドキュメントをそれぞれ参照してください。Amazon S3では`s3:PutObjectAcl`パーミッションも必要です。
 
 既存のアプリケーションを`public: true`に変更する場合は、バケット内のあらゆるファイルが一般公開されて読み取り可能になっていることを確認してから切り替えてください。
 
@@ -620,6 +589,34 @@ Railsでは、デフォルトで`has_many_attached`関連付けにファイル�
 <%= form.file_field :avatar, direct_upload: true %>
 ```
 
+## 添付ファイルのクエリ
+
+Active Storageの添付ファイルは、バックグラウンドでActive Recordの関連付けが行われるため、通常の[クエリメソッド](active_record_querying.html)で特定の条件を満たす添付ファイルのレコードを検索できます。
+
+### `has_one_attached`
+
+[`has_one_attached`][]は、`"<name>_attachment"`という名前の`has_one`関連付けと、`"<name>_blob"`という名前の`has_one :through`関連付けを作成します。
+
+アバターがPNGであるuserをすべて選択するには、以下のようにします。
+
+```ruby
+User.joins(:avatar_blob).where(active_storage_blobs: { content_type: "image/png" })
+```
+
+### `has_many_attached`
+
+[`has_many_attached`][]は、`"<name>_attachments"`という名前の`has_many`関連付けと、`"<name>_blobs"`（複数形であることに注意）という名前の`has_many :through`関連付けを作成します。
+
+画像が写真ではなく動画であるメッセージをすべて選択するには、以下のようにします。
+
+```ruby
+Message.joins(:images_blobs).where(active_storage_blobs: { content_type: "video/mp4" })
+```
+
+これらは純粋なSQLの`JOIN`であるため、このクエリで除外されるのは[添付ファイルのレコード][`ActiveStorage::Attachment`]ではなく、[**`ActiveStorage::Blob`**][`ActiveStorage::Blob`]である点にご注意ください。上記のblob述語を他のスコープ条件と組み合わせることで、他のActive Recordクエリと同様に利用できます。
+
+[`ActiveStorage::Blob`]: https://api.rubyonrails.org/classes/ActiveStorage/Blob.html
+
 ファイルを削除する
 -----------------------------
 
@@ -648,7 +645,7 @@ WARNING: Active Storageのすべてのコントローラは、デフォルトで
 
 ### リダイレクトモード
 
-[`url_for`][ActionView::RoutingUrlFor#url_for]ビューヘルパーにblobを渡すと、永続的なblob URLを生成できます。生成されるURLでは、そのblobの[`RedirectController`][`ActiveStorage::Blobs::RedirectController`]にルーティングされる[`signed_id`][ActiveStorage::Blob#signed_id]が使われます。
+[`url_for`][ActionView::RoutingUrlFor#url_for]ビューヘルパーに添付ファイルまたはblobを渡すと、永続的なblob URLを生成できます。生成されるURLでは、そのblobの[`RedirectController`][`ActiveStorage::Blobs::RedirectController`]にルーティングされる[`signed_id`][ActiveStorage::Blob#signed_id]が使われます。
 
 ```ruby
 url_for(user.avatar)
@@ -913,35 +910,6 @@ end
 
 Active Storageでは、バリアントプロセッサとして[Vips][]またはMiniMagickを利用できます。デフォルトで使われるバリアントプロセッサは`config.load_defaults`のターゲットバージョンに依存し、[`config.active_storage.variant_processor`][]で変更できます。
 
-利用可能なパラメータは[`image_processing`][] gemで定義されており、利用するバリアントプロセッサによって異なりますが、どちらも以下のパラメータをサポートしています。
-
-| パラメータ      | 例 | 説明 |
-| ------------------- | ---------------- | ----- |
-| `resize_to_limit` | `resize_to_limit: [100, 100]` | 元の縦横比を維持したまま、指定の寸法に収まるように画像を縮小します。指定の寸法より大きい場合のみ、画像のサイズを変更します。 |
-| `resize_to_fit` | `resize_to_fit: [100, 100]` | 元の縦横比を維持したまま、指定の寸法に収まるように画像をリサイズします。指定の寸法より大きい場合は縮小し、小さい場合は拡大します。|
-| `resize_to_fill` | `resize_to_fill: [100, 100]` | 元の縦横比を維持したまま、指定の寸法に収まるように画像をリサイズします。必要な場合は、大きい方の寸法で画像を切り取ります。|
-| `resize_and_pad` | `resize_and_pad: [100, 100]` | 元の縦横比を維持したまま、指定の寸法に収まるように画像をリサイズします。必要に応じて、元画像にアルファチャンネルがある場合は透明色で、ない場合は黒で残りの領域を塗ります。|
-| `crop` | `crop: [20, 50, 300, 300]` | 画像から領域を抽出します。最初の2つの引数は、抽出する領域の左端と上端、最後の2つの引数は、抽出する領域の幅と高さです。|
-| `rotate` | `rotate: 90` | 画像を指定の角度だけ回転します。|
-
-[`image_processing`][]には、[Vips](https://github.com/janko/image_processing/blob/master/doc/vips.md)プロセッサおよび[MiniMagick](https://github.com/janko/image_processing/blob/master/doc/minimagick.md)プロセッサの両方について、それぞれのドキュメントに記載されている利用可能なパラメータがすべて備わっています。
-
-上記のパラメータを含む一部のパラメータには、プロセッサ固有のオプションも追加できます（ハッシュ内で`key: value`ペアとして渡せます）。
-
-```erb
-<!-- Vipsはさまざまな変換で`crop`の設定をサポートしている -->
-<%= image_tag user.avatar.variant(resize_to_fill: [100, 100, { crop: :centre }]) %>
-```
-
-既存のアプリケーションでMiniMagickからVipsに移行する場合、プロセッサ固有のオプションを以下のように更新する必要があります。
-
-```erb
-<!-- MiniMagickの場合 -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, sampling_factor: "4:2:0", strip: true, interlace: "JPEG", colorspace: "sRGB", quality: 80) %>
-<!-- Vipsの場合 -->
-<%= image_tag user.avatar.variant(resize_to_limit: [100, 100], format: :jpeg, saver: { subsample_mode: "on", strip: true, interlace: true, quality: 80 }) %>
-```
-
 [`config.active_storage.variable_content_types`]:
   configuring.html#config-active-storage-variable-content-types
 [`config.active_storage.variant_processor`]:
@@ -952,8 +920,6 @@ Active Storageでは、バリアントプロセッサとして[Vips][]またはM
   https://api.rubyonrails.org/classes/ActiveStorage/Blob/Representable.html#method-i-variant
 [Vips]:
   https://www.rubydoc.info/gems/ruby-vips/Vips/Image
-[`image_processing`]:
-  https://github.com/janko/image_processing
 
 ファイルのプレビュー
 -----------------------
@@ -978,7 +944,27 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
 
 ### 利用法
 
-1. アプリケーションのJavaScriptバンドルに`activestorage.js`を追記します。
+1. Active StorageのJavaScriptをアプリケーションのJavaScriptバンドルに含めるか、直接参照します。
+
+    アセットパイプラインでバンドルせずに、アプリケーションHTMLで直接参照してautostartする場合:
+
+    ```erb
+    <%= javascript_include_tag "activestorage" %>
+    ```
+
+    アセットパイプラインもautostartも使わずに、importmap-rails経由のESMとしてアプリケーションHTMLで直接参照する場合:
+
+    ```ruby
+    # config/importmap.rb
+    pin "@rails/activestorage", to: "activestorage.esm.js"
+    ```
+
+    ```html
+    <script type="module-shim">
+      import * as ActiveStorage from "@rails/activestorage"
+      ActiveStorage.start()
+    </script>
+    ```
 
     アセットパイプラインを使う場合は以下のようにします。
 
@@ -993,7 +979,7 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
     ActiveStorage.start()
     ```
 
-2. [`file_field`](form_helpers.html#ファイルのアップロード)に`direct_upload: true`を追加します。
+2. Railsの[`file_field`](form_helpers.html#ファイルのアップロード)に`direct_upload: true`を追加します。これにより、ファイル入力にダイレクトアップロードのURLが自動的に追加されます。
 
     ```erb
     <%= form.file_field :attachments, multiple: true, direct_upload: true %>
@@ -1015,7 +1001,6 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
 
 * [S3](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/ManageCorsUsing.html)
 * [Google Cloud Storage](https://cloud.google.com/storage/docs/configuring-cors)
-* [Azure Storage](https://docs.microsoft.com/ja-jp/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services)
 
 以下を許可します。
 
@@ -1024,9 +1009,7 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
 * 以下のヘッダー
   * `Content-Type`
   * `Content-MD5`
-  * `Content-Disposition`（Azure Storageでは不要）
-  * `x-ms-blob-content-disposition`（Azure Storageのみ必要）
-  * `x-ms-blob-type`（Azure Storageのみ必要）
+  * `Content-Disposition`
   * `Cache-Control`（GCSでは`cache_control`が設定されている場合のみ必要）
 
 Diskサービスはアプリのオリジンを共有するので、CORS設定は不要です。
@@ -1065,32 +1048,19 @@ Diskサービスはアプリのオリジンを共有するので、CORS設定は
 ]
 ```
 
-#### 設定例: Azure StorageのCORS
-
-```xml
-<Cors>
-  <CorsRule>
-    <AllowedOrigins>https://www.example.com</AllowedOrigins>
-    <AllowedMethods>PUT</AllowedMethods>
-    <AllowedHeaders>Content-Type, Content-MD5, x-ms-blob-content-disposition, x-ms-blob-type</AllowedHeaders>
-    <MaxAgeInSeconds>3600</MaxAgeInSeconds>
-  </CorsRule>
-</Cors>
-```
-
 ### ダイレクトアップロードのJavaScriptイベント
 
-| イベント名 | イベントの対象 | イベントデータ（`event.detail`） | 説明 |
-| --- | --- | --- | --- |
-| `direct-uploads:start` | `<form>` | なし | ダイレクトアップロードフィールドのファイルを含むフォームが送信された。 |
-| `direct-upload:initialize` | `<input>` | `{id, file}` | フォーム送信後のすべてのファイルにディスパッチされる。 |
-| `direct-upload:start` | `<input>` | `{id, file}` | 直接アップロードが開始されている。 |
-| `direct-upload:before-blob-request` | `<input>` | `{id, file, xhr}` | アプリケーションにダイレクトアップロードメタデータを要求する前。 |
-| `direct-upload:before-storage-request` | `<input>` | `{id, file, xhr}` | ファイルを保存するリクエストを出す前。 |
-| `direct-upload:progress` | `<input>` | `{id, file, progress}` | ファイルを保存する要求が進行中。 |
-| `direct-upload:error` | `<input>` | `{id, file, error}` | エラーが発生した。このイベントがキャンセルされない限り、`alert`が表示される。 |
-| `direct-upload:end` | `<input>` | `{id, file}` | ダイレクトアップロードが終了した。 |
-| `direct-uploads:end` | `<form>` | なし | すべてのダイレクトアップロードが終了した。 |
+| イベント名                             | イベントの対象 | イベントデータ（`event.detail`） | 説明                                                                          |
+| -------------------------------------- | -------------- | -------------------------------- | ----------------------------------------------------------------------------- |
+| `direct-uploads:start`                 | `<form>`       | なし                             | ダイレクトアップロードフィールドのファイルを含むフォームが送信された。        |
+| `direct-upload:initialize`             | `<input>`      | `{id, file}`                     | フォーム送信後のすべてのファイルにディスパッチされる。                        |
+| `direct-upload:start`                  | `<input>`      | `{id, file}`                     | 直接アップロードが開始されている。                                            |
+| `direct-upload:before-blob-request`    | `<input>`      | `{id, file, xhr}`                | アプリケーションにダイレクトアップロードメタデータを要求する前。              |
+| `direct-upload:before-storage-request` | `<input>`      | `{id, file, xhr}`                | ファイルを保存するリクエストを出す前。                                        |
+| `direct-upload:progress`               | `<input>`      | `{id, file, progress}`           | ファイルを保存する要求が進行中。                                              |
+| `direct-upload:error`                  | `<input>`      | `{id, file, error}`              | エラーが発生した。このイベントがキャンセルされない限り、`alert`が表示される。 |
+| `direct-upload:end`                    | `<input>`      | `{id, file}`                     | ダイレクトアップロードが終了した。                                            |
+| `direct-uploads:end`                   | `<form>`       | なし                             | すべてのダイレクトアップロードが終了した。                                    |
 
 ### 例
 
@@ -1424,7 +1394,7 @@ test_fixtures:
 次にActive Storageクラスで使うフィクスチャファイルを作成します。
 
 ```yml
-# active_storage/attachments.yml
+# test/fixtures/active_storage/attachments.yml
 david_avatar:
   name: avatar
   record: david (User)
@@ -1432,7 +1402,7 @@ david_avatar:
 ```
 
 ```yml
-# active_storage/blobs.yml
+# test/fixtures/active_storage/blobs.yml
 david_avatar_blob: <%= ActiveStorage::FixtureSet.blob filename: "david.png", service_name: "test_fixtures" %>
 ```
 
