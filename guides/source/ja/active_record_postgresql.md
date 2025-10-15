@@ -837,3 +837,21 @@ Railsの`config.active_record.schema_format`を`:sql`に設定すると、`pg_du
 ```ruby
 ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = ["--no-comments"]
 ```
+
+Explain
+-------
+
+標準の[`explain`][explain-options]オプションに加えて、PostgreSQLアダプタは[`buffers`][explain-analayze-buffers]もサポートしています。
+
+```ruby
+Company.where(id: owning_companies_ids).explain(:analyze, :buffers)
+#=> EXPLAIN (ANALYZE, BUFFERS) SELECT "companies".* FROM "companies"
+# ...
+# Seq Scan on companies  (cost=0.00..2.21 rows=3 width=64)
+# ...
+```
+
+詳しくはPostgreSQLのドキュメントを参照してください。
+
+[explain-options]: active_record_querying.html#explainのオプション
+[explain-analayze-buffers]: https://www.postgresql.jp/document/17/html/sql-explain.html
