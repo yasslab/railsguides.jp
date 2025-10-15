@@ -110,18 +110,10 @@ Title: Rails debugging guide
 
 Railsは`ActiveSupport::Logger`クラスを利用してログ情報を出力します。必要に応じて、`Log4r`など別のロガーに差し替えることもできます。
 
-別のロガーの指定は、`config/application.rb`または環境ごとの設定ファイルで行います。
-
 ```ruby
+# config/environments/production.rb
 config.logger = Logger.new(STDOUT)
 config.logger = Log4r::Logger.new("Application Log")
-```
-
-あるいは、`Initializer`セクションに以下の**いずれか**を追加します。
-
-```ruby
-Rails.logger = Logger.new(STDOUT)
-Rails.logger = Log4r::Logger.new("Application Log")
 ```
 
 TIP: ログの保存場所は、デフォルトでは`Rails.root/log/`になります。ログのファイル名は、アプリケーションが実行されるときの環境（development、test、productionなど）が使われます。
@@ -133,8 +125,8 @@ TIP: ログの保存場所は、デフォルトでは`Rails.root/log/`になり�
 指定可能なログレベルは`:debug`、`:info`、`:warn`、`:error`、`:fatal`、`:unknown`の6つであり、それぞれ0から5までの数字に対応します。デフォルトのログレベルを変更するには以下のようにします。
 
 ```ruby
-config.log_level = :warn # 環境ごとのイニシャライザで利用可能
-Rails.logger.level = 0 # いつでも利用可能
+# config/environments/production.rb
+config.log_level = :warn
 ```
 
 これは、development環境やstaging環境ではログを出力し、production環境では不要な情報をログに出力したくない場合などに便利です。
@@ -213,7 +205,7 @@ irb(main):001:0> Article.pamplemousse
 => #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
 ```
 
-`bin/rails console`セッションで`ActiveRecord.verbose_query_logs = true`を実行すると詳細クエリログモードが有効になります。同じメソッドをもう一度実行すると、大量のデータベース呼び出しを生成しているコード行がどこにあるかががわかるようになります。
+`verbose_query_logs`を有効にすると、クエリごとに追加情報も出力されます。
 
 ```irb
 irb(main):003:0> Article.pamplemousse
@@ -228,9 +220,11 @@ irb(main):003:0> Article.pamplemousse
 => #<Comment id: 2, author: "1", body: "Well, actually...", article_id: 1, created_at: "2018-10-19 00:56:10", updated_at: "2018-10-19 00:56:10">
 ```
 
-各データベースステートメントの下には、データベースを呼び出したメソッドがあるソースファイル名と行番号が`app/models/article.rb:6`のように表示されています。これはN+1クエリ（1個のデータベースクエリが多数の追加クエリを生成する問題）が原因となるパフォーマンス問題を突き止めて対処するときに有用です。
+各データベースステートメントの下には、データベースを呼び出したメソッドがあるソースファイル名と行番号が`↳ app/models/article.rb:5`のように表示されています。
 
-Rails 5.2以降は、developmentモードで詳細クエリモードがデフォルトで有効になります。
+これはN+1クエリ（1個のデータベースクエリが多数の追加クエリを生成する問題）が原因となるパフォーマンス問題を突き止めて対処するときに有用です。
+
+developmentモードのログでは、詳細クエリモードが[デフォルトで有効になります](configuring.html#config-active-record-verbose-query-logs)。
 
 WARNING: production環境では詳細クエリモードを有効にしないことをおすすめします。この設定はRubyの`Kernel#caller`メソッドに依存しており、メソッド呼び出しのスタックトレース生成で大量のメモリをアロケーションする傾向があります。
 
@@ -238,13 +232,36 @@ WARNING: production環境では詳細クエリモードを有効にしないこ�
 
 上述の「詳細なクエリログ」と同様に、バックグラウンドジョブをエンキューするメソッドのソースの場所を表示できます。
 
-development環境ではデフォルトで有効になっています。他の環境で有効にするには、`application.rb`または任意の環境イニシャライザに以下を追加します。
+developmentモードのログでは、詳細クエリモードが[デフォルトで有効になります](7_1_release_notes.html#active-job-主な変更点)。
 
-```rb
+```ruby
+# config/environments/development.rb
 config.active_job.verbose_enqueue_logs = true
 ```
 
-詳細なクエリログと同様に、production環境での利用は推奨されていません。
+```irb
+# bin/rails console
+ActiveJob.verbose_enqueue_logs = true
+```
+
+WARNING: この設定は、production環境では推奨されません。
+
+### 詳細なリダイレクトログ
+
+上記の他の詳細ログ設定と同様に、リダイレクトのソース位置をログに出力できます。
+
+```
+Redirected to http://localhost:3000/posts/1
+↳ app/controllers/posts_controller.rb:32:in `block (2 levels) in create'
+```
+
+これは、development環境ではデフォルトで有効になります。他の環境でも有効にするには、以下の設定を使います。
+
+```rb
+config.action_dispatch.verbose_redirect_logs = true
+```
+
+他の詳細ログと同様に、リダイレクトログもproduction環境では推奨されません。
 
 SQLクエリコメント
 ------------------
@@ -254,9 +271,11 @@ SQLステートメントに実行時情報（コントローラやジョブの�
 
 この機能を有効にするには、`application.rb`または任意の環境イニシャライザに以下を追加します。
 
-```rb
+```ruby
 config.active_record.query_log_tags_enabled = true
 ```
+
+NOTE: クエリタグを有効にすると、プリペアドステートメントが自動的に無効になります。これは、ほとんどのクエリがunique（一意）になるためです。
 
 デフォルトでは、「アプリケーション名」「コントローラ名とアクション」または「ジョブ名」がログ出力されます。デフォルトの形式は[SQLCommenter][]です。たとえば、以下のような形式でログが出力されます。
 
@@ -353,7 +372,7 @@ Processing by PostsController#index as HTML
     10|   # GET /posts/1 or /posts/1.json
     11|   def show
 =>#0    PostsController#index at ~/projects/rails-guide-example/app/controllers/posts_controller.rb:7
-  #1    ActionController::BasicImplicitRender#send_action(method="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.0.0.alpha/lib/action_controller/metal/basic_implicit_render.rb:6
+  #1    ActionController::BasicImplicitRender#send_action(method="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.1.0.alpha/lib/action_controller/metal/basic_implicit_render.rb:6
   # and 72 frames (use `bt' command for all frames)
 (rdbg)
 ```
@@ -417,16 +436,16 @@ Processing by PostsController#index as HTML
 
 オプションなしで実行すると、`backtrace`が以下のようにスタックのフレームをすべて表示します。
 
-```rb
+```ruby
 =>#0    PostsController#index at ~/projects/rails-guide-example/app/controllers/posts_controller.rb:7
   #1    ActionController::BasicImplicitRender#send_action(method="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-2.0.alpha/lib/action_controller/metal/basic_implicit_render.rb:6
-  #2    AbstractController::Base#process_action(method_name="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.0.0.alpha/lib/abstract_controller/base.rb:214
-  #3    ActionController::Rendering#process_action(#arg_rest=nil) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.0.0.alpha/lib/action_controller/metal/rendering.rb:53
-  #4    block in process_action at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.0.0.alpha/lib/abstract_controller/callbacks.rb:221
-  #5    block in run_callbacks at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-8.0.0.alpha/lib/active_support/callbacks.rb:118
-  #6    ActionText::Rendering::ClassMethods#with_renderer(renderer=#<PostsController:0x0000000000af78>) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-8.0.0.alpha/lib/action_text/rendering.rb:20
-  #7    block {|controller=#<PostsController:0x0000000000af78>, action=#<Proc:0x00007fd91985f1c0 /Users/st0012/...|} in <class:Engine> (4 levels) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-8.0.0.alpha/lib/action_text/engine.rb:69
-  #8    [C] BasicObject#instance_exec at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-8.0.0.alpha/lib/active_support/callbacks.rb:127
+  #2    AbstractController::Base#process_action(method_name="index", args=[]) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.1.0.alpha/lib/abstract_controller/base.rb:214
+  #3    ActionController::Rendering#process_action(#arg_rest=nil) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.1.0.alpha/lib/action_controller/metal/rendering.rb:53
+  #4    block in process_action at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-8.1.0.alpha/lib/abstract_controller/callbacks.rb:221
+  #5    block in run_callbacks at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-8.1.0.alpha/lib/active_support/callbacks.rb:118
+  #6    ActionText::Rendering::ClassMethods#with_renderer(renderer=#<PostsController:0x0000000000af78>) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-8.1.0.alpha/lib/action_text/rendering.rb:20
+  #7    block {|controller=#<PostsController:0x0000000000af78>, action=#<Proc:0x00007fd91985f1c0 /Users/st0012/...|} in <class:Engine> (4 levels) at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actiontext-8.1.0.alpha/lib/action_text/engine.rb:69
+  #8    [C] BasicObject#instance_exec at ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activesupport-8.1.0.alpha/lib/active_support/callbacks.rb:127
   ..... and more
 ```
 
@@ -506,7 +525,7 @@ class variables: @@raise_on_open_redirects
 
 指定の行番号にブレークポイントを設定します（例: `b 28`）。
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -525,7 +544,7 @@ class variables: @@raise_on_open_redirects
 #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controllers/posts_controller.rb:28 (line)
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [23, 32] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     23|   def create
@@ -547,7 +566,7 @@ Stop by #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controller
 
 以下は指定のメソッド呼び出しにブレークポイントを設定します（例: `b @post.save`）。
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -567,7 +586,7 @@ Stop by #0  BP - Line  /Users/st0012/projects/rails-guide-example/app/controller
 
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [39, 48] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/suppressor.rb
     39|         SuppressorRegistry.suppressed[name] = previous_state
@@ -591,7 +610,7 @@ Stop by #0  BP - Method  @post.save at /Users/st0012/.rbenv/versions/3.0.1/lib/r
 
 例外発生時に停止します（例: `catch ActiveRecord::RecordInvalid`）。
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -610,7 +629,7 @@ Stop by #0  BP - Method  @post.save at /Users/st0012/.rbenv/versions/3.0.1/lib/r
 #1  BP - Catch  "ActiveRecord::RecordInvalid"
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [75, 84] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/validations.rb
     75|     def default_validation_context
@@ -634,7 +653,7 @@ Stop by #1  BP - Catch  "ActiveRecord::RecordInvalid"
 
 インスタンス変数の変更時に停止します（例: `watch @_response_body`）。
 
-```rb
+```ruby
 [20, 29] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
     20|   end
     21|
@@ -653,7 +672,7 @@ Stop by #1  BP - Catch  "ActiveRecord::RecordInvalid"
 #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body =
 ```
 
-```rb
+```ruby
 (rdbg) c    # 続行コマンド
 [173, 182] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/actionpack-7.0.0.alpha2/lib/action_controller/metal.rb
    173|       body = [body] unless body.nil? || body.respond_to?(:each)
@@ -689,7 +708,7 @@ Stop by #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body = 
 
 最初の3つのオプション「`do:`」「`pre:`」「`if:`」については、以下のように前述の`debugger`ステートメントのオプションとしても利用できます。
 
-```rb
+```ruby
 [2, 11] in ~/projects/rails-guide-example/app/controllers/posts_controller.rb
      2|   before_action :set_post, only: %i[ show edit update destroy ]
      3|
@@ -723,7 +742,7 @@ Stop by #0  BP - Watch  #<PostsController:0x00007fce69ca5320> @_response_body = 
 
 上述のオプションを利用すると、以下のようにデバッグのワークフローをスクリプト化できます。
 
-```rb
+```ruby
 def create
   debugger(do: "catch ActiveRecord::RecordInvalid do: bt 10")
   # ...
@@ -732,7 +751,7 @@ end
 
 これで、スクリプト化されたコマンドをデバッガーが実行して`catch`ブレークポイントを挿入します。
 
-```rb
+```ruby
 (rdbg:binding.break) catch ActiveRecord::RecordInvalid do: bt 10
 #0  BP - Catch  "ActiveRecord::RecordInvalid"
 [75, 84] in ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/activerecord-7.0.0.alpha2/lib/active_record/validations.rb
@@ -753,7 +772,7 @@ end
 
 `catch`ブレークポイントがトリガーされると、スタックフレームが出力されます。
 
-```rb
+```ruby
 Stop by #0  BP - Catch  "ActiveRecord::RecordInvalid"
 
 (rdbg:catch) bt 10
