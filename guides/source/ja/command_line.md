@@ -43,37 +43,6 @@ $ rails new my_app
 
 こんな短いコマンドを入力するだけで、Railsが膨大なファイルをセットアップします。これでRailsのディレクトリ構造全体と、このシンプルなアプリケーションをすぐに実行するのに必要なすべてのコードが揃います。
 
-生成をスキップしたいファイルやライブラリがある場合は、`rails new`コマンドに以下の引数のいずれかを追加します。
-
-| 引数                     | 説明                                               |
-| ----------------------- | -------------------------------------------------- |
-| `--skip-git`            | git init、.gitignore、.gitattributesをスキップ        |
-| `--skip-docker`         | Dockerfile、.dockerignore、bin/docker-entrypointをスキップ |
-| `--skip-keeps`          | バージョン管理用の.keepファイルをスキップ                 |
-| `--skip-action-mailer`  | Action Mailerのファイルをスキップ                      |
-| `--skip-action-mailbox` | Action Mailbox gemをスキップ                         |
-| `--skip-action-text`    | Action Text gemをスキップ                            |
-| `--skip-active-record`  | Active Recordファイルをスキップ                       |
-| `--skip-active-job`     | Active Jobをスキップ                                 |
-| `--skip-active-storage` | Active Storageのファイルをスキップ                     |
-| `--skip-action-cable`   | Action Cableのファイルをスキップ                       |
-| `--skip-asset-pipeline` | アセットパイプラインをスキップ                           |
-| `--skip-javascript`     | JavaScriptファイルをスキップ                           |
-| `--skip-hotwire`        | Hotwire統合をスキップ                                 |
-| `--skip-jbuilder`       | jbuilder gemをスキップ                               |
-| `--skip-test`           | テストファイルをスキップ                                |
-| `--skip-system-test`    | システムテストのファイルをスキップ                        |
-| `--skip-bootsnap`       | bootsnap gemをスキップ                               |
-| `--skip-dev-gems`       | development用gemの追加をスキップ                      |
-| `--skip-thruster`       | Thrusterのセットアップをスキップ                       |
-| `--skip-rubocop`        | RuboCopのセットアップをスキップ                       |
-| `--skip-brakeman`       | Brakemanのセットアップをスキップ                       |
-| `--skip-ci`             | GitHub CIファイルのセットアップをスキップ                 |
-| `--skip-kamal`          | Kamalのセットアップをスキップ                       |
-| `--skip-solid`          | Solid Cache、Solid Queue、Solid Cableのセットアップをスキップ |
-
-`rails new`には他にも多くのオプションを渡せます。すべてのオプションを表示するには`rails new --help`を実行してください。
-
 ### さまざまなデータベースを事前に指定する
 
 新しいRailsアプリケーションを作成するとき、アプリケーションで使うデータベースの種類を指定するオプションがあります。これにより、数分の時間と、確実に多くの入力を節約できます。
@@ -96,7 +65,7 @@ $ rails new petstore --database=postgresql
 # Install the pg driver:
 #   gem install pg
 # On macOS with Homebrew:
-#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+#   gem install pg -- --with-pg-config=/opt/homebrew/bin/pg_config
 # On Windows:
 #   gem install pg
 #       Choose the win32 build.
@@ -208,7 +177,7 @@ tmp:create                          Create tmp directories ...
 $ cd my_app
 $ bin/rails server
 => Booting Puma
-=> Rails 8.0.0 application starting in development
+=> Rails 8.1.0 application starting in development
 => Run `bin/rails server --help` for more startup options
 Puma starting in single mode...
 * Puma version: 6.4.0 (ruby 3.1.3-p185) ("The Eagle of Durango")
@@ -363,6 +332,8 @@ NOTE: `type`パラメータで指定できるフィールド型については�
 
 ここでは直接モデルを作成する代わりに（モデルの作成は後ほど行います）、scaffoldをセットアップしましょう。Railsにおける**scaffold**（足場）とは、「モデル」「モデルのマイグレーションファイル「モデルを操作するコントローラ」「データを操作・表示するビュー」「それぞれのテストファイル」一式をさします。
 
+NOTE: Rails 8.1から、scaffoldはデフォルトでシステムテストを生成しなくなりました。システムテストは実行に時間がかかり、メンテナンスコストも高いため、利用は重要なユーザーパスに限定すべきです。scaffoldでシステムテストを含めるには、`--system-tests=true`オプションを指定します。
+
 "HighScore"という名前の単体リソースを準備してみましょう。このリソースの役割はビデオゲームでの最高得点を記録することです。
 
 ```bash
@@ -371,7 +342,6 @@ $ bin/rails generate scaffold HighScore game:string score:integer
     create    db/migrate/20190416145729_create_high_scores.rb
     create    app/models/high_score.rb
     invoke    test_unit
-    create      test/models/high_score_test.rb
     create      test/fixtures/high_scores.yml
     invoke  resource_route
      route    resources :high_scores
@@ -439,7 +409,7 @@ $ bin/rails console -e staging
 
 ```bash
 $ bin/rails console --sandbox
-Loading development environment in sandbox (Rails 8.0.0)
+Loading development environment in sandbox (Rails 8.1.0)
 Any modifications you make will be rolled back on exit
 app(dev)>
 ```
@@ -503,9 +473,9 @@ $ bin/rails runner -e staging "Model.long_running_method"
 $ bin/rails runner lib/code_to_be_run.rb
 ```
 
-`rails runner`スクリプトは、デフォルトではRails Executorで自動的にラップされ、cronジョブなどのタスクのキャッチされていない例外を報告するのに便利です。
+`bin/rails runner`スクリプトは、デフォルトではRails Executorで自動的にラップされ、cronジョブなどのタスクのキャッチされていない例外を報告するのに便利です。
 
-つまり、`rails runner lib/long_running_scripts.rb`を実行することは、機能的に以下と同等です。
+つまり、`bin/rails runner lib/long_running_scripts.rb`を実行することは、機能的に以下と同等です。
 
 ```ruby
 Rails.application.executor.wrap do
@@ -553,7 +523,7 @@ $ bin/rails destroy model Oops
 ```bash
 $ bin/rails about
 About your application's environment
-Rails version             8.0.0
+Rails version             8.1.0
 Ruby version              3.2.0 (x86_64-linux)
 RubyGems version          3.3.7
 Rack version              3.0.8
@@ -576,6 +546,27 @@ Database schema version   20180205173523
 `bin/rails`コマンドの`db:`名前空間に属するタスクのうち、最もよく使われるのは`migrate`と`create`です。マイグレーションに関するタスク（`up`, `down`, `redo`, `reset`）は一度ひととおり試してみることをおすすめします。`bin/rails db:version`は、トラブルシューティングで現在のデータベースの状況を調べるときに便利です。
 
 マイグレーションについて詳しくは、[Active Recordマイグレーション](active_record_migrations.html)を参照してください。
+
+#### 後からデータベースを切り替える
+
+新規Railsアプリケーションを作成した後で、Railsでサポートされている他のデータベースに切り替えることも可能です（例: 当初しばらくSQLiteを使ってからPostgreSQLに切り替えたい場合）。この場合、以下のコマンドを実行するだけで切り替えられます
+
+```bash
+$ rails db:system:change --to=postgresql
+    conflict  config/database.yml
+Overwrite config/database.yml? (enter "h" for help) [Ynaqdhm] Y
+       force  config/database.yml
+        gsub  Gemfile
+        gsub  Gemfile
+...
+```
+
+続いてgemをインストールします。
+
+```bash
+$ bundle install
+...
+```
 
 ### `bin/rails notes`
 
@@ -690,7 +681,7 @@ INFO: Railsでの単体テストについて詳しくは、ガイドの[Railsア
 
 Railsにはminitestと呼ばれるテストフレームワークが付属しています。Railsを安定させるには、テストをひととおり書きましょう。`test:`名前空間で定義されているタスクは、さまざまなテストを書いて実行するときに役立ちます（皆さんがテストを書いてくれますように！）。
 
-### `bin/rails tmp`
+### `bin/rails tmp:`
 
 `Rails.root/tmp`ディレクトリには一時ファイルが保存されます（*nix系でいう`/tmp`ディレクトリと同様です）。一時ファイルには、プロセスIDのファイル、アクションキャッシュのファイルなどがあります。
 
