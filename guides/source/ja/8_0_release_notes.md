@@ -24,6 +24,38 @@ Rails 8.0にアップグレードする
 主要な機能
 --------------
 
+### Kamal 2
+
+アプリケーションをデプロイするツールである[Kamal 2](https://kamal-deploy.org/)がRailsにプリインストールされました。Kamalを使うと、新品のLinuxマシンを`kamal setup`コマンド1つでアプリケーションサーバーやアクセサリサーバーに変えます。
+
+Kamal 2には、[Kamal Proxy](https://github.com/basecamp/kamal-proxy)と呼ばれるプロキシも含まれています。これは、従来起動時に用いられていた汎用のTraefikオプションを置き換えたものです。
+
+### Thruster
+
+Dockerfileがアップグレードされ、[Thruster](https://github.com/basecamp/thruster)と呼ばれる新しいプロキシが含まれるようになりました。これはPuma Webサーバーの手前に配置され、X-Sendfileアクセラレーション、アセットキャッシュ、アセット圧縮を提供します。
+
+### Solid Cable
+
+[Solid Cable](https://github.com/rails/solid_cable)は、Redisに代わる pub/subサーバーとして機能し、アプリケーションからのWebSocketメッセージを、異なるプロセスに接続されたクライアントに中継します。Solid Cableは、送信されたメッセージをデフォルトで1日間データベースに保持します。
+
+### Solid Cache
+
+[Solid Cache](https://github.com/rails/solid_cache)は、特にHTMLフラグメントキャッシュを保存するためにRedisまたはMemcachedのいずれかを置き換えます。
+
+### Solid Queue
+
+[Solid Queue](https://github.com/rails/solid_queue)は、Redisと、Resque、Delayed Job、Sidekiqなどの独立したジョブ実行フレームワークを不要にします。
+
+Solid Queueは、高パフォーマンス環境向けに`FOR UPDATE SKIP LOCKED`という新しいメカニズムを基盤としています（これはPostgreSQL 9.5で初めて導入され、現在ではMySQL 8.0以降でも利用可能）。Solid QueueはSQLiteでも動作します。
+
+### Propshaft
+
+[Propshaft](https://github.com/rails/propshaft)は、古いSprocketsシステムに代わってデフォルトのアセットパイプラインとなりました。
+
+### 認証システムジェネレータ
+
+認証システムジェネレータが追加されました（[#52328](https://github.com/rails/rails/pull/52328)）これを元にして、セッションベース、パスワードリセット可能、メタデータ追跡機能を持つ認証システムを構築できます。
+
 Railties
 --------
 
@@ -40,6 +72,12 @@ Railties
 *   `Rails::ConsoleMethods`によるRailsコンソール拡張のサポート（非推奨化済み）を削除。
 
 ### 非推奨化
+
+*   `"rails/console/methods"`を`require`するサポートを非推奨化。
+
+*   `STATS_DIRECTORIES`の変更を非推奨化。今後は`Rails::CodeStatistics.register_directory`に置き換えられる。
+
+*   `bin/rake stats`を非推奨化。今後は`bin/rails stats`を使うこと。
 
 ### 主な変更点
 
@@ -67,7 +105,11 @@ Action Pack
 
 ### 非推奨化
 
+*   ルーティング高速化のため、複数のパスを指定するルーティングを非推奨化。
+
 ### 主な変更
+
+*   従来よりも安全かつ明示的なパラメータ処理メソッドである[`params#expect`](https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-expect)が導入されました。従来の`params.expect(table: [ :attr ])`をシンプルな`params.require(:table).permit(:attr)`に置き換えられます。
 
 Action View
 -----------
@@ -122,7 +164,12 @@ Active Record
 
 ### 非推奨化
 
+*   `SQLite3Adapter`の`retries`オプションを非推奨化。今後は`timeout`を使うこと。
+
 ### 主な変更
+
+*   新しいデータベースで`db:migrate`を実行すると、マイグレーションの実行前にスキーマが読み込まれるように変更された。以後の呼び出しでは、保留中のマイグレーションが実行される。
+  （従来のようにマイグレーションを最初から実行する振る舞いが必要な場合は、`db:migrate:reset`を実行することで利用可能。**これはデータベースをドロップして再作成した後にマイグレーションを実行する**）
 
 Active Storage
 --------------
@@ -132,6 +179,8 @@ Active Storage
 ### 削除されたもの
 
 ### 非推奨化
+
+*    Active StorageでのAzureバックエンド利用を非推奨化。
 
 ### 主な変更
 
@@ -161,6 +210,10 @@ Active Support
 
 ### 非推奨化
 
+*   `Benchmark.ms`を非推奨化。
+
+*   加算や`since`で`Time`と`ActiveSupport::TimeWithZone`を混ぜることを非推奨化。
+
 ### 主な変更
 
 Active Job
@@ -173,6 +226,10 @@ Active Job
 *   非推奨化されていた`config.active_job.use_big_decimal_serializer`を削除。
 
 ### 非推奨化
+
+   `enqueue_after_transaction_commit`を非推奨化。
+
+*   組み込みの`SuckerPunch`アダプタを非推奨化。今後は`sucker_punch` gemに含まれるアダプタを使うこと。
 
 ### 主な変更
 
