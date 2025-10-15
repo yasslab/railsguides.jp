@@ -268,7 +268,7 @@ NOTE: 新しく作成した`has_one`関連付けまたは`belongs_to`関連付�
 @book.author = @author
 ```
 
-`build_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、外部キーを経由するリンクが設定されます。関連付けられたオブジェクトは、その時点ではまだ**保存されない**ことにご注意ください。
+`build_association`メソッドは、関連付けられた型の新しいオブジェクトを返します。返されるオブジェクトは、渡された属性に基いてインスタンス化され、そのオブジェクトの外部キーを経由するリンクが設定されます。関連付けられたオブジェクトは、その時点ではまだ**保存されない**ことにご注意ください。
 
 ```ruby
 @author = @book.build_author(author_number: 123,
@@ -759,7 +759,7 @@ WARNING: オブジェクトが`dependent: :destroy`または`dependent: :destroy
 
 ### `has_many :through`関連付け
 
-[`has_many :through`][`has_many`]関連付けは、他方のモデルと「多対多」のリレーションシップを設定する場合によく使われます。この関連付けでは、2つのモデルの間に「第3のモデル」（joinモデル）が介在し、それを**経由**（through）して相手のモデルの「0個以上」のインスタンスとマッチします。
+[`has_many :through`][`has_many`]関連付けは、他方のモデルと「多対多」のリレーションシップを設定する場合によく使われます。この関連付けでは、2つのモデルの間に中間のjoinモデルが介在し、それを**経由**（through）して相手のモデルの「0個以上」のインスタンスとマッチします。
 
 たとえば、患者（patients）が医師（physicians）との診察予約（appointments）を設定する医療業務を考えてみます。この場合、関連付けの宣言は次のような感じになるでしょう。
 
@@ -781,6 +781,8 @@ end
 ```
 
 `has_many :through`関連付けは、モデル同士の間に多対多リレーションシップを確立し、一方のモデル（`Physician`）のインスタンスが、第3の「join」モデル（`Appointment`）を経由して、他方のモデル（`Patient`）の複数のインスタンスと関連付けられることを可能にします。
+
+この`Physician.appointments`は、`Physician.patients`の_through_関連付けであり、`Appointment.patient`は`Physician.patients`の_source_関連付けです。
 
 ![has_many :through関連付けの図](images/association_basics/has_many_through.png)
 
@@ -810,6 +812,8 @@ end
 ```
 
 このマイグレーションでは、`physicians`テーブルと`patients`テーブルが作成され、どちらのテーブルにも`name`カラムがあります。joinテーブルとして機能する`appointments`テーブルは`physician_id`カラムと`patient_id`カラムを持つ形で作成され、`physicians`と`patients`の間に多対多の関係を確立します。
+
+INFO: このthrough関連付けは、他のthrough関連付けを含むあらゆる種類の関連付けにできますが、ポリモーフィック関連付けにはできません。source関連付けは、ソース型を指定した場合に限りポリモーフィックにできます。
 
 また、以下のように`has_many :through`リレーションシップのjoinテーブルに[複合主キー](active_record_composite_primary_keys.html)を利用することも検討できます。
 
@@ -899,6 +903,8 @@ end
 
 上のセットアップによって、`supplier`は`account`を経由して直接`account_history`にアクセス可能になります。
 
+この`Supplier.account`は、`Supplier.account_history`の_through_関連付けであり、`Account.account_history`は`Supplier.account_history`の_source_関連付けです。
+
 ![has_one :through関連付けの図](images/association_basics/has_one_through.png)
 
 上の関連付けに対応するマイグレーションは以下のような感じになります。
@@ -925,6 +931,9 @@ class CreateAccountHistories < ActiveRecord::Migration[8.0]
   end
 end
 ```
+
+INFO: このthrough関連付けは、`has_one`、`has_one :through`、または
+非ポリモーフィック`belongs_to`でなければなりません。他方、source関連付けはソース型を指定した場合に限りポリモーフィックにできます。
 
 ### `has_and_belongs_to_many`関連付け
 
@@ -1295,7 +1304,7 @@ end
 
 上の例では、`imageable_id`は`Employee`や`Product`のIDであり、`imageable_type`は関連付けられるモデルのクラス名（つまり`Employee`や`Product`）になります。
 
-ポリモーフィック関連付けを手動で作成することも一応可能ですが、それよりも以下のように`t.references`（またはそのエイリアス`t.belong_to`）を用いて`polymorphic: true`を指定する方がオススメです。これにより、関連付けがポリモーフィックであることがRailsに認識され、外部キーとtypeカラムが両方ともテーブルに自動的に追加されます。
+ポリモーフィック関連付けを手動で作成することも一応可能ですが、それよりも以下のように`t.references`（またはそのエイリアス`t.belongs_to`）を用いて`polymorphic: true`を指定する方がオススメです。これにより、関連付けがポリモーフィックであることがRailsに認識され、外部キーとtypeカラムが両方ともテーブルに自動的に追加されます。
 
 ```ruby
 class CreatePictures < ActiveRecord::Migration[8.0]
@@ -1492,7 +1501,7 @@ end
 class Car < Vehicle
 end
 
-Car.create
+Car.create(color: "Red", price: 10000)
 # => #<Car kind: "Car", color: "Red", price: 10000>
 ```
 
@@ -1510,7 +1519,7 @@ class Vehicle < ApplicationRecord
   self.inheritance_column = nil
 end
 
-Vehicle.create!(type: "Car")
+Vehicle.create!(type: "Car", color: "Red", price: 10000)
 # => #<Vehicle type: "Car", color: "Red", price: 10000>
 ```
 
@@ -2094,6 +2103,8 @@ class Book < ApplicationRecord
 end
 ```
 
+このオプションは、ポリモーフィック関連付けではサポートされていません（ポリモーフィック関連付けでは、関連付けられたレコードのクラス名が`type`カラムに保存されます）。
+
 ##### `:dependent`
 
 `:dependent`オプションは、オーナーが破棄されたときに、関連付けられているオブジェクトがどう振る舞うかを制御します。
@@ -2246,6 +2257,15 @@ TIP: `:foreign_key`オプションおよび`:association_foreign_key`オプシ�
 ##### `:join_table`
 
 `:join_table`オプションは、`has_and_belongs_to_many`関連付けで利用可能です。辞書順に基いて生成されたjoinテーブルのデフォルト名では不都合がある場合、`:join_table`オプションを用いてデフォルトのテーブル名を上書きできます。
+
+
+#### `:deprecated`
+
+`true`に設定すると、その関連付けを利用するたびにActive Recordが警告を発生します。
+
+レポートでは3種類のモード（`:warn`、`:raise`、`:notify`）がサポートされており、バックトレースの有効化と無効化も可能です。デフォルトは`:warn`モードで、バックトレースは無効化されています。
+
+詳しくは、APIドキュメント[`ActiveRecord::Associations::ClassMethods`](https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html)を参照してください。
 
 ### スコープ
 
