@@ -88,6 +88,8 @@ Action Pack
 
 ### 主な変更
 
+*   新規Railsアプリでは、development環境でリダイレクトのログ出力が詳細になった。既存のアプリで有効にするには、`config/development.rb`ファイルに`config.action_dispatch.verbose_redirect_logs = true`を追加すること。
+
 Action View
 -----------
 
