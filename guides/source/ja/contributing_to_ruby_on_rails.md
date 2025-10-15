@@ -48,9 +48,10 @@ issueを作成する際に、フレームワークにバグがあるかどうか
 
 自分のissueを再現する手順を用意しておくと、他の開発者がissueを確認・調査・修正する上で大変役立ちます。そのための方法は、実行可能なテストケースを提供することです。この作業を少しでも楽にするために、Railsチームは以下のバグレポート用テンプレートを多数用意しているので、これを元に作業を開始できます。
 
-* [Active Record（モデル、データベース）issue用テンプレート][main: AR models/db]
+* [Active Record（モデル、暗号化、データベース）issue用テンプレート][main: AR models/db]
 * [Active Record（マイグレーション）issue用テンプレート][main: AR migration]
 * [Action Pack（コントローラ、ルーティング）issue用テンプレート][main: ActionPack]
+* [Active View（ビュー、ヘルパー） issue用テンプレート][main: ActiveView]
 * [Active Job issue用テンプレート][main: ActiveJob]
 * [Active Storage issue用テンプレート][main: ActiveStorage]
 * [Active Mailer issue用テンプレート][main: Action Mailer]
@@ -67,6 +68,8 @@ issueを作成する際に、フレームワークにバグがあるかどうか
 
 [main: ActionPack]: https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_controller.rb
 
+[main: ActionView]: https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_view.rb
+
 [main: ActiveJob]: https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_job.rb
 
 [main: ActiveStorage]: https://github.com/rails/rails/blob/main/guides/bug_report_templates/active_storage.rb
@@ -78,7 +81,6 @@ issueを作成する際に、フレームワークにバグがあるかどうか
 [main: generic]: https://github.com/rails/rails/blob/main/guides/bug_report_templates/generic.rb
 
 [gist]: https://gist.github.com
-
 
 ### セキュリティissueの特殊な取り扱い方法について
 
@@ -215,7 +217,7 @@ GitHub Codespacesを有効にしているOrganization（組織）に属してい
 
 #### Dev Container CLIを使う
 
-または、[Docker](https://www.docker.com)と[npm](https://github.com/npm/cli)がインストールされている場合、[Dev Container CLI](https://github.com/devcontainers/cli)を実行して、コマンドラインから[`.devcontainer`](https://github.com/rails/rails/tree/main/.devcontainer)の設定を利用することも可能です。
+[npm](https://github.com/npm/cli)と[Docker](https://www.docker.com)がインストールされている場合、[Dev Container CLI](https://github.com/devcontainers/cli)を実行して、コマンドラインから[`.devcontainer`](https://github.com/rails/rails/tree/main/.devcontainer)の設定を利用することも可能です。
 
 ```bash
 $ npm install -g @devcontainers/cli
@@ -228,6 +230,23 @@ $ devcontainer exec --workspace-folder . bash
 [GitHub Codespaces]: https://docs.github.com/ja/codespaces/getting-started/quickstart
 
 [remote_containers_plugin]: https://code.visualstudio.com/docs/remote/containers-tutorial
+
+#### Dev ContainerをPodmanで使う
+
+[`.devcontainer`](https://github.com/rails/rails/tree/main/.devcontainer)設定に[Podman](https://podman.io/)を組み合わせる方法も利用可能です。この方法では、Podman以外のツールは不要です。
+
+```bash
+$ podman machine init
+$ podman machine start
+$ tools/devcontainer up
+```
+
+続いて、別のターミナルで以下を実行します。
+
+```bash
+$ tools/devcontainer run-user-commands
+$ tools/devcontainer sh
+```
 
 #### rails-dev-boxを使う
 
@@ -358,6 +377,37 @@ $ cd rails
 $ bundle exec rake test
 ```
 
+#### リポジトリのrootディレクトリでコンポーネントテストを実行する
+
+コンポーネントテストスイートは、リポジトリのrootディレクトリからrakeタスクで実行することも可能です。
+
+```bash
+$ bundle exec rake actionpack:test
+$ bundle exec rake actionpack:isolated
+
+# Active Recordアダプタのテスト（リポジトリのrootから）
+$ bundle exec rake activerecord:sqlite3:test
+$ bundle exec rake activerecord:sqlite3:isolated
+$ bundle exec rake activerecord:mysql2:test
+$ bundle exec rake activerecord:trilogy:test
+$ bundle exec rake activerecord:postgresql:test
+
+# Active Recordの結合テスト（Active Jobのアダプタ間統合テスト）
+$ bundle exec rake activerecord:integration
+
+# Active Jobアダプタのテスト
+$ bundle exec rake activejob:sidekiq:test
+$ bundle exec rake activejob:sidekiq:isolated
+$ bundle exec rake activejob:sidekiq:integration
+
+# All Active Jobの結合テスト
+$ bundle exec rake activejob:integration
+```
+
+メモ:
+
+- 分離テストのタスクは、すべてのフレームワークで定義されているわけではありません。たとえば、`activestorage:isolated`はサポートされておらず、エラーで終了します。
+
 #### 特定のコンポーネントのテストを実行する
 
 Action Packなど、特定のコンポーネントのテストのみを実行することも可能です。たとえば、Action Mailerの場合は以下を実行します。
@@ -459,11 +509,40 @@ $ bundle exec rake db:postgresql:build
 
 なおSQLite3ではデータベース作成は不要です。
 
+上と同等のデータベース管理タスクを、リポジトリのrootディレクトリから`activerecord:db`名前空間で利用可能です。
+
+```bash
+# MySQLとPostgreSQLのテストデータベースを作成
+$ bundle exec rake activerecord:db:create
+
+# MySQLとPostgreSQLのテストデータベースを削除
+$ bundle exec rake activerecord:db:drop
+
+# MySQLとPostgreSQLのテストデータベースを再構築
+$ bundle exec rake activerecord:db:rebuild
+
+# MySQLデータベースのみを管理
+$ bundle exec rake activerecord:db:mysql:build
+$ bundle exec rake activerecord:db:mysql:drop
+$ bundle exec rake activerecord:db:mysql:rebuild
+
+# PostgreSQLデータベースのみを管理
+$ bundle exec rake activerecord:db:postgresql:build
+$ bundle exec rake activerecord:db:postgresql:drop
+$ bundle exec rake activerecord:db:postgresql:rebuild
+```
+
 SQLite3のみを対象にActive Recordのテストを実行する場合は、以下を行います。
 
 ```bash
 $ cd activerecord
 $ bundle exec rake test:sqlite3
+```
+
+上と同等のコマンドを、リポジトリのrootディレクトリで以下のように実行できます。
+
+```bash
+$ bundle exec rake activerecord:sqlite3:test
 ```
 
 MySQLやPostgreSQLを対象にテストを実行する場合は、`sqlite3`のときと同様に、それぞれ以下の手順でできます。
@@ -474,6 +553,14 @@ $ bundle exec rake test:trilogy
 $ bundle exec rake test:postgresql
 ```
 
+または、
+
+```bash
+$ bundle exec rake activerecord:mysql2:test
+$ bundle exec rake activerecord:trilogy:test
+$ bundle exec rake activerecord:postgresql:test
+```
+
 最後に以下を実行します。
 
 ```bash
@@ -481,6 +568,18 @@ $ bundle exec rake test
 ```
 
 これで3つのデータベースについてテストが順に実行されます。
+
+アダプタ固有の分離テスト、あるいはActive RecordのActive Job統合テストをすべて実行するには、以下のようにします。
+
+```bash
+# activerecord内から実行する場合
+$ bundle exec rake test:isolated:sqlite3
+$ bundle exec rake test:integration:active_job
+
+# リポジトリのrootから実行する場合
+$ bundle exec rake activerecord:sqlite3:isolated
+$ bundle exec rake activerecord:integration   # Active Jobの結合テストをすべてのアダプタで実行
+```
 
 以下のように、単一のテストを個別に実行することもできます。
 
@@ -612,7 +711,7 @@ end
 アップグレードを容易にするために、`new_framework_defaults`テンプレートにも新しいデフォルトを追加する必要があります。コメントアウト済みのセクションを追加して、以下のように新しい値を設定します。
 
 ```ruby
-# new_framework_defaults_8_0.rb.tt
+# new_framework_defaults_8_1.rb.tt
 
 # Rails.application.config.active_job.existing_behavior = false
 ```
