@@ -255,8 +255,8 @@ TIP: パスワード入力フィールドを使っている場合は、利用目
 たとえば、以下のような`@book`というモデルオブジェクトがあるとします。
 
 ```ruby
-@book = Book.find(42)
-# => #<Book id: 42, title: "Walden", author: "Henry David Thoreau">
+@book = Book.new
+# => #<Book id: nil, title: nil, author: nil>
 ```
 
 新しいbookを作成するフォームは以下のようになります。
@@ -356,7 +356,7 @@ TIP: 通常、フォーム入力にはモデル属性が反映されますが、
 ```
 
 `fields_for`で生成されるオブジェクトは、`form_with`で生成されるのと同様のフォームビルダーです。
-`fields_for`ヘルパーは同様のバインディングを作成しますが、`<form>`タグはレンダリングされません。`field_for`について詳しくは、[APIドキュメント][`fields_for`]を参照してください。
+`fields_for`ヘルパーは同様のバインディングを作成しますが、`<form>`タグはレンダリングされません。`fields_for`について詳しくは、[APIドキュメント][`fields_for`]を参照してください。
 
 [`fields_for`]:
   https://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-fields_for
@@ -1138,7 +1138,7 @@ WARNING: 配列パラメータは、`checkbox`ヘルパーとの相性がよく�
 `fields_for`で添字を利用する`index`オプションについて詳しくは、[APIドキュメント][`fields_for`]を参照してください。
 
 [`fields_for`]:
-  https://api.rubyonrails.org/v7.1.3.4/classes/ActionView/Helpers/FormHelper.html#method-i-fields_for
+  https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-fields_for
 
 複雑なフォームを作成する
 ----------------------
@@ -1388,7 +1388,7 @@ end
 `form_tag`や`form_for`の利用について
 -------------------------------
 
-Rails 5.1で`form_with`が導入されるまでは、`form_with`の機能は[`form_tag`][]と[`form_for`][]に分かれていました。`form_tag`および`form_for`は、禁止ではないものの、利用は推奨されていません。現在は`form_with`の利用が推奨されています。
+Rails 5.1で`form_with`が導入されるまでは、`form_with`の機能は[`form_tag`][]と[`form_for`][]に分かれていました。現在は`form_with`の利用が推奨されており、`form_tag`および`form_for`の利用は推奨されていませんが、一部のコードベースでは未だに散見されることがあります。
 
-[`form_tag`]: https://api.rubyonrails.org/v5.2/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag
-[`form_for`]: https://api.rubyonrails.org/v5.2/classes/ActionView/Helpers/FormHelper.html#method-i-form_for
+[`form_tag`]: https://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-form_tag
+[`form_for`]: https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for
