@@ -74,6 +74,8 @@ production:
     replica: true
 ```
 
+データベースのコネクションURLは、環境変数で設定することも可能です。変数名は、英大文字のコネクション名に`_DATABASE_URL`を連結することで形成されます。たとえば、`ANIMALS_DATABASE_URL="mysql2://username:password@host/database"`を設定すると、`production`環境の`database.yml`ファイルの`animals`設定にマージされます。マージの仕組みについて詳しくは[データベースの設定](configuring.html#データベースを設定する)を参照してください。
+
 複数のデータベースを用いる場合に重要な設定がいくつかあります。
 
 第1に、`primary`と`primary_replica`のデータベース名は同じにすべきです。理由は、primaryとreplicaが同じデータを持つからです。`animals`と`animals_replica`についても同様です。
@@ -127,7 +129,7 @@ end
 これらのモデルは、共通の抽象クラスから継承する必要があります。
 
 ```ruby
-class Car < AnimalsRecord
+class Dog < AnimalsRecord
   # animalsデータベースに自動的に話しかける
 end
 ```
@@ -385,6 +387,9 @@ class ShardRecord < ApplicationRecord
     shard_two: { writing: :primary_shard_two, reading: :primary_shard_two_replica }
   }
 end
+
+class Person < ShardRecord
+end
 ```
 
 シャードを利用する場合は、必ずすべてのシャードで`migrations_paths`に同じパスを設定してください。マイグレーションを生成するときに`--database`オプションを渡すことで、シャード名のいずれか1つを指定できます。これらはすべて同じパスを設定するため、どのシャード名を指定しても問題ありません。
@@ -396,33 +401,33 @@ $ bin/rails g scaffold Dog name:string --database primary_shard_one
 これで、モデルは`connected_to`APIを用いて手動でシャードを切り替えられるようになります。シャーディングを使う場合は、`role`と`shard`の両方を渡す必要があります。
 
 ```ruby
-ActiveRecord::Base.connected_to(role: :writing, shard: :default) do
-  @id = Person.create! # "default"という名前のシャードにレコードを作成する
+ShardRecord.connected_to(role: :writing, shard: :shard_one) do
+  @person = Person.create! # shard_oneという名前のシャードにレコードを作成する
 end
 
-ActiveRecord::Base.connected_to(role: :writing, shard: :shard_one) do
-  Person.find(@id) # レコードは見つからない: "default"という名前のシャードに作成されたためレコードが存在しない
-end
+ShardRecord.connected_to(role: :writing, shard: :shard_two) do
+  Person.find(@person.id) # レコードが見つからない。レコードは"shard_one"という名前のシャードに
+                          # 作成されたため存在しない。
 ```
 
 水平シャーディングAPIはread replicaもサポートしています。以下のように`connected_to`APIでロールとシャードを切り替えられます。
 
 ```ruby
-ActiveRecord::Base.connected_to(role: :reading, shard: :shard_one) do
+ShardRecord.connected_to(role: :reading, shard: :shard_one) do
   Person.first # shard_oneのread replicaでレコードを探索する
 end
 ```
 
 ## 自動シャード切り替えを有効にする
 
-アプリケーションで提供されているミドルウェアを使うと、リクエスト単位でシャードを自動切り替えできるようになります。
+`ShardSelector`ミドルウェアを使うと、リクエスト単位でシャードを自動切り替えできるようになります。これにより、アプリケーションは各リクエストに対して適切なシャードを判断するためのカスタムロジックを提供できるようになります。
 
-`ShardSelector`ミドルウェアは、シャードを自動スワップするフレームワークを提供します。Railsは、どのシャードに切り替えるかを判断する基本的なフレームワークを提供し、必要に応じてアプリケーションでスワップのカスタム戦略を記述できます。
+Applications are able to automatically switch shards per request using the `ShardSelector` middleware, which allows an application to provide custom logic for determining the appropriate shard for each request.
 
 `ShardSelector`には、ミドルウェアの動作を変更できるオプションのセットを渡せます（現在は`lock`のみをサポート）。`lock`はデフォルトでは`true`で、ブロック内でのシャード切り替えを禁止します。`lock`が`false`の場合はシャードのスワップが許可されます。
 テナントベースのシャーディングでは、アプリケーションコードが誤ってテナントを切り替えることのないよう、`lock`は常に`true`にする必要があります。
 
-以下のようにデータベースセレクタと同じジェネレータを用いて、シャードの自動スワップ用ファイルを生成できます。
+データベースセレクタで使ったのと同じジェネレータを用いて、シャードの自動スワップ用ファイルを生成できます。
 
 ```bash
 $ bin/rails g active_record:multi_db
@@ -437,7 +442,7 @@ Rails.application.configure do
 end
 ```
 
-アプリケーションは、リゾルバにコードを提供しなければなりません（リゾルバはアプリケーション固有のモデルに依存するため）。以下はリゾルバの例です。
+アプリケーションは、アプリケーション固有のロジックを提供するリゾルバを提供しなければなりません。以下は、サブドメインを用いて用いてシャードを決定するリゾルバの例です。
 
 ```ruby
 config.active_record.shard_resolver = ->(request) {
@@ -445,6 +450,19 @@ config.active_record.shard_resolver = ->(request) {
   tenant = Tenant.find_by_subdomain!(subdomain)
   tenant.shard
 }
+```
+
+`ShardSelector`の振る舞いは、いくつかの設定オプションによって変更できます。
+
+`lock`はデフォルトで`true`に設定されており、リクエスト中のシャードの切り替えを禁止します。
+`lock`が`false`の場合、シャードの切り替えは許可されます。テナントベースのシャーディングでは、アプリケーションコードが誤ってテナントを切り替えるのを防ぐため、`lock`は常に`true`にする必要があります。
+
+`class_name`は、抽象コネクションクラス名を切り替えるのに使います。デフォルトでは、`ShardSelector`は`ActiveRecord::Base`が使われますが、アプリケーションに複数のデータベースがある場合は、このオプションをシャード化されたデータベースの抽象コネクションクラス名に設定する必要があります。
+
+オプションはアプリケーションの設定ファイルで設定できます。たとえば、以下の設定は、`ShardSelector`に`AnimalsRecord.connected_to`を用いてシャードを切り替えるように指示しています。
+
+``` ruby
+config.active_record.shard_selector = { lock: true, class_name: "AnimalsRecord" }
 ```
 
 ## 粒度の細かいデータベース接続切り替え
