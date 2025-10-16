@@ -485,14 +485,14 @@ Action Cable
 | ---------------- | ------------------------- |
 | `:channel_class` | チャンネルのクラス名      |
 | `:action`        | アクション                |
-| `:data`          | 日付（ハッシュ）          |
+| `:data`          | データ（ハッシュ）          |
 
 ### transmit.action_cable
 
 | キー              | 値                       |
 | ---------------- | ------------------------- |
 | `:channel_class` | チャンネルのクラス名      |
-| `:data`          | 日付（ハッシュ）          |
+| `:data`          | データ（ハッシュ）          |
 | `:via`           | 経由先                    |
 
 ### transmit_subscription_confirmation.action_cable
