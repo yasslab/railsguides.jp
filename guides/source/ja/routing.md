@@ -259,7 +259,7 @@ end
 resources :articles, module: "admin"
 ```
 
-#### スコープを領する
+#### スコープを利用する
 
 逆に、`/admin/articles`を（`Admin::`モジュールのプレフィックスなしの）`ArticlesController`にルーティングしたい場合は、以下のように`scope`ブロックでパスを指定できます。
 
