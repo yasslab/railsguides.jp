@@ -7,6 +7,8 @@ getting_started:
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
 - title: Top Ruby Companies (Rubyを活用している上場企業まとめサイト)
   url: https://toprubycompanies.info/
+- title: The Rails Doctrine (日本語訳) - Ruby on Rails 公式サイト
+  url: https://rubyonrails.org/doctrine/ja
 - title: Ruby on Railsチュートリアル - プロダクト開発の０→１を学ぼう
   url: https://railstutorial.jp
 
