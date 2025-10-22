@@ -87,23 +87,26 @@ module Rails
   module Command
     class << self
       def invoke(full_namespace, args = [], **config)
-        namespace = full_namespace = full_namespace.to_s
+        args = ["--help"] if rails_new_with_no_path?(args)
 
-        if char = namespace =~ /:(\w+)$/
-          command_name, namespace = $1, namespace.slice(0, char)
-        else
-          command_name = namespace
-        end
-
-        command_name, namespace = "help", "help" if command_name.blank? || HELP_MAPPINGS.include?(command_name)
-        command_name, namespace = "version", "version" if %w( -v --version ).include?(command_name)
-
+        full_namespace = full_namespace.to_s
+        namespace, command_name = split_namespace(full_namespace)
         command = find_by_namespace(namespace, command_name)
-        if command && command.all_commands[command_name]
-          command.perform(command_name, args, config)
-        else
-          find_by_namespace("rake").perform(full_namespace, args, config)
+
+        with_argv(args) do
+          if command && command.all_commands[command_name]
+            command.perform(command_name, args, config)
+          else
+            invoke_rake(full_namespace, args, config)
+          end
         end
+      rescue UnrecognizedCommandError => error
+        if error.name == full_namespace && command && command_name == full_namespace
+          command.perform("help", [], config)
+        else
+          puts error.detailed_message
+        end
+        exit(1)
       end
     end
   end
@@ -117,7 +120,6 @@ module Rails
   module Command
     class ServerCommand < Base # :nodoc:
       def perform
-        extract_environment_option_from_argument
         set_application_directory!
         prepare_restart
 
@@ -132,7 +134,7 @@ module Rails
             after_stop_callback = -> { say "Exiting" unless options[:daemon] }
             server.start(after_stop_callback)
           else
-            say rack_server_suggestion(using)
+            say rack_server_suggestion(options[:using])
           end
         end
       end
@@ -141,19 +143,20 @@ module Rails
 end
 ```
 
-上のファイルは、`config.ru`ファイルが見つからない場合に限り、Railsのルートディレクトリ（`config/application.rb`を指す`APP_PATH`から2階層上のディレクトリ）に移動します。これによって、次は`Rails::Server`クラスが起動されます。
+上のファイルは、`config.ru`ファイルが見つからない場合に限り、Railsのルートディレクトリ（`config/application.rb`を指す`APP_PATH`から2階層上のディレクトリ）に移動します。
+これによって、次は`Rails::Server`クラスが起動されます。
 
 ### `actionpack/lib/action_dispatch.rb`
 
 Action Dispatchは、Railsフレームワークのルーティングコンポーネントです。ルーティング、セッション、共通のミドルウェアなどの機能を提供します。
 
-### `rails/commands/server_command.rb`
+### `rails/commands/server/server_command.rb`
 
-`Rails::Server`クラスは、`Rack::Server`を継承することでこのファイル内で定義されます。`Rails::Server.new`を呼び出すと、`rails/commands/server/server_command.rb`の`initialize`メソッドが呼び出されます。
+`Rails::Server`クラスは、`Rackup::Server`を継承することでこのファイル内で定義されます。`Rails::Server.new`を呼び出すと、`rails/commands/server/server_command.rb`の`initialize`メソッドが呼び出されます。
 
 ```ruby
 module Rails
-  class Server < ::Rack::Server
+  class Server < Rackup::Server
     def initialize(options = nil)
       @default_options = options || {}
       super(@default_options)
@@ -163,16 +166,16 @@ module Rails
 end
 ```
 
-最初に`super`が呼び出され、そこから`Rack::Server`の`initialize`メソッドを呼び出します。
+最初に`super`が呼び出され、そこから`Rackup::Server`の`initialize`メソッドを呼び出します。
 
-### Rack: `lib/rack/server.rb`
+### Rackup: `lib/rackup/server.rb`
 
-`Rack::Server`は、あらゆるRackベースのアプリケーション向けに共通のサーバーインターフェイスを提供する役割を担います（RailsもRackアプリケーションの一種です）。
+`Rackup::Server`は、あらゆるRackベースのアプリケーション向けに共通のサーバーインターフェイスを提供する役割を担います（RailsもRackアプリケーションの一種です）。
 
-`Rack::Server`の`initialize`は、いくつかの変数を設定するだけの簡単なメソッドです。
+`Rackup::Server`の`initialize`は、いくつかの変数を設定するだけの簡単なメソッドです。
 
 ```ruby
-module Rack
+module Rackup
   class Server
     def initialize(options = nil)
       @ignore_options = []
@@ -182,9 +185,8 @@ module Rack
         @options = options
         @app = options[:app] if options[:app]
       else
-        argv = defined?(SPEC_ARGV) ? SPEC_ARGV : ARGV
         @use_default_options = true
-        @options = parse_options(argv)
+        @options = parse_options(ARGV)
       end
     end
   end
@@ -199,12 +201,12 @@ end
 ```ruby
 module Rails
   module Command
-    class ServerCommand
+    class ServerCommand < Base # :nodoc:
       no_commands do
         def server_options
           {
             user_supplied_options: user_supplied_options,
-            server:                using,
+            server:                options[:using],
             log_stdout:            log_to_stdout?,
             Port:                  port,
             Host:                  host,
@@ -226,7 +228,7 @@ end
 
 この値が`@options`インスタンス変数に代入されます。
 
-`super`が`Rack::Server`の中で完了すると、`rails/commands/server_command.rb`に制御が戻ります。この時点で、`set_environment`が`Rails::Server`オブジェクトのコンテキスト内で呼び出されます。
+`super`が`Rackup::Server`の中で完了すると、`rails/commands/server_command.rb`に制御が戻ります。この時点で、`set_environment`が`Rails::Server`オブジェクトのコンテキスト内で呼び出されます。
 
 ```ruby
 module Rails
@@ -250,7 +252,7 @@ end
 
 ```ruby
 module Rails
-  class Server < ::Rack::Server
+  class Server < ::Rackup::Server
     def start(after_stop_callback = nil)
       trap(:INT) { exit }
       create_tmp_directories
@@ -281,8 +283,8 @@ module Rails
         console.formatter = Rails.logger.formatter
         console.level = Rails.logger.level
 
-        unless ActiveSupport::Logger.logger_outputs_to?(Rails.logger, STDOUT)
-          Rails.logger.extend(ActiveSupport::Logger.broadcast(console))
+        unless ActiveSupport::Logger.logger_outputs_to?(Rails.logger, STDERR, STDOUT)
+          Rails.logger.broadcast_to(console)
         end
       end
   end
@@ -292,12 +294,12 @@ end
 このメソッドは`INT`シグナルのトラップを作成するので、`CTRL-C`キーを押したときにサーバープロセスが終了するようになります。
 コードに示されているように、ここでは`tmp/cache`、`tmp/pids`、`tmp/sockets`ディレクトリが作成されます。`bin/rails server`に`--dev-caching`オプションを指定して呼び出した場合は、development環境でのキャッシュをオンにします。最後に`wrapped_app`が呼び出されます。このメソッドは、`ActiveSupport::Logger`のインスタンスの作成と代入の前に、Rackアプリケーションを作成する役割を担います。
 
-`super`メソッドは`Rack::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
+`super`メソッドは`Rackup::Server.start`を呼び出します。このメソッド定義の冒頭は以下のようになっています。
 
 ```ruby
-module Rack
+module Rackup
   class Server
-    def start(&blk)
+    def start(&block)
       if options[:warn]
         $-w = true
       end
@@ -306,12 +308,13 @@ module Rack
         $LOAD_PATH.unshift(*includes)
       end
 
-      if library = options[:require]
+      Array(options[:require]).each do |library|
         require library
       end
 
       if options[:debug]
         $DEBUG = true
+        require "pp"
         p options[:server]
         pp wrapped_app
         pp app
@@ -337,7 +340,7 @@ module Rack
         end
       end
 
-      server.run wrapped_app, options, &blk
+      server.run(wrapped_app, **options, &block)
     end
   end
 end
@@ -346,7 +349,7 @@ end
 Railsアプリケーションとして興味深い部分は、最終行の`server.run`でしょう。ここでも`wrapped_app`メソッドが再び使われています。今度はこのメソッドをもう少し詳しく調べてみましょう（既に一度実行されてメモ化済みですが）。
 
 ```ruby
-module Rack
+module Rackup
   class Server
     def wrapped_app
       @wrapped_app ||= build_app app
@@ -358,7 +361,7 @@ end
 この`app`メソッドの定義は以下のようになっています。
 
 ```ruby
-module Rack
+module Rackup
   class Server
     def app
       @app ||= options[:builder] ? build_app_from_string : build_app_and_options_from_config
@@ -372,9 +375,7 @@ module Rack
           abort "configuration #{options[:config]} not found"
         end
 
-        app, options = Rack::Builder.parse_file(self.options[:config], opt_parser)
-        @options.merge!(options) { |key, old, new| old }
-        app
+        Rack::Builder.parse_file(self.options[:config])
       end
 
       def build_app_from_string
@@ -392,6 +393,7 @@ end
 require_relative "config/environment"
 
 run Rails.application
+Rails.application.load_server
 ```
 
 上のコードの`Rack::Builder.parse_file`メソッドは、この`config.ru`ファイルの内容を受け取って、以下のコードで解析（parse）します。
@@ -399,17 +401,22 @@ run Rails.application
 ```ruby
 module Rack
   class Builder
-    def self.load_file(path, opts = Server::Options.new)
+    def self.load_file(path, **options)
       # ...
-      app = new_from_string cfgfile, config
-      # ...
+      new_from_string(config, path, **options)
     end
 
     # ...
 
-    def self.new_from_string(builder_script, file = "(rackup)")
-      eval "Rack::Builder.new {\n" + builder_script + "\n}.to_app",
-        TOPLEVEL_BINDING, file, 0
+    def self.new_from_string(builder_script, path = "(rackup)", **options)
+      builder = self.new(**options)
+
+      # We want to build a variant of TOPLEVEL_BINDING with self as a Rack::Builder instance.
+      # We cannot use instance_eval(String) as that would resolve constants differently.
+      binding = BUILDER_TOPLEVEL_BINDING.call(builder)
+      eval(builder_script, binding, path)
+
+      builder.to_app
     end
   end
 end
@@ -519,18 +526,18 @@ end
 `Rails::Application`クラスは`railties/lib/rails/application.rb`ファイルで定義されており、その中で`bootstrap`、`railtie`、`finisher`イニシャライザをそれぞれ定義しています。
 `bootstrap`イニシャライザは、ロガーの初期化などアプリケーションの準備を行います
 最後に実行される`finisher`イニシャライザは、ミドルウェアスタックのビルドなどを行います。
-`railtie`イニシャライザは`Rails::Application`自身で定義されており、`bootstrap`と`finishers`の間に実行されます。
+`railtie`イニシャライザは`Rails::Application`自身で定義されており、`bootstrap`と`finisher`の間に実行されます。
 
 NOTE: Railtieイニシャライザ全体と、[load_config_initializers](configuring.html#イニシャライザファイルを使う)イニシャライザのインスタンスやそれに関連する`config/initializers`以下のイニシャライザ設定ファイルを混同しないようにしましょう。
 
-以上の処理が完了すると、制御は`Rack::Server`に移ります。
+以上の処理が完了すると、制御は`Rackup::Server`に移ります。
 
 ### Rack: lib/rack/server.rb
 
 これまで進んだのは、以下の`app`メソッドが定義されている部分まででした。
 
 ```ruby
-module Rack
+module Rackup
   class Server
     def app
       @app ||= options[:builder] ? build_app_from_string : build_app_and_options_from_config
@@ -544,9 +551,7 @@ module Rack
           abort "configuration #{options[:config]} not found"
         end
 
-        app, options = Rack::Builder.parse_file(self.options[:config], opt_parser)
-        @options.merge!(options) { |key, old, new| old }
-        app
+        Rack::Builder.parse_file(self.options[:config])
       end
 
       def build_app_from_string
@@ -559,7 +564,7 @@ end
 このコードの`app`とは、Railsアプリケーション自身（ミドルウェアの一種）であり、ここから先は、提供されているすべてのミドルウェアをRackが呼び出します。
 
 ```ruby
-module Rack
+module Rackup
   class Server
     private
       def build_app(app)
@@ -575,10 +580,10 @@ module Rack
 end
 ```
 
-`Server#start`の最終行で、`build_app`が（`wrapped_app`によって）呼び出されていたことを思い出しましょう。最後に見たときのコードは以下のようになっていました。
+`Rackup::Server#start`の最終行で、`build_app`が（`wrapped_app`によって）呼び出されていたことを思い出しましょう。最後に見たときのコードは以下のようになっていました。
 
 ```ruby
-server.run wrapped_app, options, &blk
+server.run(wrapped_app, **options, &block)
 ```
 
 この`server.run`の実装は、アプリケーションで使うWebサーバーによって異なります。たとえばPumaを使う場合の`run`メソッドは以下のようになります。
@@ -589,11 +594,11 @@ module Rack
     module Puma
       # ...
       def self.run(app, options = {})
-        conf   = self.config(app, options)
+        conf = self.config(app, options)
 
-        events = options.delete(:Silent) ? ::Puma::Events.strings : ::Puma::Events.stdio
+        log_writer = options.delete(:Silent) ? ::Puma::LogWriter.strings : ::Puma::LogWriter.stdio
 
-        launcher = ::Puma::Launcher.new(conf, events: events)
+        launcher = ::Puma::Launcher.new(conf, log_writer: log_writer, events: @events)
 
         yield launcher if block_given?
         begin
