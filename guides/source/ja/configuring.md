@@ -3047,15 +3047,6 @@ Action Cableサーバーが受け入れるリクエストの送信元を決定�
 
 `config.active_storage`では以下の設定オプションが提供されています。
 
-#### `config.active_storage.checksum_implementation`
-
-内部チェックサム用のダイジェスト実装を指定します。
-値はRubyの`Digest`インターフェイスに応答しなければなりません。
-
-| バージョン     | デフォルト値                                |
-| -------------- | ------------------------------------------- |
-| （オリジナル） | `OpenSSL::Digest::MD5` または `Digest::MD5` |
-
 #### `config.active_storage.variant_processor`
 
 `:mini_magick`、`:vips`、`:disabled`のいずれかのシンボルを指定できます。バリアントを変換するかどうか、およびblob解析にMiniMagickとruby-vipsのどちらを使うかを指定します。
