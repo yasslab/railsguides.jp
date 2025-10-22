@@ -82,7 +82,7 @@ end
 
 ### Executorの並行性
 
-Executorは現在のスレッドを[Load Interlock](#load-interlock)で`running`モードに設定します。アプリケーションでアンロードやリロードが発生中の場合は、この操作が一時的にブロックされます。
+Executorは現在のスレッドを[Reloading Interlock](#reloading-interlock)で`running`モードに設定します。アプリケーションでアンロードやリロードが発生中の場合は、この操作が一時的にブロックされます。
 
 Reloader
 --------
@@ -135,87 +135,13 @@ Reloaderは、`config.enable_reloading`が`true`かつ`config.reload_classes_onl
 
 `config.enable_reloading`が`false`（`production`のデフォルト）の場合は、ReloaderはExecutorへのパススルーのみを行います。
 
-Executorは、データベース接続の管理などの重要な作業を常に抱えています。`config.enable_reloading`が`false`かつ`config.eager_load`が`true`（`production`のデフォルト）の場合、Load Interlockは不要になります。`development`環境のデフォルト設定では、ExecutorはLoad Interlockを利用して、安全な場合にのみ定数を読み込みます。
+Executorは、データベース接続の管理などの重要な作業を常に抱えています。`config.enable_reloading`が`false`かつ`config.eager_load`が`true`（`production`のデフォルト）の場合、Reloading Interlockは不要になります。`development`環境のデフォルト設定では、ExecutorはReloading Interlockを利用して、安全な場合にのみ定数を再読み込みます。
 
-Load Interlock
+Reloading Interlock
 --------------
 
-Load Interlockは、マルチスレッド実行環境での自動読み込みや再読み込みを可能にします。
+Reloading Interlockは、マルチスレッド実行環境での再読み込みを安全に行えるようにします。
 
-あるスレッドが、該当するファイルのクラス定義が評価されたことで自動読み込みを実行している場合、他のスレッドで定義の中途半端な定数が参照されないようにすることが重要です。
+アンロードや再読み込みは、実行中のアプリケーションコードが存在しない場合にのみ安全に実行できます。再読み込みの後、たとえば定数`User`が別のクラスを指している可能性があります。このルールがないと、再読み込みのタイミングが悪ければ`User.new.class == User`が`false`になるだけでなく、`User == User`まで`false`になる可能性があります。
 
-同様に、実行中のアプリケーションコードがない場合にのみアンロードやリロードを実行することで安全を保てるようになります。そうしないと、再読み込み後にたとえば`User`定数が別のクラスを指してしまう可能性があります。このルールがないと、再読み込みのタイミングによっては`User.new.class == User`が`false`になり、場合によっては`User == User`すら`false`になってしまうでしょう。
-
-これらの制約を正すのがLoad Interlockです。Load Interlockは、どのスレッドがアプリケーションのコードを実行中か、どのスレッドがクラスを読み込み中か、自動読込された定数をどのスレッドがアンロード中かを常にトラッキングします。
-
-読み込みやアンロードは1度に1つのスレッドでしか行われないので、読み込みやアンロードを行うには、アプリケーションのコードを実行中のスレッドが存在しなくなるまで待たなければなりません。読み込みを実行するために待ち状態になっているスレッドがあるからといって、他のスレッドでの読み込みは阻止されません（実際はこれらのスレッドは協調動作するので、キューイングされた読み込みを個別のスレッドが実行してからすべてのスレッドが再開します）。
-
-### `permit_concurrent_loads`
-
-Executorのブロック内部では、`running`ロックが自動的に取得されます。そして自動読み込みでは`load`ロックをアップグレードするタイミングが認識されており、その後再び`running`に戻ります。
-
-ただし、Executorブロック内で実行されるその他のブロッキング操作（アプリケーションの全コードを含む）では、不必要な`running`ロックが保持されることがあります。ある定数に他のスレッドがアクセスすると、その定数は自動読み込みされなければならないため、デッドロックの原因になることがあります。
-
-たとえば、`User`が読み込まれていないと仮定すると、以下はデッドロックします。
-
-```ruby
-Rails.application.executor.wrap do
-  th = Thread.new do
-    Rails.application.executor.wrap do
-      User # 内側のスレッドはここで待機する
-           # 他のスレッドが実行中はUserを読み込めない
-    end
-  end
-
-  th.join # 外側のスレッドは'running'ロックをつかんだままここで待機する
-end
-```
-
-このデッドロックを防止するために、外側のスレッドは`permit_concurrent_loads`メソッドを呼び出せます。このメソッドを呼び出したスレッドは、提供されたブロック内で自動読み込みされた可能性のある定数を参照解決しないことが保証されます。この保証を満たす最も安全な手法は、このメソッド呼び出しをブロッキング呼び出しの可能な限り近くに配置することです。
-
-
-```ruby
-Rails.application.executor.wrap do
-  th = Thread.new do
-    Rails.application.executor.wrap do
-      User # 内側のスレッドは'load'ロックを取得し
-           # Userを読み込んで続行できる
-    end
-  end
-
-  ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
-    th.join # 外側のスレッドはここで待機するがロックを保持しない
-  end
-end
-```
-
-Concurrent Rubyを用いる別の例は次のとおりです。
-
-```ruby
-Rails.application.executor.wrap do
-  futures = 3.times.collect do |i|
-    Concurrent::Promises.future do
-      Rails.application.executor.wrap do
-        # ここで何かする
-      end
-    end
-  end
-
-  values = ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
-    futures.collect(&:value)
-  end
-end
-```
-
-### ActionDispatch::DebugLocks
-
-デッドロックするアプリケーションでLoad Interlockが関与していると考えられる場合、一時的にActionDispatch::DebugLocksミドルウェアを以下のように`config/application.rb`設定に追加できます。
-
-```ruby
-config.middleware.insert_before Rack::Sendfile,
-                                  ActionDispatch::DebugLocks
-```
-
-追加後アプリケーションを再起動してデッドロック条件を再度トリガーすると、`/rails/locks`で「Load Interlockで現在認識されているすべてのスレッド」「それらが現在保持または待機しているロックのレベル」「それらの現在のバックトレース」の概要が表示されるようになります。
-
-デッドロックは一般に、Load Interlockが他の外部ロックやブロッキングI/O呼び出しと競合することで発生します。デッドロックに気づいたら、`permit_concurrent_loads`でラップできます。
+Reloading Interlockはこの制約を解決するため、どのスレッドが現在アプリケーションコードを実行しているかをトラッキングして、他のスレッドがアプリケーションコードを実行していない場合にのみ再読み込みが行われるようにします。
