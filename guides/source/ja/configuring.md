@@ -3234,6 +3234,10 @@ variantをデータベースに記録するかどうかを指定します。
 
 Active Storageのルーティング生成をオンオフできます。デフォルト値は`true`です。
 
+#### `config.active_storage.replace_on_assign_to_many`
+
+（準備中）
+
 #### `config.active_storage.resolve_model_to_route`
 
 Active Storageのファイル配信方法をグローバルに変更できます。
