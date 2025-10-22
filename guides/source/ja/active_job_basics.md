@@ -126,7 +126,7 @@ development環境のRailsは、非同期のインプロセスキューイング�
 
 デフォルトの非同期バックエンドでは、プロセスがクラッシュしたり開発中のコンピュータがリセットされたりすると、未処理のジョブがすべて失われますが、開発中の小規模なアプリや重要度の低いジョブについては、これで十分です。
 
-しかし、Solid Queueを使えば、production環境と同じ方法で以下のようにdevelopment環境のジョブキューシステムを設定できます。
+しかし、Solid Queueを使えば、以下のようにdevelopment環境でもジョブキューシステムを設定できます。
 
 ```ruby
 # config/environments/development.rb
@@ -134,7 +134,7 @@ config.active_job.queue_adapter = :solid_queue
 config.solid_queue.connects_to = { database: { writing: :queue } }
 ```
 
-上の設定では、production環境におけるActive Jobのデフォルトと同様に、development環境に`:solid_queue`アダプタが設定され、書き込み用に`queue`データベースに接続します。
+上の設定では、development環境でActive Jobのデフォルトとして`:solid_queue`アダプタが設定され、書き込み用に`queue`データベースに接続します。
 
 次に、development環境用のデータベース設定で以下のように`queue`を追加します。
 
@@ -152,10 +152,10 @@ development:
 
 NOTE: データベース設定の`queue`キーは、`config.solid_queue.connects_to`の設定で使われているキーと同じにする必要があります。
 
-`queue`データベースのマイグレーションを実行すれば、キューデータベース内のすべてのテーブルが作成されるようになります。
+`db:prepare`コマンドを実行することで、development環境の`queue`データベースで必要なテーブルがすべて作成されます。
 
 ```bash
-$ bin/rails db:migrate:queue
+$ bin/rails db:prepare
 ```
 
 TIPS: `queue`データベースのデフォルトの生成スキーマは`db/queue_schema.rb`に配置されます。これらのスキーマファイルには `solid_queue_ready_executions`や`solid_queue_scheduled_executions`などのテーブルが含まれます。
@@ -191,6 +191,12 @@ production:
     <<: *default
     database: storage/production_queue.sqlite3
     migrations_paths: db/queue_migrate
+```
+
+データベースを利用可能な状態にするために、`db:prepare`を実行します。
+
+```bash
+$ bin/rails db:prepare
 ```
 
 ### 設定オプション
@@ -270,7 +276,7 @@ production:
 
 NOTE: ワイルドカード`*`の利用は、「単独」または「キュー名の末尾に配置することで同じプレフィックスを持つすべてのキューに一致させる」形（`active_storage*`など）のみが可能です。`*_some_queue`などのようなキュー名の冒頭への追加はできません。
 
-WARNING: `queues: active_storage*`のようにキュー名でワイルドカードを利用すると、マッチするすべてのキューを識別するために`DISTINCT`クエリが必要になるため、ポーリングのパフォーマンスが低下して大きなテーブルでは遅くなる可能性があります。パフォーマンスを落とさないためには、ワイルドカードを使わずに正確なキュー名を指定することが推奨されます。
+WARNING: `queues: active_storage*`のようにキュー名でワイルドカードを利用すると、SQLiteやPostgreSQLのポーリングのパフォーマンスが低下する可能性があります。一致するすべてのキューを識別するために`DISTINCT`クエリが必要になるため、これらのRDBMSの大規模なテーブルではワイルドカードクエリが遅くなる可能性があります。パフォーマンスを落とさないためには、ワイルドカードを使わずに正確なキュー名を指定することが推奨されます。詳しくは、Solid Queueドキュメントの[キューの仕様とパフォーマンス](https://github.com/rails/solid_queue?tab=readme-ov-file#queues-specification-and-performance)を参照してください。
 
 Active Jobは、ジョブをエンキューするときに正の整数の優先度をサポートします（後述の[優先度](#優先度)セクションを参照）。 1件のキュー内では、優先度に基づいてジョブが選択されます（整数が小さいほど優先度が高くなります）。
 
@@ -367,9 +373,12 @@ end
 
 ### ジョブのトランザクション整合性
 
-Solid Queueは、デフォルトではメインアプリケーションとは別のデータベースを利用します。これにより、トランザクションの整合性に関する問題が回避され、トランザクションがコミットされた場合にのみジョブがエンキューされるようになります。
+⚠️ ジョブをアプリケーションデータと同じACID準拠のデータベースに保存することで、強力かつ効果的なツールが実現します。トランザクション整合性を利用して、ジョブがコミットされない限りアプリ内の一部のアクションはコミットされず、その逆も同様です。また、ジョブをキューに登録するトランザクションがコミットされるまで、ジョブはキューに登録されません。
+これは非常に強力で便利な機能ですが、ロジックの一部でこの振る舞いをベースにしている場合、今後別のActive Jobバックエンドに移行したり、Solid Queueを独自のデータベースに移行したりすると、突然振る舞いが変わるなど逆効果になる可能性があります。
 
-ただし、Solid Queueをアプリと同一のデータベースで利用する場合は、Active Jobの`enqueue_after_transaction_commit`オプションでトランザクションの整合性を有効にできます。このオプションは、ジョブごとに有効にすることも、以下のように`ApplicationJob`ですべてのジョブに対して有効にすることも可能です。
+これは非常に厄介な問題になる可能性がありますが、多くの人が気にする必要はないため、デフォルトではSolid Queueはメインアプリとは別のデータベースに設定されています。
+
+ただし、Solid Queueをアプリと同一のデータベースで利用する場合は、Active Jobの`enqueue_after_transaction_commit`オプションを使うことで、トランザクション整合性に誤って依存することのないようにできます。このオプションは、ジョブごとに有効にすることも、以下のように`ApplicationJob`ですべてのジョブに対して有効にすることも可能です。
 
 ```ruby
 class ApplicationJob < ActiveJob::Base
@@ -377,7 +386,7 @@ class ApplicationJob < ActiveJob::Base
 end
 ```
 
-また、Solid Queueジョブ用のデータベースコネクションを別途設定することで、トランザクションの整合性の問題を回避しながら、アプリと同一のデータベースを利用するようにSolid Queueを構成することも可能です。
+また、Solid Queueジョブ用のデータベースコネクションを別途設定することで、トランザクション整合性への依存を回避しながら、アプリと同一のデータベースを利用するようにSolid Queueを構成することも可能です。
 
 トランザクションの整合性について詳しくは[Solid Queueのドキュメント][jobs-and-transactional-integrity]を参照してください。
 
@@ -401,7 +410,7 @@ production:
 
 各タスクには、`class`（または`command`）と`schedule`を指定します（スケジュール指定文字列の解析には[Fugit](https://github.com/floraison/fugit) gemが使われます）。
 上の設定例の`MyJob`のように、`args`オプションでジョブに引数を渡すことも可能です。`args`オプションには「単一の引数」「ハッシュ」「引数の配列」のいずれかを渡すことが可能で、配列の場合は最後の要素にキーワード引数も含められます。
-このようにして、ジョブを定期実行したり、指定の時間に実行したりできます。
+このようにして、指定の時間にジョブを定期実行できます。
 
 定期的なタスクについて詳しくは[Solid Queueのドキュメント][recurring-tasks]を参照してください。
 
