@@ -1176,6 +1176,55 @@ class ProductsController < ApplicationController
 end
 ```
 
+#### ビューをパーシャルに切り出す
+
+新しい製品を作成するためのフォームは既に作成しましたが、このフォームを編集や更新のフォームでも再利用できたら便利だと思いませんか？これは、複数の場所でビューを再利用できるようにする**パーシャル**（partial）という機能を使ってフォームを`app/views/products/_form.html.erb`というパーシャルファイルに切り出すことで実現できます。
+
+パーシャルのファイル名は、これがパーシャルであることを示すためにアンダースコア`_`で始まります。
+
+それと同時に、ビューで使われているインスタンス変数をすべてローカル変数に置き換えたいと思います。ローカル変数は、パーシャルをレンダリングするときに定義できます。これを行うには、パーシャル内の`@product`を以下のように`product`に置き換えます。このとき、フォーム送信のエラーメッセージもフォームの一部として表示できるようにしておきます。
+
+```erb
+<%= form_with model: product do |form| %>
+  <% if form.object.errors.any? %>
+    <p class="error"><%= form.object.errors.full_messages.first %></p>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
+
+TIP: ローカル変数を使うと、値だけが異なるパーシャルを同じページで繰り返し再利用できるようになります。これは、indexページのように多数のアイテムのリストをレンダリングするときに便利です。
+
+作成したこのパーシャルを`app/views/products/new.html.erb`ビューで使うには、フォームの部分を以下のようにパーシャルの`render`呼び出しに置き換えます。
+
+```erb
+<h1>New product</h1>
+
+<%= render "form", product: @product %>
+<%= link_to "Cancel", products_path %>
+```
+
+Editビューも、フォームの`_form.html.erb`パーシャルのおかげで、Newビューとほぼ同じように書けます。
+
+以下の内容で`app/views/products/edit.html.erb`を作成しましょう。
+
+```erb
+<h1>Edit product</h1>
+
+<%= render "form", product: @product %>
+<%= link_to "Cancel", @product %>
+```
+
+ビューのパーシャルについて詳しくは、[Action Viewガイド](action_view_overview.html#パーシャル)を参照してください。
+
 次に、`app/views/products/show.html.erb`ビューテンプレートにEditページへのリンクを追加します。
 
 ```erb
@@ -1240,51 +1289,6 @@ class ProductsController < ApplicationController
     end
 end
 ```
-
-#### ビューをパーシャルに切り出す
-
-新しい製品を作成するためのフォームは既に作成しましたが、このフォームを編集や更新のフォームでも再利用できたら便利だと思いませんか？これは、複数の場所でビューを再利用できるようにする**パーシャル**（partial）という機能を使ってフォームを`app/views/products/_form.html.erb`というパーシャルファイルに切り出すことで実現できます。
-
-パーシャルのファイル名は、これがパーシャルであることを示すためにアンダースコア`_`で始まります。
-
-それと同時に、ビューで使われているインスタンス変数をすべてローカル変数に置き換えたいと思います。ローカル変数は、パーシャルをレンダリングするときに定義できます。これを行うには、パーシャル内の`@product`を以下のように`product`に置き換えます。
-
-```erb
-<%= form_with model: product do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
-```
-
-TIP: ローカル変数を使うと、値だけが異なるパーシャルを同じページで繰り返し再利用できるようになります。これは、indexページのように多数のアイテムのリストをレンダリングするときに便利です。
-
-作成したこのパーシャルを`app/views/products/new.html.erb`ビューで使うには、フォームの部分を以下のようにパーシャルの`render`呼び出しに置き換えます。
-
-```erb
-<h1>New product</h1>
-
-<%= render "form", product: @product %>
-<%= link_to "Cancel", products_path %>
-```
-
-Editビューも、フォームの`_form.html.erb`パーシャルのおかげで、Newビューとほぼ同じように書けます。
-
-以下の内容で`app/views/products/edit.html.erb`を作成しましょう。
-
-```erb
-<h1>Edit product</h1>
-
-<%= render "form", product: @product %>
-<%= link_to "Cancel", @product %>
-```
-
-ビューのパーシャルについて詳しくは、[Action Viewガイド](action_view_overview.html#パーシャル)を参照してください。
 
 ### 製品を削除する
 
@@ -1719,7 +1723,7 @@ ja:
 
 詳しくは[Rails 国際化（I18n）API](i18n.html)ガイドを参照してください。
 
-在庫の通知機能を追加する
+Action Mailerとメール通知
 -----------------------------
 
 製品の在庫が復活したときに通知を受け取るための電子メールを登録する機能は、eコマースストアでよく使われる機能です。Railsの基本についてひととおり確認したので、今度はこの機能をストアに追加してみましょう。
@@ -1793,17 +1797,35 @@ end
 
 購読希望者のメールアドレスを保存して個別の商品に関連付けるための`Subscriber`というモデルを生成しましょう。
 
+NOTE: ここでは`email`フィールドに型を指定していませんが、Railsのマイグレーションで型が指定されていない場合、自動的に`string`型がデフォルトになることを利用しています。
+
 ```bash
 $ bin/rails generate model Subscriber product:belongs_to email
 ```
+
+上のコマンドで`product:belongs_to`オプションを指定したことで、購読者と製品が**1対多**リレーションを持つことを表す`belongs_to :product`という宣言が`Subscriber`モデルに含まれるようになります。つまり、`Subscriber`モデルのインスタンスは1つの`Product`インスタンスに「属する（belongs to）」ということです。
+
+次に、生成されたマイグレーションファイル（`db/migrate/<timestamp>_create_subscribers.rb`）をエディタで開きます。
+
+```ruby
+class CreateSubscribers < ActiveRecord::Migration[8.1]
+  def change
+    create_table :subscribers do |t|
+      t.belongs_to :product, null: false, foreign_key: true
+      t.string :email
+      t.timestamps
+    end
+  end
+end
+```
+
+このマイグレーションは、`Product`のマイグレーションと非常に似ています。主な新しい点は`belongs_to`が含まれていることで、これにより`product_id`という外部キーカラムが追加されます。
 
 続いて新しいマイグレーションを実行します。
 
 ```bash
 $ bin/rails db:migrate
 ```
-
-上のコマンドで`product:belongs_to`オプションを指定したことで、購読者と製品が**1対多**リレーションを持つことを表す`belongs_to :product`という宣言が`Subscriber`モデルに含まれるようになります。つまり、`Subscriber`モデルのインスタンスは1つの`Product`インスタンスに「属する（belongs to）」ということです。
 
 ただし、1つの製品に購読者が複数存在する可能性もあるため、`Product`モデルにも`has_many :subscribers, dependent: :destroy`を手動で追加することで、2つのモデル同士の関連付けの残りの部分も指定します。これにより、2つのデータベーステーブル間のクエリをjoin（結合）する方法が Railsで認識されます。
 
@@ -1842,7 +1864,9 @@ class SubscribersController < ApplicationController
 end
 ```
 
-上の`create`アクションでは、作成後リダイレクトしたときにflashで通知メッセージを設定しています。Railsのflashは、リダイレクト後のページに表示するメッセージを保存するのに使われます。
+`redirect_to`メソッドの`notice:`引数には、購読が完了したことを知らせるflashメッセージを指定しています。
+
+[flash](https://api.rubyonrails.org/classes/ActionDispatch/Flash.html)は、コントローラのアクション間で一時的なデータを渡す手段を提供します。flashに設定したデータは次のアクションで有効になり、その後消去されます。flashは通常、コントローラのアクションでメッセージ（通知やアラートなど）を設定し、その後、ユーザーにメッセージを表示するアクションにリダイレクトするために使われます。
 
 このflashメッセージを表示するには、`app/views/layouts/application.html.erb`レイアウトの`<body>`タグで以下のように通知を追加します。
 
@@ -1850,11 +1874,14 @@ end
 <html>
   <!-- （省略） -->
   <body>
-    <div class="notice"><%= notice %></div>
+    <div class="notice"><%= flash[:notice] %></div>
+    <div class="alert"><%= flash[:alert] %></div>
     <!-- （省略） -->
   </body>
 </html>
 ```
+
+flashについて詳しくは、[Action Controllerガイド](action_controller_overview.html#flash)を参照してください。
 
 ユーザーが特定の製品を指定して通知を購読できるようにするため、`Subscriber`がどの`Product`に属しているかをネステッドルーティングで指定しましょう。
 
@@ -2213,6 +2240,11 @@ nav a {
 main {
   max-width: 1024px;
   margin: 0 auto;
+}
+
+.alert,
+.error {
+  color: red;
 }
 
 .notice {
@@ -2610,14 +2642,7 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 
 初めてのRailsアプリケーションの構築、お疲れ様でした。デプロイの完了おめでとうございます!
 
-学習を続けるために、機能を追加してアップデートのデプロイを繰り返してみることをオススメします。アプリケーションの改善案の例を以下に示します。
-
-* CSSでデザインを改善する
-* 製品レビュー機能を追加する
-* アプリを別の言語に翻訳する
-* 支払い用のチェックアウトフローを追加する
-* ユーザーが製品を保存できるウィッシュリストを追加する
-* 製品画像のカルーセルを追加する
+次は、[演習: サインアップと設定チュートリアル](sign_up_and_settings.html)に従って学習を続けてください。
 
 Railsの学習を続けるために、Ruby on Railsの以下のガイドもぜひ参照してみてください。
 
