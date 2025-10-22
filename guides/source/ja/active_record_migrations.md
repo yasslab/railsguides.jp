@@ -26,7 +26,7 @@ Active Recordは`db/schema.rb`ファイルを更新し、データベースの�
 
 ```ruby
 # db/migrate/20240502100843_create_products.rb
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products do |t|
       t.string :name
@@ -42,7 +42,7 @@ end
 
 ```ruby
 # db/schema.rb
-ActiveRecord::Schema[8.0].define(version: 2024_05_02_100843) do
+ActiveRecord::Schema[8.1].define(version: 2024_05_02_100843) do
   # 以下はこのデータベースをサポートするうえで有効にしなければならない拡張機能
   enable_extension "plpgsql"
 
@@ -80,7 +80,7 @@ $ bin/rails generate migration AddPartNumberToProducts
 
 ```ruby
 # db/migrate/20240502101659_add_part_number_to_products.rb
-class AddPartNumberToProducts < ActiveRecord::Migration[8.0]
+class AddPartNumberToProducts < ActiveRecord::Migration[8.1]
   def change
   end
 end
@@ -101,7 +101,7 @@ $ bin/rails generate migration CreateProducts name:string part_number:string
 上を実行すると以下のマイグレーションファイルが生成されます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products do |t|
       t.string :name
@@ -126,7 +126,7 @@ $ bin/rails generate migration AddPartNumberToProducts part_number:string
 上を実行すると以下のマイグレーションファイルが生成されます。
 
 ```ruby
-class AddPartNumberToProducts < ActiveRecord::Migration[8.0]
+class AddPartNumberToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :part_number, :string
   end
@@ -142,7 +142,7 @@ $ bin/rails generate migration AddPartNumberToProducts part_number:string:index
 上を実行すると以下のように適切な[`add_column`][]と[`add_index`][]ステートメントが生成されます。
 
 ```ruby
-class AddPartNumberToProducts < ActiveRecord::Migration[8.0]
+class AddPartNumberToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :part_number, :string
     add_index :products, :part_number
@@ -159,7 +159,7 @@ $ bin/rails generate migration AddDetailsToProducts part_number:string price:dec
 上を実行すると、`products`テーブルに2個のカラムを追加するスキーママイグレーションを生成します。
 
 ```ruby
-class AddDetailsToProducts < ActiveRecord::Migration[8.0]
+class AddDetailsToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :part_number, :string
     add_column :products, :price, :decimal
@@ -178,7 +178,7 @@ $ bin/rails generate migration RemovePartNumberFromProducts part_number:string
 上を実行すると、適切な[`remove_column`][]ステートメントが生成されます。
 
 ```ruby
-class RemovePartNumberFromProducts < ActiveRecord::Migration[8.0]
+class RemovePartNumberFromProducts < ActiveRecord::Migration[8.1]
   def change
     remove_column :products, :part_number, :string
   end
@@ -198,7 +198,7 @@ $ bin/rails generate migration AddUserRefToProducts user:references
 たとえば上を実行すると、以下の[`add_reference`][]呼び出しが生成されます。
 
 ```ruby
-class AddUserRefToProducts < ActiveRecord::Migration[8.0]
+class AddUserRefToProducts < ActiveRecord::Migration[8.1]
   def change
     add_reference :products, :user, null: false, foreign_key: true
   end
@@ -232,7 +232,7 @@ $ bin/rails generate migration CreateJoinTableUserProduct user product
 上によって以下のマイグレーションが生成されます。
 
 ```ruby
-class CreateJoinTableUserProduct < ActiveRecord::Migration[8.0]
+class CreateJoinTableUserProduct < ActiveRecord::Migration[8.1]
   def change
     create_join_table :users, :products do |t|
       # t.index [:user_id, :product_id]
@@ -265,7 +265,7 @@ $ bin/rails generate model Product name:string description:text
 これにより、以下のようなマイグレーションが生成されます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products do |t|
       t.string :name
@@ -292,7 +292,7 @@ $ bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplie
 これによって以下のようなマイグレーションが生成されます。
 
 ```ruby
-class AddDetailsToProducts < ActiveRecord::Migration[8.0]
+class AddDetailsToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :price, :decimal, precision: 5, scale: 2
     add_reference :products, :supplier, polymorphic: true
@@ -309,7 +309,7 @@ $ bin/rails generate migration AddEmailToUsers email:string!
 上のコマンドで、以下のマイグレーションが生成されます。
 
 ```ruby
-class AddEmailToUsers < ActiveRecord::Migration[8.0]
+class AddEmailToUsers < ActiveRecord::Migration[8.1]
   def change
     add_column :users, :email, :string, null: false
   end
@@ -368,7 +368,7 @@ end
 `create_table`メソッドは、デフォルトで`id`という名前の主キーを暗黙で作成します。`:primary_key`オプションを使うと、以下のようにカラム名を変更できます。
 
 ```ruby
-class CreateUsers < ActiveRecord::Migration[8.0]
+class CreateUsers < ActiveRecord::Migration[8.1]
   def change
     create_table :users, primary_key: "user_id" do |t|
       t.string :username
@@ -393,7 +393,7 @@ end
 複合主キーの場合は、以下のように`:primary_key`に配列も渡せます。複合主キーについて詳しくは[複合主キーガイド](active_record_composite_primary_keys.html)を参照してください。
 
 ```ruby
-class CreateUsers < ActiveRecord::Migration[8.0]
+class CreateUsers < ActiveRecord::Migration[8.1]
   def change
     create_table :users, primary_key: [:id, :name] do |t|
       t.string :name
@@ -407,7 +407,7 @@ end
 主キーを使いたくない場合は、以下のように`id: false`オプションを指定することも可能です。
 
 ```ruby
-class CreateUsers < ActiveRecord::Migration[8.0]
+class CreateUsers < ActiveRecord::Migration[8.1]
   def change
     create_table :users, id: false do |t|
       t.string :username
@@ -448,7 +448,7 @@ end
 現時点では、MySQLとPostgreSQLアダプタのみがコメント機能をサポートしています。
 
 ```ruby
-class AddDetailsToProducts < ActiveRecord::Migration[8.0]
+class AddDetailsToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :price, :decimal, precision: 8, scale: 2, comment: "製品価格（ドル）"
     add_column :products, :stock_quantity, :integer, comment: "現在の製品在庫数"
@@ -655,7 +655,7 @@ NOTE: Active Recordでは単一カラムの外部キーのみがサポートさ�
 `create_table`で以下のように`:primary_key`オプションと配列の値を渡すことで、複合主キー（composite primary key）を持つテーブルを作成できます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products, primary_key: [:customer_id, :product_sku] do |t|
       t.integer :customer_id
@@ -673,7 +673,7 @@ INFO: 複合主キーを持つテーブルでは、多くのメソッドで整�
 Active Recordが提供するヘルパーの機能だけでは不十分な場合、[`execute`][]メソッドで任意のSQLを実行できます。
 
 ```ruby
-class UpdateProductPrices < ActiveRecord::Migration[8.0]
+class UpdateProductPrices < ActiveRecord::Migration[8.1]
   def up
     execute "UPDATE products SET price = 'free'"
   end
@@ -778,7 +778,7 @@ WARNING: データをマイグレーションでみだりに直接変更しな�
 マイグレーションが複雑になると、Active Recordがマイグレーションの`change`を逆進できなくなることがあります。[`reversible`][]メソッドを使うと、マイグレーションを通常どおり実行する場合と逆進する場合の動作を以下のように明示的に指定できます。
 
 ```ruby
-class ChangeProductsPrice < ActiveRecord::Migration[8.0]
+class ChangeProductsPrice < ActiveRecord::Migration[8.1]
   def change
     reversible do |direction|
       change_table :products do |t|
@@ -795,7 +795,7 @@ end
 または、`change`の代わりに以下のように`up`と`down`に分けて書いても同じことができます。
 
 ```ruby
-class ChangeProductsPrice < ActiveRecord::Migration[8.0]
+class ChangeProductsPrice < ActiveRecord::Migration[8.1]
   def up
     change_table :products do |t|
       t.change :price, :string
@@ -813,7 +813,7 @@ end
 さらに`reversible`は、生SQLクエリを実行するときや、Active Recordメソッドに直接相当するものがないデータベース操作を実行するときにも便利です。以下のように、[`reversible`][]で、マイグレーションを実行するときの操作や、マイグレーションを元に戻すときの操作を個別に指定できます。
 
 ```ruby
-class ExampleMigration < ActiveRecord::Migration[8.0]
+class ExampleMigration < ActiveRecord::Migration[8.1]
   def change
     create_table :distributors do |t|
       t.string :zipcode
@@ -853,7 +853,7 @@ end
 たとえば、`up`メソッドでテーブルを作成したら、`down`メソッドではそのテーブルを削除する必要があります。`down`メソッド内で行なう変換の順序は、`up`メソッド内で行なう順序の正確な逆順にするのが賢明です。先の`reversible`セクションの例は以下と同等になります。
 
 ```ruby
-class ExampleMigration < ActiveRecord::Migration[8.0]
+class ExampleMigration < ActiveRecord::Migration[8.1]
   def up
     create_table :distributors do |t|
       t.string :zipcode
@@ -888,7 +888,7 @@ end
 このような場合、以下のように`down`ブロックで`ActiveRecord::IrreversibleMigration`をraiseできます。
 
 ```ruby
-class IrreversibleMigrationExample < ActiveRecord::Migration[8.0]
+class IrreversibleMigrationExample < ActiveRecord::Migration[8.1]
   def up
     drop_table :example_table
   end
@@ -908,7 +908,7 @@ end
 ```ruby
 require_relative '20121212123456_example_migration'
 
-class FixupExampleMigration < ActiveRecord::Migration[8.0]
+class FixupExampleMigration < ActiveRecord::Migration[8.1]
   def change
     revert ExampleMigration
 
@@ -924,7 +924,7 @@ end
 たとえば、`ExampleMigration`がコミット済みになっており、後になってDistributorsビュー（データベースビュー）が不要になったとします。この場合、`revert`を使ってビューを削除するマイグレーションを作成できます。
 
 ```ruby
-class DontUseDistributorsViewMigration < ActiveRecord::Migration[8.0]
+class DontUseDistributorsViewMigration < ActiveRecord::Migration[8.1]
   def change
     revert do
       # ExampleMigrationのコードのコピペ
@@ -1017,7 +1017,7 @@ INFO: マイグレーションが途中で失敗した場合、途中まで正�
 ただし、ある種のクエリはトランザクション内では実行できないので、そのような状況では、以下のように`disable_ddl_transaction!`で自動トランザクションを意図的にオフにできます。
 
 ```ruby
-class ChangeEnum < ActiveRecord::Migration[8.0]
+class ChangeEnum < ActiveRecord::Migration[8.1]
   disable_ddl_transaction!
 
   def up
@@ -1045,7 +1045,7 @@ NOTE: `self.disable_ddl_transaction!`でマイグレーションしている場�
 * データベース、テーブル、seedデータがすべて揃っている場合:
   `bin/rails db:prepare`コマンドは何も行いません。
 
-データベースとテーブルが存在している状態で`db:prepare`タスクを実行すると、以前読み込まれたseedデータや既存のseedファイルが変更または削除されていたとしても、seedデータの再読み込みは試みられません。seedデータを再読み込みするには、手動で`bin/rails db:seed`を実行してください。
+データベースとテーブルが存在している状態で`db:prepare`タスクを実行すると、以前読み込まれたseedデータや既存のseedファイルが変更または削除されていたとしても、seedデータの再読み込みは試みられません。seedデータを再読み込みするには、手動で`bin/rails db:seed:replant`を実行してください。
 
 NOTE: このタスクは、作成されたデータベースまたはテーブルのいずれかが環境のprimaryデータベースであるか、`seeds: true`で構成されている場合にのみseedデータを読み込みます。
 
@@ -1054,6 +1054,10 @@ NOTE: このタスクは、作成されたデータベースまたはテーブ�
 `bin/rails db:reset`コマンドは、データベースをdropして再度設定します。このコマンドは`rails db:drop db:setup`と同等です。
 
 NOTE: このコマンドは、すべてのマイグレーションを実行することと等価ではありません。このコマンドは単に現在の`schema.rb`の内容をそのまま使い回します。マイグレーションをロールバックできなくなると、`rails db:reset`を実行しても復旧できないことがあります。スキーマダンプについて詳しくは、[スキーマダンプの意義](#スキーマダンプの意義)セクションを参照してください。
+
+`db:reset`ではなく、すべてのマイグレーションを明示的に実行する必要がある場合は、`bin/rails db:migrate:reset`コマンドの利用を検討してください。必要に応じて、このコマンドの後で`bin/rails db:seed`を実行できます。
+
+NOTE: `bin/rails db:reset`は、現在のスキーマを使ってデータベースを再構築しますが、`bin/rails db:migrate:reset`はすべてのマイグレーションを最初からやり直すため、マイグレーションが変更されたり、順序が変更・削除されていた場合などにスキーマが不整合になる可能性があります。
 
 ### 特定のマイグレーションのみを実行する
 
@@ -1109,7 +1113,7 @@ $ bin/rails db:migrate RAILS_ENV=test
 以下のマイグレーションを例に説明します。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     suppress_messages do
       create_table :products do |t|
@@ -1203,14 +1207,14 @@ TIP: スキーマファイルは、Active Recordの現在のオブジェクト�
 
 ### スキーマダンプの種類
 
-Railsで生成されるスキーマダンプのフォーマットは、`config/application.rb`で定義される[`config.active_record.schema_format`][]設定で制御されます。デフォルトのフォーマットは`:ruby`ですが、`:sql`も指定できます。
+Railsで生成されるスキーマダンプのフォーマットは、`config/application.rb`で定義される[`config.active_record.schema_format`][]設定か、データベース設定内の`schema_format`の値で制御されます。デフォルトのフォーマットは`:ruby`ですが、`:sql`も指定できます。
 
 #### デフォルトの`:ruby`スキーマを利用する場合
 
 `:ruby`を選択すると、スキーマは`db/schema.rb`に保存されます。このファイルを開いてみると、1つの巨大なマイグレーションのように見えます。
 
 ```ruby
-ActiveRecord::Schema[8.0].define(version: 2024_09_06_171750) do
+ActiveRecord::Schema[8.1].define(version: 2024_09_06_171750) do
   create_table "authors", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -1273,7 +1277,7 @@ Active Recordパターンは高度な処理をモデル側に配置すること�
 Railsのマイグレーション機能の主要な目的は、スキーマ変更のコマンドを一貫した手順で発行できるようにすることですが、データの追加や変更にも利用できます。これは、productionのデータベースのような削除や再作成を行えない既存データベースで便利です。
 
 ```ruby
-class AddInitialProducts < ActiveRecord::Migration[8.0]
+class AddInitialProducts < ActiveRecord::Migration[8.1]
   def up
     5.times do |i|
       Product.create(name: "Product ##{i}", description: "A product.")
@@ -1368,7 +1372,7 @@ NOTE: バージョン13より前のPostgreSQLを使っている場合は、`gen_
     ```
 
     ```ruby
-    class CreateAuthors < ActiveRecord::Migration[8.0]
+    class CreateAuthors < ActiveRecord::Migration[8.1]
       def change
         create_table :authors, id: :uuid do |t|
           t.timestamps
