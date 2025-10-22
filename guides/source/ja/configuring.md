@@ -251,8 +251,6 @@ NOTE: 設定をクラスに直接適用する必要がある場合は、イニ�
 
 #### ターゲットバージョン5.0のデフォルト値
 
-- [`ActiveSupport.to_time_preserves_timezone`](#activesupport-to-time-preserves-timezone)
-： `true`
 - [`config.action_controller.forgery_protection_origin_check`](#config-action-controller-forgery-protection-origin-check)
 ： `true`
 - [`config.action_controller.per_form_csrf_tokens`](#config-action-controller-per-form-csrf-tokens)
