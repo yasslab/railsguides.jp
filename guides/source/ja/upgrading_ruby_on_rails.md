@@ -1369,9 +1369,7 @@ user.highlights.first.filename # => "funky.jpg"
 user.highlights.second.filename # => "town.jpg"
 ```
 
-この新しい振る舞いは、設定で[`config.active_storage.replace_on_assign_to_many`][]を`true`にすることで利用できます。従来の振る舞いはRails 7.0で非推奨化され、Rails 7.1で削除される予定です。
-
-[`config.active_storage.replace_on_assign_to_many`]: configuring.html#config-active-storage-replace-on-assign-to-many
+この新しい振る舞いは、設定で`config.active_storage.replace_on_assign_to_many`]を`true`にすることで利用できます。従来の振る舞いはRails 7.0で非推奨化され、Rails 7.1で削除される予定です。
 
 ### カスタム例外処理アプリケーション
 
