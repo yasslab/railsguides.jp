@@ -21,7 +21,7 @@ Railsの世界へようこそ! 本ガイド「Railsをはじめよう」では�
 Railsは、Rubyプログラミング言語用に構築されたWebフレームワークです。RailsはRuby独自のさまざまな機能を活用しているため、このチュートリアルで紹介する基本的な用語や語彙を理解できるように、事前にRubyの基礎を学習しておくことを**強く**オススメします。
 
 - [プログラミング言語Ruby公式Webサイト](https://www.ruby-lang.org/ja/documentation/)
-- [プログラミング学習コンテンツまとめ](https://github.com/EbookFoundation/free-programming-books/blob/master/books/free-programming-books-ja.md#ruby)
+- [プログラミング学習コンテンツまとめ](https://github.com/EbookFoundation/free-programming-books/blob/main/books/free-programming-books-ja.md#ruby)
 
 TIP: 訳注：Railsガイドでは開発経験者が早くキャッチアップできるよう、多くの用語説明を省略しています。読んでいて「難しい」と感じた場合は[Railsチュートリアル](https://railstutorial.jp/)からお読みください。
 
@@ -53,7 +53,7 @@ TIP: ドル記号`$`で始まるコマンドは、ターミナルで実行する
 このプロジェクトでは以下のものが必要です。
 
 * Ruby 3.2以降
-* Rails 8.0.0以降
+* Rails 8.1.0以降
 * コードエディタ
 
 RubyやRailsをインストールする必要がある場合は、[Ruby on Rails インストールガイド](install_ruby_on_rails.html)に記載されている手順に従ってください。
@@ -64,10 +64,10 @@ TIP: 訳注：GitHubが提供するクラウド開発環境『[Codespaces](https
 
 ```bash
 $ rails --version
-Rails 8.0.0
+Rails 8.1.0
 ```
 
-バージョン番号はRails 8.0.0以降になるはずです。
+バージョン番号はRails 8.1.0以降になるはずです。
 
 ### 最初のRailsアプリケーションを作成する
 
@@ -94,32 +94,32 @@ $ cd store
 
 新しいRailsアプリケーションに含まれるファイルとディレクトリを少し見てみましょう。このフォルダをコードエディタで開くか、ターミナルで`ls -la`を実行してファイルとディレクトリを確認できます。
 
-| ファイル/フォルダ | 目的 |
-| ----------- | ------- |
-|app/|このディレクトリには、アプリケーションのコントローラ、モデル、ビュー、ヘルパー、メーラー、ジョブ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。|
-|bin/|このディレクトリには、アプリケーションを起動する`rails`スクリプトが置かれます。セットアップ・アップデート・デプロイに使うスクリプトファイルもここに置けます。
-|config/|このディレクトリには、アプリケーションの各種設定ファイル（ルーティング、データベースなど）が置かれます。詳しくは[Rails アプリケーションの設定項目](configuring.html)を参照してください。|
-|config.ru|Rackベースのサーバーでアプリケーションの起動に使われる[Rack](https://rack.github.io)設定ファイルです。|
-|db/|このディレクトリには、現在のデータベーススキーマと、データベースマイグレーションファイルが置かれます。|
-|Dockerfile|Dockerの設定ファイルです。|
-|Gemfile<br>Gemfile.lock|これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルは[Bundler](https://bundler.io) gemで使われます。|
-|lib/|このディレクトリには、アプリケーションで使う拡張モジュールが置かれます。|
-|log/|このディレクトリには、アプリケーションのログファイルが置かれます。|
-|public/|静的なファイルやコンパイル済みアセットはここに置きます。このディレクトリにあるファイルは、外部（インターネット）にそのまま公開されます。|
-|Rakefile|このファイルは、コマンドラインから実行できるタスクを探索して読み込みます。このタスク定義は、Rails全体のコンポーネントに対して定義されます。独自のRakeタスクを定義したい場合は、`Rakefile`に直接書くと権限が強すぎるので、なるべく`lib/tasks`フォルダの下にRake用のファイルを追加してください。|
-|README.md|アプリケーションの概要を簡潔に説明するマニュアルをここに記入します。このファイルにはアプリケーションの設定方法などを記入し、これさえ読めば誰でもアプリケーションを構築できるようにしておきましょう。|
-|script/|使い捨ての、または汎用の[スクリプト](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/script/USAGE)や[ベンチマーク](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/benchmark/USAGE)をここに置きます。|
-|storage/|このディレクトリには、ディスクサービス用のSQLiteデータベースファイルやActive Storageファイルが置かれます。詳しくは[Active Storageの概要](active_storage_overview.html)を参照してください。|
-|test/|このディレクトリには、単体テストやフィクスチャなどのテスト関連ファイルを置きます。テストについて詳しくは[Railsアプリケーションをテストする](testing.html)を参照してください。|
-|tmp/|このディレクトリには、キャッシュやpidなどの一時ファイルが置かれます。|
-|vendor/|サードパーティ製コードはすべてこのディレクトリに置きます。通常のRailsアプリケーションの場合、外部のgemファイルがここに置かれます。|
-|.dockerignore|コンテナにコピーすべきでないファイルをDockerに指示するのに使うファイルです。|
-|.gitattributes|このファイルは、gitリポジトリ内の特定のパスについてメタデータを定義します。このメタデータは、gitや他のツールで振る舞いを拡張できます。詳しくは[gitattributesドキュメント](https://git-scm.com/docs/gitattributes)を参照してください。|
-|.github/|GitHub固有のファイルが置かれます。|
-|.gitignore|Gitに登録しないファイル（またはパターン）をこのファイルで指定します。Gitにファイルを登録しない方法について詳しくは[GitHub - Ignoring files](https://help.github.com/articles/ignoring-files)を参照してください。|
-|.kamal/|Kamalの秘密鍵とデプロイ用フックが含まれます。|
-|.rubocop.yml|このファイルにはRuboCop用の設定が含まれます。|
-|.ruby-version|このファイルには、デフォルトのRubyバージョンが記述されています。|
+| ファイル/フォルダ       | 目的                                                                                                                                                                                                                                                                                           |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| app/                    | このディレクトリには、アプリケーションのコントローラ、モデル、ビュー、ヘルパー、メーラー、ジョブ、そしてアセットが置かれます。以後、本ガイドでは基本的にこのディレクトリを中心に説明を行います。                                                                                               |
+| bin/                    | このディレクトリには、アプリケーションを起動する`rails`スクリプトが置かれます。セットアップ・アップデート・デプロイに使うスクリプトファイルもここに置けます。                                                                                                                                  |
+| config/                 | このディレクトリには、アプリケーションの各種設定ファイル（ルーティング、データベースなど）が置かれます。詳しくは[Rails アプリケーションの設定項目](configuring.html)を参照してください。                                                                                                       |
+| config.ru               | Rackベースのサーバーでアプリケーションの起動に使われる[Rack](https://rack.github.io)設定ファイルです。                                                                                                                                                                                         |
+| db/                     | このディレクトリには、現在のデータベーススキーマと、データベースマイグレーションファイルが置かれます。                                                                                                                                                                                         |
+| Dockerfile              | Dockerの設定ファイルです。                                                                                                                                                                                                                                                                     |
+| Gemfile<br>Gemfile.lock | これらのファイルは、Railsアプリケーションで必要となるgemの依存関係を記述します。この2つのファイルは[Bundler](https://bundler.io) gemで使われます。                                                                                                                                             |
+| lib/                    | このディレクトリには、アプリケーションで使う拡張モジュールが置かれます。                                                                                                                                                                                                                       |
+| log/                    | このディレクトリには、アプリケーションのログファイルが置かれます。                                                                                                                                                                                                                             |
+| public/                 | 静的なファイルやコンパイル済みアセットはここに置きます。このディレクトリにあるファイルは、外部（インターネット）にそのまま公開されます。                                                                                                                                                       |
+| Rakefile                | このファイルは、コマンドラインから実行できるタスクを探索して読み込みます。このタスク定義は、Rails全体のコンポーネントに対して定義されます。独自のRakeタスクを定義したい場合は、`Rakefile`に直接書くと権限が強すぎるので、なるべく`lib/tasks`フォルダの下にRake用のファイルを追加してください。 |
+| README.md               | アプリケーションの概要を簡潔に説明するマニュアルをここに記入します。このファイルにはアプリケーションの設定方法などを記入し、これさえ読めば誰でもアプリケーションを構築できるようにしておきましょう。                                                                                           |
+| script/                 | 使い捨ての、または汎用の[スクリプト](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/script/USAGE)や[ベンチマーク](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/benchmark/USAGE)をここに置きます。                                |
+| storage/                | このディレクトリには、ディスクサービス用のSQLiteデータベースファイルやActive Storageファイルが置かれます。詳しくは[Active Storageの概要](active_storage_overview.html)を参照してください。                                                                                                     |
+| test/                   | このディレクトリには、単体テストやフィクスチャなどのテスト関連ファイルを置きます。テストについて詳しくは[Railsアプリケーションをテストする](testing.html)を参照してください。                                                                                                                  |
+| tmp/                    | このディレクトリには、キャッシュやpidなどの一時ファイルが置かれます。                                                                                                                                                                                                                          |
+| vendor/                 | サードパーティ製コードはすべてこのディレクトリに置きます。通常のRailsアプリケーションの場合、外部のgemファイルがここに置かれます。                                                                                                                                                             |
+| .dockerignore           | コンテナにコピーすべきでないファイルをDockerに指示するのに使うファイルです。                                                                                                                                                                                                                   |
+| .gitattributes          | このファイルは、gitリポジトリ内の特定のパスについてメタデータを定義します。このメタデータは、gitや他のツールで振る舞いを拡張できます。詳しくは[gitattributesドキュメント](https://git-scm.com/docs/gitattributes)を参照してください。                                                          |
+| .github/                | GitHub固有のファイルが置かれます。                                                                                                                                                                                                                                                             |
+| .gitignore              | Gitに登録しないファイル（またはパターン）をこのファイルで指定します。Gitにファイルを登録しない方法について詳しくは[GitHub - Ignoring files](https://help.github.com/articles/ignoring-files)を参照してください。                                                                               |
+| .kamal/                 | Kamalの秘密鍵とデプロイ用フックが含まれます。                                                                                                                                                                                                                                                  |
+| .rubocop.yml            | このファイルにはRuboCop用の設定が含まれます。                                                                                                                                                                                                                                                  |
+| .ruby-version           | このファイルには、デフォルトのRubyバージョンが記述されています。                                                                                                                                                                                                                               |
 
 ### MVCの基礎
 
@@ -136,19 +136,28 @@ MVCの基本部分を理解したので、MVCがどのようにRailsで使われ
 
 ## Hello, Rails!
 
-それでは、Railsサーバーを初めて起動してみましょう。
+それでは、Railsのデータベースを作成して、Railsサーバーを初めて起動してみましょう。
 
 ターミナルで`store`ディレクトリに移動し、以下のコマンドを実行します。
+
+```bash
+$ bin/rails db:create
+```
+
+これで、アプリケーションの初期データベースが作成されました。
+続いて、Railsサーバーを起動します。
 
 ```bash
 $ bin/rails server
 ```
 
+NOTE: Railsコマンドをアプリケーションディレクトリ内で実行するときは、単独の`rails`よりも`bin/rails`を使うようにしましょう。これにより、そのアプリケーションで使われているRailsのバージョンが確実に使われます。
+
 すると、PumaというWebサーバーが起動します。Pumaサーバーは、静的ファイルやRailsアプリケーションの配信を担当します。
 
 ```bash
 => Booting Puma
-=> Rails 8.0.0 application starting in development
+=> Rails 8.1.0 application starting in development
 => Run `bin/rails server --help` for more startup options
 Puma starting in single mode...
 * Puma version: 6.4.3 (ruby 3.3.5-p100) ("The Eagle of Durango")
@@ -226,7 +235,7 @@ NOTE: Railsのモデル名には英語の**単数形**を使います。これ�
 Railsが作成したマイグレーションをコードエディタで開いて、マイグレーションで何が行われるかを確認してみましょう。マイグレーションファイルは`db/migrate/<タイムスタンプ>_create_products.rb`に配置されます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products do |t|
       t.string :name
@@ -284,7 +293,7 @@ $ bin/rails console
 上のRailsコンソールコマンドを実行すると、以下のようなプロンプトが表示されます。
 
 ```irb
-Loading development environment (Rails 8.0.0)
+Loading development environment (Rails 8.1.0)
 store(dev)>
 ```
 
@@ -293,7 +302,7 @@ store(dev)>
 
 ```irb
 store(dev)> Rails.version
-=> "8.0.0"
+=> "8.1.0"
 ```
 
 たしかに動きました！
@@ -398,7 +407,7 @@ store(dev)> Product.where(name: "Pants")
 
 これにより、生成された`SELECT` SQLクエリに`WHERE`句も追加され、`"Pants"`にマッチする`name`を持つレコードがフィルタで絞り込まれます。同じ名前を持つレコードが複数返される可能性があるため、ここでも`ActiveRecord::Relation`が返されます。
 
-`order(name: :asc)`メソッドを使うと、レコードを以下のように名前のアルファベット昇順で並べ替えられます。
+`order(name: :asc)`メソッドを使うと、レコードを以下のようにアルファベット昇順で並べ替えられます。
 
 ```irb
 store(dev)> Product.order(name: :asc)
@@ -672,14 +681,17 @@ get "/blog/:slug", to: "blog#show"
 
 [リソース](https://ja.wikipedia.org/wiki/Representational_State_Transfer#%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9)への操作で通常必要となる一般的な操作は、「作成」「読み取り」「更新」「削除」の4つであり、[CRUD](https://ja.wikipedia.org/wiki/CRUD)と呼ばれます。
 
-これは、7つの一般的なコントローラアクションに相当します。
+これは、8つの一般的なコントローラアクションに相当します。
 
 * `index`: すべてのレコードを表示します
 * `new`: 新しいレコード1件を作成するためのフォームをレンダリングします
 * `create`: `new`のフォーム送信を処理し、エラーを処理してレコードを1件作成します
 * `show`: 指定のレコード1件をレンダリングして表示します
 * `edit`: 指定のレコード1件を更新するためのフォームをレンダリングします
-* `update`: `edit`のフォーム送信を処理し、エラーを処理してレコードを1件更新します
+* `update`（リソース全体）: リソース全体を更新するフォーム送信を処理します。
+  これは通常、`PUT`リクエストでトリガーされ、リソースのすべての属性を置き換えます
+* `update`（特定のリソースのみ）: 特定の属性のみを更新するフォーム送信を処理します。
+  これは通常、`PATCH`リクエストでトリガーされ、リソースを部分的に更新します
 * `destroy`: 指定のレコード1件を削除します
 
 これらのCRUDアクションのルーティングは、以下のように書くことで追加することも一応可能です。
@@ -727,15 +739,15 @@ $ bin/rails routes
 `resources :products`で生成されたルーティングが以下のように表示されます。
 
 ```
-                                  Prefix Verb   URI Pattern                                                                                       Controller#Action
-                                products GET    /products(.:format)                                                                               products#index
-                                         POST   /products(.:format)                                                                               products#create
-                             new_product GET    /products/new(.:format)                                                                           products#new
-                            edit_product GET    /products/:id/edit(.:format)                                                                      products#edit
-                                 product GET    /products/:id(.:format)                                                                           products#show
-                                         PATCH  /products/:id(.:format)                                                                           products#update
-                                         PUT    /products/:id(.:format)                                                                           products#update
-                                         DELETE /products/:id(.:format)                                                                           products#destroy
+      Prefix Verb   URI Pattern                  Controller#Action
+    products GET    /products(.:format)          products#index
+             POST   /products(.:format)          products#create
+ new_product GET    /products/new(.:format)      products#new
+edit_product GET    /products/:id/edit(.:format) products#edit
+     product GET    /products/:id(.:format)      products#show
+             PATCH  /products/:id(.:format)      products#update
+             PUT    /products/:id(.:format)      products#update
+             DELETE /products/:id(.:format)      products#destroy
 ```
 
 表示されるルーティングには、上の他にもヘルスチェックなどの他の組み込みのRails機能によるルーティングが含まれているのがわかります。
@@ -929,9 +941,9 @@ Railsは、パスとURLを生成するためのヘルパーメソッドを提供
 `bin/rails routes`を実行すると以下のように表示されるPrefix列の`products`や`product`は、RubyコードでURLを生成できるヘルパーメソッド名に対応します。
 
 ```
-                                  Prefix Verb   URI Pattern                                                                                       Controller#Action
-                                products GET    /products(.:format)                                                                               products#index
-                                 product GET    /products/:id(.:format)                                                                           products#show
+  Prefix Verb   URI Pattern             Controller#Action
+products GET    /products(.:format)     products#index
+ product GET    /products/:id(.:format) products#show
 ```
 
 これらのルーティングプレフィックスに対応するヘルパーメソッドは、以下のようになります。
@@ -957,7 +969,7 @@ URLヘルパーを`link_to`ヘルパーによる`<a>`タグ生成と組み合わ
 <div id="products">
   <% @products.each do |product| %>
     <div>
-      <%= link_to product.name, product %>
+      <%= link_to product.name, product_path(product.id) %>
     </div>
   <% end %>
 </div>
@@ -1002,7 +1014,7 @@ end
 <div id="products">
   <% @products.each do |product| %>
     <div>
-      <%= link_to product.name, product %>
+      <%= link_to product.name, product_path(product.id) %>
     </div>
   <% end %>
 </div>
@@ -1023,6 +1035,8 @@ end
     <%= form.submit %>
   </div>
 <% end %>
+
+<%= link_to "Cancel", products_path %>
 ```
 
 この`new.html.erb`ビューでは、Railsの`form_with`ヘルパーを製品作成用のHTMLフォーム生成に利用しています。この`form_with`ヘルパーは、**フォームビルダー**を用いてCSRFトークン生成などの処理を行い、`model:`で指定されたものに基づいてURLを生成するとともに、送信ボタンのテキストにモデル名を反映することまで行います。
@@ -1444,7 +1458,7 @@ Log outボタンをクリックすると、indexページのNew productリンク
 <%= link_to "Login", new_session_path unless authenticated? %>
 ```
 
-また、`app/views/products/show.html.erb`ビューのEditリンクとDestroyリンクを以下のように更新して、認証済みの場合にのみEditリンクとDestroyリンクを表示するようにしてもよいでしょう。
+また、`app/views/products/show.html.erb`ビューのEditリンクとDeleteリンクを以下のように更新して、認証済みの場合にのみEditリンクとDeleteリンクを表示するようにしてもよいでしょう。
 
 ```erb
 <h1><%= @product.name %></h1>
@@ -1452,7 +1466,7 @@ Log outボタンをクリックすると、indexページのNew productリンク
 <%= link_to "Back", products_path %>
 <% if authenticated? %>
   <%= link_to "Edit", edit_product_path(@product) %>
-  <%= button_to "Destroy", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
 <% end %>
 ```
 
@@ -1628,7 +1642,7 @@ Railsを使えば、アプリを他の言語に翻訳しやすくなります。
 
 ビューの`translate`ヘルパー（短縮形は`t`）は、名前で訳文を検索して、現在のロケール設定に合うテキストを返します。
 
-`app/products/index.html.erb`の`<h1>`見出しタグを以下のように更新して、見出しに訳文が使われるようにしてみましょう。
+`app/views/products/index.html.erb`の`<h1>`見出しタグを以下のように更新して、見出しに訳文が使われるようにしてみましょう。
 
 ```erb
 <h1><%= t "hello" %></h1>
@@ -1716,6 +1730,16 @@ ja:
 
 ```bash
 $ bin/rails generate migration AddInventoryCountToProducts inventory_count:integer
+```
+
+これでマイグレーションファイルが生成されます。マイグレーションファイルを開いて、`inventory_count`が決して`nil`にならないようにするために、デフォルト値として`0`を追加します。
+
+```ruby
+class AddInventoryCountToProducts < ActiveRecord::Migration[8.1]
+  def change
+    add_column :products, :inventory_count, :integer, default: 0
+  end
+end
 ```
 
 続いて以下のコマンドでマイグレーションを実行します。
@@ -1808,13 +1832,13 @@ class SubscribersController < ApplicationController
 
   private
 
-  def set_product
-    @product = Product.find(params[:product_id])
-  end
+    def set_product
+      @product = Product.find(params[:product_id])
+    end
 
-  def subscriber_params
-    params.expect(subscriber: [ :email ])
-  end
+    def subscriber_params
+      params.expect(subscriber: [ :email ])
+    end
 end
 ```
 
@@ -1847,7 +1871,7 @@ end
 在庫表示用の`app/views/products/_inventory.html.erb`パーシャルを以下の内容で作成します。
 
 ```erb
-<% if product.inventory_count? %>
+<% if product.inventory_count.positive? %>
   <p><%= product.inventory_count %> in stock</p>
 <% else %>
   <p>Out of stock</p>
@@ -1983,9 +2007,9 @@ Performed ActionMailer::MailDeliveryJob (Job ID: 5e2bd5f2-f54f-4088-ace3-3f6eb15
 
 ```ruby
 class Product < ApplicationRecord
+  has_many :subscribers, dependent: :destroy
   has_one_attached :featured_image
   has_rich_text :description
-  has_many :subscribers, dependent: :destroy
 
   validates :name, presence: true
   validates :inventory_count, numericality: { greater_than_or_equal_to: 0 }
@@ -1993,7 +2017,7 @@ class Product < ApplicationRecord
   after_update_commit :notify_subscribers, if: :back_in_stock?
 
   def back_in_stock?
-    inventory_count_previously_was.zero? && inventory_count > 0
+    inventory_count_previously_was.zero? && inventory_count.positive?
   end
 
   def notify_subscribers
@@ -2034,7 +2058,7 @@ module Product::Notifications
   end
 
   def back_in_stock?
-    inventory_count_previously_was == 0 && inventory_count > 0
+    inventory_count_previously_was.zero? && inventory_count.positive?
   end
 
   def notify_subscribers
@@ -2053,7 +2077,6 @@ end
 class Product < ApplicationRecord
   include Notifications
 
-  has_many :subscribers, dependent: :destroy
   has_one_attached :featured_image
   has_rich_text :description
 
@@ -2081,8 +2104,15 @@ concernは、Railsアプリケーションの機能を整理するための優�
 最初に、`config/routes.rb`のルーティングに購読解除用のルーティングを追加する必要があります。これは解除用メールに含めるURLとして使われます。
 
 ```ruby
+Rails.application.routes.draw do
+  # ...
+  resources :products do
+    resources :subscribers, only: [ :create ]
+  end
   resource :unsubscribe, only: [ :show ]
 ```
+
+購読解除用のルーティングは最上位レベルに追加します。`/unsubscribe?token=xyz`のようなルーティングを処理するために、単数形の`resource`メソッドを使っているにご注意ください。
 
 Active Recordには、さまざまな目的でデータベースレコードを検索するための一意のトークンを生成できる[`generates_token_for`](https://api.rubyonrails.org/classes/ActiveRecord/TokenFor/ClassMethods.html#method-i-generates_token_for)という機能があります。これを使って、電子メールの登録解除用URLに含める一意の登録解除用トークンを`Subscriber`モデルで生成できます。
 
@@ -2109,9 +2139,9 @@ class UnsubscribesController < ApplicationController
 
   private
 
-  def set_subscriber
-    @subscriber = Subscriber.find_by_token_for(:unsubscribe, params[:token])
-  end
+    def set_subscriber
+      @subscriber = Subscriber.find_by_token_for(:unsubscribe, params[:token])
+    end
 end
 ```
 
@@ -2247,6 +2277,8 @@ pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"
 ```
 
 TIP: 上の`pin`は、それぞれJavaScriptパッケージ名（例: `"@hotwired/turbo-rails"`）を特定のファイルやURL（例: `"turbo.min.js"`）に対応付けます。`pin_all_from`は、ディレクトリ内のすべてのファイル（例: `app/javascript/controllers`）を名前空間（例: `"controllers"`）に一括で対応付けます。
