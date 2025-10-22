@@ -150,6 +150,11 @@ class User < ApplicationRecord
 end
 ```
 
+NOTE: `has_secure_password`には自動的に以下のバリデーションが追加されます。<br/><br/>
+- 作成時にパスワードが存在すること<br/>
+- パスワードの長さは72バイト以下であること<br/>
+- パスワードの確認（`XXX_confirmation`属性を使用）<br/><br/>ただし、パスワードの最小長や複雑さについてのバリデーションは行っていないため、必要な場合は独自にバリデーションを定義してください。
+
 [`has_secure_password`]:
   https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password
 
