@@ -1170,6 +1170,45 @@ NOTE: これは、`after_destroy_commit`などを含むすべての`after_*_comm
 [`after_update_commit`]:
     https://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html#method-i-after_update_commit
 
+### トランザクションごとのコールバックを登録する
+
+特定のトランザクションに対して`before_commit`、`after_commit`、`after_rollback`などのトランザクションコールバックを登録することも可能です。これは、アクションをモデル固有ではなく、作業単位として実行する必要がある状況で便利です。
+
+`ActiveRecord::Base.transaction`は`ActiveRecord::Transaction`オブジェクトを返すので、これに対してコールバックを登録できます。
+
+```ruby
+Article.transaction do |transaction|
+  article.update(published: true)
+
+  transaction.after_commit do
+    PublishNotificationMailer.with(article: article).deliver_later
+  end
+end
+```
+
+### `ActiveRecord.after_all_transactions_commit`
+
+[`ActiveRecord.after_all_transactions_commit`][after_all_transactions_commit]は、すべての現在のトランザクションがデータベースに正常にコミットされた「後に」コードを実行するためのコールバックです。
+
+```ruby
+def publish_article(article)
+  Article.transaction do
+    Post.transaction do
+      ActiveRecord.after_all_transactions_commit do
+        PublishNotificationMailer.with(article: article).deliver_later
+        # メールは、最も外側のトランザクションがコミットされた後に送信される
+      end
+    end
+  end
+end
+```
+
+`after_all_transactions_commit`に登録したコールバックは、最も外側のトランザクションがコミットされた後にトリガーされます。現在開いているトランザクションのいずれかがロールバックされた場合、そのブロックは呼び出されません。
+コールバックが登録された時点でオープン中のトランザクションが存在しない場合、そのブロックは直ちに実行されます。
+
+[after_all_transactions_commit]
+  : https://api.rubyonrails.org/classes/ActiveRecord.html#method-c-after_all_transactions_commit
+
 コールバックオブジェクト
 ----------------
 
