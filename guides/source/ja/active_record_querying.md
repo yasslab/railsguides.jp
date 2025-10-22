@@ -1325,7 +1325,7 @@ class Book
   # レビューが5件以上の場合にレビューを返す
   # それ以外の本はレビューなしとみなす
   def highlighted_reviews
-    if reviews.count > 5
+    if reviews.count >= 5
       reviews
     else
       Review.none # レビュー5件未満の場合
