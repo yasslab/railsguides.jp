@@ -20,15 +20,20 @@ Railsのアセットパイプライン（Asset Pipeline）は、JavaScript、CSS
 
 Railsのアセットパイプラインは、[**Propshaft**](https://github.com/rails/propshaft)によって管理されています。Propshaftは、基本的なアプリケーションにおけるトランスパイルやバンドルや圧縮が、ブラウザでのサポート強化やネットワーク高速化、HTTP/2機能によって以前ほど重要ではなくなった時代に合わせて構築されています。
 
-Propshaftは、基本的なアセット管理タスクに特化しています。JavaScriptやCSSのバンドルや最小化といった複雑なタスクについては、アプリケーションで個別に追加できる[`js-bundling-rails`](https://github.com/rails/jsbundling-rails)や[`css-bundling-rails`](https://github.com/rails/cssbundling-rails)などの専用ツールに任せています。Propshaftは[フィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)の処理に重点を置いており、アセットのダイジェストをベースとしたURLを生成することに注力しています。これにより、ブラウザがアセットをキャッシュできるようになり、複雑なコンパイルやバンドルの必要性が最小限に抑えられます。
+Propshaftは、基本的なアセット管理タスクに特化しています。JavaScriptやCSSのバンドルや最小化といった複雑なタスクについては、アプリケーションで個別に追加できる[jsbundling-rails][]や[cssbundling-rails][]などの専用ツールに任せています。Propshaftは[フィンガープリント](#フィンガープリント-ダイジェストベースのurlによるバージョニング)の処理に重点を置いており、アセットのダイジェストをベースとしたURLを生成することに注力しています。これにより、ブラウザがアセットをキャッシュできるようになり、複雑なコンパイルやバンドルの必要性が最小限に抑えられます。
 
-[Propshaft](https://github.com/rails/propshaft) gemは、新しいアプリケーションではデフォルトで有効になっています。何らかの理由で`rails new`で無効にしたい場合は、`--skip-asset-pipeline`オプションを指定できます。
+[Propshaft][] gemは、新しいアプリケーションではデフォルトで有効になっています。何らかの理由で`rails new`で無効にしたい場合は、`--skip-asset-pipeline`オプションを指定できます。
 
 ```bash
 $ rails new app_name --skip-asset-pipeline
 ```
 
-NOTE: Rails 8より前のバージョンのアセットパイプラインは、[Sprockets](https://github.com/rails/sprockets) gemによって実行されていました。Sprocketsによるアセットパイプラインについては、[Railsガイドの以前のバージョン](https://railsguides.jp/v7.2/asset_pipeline.html)で読めます。また、Railsのアセットパイプラインが時間の経過とともにどのように進化してきたかについては、本ガイドで後述する[アセット管理技術の進化](#アセット管理技術の進化)で確認できます。
+NOTE: Rails 8より前のバージョンのアセットパイプラインは、[Sprockets][] gemによって実行されていました。Sprocketsによるアセットパイプラインについては、[Railsガイドの以前のバージョン](https://railsguides.jp/v7.2/asset_pipeline.html)で読めます。また、Railsのアセットパイプラインが時間の経過とともにどのように進化してきたかについては、本ガイドで後述する[アセット管理技術の進化](#アセット管理技術の進化)で確認できます。
+
+[jsbundling-rails]: https://github.com/rails/jsbundling-rails
+[cssbundling-rails]: https://github.com/rails/cssbundling-rails
+[Propshaft]: https://github.com/rails/propshaft
+[Sprockets]: https://github.com/rails/sprockets
 
 Propshaftの機能
 ------------------
@@ -87,11 +92,22 @@ Propshaftを使うと、依存ファイルの読み込み順序を制御でき�
 
     プロジェクトで依存関係の連鎖やCSSの前処理などの機能が必要な場合は、Propshaft以外の[高度なアセット管理](#高度なアセット管理)も検討してください。
 
-    [`js-bundling-rails`](https://github.com/rails/jsbundling-rails)などのツールは、[Bun](https://bun.sh/)、[esbuild](https://esbuild.github.io/)、[rollup.js](https://rollupjs.org/)、[Webpack](https://webpack.js.org/)をRails アプリケーションに統合します。
+    [jsbundling-rails][]などのツールは、[Bun][]、[esbuild][]、[rollup.js][]、[Webpack][]をRails アプリケーションに統合します。
 
-    一方、[`css-bundling-rails`](https://github.com/rails/cssbundling-rails)は、スタイルシートを[Tailwind CSS](https://tailwindcss.com/)、[Bootstrap](https://getbootstrap.com/)、[Bulma](https://bulma.io/)、[PostCSS](https://postcss.org/)、[Dart Sass](https://sass-lang.com/)などで処理するために利用できます。
+    一方、[cssbundling-rails][]は、スタイルシートを[Tailwind CSS][]、[Bootstrap][]、[Bulma][]、[PostCSS][]、[Dart Sass][]などで処理するために利用できます。
 
     これらのツールが複雑な処理を担当することでPropshaftを補完し、Propshaftは最終アセットを効率的に整理して配信することに専念します。
+
+[Bun]: https://bun.sh/
+[esbuild]: https://esbuild.github.io/
+[rollup.js]: https://rollupjs.org/
+[Webpack]: https://webpack.js.org/
+
+[Tailwind CSS]: https://tailwindcss.com/
+[Bootstrap]: https://getbootstrap.com/
+[Bulma]: https://bulma.io/
+[PostCSS]: https://postcss.org/
+[Dart Sass]: https://sass-lang.com/
 
 ### アセットの編成
 
@@ -150,7 +166,7 @@ Rails標準のアセットヘルパー（`asset_path`、`image_tag`、`javascrip
 <%= stylesheet_link_tag "application", media: "all" %>
 ```
 
-Railsにデフォルトで含まれる[`turbo-rails`](https://github.com/hotwired/turbo-rails) gemを使っている場合は、以下のように`data-turbo-track`オプションも指定できます。これにより、Turboはアセットが更新されたかどうかを確認し、更新されている場合はページで再読み込みします。
+Railsにデフォルトで含まれる[turbo-rails][] gemを使っている場合は、以下のように`data-turbo-track`オプションも指定できます。これにより、Turboはアセットが更新されたかどうかを確認し、更新されている場合はページで再読み込みします。
 
 ```erb
 <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -186,6 +202,8 @@ background: url("/assets/bg/pattern-2169cbef.svg");
 
 WARNING: アセットをプリコンパイルするときに（[production環境](#production環境の場合)を参照）、存在しないアセットにリンクしていると、呼び出しページで例外が発生します。これには、空文字列へのリンクも含まれます。ユーザーがアップロードして提供したデータに対して`image_tag`などのヘルパーを利用する場合は注意してください。これらに注意することで、ブラウザが常に正しいバージョンのアセットを取得するようになります。
 
+[turbo-rails]: https://github.com/hotwired/turbo-rails
+
 #### ダイジェスト化されたアセットをJavaScriptで利用する
 
 JavaScriptでアセットにアクセスするには、`RAILS_ASSET_URL`マクロを用いてアセット変換を手動でトリガーする必要があります。以下に例を示します。
@@ -210,7 +228,7 @@ export default class extends Controller {
 
 これにより、JavaScriptコードで正しいダイジェストファイルを利用可能になります。
 
-[Webpack](https://webpack.js.org/)や[esbuild](https://esbuild.github.io/)などのバンドラーを利用する場合は、ダイジェスト処理をこれらのバンドラーに任せる必要があります。Propshaftは、ファイル名にすでにダイジェストが含まれていることを検出すると（例: `script-2169cbef.js`）、不要な再処理を避けるためにファイルのダイジェスト処理をスキップします。
+[Webpack][]や[esbuild][]などのバンドラーを利用する場合は、ダイジェスト処理をこれらのバンドラーに任せる必要があります。Propshaftは、ファイル名にすでにダイジェストが含まれていることを検出すると（例: `script-2169cbef.js`）、不要な再処理を避けるためにファイルのダイジェスト処理をスキップします。
 
 アセットを[importmap](#importmap-rails)で管理する場合、importmapで参照されるアセットはPropshaftによって適切に処理され、プリコンパイル中にダイジェストパスにマッピングされます。
 
@@ -306,7 +324,7 @@ development環境のRailsでは、アセットキャッシュをバイパスす�
 
 development環境でPropshaftを単体で利用すると、リクエストのたびにJavaScript、CSS、画像などのアセットの更新が自動的にチェックされます。つまり、これらのファイルを編集してブラウザをリロードすると、Railsサーバーを再起動せずに変更をブラウザ上で即座に確認できます。
 
-[esbuild](https://esbuild.github.io/)や[Webpack](https://webpack.js.org/)などのJavaScriptバンドラーをPropshaftと併用する場合、以下のように両方のツールをワークフローで効果的に組み合わせられます。
+[esbuild][]や[Webpack][]などのJavaScriptバンドラーをPropshaftと併用する場合、以下のように両方のツールをワークフローで効果的に組み合わせられます。
 
 - バンドラーはJavaScriptファイルとCSSファイルの変更を監視し、適切なビルドディレクトリでコンパイルしてファイルを最新の状態に保ちます。
 - Propshaftは、リクエストが行われるたびに最新のコンパイル済みアセットがブラウザに提供されるようにします。
@@ -389,11 +407,11 @@ location ~ ^/assets/ {
 
 #### CDN
 
-[CDN（コンテンツデリバリーネットワーク）](https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%83%87%E3%83%AA%E3%83%90%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF)は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。CDNを利用すると、ブラウザからアセットをリクエストしたときに、ネットワーク上で地理的に最も「近く」にあるキャッシュのコピーが使われます。production環境のRailsサーバーから（中間キャッシュを使わずに）直接アセットを配信しているのであれば、アプリケーションとブラウザの間でCDNを利用するのがベストプラクティスです。
+[CDN（コンテンツデリバリーネットワーク）](https://ja.wikipedia.org/wiki/コンテンツデリバリネットワーク)は、全世界を対象としてアセットをキャッシュすることを主な目的として設計されています。CDNを利用すると、ブラウザからアセットをリクエストしたときに、ネットワーク上で地理的に最も「近く」にあるキャッシュのコピーが使われます。production環境のRailsサーバーから（中間キャッシュを使わずに）直接アセットを配信しているのであれば、アプリケーションとブラウザの間でCDNを利用するのがベストプラクティスです。
 
 CDNの典型的な利用法は、productionサーバーを"origin"サーバーとして設定することです。つまり、ブラウザがCDN上のアセットをリクエストしてキャッシュが見つからない場合は、オンデマンドでサーバーからアセットファイルを取得してキャッシュします。
 
-たとえば、Railsアプリケーションをexample.comというドメインで運用しており、mycdnsubdomain.fictional-cdn.comというCDNが設定済みであるとします。ブラウザからmycdnsubdomain.fictional-cdn.com/assets/smile.pngがリクエストされると、CDNはいったん元のサーバーのexample.com/assets/smile.pngにアクセスしてこのリクエストをキャッシュします。
+たとえば、Railsアプリケーションを`example.com`というドメインで運用しており、`mycdnsubdomain.fictional-cdn.com`というCDNが設定済みであるとします。ブラウザから`mycdnsubdomain.fictional-cdn.com/assets/smile.png`がリクエストされると、CDNはいったん元のサーバーの`example.com/assets/smile.png`にアクセスしてこのリクエストをキャッシュします。
 
 CDN上の同じURLに対して次のリクエストが発生すると、キャッシュされたコピーにヒットします。CDNがアセットを直接配信可能な場合は、ブラウザからのリクエストが直接Railsサーバーに到達することはありません。CDNが配信するアセットはネットワーク上でブラウザと「地理的に」近い位置にあるので、リクエストは高速化されます。また、サーバーはアセットの送信に使う時間を節約できるので、アプリケーション本来のコードをできるだけ高速で配信することに専念できます。
 
@@ -570,7 +588,9 @@ const greet = (name) => {
 };
 ```
 
-従来は、CSS変数やネストなどのCSS機能を利用するために[Sass](https://sass-lang.com/)や[Less](https://lesscss.org/)といったプリプロセッサが不可欠でした。現在、最新のCSSはこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
+従来は、CSS変数やネストなどのCSS機能を利用するために[Sass][]や[Less][]といったプリプロセッサが不可欠でした。現在、最新のCSSはこれらをネイティブにサポートしており、トランスパイルの必要性は薄れています。
+
+[Less]: https://lesscss.org/
 
 #### バンドル❌
 
@@ -621,9 +641,9 @@ Sprocketsは、バンドルに明示的に含まれているアセットを処�
 
 ### SprocketsからPropshaftへの移行手順
 
-Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よりもシンプルになっており、そのためSprocketsからの移行に必要な作業がそれなりに増える可能性があります。これは、特に[TypeScript](https://www.typescriptlang.org/)や[Sass](https://sass-lang.com/)のトランスパイルなどのタスクがSprocketsに依存している場合や、この機能を提供するgemを利用している場合に当てはまります。
+Propshaftは意図的に[Sprockets][]よりもシンプルになっており、そのためSprocketsからの移行に必要な作業がそれなりに増える可能性があります。これは、特に[TypeScript][]や[Sass][]のトランスパイルなどのタスクがSprocketsに依存している場合や、この機能を提供するgemを利用している場合に当てはまります。
 
-このような場合は、トランスパイルの利用をやめるか、[`jsbundling-rails`](https://github.com/rails/jsbundling-rails)と[`cssbundling-rails`](https://github.com/rails/cssbundling-rails)で提供されるNode.jsベースのトランスパイラに切り替える必要があります。詳しくは[高度なアセット管理](#高度なアセット管理)セクションを参照してください。
+このような場合は、トランスパイルの利用をやめるか、[jsbundling-rails][]と[cssbundling-rails][]で提供されるNode.jsベースのトランスパイラに切り替える必要があります。詳しくは[高度なアセット管理](#高度なアセット管理)セクションを参照してください。
 
 ただし、現在すでにNodeベースのセットアップを用いてJavaScriptとCSSをバンドルしている場合は、Propshaftをワークフローにスムーズに統合できます。バンドルやトランスパイル用の追加ツールは必要ないため、Propshaftは主にアセットのダイジェスト処理と配信を処理します。
 
@@ -643,12 +663,14 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 4. `application.rb`ファイルの`config.assets.paths << Rails.root.join('app', 'assets')`行を削除します。
 
-5. Propshaftは相対パスを使うので、アセットヘルパーのすべてのインスタンス（`image_url`など）を標準URLに置き換えて、アセットヘルパーを移行します。
-  たとえば、`image_url("logo.png")`は `url("/logo.png")`に置き換えます。
+5. CSSファイル内にあるすべてのアセットヘルパーインスタンス（例：`image_url`）を標準の`url()`関数に置き換えてアセットヘルパーを移行します。Propshaftは相対パスを使うことにご注意ください。たとえば、`image_url("logo.png")`は`url("/logo.png")`になります。
 
 6. トランスパイルにSprocketsを使っている場合は、Nodeベースのトランスパイラ（Webpack、esbuild、Viteなど）に切り替える必要があります。`jsbundling-rails` gemと`cssbundling-rails` gemを使うことで、これらのツールをRailsアプリケーションに統合できます。
 
 詳しくは、Propshaft READMEの[SprocketsからPropshaftに移行する方法の詳細ガイド](https://github.com/rails/propshaft/blob/main/UPGRADING.md)を参照してください。
+
+[TypeScript]: https://www.typescriptlang.org/
+[Sass]: https://sass-lang.com/
 
 ## 高度なアセット管理
 
@@ -658,12 +680,12 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 ### `jsbundling-rails`
 
-[`jsbundling-rails`](https://github.com/rails/jsbundling-rails) gemを使うと、以下を含む最新JavaScriptバンドラーをRailsアプリケーションに統合できます。
+[jsbundling-rails][] gemを使うと、以下を含む最新JavaScriptバンドラーをRailsアプリケーションに統合できます。
 
-- [Bun](https://bun.sh)
-- [esbuild](https://esbuild.github.io/)
-- [rollup.js](https://rollupjs.org/)
-- [Webpack](https://webpack.js.org/)
+- [Bun][]
+- [esbuild][]
+- [rollup.js][]
+- [Webpack][]
 
 これらのツールを使うことでJavaScriptアセットを管理・バンドルできるようになり、柔軟性とパフォーマンスを必要とする開発者にランタイム依存のアプローチを提供します。
 
@@ -684,13 +706,15 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 - ツリーシェイキング、コード分割、最小化などのバンドラー固有の最適化を活用する必要がある。
 - アセット管理に`Propshaft`を利用しているが、プリコンパイルされたJavaScriptをより広範なRailsアセットパイプラインに統合するための信頼性の高い方法を必要としている。
 - ビルドステップに依存するライブラリやフレームワークを利用している。
-  たとえばトランスパイルを必要とするプロジェクト（[Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、React JSXを利用しているプロジェクトなど）は、`jsbundling-rails`によって大きなメリットを得られます。これらのツールはビルドステップに依存しており、`jsbundling-rails` gemによってシームレスにサポートされます。
+  たとえばトランスパイルを必要とするプロジェクト（[Babel][]、[TypeScript][]、React JSXを利用しているプロジェクトなど）は、`jsbundling-rails`によって大きなメリットを得られます。これらのツールはビルドステップに依存しており、`jsbundling-rails` gemによってシームレスにサポートされます。
 
 `jsbundling-rails` gemを利用すると、JavaScriptワークフローが簡素化されるとともに、`Propshaft`などのRailsツールにも統合されるので、 Railsの規約に準拠しながら高い生産性を維持する、リッチで動的なフロントエンドを構築できます。
 
+[Babel]: https://babeljs.io/
+
 ### `cssbundling-rails`
 
-[`cssbundling-rails`](https://github.com/rails/cssbundling-rails) gemは、最新のCSSフレームワークとツールをRailsアプリケーションに統合することで、スタイルシートをバンドルして処理できるようになります。処理が完了すると、得られたCSSがRailsのアセットパイプライン経由で配信されます。
+[cssbundling-rails][] gemは、最新のCSSフレームワークとツールをRailsアプリケーションに統合することで、スタイルシートをバンドルして処理できるようになります。処理が完了すると、得られたCSSがRailsのアセットパイプライン経由で配信されます。
 
 #### `cssbundling-rails`のしくみ
 
@@ -709,19 +733,23 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 `cssbundling-rails`は、以下のようなRailsアプリケーションに最適です。
 
 - 開発中やデプロイ中にビルド処理を必要とするCSSフレームワークを利用している。
-  （[Tailwind CSS](https://tailwindcss.com/)、[Bootstrap](https://getbootstrap.com/)、[Bulma](https://bulma.io/)などの）
-- [PostCSS](https://postcss.org/)や[Dart Sass](https://sass-lang.com/)プラグインによるカスタム前処理などの高度なCSS機能を必要としている。
+  （[Tailwind CSS][]、[Bootstrap][]、[Bulma][]など）
+- [PostCSS][]や[Dart Sass][]プラグインによるカスタム前処理などの高度なCSS機能を必要としている。
 - 処理されたCSSをRailsのアセットパイプラインにシームレスに統合する必要がある。
 - 開発中の手動介入を最小限にとどめてスタイルシートをライブ更新できる。
 
-**注意**: `cssbundling-rails`を利用すると、Node.js依存関係が導入されます（[`dartsass-rails`](https://github.com/rails/dartsass-rails)や[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)はNode.jsに依存せず、それぞれ[Dart Sass](https://sass-lang.com/)と[Tailwind CSS](https://tailwindcss.com/)のスタンドアロン版を利用する点が異なります）。そのため、`cssbundling-rails` gemは、JavaScriptの処理をNodeに依存する`jsbundling-rails`などのgemを既に利用しているアプリケーションに適しています。
-ただし、JavaScriptに[`importmap-rails`](https://github.com/rails/importmap-rails)を利用していてNode.jsへの依存を避けたい場合は、[`dartsass-rails`](https://github.com/rails/dartsass-rails)や[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)などのスタンドアロンの代替手段を利用することでセットアップが簡単になります。
+**注意**: `cssbundling-rails`を利用すると、Node.js依存関係が導入されます（[dartsass-rails][]や[tailwindcss-rails][]はNode.jsに依存せず、それぞれ[Dart Sass][]と[Tailwind CSS][]のスタンドアロン版を利用する点が異なります）。そのため、`cssbundling-rails` gemは、JavaScriptの処理をNodeに依存する`jsbundling-rails`などのgemを既に利用しているアプリケーションに適しています。
+ただし、JavaScriptに[importmap-rails][]を利用していてNode.jsへの依存を避けたい場合は、[dartsass-rails][]や[tailwindcss-rails][]などのスタンドアロンの代替手段を利用することでセットアップが簡単になります。
 
 `cssbundling-rails`は、最新のCSSワークフローを統合してproduction環境でのビルドを自動化し、Railsアセットパイプラインを活用することで、開発者が動的なCSSスタイルを効率的に管理および配信できるようにします。
 
+[importmap-rails]: https://github.com/rails/importmap-rails
+[dartsass-rails]: https://github.com/rails/dartsass-rails
+[tailwindcss-rails]: https://github.com/rails/tailwindcss-rails
+
 ### `tailwindcss-rails`
 
-[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails)は、[Tailwind CSS](https://tailwindcss.com/)をRailsアプリケーションに統合するラッパーgemです。
+[tailwindcss-rails][]は、[Tailwind CSS][]をRailsアプリケーションに統合するラッパーgemです。
 
 `tailwindcss-rails` gemは、Tailwind CSSの[スタンドアロン実行可能ファイル](https://tailwindcss.com/blog/standalone-cli)をバンドルすることで、Node.jsや追加のJavaScript依存関係が不要になります。これにより、Railsアプリケーションをスタイリングする軽量で効率的なソリューションを実現します。
 
@@ -746,7 +774,7 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 
 ### `importmap-rails`
 
-[`importmap-rails`](https://github.com/rails/importmap-rails)を使うと、RailsアプリケーションのJavaScriptをNode.jsなしで管理できるようになります。
+[importmap-rails][]を使うと、RailsアプリケーションのJavaScriptをNode.jsなしで管理できるようになります。
 最新ブラウザでの[ESモジュール](https://developer.mozilla.org/ja-JP/docs/Web/JavaScript/Guide/Modules)サポートを活用して、バンドルやトランスパイルを必要とせずにブラウザで直接JavaScriptを読み込みます。このアプローチは、Railsのシンプルさと「設定より規約を重視」という方針にも一致しています。
 
 #### `importmap-rails`のしくみ
@@ -768,4 +796,4 @@ Propshaftは意図的に[Sprockets](https://github.com/rails/sprockets-rails)よ
 `importmap-rails`は、以下のようなRailsアプリケーションに最適です:
 
 - トランスパイルやバンドルなどの複雑なJavaScript機能を必要としない。
-- 最新のJavaScriptを[Babel](https://babeljs.io/)などのツールに依存せずに利用する。
+- 最新のJavaScriptを[Babel][]などのツールに依存せずに利用する。
