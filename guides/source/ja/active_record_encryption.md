@@ -153,7 +153,7 @@ Action Textのフィクスチャを暗号化するには、`fixtures/action_text
 
 `active_record.encryption`は、暗号化の前に背後の型を用いて値をシリアライズしますが、カスタムの`message_serializer`を使わない場合は、**型は文字列としてシリアライズ可能でなければなりません**。`serialized`などの構造化された型はそのまま利用可能です。
 
-カスタム型をサポートする必要がある場合は、[シリアライズ化属性](https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html)の利用が推奨されます。シリアライズ化属性の宣言は、以下のように暗号化宣言より**上の行に**置いてください。
+カスタム型のサポートが必要な場合は、[`serialize`][`AttributeMethods::Serialization`]で属性をシリアライズする方法が推奨されます。シリアライズ化属性の宣言は、以下のように暗号化宣言より**上の行**に置いてください。
 
 ```ruby
 # 正しい
@@ -168,6 +168,8 @@ class Article < ApplicationRecord
   serialize :title, type: Title
 end
 ```
+
+[`AttributeMethods::Serialization`]: https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html
 
 ### 大文字小文字を区別しない場合
 
@@ -272,7 +274,7 @@ end
 
 ### 暗号化カラムをparamsでフィルタする
 
-デフォルトでは、暗号化済みカラムは[Railsのログで自動的にフィルタされます](https://railsguides.jp/action_controller_overview.html#%E3%83%AD%E3%82%B0%E3%82%92%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF%E3%81%99%E3%82%8B)。`config/application.rb`に以下を追加することで、この振る舞いを無効にできます。
+デフォルトでは、暗号化済みカラムは[Railsのログで自動的にフィルタされます](configuring.html#config-filter-parameters)。`config/application.rb`に以下を追加することで、この振る舞いを無効にできます。
 
 ```ruby
 config.active_record.encryption.add_to_filter_parameters = false
