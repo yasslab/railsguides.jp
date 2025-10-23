@@ -14,6 +14,14 @@
       name: Dev Container での開発ガイド
       url: getting_started_with_devcontainer.html
       description: VS CodeとDev Containerを使ってRailsアプリケーションの開発を行う方法について解説します。
+    -
+      name: 演習：ユーザー登録・設定機能の追加
+      url: sign_up_and_settings.html
+      description: 練習用アプリ「store」にユーザー登録・設定機能を追加する方法について解説します。
+    -
+      name: 演習：ウィッシュリスト機能の追加
+      url: wishlist.html
+      description: 練習用アプリ「store」にウィッシュリスト機能を追加する方法について解説します。
 -
   name: モデル
   documents:
