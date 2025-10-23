@@ -127,7 +127,7 @@ $ bin/rails generate mailer User welcome_email
 ```html+erb
 <h1><%= @user.name %>様、example.comへようこそ。</h1>
 <p>
-  example.comへのサインアップが成功しました。
+  example.comへのユーザー登録が成功しました。
   ユーザー名は「<%= @user.login %>」です。<br>
 </p>
 <p>
@@ -144,7 +144,7 @@ NOTE: 上のサンプルは`<body>`タグの内容です。これは、`<html>`�
 <%= @user.name %>様、example.comへようこそ。
 ===============================================
 
-example.comへのサインアップが成功しました。ユーザー名は「<%= @user.login %>」です。
+example.comへのユーザー登録が成功しました。ユーザー名は「<%= @user.login %>」です。
 
 このサイトにログインするには、次のリンクをクリックしてください: <%= @url %>
 
@@ -577,7 +577,7 @@ class AdminMailer < ApplicationMailer
 
   def new_registration(user)
     @user = user
-    mail(subject: "新規ユーザーサインアップ: #{@user.email}")
+    mail(subject: "新規ユーザー登録: #{@user.email}")
   end
 end
 ```

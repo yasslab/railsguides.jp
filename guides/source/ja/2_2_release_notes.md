@@ -176,7 +176,7 @@ Active Recordの動的finderファミリーに、新たに2つのメソッドが
 `find_last_by_attribute`メソッドは、`Model.last(:conditions => {:attribute => value})`と同等です。
 
 ```ruby
-# ロンドンからサインアップした直近のユーザーを取得する
+# ロンドンからユーザー登録した直近のユーザーを取得する
 User.find_last_by_city('London')
 ```
 
@@ -187,7 +187,7 @@ User.find_last_by_city('London')
 `!`付きの新しい`find_by_attribute!`は、`Model.first(:conditions => {:attribute => value}) || raise ActiveRecord::RecordNotFound`と同等です。マッチするレコードが見つからない場合は、`nil`を返す代わりに例外を発生します。
 
 ```ruby
-# 'Moby'がサインアップしていなければActiveRecord::RecordNotFound例外を発生する
+# 'Moby'がユーザー登録していなければActiveRecord::RecordNotFound例外を発生する
 User.find_by_name!('Moby')
 ```
 
