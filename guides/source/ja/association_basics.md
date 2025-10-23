@@ -31,7 +31,7 @@ INFO: マクロスタイルの呼び出しは、実行時に他のメソッド�
 関連付けが設定されていない以下のような場合、その著者の本を作成・削除するために、以下のように面倒な手動の処理が必要になります。
 
 ```ruby
-class CreateAuthors < ActiveRecord::Migration[8.0]
+class CreateAuthors < ActiveRecord::Migration[8.1]
   def change
     create_table :authors do |t|
       t.string :name
@@ -153,7 +153,7 @@ NOTE: `belongs_to`関連付けで指定するモデル名は必ず「**単数形
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[8.0]
+class CreateBooks < ActiveRecord::Migration[8.1]
   def change
     create_table :authors do |t|
       t.string :name
@@ -351,7 +351,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[8.0]
+class CreateSuppliers < ActiveRecord::Migration[8.1]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -521,7 +521,7 @@ NOTE: `has_one`関連付けや`belongs_to`関連付けの場合と異なり、`h
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAuthors < ActiveRecord::Migration[8.0]
+class CreateAuthors < ActiveRecord::Migration[8.1]
   def change
     create_table :authors do |t|
       t.string :name
@@ -789,7 +789,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[8.0]
+class CreateAppointments < ActiveRecord::Migration[8.1]
   def change
     create_table :physicians do |t|
       t.string :name
@@ -818,7 +818,7 @@ INFO: このthrough関連付けは、他のthrough関連付けを含むあらゆ
 また、以下のように`has_many :through`リレーションシップのjoinテーブルに[複合主キー](active_record_composite_primary_keys.html)を利用することも検討できます。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[8.0]
+class CreateAppointments < ActiveRecord::Migration[8.1]
   def change
     #  ...
     create_table :appointments, primary_key: [:physician_id, :patient_id] do |t|
@@ -910,7 +910,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAccountHistories < ActiveRecord::Migration[8.0]
+class CreateAccountHistories < ActiveRecord::Migration[8.1]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -958,7 +958,7 @@ end
 上の関連付けに対応するマイグレーションは以下のような感じになります。
 
 ```ruby
-class CreateAssembliesAndParts < ActiveRecord::Migration[8.0]
+class CreateAssembliesAndParts < ActiveRecord::Migration[8.1]
   def change
     create_table :assemblies do |t|
       t.string :name
@@ -1183,7 +1183,7 @@ end
 マイグレーションの例は以下のような感じになります。
 
 ```ruby
-class CreateSuppliers < ActiveRecord::Migration[8.0]
+class CreateSuppliers < ActiveRecord::Migration[8.1]
   def change
     create_table :suppliers do |t|
       t.string :name
@@ -1288,7 +1288,7 @@ end
 ポリモーフィック関連付けを手動でセットアップする場合は、以下のようにモデルで外部キーカラム（`imageable_id`）とtypeカラム（`imageable_type`）の両方を宣言する必要があります。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[8.0]
+class CreatePictures < ActiveRecord::Migration[8.1]
   def change
     create_table :pictures do |t|
       t.string  :name
@@ -1307,7 +1307,7 @@ end
 ポリモーフィック関連付けを手動で作成することも一応可能ですが、それよりも以下のように`t.references`（またはそのエイリアス`t.belongs_to`）を用いて`polymorphic: true`を指定する方がオススメです。これにより、関連付けがポリモーフィックであることがRailsに認識され、外部キーとtypeカラムが両方ともテーブルに自動的に追加されます。
 
 ```ruby
-class CreatePictures < ActiveRecord::Migration[8.0]
+class CreatePictures < ActiveRecord::Migration[8.1]
   def change
     create_table :pictures do |t|
       t.string :name
@@ -1351,7 +1351,7 @@ end
 このリレーションシップをサポートするには、以下のようなマイグレーションで`employees`テーブルに`manager_id`カラムを追加する必要があります。このカラムは、別の従業員（マネージャ）の`id`を参照します。
 
 ```ruby
-class CreateEmployees < ActiveRecord::Migration[8.0]
+class CreateEmployees < ActiveRecord::Migration[8.1]
   def change
     create_table :employees do |t|
       # belongs_to参照をマネージャに追加する（従業員でもある）
@@ -1751,7 +1751,7 @@ end
 上の宣言は、以下の`books`テーブルの対応する外部キーカラムと整合していなければなりません。テーブルを作成した直後のマイグレーションは、以下のような感じになります。
 
 ```ruby
-class CreateBooks < ActiveRecord::Migration[8.0]
+class CreateBooks < ActiveRecord::Migration[8.1]
   def change
     create_table :books do |t|
       t.datetime   :published_at
@@ -1765,7 +1765,7 @@ end
 一方、既存のテーブルに外部キーを設定するときのマイグレーションは、以下のような感じになります。
 
 ```ruby
-class AddAuthorToBooks < ActiveRecord::Migration[8.0]
+class AddAuthorToBooks < ActiveRecord::Migration[8.1]
   def change
     add_reference :books, :author
   end
@@ -1798,7 +1798,7 @@ $ bin/rails generate migration CreateAssembliesPartsJoinTable assemblies parts
 生成されたマイグレーションファイルを以下のように編集します。このとき、テーブルに主キーを設定してはいけません。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.0]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.1]
   def change
     create_table :assemblies_parts, id: false do |t|
       t.bigint :assembly_id
@@ -1817,7 +1817,7 @@ end
 なお、以下のように`create_join_table`メソッドを使えば、同じことをもっとシンプルに書けます。
 
 ```ruby
-class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.0]
+class CreateAssembliesPartsJoinTable < ActiveRecord::Migration[8.1]
   def change
     create_join_table :assemblies, :parts do |t|
       t.index :assembly_id
@@ -1834,7 +1834,7 @@ end
 `has_many :through`関連付けと`has_and_belongs_to_many`関連付けでjoinテーブルを作成する場合の、スキーマ実装方法の主な違いは、`has_many :through`のjoinテーブルには`id`が必須であることです。
 
 ```ruby
-class CreateAppointments < ActiveRecord::Migration[8.0]
+class CreateAppointments < ActiveRecord::Migration[8.1]
   def change
     create_table :appointments do |t|
       t.belongs_to :physician

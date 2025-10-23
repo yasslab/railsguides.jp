@@ -141,7 +141,7 @@ $ bin/rails generate migration CreateBooks title:string author:string
 # Columns `created_at` and `updated_at` are added by `t.timestamps`.
 
 # db/migrate/20240220143807_create_books.rb
-class CreateBooks < ActiveRecord::Migration[8.0]
+class CreateBooks < ActiveRecord::Migration[8.1]
   def change
     create_table :books do |t|
       t.string :title
@@ -384,7 +384,7 @@ SELECT "books".* FROM "books" WHERE "books"."id" = ? LIMIT ?  [["id", 42], ["LIM
 ```
 
 ```ruby
-# 指定の著者名を持つ書籍をすべて検索し、結果をcreated_atの降順で返す
+# 著者名を指定してすべての書籍を検索し、結果をcreated_atの降順で返す
 Book.where(author: "Douglas Adams").order(created_at: :desc)
 ```
 
@@ -500,7 +500,7 @@ Active Recordコールバックを使うと、モデルのライフサイクル�
 Railsにはデータベーススキーマを管理するためのDSL（ドメイン固有言語: Domain Specific Language）があり、マイグレーション（migration）と呼ばれています。マイグレーションをファイルに保存して`bin/rails db`で始まるコマンドを実行すると、Active Recordがサポートするデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
 
 ```ruby
-class CreatePublications < ActiveRecord::Migration[8.0]
+class CreatePublications < ActiveRecord::Migration[8.1]
   def change
     create_table :publications do |t|
       t.string :title
