@@ -967,19 +967,23 @@ class MysqlAdapter < AbstractAdapter
 end
 ```
 
-利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス属性の単なるプロキシです。このため、インスタンスがクラス属性を変更することは可能ですが、`class_attribute`が行なうのと同じように上書きすることはできません（上記参照）。たとえば以下の場合、
+利便性のため、このときインスタンスメソッドも生成されますが、これらは実際にはクラス間で共有される内部値の単なるプロキシです。このため、あるインスタンスが値を変更すると、クラス階層全体に影響します。この振る舞いは`class_attribute`（上記参照）とは異なります。
+
+以下の例を見てみましょう。
 
 ```ruby
-module ActionView
-  class Base
-    cattr_accessor :field_error_proc, default: Proc.new {
-      # ...
-    }
-  end
+class Foo
+  cattr_accessor :bar
 end
-```
 
-ビューで`field_error_proc`にアクセスできます。
+instance = Foo.new
+
+Foo.bar = 1
+instance.bar # => 1
+
+instance.bar = 2
+Foo.bar      # => 2
+```
 
 `:instance_reader`オプションを`false`に設定することで、readerインスタンスメソッドが生成されないようにできます。同様に、`:instance_writer`オプションを`false`に設定することで、writerインスタンスメソッドが生成されないようにできます。`:instance_accessor`オプションを`false`に設定すれば、どちらのインスタンスメソッドも生成されません。いずれの場合も、指定できる値は`false`のみです。'nil'など他のfalse値は指定できません。
 
@@ -1004,31 +1008,11 @@ NOTE: 定義は[`active_support/core_ext/module/attribute_accessors.rb`](https:/
 [Module#cattr_reader]: https://api.rubyonrails.org/classes/Module.html#method-i-cattr_reader
 [Module#cattr_writer]: https://api.rubyonrails.org/classes/Module.html#method-i-cattr_writer
 
-### サブクラスと子孫
+### 子孫クラス
 
-#### `subclasses`
+> 訳注: 従来の[`subclasses`][]メソッドはRuby 3.1で実装されたため、ガイドから削除されました。
 
-[`subclasses`][Class#subclasses]メソッドはレシーバのサブクラスを返します。
-
-```ruby
-class C; end
-C.subclasses # => []
-
-class B < C; end
-C.subclasses # => [B]
-
-class A < B; end
-C.subclasses # => [B]
-
-class D < C; end
-C.subclasses # => [B, D]
-```
-
-返されるクラスの順序は一定ではありません。
-
-NOTE: 定義は[`active_support/core_ext/class/subclasses.rb`](https://github.com/rails/rails/blob/8-0-stable/activesupport/lib/active_support/core_ext/class/subclasses.rb)にあります。
-
-[Class#subclasses]: https://api.rubyonrails.org/classes/Class.html#method-i-subclasses
+[`subclasses`]: https://docs.ruby-lang.org/ja/latest/method/Class/i/subclasses.html
 
 #### `descendants`
 
