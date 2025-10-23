@@ -82,6 +82,8 @@ Rails 8.0からRails 8.1へのアップグレード
 
 Rails 8.0で行われた変更について詳しくは、[Rails 8.1のリリースノート](8_1_release_notes.html)を参照してください。
 
+TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 8.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_8.1_Upgrade_Knowledge)」にまとめられています。
+
 ### `schema.rb`内のテーブルカラムがアルファベット順ソートに変更された
 
 Active Recordは、`schema.rb`内のテーブルカラムをデフォルトでアルファベット順にソートするようになりました。これにより、マシン間でスキーマダンプが一貫するようになり、マイグレーションの順序によって左右されなくなり、結果としてノイズの多い差分が削減されます。structure.sqlは、カラム順序を厳密に維持するために引き続き利用できます。スキーマ変更のアルファベット順化の詳細については、[#53281](https://github.com/rails/rails/pull/53281)を参照してください。
