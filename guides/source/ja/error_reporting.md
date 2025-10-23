@@ -35,6 +35,8 @@ end
 
 Railsはすべての実行（HTTPリクエスト、[ジョブ](active_job_basics.html)、[`rails runner`](command_line.html#bin-rails-runner)の起動など）を`ErrorReporter`にラップするので、アプリで発生した未処理のエラーは、そのサブスクライバを介してエラーレポートサービスに自動的に通知されます。
 
+NOTE: HTTPリクエストの場合、`ActionDispatch::ExceptionWrapper.rescue_responses`に存在するエラーは、サーバーエラー（500）を引き起こさないため通知されません。これらのバグは、一般的に対処不要です。
+
 これにより、サードパーティのエラー通知ライブラリは、[Rack](rails_on_rack.html)ミドルウェアを挿入したり、未処理の例外をキャプチャするモンキーパッチを適用したりする必要がなくなります。また、[Active Support](https://api.rubyonrails.org/classes/ActiveSupport.html)を使うライブラリがこの機能を利用して、従来ログに出力されなかった警告を、コードに手を加えずに通知できるようになります。
 
 [`ErrorReporter`]: https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html
@@ -150,7 +152,7 @@ end
 
 production環境で呼び出された場合、このメソッドはエラーが報告された後に`nil`を返し、コードの実行を中断せずに続行します。
 
-development環境で呼び出された場合、エラーは新しいエラークラスにラップされ（スタックの上位層で`rescue`されないようにするため）、開発者にデバッグ情報が表示されます。例:
+development環境やtest環境で呼び出された場合、エラーは新しいエラークラスにラップされ（スタックの上位層で`rescue`されないようにするため）、開発者にデバッグ情報が表示されます。例:
 
 ```ruby
 def edit
