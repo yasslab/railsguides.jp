@@ -59,7 +59,7 @@ $ rake doc:guides
 * 主なコントリビュータ: [Xavier Noria](http://advogato.org/person/fxn/diary.html)および[Hongli Lai](http://izumi.plan99.net/blog/)
 * 詳細:
     * [Rails Guides hackfest](http://hackfest.rubyonrails.org/guide)
-    * [Help improve Rails documentation on Git branch](https://weblog.rubyonrails.org/2008/5/2/help-improve-rails-documentation-on-git-branch)
+    * [Help improve Rails documentation on Git branch](https://rubyonrails.org/2008/5/2/help-improve-rails-documentation-on-git-branch)
 
 HTTPとの統合を改善: すぐ利用できるETagサポート
 ----------------------------------------------------------
@@ -111,7 +111,7 @@ config.threadsafe!
 
 * 詳細:
     * [Thread safety for your Rails](http://m.onkey.org/2008/10/23/thread-safety-for-your-rails)
-    * [Thread safety project announcement](https://weblog.rubyonrails.org/2008/8/16/josh-peek-officially-joins-the-rails-core)
+    * [Thread safety project announcement](https://rubyonrails.org/2008/8/16/josh-peek-officially-joins-the-rails-core)
     * [Q/A: What Thread-safe Rails Means](http://blog.headius.com/2008/08/qa-what-thread-safe-rails-means.html)
 
 Active Record

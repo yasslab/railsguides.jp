@@ -291,7 +291,7 @@ Railsコントローラ内部で`send_file`メソッドを実行すると、`X-S
 
 フロントエンドサーバーでのファイル送信に使うヘッダ名は、該当する環境設定ファイルの[`config.action_dispatch.x_sendfile_header`][]で設定できます。
 
-主要なフロントエンドで`Rack::Sendfile`を使う方法について詳しくは、[`Rack::Sendfile`ドキュメント](https://www.rubydoc.info/gems/rack/Rack/Sendfile)を参照してください。
+主要なフロントエンドで`Rack::Sendfile`を使う方法について詳しくは、[`Rack::Sendfile`ドキュメント](https://rack.github.io/rack/main/Rack/Sendfile.html)を参照してください。
 
 主要なサーバーでファイル送信アクセラレーションを有効にするには、ヘッダに次のような値を設定します。
 

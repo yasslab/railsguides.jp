@@ -27,7 +27,7 @@ Active Record の複合主キー
 `create_table`に`:primary_key`オプションで配列の値を渡すことで、複合主キーを持つテーブルを作成できます。
 
 ```ruby
-class CreateProducts < ActiveRecord::Migration[8.0]
+class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products, primary_key: [:store_id, :sku] do |t|
       t.integer :store_id

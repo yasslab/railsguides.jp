@@ -658,6 +658,14 @@ production:
 
 `async`アダプタはdevelopment環境やtest環境で利用するためのものなので、production環境では使わないでください。
 
+NOTE: `async`アダプタは同一プロセス内でのみ動作するため、コンソールから手動でケーブルの更新をトリガーしてブラウザで結果を確認する場合は、`bin/rails console`で起動したターミナルではなく、development環境で実行される[Webコンソール](debugging_rails_applications.html#web-console-gemによるデバッグ)から行う必要があります。アクションやERBテンプレートビューのコードに`console`を追加すると、Webコンソールが表示されます。
+
+##### Solid Cableアダプタ
+
+Solid Cableアダプタは、Active Recordを利用するデータベースバックエンドのソリューションです。MySQL、SQLite、PostgreSQLで動作確認されています。
+
+`bin/rails solid_cable:install`コマンドを実行すると、自動的に`config/cable.yml`が設定され、`db/cable_schema.rb`が作成されます。その後、`config/database.yml`を手動で更新し、データベースに応じて調整する必要があります。詳しくは[Solid Cableのインストールガイド](https://github.com/rails/solid_cable?tab=readme-ov-file#installation)を参照してください。
+
 ##### Redisアダプタ
 
 Redisアダプタでは、Redisサーバーを指すURLを指定する必要があります。

@@ -45,7 +45,7 @@ $ bin/rails generate model WishlistProduct product:belongs_to wishlist:belongs_t
 `Wishlist`に同じ`Product`を2つ以上含めたくないので、作成した作成したマイグレーションにインデックスを追加します。
 
 ```ruby
-class CreateWishlistProducts < ActiveRecord::Migration[8.0]
+class CreateWishlistProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :wishlist_products do |t|
       t.belongs_to :product, null: false, foreign_key: true
@@ -72,7 +72,7 @@ $ bin/rails generate migration AddWishlistsCountToProducts wishlists_count:integ
 `db/migrate/<タイムスタンプ>_create_wishlists.rb`マイグレーションファイルをエディタで開いて、以下のように`default:`オプションを追加します。
 
 ```ruby
-class CreateWishlists < ActiveRecord::Migration[8.0]
+class CreateWishlists < ActiveRecord::Migration[8.1]
   def change
     create_table :wishlists do |t|
       t.belongs_to :user, null: false, foreign_key: true
@@ -88,7 +88,7 @@ end
 次に`db/migrate/<タイムスタンプ>_add_wishlists_count_to_products.rb`マイグレーションファイルをエディタで開いて、こちらにもデフォルト値を追加します。
 
 ```ruby
-class AddWishlistsCountToProducts < ActiveRecord::Migration[8.0]
+class AddWishlistsCountToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :wishlists_count, :integer, default: 0
   end

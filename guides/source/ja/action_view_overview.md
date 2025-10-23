@@ -300,8 +300,6 @@ Railsは、デフォルトでビューの各テンプレートをコンパイル
 <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
 ```
 
-[`local_assigns`]: https://api.rubyonrails.org/classes/ActionView/Template.html#method-i-local_assigns
-
 ### `partial`や`locals`オプションを指定しない`render`
 
 上の例では、`render`に`partial`と`locals`という2つのオプションを渡しましたが、渡したいオプションが他にない場合は、これらのオプションのキー名を省略して値だけを渡すことも可能です。
@@ -425,6 +423,8 @@ Railsでは、コレクションによって呼び出されるパーシャル内
 ```
 
 カウンタ変数は、`as:`オプションで名前が変更されたローカル変数でも利用できます。つまり、`as: :item`を指定すると、カウンタ変数は`item_counter`になります。
+
+NOTE: さまざまなモデルのインスタンスを含むコレクションをレンダリングすると、カウンタ変数はレンダリングされるモデルのクラスに関係なく、パーシャルごとにインクリメントされます。
 
 NOTE: 後述する2つのセクション[厳密な`locals`](#厳密なlocals)と[`local_assigns`でパターンマッチングを活用する](#local-assignsでパターンマッチングを活用する)では、より高度なパーシャルの利用法が説明されていますが、完全を期すためにここでも記載します。
 
@@ -599,7 +599,7 @@ Action Viewは、`#`で始まるコメント文をサポートする任意のテ
 
 CAUTION: サポートされているのはキーワード引数のみです。位置引数やブロック引数が使われると、レンダリング時にAction Viewエラーが発生します。
 
-`local_assigns`メソッドには、`local:`マジックコメントで指定したデフォルト値は含まれない点にご注意ください。Rubyの予約キーワード（`class`や`if`など）と同じ名前のデフォルト値を持つローカル変数にアクセスするには、以下のように`binding.local_variable_get`で値にアクセスできます。
+`local_assigns`メソッドには、`local:`シグネチャで指定したデフォルト値は含まれない点にご注意ください。Rubyの予約キーワード（`class`や`if`など）と同じ名前のデフォルト値を持つローカル変数にアクセスするには、以下のように`binding.local_variable_get`で値にアクセスできます。
 
 ```erb
 <%# locals: (class: "message") %>

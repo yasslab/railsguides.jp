@@ -89,7 +89,7 @@ accepts_nested_attributes_for :author,
 ```
 
 * リードコントリビュータ: [Eloy Duran](http://superalloy.nl/)
-* 詳細: [Nested Model Forms](https://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
+* 詳細: [Nested Model Forms](https://rubyonrails.org/2009/1/26/nested-model-forms)
 
 ### ネステッドトランザクション
 
@@ -377,7 +377,7 @@ Rails 2.3では以下のようにビューを書けます。
 
 * リードコントリビュータ: [Eloy Duran](http://superalloy.nl/)
 * 詳細:
-    * [Nested Model Forms](https://weblog.rubyonrails.org/2009/1/26/nested-model-forms)
+    * [Nested Model Forms](https://rubyonrails.org/2009/1/26/nested-model-forms)
     * [complex-form-examples](https://github.com/alloy/complex-form-examples)
     * [What's New in Edge Rails: Nested Object Forms](http://archives.ryandaigle.com/articles/2009/2/1/what-s-new-in-edge-rails-nested-attributes)
 
@@ -553,7 +553,7 @@ Railties
 Rails Metalは、Railsアプリケーションの内部に超高速なエンドポイントを提供する新しいメカニズムです。MetalクラスはルーティングとAction Controllerをバイパスして、素の速度を提供します（もちろん、Action Controllerにあるすべてのものが使えなくなりますが）。これは、Railsを「ミドルウェアスタックを公開したRackアプリケーション」にするための最近の基礎作業の上に構築されています。Metalエンドポイントはアプリケーションやプラグインから読み込めます。
 
 * 詳細:
-    * [Introducing Rails Metal](https://weblog.rubyonrails.org/2008/12/17/introducing-rails-metal)
+    * [Introducing Rails Metal](https://rubyonrails.org/2008/12/17/introducing-rails-metal)
     * [Rails Metal: a micro-framework with the power of Rails](http://soylentfoo.jnewland.com/articles/2008/12/16/rails-metal-a-micro-framework-with-the-power-of-rails-m)
     * [Metal: Super-fast Endpoints within your Rails Apps](http://www.railsinside.com/deployment/180-metal-super-fast-endpoints-within-your-rails-apps.html)
     * [What's New in Edge Rails: Rails Metal](http://archives.ryandaigle.com/articles/2008/12/18/what-s-new-in-edge-rails-rails-metal)

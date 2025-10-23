@@ -20,7 +20,7 @@
       description: 練習用アプリ「store」にユーザー登録・設定機能を追加する方法について解説します。
     -
       name: 演習：ウィッシュリスト機能の追加
-      url: wishlist.html
+      url: wishlists.html
       description: 練習用アプリ「store」にウィッシュリスト機能を追加する方法について解説します。
 -
   name: モデル

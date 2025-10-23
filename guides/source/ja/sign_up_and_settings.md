@@ -425,7 +425,7 @@ end
 
 更新用のリンクを更新してログアウトボタンの横に配置し、「Settings」にリンクしましょう。
 
-`app/views/layouts/application.html.erb`レイアウトを開いて、ナビゲーションバーを更新します。ここで、コントローラからのアラートメッセージを表示するための`<div>`も追加します。
+`app/views/layouts/application.html.erb`レイアウトを開いて、ナビゲーションバーを更新します。
 
 ```erb
 <!DOCTYPE html>
@@ -435,8 +435,8 @@ end
   </head>
 
   <body>
-    <div class="notice"><%= notice %></div>
-    <div class="alert"><%= alert %></div>
+    <div class="notice"><%= flash[:notice] %></div>
+    <div class="alert"><%= flash[:alert] %></div>
 
     <nav class="navbar">
       <%= link_to "Home", root_path %>
@@ -490,8 +490,8 @@ end
   </head>
 
   <body>
-    <div class="notice"><%= notice %></div>
-    <div class="alert"><%= alert %></div>
+    <div class="notice"><%= flash[:notice] %></div>
+    <div class="alert"><%= flash[:alert] %></div>
 
     <nav class="navbar">
       <%= link_to "Home", root_path %>
@@ -1275,19 +1275,10 @@ end
 
 管理者用のビューは、`store`名前空間内で動作するようにいくつかの調整が必要です。
 
-まず、`form_with`メソッドの`model:`引数で`store`名前空間を使うように更新します。また、このビュー内でバリデーションエラーを表示するようにします。
+まず、`form_with`メソッドの`model:`引数で`store`名前空間を使うように更新します。
 
 ```erb
 <%= form_with model: [ :store, product ] do |form| %>
-  <% if form.object.errors.any? %>
-    <div>Error: <%= form.object.errors.full_messages.first %></div>
-  <% end %>
-
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
   <%# ... %>
 ```
 
@@ -1788,11 +1779,7 @@ irb> User.find_by(email: "you@example.org").update(admin: true)
 
 以上ですべて完了しました！eコマースストアで「ユーザー登録」「アカウント管理」「製品とユーザーの管理用の管理者エリア」がサポートされるようになりました。
 
-これらの機能を元にして、さらに以下のような機能も構築できます。
-
-- 共有可能なウィッシュリストを追加する
-- テストをさらに追加して、アプリケーションが正しく動作することを確認する
-- 製品購入のための支払い機能を追加する
+次は、[演習: ウィッシュリスト機能を追加する](wishlists.html)に従って学習を続けてください。
 
 Happy building!
 

@@ -357,7 +357,7 @@ Solid Cacheは、Rails 8.0以降ではデフォルトで有効になっていま
 rails new app_name --skip-solid
 ```
 
-WARNING: `--skip-solid`フラグを指定すると、Solid Cache、Solid Queue、Solid Cableがすべてスキップされます。たとえばSolid QueueとSolid Cableは利用するがSolid Cacheは利用しない場合は、[Solid QueueのREADME](https://github.com/rails/solid_queue#installation)と[Solid CableのREADME](https://github.com/rails/solid_cable#installation)の手順に沿って個別にインストールできます。
+NOTE: `--skip-solid`フラグを指定すると、Solid Cache、Solid Queue、Solid Cableがすべてスキップされます。たとえばSolid QueueとSolid Cableは利用するがSolid Cacheは利用しない場合は、[Solid QueueのREADME](https://github.com/rails/solid_queue#installation)と[Solid CableのREADME](https://github.com/rails/solid_cable#installation)の手順に沿って個別にインストールできます。
 
 [SSD]:
   https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%AA%E3%83%83%E3%83%89%E3%82%B9%E3%83%86%E3%83%BC%E3%83%88%E3%83%89%E3%83%A9%E3%82%A4%E3%83%96

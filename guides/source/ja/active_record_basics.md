@@ -133,6 +133,8 @@ CREATE TABLE books (
 $ bin/rails generate migration CreateBooks title:string author:string
 ```
 
+NOTE: ジェネレータでフィールドの型を指定しない場合（`title:string`ではなく単に`title`と指定するなど）、デフォルトで`string`型になります。
+
 上のコマンドを実行すると、以下のマイグレーションが生成されます。
 
 ```ruby
@@ -141,7 +143,7 @@ $ bin/rails generate migration CreateBooks title:string author:string
 # Columns `created_at` and `updated_at` are added by `t.timestamps`.
 
 # db/migrate/20240220143807_create_books.rb
-class CreateBooks < ActiveRecord::Migration[8.0]
+class CreateBooks < ActiveRecord::Migration[8.1]
   def change
     create_table :books do |t|
       t.string :title
@@ -313,7 +315,7 @@ book.save
 book.id # => 107
 ```
 
-最後に、`create`や`new`にブロックを渡した場合は、そのブロックで初期化された新しいオブジェクトが`yield`されますが、得られたオブジェクトをデータベースで永続化するのは`create`のみです。
+`create`や`new`にブロックを渡した場合は、どちらもそのブロックで初期化された新しいオブジェクトが`yield`されますが、得られたオブジェクトをデータベースで永続化するのは`create`のみです。
 
 ```ruby
 book = Book.new do |b|
@@ -330,6 +332,13 @@ book.save
 /* 注: `created_at`と`updated_at`は自動設定されます */
 
 INSERT INTO "books" ("title", "author", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"  [["title", "Metaprogramming Ruby 2"], ["author", "Paolo Perrotta"], ["created_at", "2024-02-22 20:01:18.469952"], ["updated_at", "2024-02-22 20:01:18.469952"]]
+```
+
+最後に、**コールバックやバリデーションをトリガーせずに**複数のレコードを挿入したい場合は、`insert`メソッドや`insert_all`メソッドで直接データベースにレコードを挿入できます。
+
+```ruby
+Book.insert(title: "The Lord of the Rings", author: "J.R.R. Tolkien")
+Book.insert_all([{ title: "The Lord of the Rings", author: "J.R.R. Tolkien" }])
 ```
 
 ### Read
@@ -384,7 +393,7 @@ SELECT "books".* FROM "books" WHERE "books"."id" = ? LIMIT ?  [["id", 42], ["LIM
 ```
 
 ```ruby
-# 指定の著者名を持つ書籍をすべて検索し、結果をcreated_atの降順で返す
+# 著者名を指定してすべての書籍を検索し、結果をcreated_atの降順で返す
 Book.where(author: "Douglas Adams").order(created_at: :desc)
 ```
 
@@ -423,7 +432,7 @@ book.update(title: "The Lord of the Rings: The Fellowship of the Ring")
 
 このショートハンド記法は、多くの属性を一度に更新したい場合に特に便利です。なお、`update`は`create`と同様に、更新したレコードをデータベースにコミットします。
 
-さらに、**コールバックやバリデーションをトリガーせずに**複数のレコードを一度に更新したい場合は、以下のように`update_all`でデータベースを直接更新できます。
+さらに、**コールバックやバリデーションをトリガーせずに**複数のレコードを一度に更新したい場合は、以下のように`update_all`メソッドでデータベースを直接更新できます。
 
 ```ruby
 Book.update_all(status: "already own")
@@ -452,6 +461,13 @@ Book.destroy_by(author: "Douglas Adams")
 
 # すべての書籍を削除する
 Book.destroy_all
+```
+
+さらに、**コールバックやバリデーションをトリガーせずに**複数のレコードを一度に削除したい場合は、以下のように`delete`メソッドや`delete_all`メソッドでレコードを直接削除できます。
+
+```ruby
+Book.find_by(title: "The Lord of the Rings").delete
+Book.delete_all
 ```
 
 バリデーション（検証）
@@ -500,7 +516,7 @@ Active Recordコールバックを使うと、モデルのライフサイクル�
 Railsにはデータベーススキーマを管理するためのDSL（ドメイン固有言語: Domain Specific Language）があり、マイグレーション（migration）と呼ばれています。マイグレーションをファイルに保存して`bin/rails db`で始まるコマンドを実行すると、Active Recordがサポートするデータベースに対してマイグレーションが実行されます。以下はテーブルを作成するマイグレーションです。
 
 ```ruby
-class CreatePublications < ActiveRecord::Migration[8.0]
+class CreatePublications < ActiveRecord::Migration[8.1]
   def change
     create_table :publications do |t|
       t.string :title

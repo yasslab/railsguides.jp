@@ -125,8 +125,7 @@ Solid Queueは、通常のジョブのエンキューや処理に加えて、ジ
 development環境のRailsは、非同期のインプロセスキューイングシステムを提供し、ジョブをメモリ上に保持します。
 
 デフォルトの非同期バックエンドでは、プロセスがクラッシュしたり開発中のコンピュータがリセットされたりすると、未処理のジョブがすべて失われますが、開発中の小規模なアプリや重要度の低いジョブについては、これで十分です。
-
-しかし、Solid Queueを使えば、以下のようにdevelopment環境でもジョブキューシステムを設定できます。
+しかしSolid Queueを使えば、production環境でもジョブキューシステムを設定できます。
 
 ```ruby
 # config/environments/development.rb
@@ -589,6 +588,50 @@ NOTE: 優先度の低い番号が、優先度の高い番号より先に実行�
 [`queue_with_priority`]:
     https://api.rubyonrails.org/classes/ActiveJob/QueuePriority/ClassMethods.html#method-i-queue_with_priority
 
+ジョブの継続
+-----------------
+
+Active Jobのジョブ継続機能を使うと、ジョブを中断可能なステップに分割できます。これは、キューのシャットダウン中など、ジョブが中断される可能性がある場合に便利です。継続機能を使うと、ジョブは最後に完了したステップから再開できるため、最初からやり直す必要がなくなります。
+
+ジョブの継続機能を使うには、`ActiveJob::Continuable`モジュールを`include`します。次に、`perform`メソッド内で`step`メソッドを使って各ステップを定義できます。各ステップはブロックで宣言することも、メソッド名を参照して宣言することも可能です。
+
+```ruby
+class ProcessImportJob < ApplicationJob
+  include ActiveJob::Continuable
+
+  def perform(import_id)
+    # 常にジョブ開始時に実行される（中断されたステップから再開する場合でも実行される）
+    @import = Import.find(import_id)
+
+    # ステップをブロックで定義する場合
+    step :initialize do
+      @import.initialize
+    end
+
+    # カーソルを持つステップ: 進行状況を保存して、ジョブが中断されたら再開する
+    step :process do |step|
+      @import.records.find_each(start: step.cursor) do |record|
+        record.process
+        step.advance! from: record.id
+      end
+    end
+
+    # メソッドを参照してステップを定義する場合
+    step :finalize
+  end
+
+  private
+    def finalize
+      @import.finalize
+    end
+end
+```
+
+個別のステップはシーケンシャルに実行されます。ジョブがステップ間で中断された場合や、カーソルを使っているステップ内で中断された場合は、最後に記録された位置からジョブを再開します。これにより、長時間実行されるジョブや複数フェーズで構成されるジョブを、安全に一時停止・再開できるようになります。詳しくは、APIドキュメントの[`ActiveJob::Continuation`][]を参照してください。
+
+[`ActiveJob::Continuation`]:
+  https://api.rubyonrails.org/classes/ActiveJob/Continuation.html
+
 コールバック
 ---------
 
@@ -631,6 +674,7 @@ end
 * [`before_perform`][]
 * [`around_perform`][]
 * [`after_perform`][]
+* [`after_discard`][]
 
 [`before_enqueue`]:
     https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-before_enqueue
@@ -644,6 +688,8 @@ end
     https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-around_perform
 [`after_perform`]:
     https://api.rubyonrails.org/classes/ActiveJob/Callbacks/ClassMethods.html#method-i-after_perform
+[`after_discard`]:
+    https://api.rubyonrails.org/classes/ActiveJob/Exceptions/ClassMethods.html#method-i-after_discard
 
 `perform_all_later`でジョブをキューに一括登録すると、個別のジョブでは`around_enqueue`などのコールバックがトリガーされなくなる点にご注意ください。
 
@@ -656,24 +702,24 @@ end
 
 `perform_all_later`はActive JobのトップレベルAPIで、インスタンス化されたジョブを引数として受け取ります（この点が`perform_later`と異なることにご注意ください）。`perform_all_later`は内部で`perform`を呼び出します。`new`に渡された引数は、最終的に`perform`が呼び出されるときに`perform`に渡されます。
 
-以下は、`GuestCleanupJob`インスタンスを用いて`perform_all_later`を呼び出すコード例です。
+以下は、`GuestsCleanupJob`インスタンスを用いて`perform_all_later`を呼び出すコード例です。
 
 ```ruby
 # `perform_all_later`に渡すジョブを作成する
 # この`new`に渡した引数は`perform`に渡される
-guest_cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest) }
+cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest) }
 
-# `GuestCleanupJob`の個別のインスタンスごとにジョブをキューに登録する
-ActiveJob.perform_all_later(guest_cleanup_jobs)
+# `GuestsCleanupJob`の個別のインスタンスごとにジョブをキューに登録する
+ActiveJob.perform_all_later(cleanup_jobs)
 
 # `set`メソッドでオプションを設定してからジョブを一括登録してもよい
-guest_cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest).set(wait: 1.day) }
+cleanup_jobs = Guest.all.map { |guest| GuestsCleanupJob.new(guest).set(wait: 1.day) }
 
-ActiveJob.perform_all_later(guest_cleanup_jobs)
+ActiveJob.perform_all_later(cleanup_jobs)
 ```
 
 `perform_all_later`は、正常にエンキューされたジョブの個数をログ出力します。
-たとえば、上の`Guest.all.map`の結果`guest_cleanup_jobs`が3個になった場合、`Enqueued 3 jobs to Async (3 GuestsCleanupJob)`とログ出力されます（エンキューがすべて成功した場合）。
+たとえば、上の`Guest.all.map`の結果`cleanup_jobs`が3個になった場合、`Enqueued 3 jobs to Async (3 GuestsCleanupJob)`とログ出力されます（エンキューがすべて成功した場合）。
 
 `perform_all_later`の戻り値は`nil`です。これは、`perform_later`の戻り値が、エンキューされたジョブクラスのインスタンスであるのと異なる点にご注意ください。
 

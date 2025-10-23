@@ -105,7 +105,7 @@ NOTE: hstoreを使うには`hstore`拡張を有効にする必要があります
 
 ```ruby
 # db/migrate/20131009135255_create_profiles.rb
-class CreateProfiles < ActiveRecord::Migration[8.0]
+class CreateProfiles < ActiveRecord::Migration[8.1]
   enable_extension "hstore" unless extension_enabled?("hstore")
   create_table :profiles do |t|
     t.hstore "settings"
@@ -542,9 +542,45 @@ irb> event.duration
 => 2 days
 ```
 
-[datatype_datetime]: https://www.postgresql.jp/document/current/html/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
-[functions_datetime]: https://www.postgresql.jp/document/current/html/functions-datetime.html
-[ActiveSupport::Duration]: https://api.rubyonrails.org/classes/ActiveSupport/Duration.html
+[datatype_datetime]:
+  https://www.postgresql.jp/document/current/html/datatype-datetime.html#DATATYPE-INTERVAL-INPUT
+[functions_datetime]:
+  https://www.postgresql.jp/document/current/html/functions-datetime.html
+[ActiveSupport::Duration]:
+  https://api.rubyonrails.org/classes/ActiveSupport/Duration.html
+
+### タイムスタンプ
+
+* [Date/Time Types][datatype-datetime]
+
+Railsのマイグレーションでタイムスタンプを利用すると、モデルが作成・更新された時刻が保存されます。カラムのデータ型は、レガシーな理由によってデフォルトでは`timestamp without time zone`になります。
+
+```ruby
+# db/migrate/20241220144913_create_devices.rb
+create_table :post, id: :uuid do |t|
+  t.datetime :published_at
+  # Active Recordは、このカラムのデータ型をデフォルトで`timestamp without time zone`に設定する
+end
+```
+
+これでも問題なく動作しますが、[PostgreSQLのベストプラクティス][]では、タイムゾーン対応のタイムスタンプには代わりに`timestamp with time zone`を使うことが推奨されています。
+この設定は、新規マイグレーションで利用可能にする「前に」構成しなければなりません。
+
+`timestamp with time zone`を新しいタイムスタンプのデフォルトデータ型として設定するには、`config/application.rb`ファイルに以下の設定を追加します。
+
+```ruby
+# config/application.rb
+ActiveSupport.on_load(:active_record_postgresqladapter) do
+  self.datetime_type = :timestamptz
+end
+```
+
+この設定でマイグレーションを生成・適用すると、新しいマイグレーションでタイムスタンプが`timestamp with time zone`データ型になります。
+
+[datatype-datetime]:
+  https://www.postgresql.jp/document/17/html/datatype-datetime.html
+[PostgreSQL best practices]:
+  https://wiki.postgresql.org/wiki/Don't_Do_This#Don.27t_use_timestamp_.28without_time_zone.29
 
 UUID主キー
 -----------------
@@ -576,13 +612,13 @@ NOTE: `pgcrypto`の`gen_random_uuid()`関数は、`create_table`に`:default`オ
 UUIDを主キーとするテーブルに対してRailsのモデルジェネレータを実行するには、モデルジェネレータに以下のように`--primary-key-type=uuid`を渡します。
 
 ```bash
-$ rails generate model Device --primary-key-type=uuid kind:string
+$ bin/rails generate model Device --primary-key-type=uuid kind:string
 ```
 
 このUUIDを参照する外部キーを持つモデルを構築する場合は、以下のように`uuid`をネイティブのフィールドタイプとして扱ってください。
 
 ```bash
-$ rails generate model Case device_id:uuid
+$ bin/rails generate model Case device_id:uuid
 ```
 
 インデックス化

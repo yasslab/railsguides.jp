@@ -432,6 +432,8 @@ Active Record
 
 ### 主な変更点
 
+*   `ActiveRecord::Base.establish_connection`は`ActiveRecord::Base.connection.active?`を`true`に設定しなくなった。この振る舞いが引き続き必要な場合は、代わりに`ActiveRecord::Base.connection.verify!`を利用可能。
+
 Active Storage
 --------------
 
@@ -519,7 +521,7 @@ Active Job
 
 ### 非推奨化
 
-*   `Rails.application.config.active_job.use_big_decimal_serialize`を非推奨化。
+*   `Rails.application.config.active_job.use_big_decimal_serializer`を非推奨化。
 
 ### 主な変更点
 

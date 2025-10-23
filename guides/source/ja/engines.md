@@ -285,10 +285,10 @@ root to: "articles#index"
 
 エンジンで記事を新規作成できるようになったので、今度は記事にコメントを追加する機能も付けてみましょう。これを行なうには、commentモデルとcommentsコントローラを生成し、articles scaffoldを変更してコメントを表示できるようにし、それから新規コメントを作成できるようにします。
 
-エンジンのルートディレクトリで、モデルのジェネレータを実行します。このとき、`Comment`モデルを生成すること、integer型の`article_id`カラムとtext型の`text`カラムを持つテーブルと関連付けるよう指定します。
+エンジンのルートディレクトリで、モデルのジェネレータを実行します。このとき、`Comment`モデルを生成すること、参照型の`article`カラムとtext型の`text`カラムを持つテーブルと関連付けるよう指定します。
 
 ```bash
-$ bin/rails generate model Comment article_id:integer text:text
+$ bin/rails generate model Comment article:references text:text
 ```
 
 上によって以下が出力されます。
