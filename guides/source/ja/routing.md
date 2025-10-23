@@ -1460,7 +1460,7 @@ edit_person GET    /people/:id/edit(.:format) people#edit
 
 ### Railsコンソールでルーティングにアクセスする
 
-[Railsコンソール](command_line.html#bin-rails-console)内では、`Rails.application.routes.url_helpers`でルーティングヘルパーにアクセスできます。ルーティングヘルパーは、[app](command_line.html#appオブジェクトとhelperオブジェクト)オブジェクト経由でもアクセスできます。
+[Railsコンソール](command_line.html#bin-rails-console)内では、`Rails.application.routes.url_helpers`でルーティングヘルパーにアクセスできます。ルーティングヘルパーは、[app](command_line.html#appオブジェクト)オブジェクト経由でもアクセスできます。
 
 ```irb
 irb> Rails.application.routes.url_helpers.users_path
