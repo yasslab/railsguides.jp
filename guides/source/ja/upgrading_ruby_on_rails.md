@@ -2316,7 +2316,7 @@ Rails 4で`PUT`リクエストを`/users/:id`に送信すると、従来と同�
 <%= form_for [ :update_name, @user ], method: :put do |f| %>
 ```
 
-PATCHおよびこの変更が行われた理由について詳しくは、Railsブログの[この記事](https://rubyonrails.org/2012/2/26/edge-rails-patch-is-the-new-primary-http-method-for-updates)を参照してください。
+PATCHおよびこの変更が行われた理由について詳しくは、Railsブログの[この記事](https://rubyonrails.org/2012/2/26/edge-rails-patch-is-the-new-primary-http-method-for-updates/)を参照してください。
 
 #### メディアタイプに関するメモ
 

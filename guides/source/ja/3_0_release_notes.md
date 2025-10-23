@@ -148,7 +148,7 @@ Action Mailerは最初期からモンキーパッチやプリパーサーだら�
 
 Railsツリーのドキュメントが更新されてAPI変更がすべて反映されました。さらに、[Rails Edgeガイド](https://edgeguides.rubyonrails.org/)にもRails 3.0の変更点を順次反映中です。ただし、[guides.rubyonrails.org](https://guides.rubyonrails.org/)の本ガイドについては、安定版Railsのドキュメントのみを含みます（執筆時点では3.0がリリースされるまで2.3.5となります）。
 
-詳しくは「[Rails Documentation Projects](https://weblog.rubyonrails.org/2009/1/15/rails-documentation-projects.)」を参照してください。
+詳しくは「[Rails Documentation Projects](https://rubyonrails.org/2009/1/15/rails-documentation-projects)」を参照してください。
 
 国際化（I18n）
 --------------------
@@ -240,7 +240,7 @@ Abstract Controllerを導入したことで、Action Controllerのコードを�
 詳しくは以下を参照してください。
 
 * [Render Options in Rails 3](https://www.engineyard.com/blog/2010/render-options-in-rails-3/)
-* [Three reasons to love ActionController::Responder](https://weblog.rubyonrails.org/2009/8/31/three-reasons-love-responder)
+* [Three reasons to love ActionController::Responder](https://rubyonrails.org/2009/8/31/three-reasons-love-responder)
 
 ### Action Dispatch
 
