@@ -115,7 +115,7 @@ class CreateProducts < ActiveRecord::Migration[8.1]
 end
 ```
 
-NOTE: ジェネレータでフィールドの型を指定しない場合（`subject:string`ではなく単に`subject`と指定するなど）、デフォルトで`string`型になります。
+NOTE: ジェネレータでフィールドの型を指定しない場合（`name:string`ではなく単に`name`と指定するなど）、デフォルトで`string`型になります。
 
 ここまでに生成したマイグレーションの内容は、必要に応じてこれを元に作業するための単なる出発点でしかありません。`db/migrate/YYYYMMDDHHMMSS_create_products.rb`ファイルを編集して、項目の追加や削除を行えます。
 
