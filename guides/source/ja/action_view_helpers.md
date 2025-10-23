@@ -770,7 +770,7 @@ class_names("flex items-#{alignment}", "flex-col": mobile) # エイリアス
 
 ```html+erb
 <% @greeting = capture do %>
-  <p>Welcome to my shiny new web page! The date and time is <%= Time.current %></p>
+  <p>Welcome! The date and time is <%= Time.current %></p>
 <% end %>
 ```
 
@@ -791,7 +791,7 @@ class_names("flex items-#{alignment}", "flex-col": mobile) # エイリアス
 
 ```ruby
 @greeting
-# => "Welcome to my shiny new web page! The date and time is 2018-09-06 11:09:16 -0500"
+# => "Welcome! The date and time is 2018-09-06 11:09:16 -0500"
 ```
 
 詳しくは[`capture`][] APIドキュメントを参照してください。
