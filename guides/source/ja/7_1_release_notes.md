@@ -938,7 +938,7 @@ Active Job
 
 * ジョブが破棄されるときにコールバックを実行する`after_discard`メソッドを`ActiveJob::Base`に追加（[#48010][]）。
 
-* バックグラウンドのジョブエンキュー呼び出し元をログ出力するサポートを追加（[#47839][]）。
+* `config.active_job.verbose_enqueue_logs`設定でバックグラウンドのジョブエンキュー呼び出し元をログ出力するサポートを追加（[#47839][]）。
 
 [#46603]: https://github.com/rails/rails/pull/46603
 [#45528]: https://github.com/rails/rails/pull/45528
