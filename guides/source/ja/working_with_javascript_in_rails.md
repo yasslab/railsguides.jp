@@ -26,7 +26,7 @@ import mapsを利用する場合、別途ビルドプロセスを実行する必
 Importmap for Railsは、Rails 7以降の新規アプリケーションに自動的に含まれていますが、既存のアプリケーションに手動でインストールすることも可能です。
 
 ```bash
-$ bin/bundle add importmap-rails
+$ bundle add importmap-rails
 ```
 
 以下のインストールタスクを実行します。
