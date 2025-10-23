@@ -454,7 +454,7 @@ $ bin/rails generate scaffold post title:string body:text
 <!-- このNOTEは8.0のものですが、意図的に残します -->
 NOTE: Rails 8.1から、scaffoldはデフォルトでシステムテストを生成しなくなりました。システムテストは実行に時間がかかり、メンテナンスコストも高いため、利用は重要なユーザーパスに限定すべきです。scaffoldでシステムテストを含めるには、`--system-tests=true`オプションを指定します。
 
-この時点で、`bin/rails db:migrate`を実行して`post`テーブルを作成できます（このコマンドについて詳しくは[データベースを管理する](#managing-the-database)を参照してください）。
+この時点で、`bin/rails db:migrate`を実行して`post`テーブルを作成できます（このコマンドについて詳しくは[データベースを管理する](#データベースを管理する)を参照してください）。
 終わったら`bin/rails server`コマンドでRailsサーバーを起動し、[http://localhost:3000/posts](http://localhost:3000/posts)にアクセスすると、`post`リソースで投稿の一覧表示、新規投稿の作成、編集および削除が可能になります。
 
 INFO: scaffoldで生成されるテストファイルにはテストケースが含まれていないため、コードを修正して実際にテストケースを追加する必要があります。コードのテストの作成と実行について詳しくは、[テスティングガイド](testing.html)を参照してください。
@@ -683,49 +683,6 @@ end
 ```bash
 $ bin/rails runner --skip-executor lib/long_running_script.rb
 ```
-
-### `bin/rails runner`
-
-`bin/rails runner`コマンドは、Railsコンソールを起動せずにRailsアプリケーションのコンテキストでRubyコードを実行します。これは、Railsコンソールの対話操作を必要としない一時的なタスクに便利です。
-たとえば以下のように使います。
-
-```bash
-$ bin/rails runner "puts User.count"
-42
-
-$ bin/rails runner 'MyJob.perform_now'
-```
-
-`runner`コマンドに`-e`スイッチを追加することで、`runner`コマンドが動作する環境を指定できます。
-
-```bash
-$ bin/rails runner -e production "puts User.count"
-```
-
-`runner`コマンドにRubyコードを直接引数として渡すことで、そのコードをRailsアプリケーションのコンテキストで実行できます。
-
-```bash
-$ bin/rails runner lib/path_to_ruby_script.rb
-```
-
-デフォルトでは、`bin/rails runner`スクリプトは**Rails Executor**（Railsアプリケーションに関連付けられた[ActiveSupport::Executor][]のインスタンス）で自動的にラップされます。Rails Executorは、Railsアプリ内で任意のRubyコードを実行するための「セーフゾーン」を作成し、オートローダー、ミドルウェアスタック、およびActive Supportフックが一貫して動作するようにします。
-
-つまり、`bin/rails runner lib/path_to_ruby_script.rb`を実行することは、機能的に以下と同等です。
-
-```ruby
-Rails.application.executor.wrap do
-  # ここでlib/path_to_ruby_script.rbのコードを実行する
-end
-```
-
-この振る舞いをオフにしたい場合は、`--skip-executor`オプションを指定できます。
-
-```bash
-$ bin/rails runner --skip-executor lib/long_running_script.rb
-```
-
-[ActiveSupport::Executor]:
-  https://api.rubyonrails.org/classes/ActiveSupport/Executor.html
 
 ### `bin/rails boot`
 
