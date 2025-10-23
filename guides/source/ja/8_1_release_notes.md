@@ -411,16 +411,16 @@ Ruby on Rails Guides
 
 Railsを頑丈かつ安定したフレームワークにするために多大な時間を費やしてくださった多くの開発者については、[Railsコントリビューターの完全なリスト](https://contributors.rubyonrails.org/)を参照してください。これらの方々全員に深く敬意を表明いたします。
 
-[railties]:       https://github.com/rails/rails/blob/8_1_stable/railties/CHANGELOG.md
-[action-pack]:    https://github.com/rails/rails/blob/8_1_stable/actionpack/CHANGELOG.md
-[action-view]:    https://github.com/rails/rails/blob/8_1_stable/actionview/CHANGELOG.md
-[action-mailer]:  https://github.com/rails/rails/blob/8_1_stable/actionmailer/CHANGELOG.md
-[action-cable]:   https://github.com/rails/rails/blob/8_1_stable/actioncable/CHANGELOG.md
-[active-record]:  https://github.com/rails/rails/blob/8_1_stable/activerecord/CHANGELOG.md
-[active-storage]: https://github.com/rails/rails/blob/8_1_stable/activestorage/CHANGELOG.md
-[active-model]:   https://github.com/rails/rails/blob/8_1_stable/activemodel/CHANGELOG.md
-[active-support]: https://github.com/rails/rails/blob/8_1_stable/activesupport/CHANGELOG.md
-[active-job]:     https://github.com/rails/rails/blob/8_1_stable/activejob/CHANGELOG.md
-[action-text]:    https://github.com/rails/rails/blob/8_1_stable/actiontext/CHANGELOG.md
-[action-mailbox]: https://github.com/rails/rails/blob/8_1_stable/actionmailbox/CHANGELOG.md
-[guides]:         https://github.com/rails/rails/blob/8_1_stable/guides/CHANGELOG.md
+[railties]:       https://github.com/rails/rails/blob/8-1-stable/railties/CHANGELOG.md
+[action-pack]:    https://github.com/rails/rails/blob/8-1-stable/actionpack/CHANGELOG.md
+[action-view]:    https://github.com/rails/rails/blob/8-1-stable/actionview/CHANGELOG.md
+[action-mailer]:  https://github.com/rails/rails/blob/8-1-stable/actionmailer/CHANGELOG.md
+[action-cable]:   https://github.com/rails/rails/blob/8-1-stable/actioncable/CHANGELOG.md
+[active-record]:  https://github.com/rails/rails/blob/8-1-stable/activerecord/CHANGELOG.md
+[active-storage]: https://github.com/rails/rails/blob/8-1-stable/activestorage/CHANGELOG.md
+[active-model]:   https://github.com/rails/rails/blob/8-1-stable/activemodel/CHANGELOG.md
+[active-support]: https://github.com/rails/rails/blob/8-1-stable/activesupport/CHANGELOG.md
+[active-job]:     https://github.com/rails/rails/blob/8-1-stable/activejob/CHANGELOG.md
+[action-text]:    https://github.com/rails/rails/blob/8-1-stable/actiontext/CHANGELOG.md
+[action-mailbox]: https://github.com/rails/rails/blob/8-1-stable/actionmailbox/CHANGELOG.md
+[guides]:         https://github.com/rails/rails/blob/8-1-stable/guides/CHANGELOG.md
