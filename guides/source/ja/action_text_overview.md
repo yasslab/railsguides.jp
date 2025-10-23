@@ -119,7 +119,7 @@ Action Textが依存しているポリモーフィック関連付けでは、ク
 <%= @article.content %>
 ```
 
-`ActionText::RichText#to_s`メソッドはRichTextをHTML安全な文字列に変換しますが、`ActionText::RichText#to_plain_text`はHTML安全ではない文字列を返すため、ブラウザでレンダリングすべきではありません。Action Textのサニタイズプロセスについて詳しくは、APIドキュメントの[`ActionText::RichText`](https://api.rubyonrails.org/classes/ActionText/RichText.html)クラスを参照してください。
+`ActionText::RichText#to_s`メソッドはRichTextをHTML安全な文字列に変換しますが、`ActionText::RichText#to_plain_text`はHTML安全ではない文字列を返すため、追加のサニタイズを行わずにブラウザでレンダリングすべきではありません。Action Textのサニタイズプロセスについて詳しくは、APIドキュメントの[`ActionText::RichText`](https://api.rubyonrails.org/classes/ActionText/RichText.html)クラスを参照してください。
 
 NOTE: `content`フィールドに添付（attached）リソースが存在する場合は、リソースの種別に応じて[Active Storageで必要な依存関係](active_storage_overview.html#要件)をインストールしておかないと正しく表示されない可能性があります。
 
@@ -178,12 +178,18 @@ Trixのスタイルのいずれかを更新したい場合は、`app/assets/styl
 
 #### 添付ファイルのダイレクトアップロード用JavaScriptイベント
 
+Action Textは、ファイル添付のライフサイクル中に[Active StorageのダイレクトアップロードJavaScriptイベント](active_storage_overview.html#ダイレクトアップロードのjavascriptイベント)をディスパッチします。
+
+通常の`event.detail`プロパティに加えて、Action Textは[`event.detail.attachment`](https://github.com/basecamp/trix/?tab=readme-ov-file#inserting-a-file)プロパティを持つイベントもディスパッチします。
+
 | イベント名 | イベントのターゲット | イベントのデータ（`event.detail`）| 説明 |
 | --- | --- | --- | --- |
 | `direct-upload:start` | `<input>` | `{id, file}` | ダイレクトアップロードが開始中。|
 | `direct-upload:progress` | `<input>` | `{id, file, progress}` | ファイルの保存リクエストが進行中。|
 | `direct-upload:error` | `<input>` | `{id, file, error}` | エラーが発生。このイベントがキャンセルされない限り`alert`が表示される。|
 | `direct-upload:end` | `<input>` | `{id, file}` | ダイレクトアップロードが完了。|
+
+NOTE: Action Textがファイルを[Active Storageのダイレクトアップロード](active_storage_overview.html#ダイレクトアップロード)経由でアップロードすると、アップロードされたファイルがリッチテキストコンテンツ内に埋め込まれない可能性があります。添付されていないアップロードを定期的に[削除する](active_storage_overview.html#アタッチされなかったアップロードを破棄する)ことを検討してください。
 
 ### 署名済みGlobalID
 
