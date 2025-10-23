@@ -267,7 +267,7 @@ Action Pack
 
 * `#url_for`は、オプションのハッシュを配列の中で使えるようになりました。（[プルリク](https://github.com/rails/rails/pull/9599)）
 
-* `session#fetch`メソッドが追加されました。この振る舞いは[Hash#fetch](http://www.ruby-doc.org/core-1.9.3/Hash.html#method-i-fetch)と似ていますが、戻り値が常にセッションに保存される点が異なります。（[プルリク](https://github.com/rails/rails/pull/12692)）
+* `session#fetch`メソッドが追加されました。この振る舞いは[`Hash#fetch`](https://docs.ruby-lang.org/en/master/Hash.html#method-i-fetch)と似ていますが、戻り値が常にセッションに保存される点が異なります。（[プルリク](https://github.com/rails/rails/pull/12692)）
 
 * Action ViewはAction Packから完全に分離されました。（[プルリク](https://github.com/rails/rails/pull/11032)）
 
