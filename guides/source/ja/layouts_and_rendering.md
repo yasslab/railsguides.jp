@@ -433,7 +433,7 @@ render variants: [:mobile, :desktop]
 
 指定のフォーマットを持つテンプレートが存在しない場合は、`ActionView::MissingTemplate`エラーが発生します。
 
-`render`呼び出しで別テンプレートリストを指定する代わりに、以下のようにコントローラアクションの`request`オブジェクトで設定することもできます。
+`render`呼び出しで別テンプレートリストを指定する代わりに、以下のようにコントローラアクションで[`request.variant`][]を設定することも可能です。別テンプレートについて詳しくは、[Action Controllerの概要](./action_controller_overview.html#request-variant)ガイドで解説しています。
 
 ```ruby
 def index
@@ -450,6 +450,11 @@ end
     end
 end
 ```
+
+NOTE: 既存のテンプレートに似た新しい別テンプレートを追加しすぎると、ビューコードのメンテナンスが難しくなることがあります。
+
+[`request.variant`]:
+  https://api.rubyonrails.org/classes/ActionDispatch/Http/MimeNegotiation.html#method-i-variant-3D
 
 #### レイアウトの探索順序
 
