@@ -1573,6 +1573,8 @@ $ bin/rails generate model message subject:string body:string
 $ bin/rails generate model comment content:string
 ```
 
+NOTE: ジェネレータでフィールドの型を指定しない場合（`subject:string`ではなく単に`subject`と指定するなど）、デフォルトで`string`型になります。
+
 ジェネレータ実行後のモデルは以下のようになります。
 
 ```ruby
