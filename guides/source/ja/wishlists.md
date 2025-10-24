@@ -1449,7 +1449,7 @@ end
     second_wishlist = user.wishlists.create!(name: "Second")
     second_wishlist.wishlist_products.create(product_id: wishlist_product.product_id)
     patch wishlist_wishlist_product_path(wishlist, wishlist_product), params: { new_wishlist_id: second_wishlist.id }
-    assert_equal "T-Shirt is already on Second Wishlist.", flash[:alert]
+    assert_equal "T-Shirt is already on Second.", flash[:alert]
     assert_equal wishlist, wishlist_product.reload.wishlist
   end
 ```
