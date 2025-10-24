@@ -39,7 +39,7 @@
 $ bin/rails g migration AddNamesToUsers first_name:string last_name:string
 ```
 
-Then migrate the database:
+続いてデータベースのマイグレーションを実行します。
 
 ```bash
 $ bin/rails db:migrate
