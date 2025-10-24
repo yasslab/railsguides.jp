@@ -2552,7 +2552,7 @@ Kamalでデプロイを行うには、以下のものが必要です。
 
 Docker Hubで、アプリケーションイメージの[リポジトリを作成](https://hub.docker.com/repository/create)します。リポジトリの名前は「store」にしておきます。
 
-`config/deploy.yml`ファイルをエディタで開いて、サーバーのIPアドレスを`192.168.0.1`に置き換え、`your-user`をDocker Hubのユーザー名に置き換えます。
+`config/deploy.yml`ファイルをエディタで開いて、`192.168.0.1`をサーバーのIPアドレスに置き換え、`your-user`をDocker Hubのユーザー名に置き換えます。
 
 ```yaml
 # Name of your application. Used to uniquely configure containers.
