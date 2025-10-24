@@ -1388,14 +1388,18 @@ module SessionTestHelper
 
     ActionDispatch::TestRequest.create.cookie_jar.tap do |cookie_jar|
       cookie_jar.signed[:session_id] = Current.session.id
-      cookies[:session_id] = cookie_jar[:session_id]
+      cookies["session_id"] = cookie_jar[:session_id]
     end
   end
 
   def sign_out
     Current.session&.destroy!
-    cookies.delete(:session_id)
+    cookies.delete("session_id")
   end
+end
+
+ActiveSupport.on_load(:action_dispatch_integration_test) do
+  include SessionTestHelper
 end
 ```
 
@@ -1548,6 +1552,23 @@ test "sends email confirmation on successful update" do
 end
 ```
 
+次に、`test/fixtures/users.yml`のフィクスチャにファーストネームとラストネームを追加して、バリデーションがパスするようにします。
+
+```yaml
+<% password_digest = BCrypt::Password.create("password") %>
+one:
+Copilot menu
+  email_address: one@example.com
+  password_digest: <%= password_digest %>
+  first_name: User
+  last_name: One
+two:
+  email_address: two@example.com
+  password_digest: <%= password_digest %>
+  first_name: User
+  last_name: Two
+```
+
 このテストは、有効なパラメータを送信したときに、メールアドレスがデータベースに保存されることと、ユーザーがリダイレクトされ、確認メールが配信キューに登録されることを確認します。
 
 これらのテストを実行して、すべてのテストがパスすることを確認しましょう。
@@ -1622,7 +1643,7 @@ end
 
 もう1つテストすべき領域は、設定ナビゲーションです。管理者に適切なリンクが表示され、通常のユーザーには表示されないことを確認したいと思います。
 
-まず、`test/fixtures/users.yml`に管理者ユーザーのフィクスチャを作成し、通常ユーザーの名前も追加して、バリデーションにパスするようにします。
+まず、`test/fixtures/users.yml`のフィクスチャに管理者ユーザーを作成します。
 
 ```yaml
 <% password_digest = BCrypt::Password.create("password") %>
