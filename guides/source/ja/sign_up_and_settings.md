@@ -515,7 +515,7 @@ end
 
 2つのレイアウトの両方に`<nav>`タグがあるため、CSSセレクタを更新して競合を避ける必要があります。
 
-これを行うには、`app/assets/stylesheets/application.css`ファイル内にあるこれらのセレクタに`.navbar`クラスを追加します。
+これを行うには、`app/assets/stylesheets/application.css`ファイル内にあるこれらの`nav`セレクタに`.navbar`クラスを追加します。
 
 ```css
 nav.navbar {
@@ -590,7 +590,7 @@ namespace :settings do
 end
 ```
 
-これらの新しいルーティングを処理するために、`app/controllers/settings/users_controller.rb`ファイルを作成し、以下を追加します。
+これらの新しいルーティングを処理するために、`app/controllers/settings/users_controller.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 class Settings::UsersController < Settings::BaseController
@@ -615,7 +615,7 @@ end
 <%= button_to "Delete my account", settings_user_path, method: :delete, data: { turbo_confirm: "Are you sure? This cannot be undone." } %>
 ```
 
-最後に、「Settings」レイアウトのサイドバーにアカウントへのリンクを追加します。
+最後に、「Settings」レイアウト（`app/views/layouts/settings.html.erb`）のサイドバーにアカウントへのリンクを追加します。
 
 ```erb
 <%= content_for :content do %>
@@ -672,7 +672,7 @@ namespace :settings do
 end
 ```
 
-次に、これを表示するための`app/controllers/settings/emails_controller.rb`ファイルを作成します。
+次に、これを表示するための`app/controllers/settings/emails_controller.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 class Settings::EmailsController < Settings::BaseController
@@ -821,7 +821,7 @@ end
 
 ユーザーが確認メールのリンクをクリックすると、アプリがGETリクエストを受け取ります。このため、このコントローラで必要なのは`show`アクションだけです。
 
-次に、`app/controllers/email/confirmations_controller.rb`ファイルに以下を追加します。
+次に、`app/controllers/email/confirmations_controller.rb`ファイルを以下の内容で追加します。
 
 ```ruby
 class Email::ConfirmationsController < ApplicationController
@@ -839,9 +839,10 @@ class Email::ConfirmationsController < ApplicationController
 end
 ```
 
-メールアドレスの確認は、ユーザーが認証済みであってもなくても行えるようにしたいので、このコントローラでは認証されていないアクセスを許可しています。トークンを`find_by_token_for`メソッドで検証し、`User`モデル内の一致するレコードを検索します。成功した場合は、`confirm_email`メソッドを呼び出してユーザーのメールアドレスを更新し、`unconfirmed_email`を`nil`にリセットします。トークンが有効でない場合、`user`変数は`nil`になり、アラートメッセージを表示します。
+メールアドレスの確認は、ユーザーが認証済みであってもなくても行えるようにしたいので、このコントローラでは認証されていないアクセスを許可しています。トークンを`find_by_token_for`メソッドで検証し、`User`モデル内の一致するレコードを検索します。
+成功した場合は、`confirm_email`メソッドを呼び出してユーザーのメールアドレスを更新し、`unconfirmed_email`を`nil`にリセットします。トークンが有効でない場合、`user`変数は`nil`になり、アラートメッセージを表示します。
 
-最後に、「Settings」レイアウトのサイドバーにメール送信用のリンクを追加しましょう（`settings_email_path`）。
+最後に、「Settings」レイアウト（`app/views/layouts/settings.html.erb`）のサイドバーにメール送信用のリンクを追加しましょう（`settings_email_path`）。
 
 ```erb
 <%= content_for :content do %>
@@ -892,7 +893,7 @@ $ bin/rails db:migrate
 
 オプションとして、セキュリティをさらに強化するために`admin`属性を読み取り専用としてマーキングする方法もあります。これにより、`admin`属性が変更されるたびにRailsでエラーが発生するようになります。レコードの作成時には引き続き`admin`属性を設定できますが、不正な変更に対する追加のセキュリティ層が提供されます。ユーザーの`admin`フラグを頻繁に変更する場合はこのオプションを導入しないことも可能ですが、このeコマースストアでは有用な保護手段です。
 
-以下のようにモデルに`attr_readonly`属性を追加することで、属性の更新を防止できます。
+以下のように`User`モデルに`attr_readonly`属性を追加することで、属性の更新を防止できます。
 
 ```ruby
 class User < ApplicationRecord
@@ -985,7 +986,7 @@ end
 
 このコントローラへのアクセスは、先ほど作成した`admin_access_only`メソッドによって管理者のみに制限されます。また、サイドバーを表示するときも同じ「Settings」レイアウトを利用します。
 
-次に、`app/controllers/store/users_controller.rb`ファイルを作成し、以下のコードを追加します。
+次に、`app/controllers/store/users_controller.rb`ファイルを以下の内容で作成します。
 
 ```ruby
 class Store::UsersController < Store::BaseController
@@ -1025,7 +1026,7 @@ end
 
 これで、管理者はデータベース上のユーザーの一覧表示、編集、更新、削除ができるようになりました。
 
-次に、`app/views/store/users/index.html.erb`ファイルでインデックスビューを作成しましょう。
+次に、`app/views/store/users/index.html.erb`ファイルで以下のindexビューを作成します。
 
 ```erb
 <h1><%= pluralize @users.count, "user" %></h1>
@@ -1037,7 +1038,7 @@ end
 <% end %>
 ```
 
-次に、`app/views/store/users/edit.html.erb`ファイルで編集ビューを作成します。
+次に、`app/views/store/users/edit.html.erb`ファイルでeditビューを作成します。
 
 ```erb
 <h1>Edit User</h1>
@@ -1275,7 +1276,7 @@ end
 
 管理者用のビューは、`store`名前空間内で動作するようにいくつかの調整が必要です。
 
-まず、`form_with`メソッドの`model:`引数で`store`名前空間を使うように更新します。
+まず、`app/views/store/products/_form.html.erb`の`form_with`メソッドを、`model:`引数で`store`名前空間を使うように更新します。
 
 ```erb
 <%= form_with model: [ :store, product ] do |form| %>
@@ -1457,7 +1458,7 @@ Finished in 0.559107s, 1.7886 runs/s, 1.7886 assertions/s.
 
 次に、ユーザーをサインインさせてユーザー登録ページにアクセスしてみましょう。この場合、ユーザーは既に認証済みなので、リダイレクトされるはずです。
 
-以下のテストをファイルに追加します。
+以下のテストを同じファイルに追加します。
 
 ```ruby
 test "view sign up when authenticated" do
@@ -1757,7 +1758,7 @@ $ bin/kamal deploy
 
 ### production環境で管理者アカウントを設定する
 
-`User``atにｎr_readonly :admin`を追加した場合は、以下のようにdbconsoleでアカウントを更新する必要があります。
+`User`に`attr_readonly :admin`を追加した場合は、以下のようにdbconsoleでアカウントを更新する必要があります。
 
 ```bash
 $ bin/kamal dbc
