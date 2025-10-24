@@ -116,9 +116,9 @@ class User < ApplicationRecord
   # ...
 ```
 
-`wishlists`関連付けに`dependent: :destroy`を指定することで、`User`モデルが削除されたときに関連するウィッシュリストも削除されるようにします。
+`wishlists`関連付けに`dependent: :destroy`を指定することで、`User`モデルが削除されたら関連するウィッシュリストも削除されるようにします。
 
-次に`app/models/product.rb`ファイルを開いて、以下を追加します。
+次に`app/models/product.rb`ファイルを開いて、以下の`has_many`関連付けを追加します。
 
 ```ruby
 class Product < ApplicationRecord
@@ -168,7 +168,7 @@ end
 
 ### フレンドリーURL
 
-ウィッシュリストを共有する相手は、多くの場合友人や家族です。`Wishlist`を参照するときのURLに含まれるIDは、デフォルトでは単なる整数値です。このままでは、共有したい`Wishlist`を表すURLがどれなのか、URLを見ただけでわかりにくくなってしまいます。
+ウィッシュリストを共有する相手は、多くの場合友人や家族です。`Wishlist`を参照するときのURLに含まれるIDは、デフォルトでは単なる整数値です。このままでは、共有したい`Wishlist`を表すURLがどれなのか、URLを見ただけではわかりにくくなってしまいます。
 
 Active Recordの`to_param`クラスメソッドは、整数値IDよりもわかりやすいIDでURLを生成するのに利用できます。`Wishlist`モデルでやってみましょう。
 
@@ -425,7 +425,7 @@ end
 
 ### Wishlistsコントローラ
 
-最初に、トップレベルにウィッシュリスト用のルーティング（`resources :wishlists`）を追加します。
+最初に、`config/routes.rb`ファイルのトップレベルにウィッシュリスト用のルーティング（`resources :wishlists`）を追加します。
 
 ```ruby
 Rails.application.routes.draw do
@@ -590,7 +590,7 @@ end
 
 ### クリップボードにコピーする
 
-ウィッシュリストを手軽に共有できるように、JavaScriptコードを少々使って「Copy to Clipboard」ボタンを追加してみましょう。
+ウィッシュリストのURLを手軽に共有できるように、JavaScriptコードを少々使って「Copy to Clipboard」ボタンを追加してみましょう。
 
 RailsにはデフォルトでHotwireが同梱されているので、Hotwireの[Stimulus.js](https://stimulus.hotwired.dev/)フレームワークを使って、UIに軽量なJavaScriptを追加できます。
 
@@ -647,7 +647,7 @@ Stimulusについて詳しくは、[Stimulus](https://stimulus.hotwired.dev/)の
 
 ユーザーが製品を購入した後や、製品に興味を失った場合、ウィッシュリストから製品を削除したくなるでしょう。それでは、製品を削除する機能を追加してみましょう。
 
-最初に、ルーティングを更新して、`wishlist_products`のネストしたリソースを追加します。
+最初に、`config/routes.rb`のルーティングを更新して、`wishlist_products`をネステッドリソースとして追加します。
 
 ```ruby
 Rails.application.routes.draw do
@@ -833,7 +833,7 @@ end
 <% end %>
 ```
 
-最後に、ウィッシュリストへのリンクをサイドバーに追加します。
+最後に、ウィッシュリストへのリンクをサイドバーのレイアウト（`app/views/layouts/settings.html.erb`）に追加します。
 
 ```erb
 <%= content_for :content do %>
@@ -849,7 +849,7 @@ end
         <h4>Store Settings</h4>
         <%= link_to "Products", store_products_path %>
         <%= link_to "Users", store_users_path %>
-        <%= link_to "Wishlists", store_products_path %>
+        <%= link_to "Wishlists", store_wishlists_path %>
       <% end %>
     </nav>
 
@@ -885,7 +885,7 @@ end
 既にヘッダーを更新して、ウィッシュリストの総数を表示するようになっているので、フィルタを適用するときに一致した一致した件数がすぐわかります。
 フォームを送信すると、Railsは選択したフィルタをクエリパラメータとしてURLに追加します。フォームはページを読み込むときにクエリパラメータの値を読み取って、ドロップダウンボックスで同じオプションを自動的に再選択するので、選択した項目はフォーム送信後も同じように表示されます。フォームは`index`アクションに送信されるので、すべてのウィッシュリストか、フィルタで絞り込まれたウィッシュリストのどちらかがページで表示されます。
 
-この通りに動作させるには、Active Recordの機能を使ってSQLクエリにフィルタを適用する必要があります。コントローラを以下のように更新して、フィルタを追加しましょう。
+この通りに動作させるには、Active Recordの機能を使ってSQLクエリにフィルタを適用する必要があります。`app/controllers/store/wishlists_controller.rb`コントローラを以下のように更新して、フィルタを追加しましょう。
 
 ```ruby
 class Store::WishlistsController < Store::BaseController
@@ -907,7 +907,7 @@ Active Recordのクエリは**遅延評価**されるため、SQLクエリは結
 
 ### フィルタ機能をリファクタリングする
 
-フィルタを導入したことでウィッシュリストコントローラがだいぶ散らかってきたので、今のうちにコントローラのロジックを`Wishlist`モデルのメソッドに切り出して整理しましょう。
+フィルタを導入したことでウィッシュリストコントローラがだいぶ散らかってきたので、今のうちに`app/controllers/store/wishlists_controller.rb`コントローラのロジックを`Wishlist`モデルのメソッドに切り出して整理しましょう。
 
 ```ruby
 class Store::WishlistsController < Store::BaseController
@@ -942,7 +942,7 @@ end
 
 `filter_by`メソッドの内容は、コントローラで行っていたこととほぼ同じですが、最初に[`all`](https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-all)を呼び出して、すでに適用されている条件を含むすべてのレコードの`ActiveRecord::Relation`を返します。次にフィルタを適用して結果を返します。
 
-このようにリファクタリングすることで、コントローラはよりクリーンになり、フィルタリングロジックは他のデータベース関連ロジックとともにモデル内に凝縮されます。これは「**コントローラは薄くせよ、モデルは厚くせよ**」原則に従ったRailsのベストプラクティスです。
+このようにリファクタリングすることで、コントローラはよりクリーンになり、フィルタリングロジックは他のデータベース関連ロジックとともにモデル内に凝縮されます。これは「**コントローラは薄くせよ、モデルは厚くせよ**（Fat Model, Skinny Controller）」原則に従ったRailsのベストプラクティスです。
 
 ## 管理画面に購読者の表示を追加する
 
@@ -950,7 +950,7 @@ end
 
 ### 購読者ビューを追加する
 
-まず、`subscribers`ルーティングを`store`名前空間に追加します。
+まず、`config/routes.rb`ファイルを開いて`subscribers`ルーティングを`store`名前空間に追加します。
 
 ```ruby
   # 管理者のみ
@@ -1008,10 +1008,10 @@ class Subscriber < ApplicationRecord
 end
 ```
 
-`app/views/store/subscribers/index.html.erb`ファイルにindexビューを以下の内容で作成します。
+indexビューを`app/views/store/subscribers/index.html.erb`ファイルに以下の内容で作成します。
 
 ```erb
-<h1><%= pluralize "Subscriber", @subscribers.count %></h1>
+<h1><%= pluralize @subscribers.count, "Subscriber" %></h1>
 
 <%= form_with url: store_subscribers_path, method: :get do |form| %>
   <%= form.collection_select :product_id, Product.all, :id, :name, selected: params[:product_id], include_blank: "All Products" %>
@@ -1038,7 +1038,7 @@ end
 <%= button_to "Remove", store_subscriber_path(@subscriber), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
 ```
 
-最後に、サイドバーのレイアウトに購読者表示用のリンクを追加します。
+最後に、サイドバーのレイアウト（`app/views/layouts/settings.html.erb`）に購読者表示用のリンクを追加します。
 
 ```erb
 <%= content_for :content do %>
@@ -1055,7 +1055,7 @@ end
         <%= link_to "Products", store_products_path %>
         <%= link_to "Users", store_users_path %>
         <%= link_to "Subscribers", store_subscribers_path %>
-        <%= link_to "Wishlists", store_products_path %>
+        <%= link_to "Wishlists", store_wishlists_path %>
       <% end %>
     </nav>
 
@@ -1118,7 +1118,7 @@ two:
   wishlist: two
 ```
 
-`test/fixtures/wishlists.yml`ファイルにもテスト用の`Product`フィクスチャを追加します。
+`test/fixtures/products.yml`ファイルにもテスト用の`Product`フィクスチャを追加します。
 
 ```yaml
 tshirt:
@@ -1205,7 +1205,7 @@ Finished in 0.292714s, 6.8326 runs/s, 17.0815 assertions/s.
 
 このテストでは、重複のない一意の製品をウィッシュリストの1つに追加して、その製品でフィルタリングできるようにする必要があります。
 
-`test/fixtures/products.yml`ファイルを開き、`three:`を追加します。
+`test/fixtures/wishlist_products.yml`ファイルを開き、`three:`を追加します。
 
 ```yaml
 one:
