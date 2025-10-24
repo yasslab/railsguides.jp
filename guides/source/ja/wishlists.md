@@ -42,7 +42,7 @@ $ bin/rails generate model Wishlist user:belongs_to name products_count:integer
 $ bin/rails generate model WishlistProduct product:belongs_to wishlist:belongs_to
 ```
 
-`Wishlist`に同じ`Product`を2つ以上含めたくないので、作成した作成したマイグレーションにインデックスを追加します。
+`Wishlist`に同じ`Product`を2つ以上含めたくないので、作成したマイグレーションにインデックスを追加します。
 
 ```ruby
 class CreateWishlistProducts < ActiveRecord::Migration[8.1]
