@@ -1,7 +1,7 @@
 Rails アプリケーションのテンプレート
 ===========================
 
-> 注: このガイドの[原文](https://guides.rubyonrails.org/v8.0/generators.html)はRails 8.1で削除され、[ジェネレータガイド](generators.html)に統合されました。
+> 注: このガイドの[原文](https://guides.rubyonrails.org/v8.0/generators.html)はRails 8.1で削除され、[Railsジェネレータとテンプレート入門](generators.html)に統合されました。
 
 RailsのテンプレートはシンプルなRubyファイルであり、新規または既存のRailsプロジェクトにgemやイニシャライザを追加するためのDSL（ドメイン固有言語）を含んでいます。
 
