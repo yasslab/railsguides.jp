@@ -131,12 +131,11 @@ Rails組み込みの「[エンベロープ暗号化][enveloping]キープロバ�
 
 ## 基本的な利用方法
 
-### 決定論的暗号化と非決定論的暗号化について
+### 暗号化データへのクエリにおける決定論的暗号化と非決定論的暗号化の違い
 
-ActiveRecord暗号化では、デフォルトで非決定論的な（non-deterministic）暗号化を用います。ここで言う非決定論的とは、同じコンテンツを同じパスワードで暗号化しても、暗号化のたびに**異なる暗号文**が生成されるという意味です。
+ActiveRecord暗号化では、デフォルトで**非決定論的な**（non-deterministic）暗号化を用います。ここで言う非決定論的とは、同じコンテンツを同じパスワードで暗号化しても、暗号化のたびに**異なる暗号文**が生成されるという意味です。
 
-非決定論的な暗号化手法では、暗号文の解読が困難になるため、セキュリティが向上します。しかしその代わり、暗号化された値に対するクエリ（例: `WHERE title = "すべて暗号化せよ！"`）を実行不可能になるという短所もあります。これは、平文の値が同じであっても異なる暗号文が生成されるため、以前保存した暗号文と一致しない可能性があるからです。
-
+非決定論的な暗号化手法では、暗号文の解読が困難になるため、セキュリティが強化されます。しかしその代わり、暗号化された値に対するクエリ（例: `WHERE title = "すべて暗号化せよ！"`）を実行不可能になるという短所もあります。これは、平文の値が同じであっても異なる暗号文が生成されるため、以前保存した暗号文と一致しない可能性があるからです。
 
 `deterministic:`オプションを指定することで、[決定論的][]な暗号化手法を利用可能になります。たとえば、`Author`モデルの`email`フィールドにクエリを実行する必要がある場合は、以下のようにします。
 
@@ -145,7 +144,7 @@ class Author < ApplicationRecord
   encrypts :email, deterministic: true
 end
 
-# emeilカラムへのクエリは、暗号化が非決定論的な場合にのみ可能
+# emailカラムへのクエリは、暗号化が非決定論的な場合にのみ可能
 Author.find_by_email("tolkien@email.com")
 ```
 
@@ -247,7 +246,7 @@ end
 [`serialized`]:
   https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html#method-i-serialize
 
-### 暗号化データで一意性を担保する
+### 暗号化データの一意性を担保する
 
 一意性制約は、決定論的に暗号化されたデータでのみサポートされます。
 
@@ -262,7 +261,7 @@ class Person
 end
 ```
 
-一意性バリデーションで大文字小文字を区別しないようにしたい場合は、必ず`encrypts`宣言で`:downcase`または`:ignore_case`オプションを指定する必要があります。バリデーションで`:case_sensitive`オプションを指定しても無効です。
+一意性バリデーションで大文字小文字を区別しないようにしたい場合は、必ず`encrypts`宣言で`:downcase`または`:ignore_case`オプションを指定する必要があります。[バリデーション](active_record_validations.html#uniqueness)で`:case_sensitive`オプションを指定しても無効です。
 
 NOTE: 同一属性内に暗号化データと非暗号化データが混在している場合や、同一属性内に複数のキーやスキームで暗号化されたデータが混在している場合は、、一意性バリデーションをサポートするために[`config.active_record.encryption.extend_queries = true`][`config.active_record.encryption.extend_queries`]を設定して拡張クエリを有効にする必要があります。
 
@@ -316,11 +315,11 @@ class Message < ApplicationRecord
 end
 ```
 
-NOTE: Action Text属性に個別の暗号化オプションを渡すことについてはサポートされていません。グローバルな暗号化オプションに設定されている非決定的暗号化が用いられます。
+NOTE: Action Text属性に個別の暗号化オプションを渡す方法はサポートされていません。グローバルな暗号化オプションに設定されている非決定的暗号化が用いられます。
 
 ### フィクスチャ
 
-暗号化属性をテストのYAMLフィクスチャファイル内で平文で記述可能にするには、`config/environments/test.rb`ファイルに以下の設定を追加することで、フィクスチャが自動的に暗号化されるようになります。
+暗号化属性をテストのYAMLフィクスチャファイル内で平文で記述可能にするには、`config/environments/test.rb`ファイルに以下の[`config.active_record.encryption.encrypt_fixtures`][]設定を追加することで、フィクスチャが自動的に暗号化されるようになります。
 
 ```ruby
 # config/environments/test.rb
@@ -333,9 +332,11 @@ end
 この設定を行わないと、Railsはフィクスチャ値を暗号化せずにそのまま読み込みます。この場合、Active Record暗号化はそのカラムにJSON値を期待するため、暗号化属性は正しく動作しません。
 `encrypt_fixtures`設定を有効にすることで、すべての暗号化可能な属性はモデルで定義された暗号化設定に従って自動的に暗号化され、シームレスに復号も行われます。
 
+[`config.active_record.encryption.encrypt_fixtures`]: configuring.html#config-active-record-encryption-encrypt-fixtures
+
 #### Action Textのフィクスチャ
 
-Action Textのフィクスチャを暗号化するには、`fixtures/action_text/encrypted_rich_texts.yml`にフィクスチャを配置します。
+Action Textのフィクスチャを暗号化するには、`fixtures/action_text/encrypted_rich_texts.yml`ファイルにフィクスチャを配置します。
 
 ### エンコード
 
@@ -344,17 +345,20 @@ Action Textのフィクスチャを暗号化するには、`fixtures/action_text
 決定論的暗号化の場合、Railsは暗号文とともに文字列エンコーディングも保存しますが、特にクエリや一意性の強制で暗号化出力を一貫させるために、デフォルトでUTF-8エンコーディングを強制します。これにより、エンコーディングが異なる同一の文字列から異なる暗号文が生成されるのを防ぎます。
 
 この振る舞いは設定でカスタマイズ可能です。
-デフォルトで強制するエンコーディングの種類は、以下のように変更できます。
+デフォルトで強制するエンコーディングの種類は、以下のように[`config.active_record.encryption.forced_encoding_for_deterministic_encryption`][]で変更できます。
 
 ```ruby
 config.active_record.encryption.forced_encoding_for_deterministic_encryption = Encoding::US_ASCII
 ```
 
-この振る舞いを無効にして常にエンコードを維持するには、以下のように設定します。
+この振る舞いを無効にして常にエンコードを維持するには、以下のように`nil`を設定します。
 
 ```ruby
 config.active_record.encryption.forced_encoding_for_deterministic_encryption = nil
 ```
+
+[`config.active_record.encryption.forced_encoding_for_deterministic_encryption`]:
+  configuring.html#config-active-record-encryption-forced-encoding-for-deterministic-encryption
 
 ### 圧縮
 
@@ -376,7 +380,7 @@ class Article < ApplicationRecord
 end
 ```
 
-圧縮アルゴリズムは設定で変更可能です。デフォルトの圧縮ライブラリは[`Zlib`](https://ja.wikipedia.org/wiki/Zlib)です。
+圧縮アルゴリズムは設定で変更可能です。デフォルトの圧縮ライブラリは[`Zlib`][]です。
 以下のように`deflate`メソッドと`inflate`メソッドに応答するクラスまたはモジュールを作成することで、独自の圧縮を実装できます。
 
 ```ruby
@@ -397,40 +401,52 @@ class User
 end
 ```
 
-以下のように、圧縮プログラムをグローバルに設定することも可能です。
+以下のように、[`config.active_record.encryption.compressor`][]で圧縮プログラムをグローバルに設定することも可能です。
 
 ```ruby
 config.active_record.encryption.compressor = ZstdCompressor
 ```
 
-### 基本的なAPI
+[`Zlib`]: https://ja.wikipedia.org/wiki/Zlib
+[`config.active_record.encryption.compressor`]: configuring.html#config-active-record-encryption-compressor
+
+### APIで暗号化を利用する
 
 Active Record暗号化は宣言的に利用することを念頭に置いていますが、より高度なシナリオで使えるAPIも提供しています。
 
-`article`モデルで関連する全属性を暗号化または復号するには、以下のようにします。
+`article`モデルで関連する全属性を暗号化または復号するには、以下のように[`encrypt`][]や[`decrypt`][]メソッドを使います。
 
 ```ruby
 article.encrypt # 暗号化可能なすべての属性を暗号化または再暗号化する
 article.decrypt # 暗号化可能なすべての属性を復号する
 ```
 
-指定の属性が暗号化されているかどうかを確認するには、以下のようにします。
+指定の属性が暗号化されているかどうかを確認するには、以下のように[`encrypted_attribute?`][]を使います。
 
 ```ruby
 article.encrypted_attribute?(:title)
 ```
 
-属性の暗号文をそのまま読み出すには、以下のようにします。
+属性の暗号文をそのまま読み出すには、以下のように[`ciphertext_for`][]を使います。
 
 ```ruby
 article.ciphertext_for(:title)
 ```
 
+[`encrypt`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-encrypt
+[`decrypt`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-decrypt
+[`encrypted_attribute?`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-encrypted_attribute-3F
+[`ciphertext_for`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-ciphertext_for
+
 ## 既存データを移行する
 
 ### 暗号化されていないデータのサポート
 
-Railsアプリケーションで暗号化されていない属性を暗号化属性に移行しやすくするため、以下の設定で非暗号化データのサポートを有効にできます。
+Railsアプリケーションで暗号化されていない属性を暗号化属性に移行しやすくするため、以下の[`config.active_record.encryption.support_unencrypted_data`][]設定で非暗号化データのサポートを有効にできます。
 
 ```ruby
 config.active_record.encryption.support_unencrypted_data = true
@@ -440,13 +456,18 @@ config.active_record.encryption.support_unencrypted_data = true
 
 * まだ暗号化されていない属性を読み出してもエラーを`raise`しなくなる
 
-* 以下のように`extended_queries`も有効にすると、決定論的に暗号化された属性へのクエリが暗号化済みの値と平文の値の両方にマッチするようになる。
+* 以下のように[`extended_queries`][]も有効にすると、決定論的に暗号化された属性へのクエリが暗号化済みの値と平文の値の両方にマッチするようになる。
 
 ```ruby
 config.active_record.encryption.extend_queries = true
 ```
 
 このセットアップは、暗号化済みデータと非暗号化データの両方がアプリケーション内で共存する必要がある移行期間中のみを対象としていることにご注意ください。2つのオプションはどちらもデフォルトで`false`になっています。これは、データが完全に強制的に暗号化される、長期的に推奨され散る設定です。
+
+[`config.active_record.encryption.support_unencrypted_data`]:
+  configuring.html#config-active-record-encryption-support-unencrypted-data
+[`extend_queries`]:
+  configuring.html#config-active-record-encryption-extend-queries
 
 ### 移行前の暗号化スキームのサポート
 
@@ -534,13 +555,16 @@ config.active_record.encryption.encryptor = MyEncryptor.new
 
 #### 特定のコードブロックを実行中の暗号化コンテキスト
 
-`with_encryption_context`を使うと、指定のコードブロックで暗号化コンテキストを設定できます。
+[`with_encryption_context`][]を使うと、指定のコードブロックで暗号化コンテキストを設定できます。
 
 ```ruby
 ActiveRecord::Encryption.with_encryption_context(encryptor: ActiveRecord::Encryption::NullEncryptor.new) do
   # ...
 end
 ```
+
+[`with_encryption_context`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Contexts.html#method-i-with_encryption_context
 
 #### 属性ごとの暗号化コンテキスト
 
@@ -554,7 +578,7 @@ end
 
 ### 暗号化コンテキストの暗号化を無効にする
 
-以下のようにすることで、暗号化を無効にしてコードを実行できます。
+以下のように[`without_encryption`][]を使うことで、暗号化を無効にしてコードを実行できます。
 
 ```ruby
 ActiveRecord::Encryption.without_encryption do
@@ -564,9 +588,12 @@ end
 
 この場合、暗号化テキストを読み出すと暗号文のまま読み出され、保存したコンテンツは暗号化なしで保存されます。
 
+[`without_encryption`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Contexts.html#method-i-without_encryption
+
 ### 暗号化コンテキストの暗号化済みデータを保護する
 
-以下のようにすることで、暗号化を無効にすると同時に、暗号化済みコンテンツが上書きされないようにコードを実行できます。
+以下のように[`protecting_encrypted_data`][]を使うことで、暗号化を無効にすると同時に、暗号化済みコンテンツが上書きされないようにコードを実行できます。
 
 ```ruby
 ActiveRecord::Encryption.protecting_encrypted_data do
@@ -575,6 +602,9 @@ end
 ```
 
 これは、暗号化データを保護しつつ、任意のコードを実行したい場合に便利です（Railsコンソールなど）。
+
+[`protecting_encrypted_data`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Contexts.html#method-i-protecting_encrypted_data
 
 ## キーの管理
 
@@ -646,7 +676,7 @@ end
 １つのキーには、メッセージと一緒に暗号化なしで保存される任意のタグを含められます。[`ActiveRecord::Encryption::Message#headers`][]を使って、復号時にこれらの値を調べられます。
 
 [`ActiveRecord::Encryption::Message#headers`]: 
-  https://edgeapi.rubyonrails.org/classes/ActiveRecord/Encryption/Message.html
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Message.html
 
 ### キープロバイダを属性ごとに指定する
 
@@ -693,7 +723,7 @@ NOTE: キーローテーションは、決定論的暗号化では現在サポ�
 
 ### キー参照の保存
 
-以下のように`active_record.encryption.store_key_references`を設定することで、`active_record.encryption`が暗号化済みメッセージそのものに暗号化キーへの参照を保存するようになります。
+以下のように[`active_record.encryption.store_key_references`][]を設定することで、`active_record.encryption`が暗号化済みメッセージそのものに暗号化キーへの参照を保存するようになります。
 
 暗号化キーへの参照を暗号化済みメッセージそのものに保存できます。これにより、復号の際にキーのリストを探索する必要がなくなり、パフォーマンスが向上します。ただし、その分暗号化データのサイズがやや大きくなります。
 
@@ -702,3 +732,6 @@ NOTE: キーローテーションは、決定論的暗号化では現在サポ�
 ```ruby
 config.active_record.encryption.store_key_references = true
 ```
+
+[`active_record.encryption.store_key_references`]:
+  configuring.html#config-active-record-encryption-store-key-references
