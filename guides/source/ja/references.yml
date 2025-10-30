@@ -85,6 +85,10 @@ initialization:
 - title: Ruby on Rails に貢献する方法 - Railsガイド
   url: https://railsguides.jp/contributing_to_ruby_on_rails.html
 
+maintenance_policy:
+- title: "Ruby on Rails Maintenance Policy - 最新のバージョン別サポート期間まとめ (英語)"
+  url: https://rubyonrails.org/maintenance
+
 threading_and_code_execution:
 - title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
   url: https://kaigionrails.org/2023/talks/Envek/
