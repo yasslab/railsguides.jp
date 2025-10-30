@@ -18,7 +18,9 @@ Active Record暗号化は、ユーザー個人を識別可能な情報（PII: pe
 
 特定の属性をアプリケーションレベルで暗号化することで、セキュリティ層を追加できます。たとえば、誰かがアプリケーションのログやデータベースバックアップにアクセスした場合でも、暗号化されたデータは読み取れません。また、アプリケーションコンソールやログで機密情報が誤って露出するのを防ぐのにも役立ちます。
 
-最も重要なのは、この暗号化機能を用いることで、コード内でどの部分が機密情報であるかを明示的に定義できることです。これにより、アプリケーション全体および接続されるサービスにわたって精密なアクセス制御が可能になります。たとえば、[console1984](https://github.com/basecamp/console1984)ツールを使えば、Railsコンソール内で復号化データへのアクセスを制限できるので、開発者が安心して作業できます。また、暗号化されたフィールドに対して自動的に[コントローラのparamsをログからフィルタで除外する](#暗号化属性で命名されたparamsをログでフィルタする)ことも可能です。
+最も重要なのは、この暗号化機能を用いることで、コード内でどの部分が機密情報であるかを明示的に定義できることです。これにより、アプリケーション全体および接続されるサービスにわたって精密なアクセス制御が可能になります。たとえば、[console1984][]ツールを使えば、Railsコンソール内で復号化データへのアクセスを制限できるので、開発者が安心して作業できます。また、暗号化されたフィールドに対して自動的に[コントローラのparamsをログからフィルタで除外する](#暗号化属性で命名されたparamsをログでフィルタする)ことも可能です。
+
+[console1984]: https://github.com/basecamp/console1984
 
 ## セットアップ
 
@@ -51,9 +53,11 @@ config.active_record.encryption.key_derivation_salt = ENV["ACTIVE_RECORD_ENCRYPT
 
 WARNING: キーを保存するときは、Rails組み込みのcredentialサポートを用いることが推奨されます。設定プロパティを用いて手動で設定したい場合は、キーを誤ってコードと一緒にリポジトリにコミットしないよう十分ご注意ください（環境変数などを用いること）。
 
-NOTE: 生成される値の長さは32バイトです。これらを自分で生成する場合、推奨される最小限のキー長は、主キーが12バイト、[ソルト（salt）](https://ja.wikipedia.org/wiki/ソルト_(暗号))が20バイトです。
+NOTE: 生成される値の長さは32バイトです。これらを自分で生成する場合、推奨される最小限のキー長は、主キーが12バイト、[ソルト（salt）][salt]が20バイトです。
 
 キーの生成と保存が完了したら、モデルで暗号化する属性を宣言してActive Record暗号化の利用を開始できるようになります。
+
+[salt]: https://ja.wikipedia.org/wiki/ソルト_(暗号)
 
 ### 暗号化属性の宣言
 
@@ -96,15 +100,13 @@ my-app(dev)> Article.first
     updated_at: Fri, 12 Sep 2025 16:57:45.753372000 UTC +00:00>
 ```
 
-NOTE: 暗号化した値は元の値よりも量が増えるため、その分多くのストレージ容量が必要になりますが、このオーバーヘッドは、サイズが大きくなれば無視できるほど小さくなります。 Active Record暗号化ではデフォルトで圧縮が有効になっているため、ペイロードが大きくなった場合のストレージ容量は、非暗号化バージョンと比較して最大30%削減可能です。
-
 [`encrypts`]: https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-encrypts
 
 #### 重要: ストレージとカラムのサイズについて
 
 暗号化を行うと、その分必要なストレージ容量が増加します。これは、Active Record暗号化によって、暗号化ペイロードの他に追加のメタデータも保存されるためです。なお、ペイロード自体はBase64エンコードされるので、テキストベースのカラムに安全に収まるようになります。
 
-Rails組み込みの「[エンベロープ暗号化](https://docs.aws.amazon.com/ja_jp/kms/latest/developerguide/kms-cryptography.html#enveloping)キープロバイダ」を使う場合、このオーバーヘッドは最悪でも約255バイトと見積もれます。このオーバーヘッドは、サイズが大きくなれば無視できるほど小さくなります。さらに、暗号化ではデフォルトで圧縮が使われるため、ペイロードが大きい場合、非暗号化バージョンと比較して最大30%のストレージ削減が可能です。
+Rails組み込みの「[エンベロープ暗号化][enveloping]キープロバイダ」を使う場合、このオーバーヘッドは最悪でも約255バイトと見積もれます。このオーバーヘッドは、サイズが大きくなれば無視できるほど小さくなります。さらに、暗号化ではデフォルトで圧縮が使われるため、ペイロードが大きい場合、非暗号化バージョンと比較して最大30%のストレージ削減が可能です。
 
 `string`カラムを暗号化する場合は、現代のデータベースがカラムのサイズを**バイト数**ではなく、**文字数**（number of characters）で定義していることを理解しておくことが重要です。UTF-8のようなエンコーディングでは、1文字あたり最大4バイトに達することがあります。つまり、N文字を保存するように定義されたカラムは、実際には最大で4 × Nバイトを消費する可能性があります。
 
@@ -136,7 +138,7 @@ ActiveRecord暗号化では、デフォルトで非決定論的な（non-determi
 非決定論的な暗号化手法では、暗号文の解読が困難になるため、セキュリティが向上します。しかしその代わり、暗号化された値に対するクエリ（例: `WHERE title = "すべて暗号化せよ！"`）を実行不可能になるという短所もあります。これは、平文の値が同じであっても異なる暗号文が生成されるため、以前保存した暗号文と一致しない可能性があるからです。
 
 
-`deterministic:`オプションを指定することで、[決定論的](https://ja.wikipedia.org/wiki/決定的アルゴリズム)な暗号化手法を利用可能になります。たとえば、`Author`モデルの`email`フィールドにクエリを実行する必要がある場合は、以下のようにします。
+`deterministic:`オプションを指定することで、[決定論的][]な暗号化手法を利用可能になります。たとえば、`Author`モデルの`email`フィールドにクエリを実行する必要がある場合は、以下のようにします。
 
 ```ruby
 class Author < ApplicationRecord
@@ -177,9 +179,14 @@ my-app(dev)> author2 = Author.create(name: "Different Author", email: "tolkien@e
 
 `:deterministic`オプションは、セキュリティの強度が下がるというトレードオフと引き換えに、データをクエリ可能にできます。データが暗号化される点は代わりませんが、決定論的暗号化では暗号解読の難易度が下がります。この理由から、暗号化属性でクエリを実行する必要が生じない限り、非決定論的暗号化を利用することが推奨されます。
 
-NOTE: 非決定論的モードのActive Recordでは、256ビットキーとランダムな初期化ベクトルを用いる[AES](https://ja.wikipedia.org/wiki/Advanced_Encryption_Standard)-[GCM](https://ja.wikipedia.org/wiki/Galois/Counter_Mode)が使われます。決定論的モードも同様にAES-GCMを用いますが、その初期化ベクトルはランダムではなく、キーと平文コンテンツの関数（キーと平文コンテンツの[HMAC](https://ja.wikipedia.org/wiki/HMAC)-SHA-256ダイジェスト）として生成されます。
+NOTE: 非決定論的モードのActive Recordでは、256ビットキーとランダムな初期化ベクトルを用いる[AES][]-[GCM][]が使われます。決定論的モードも同様にAES-GCMを用いますが、その初期化ベクトルはランダムではなく、キーと平文コンテンツの関数（キーと平文コンテンツの[HMAC][]-SHA-256ダイジェスト）として生成されます。
 
 NOTE: `deterministic_key`を定義しなければ、決定論的暗号化を無効にできます。
+
+[決定論的]:https://ja.wikipedia.org/wiki/決定的アルゴリズム
+[AES]: https://ja.wikipedia.org/wiki/Advanced_Encryption_Standard
+[GCM]: https://ja.wikipedia.org/wiki/Galois/Counter_Mode
+[HMAC]: https://ja.wikipedia.org/wiki/HMAC
 
 ### 大文字小文字を区別しない場合
 
@@ -235,8 +242,10 @@ class Article < ApplicationRecord
 end
 ```
 
-[`MessageSerializer`]: https://api.rubyonrails.org/classes/ActiveRecord/Encryption/MessageSerializer.html
-[`serialized`]: https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html#method-i-serialize
+[`MessageSerializer`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/MessageSerializer.html
+[`serialized`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/Serialization/ClassMethods.html#method-i-serialize
 
 ### 暗号化データで一意性を担保する
 
@@ -255,7 +264,7 @@ end
 
 一意性バリデーションで大文字小文字を区別しないようにしたい場合は、必ず`encrypts`宣言で`:downcase`または`:ignore_case`オプションを指定する必要があります。バリデーションで`:case_sensitive`オプションを指定しても無効です。
 
-NOTE: 同一属性内に暗号化データと非暗号化データが混在している場合や、同一属性内に複数のキーやスキームで暗号化されたデータが混在している場合は、、一意性バリデーションをサポートするために[`config.active_record.encryption.extend_queries = true`](configuring.html#config-active-record-encryption-extend-queries)を設定して拡張クエリを有効にする必要があります。
+NOTE: 同一属性内に暗号化データと非暗号化データが混在している場合や、同一属性内に複数のキーやスキームで暗号化されたデータが混在している場合は、、一意性バリデーションをサポートするために[`config.active_record.encryption.extend_queries = true`][`config.active_record.encryption.extend_queries`]を設定して拡張クエリを有効にする必要があります。
 
 #### 一意インデックス
 
@@ -271,22 +280,31 @@ end
 
 ### 暗号化属性で命名されたparamsをログでフィルタする
 
-暗号化済みカラムは、デフォルトでRailsのログから[自動的にフィルタで除外されます](configuring.html#config-filter-parameters)ため、暗号化されたメールアドレスやクレジットカード番号などの機密情報はログに保存されません。たとえば、`email`フィールドをフィルタで設定している場合、ログには`Parameters: {"email"=>"[FILTERED]", ...}`のように出力されます。
+暗号化済みカラムは、デフォルトでRailsのログから[自動的にフィルタで除外されます][`config.filter_parameters`]ため、暗号化されたメールアドレスやクレジットカード番号などの機密情報はログに保存されません。たとえば、`email`フィールドをフィルタで設定している場合、ログには`Parameters: {"email"=>"[FILTERED]", ...}`のように出力されます。
 
-暗号化パラメータのフィルタを無効にする必要がある場合は、以下のように[`config.active_record.encryption.add_to_filter_parameters`](configuring.html#config-active-record-encryption-add-to-filter-parameters)で無効にできます。
+暗号化パラメータのフィルタを無効にする必要がある場合は、以下のように[`config.active_record.encryption.add_to_filter_parameters`][]で無効にできます。
 
 ```ruby
 # config/application.rb
 config.active_record.encryption.add_to_filter_parameters = false
 ```
 
-フィルタを有効にした状態で、特定のカラムをフィルタから除外したい場合は、以下のように[`config.active_record.encryption.excluded_from_filter_parameters`](configuring.html#config-active-record-encryption-excluded-from-filter-parameters)でカラムを追加します。
+フィルタを有効にした状態で、特定のカラムをフィルタから除外したい場合は、以下のように[`config.active_record.encryption.excluded_from_filter_parameters`][]でカラムを追加します。
 
 ```ruby
 config.active_record.encryption.excluded_from_filter_parameters = [:catchphrase]
 ```
 
 NOTE: フィルタパラメータを生成するとき、Railsはモデル名をプレフィックスとして使います。たとえば、`User#name`の場合、フィルタパラメータは`user.name`になります。
+
+[`config.active_record.encryption.extend_queries`]:
+  configuring.html#config-active-record-encryption-extend-queries
+[`config.filter_parameters`]:
+  configuring.html#config-filter-parameters
+[`config.active_record.encryption.add_to_filter_parameters`]:
+  configuring.html#config-active-record-encryption-add-to-filter-parameters
+[`config.active_record.encryption.excluded_from_filter_parameters`]:
+  configuring.html#config-active-record-encryption-excluded-from-filter-parameters
 
 ### Action Text
 
@@ -510,7 +528,8 @@ config.active_record.encryption.encryptor = MyEncryptor.new
 
 [`with_encryption_context`][]メソッドを使えば、暗号化コンテキストの任意のプロパティを上書きできます。
 
-[`with_encryption_context`]: `https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Contexts.html#method-i-with_encryption_context`
+[`with_encryption_context`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Contexts.html#method-i-with_encryption_context
 
 
 #### 特定のコードブロックを実行中の暗号化コンテキスト
@@ -565,7 +584,7 @@ end
 
 #### `DerivedSecretKeyProvider`
 
-[`DerivedSecretKeyProvider`][]は、指定のパスワードから[PBKDF2](https://ja.wikipedia.org/wiki/PBKDF2)を用いて導出されるキーを提供するキープロバイダです。
+[`DerivedSecretKeyProvider`][]は、指定のパスワードから[PBKDF2][]を用いて導出されるキーを提供するキープロバイダです。
 
 ```ruby
 config.active_record.encryption.key_provider = ActiveRecord::Encryption::DerivedSecretKeyProvider.new(["some passwords", "to derive keys from. ", "These should be in", "credentials"])
@@ -573,11 +592,14 @@ config.active_record.encryption.key_provider = ActiveRecord::Encryption::Derived
 
 NOTE: `active_record.encryption`はデフォルトで、`active_record.encryption.primary_key`で定義されているキーを用いる`DerivedSecretKeyProvider`を設定します。
 
-[`DerivedSecretKeyProvider`]: https://api.rubyonrails.org/classes/ActiveRecord/Encryption/DerivedSecretKeyProvider.html
+[`DerivedSecretKeyProvider`]:
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/DerivedSecretKeyProvider.html
+[PBKDF2]:
+  https://ja.wikipedia.org/wiki/PBKDF2
 
 #### `EnvelopeEncryptionKeyProvider`
 
-[`EnvelopeEncryptionKeyProvider`][]は、データをキーでシンプルに暗号化する[エンベロープ暗号化](https://docs.aws.amazon.com/ja_jp/kms/latest/developerguide/concepts.html#enveloping)戦略を実装します。
+[`EnvelopeEncryptionKeyProvider`][]は、データをキーでシンプルに暗号化する[エンベロープ暗号化][enveloping]戦略を実装します。
 
 - データ暗号化操作のたびにランダムなキーを生成する
 - データ自身のほかにデータキーも保存し、続けて`active_record.encryption.primary_key` credentialで定義されている主キーによる暗号化も行う
@@ -590,7 +612,11 @@ config.active_record.encryption.key_provider = ActiveRecord::Encryption::Envelop
 
 他の組み込みのキープロバイダと同様に、`active_record.encryption.primary_key`に主キーのリストを渡すことでキーローテーションスキームを実装できます。
 
-[`EnvelopeEncryptionKeyProvider`]: https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EnvelopeEncryptionKeyProvider.html
+[enveloping]:
+  https://docs.aws.amazon.com/ja_jp/kms/latest/developerguide/kms-cryptography.html#enveloping
+
+[`EnvelopeEncryptionKeyProvider`]: 
+  https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EnvelopeEncryptionKeyProvider.html
 
 ### カスタムのキープロバイダ
 
@@ -619,7 +645,8 @@ end
 
 １つのキーには、メッセージと一緒に暗号化なしで保存される任意のタグを含められます。[`ActiveRecord::Encryption::Message#headers`][]を使って、復号時にこれらの値を調べられます。
 
-[`ActiveRecord::Encryption::Message#headers`]: https://edgeapi.rubyonrails.org/classes/ActiveRecord/Encryption/Message.html
+[`ActiveRecord::Encryption::Message#headers`]: 
+  https://edgeapi.rubyonrails.org/classes/ActiveRecord/Encryption/Message.html
 
 ### キープロバイダを属性ごとに指定する
 
