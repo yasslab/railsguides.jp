@@ -18,7 +18,7 @@ Rails をはじめよう
 
 Railsの世界へようこそ! 本ガイド「Railsをはじめよう」では、Railsを活用してWebアプリケーションを構築するときの中核となる概念について解説します。本ガイドを理解するために、Railsの経験は必要ありません。
 
-Railsは、Rubyプログラミング言語用に構築されたWebフレームワークです。RailsはRuby独自のさまざまな機能を活用しているため、このチュートリアルで紹介する基本的な用語や語彙を理解できるように、事前にRubyの基礎を学習しておくことを**強く**オススメします。
+Railsは、Rubyプログラミング言語用に構築されたWebフレームワークです。RailsはRuby独自のさまざまな機能を活用しているため、このガイドで紹介する基本的な用語や語彙を理解できるように、事前にRubyの基礎を学習しておくことを**強く**オススメします。
 
 - [プログラミング言語Ruby公式Webサイト](https://www.ruby-lang.org/ja/documentation/)
 - [プログラミング学習コンテンツまとめ](https://github.com/EbookFoundation/free-programming-books/blob/main/books/free-programming-books-ja.md#ruby)
@@ -2642,7 +2642,7 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 
 初めてのRailsアプリケーションの構築、お疲れ様でした。デプロイの完了おめでとうございます!
 
-次は、[演習: サインアップと設定チュートリアル](sign_up_and_settings.html)に従って学習を続けてください。
+次は、[演習：ユーザー登録・設定機能の追加](sign_up_and_settings.html)に従って学習を続けてください。
 
 Railsの学習を続けるために、Ruby on Railsの以下のガイドもぜひ参照してみてください。
 
