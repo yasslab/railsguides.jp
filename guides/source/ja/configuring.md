@@ -1742,15 +1742,56 @@ end
 
 外部キー名をdb/schema.rbにダンプすべきかどうかを指定する正規表現を変更できます。デフォルトでは、`fk_rails_`で始まる外部キー名はデータベースのスキーマダンプにエクスポートされません。デフォルト値は`/^fk_rails_[0-9a-f]{10}$/`です。
 
+#### `config.active_record.encryption.support_unencrypted_data`
+
+`true`にすると、非暗号化データを通常通り読み出せるようになります。
+`false`にすると、非暗号化データを読み出したときにエラーになります。デフォルトは`false`です。
+
+#### `config.active_record.encryption.extend_queries`
+
+`true`に設定すると、決定論的に暗号化された属性を参照するクエリが、必要に応じて追加の値を含むように変更されます。追加される値は暗号化されない（`config.active_record.encryption.support_unencrypted_data`が`true`の場合）か、または以前の暗号化スキームで暗号化されます（`previous:`で指定された場合）。デフォルトは`false`です。
+
+#### `config.active_record.encryption.encrypt_fixtures`
+
+`true`の場合、フィクスチャ内の暗号化可能な属性が読み込み時に自動的に暗号化されます。デフォルトは`false`です。
+
+#### `config.active_record.encryption.store_key_references`
+
+`true`にすると、暗号化キーへの参照が暗号化済みメッセージのヘッダ内に保存され、キーが複数使われている場合の暗号化が高速になります。デフォルトは`false`です。
+
 #### `config.active_record.encryption.add_to_filter_parameters`
 
-`inspect`で暗号化属性を自動フィルタリングで除外するかどうかを指定します。
+`true`にすると、暗号化された属性名が自動的に[`config.filter_parameters`](configuring.html#config-filter-parameters)に追加され、ログに出力されなくなります。
 
-デフォルト値は`true`です。
+デフォルトは`true`です。
+
+#### `config.active_record.encryption.excluded_from_filter_parameters`
+
+フィルタから除外するparamsのリストを設定します（`add_to_filter_parameters`が`true`の場合）。デフォルトは`[]`です。
+
+#### `config.active_record.encryption.validate_column_size`
+
+カラムのサイズに応じたバリデーションを追加します。巨大な値を圧縮率の高いペイロードを用いて保存しないために推奨されている設定です。デフォルトは`true`です。
+
+#### `config.active_record.encryption.primary_key`
+
+rootデータ暗号化キーの導出に用いるキーまたはキーのリストを設定します。キーの利用法はキープロバイダの設定によって異なります。`active_record_encryption.primary_key` credentialで設定するのが望ましい方法です。
+
+#### `config.active_record.encryption.deterministic_key`
+
+決定論的暗号化で用いるキーまたはキーのリストを設定します。`active_record_encryption.deterministic_key` credentialで設定するのが望ましい方法です。
+
+#### `config.active_record.encryption.key_derivation_salt`
+
+キー導出時に用いるソルト（salt）を設定します。`active_record_encryption.key_derivation_salt` credentialで設定するのが望ましい方法です。
+
+#### `config.active_record.encryption.forced_encoding_for_deterministic_encryption`
+
+決定論的に暗号化された属性のデフォルトエンコーディングを設定します。このオプションを`nil`にするとエンコードの強制を無効化できます。デフォルトは`Encoding::UTF_8`です。
 
 #### `config.active_record.encryption.hash_digest_class`
 
-Active Record Encryptionで利用するダイジェストアルゴリズムを設定します。
+鍵の導出に使うダイジェストアルゴリズムです。
 
 デフォルト値は、`config.load_defaults`のターゲットバージョンによって異なります。
 

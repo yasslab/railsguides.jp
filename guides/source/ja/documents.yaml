@@ -214,7 +214,6 @@
       name: Active Record と暗号化
       url: active_record_encryption.html
       description: Active Recordを用いてデータベースの情報を暗号化する方法について解説します。
-      work_in_progress: true
     -
       name: Active Record の複数データベース対応
       url: active_record_multiple_databases.html
