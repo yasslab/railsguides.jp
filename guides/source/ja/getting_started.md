@@ -2644,7 +2644,9 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 
 次は、[演習：ユーザー登録・設定機能の追加](sign_up_and_settings.html)に従って学習を続けてください。
 
-Railsの学習を続けるために、Ruby on Railsの以下のガイドもぜひ参照してみてください。
+TIP: 訳注：Railsガイドでは開発経験者が早くキャッチアップできるよう、多くの用語説明を省略しています。読んでいて「難しい」と感じた場合は[Railsチュートリアル](https://railstutorial.jp/)からお読みください。
+
+Railsをトピック別に押さえたい方は、以下のガイドもぜひご活用ください。
 
 * [Active Recordの基礎](active_record_basics.html)
 * [レイアウトとレンダリング](layouts_and_rendering.html)
