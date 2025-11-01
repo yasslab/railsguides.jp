@@ -462,7 +462,7 @@ config.active_record.encryption.support_unencrypted_data = true
 config.active_record.encryption.extend_queries = true
 ```
 
-このセットアップは、暗号化済みデータと非暗号化データの両方がアプリケーション内で共存する必要がある移行期間中のみを対象としていることにご注意ください。2つのオプションはどちらもデフォルトで`false`になっています。これは、データが完全に強制的に暗号化される、長期的に推奨され散る設定です。
+このセットアップは、暗号化済みデータと非暗号化データの両方がアプリケーション内で共存する必要がある移行期間中のみを対象としていることにご注意ください。2つのオプションはどちらもデフォルトで`false`になっています。これは、データが完全に強制的に暗号化される、長期的に推奨される設定です。
 
 [`config.active_record.encryption.support_unencrypted_data`]:
   configuring.html#config-active-record-encryption-support-unencrypted-data
