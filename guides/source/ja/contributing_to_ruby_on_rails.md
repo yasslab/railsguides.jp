@@ -51,7 +51,7 @@ issueを作成する際に、フレームワークにバグがあるかどうか
 * [Active Record（モデル、暗号化、データベース）issue用テンプレート][main: AR models/db]
 * [Active Record（マイグレーション）issue用テンプレート][main: AR migration]
 * [Action Pack（コントローラ、ルーティング）issue用テンプレート][main: ActionPack]
-* [Active View（ビュー、ヘルパー） issue用テンプレート][main: ActiveView]
+* [Active View（ビュー、ヘルパー） issue用テンプレート][main: ActionView]
 * [Active Job issue用テンプレート][main: ActiveJob]
 * [Active Storage issue用テンプレート][main: ActiveStorage]
 * [Active Mailer issue用テンプレート][main: Action Mailer]
