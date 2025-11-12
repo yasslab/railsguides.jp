@@ -108,7 +108,7 @@ Action Pack
 
 ### 主な変更
 
-*   従来よりも安全かつ明示的なパラメータ処理メソッドである[`params#expect`](https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-expect)が導入されました。従来の`params.expect(table: [ :attr ])`をシンプルな`params.require(:table).permit(:attr)`に置き換えられます。
+*   従来よりも安全かつ明示的なパラメータ処理メソッドである[`params#expect`](https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-expect)が導入されました。従来の`params.require(:table).permit(:attr)`を`params.expect(table: [ :attr ])`に置き換えられるようになります。
 
 Action View
 -----------
