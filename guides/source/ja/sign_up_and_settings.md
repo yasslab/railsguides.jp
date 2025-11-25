@@ -1557,7 +1557,6 @@ end
 ```yaml
 <% password_digest = BCrypt::Password.create("password") %>
 one:
-Copilot menu
   email_address: one@example.com
   password_digest: <%= password_digest %>
   first_name: User
