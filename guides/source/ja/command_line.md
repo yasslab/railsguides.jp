@@ -353,7 +353,7 @@ $ bin/rails server
 
 ### モデルを生成する
 
-Railsのモデルジェネレータコマンドにも、非常に詳細な「Descriptiom（説明）」セクションが用意されています（以下は冒頭のみを表示しています）。
+Railsのモデルジェネレータコマンドにも、非常に詳細な「Description（説明）」セクションが用意されています（以下は冒頭のみを表示しています）。
 
 ```bash
 $ bin/rails generate model
