@@ -52,7 +52,6 @@ class ProcessImportJob < ApplicationJob
 
     # メソッド形式の場合
     step :finalize
-    end
 
   private
     def finalize
