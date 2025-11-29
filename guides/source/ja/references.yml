@@ -1,4 +1,6 @@
 getting_started:
+- title: Railsアプリケーション開発者のためのブックガイド - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/takahashim/
 - title: Rails 8はSQLiteで大幅に強化された「個人が扱えるフレームワーク」
   url: https://note.com/yasslab/n/n89d6850e296d
 - title: Ruby on Railsガイドのすすめ - yui-knk
