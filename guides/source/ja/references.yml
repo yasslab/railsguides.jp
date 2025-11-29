@@ -52,6 +52,10 @@ action_mailer_basics:
 - title: メール送信を使ったパスワード再設定 - Railsチュートリアル
   url: https://railstutorial.jp/chapters/password_reset?version=5.1
 
+action_view_overview:
+- title: Introducing ReActionView: A ActionView-Compatible ERB Engine - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/marcoroth/
+
 autoloading_and_reloading_constants:
 - title: Railsガイド - Classic から Zeitwerk への移行
   url: https://railsguides.jp/classic_to_zeitwerk_howto.html
