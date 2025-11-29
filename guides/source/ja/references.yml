@@ -57,7 +57,7 @@ action_mailer_basics:
   url: https://railstutorial.jp/chapters/password_reset?version=5.1
 
 action_view_overview:
-- title: Introducing ReActionView: A ActionView-Compatible ERB Engine - Kaigi on Rails
+- title: "Introducing ReActionView: A ActionView-Compatible ERB Engine - Kaigi on Rails"
   url: https://kaigionrails.org/2025/talks/marcoroth/
 
 autoloading_and_reloading_constants:
