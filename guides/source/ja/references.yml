@@ -1,4 +1,6 @@
 getting_started:
+- title: Railsアプリケーション開発者のためのブックガイド - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/takahashim/
 - title: Rails 8はSQLiteで大幅に強化された「個人が扱えるフレームワーク」
   url: https://note.com/yasslab/n/n89d6850e296d
 - title: Ruby on Railsガイドのすすめ - yui-knk
@@ -26,6 +28,12 @@ getting_started_with_devcontainer:
 - title: Railsチュートリアル - GitHub Codespaces を利用する
   url: https://railstutorial.jp/docs/codespaces.html
 
+active_job_basics:
+- title: "Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/morihirok/
+- title: "非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/srockstyle/
+
 active_record_querying:
 - title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/pocke/
@@ -37,12 +45,20 @@ active_support_core_extensions:
 association_basics:
 - title: Simplicity on Rails - RDB, REST and Ruby by MOROHASHI Kyosuke - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/moro/
+- title: "Keynote: dynamic! - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/moro/
+- title: Railsだからできる、例外業務に禍根を残さない設定設計パターン - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/ei-ei-eiichi/
 
 action_mailer_basics:
 - title: メール送信を使ったアカウント有効化 - Railsチュートリアル
   url: https://railstutorial.jp/chapters/account_activation?version=5.1
 - title: メール送信を使ったパスワード再設定 - Railsチュートリアル
   url: https://railstutorial.jp/chapters/password_reset?version=5.1
+
+action_view_overview:
+- title: "Introducing ReActionView: A ActionView-Compatible ERB Engine - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/marcoroth/
 
 autoloading_and_reloading_constants:
 - title: Railsガイド - Classic から Zeitwerk への移行
@@ -110,14 +126,22 @@ security:
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
 
 sign_up_and_settings:
-- title: "rails g authenticationから学ぶRails8.0時代の認証 (by willnet) - Speaker Deck"
-  url: https://speakerdeck.com/willnet/rails-g-authenticationkaraxue-hurails8-dot-0shi-dai-noren-zheng
-  
+- title: "rails g authenticationから学ぶRails8.0時代の認証 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/willnet/
+
+testing:
+- title: "2分台で1500examples完走！爆速CIを支える環境構築術 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/falcon8823/
+
 tuning_performance_for_deployment:
-- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
-  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
+- title: 'Keynote: Building and Deploying Interactive Rails Applications with Falcon - Kaigi on Rails'
+  url: https://kaigionrails.org/2025/talks/ioquatix/
 - title: 'Railsアプリケーションとパフォーマンスチューニング ー 秒間5万リクエストのモバイルオーダーシステムを支える事例 ー'
   url: https://speakerdeck.com/falcon8823/railsapurikesiyonto-pahuomansutiyuningu-miao-jian-5mo-rikuesutono-mobairuodasisutemuwozhi-erushi-li-rubysemina-da-ban
+- title: "もう並列実行は怖くない コネクション枯渇とデッドロック解決の実践的アプローチ - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/katakyo/
+- title: "避けられないI/O待ちに対処する: RailsアプリにおけるSSEとAsync gemの活用 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/moznion/
 
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp
@@ -146,3 +170,7 @@ working_with_javascript_in_rails:
   url: https://hotwire-and-next.vercel.app/
 - title: Importmapを使ったJavaScriptの読み込みとブラウザアドオンの影響 - Kaigi on Rails
   url: https://kaigionrails.org/2024/talks/swamp09/
+- title: Web Componentsで実現するHotwireとフロントエンドフレームワークの橋渡し - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/kudoas/
+- title: 高度なUI/UXこそHotwireで作ろう - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/naofumi/
