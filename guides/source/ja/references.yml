@@ -45,6 +45,8 @@ active_support_core_extensions:
 association_basics:
 - title: Simplicity on Rails - RDB, REST and Ruby by MOROHASHI Kyosuke - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/moro/
+- title: Railsだからできる、例外業務に禍根を残さない設定設計パターン - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/ei-ei-eiichi/
 
 action_mailer_basics:
 - title: メール送信を使ったアカウント有効化 - Railsチュートリアル
