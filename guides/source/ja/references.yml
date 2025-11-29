@@ -114,7 +114,11 @@ security:
 sign_up_and_settings:
 - title: "rails g authenticationから学ぶRails8.0時代の認証 (by willnet) - Speaker Deck"
   url: https://speakerdeck.com/willnet/rails-g-authenticationkaraxue-hurails8-dot-0shi-dai-noren-zheng
-  
+
+testing:
+- title: "2分台で1500examples完走！爆速CIを支える環境構築術 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/falcon8823/
+
 tuning_performance_for_deployment:
 - title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
   url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
