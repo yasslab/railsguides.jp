@@ -1,5 +1,5 @@
 getting_started:
-- title: Railsアプリケーション開発者のためのブックガイド - Kaigi on Rails
+- title: Kaigi on Rails - Railsアプリケーション開発者のためのブックガイド
   url: https://kaigionrails.org/2025/talks/takahashim/
 - title: Rails 8はSQLiteで大幅に強化された「個人が扱えるフレームワーク」
   url: https://note.com/yasslab/n/n89d6850e296d
@@ -29,25 +29,25 @@ getting_started_with_devcontainer:
   url: https://railstutorial.jp/docs/codespaces.html
 
 active_job_basics:
-- title: "Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則 - Kaigi on Rails"
+- title: "Kaigi on Rails - Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則"
   url: https://kaigionrails.org/2025/talks/morihirok/
-- title: "非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。 - Kaigi on Rails"
+- title: "Kaigi on Rails - 非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。"
   url: https://kaigionrails.org/2025/talks/srockstyle/
 
 active_record_querying:
-- title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
+- title: Kaigi on Rails - Active Record クエリクイズ
   url: https://kaigionrails.org/2023/talks/pocke/
 
 active_support_core_extensions:
-- title: "ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！ by Sampo Kuokkanen - Kaigi on Rails"
+- title: "Kaigi on Rails - ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！"
   url: https://kaigionrails.org/2023/talks/sampokuokkanen/
 
 association_basics:
-- title: Simplicity on Rails - RDB, REST and Ruby by MOROHASHI Kyosuke - Kaigi on Rails
+- title: "Kaigi on Rails - Simplicity on Rails - RDB, REST and Ruby"
   url: https://kaigionrails.org/2023/talks/moro/
-- title: "Keynote: dynamic! - Kaigi on Rails"
+- title: "Kaigi on Rails - Keynote: dynamic!"
   url: https://kaigionrails.org/2025/talks/moro/
-- title: Railsだからできる、例外業務に禍根を残さない設定設計パターン - Kaigi on Rails
+- title: "Kaigi on Rails - Railsだからできる、例外業務に禍根を残さない設定設計パターン"
   url: https://kaigionrails.org/2025/talks/ei-ei-eiichi/
 
 action_mailer_basics:
@@ -57,7 +57,7 @@ action_mailer_basics:
   url: https://railstutorial.jp/chapters/password_reset?version=5.1
 
 action_view_overview:
-- title: "Introducing ReActionView: A ActionView-Compatible ERB Engine - Kaigi on Rails"
+- title: "Kaigi on Rails - Introducing ReActionView: A ActionView-Compatible ERB Engine"
   url: https://kaigionrails.org/2025/talks/marcoroth/
 
 autoloading_and_reloading_constants:
@@ -88,7 +88,7 @@ constant_autoloading_and_reloading:
 contributing_to_ruby_on_rails:
 - title: OSS入門としてのRailsガイド
   url: https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate
-- title: あなたとRails by Yasuo Honda - Kaigi on Rails 基調講演
+- title: Kaigi on Rails - あなたとRails
   url: https://kaigionrails.org/2022/talks/yahonda/
 
 i18n:
@@ -108,13 +108,13 @@ maintenance_policy:
   url: https://railsguides.jp/upgrading_ruby_on_rails.html
 
 threading_and_code_execution:
-- title: "Rails Executor: フレームワークとあなたのコードとの境 by Andrey NOVIKOV - Kaigi on Rails"
+- title: "Kaigi on Rails - Rails Executor: フレームワークとあなたのコードとの境"
   url: https://kaigionrails.org/2023/talks/Envek/
 
 rails_on_rack:
-- title: "たのしいOSSコードリーディング: Let's read \"cookies\"🍪 - @coe401_ (Misaki Shioi)"
+- title: "たのしいOSSコードリーディング: Let's read \"cookies\"🍪"
   url: https://qiita.com/coe401_/items/ad7dc2f3e319c5beaf40
-- title: Rackを理解しRailsアプリケーション開発の足腰を鍛えよう - Kaigi on Rails
+- title: Kaigi on Rails - Rackを理解しRailsアプリケーション開発の足腰を鍛えよう
   url: https://kaigionrails.org/2024/workshop/
 - title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
   url: https://blog.studysapuri.jp/entry/2024-pitchfork-into-the-largest-rails-application-in-studysapuri
@@ -126,51 +126,51 @@ security:
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
 
 sign_up_and_settings:
-- title: "rails g authenticationから学ぶRails8.0時代の認証 - Kaigi on Rails"
+- title: "Kaigi on Rails - rails g authenticationから学ぶRails8.0時代の認証"
   url: https://kaigionrails.org/2025/talks/willnet/
 
 testing:
-- title: "2分台で1500examples完走！爆速CIを支える環境構築術 - Kaigi on Rails"
+- title: "Kaigi on Rails - 2分台で1500examples完走！爆速CIを支える環境構築術"
   url: https://kaigionrails.org/2025/talks/falcon8823/
 
 tuning_performance_for_deployment:
-- title: 'Keynote: Building and Deploying Interactive Rails Applications with Falcon - Kaigi on Rails'
-  url: https://kaigionrails.org/2025/talks/ioquatix/
 - title: 'Railsアプリケーションとパフォーマンスチューニング ー 秒間5万リクエストのモバイルオーダーシステムを支える事例 ー'
   url: https://speakerdeck.com/falcon8823/railsapurikesiyonto-pahuomansutiyuningu-miao-jian-5mo-rikuesutono-mobairuodasisutemuwozhi-erushi-li-rubysemina-da-ban
-- title: "もう並列実行は怖くない コネクション枯渇とデッドロック解決の実践的アプローチ - Kaigi on Rails"
+- title: 'Kaigi on Rails - Keynote: Building and Deploying Interactive Rails Applications with Falcon'
+  url: https://kaigionrails.org/2025/talks/ioquatix/
+- title: "Kaigi on Rails - もう並列実行は怖くない コネクション枯渇とデッドロック解決の実践的アプローチ"
   url: https://kaigionrails.org/2025/talks/katakyo/
-- title: "避けられないI/O待ちに対処する: RailsアプリにおけるSSEとAsync gemの活用 - Kaigi on Rails"
+- title: "Kaigi on Rails - 避けられないI/O待ちに対処する: RailsアプリにおけるSSEとAsync gemの活用"
   url: https://kaigionrails.org/2025/talks/moznion/
 
 upgrading_ruby_on_rails:
-- title: Railsアップグレードガイド - ruby-jp
+- title: ruby-jp - Railsアップグレードガイド
   url: https://cosen.se/ruby-jp/Railsアップグレードガイド
-- title: Rubyアップグレードガイド - ruby-jp
+- title: ruby-jp - Rubyアップグレードガイド
   url: https://cosen.se/ruby-jp/Rubyアップグレードガイド
 - title: GitHubは200万行規模のRailsアプリケーションであり、毎週RailsとRubyを最新版にアップデートし続けている - Publickey
   url: https://www.publickey1.jp/blog/23/github200railsrailsruby.html
 
 webpacker:
-- title: Webpacker→jsbundling-rails+webpackアップグレード手順 - Techracho
+- title: Techracho - Webpacker→jsbundling-rails+webpackアップグレード手順
   url: https://techracho.bpsinc.jp/hachi8833/2024_01_22/115289
-- title: Webpacker v5からShakapacker v6へのアップグレードガイド- TechRacho
+- title: TechRacho - Webpacker v5からShakapacker v6へのアップグレードガイド
   url: https://techracho.bpsinc.jp/hachi8833/2023_08_08/115955
 
 working_with_javascript_in_rails:
 - title: Turbo Handbook - Hotwire 公式ハンドブック
   url: https://everyleaf.github.io/hotwire_ja/
-- title: Hotwire的な設計を追求して「Web紙芝居」に行き着いた話 by Yasuko Ohba (nay3) - Kaigi on Rails
-  url: https://kaigionrails.org/2023/talks/nay3/
 - title: Hotwireことはじめ - 万葉
   url: https://note.com/everyleaf/n/n9dc49676521c
 - title: 猫でもわかるHotwire入門 - Zenn
   url: https://zenn.dev/shita1112/books/cat-hotwire-turbo
 - title: Hotwire for Frontend Developers - フロントエンドエンジニアのためのHotwire入門
   url: https://hotwire-and-next.vercel.app/
-- title: Importmapを使ったJavaScriptの読み込みとブラウザアドオンの影響 - Kaigi on Rails
+- title: Kaigi on Rails - Hotwire的な設計を追求して「Web紙芝居」に行き着いた話
+  url: https://kaigionrails.org/2023/talks/nay3/
+- title: Kaigi on Rails - Importmapを使ったJavaScriptの読み込みとブラウザアドオンの影響
   url: https://kaigionrails.org/2024/talks/swamp09/
-- title: Web Componentsで実現するHotwireとフロントエンドフレームワークの橋渡し - Kaigi on Rails
+- title: Kaigi on Rails - Web Componentsで実現するHotwireとフロントエンドフレームワークの橋渡し
   url: https://kaigionrails.org/2025/talks/kudoas/
-- title: 高度なUI/UXこそHotwireで作ろう - Kaigi on Rails
+- title: Kaigi on Rails - 高度なUI/UXこそHotwireで作ろう
   url: https://kaigionrails.org/2025/talks/naofumi/
