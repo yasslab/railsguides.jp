@@ -126,8 +126,8 @@ security:
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
 
 sign_up_and_settings:
-- title: "rails g authenticationから学ぶRails8.0時代の認証 (by willnet) - Speaker Deck"
-  url: https://speakerdeck.com/willnet/rails-g-authenticationkaraxue-hurails8-dot-0shi-dai-noren-zheng
+- title: "rails g authenticationから学ぶRails8.0時代の認証 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/willnet/
 
 testing:
 - title: "2分台で1500examples完走！爆速CIを支える環境構築術 - Kaigi on Rails"
