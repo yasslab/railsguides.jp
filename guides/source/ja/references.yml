@@ -28,6 +28,10 @@ getting_started_with_devcontainer:
 - title: Railsチュートリアル - GitHub Codespaces を利用する
   url: https://railstutorial.jp/docs/codespaces.html
 
+active_job_basics:
+- title: "Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/morihirok/
+
 active_record_querying:
 - title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
   url: https://kaigionrails.org/2023/talks/pocke/
