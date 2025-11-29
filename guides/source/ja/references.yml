@@ -126,6 +126,8 @@ tuning_performance_for_deployment:
   url: https://speakerdeck.com/falcon8823/railsapurikesiyonto-pahuomansutiyuningu-miao-jian-5mo-rikuesutono-mobairuodasisutemuwozhi-erushi-li-rubysemina-da-ban
 - title: "もう並列実行は怖くない コネクション枯渇とデッドロック解決の実践的アプローチ - Kaigi on Rails"
   url: https://kaigionrails.org/2025/talks/katakyo/
+- title: "避けられないI/O待ちに対処する: RailsアプリにおけるSSEとAsync gemの活用 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/moznion/
 
 upgrading_ruby_on_rails:
 - title: Railsアップグレードガイド - ruby-jp
