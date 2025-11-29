@@ -150,5 +150,7 @@ working_with_javascript_in_rails:
   url: https://hotwire-and-next.vercel.app/
 - title: Importmapを使ったJavaScriptの読み込みとブラウザアドオンの影響 - Kaigi on Rails
   url: https://kaigionrails.org/2024/talks/swamp09/
+- title: Web Componentsで実現するHotwireとフロントエンドフレームワークの橋渡し - Kaigi on Rails
+  url: https://kaigionrails.org/2025/talks/kudoas/
 - title: 高度なUI/UXこそHotwireで作ろう - Kaigi on Rails
   url: https://kaigionrails.org/2025/talks/naofumi/
