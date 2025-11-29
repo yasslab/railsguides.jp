@@ -134,8 +134,6 @@ testing:
   url: https://kaigionrails.org/2025/talks/falcon8823/
 
 tuning_performance_for_deployment:
-- title: "Ruby 3.3でYJITを今すぐ有効にすべき理由 - k0kubun's blog"
-  url: https://k0kubun.hatenablog.com/entry/ruby-3-3-yjit
 - title: 'Railsアプリケーションとパフォーマンスチューニング ー 秒間5万リクエストのモバイルオーダーシステムを支える事例 ー'
   url: https://speakerdeck.com/falcon8823/railsapurikesiyonto-pahuomansutiyuningu-miao-jian-5mo-rikuesutono-mobairuodasisutemuwozhi-erushi-li-rubysemina-da-ban
 - title: "もう並列実行は怖くない コネクション枯渇とデッドロック解決の実践的アプローチ - Kaigi on Rails"
