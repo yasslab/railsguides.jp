@@ -31,6 +31,8 @@ getting_started_with_devcontainer:
 active_job_basics:
 - title: "Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則 - Kaigi on Rails"
   url: https://kaigionrails.org/2025/talks/morihirok/
+- title: "非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。 - Kaigi on Rails"
+  url: https://kaigionrails.org/2025/talks/srockstyle/
 
 active_record_querying:
 - title: Active Record クエリクイズ by Masataka Pocke Kuwabara - Kaigi on Rails
