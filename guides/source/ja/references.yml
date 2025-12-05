@@ -42,6 +42,12 @@ active_support_core_extensions:
 - title: "Kaigi on Rails - ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！"
   url: https://kaigionrails.org/2023/talks/sampokuokkanen/
 
+active_support_instrumentation:
+- title: 'OpenTelemetryによるRailsアプリの計装を支えるActiveSupport::Notiﬁcations - Kaigi Rails 2024 事後勉強会'
+  url: https://speakerdeck.com/ymtdzzz/activesupport-notifications-supporting-instrumentation-of-rails-apps-with-opentelemetry
+- title: 'モノリスでも使える！OpenTelemetryでRailsアプリのパフォーマンス分析を始めてみよう - Kaigi on Rails'
+  url: https://kaigionrails.org/2024/talks/ymtdzzz/
+
 association_basics:
 - title: "Kaigi on Rails - Simplicity on Rails - RDB, REST and Ruby"
   url: https://kaigionrails.org/2023/talks/moro/
