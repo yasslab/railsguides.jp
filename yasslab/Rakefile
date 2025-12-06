@@ -64,7 +64,9 @@ end
 task(build: [:clean]) { system 'bundle exec jekyll build' }
 task(:clean)          { system 'bundle exec jekyll clean' }
 task(:yaml_check) do
-  Dir.glob('./yasslab/test/**/*_test.rb') { |file| system("ruby #{file}") }
+  Dir.glob('./yasslab/test/**/*_test.rb') do |file|
+    abort "YAML check failed: #{file}\n\n" unless system("ruby #{file}")
+  end
 end
 
 
