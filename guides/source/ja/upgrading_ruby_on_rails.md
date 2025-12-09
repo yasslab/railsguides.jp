@@ -18,7 +18,7 @@ Rails アップグレードガイド
 
 Railsでは、一般にRubyの最新版がリリースされると最新版のRubyに近い状態に合わせます。
 
-* Rails 8.0: Ruby 3.2.0以降が必須
+* Rails 8.0と8.1: Ruby 3.2.0以降が必須
 * Rails 7.2: Ruby 3.1.0以降が必須
 * Rails 7.0と7.1: Ruby 2.7.0以降が必須
 * Rails 6: Ruby 2.5.0以降が必須
@@ -80,7 +80,7 @@ Overwrite /myapp/config/application.rb? (enter "h" for help) [Ynaqdh]
 Rails 8.0からRails 8.1へのアップグレード
 -------------------------------------
 
-Rails 8.0で行われた変更について詳しくは、[Rails 8.1のリリースノート](8_1_release_notes.html)を参照してください。
+Rails 8.1で行われた変更について詳しくは、[Rails 8.1のリリースノート](8_1_release_notes.html)を参照してください。
 
 TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 8.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_8.1_Upgrade_Knowledge)」にまとめられています。
 
