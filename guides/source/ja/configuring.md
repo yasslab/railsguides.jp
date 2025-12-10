@@ -2002,7 +2002,7 @@ end
 
 値を`:rescueable`に設定すると、[`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)リストで定義されている例外についてはrescueし、その他すべてはraiseするようAction Packを構成します。 たとえば、Action Packは`ActiveRecord::RecordNotFound`をrescueしますが、`NoMethodError`をraiseします。
 
-値を``:none`に設定すると、Action Packがすべての例外をraiseするように構成されます。
+値を`:none`に設定すると、Action Packがすべての例外をraiseするように構成されます。
 
 * `:all`: すべての例外をエラーページで表示する
 * `:rescuable`: [`config.action_dispatch.rescue_responses`](#config-action-dispatch-rescue-responses)で宣言されている例外をエラーページで表示する
