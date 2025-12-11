@@ -66,6 +66,10 @@ action_view_overview:
 - title: "Kaigi on Rails - Introducing ReActionView: A ActionView-Compatible ERB Engine"
   url: https://kaigionrails.org/2025/talks/marcoroth/
 
+api_app:
+- title: "Kaigi on Rails - Rails APIモードのためのシンプルで効果的なCSRF対策"
+  url: https://kaigionrails.org/2024/talks/corocn/
+
 autoloading_and_reloading_constants:
 - title: Railsガイド - Classic から Zeitwerk への移行
   url: https://railsguides.jp/classic_to_zeitwerk_howto.html
