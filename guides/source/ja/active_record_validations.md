@@ -1466,7 +1466,7 @@ irb> user.save(context: :location_info) # => false
 
 [`errors`][]メソッドは、個別のエラーを詳しく掘り下げるときの入り口となります。
 
-`errors`メソッドは、すべてのエラーを含む`ActiveModel::Error`クラスのインスタンスを1つ返します。個別のエラーは、[`ActiveModel::Error`][]オブジェクトによって表現されます。
+`errors`メソッドは、すべてのエラーを含む`ActiveModel::Errors`クラスのインスタンスを1つ返します。個別のエラーは、[`ActiveModel::Error`][]オブジェクトによって表現されます。
 
 ```ruby
 class Person < ApplicationRecord
