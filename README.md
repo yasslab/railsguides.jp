@@ -23,9 +23,9 @@ https://railstutorial.jp/
 
 ## 📮 フィードバックについて
 
-Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら、下記の『[ブラウザでRailsガイドの修正を提案する](https://github.com/yasslab/railsguides.jp#%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7rails%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AE%E4%BF%AE%E6%AD%A3%E3%82%92%E6%8F%90%E6%A1%88%E3%81%99%E3%82%8B-%E3%82%AA%E3%82%B9%E3%82%B9%E3%83%A1)』に沿って [Pull Request](https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (プルリク) を送っていただけると嬉しいです 😌
+Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら、下記の『[ブラウザでRailsガイドの修正を提案する](#pr)』に沿って [Pull Request](https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (プルリク) を送っていただけると嬉しいです 😌
 
-もし原著 (英語版) の間違いを見つけたら **プルリクチャンス** です! Railsガイドの『[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#rails%E3%81%AE%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AB%E8%B2%A2%E7%8C%AE%E3%81%99%E3%82%8B)』を参考に [:octocat: rails/rails](https://github.com/rails/rails) にプルリクを送ってみましょう 🌐🤝
+もし原著 (英語版 Rails Guides) の間違いを見つけたら **プルリクチャンス** です! Railsガイドの『[Railsのドキュメントに貢献する](https://railsguides.jp/contributing_to_ruby_on_rails.html#railsのドキュメントに貢献する)』を参考に [:octocat: rails/rails](https://github.com/rails/rails) にプルリクを送ってみましょう 🌐🤝
 
 『[Railsガイド](https://railsguides.jp/)』および『[Rails Guides](https://guides.rubyonrails.org/)』の品質向上に向けて、皆さまのご協力が得られれば嬉しいです 🙏✨
 
@@ -33,7 +33,7 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 <div id='pr'></div>
 
-### :octocat: ブラウザでRailsガイドの修正を提案する (オススメ)
+### [:octocat:](#pr) ブラウザでRailsガイドの修正を提案する (オススメ)
 
 多分これが一番簡単だと思います...!! 😆
 
@@ -167,6 +167,8 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
   - [@riseshia](https://github.com/riseshia)
   - [@willnet](https://github.com/willnet)
 - 👏 他、[Issues](https://github.com/yasslab/railsguides.jp/issues) や [Pull Request](https://github.com/yasslab/railsguides.jp/graphs/contributors) を送ってくださった多くの方々。
+
+<br>
 
 ### 🤝 支援・協賛
 Railsガイドでは、ドキュメントを通してRuby/Railsコミュニティを一緒に支援してくださる企業を募集しております。詳細は「[協賛プラン](https://railsguides.jp/sponsors)」のページよりご確認ください。
