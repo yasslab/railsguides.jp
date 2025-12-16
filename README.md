@@ -175,7 +175,7 @@ Railsガイドでは、ドキュメントを通してRuby/Railsコミュニテ�
 
 協賛プラン: [https://railsguides.jp/sponsors](https://railsguides.jp/sponsors)
 
-[![協賛プラン バナー画像](/guides/assets/images/logos/bnr-kyosan.gif)](https://railsguides.jp/sponsors)
+[![協賛プラン バナー画像](https://i.gyazo.com/21ce0b03c0f74c72e9cc86387152c8a3.webp)](https://railsguides.jp/sponsors)
 
 <br>
 
