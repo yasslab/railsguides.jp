@@ -2,9 +2,10 @@
 
 [![Ruby on Rails ガイド - 体系的に Rails を学ぼう](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/guides/assets/images/header-railsguides.png)](https://railsguides.jp/)
 
+
 <div id='about'></div>
 
-## 📕 Railsガイドとは？
+## [📕](#about) Railsガイドとは？
 
 『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。   
 Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
@@ -19,9 +20,10 @@ https://railstutorial.jp/
 
 <br>
 
+
 <div id='feedback'></div>
 
-## 📮 フィードバックについて
+## [📮](#feedback) フィードバックについて
 
 Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら、下記の『[ブラウザでRailsガイドの修正を提案する](#pr)』に沿って [Pull Request](https://docs.github.com/ja/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (プルリク) を送っていただけると嬉しいです 😌
 
@@ -51,9 +53,10 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 <br>
 
+
 <div id='build'></div>
 
-## 🛠️ Railsガイドの生成方法
+## [🛠️](#build) Railsガイドの生成方法
 
 Pull Request を送る前に生成結果を確認したい場合は下記をご参照ください。   
 **_(※ 生成結果を確認せずに Pull Request を送って頂いても大丈夫です! 😆👌)_**
@@ -136,9 +139,10 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 <br>
 
+
 <div id='team'></div>
 
-## 👥 運営チーム
+## [👥](#team) 運営チーム
 
 本リポジトリは『創る』『学ぶ』を支援する [YassLab 株式会社](https://yasslab.jp/ja/) によって制作・運用されております。
 
@@ -157,7 +161,10 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 また他にも多くの方々から [1,500 以上の修正提案 (PR)](https://github.com/yasslab/railsguides.jp/pulls?q=is%3Apr+is%3Aclosed) を頂きました! 🤝✨    
 さまざまな修正提案、ご意見・フィードバックありがとうございます...!! 🙇💖
 
-### 💖 協力者
+
+<div id='supporters'></div>
+
+### [💖](#supporters) 協力者
 
 - 👥 共同発起人 
   - [@hachi8833](https://github.com/hachi8833)
@@ -170,7 +177,10 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 <br>
 
-### 🤝 支援・協賛
+
+<div id='support'></div>
+
+### [🤝](#support) 支援・協賛
 Railsガイドでは、ドキュメントを通してRuby/Railsコミュニティを一緒に支援してくださる企業を募集しております。詳細は「[協賛プラン](https://railsguides.jp/sponsors)」のページよりご確認ください。
 
 協賛プラン: [https://railsguides.jp/sponsors](https://railsguides.jp/sponsors)
@@ -179,9 +189,10 @@ Railsガイドでは、ドキュメントを通してRuby/Railsコミュニテ�
 
 <br>
 
+
 <div id='license'></div>
 
-## ⚖️ ライセンス
+## [⚖️](#license) ライセンス
 
 [![CC BY-SA International](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/CC-BY-SA.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)
 
@@ -193,9 +204,10 @@ Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.
 
 <br>
 
+
 <div id='credit'></div>
 
-## ©️ クレジット
+## [©️](#credit) クレジット
 
 - 原著: [https://edgeguides.rubyonrails.org/#complementary](https://edgeguides.rubyonrails.org/#complementary)
 - 本書: [https://railsguides.jp/#contributors](https://railsguides.jp/#contributors)
