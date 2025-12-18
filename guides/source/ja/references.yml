@@ -33,6 +33,9 @@ active_job_basics:
   url: https://kaigionrails.org/2025/talks/morihirok/
 - title: "Kaigi on Rails - 非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。"
   url: https://kaigionrails.org/2025/talks/srockstyle/
+- title: "RailsTokyo (2025/12) - Active Job 近況 - Continuations, Solid Queue"
+  url: https://speakerdeck.com/igaiga/activejobupdates
+
 
 active_record_querying:
 - title: Kaigi on Rails - Active Record クエリクイズ
