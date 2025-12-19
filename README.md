@@ -49,6 +49,7 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 - 参考スライド: [⛩ OSS入門としてのRailsガイド 📕](https://speakerdeck.com/yasslab/railsguides-as-an-oss-gate)
 - [&raquo; Railsガイド (日本語) への修正提案が、Rails Guides (英語) にも反映された例](https://github.com/rails/rails/pull/50756)
+- [&raquo; 【初PR】Railsガイドの表記誤りを見つけたので、修正PRを送ってマージ🙆された話](https://qiita.com/gon0821/items/9f512eaad60e403eda31)
 - [&raquo; これまでの修正提案（プルリクエスト）の一覧を見る](https://github.com/yasslab/railsguides.jp/pulls?q=is%3Apr+is%3Aclosed)
 
 <br>
