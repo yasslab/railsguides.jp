@@ -210,7 +210,7 @@ Railsガイドの[コンテンツ部分](https://github.com/yasslab/railsguides.
 
 ## [©️](#credit) クレジット
 
-- 原著: [https://edgeguides.rubyonrails.org/#complementary](https://edgeguides.rubyonrails.org/#complementary)
+- 原著: [https://guides.rubyonrails.org/#complementary](https://guides.rubyonrails.org/#complementary)
 - 本書: [https://railsguides.jp/#contributors](https://railsguides.jp/#contributors)
 
 [![YassLab Inc.](https://yasslab.jp/img/logos/800x200.png)](https://yasslab.jp/ja/)
