@@ -40,6 +40,8 @@ active_job_basics:
 active_record_querying:
 - title: Kaigi on Rails - Active Record クエリクイズ
   url: https://kaigionrails.org/2023/talks/pocke/
+- title: Railsの練習帳 - トランザクションとロック
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/ar_transaction_lock
 
 active_support_core_extensions:
 - title: "Kaigi on Rails - ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！"
