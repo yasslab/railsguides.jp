@@ -2020,7 +2020,7 @@ Railsでパス相対的なURLリダイレクトを処理する方法を制御し
 | バージョン     | デフォルト値 |
 | -------------- | ------------ |
 | （オリジナル） | `:log`       |
-| 7.0以降        | `:raise`     |
+| 8.1以降        | `:raise`     |
 
 #### `config.action_controller.log_query_tags_around_actions`
 
