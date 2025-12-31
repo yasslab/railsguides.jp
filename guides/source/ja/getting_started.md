@@ -1975,7 +1975,7 @@ store(dev)> subscriber = product.subscribers.find_or_create_by(email: "subscribe
 store(dev)> ProductMailer.with(product: product, subscriber: subscriber).in_stock.deliver_later
 ```
 
-メールが送信されたことがRailsの`log/development.log`で以下のように確認できます。
+メールが送信されたことがログで以下のように確認できます。
 
 ```
 ProductMailer#in_stock: processed outbound mail in 63.0ms
