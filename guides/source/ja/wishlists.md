@@ -138,7 +138,7 @@ class Product < ApplicationRecord
 `wishlist_products`関連付けにも`dependent: :destroy`を指定しているので、`Product`が削除されると、すべての`Wishlist`モデルからも製品が削除されます。
 
 カウンタキャッシュは、関連付けられているレコードの件数を保存することで、件数が必要になるたびにクエリを別途実行しなくても件数を取り出せるようにします。
-`app/models/wishlist.rb`ファイルをエディタで開いて、以下のように2つの関連付けにカウンタキャッシュを追加します。
+`app/models/wishlist_product.rb`ファイルをエディタで開いて、以下のように2つの関連付けにカウンタキャッシュを追加します。
 
 ```ruby
 class WishlistProduct < ApplicationRecord
