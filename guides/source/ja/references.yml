@@ -157,6 +157,8 @@ tuning_performance_for_deployment:
   url: https://kaigionrails.org/2025/talks/katakyo/
 - title: "Kaigi on Rails - 避けられないI/O待ちに対処する: RailsアプリにおけるSSEとAsync gemの活用"
   url: https://kaigionrails.org/2025/talks/moznion/
+- title: "Kaigi on Rails - 都市伝説バスターズ「WebアプリのボトルネックはDBだから言語の性能は関係ない」"
+  url: https://kaigionrails.org/2024/talks/osyoyu/
 
 upgrading_ruby_on_rails:
 - title: ruby-jp - Railsアップグレードガイド
