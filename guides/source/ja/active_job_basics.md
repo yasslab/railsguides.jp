@@ -874,11 +874,10 @@ class MoneySerializer < ActiveJob::Serializers::ObjectSerializer
     Money.new(hash["amount"], hash["currency"])
   end
 
-  private
-    # ある引数がこのシリアライザでシリアライズされるべきかどうかをチェックする
-    def klass
-      Money
-    end
+  # ある引数がこのシリアライザでシリアライズされるべきかどうかをチェックする
+  def klass
+    Money
+  end
 end
 ```
 
