@@ -902,6 +902,8 @@ end
 <%= image_tag user.avatar.variant(resize_to_limit: [100, 100]) %>
 ```
 
+WARNING: バリアントプロセッサにユーザー指定の変形方法やパラメータを制約なしで渡すのは安全ではないとみなすべきです。これらを許すと、アプリでコマンドインジェクション脆弱性が生じる可能性があります。また、バリアントプロセッサとしてMiniMagickを選択する場合は、[ImageMagickセキュリティポリシー](https://imagemagick.org/script/security-policy.php)を厳格に実装することが推奨されます。
+
 バリアントがリクエストされると、Active Storageは画像フォーマットに応じて自動的に変形処理を適用します。
 
 1. Content-Typeが可変（[`config.active_storage.variable_content_types`][]の設定に基づく）で、Web画像を考慮しない場合（[`config.active_storage.web_image_content_types`][])の設定に基づく）は、PNGに変換される。
