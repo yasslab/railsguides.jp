@@ -185,6 +185,15 @@ Railsがdevelopment環境とtest環境で読み込む`secret_key_base`のファ�
 
 production環境およびその他の環境は影響を受けません。
 
+### シリアライズの新しい`ActiveSupport::Cache`形式が利用可能になった
+
+ビューフラグメントなどの文字列値に対する最適化を含む、新しい7.1キャッシュ形式が利用可能になりました。
+
+新規アプリケーションでは、デフォルトで7.1のキャッシュ形式が使われます。
+既存のアプリケーションでは、`config.load_defaults 7.1`を設定するか、`config/application.rb`ファイルまたは`config/environments/*.rb`ファイルで [`config.active_support.cache_format_version = 7.1`](configuring.html#config-active-support-cache-format-version)を設定することで、この形式を有効化できます。
+
+6.1キャッシュ形式または7.0のキャッシュ形式で書き込まれたキャッシュエントリは、7.1キャッシュ形式でも読み取り可能です。Rails 7.1へのアップグレードをローリングデプロイし、まだアップグレードされていないサーバーがアップグレード後のサーバーのキャッシュを読み取れるようにするには、最初のデプロイではキャッシュ形式を変更せず、その後のデプロイで7.1キャッシュ形式を有効化してください。
+
 ### 自動読み込みされるパスが`$LOAD_PATH`に含まれなくなった
 
 * [Disable config.add_autoload_paths_to_load_path by default in Rails 7.1 by casperisfine · Pull Request #44133 · rails/rails][44133]
