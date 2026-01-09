@@ -648,29 +648,31 @@ $ bin/rails dbconsole --database=animals
 
 ### `bin/rails runner`
 
-`bin/rails runner`コマンドを使うと、`bin/rails console`を必要とせずに、RubyのコードをRailsのコンテキストで非対話的に実行できます。たとえば次のようになります。
+`bin/rails runner`コマンドを使うと、`bin/rails console`を必要とせずに、RubyのコードをRailsのコンテキストで非対話的に実行できます。このコマンドは、Railsコンソールで対話操作を行う必要のない、1回きりのタスクを実行するのに便利です。たとえば以下のように実行できます。
 
 ```bash
-$ bin/rails runner "Model.long_running_method"
+$ bin/rails runner "puts User.count"
+42
+
+$ bin/rails runner 'MyJob.perform_now'
 ```
 
-INFO: ランナーコマンドを実行するときに`bin/rails r`のように"r"というエイリアスが使えます。
-
-`-e`で`runner`コマンドを実行する環境を指定できます。
+`-e`オプションを使うと、`runner`コマンドを実行するときの環境を指定できます。
 
 ```bash
-$ bin/rails runner -e staging "Model.long_running_method"
+$ bin/rails runner -e production "puts User.count"
 ```
 
-ファイル内のRubyコードを`runner`で実行することもできます。
+以下のように、Rubyファイル内のコードをRailsアプリケーションのコンテキストで実行することも可能です。
 
 ```bash
-$ bin/rails runner lib/code_to_be_run.rb
+$ bin/rails runner lib/path_to_ruby_script.rb
 ```
 
-`bin/rails runner`スクリプトは、デフォルトではRails Executorで自動的にラップされ、cronジョブなどのタスクのキャッチされていない例外を報告するのに便利です。
+`bin/rails runner`で実行するスクリプトは、デフォルトではRails Executorで自動的にラップされます。Rails Executorは、Railsアプリケーションに関連付けられた[`ActiveSupport::Executor`][]のインスタンスです。
+Rails Executorは、Railsアプリケーション内で任意のRubyコードを実行するための「セーフゾーン」を作成し、オートローダー、ミドルウェアスタック、Active Supportフックがすべて一貫して動作するようにします。
 
-つまり、`bin/rails runner lib/long_running_scripts.rb`を実行することは、機能的に以下と同等です。
+つまり、`bin/rails runner lib/long_running_scripts.rb`を実行することは、機能的に以下のコードを実行するのと同等です。
 
 ```ruby
 Rails.application.executor.wrap do
@@ -683,6 +685,9 @@ end
 ```bash
 $ bin/rails runner --skip-executor lib/long_running_script.rb
 ```
+
+[`ActiveSupport::Executor`]:
+  https://api.rubyonrails.org/classes/ActiveSupport/Executor.html
 
 ### `bin/rails boot`
 
