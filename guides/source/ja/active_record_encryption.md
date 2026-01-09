@@ -102,7 +102,7 @@ my-app(dev)> Article.first
 
 [`encrypts`]: https://api.rubyonrails.org/classes/ActiveRecord/Encryption/EncryptableRecord.html#method-i-encrypts
 
-#### 重要: ストレージとカラムのサイズについて
+#### 重要: ストレージで考慮すべき点
 
 暗号化を行うと、その分必要なストレージ容量が増加します。これは、Active Record暗号化によって、暗号化ペイロードの他に追加のメタデータも保存されるためです。なお、ペイロード自体はBase64エンコードされるので、テキストベースのカラムに安全に収まるようになります。
 
@@ -471,7 +471,7 @@ config.active_record.encryption.extend_queries = true
 
 ### 移行前の暗号化スキームのサポート
 
-属性の暗号化プロパティを変更すると、既存のデータが破損する可能性があります。たとえば、決定論的な属性を非決定論的に変更したい場合を考えてみましょう。モデルで宣言を変更すると、暗号化手法が一致しなくなるため、既存の暗号文の読み取りに失敗します。
+属性の暗号化プロパティを変更すると、既存のデータが破損する可能性があります。たとえば、決定論的な暗号化属性を非決定論的に変更したい場合を考えてみましょう。モデルで宣言を変更すると、暗号化手法が一致しなくなるため、既存の暗号文の読み取りに失敗します。
 
 このような状況をサポートするために、移行前の古い暗号化スキームをグローバルまたは属性ごとに指定できます。
 
@@ -614,7 +614,7 @@ end
 
 #### `DerivedSecretKeyProvider`
 
-[`DerivedSecretKeyProvider`][]は、指定のパスワードから[PBKDF2][]を用いて導出されるキーを提供するキープロバイダです。
+[`DerivedSecretKeyProvider`][]は、指定のパスワードから[PBKDF2][]を用いて導出されるキーを提供するキープロバイダです。このキープロバイダはデフォルトで設定されます。
 
 ```ruby
 config.active_record.encryption.key_provider = ActiveRecord::Encryption::DerivedSecretKeyProvider.new(["some passwords", "to derive keys from. ", "These should be in", "credentials"])
@@ -629,10 +629,11 @@ NOTE: `active_record.encryption`はデフォルトで、`active_record.encryptio
 
 #### `EnvelopeEncryptionKeyProvider`
 
-[`EnvelopeEncryptionKeyProvider`][]は、データをキーでシンプルに暗号化する[エンベロープ暗号化][enveloping]戦略を実装します。
+[`EnvelopeEncryptionKeyProvider`][]は、データをキーでシンプルに暗号化する[エンベロープ暗号化][enveloping]戦略を実装します。この戦略では、データがキーで暗号化され、そのキーも暗号化されます。
 
 - データ暗号化操作のたびにランダムなキーを生成する
-- データ自身のほかにデータキーも保存し、続けて`active_record.encryption.primary_key` credentialで定義されている主キーによる暗号化も行う
+- データ自身のほかにデータキーも保存する
+- `active_record.encryption.primary_key` credentialで定義されている主キーによる暗号化も行う
 
 以下を`config/application.rb`に追加することで、Active Recordでこのキープロバイダを使うよう設定できます。
 
@@ -673,7 +674,7 @@ end
 - `encryption_key`: コンテンツの暗号化に使われたキーを返す
 - `decryption_keys`: 指定のメッセージを復号するのに使う可能性のあるキーのリストを返す
 
-１つのキーには、メッセージと一緒に暗号化なしで保存される任意のタグを含められます。[`ActiveRecord::Encryption::Message#headers`][]を使って、復号時にこれらの値を調べられます。
+1つのキーには、メッセージと一緒に暗号化なしで保存される任意のタグを含められます。[`ActiveRecord::Encryption::Message#headers`][]を使って、復号時にこれらの値を調べられます。
 
 [`ActiveRecord::Encryption::Message#headers`]: 
   https://api.rubyonrails.org/classes/ActiveRecord/Encryption/Message.html
@@ -723,9 +724,7 @@ NOTE: キーローテーションは、決定論的暗号化では現在サポ�
 
 ### キー参照の保存
 
-以下のように[`active_record.encryption.store_key_references`][]を設定することで、`active_record.encryption`が暗号化済みメッセージそのものに暗号化キーへの参照を保存するようになります。
-
-暗号化キーへの参照を暗号化済みメッセージそのものに保存できます。これにより、復号の際にキーのリストを探索する必要がなくなり、パフォーマンスが向上します。ただし、その分暗号化データのサイズがやや大きくなります。
+以下のように[`active_record.encryption.store_key_references`][]を設定することで、`active_record.encryption`が暗号化済みメッセージそのものに暗号化キーへの参照を保存するようになります。これにより、復号の際にキーのリストを探索する必要がなくなり、パフォーマンスが向上します。ただし、その分暗号化データのサイズがやや大きくなります。
 
 キー参照を保存するには、以下の設定を有効にする必要があります。
 
