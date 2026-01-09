@@ -30,7 +30,7 @@ Railsでは、新しいアプリケーションの作成時からテストが開
 
 ```bash
 $ ls -F test
-controllers/                     helpers/                         mailers/                         fixtures/                        integration/                     models/                          test_helper.rb
+controllers/  fixtures/  helpers/  integration/  mailers/  models/  test_helper.rb
 ```
 
 ### `test`ディレクトリの構造
@@ -39,19 +39,19 @@ controllers/                     helpers/                         mailers/      
 
 `controllers/`ディレクトリは、[コントローラに関連するテスト](#コントローラの機能テスト)の置き場所で、ルーティングやビューに関連するテストもここに置きます。ここで行うテストではHTTPリクエストをシミュレートして、その結果に対してアサーションを行います。
 
-`integration`ディレクトリは、[コントローラ同士のやりとりのテスト](#結合テスト)を置く場所として予約されています。
-
-`system/`ディレクトリには、アプリケーションをブラウザから操作してテストする[システムテスト](#システムテスト)が保存されます。システムテストを使うと、ユーザーが実際に体験する方法でアプリケーションをテストできるほか、JavaScriptのテストにも役立ちます。システムテストは、アプリケーションのブラウザ内テストを実行する[Capybara](https://github.com/teamcapybara/capybara)から継承した機能です。
-
-フィクスチャはテストデータを編成する方法の1つであり、`fixtures`フォルダに置かれます。
+`integration/`ディレクトリは、[コントローラ同士のやりとりのテスト](#結合テスト)を置く場所として予約されています。
 
 [フィクスチャ][`Fixtures`]は、テストで使うデータをモックアップする方法の一種です。フィクスチャを使うと、「実際の」データを使わずに済むようになります。これらは`fixtures`ディレクトリに保存されます。詳しくは[フィクスチャ](#フィクスチャ)セクションで後述します。
 
-ジョブテスト用の`jobs/`ディレクトリは、[ジョブを最初に生成](active_job_basics.html#ジョブを作成する)したときに作成されます。
-
 `test_helper.rb`にはテスティングのデフォルト設定を記述します。
 
+`system/`ディレクトリと`application_system_test_case.rb`ファイルは、最初に[システムテストを生成する](#システムテストを生成する)ときに作成されます。
+
+`system/`ディレクトリには、アプリケーションをブラウザから操作してテストする[システムテスト](#システムテスト)が保存されます。システムテストを使うと、ユーザーが実際に体験する方法でアプリケーションをテストできるほか、JavaScriptのテストにも役立ちます。システムテストは、アプリケーションのブラウザ内テストを実行する[Capybara](https://github.com/teamcapybara/capybara)から継承した機能です。
+
 `application_system_test_case.rb`には、システムテストのデフォルトの設定を記述します。
+
+ジョブテスト用の`jobs/`ディレクトリは、[ジョブを最初に生成](active_job_basics.html#ジョブを作成する)したときに作成されます。
 
 [`Fixtures`]:
   https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -1432,22 +1432,23 @@ Railsのscaffoldは、デフォルトでシステムテストを生成しなく�
 
 1. **scaffold**で明示的にシステムテストを生成する場合:
 
-   ```bash
-   $ bin/rails generate scaffold Article title:string body:text --system-tests=true
-   ```
+    ```bash
+    $ bin/rails generate scaffold Article title:string body:text --system-tests=true
+    ```
 
 3. 重要な機能について**個別にシステムテストを生成する場合**:
 
-   ```bash
-   $ bin/rails generate system_test articles
-   ```
+    ```bash
+    $ bin/rails generate system_test articles
+    ```
 
 アプリケーションの`test/system`ディレクトリは、Railsのシステムテストを作成するために使います。Railsではシステムテストのスケルトンを生成するジェネレータが提供されています。
 
 ```bash
 $ bin/rails generate system_test users
-      invoke test_unit
-      create test/system/users_test.rb
+      invoke  test_unit
+      create    test/application_system_test_case.rb
+      create    test/system/users_test.rb
 ```
 
 生成直後のシステムテストは次のようになっています。
@@ -1470,7 +1471,7 @@ end
 
 Railsのシステムテストでは、デフォルト設定を非常にシンプルな方法で変更できます。すべての設定が抽象化されているので、テストの作成に集中できます。
 
-新しいアプリケーションやscaffoldを生成すると、`test/`ディレクトリに`application_system_test_case.rb`ファイルが作成されます。システムテストの設定はすべてここで行います。
+システムテストを生成すると、`test/`ディレクトリに`application_system_test_case.rb`ファイルが作成されます。システムテストの設定はすべてここで行います。
 
 デフォルト設定を変更したい場合は、システムテストの`driven_by`項目を変更できます。たとえばドライバをSeleniumからCupriteに変更する場合は、まず[`cuprite`](https://github.com/rubycdp/cuprite) gemをGemfileに追加して`bundle install`を実行し、次に`application_system_test_case.rb`を以下のように変更します。
 
@@ -1571,6 +1572,7 @@ $ bin/rails generate system_test articles
 
 ```bash
       invoke  test_unit
+      create    test/application_system_test_case.rb
       create    test/system/articles_test.rb
 ```
 
