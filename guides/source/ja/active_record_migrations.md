@@ -44,7 +44,7 @@ end
 # db/schema.rb
 ActiveRecord::Schema[8.1].define(version: 2024_05_02_100843) do
   # 以下はこのデータベースをサポートするうえで有効にしなければならない拡張機能
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "products", force: :cascade do |t|
     t.string "name"
@@ -136,6 +136,8 @@ class AddPartNumberToProducts < ActiveRecord::Migration[8.1]
   end
 end
 ```
+
+NOTE: Railsは、マイグレーション名が`add_<カラム名>_to_<テーブル名>`または`remove_<カラム名>_from_<テーブル名>`パターンに一致する場合、その名前からターゲットテーブルを推測します。たとえば、`AddPartNumberToProducts`のような名前を使うと、ジェネレーターで`add_column :products, ...`が自動的に設定されます。これらのルールについて詳しくは、`bin/rails generate migration --help`を実行してジェネレーターの使用方法と例を確認してください。
 
 新しいカラムにインデックスも追加したい場合は以下のようにコマンドを実行します。
 
