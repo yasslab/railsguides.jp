@@ -232,9 +232,12 @@ NOTE: Railsのモデル名には英語の**単数形**を使います。これ�
 マイグレーションを定義することで、データベースのテーブルやカラム、およびその他の属性を追加・変更・削除するためにデータベースを変更する方法を統一された形でRailsに指示します。
 これにより、自分のコンピュータ上での開発中に行ったデータベース変更をトラッキングして、production環境に安全にデプロイできるようにします。
 
-Railsが作成したマイグレーションをコードエディタで開いて、マイグレーションで何が行われるかを確認してみましょう。マイグレーションファイルは`db/migrate/<タイムスタンプ>_create_products.rb`に配置されます。
+Railsが作成したマイグレーションをコードエディタで開いて、マイグレーションで何が行われるかを確認してみましょう。
+
+NOTE: 以後のファイルの冒頭には、読みやすさのためファイルパスをコメントで追加してあります。
 
 ```ruby
+# db/migrate/<タイムスタンプ>_create_products.rb
 class CreateProducts < ActiveRecord::Migration[8.1]
   def change
     create_table :products do |t|
@@ -313,6 +316,7 @@ Active Recordモデルの基礎
 Railsのモデルジェネレーターを実行して`Product`モデルを作成すると、`app/models/product.rb`にファイルが作成されました。作成したファイルにある以下のクラスは、Active Recordを使ってデータベースの`products`テーブルとやり取りします。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
 end
 ```
@@ -626,6 +630,7 @@ Railsにおけるルーティングは、HTTPメソッドとURLパスをペア�
 Railsでルーティングを定義するには、コードエディタを再び開いて、`config/routes.rb`ファイル内のルーティングに、以下の`get`で始まる行を追加します。
 
 ```ruby
+# config/routes.rb
 Rails.application.routes.draw do
   # （省略）
   get "/products", to: "products#index"  # この行を追加
@@ -646,7 +651,12 @@ end
 前述のルーティングの下に、以下の行を追加します。
 
 ```ruby
-post "/products", to: "products#create"
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  get "/products", to: "products#index"
+  post "/products", to: "products#create"
+end
 ```
 
 ここでは、`/products`パスへの`POST`リクエストを受け取ったら、`ProductsController`の`create`アクションでリクエストを処理するようRailsに指示しています。
@@ -655,7 +665,11 @@ post "/products", to: "products#create"
 では以下のルーティングは、どのように機能するかおわかりでしょうか？
 
 ```ruby
-get "/products/:id", to: "products#show"
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  get "/products/:id", to: "products#show"
+end
 ```
 
 このルーティングのパスには`:id`が含まれています。これは**パラメータ**（parameter、paramsとも）と呼ばれ、後でリクエストを処理するときに使うURLの一部がここにキャプチャされます。
@@ -668,14 +682,14 @@ get "/products/:id", to: "products#show"
 たとえば、さまざまな記事を含むブログサービスでは、以下のルーティングで`/blog/hello-world`とマッチするようになります。
 
 ```ruby
-get "/blog/:title", to: "blog#show"
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  get "/blog/:title", to: "blog#show"
+end
 ```
 
-以下のルーティングでは、`/blog/hello-world`から`hello-world`というパラメータを`slug`としてキャプチャし、このパラメータにマッチするタイトルのブログ投稿を検索できるようになります。
-
-```ruby
-get "/blog/:slug", to: "blog#show"
-```
+上のルーティングでは、`/blog/hello-world`から`hello-world`というパラメータを`slug`としてキャプチャし、このパラメータにマッチするタイトルのブログ投稿を検索できるようになります。
 
 #### CRUDのルーティング
 
@@ -697,18 +711,22 @@ get "/blog/:slug", to: "blog#show"
 これらのCRUDアクションのルーティングは、以下のように書くことで追加することも一応可能です。
 
 ```ruby
-get "/products", to: "products#index"
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  get "/products", to: "products#index"
 
-get "/products/new", to: "products#new"
-post "/products", to: "products#create"
+  get "/products/new", to: "products#new"
+  post "/products", to: "products#create"
 
-get "/products/:id", to: "products#show"
+  get "/products/:id", to: "products#show"
 
-get "/products/:id/edit", to: "products#edit"
-patch "/products/:id", to: "products#update"
-put "/products/:id", to: "products#update"
+  get "/products/:id/edit", to: "products#edit"
+  patch "/products/:id", to: "products#update"
+  put "/products/:id", to: "products#update"
 
-delete "/products/:id", to: "products#destroy"
+  delete "/products/:id", to: "products#destroy"
+end
 ```
 
 #### リソースルーティング
@@ -718,7 +736,11 @@ delete "/products/:id", to: "products#destroy"
 上記のルーティングを以下の1行に置き換えて、上と同じCRUDアクションをすべて作成できるようにしましょう。
 
 ```ruby
-resources :products
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  resources :products
+end
 ```
 
 TIP: CRUDアクションの一部しか使わない場合は、必要なアクションだけを正確に指定し、使わないアクションは無効にしておきましょう。詳しくは[ルーティングガイド][]を参照してください。
@@ -785,6 +807,7 @@ $ bin/rails generate controller Products index --skip-routes
 `app/controllers/products_controller.rb`で定義されている`ProductsController`をエディタで開くと、以下のような感じになっているはずです。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
   end
@@ -798,6 +821,7 @@ NOTE: `products_controller.rb`というファイル名は、このファイル�
 `index`アクションを実行すると、`app/views/products/index.html.erb`をレンダリングします。このファイルをコードエディタで開くと、レンダリングされるHTMLが以下のように表示されます。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1>Products#index</h1>
 <p>Find me in app/views/products/index.html.erb</p>
 ```
@@ -820,7 +844,12 @@ NOTE: `products_controller.rb`というファイル名は、このファイル�
 なお、`config/routes.rb`ファイルに以下の行を追加すると、rootパスにアクセスしたときのルーティングで`Products`の`index`アクションをレンダリングするようにRailsに指示できます。
 
 ```ruby
-root "products#index"
+# config/routes.rb
+Rails.application.routes.draw do
+  # ...
+  root "products#index"
+  resources :products
+end
 ```
 
 これで、`http://localhost:3000`にアクセスすると、Railsが`Products#index`をレンダリングするようになります。
@@ -832,6 +861,7 @@ root "products#index"
 `index`アクションを更新して以下のようにデータベースクエリを追加し、それをインスタンス変数に割り当ててみましょう。Railsのコントローラでは、ビューにデータを渡すときにインスタンス変数（`@`で始まる変数）が使われます。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -842,6 +872,7 @@ end
 次に、`app/views/products/index.html.erb`のビューテンプレートファイル内にあるHTMLを以下のERBコードに置き換えます。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <%= debug @products %>
 ```
 
@@ -860,6 +891,7 @@ TIP: その他に利用可能なヘルパーについて詳しくは[Action View
 `app/views/products/index.html.erb`を以下のように更新します。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1>Products</h1>
 
 <div id="products">
@@ -911,6 +943,7 @@ end
 `show`アクションが必要としている`app/views/products/show.html.erb`ファイルをエディタで作成して、以下の内容を追加します。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -921,6 +954,7 @@ indexページに個別のshowページへのリンクを追加して、クリ�
 そこで、`app/views/products/index.html.erb`ビューを以下のように更新して、新しく作ったshowページへのリンクを追加しましょう。`show`アクションへのパスには`<a>`タグを利用できます。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1>Products</h1>
 
 <div id="products">
@@ -964,6 +998,7 @@ URLヘルパーを`link_to`ヘルパーによる`<a>`タグ生成と組み合わ
 これらのヘルパーを使って`app/views/products/index.html.erb`をリファクタリングすると、以下のように簡潔なビューコードになります。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1>Products</h1>
 
 <div id="products">
@@ -987,6 +1022,7 @@ URLヘルパーを`link_to`ヘルパーによる`<a>`タグ生成と組み合わ
 まずはコントローラで`new`アクションを作成しましょう。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -1007,6 +1043,7 @@ end
 次は`app/views/products/index.html.erb`を以下のように更新して、`new`アクションにリンクできるようにします。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1>Products</h1>
 
 <%= link_to "New product", new_product_path %>
@@ -1023,6 +1060,7 @@ end
 `new`アクションに対応する`app/views/products/new.html.erb`ビューテンプレートを以下の内容で作成して、新しい`Product`のフォームをレンダリングできるようにします。
 
 ```erb
+<%# app/views/products/new.html.erb %>
 <h1>New product</h1>
 
 <%= form_with model: @product do |form| %>
@@ -1065,6 +1103,7 @@ Railsのフォームビルダーによって、セキュリティ用のCSRFト�
 ここから送信されるフォームを処理するには、まずコントローラに`create`アクションを以下のように実装する必要があります。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -1134,6 +1173,7 @@ Railsは`Products`コントローラにいることを認識しているので�
 コントローラで以下のコードを実装してみましょう。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -1185,6 +1225,7 @@ end
 それと同時に、ビューで使われているインスタンス変数をすべてローカル変数に置き換えたいと思います。ローカル変数は、パーシャルをレンダリングするときに定義できます。これを行うには、パーシャル内の`@product`を以下のように`product`に置き換えます。このとき、フォーム送信のエラーメッセージもフォームの一部として表示できるようにしておきます。
 
 ```erb
+<%# app/views/products/_form.html.erb %>
 <%= form_with model: product do |form| %>
   <% if form.object.errors.any? %>
     <p class="error"><%= form.object.errors.full_messages.first %></p>
@@ -1206,6 +1247,7 @@ TIP: ローカル変数を使うと、値だけが異なるパーシャルを同
 作成したこのパーシャルを`app/views/products/new.html.erb`ビューで使うには、フォームの部分を以下のようにパーシャルの`render`呼び出しに置き換えます。
 
 ```erb
+<%# app/views/products/new.html.erb %>
 <h1>New product</h1>
 
 <%= render "form", product: @product %>
@@ -1217,6 +1259,7 @@ Editビューも、フォームの`_form.html.erb`パーシャルのおかげで
 以下の内容で`app/views/products/edit.html.erb`を作成しましょう。
 
 ```erb
+<%# app/views/products/edit.html.erb %>
 <h1>Edit product</h1>
 
 <%= render "form", product: @product %>
@@ -1228,6 +1271,7 @@ Editビューも、フォームの`_form.html.erb`パーシャルのおかげで
 次に、`app/views/products/show.html.erb`ビューテンプレートにEditページへのリンクを追加します。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1245,6 +1289,7 @@ Editビューも、フォームの`_form.html.erb`パーシャルのおかげで
 これは、DRY（Don't Repeat Yourself: 繰り返しを避けよ）原則が実際に機能している良い例です。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update ]
 
@@ -1298,6 +1343,7 @@ end
 `before_action :set_product`コールバックに`destroy`を追加すると、他のアクションと同じ方法で`@product`インスタンス変数を設定できるようになります。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
@@ -1351,6 +1397,7 @@ end
 製品を削除できるようにするには、`app/views/products/show.html.erb`で以下のようにDeleteボタンを追加する必要があります。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1412,9 +1459,10 @@ $ bin/rails server
 以下のように、`<body>`タグ内にホームへのリンクとログアウトボタンを含む小さな`<nav>`セクションを追加し、Rubyの`yield`メソッドを`<main>`タグで囲みます。
 
 ```erb
+<%# app/views/layouts/application.html.erb %>
 <!DOCTYPE html>
 <html>
-  <!-- （省略） -->
+  <%# （省略） %>
   <body>
     <nav>
       <%= link_to "Home", root_path %>
@@ -1438,6 +1486,7 @@ Log outボタンをクリックすると、`session_path`に`DELETE`リクエス
 ゲストが製品を表示できるようにするには、コントローラで以下のように認証なしのアクセスを許可します。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   # （省略）
@@ -1451,6 +1500,7 @@ end
 製品を作成してよいのはログイン済みのユーザーだけにしておきたいので、`app/views/products/index.html.erb`ビューの`link_to`行を以下のように変更して、ユーザーが認証済みの場合にのみNew productリンクを表示するようにしましょう。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <%= link_to "New product", new_product_path if authenticated? %>
 ```
 
@@ -1459,12 +1509,14 @@ Log outボタンをクリックすると、indexページのNew productリンク
 オプションとして、先ほどの`app/views/layouts/application.html.erb`レイアウトの`<nav>`セクションに以下のルーティングへのリンクも追加して、認証されていない場合はLoginリンクを表示するようにしてもよいでしょう。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <%= link_to "Login", new_session_path unless authenticated? %>
 ```
 
 また、`app/views/products/show.html.erb`ビューのEditリンクとDeleteリンクを以下のように更新して、認証済みの場合にのみEditリンクとDeleteリンクを表示するようにしてもよいでしょう。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <h1><%= @product.name %></h1>
 
 <%= link_to "Back", products_path %>
@@ -1483,6 +1535,7 @@ Railsは、データベース上に構築されるキャッシュストアであ
 `cache`メソッドを使うと、HTMLをキャッシュに保存できます。`app/views/products/show.html.erb`の`<h1>`見出しを以下のように囲んで、キャッシュを有効にしてみましょう。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <% cache @product do %>
   <h1><%= @product.name %></h1>
 <% end %>
@@ -1537,6 +1590,7 @@ $ bin/rails db:migrate
 まず、`Product`モデルに以下のコードを追加します。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   has_rich_text :description
   validates :name, presence: true
@@ -1546,6 +1600,7 @@ end
 これで、`app/views/products/_form.html.erb`のフォームを以下のように更新して、送信ボタンの上に説明の編集用リッチテキストフィールドを追加できるようになります。
 
 ```erb
+<%# app/views/products/_form.html.erb %>
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1563,6 +1618,7 @@ end
 この新しいパラメータをフォームで送信するには、`app/controllers/products_controller.rb`コントローラ側で許可する必要があるので、`expect`で許可するパラメータを以下のように更新して、`description`を追加します。
 
 ```ruby
+# app/controllers/products_controller.rb
     # 信頼できるパラメータリストのみを許可する
     def product_params
       params.expect(product: [ :name, :description ])
@@ -1572,6 +1628,7 @@ end
 さらに、showビュー（`app/views/products/show.html.erb`）の`cache`ブロックも以下のように更新して、説明フィールドを表示する必要があります。
 
 ```erb
+<%# app/views/products/show.html.erb%>
 <% cache @product do %>
   <h1><%= @product.name %></h1>
   <%= @product.description %>
@@ -1596,6 +1653,7 @@ Active Storageは、Action Textと別に直接利用することも可能です�
 `Product`モデルに製品画像を添付する機能も追加してみましょう。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   has_one_attached :featured_image
   has_rich_text :description
@@ -1606,6 +1664,7 @@ end
 続いて、`app/views/products/_form.html.erb`フォームのSubmitボタンの上に、以下のようにファイルアップロード用フィールドを追加します。
 
 ```erb
+<%# app/views/products/_form.html.erb %>
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1623,6 +1682,7 @@ end
 これまでと同様に、`:featured_image`も許可済みパラメータとして`app/controllers/products_controller.rb`に追加します。
 
 ```ruby
+# app/controllers/products_controller.rb
     # 信頼できるパラメータリストのみを許可する
     def product_params
       params.expect(product: [ :name, :description, :featured_image ])
@@ -1632,6 +1692,7 @@ end
 最後に、`app/views/products/show.html.erb`の冒頭に以下のコードを追加して、製品画像を表示できるようにしましょう。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <%= image_tag @product.featured_image if @product.featured_image.attached? %>
 ```
 
@@ -1649,6 +1710,7 @@ Railsを使えば、アプリを他の言語に翻訳しやすくなります。
 `app/views/products/index.html.erb`の`<h1>`見出しタグを以下のように更新して、見出しに訳文が使われるようにしてみましょう。
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1><%= t "hello" %></h1>
 ```
 
@@ -1657,6 +1719,7 @@ Railsを使えば、アプリを他の言語に翻訳しやすくなります。
 デフォルトの言語は英語（`en`）なので、Railsは`config/locales/en.yml`（これは`rails new`で自動作成されます）を探索し、この`en`ロケールの中にある以下のキー（訳文サンプル）にマッチします。
 
 ```yaml
+# config/locales/en.yml
 en:
   hello: "Hello world"
 ```
@@ -1664,6 +1727,7 @@ en:
 それでは、日本語用の新しいロケールファイルを作成してみましょう。エディタで`config/locales/ja.yml`ファイルを作成し、以下の訳文を追加します。
 
 ```yaml
+# config/locales/ja.yml
 ja:
   hello: "こんにちは、世界"
 ```
@@ -1673,6 +1737,7 @@ ja:
 最も手軽な方法は、ロケールパラメータをURLから探すことです。`app/controllers/application_controller.rb`で以下のコードを追加することで、これを実現できます。
 
 ```ruby
+# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   # （省略）
 
@@ -1694,6 +1759,7 @@ end
 次は、indexページの`<h1>`見出しのサンプル訳文を、実際の訳文に差し替えてみましょう。`app/views/products/index.html.erb`の見出しを以下のように更新します
 
 ```erb
+<%# app/views/products/index.html.erb %>
 <h1><%= t ".title" %></h1>
 ```
 
@@ -1702,6 +1768,7 @@ TIP: `title`の直前の`.`は、ロケールを**相対検索**することを�
 `config/locales/en.yml`では、以下のように`products`と`index`を追加し、その下に`title`キーを追加することで、`コントローラ名.ビュー名.訳文名`と一致するようにします。
 
 ```yaml
+# config/locales/en.yml
 en:
   hello: "Hello world"
   products:
@@ -1712,6 +1779,7 @@ en:
 日本語のロケールファイルにも、以下のように英語ロケールファイルと対応する形で訳文を追加します。
 
 ```yaml
+# config/locales/ja.yml
 ja:
   hello: "こんにちは、世界"
   products:
@@ -1736,9 +1804,12 @@ Action Mailerとメール通知
 $ bin/rails generate migration AddInventoryCountToProducts inventory_count:integer
 ```
 
+NOTE: Railsは、`AddInventoryCountToProducts`が`products`テーブルを対象としていると推測します。これは、名前が`add_<カラム名>_to_<テーブル名>`ルールに一致するためです。このパターンにより、ジェネレータで `add_column :products, ...`が事前に入力されるので、後はカラムの詳細を入力するだけで済みます。命名規則について詳しくは、`bin/rails generate migration --help`コマンドを実行してください。
+
 これでマイグレーションファイルが生成されます。マイグレーションファイルを開いて、`inventory_count`が決して`nil`にならないようにするために、デフォルト値として`0`を追加します。
 
 ```ruby
+# db/migrate/<タイムスタンプ>_add_inventory_count_to_products.rb
 class AddInventoryCountToProducts < ActiveRecord::Migration[8.1]
   def change
     add_column :products, :inventory_count, :integer, default: 0
@@ -1755,6 +1826,7 @@ $ bin/rails db:migrate
 製品の`app/views/products/_form.html.erb`フォームにも、以下のように在庫数のフィールドを追加する必要があります。
 
 ```erb
+<%# app/views/products/_form.html.erb %>
 <%= form_with model: product do |form| %>
   <%# （省略） %>
 
@@ -1772,6 +1844,7 @@ $ bin/rails db:migrate
 `app/controllers/products_controller.rb`コントローラでも、`expect`で許可するパラメータに`:inventory_count`を追加する必要があります。
 
 ```ruby
+# app/controllers/products_controller.rb
     def product_params
       params.expect(product: [ :name, :description, :featured_image, :inventory_count ])
     end
@@ -1780,6 +1853,7 @@ $ bin/rails db:migrate
 在庫数が決して負の数にならないようにしておくと便利なので、`app/models/product.rb`モデルにそのためのバリデーションも追加します。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   has_one_attached :featured_image
   has_rich_text :description
@@ -1805,9 +1879,10 @@ $ bin/rails generate model Subscriber product:belongs_to email
 
 上のコマンドで`product:belongs_to`オプションを指定したことで、購読者と製品が**1対多**リレーションを持つことを表す`belongs_to :product`という宣言が`Subscriber`モデルに含まれるようになります。つまり、`Subscriber`モデルのインスタンスは1つの`Product`インスタンスに「属する（belongs to）」ということです。
 
-次に、生成されたマイグレーションファイル（`db/migrate/<timestamp>_create_subscribers.rb`）をエディタで開きます。
+次に、生成されたマイグレーションファイル（`db/migrate/<タイムスタンプ>_create_subscribers.rb`）をエディタで開きます。
 
 ```ruby
+# db/migrate/<タイムスタンプ>_create_subscribers.rb
 class CreateSubscribers < ActiveRecord::Migration[8.1]
   def change
     create_table :subscribers do |t|
@@ -1830,6 +1905,7 @@ $ bin/rails db:migrate
 ただし、1つの製品に購読者が複数存在する可能性もあるため、`Product`モデルにも`has_many :subscribers, dependent: :destroy`を手動で追加することで、2つのモデル同士の関連付けの残りの部分も指定します。これにより、2つのデータベーステーブル間のクエリをjoin（結合）する方法が Railsで認識されます。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   has_many :subscribers, dependent: :destroy
   has_one_attached :featured_image
@@ -1843,6 +1919,7 @@ end
 次は、購読者を作成するためのコントローラが必要です。`app/controllers/subscribers_controller.rb`コントローラを以下の内容で作成しましょう。
 
 ```ruby
+# app/controllers/subscribers_controller.rb
 class SubscribersController < ApplicationController
   allow_unauthenticated_access
   before_action :set_product
@@ -1871,12 +1948,13 @@ end
 このflashメッセージを表示するには、`app/views/layouts/application.html.erb`レイアウトの`<body>`タグで以下のように通知を追加します。
 
 ```erb
+<%# app/views/layouts/application.html.erb %>
 <html>
-  <!-- （省略） -->
+  <%# （省略） %>
   <body>
     <div class="notice"><%= flash[:notice] %></div>
     <div class="alert"><%= flash[:alert] %></div>
-    <!-- （省略） -->
+    <%# （省略） %>
   </body>
 </html>
 ```
@@ -1888,9 +1966,13 @@ flashについて詳しくは、[Action Controllerガイド](action_controller_o
 `config/routes.rb`ファイルの`resources :products`を以下のように変更します。
 
 ```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  # （省略）
   resources :products do
     resources :subscribers, only: [ :create ]
   end
+end
 ```
 
 製品のShowページに在庫数を表示して、在庫があるかどうかをチェックできるようにしましょう。在庫がない場合は、在庫切れのメッセージと購読用のフォームを表示して、在庫が復活したときにユーザーが通知をメールで受け取れるようにします。
@@ -1898,6 +1980,7 @@ flashについて詳しくは、[Action Controllerガイド](action_controller_o
 在庫表示用の`app/views/products/_inventory.html.erb`パーシャルを以下の内容で作成します。
 
 ```erb
+<%# app/views/products/_inventory.html.erb %>
 <% if product.inventory_count.positive? %>
   <p><%= product.inventory_count %> in stock</p>
 <% else %>
@@ -1914,6 +1997,7 @@ flashについて詳しくは、[Action Controllerガイド](action_controller_o
 次に、`app/views/products/show.html.erb`の`cache`ブロックの下に以下のコードを追加して、上のパーシャルをレンダリングします。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <%= render "inventory", product: @product %>
 ```
 
@@ -1932,6 +2016,7 @@ $ bin/rails g mailer Product in_stock
 購読者のメールアドレスにメールを送信できるようにするには、この`in_stock`メソッドを以下のように更新します。
 
 ```ruby
+# app/mailers/product_mailer.rb
 class ProductMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -1951,6 +2036,7 @@ Action Mailerのジェネレータを実行すると、`app/views/`フォルダ�
 `app/views/product_mailer/in_stock.html.erb`を以下のように変更します。
 
 ```erb
+<%# app/views/product_mailer/in_stock.html.erb %>
 <h1>Good news!</h1>
 
 <p><%= link_to @product.name, product_url(@product) %> is back in stock.</p>
@@ -2033,6 +2119,7 @@ Performed ActionMailer::MailDeliveryJob (Job ID: 5e2bd5f2-f54f-4088-ace3-3f6eb15
 これらのメールをトリガーするには、在庫数が0から正の数に変わるたびにメールを送信するコールバックを`Product`モデルに追加します。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   has_many :subscribers, dependent: :destroy
   has_one_attached :featured_image
@@ -2076,6 +2163,7 @@ Active Recordで属性の変更をトラッキングできるようにするた�
 `app/models/product/`ディレクトリを作成してから、`app/models/product/notifications.rb`ファイルを以下の内容で作成します。
 
 ```ruby
+# app/models/product/notifications.rb
 module Product::Notifications
   extend ActiveSupport::Concern
 
@@ -2101,6 +2189,7 @@ end
 通知をトリガーするコードを`Notification`モジュールに切り出したので、`app/models/product.rb`モデルで以下のように`Notifications`モジュールを`include`してコードを簡潔にできます。
 
 ```ruby
+# app/models/product.rb
 class Product < ApplicationRecord
   include Notifications
 
@@ -2131,6 +2220,7 @@ concernは、Railsアプリケーションの機能を整理するための優�
 最初に、`config/routes.rb`のルーティングに購読解除用のルーティングを追加する必要があります。これは解除用メールに含めるURLとして使われます。
 
 ```ruby
+# config/routes.rb
 Rails.application.routes.draw do
   # ...
   resources :products do
@@ -2144,6 +2234,7 @@ Rails.application.routes.draw do
 Active Recordには、さまざまな目的でデータベースレコードを検索するための一意のトークンを生成できる[`generates_token_for`](https://api.rubyonrails.org/classes/ActiveRecord/TokenFor/ClassMethods.html#method-i-generates_token_for)という機能があります。これを使って、電子メールの登録解除用URLに含める一意の登録解除用トークンを`Subscriber`モデルで生成できます。
 
 ```ruby
+# app/models/subscriber.rb
 class Subscriber < ApplicationRecord
   belongs_to :product
   generates_token_for :unsubscribe
@@ -2155,6 +2246,7 @@ end
 `app/controllers/unsubscribes_controller.rb`を以下の内容で作成します。
 
 ```ruby
+# app/controllers/unsubscribes_controller.rb
 class UnsubscribesController < ApplicationController
   allow_unauthenticated_access
   before_action :set_subscriber
@@ -2177,6 +2269,7 @@ end
 `app/views/product_mailer/in_stock.html.erb`で以下のように`link_to`を追加します。
 
 ```erb
+<%# app/views/product_mailer/in_stock.html.erb %>
 <h1>Good news!</h1>
 
 <p><%= link_to @product.name, product_url(@product) %> is back in stock.</p>
@@ -2187,6 +2280,7 @@ end
 `app/views/product_mailer/in_stock.text.erb`にも以下のように平文でURLを追加します。
 
 ```erb
+<%# app/views/product_mailer/in_stock.text.erb %>
 Good news!
 
 <%= @product.name %> is back in stock.
@@ -2218,6 +2312,7 @@ NOTE: 訳注: Rails 8.0からは、従来の[Sprockets][]に代わってPropshaf
 `app/assets/stylesheets/application.css`ファイルを以下のように更新して、フォントをsans-serifに変更してみましょう。
 
 ```css
+/* app/assets/stylesheets/application.css */
 body {
   font-family: Arial, Helvetica, sans-serif;
   padding: 1rem;
@@ -2267,6 +2362,7 @@ section.product img {
 続いて、`app/views/products/show.html.erb`ファイルを以下のように更新して、新しいスタイルを反映します。
 
 ```erb
+<%# app/views/products/show.html.erb %>
 <p><%= link_to "Back", products_path %></p>
 
 <section class="product">
@@ -2302,6 +2398,7 @@ RailsのJavaScriptでは、デフォルトで[importmap][]を経由する形で�
 利用するJavaScriptパッケージ名は、`config/importmap.rb`に記述されます。このファイルは、利用するJavaScriptパッケージ名を、ブラウザでimportmapタグを生成するためのソースファイルと`pin`で対応付けます。
 
 ```ruby
+# config/importmap.rb
 # Pin npm packages by running ./bin/importmap
 
 pin "application"
@@ -2352,6 +2449,7 @@ Railsでモデルを生成すると、モデルに対応するフィクスチャ
 `Product`モデルのテスト用に、`test/fixtures/products.yml`フィクスチャファイルを以下のように更新しましょう。
 
 ```yaml
+# test/fixtures/products.yml
 tshirt:
   name: T-Shirt
   inventory_count: 15
@@ -2360,6 +2458,7 @@ tshirt:
 `Subscriber`モデルのテスト用に、以下の2つのフィクスチャを`test/fixtures/subscribers.yml`に追加します。
 
 ```yaml
+# test/fixtures/subscribers.yml
 david:
   product: tshirt
   email: david@example.org
@@ -2378,6 +2477,7 @@ chris:
 `test/models/product_test.rb`に以下のテストを追加してみましょう。
 
 ```ruby
+# test/models/product_test.rb
 require "test_helper"
 
 class ProductTest < ActiveSupport::TestCase
@@ -2430,6 +2530,7 @@ Finished in 0.343842s, 2.9083 runs/s, 5.8166 assertions/s.
 `ProductMailer`を生成したときにも、`test/mailers/product_mailer_test.rb`にサンプルテストが生成されていますので、こちらも以下のように更新してパスするようにしましょう。
 
 ```ruby
+# test/mailers/product_mailer_test.rb
 require "test_helper"
 
 class ProductMailerTest < ActionMailer::TestCase
@@ -2555,6 +2656,7 @@ Docker Hubで、アプリケーションイメージの[リポジトリを作成
 `config/deploy.yml`ファイルをエディタで開いて、`192.168.0.1`をサーバーのIPアドレスに置き換え、`your-user`をDocker Hubのユーザー名に置き換えます。
 
 ```yaml
+# config/deploy.yml
 # Name of your application. Used to uniquely configure containers.
 service: store
 
@@ -2576,6 +2678,7 @@ registry:
 `proxy:`セクションでは、アプリケーションでSSLを有効にするためのドメインも追加できます。DNSレコードがサーバーを確実に指していることを確認してください。Kamalは、[LetsEncrypt](https://letsencrypt.org/)を用いてドメインのSSL証明書を発行します。
 
 ```yaml
+# config/deploy.yml
 proxy:
   ssl: true
   host: app.example.com
