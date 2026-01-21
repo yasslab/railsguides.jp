@@ -1206,8 +1206,8 @@ end
 `after_all_transactions_commit`に登録したコールバックは、最も外側のトランザクションがコミットされた後にトリガーされます。現在開いているトランザクションのいずれかがロールバックされた場合、そのブロックは呼び出されません。
 コールバックが登録された時点でオープン中のトランザクションが存在しない場合、そのブロックは直ちに実行されます。
 
-[after_all_transactions_commit]
-  : https://api.rubyonrails.org/classes/ActiveRecord.html#method-c-after_all_transactions_commit
+[after_all_transactions_commit]:
+    https://api.rubyonrails.org/classes/ActiveRecord.html#method-c-after_all_transactions_commit
 
 コールバックオブジェクト
 ----------------
