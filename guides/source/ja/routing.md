@@ -215,7 +215,7 @@ NOTE: 単数形リソースは、複数形のコントローラに対応付け�
 | -------------------- | -------------- |
 | `new_geocoder_path`  | /geocoder/new  |
 | `edit_geocoder_path` | /geocoder/edit |
-| `geocoder_path)`     | /geocoder      |
+| `geocoder_path`      | /geocoder      |
 
 複数形リソースの場合と同様に、末尾が`_url`で終わる同じヘルパー名でも「現在のホスト名」「ポート番号」「パスのプレフィックス」が含まれます。
 
