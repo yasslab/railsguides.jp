@@ -1509,7 +1509,7 @@ Log outボタンをクリックすると、indexページのNew productリンク
 オプションとして、先ほどの`app/views/layouts/application.html.erb`レイアウトの`<nav>`セクションに以下のルーティングへのリンクも追加して、認証されていない場合はLoginリンクを表示するようにしてもよいでしょう。
 
 ```erb
-<%# app/views/products/index.html.erb %>
+<%# app/views/layouts/application.html.erb %>
 <%= link_to "Login", new_session_path unless authenticated? %>
 ```
 
