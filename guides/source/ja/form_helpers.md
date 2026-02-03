@@ -863,7 +863,7 @@ NOTE: 引数の順序は、`collection_select`の場合と`select`の場合で�
 <% end %>
 ```
 
-ファイルアップロードで忘れてはならない重要な点は、レンダリングされるフォームの`enctype`属性を**必ず**`multipart/form-data`に設定しておかなければならない点です。これは、以下のように`form_with`の内側で`file_field_tag`ヘルパーを使えば自動で行われます。`enctype`属性は手動でも設定できます。
+ファイルアップロードで忘れてはならない重要な点は、レンダリングされるフォームの`enctype`属性を**必ず**`multipart/form-data`に設定しておかなければならない点です。これは、`form_with`の内側で`file_field`ヘルパーを使えば自動で行われます。`enctype`属性は手動でも設定できます：
 
 ```erb
 <%= form_with url: "/uploads", multipart: true do |form| %>
