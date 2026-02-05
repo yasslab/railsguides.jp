@@ -96,14 +96,14 @@ Pumaのワーカー数は、`WEB_CONCURRENCY`環境変数で設定できます�
 
 ### YJIT
 
-最近のRubyには[`YJIT`](https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md)と呼ばれる[Just-in-timeコンパイラ](https://ja.wikipedia.org/wiki/%E5%AE%9F%E8%A1%8C%E6%99%82%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%A9)が付属しています。
+最近のRubyには[`YJIT`](https://github.com/ruby/ruby/blob/master/doc/jit/yjit.md)と呼ばれる[Just-in-timeコンパイラ](https://ja.wikipedia.org/wiki/%E5%AE%9F%E8%A1%8C%E6%99%82%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%A9)が付属しています。
 
 このガイドでは詳しく説明しませんが、JITコンパイラを有効にすることで、メモリ使用量が増加する代わりにコードをより高速に実行できます。メモリ使用量の増加分をどうしてもまかなえない場合を除いて、YJITを有効にすることを強くオススメします。
 
 Rails 7.2以後は、アプリケーションがRuby3.3以上で実行されていれば、RailsによってYJITが自動的にデフォルトで有効になります。
-RailsまたはRubyのバージョンがこれより古い場合は、手動で有効にする必要があります。方法については、[`YJIT`のドキュメント](https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md)を参照してください。
+RailsまたはRubyのバージョンがこれより古い場合は、手動で有効にする必要があります。方法については、[`YJIT`のドキュメント](https://github.com/ruby/ruby/blob/master/doc/jit/yjit.md)を参照してください。
 
-メモリ使用量の増加が問題になる場合は、YJITを完全に無効にする前に、[`--yjit-exec-mem-size`オプション](https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md#decreasing---yjit-exec-mem-size)で、メモリ使用量を削減する調整方法を試してみてください。
+メモリ使用量の増加が問題になる場合は、YJITを完全に無効にする前に、[`--yjit-mem-size`オプション](https://github.com/ruby/ruby/blob/master/doc/jit/yjit.md#decreasing---yjit-mem-size)で、メモリ使用量を削減する調整方法を試してみてください。
 
 ### メモリアロケータとその設定方法
 
