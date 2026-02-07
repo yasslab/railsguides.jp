@@ -3528,7 +3528,7 @@ WARNING: `DateTime`は夏時間（DST）ルールについては関知しませ�
 
 `DateTime`クラスは`Date`のサブクラスであり、`active_support/core_ext/date/calculations.rb`を読み込むことでこれらのメソッドとエイリアスを継承できます。ただしこれらは常に日時を返す点が`Date`と異なります。
 
-以下のメソッドはすべて再実装されるため、これらを用いるために`active_support/core_ext/date/calculations.rb`を読み込む必要は **ありません**。
+以下のメソッドはすべて再実装されるため、これらを用いるために`active_support/core_ext/date/calculations.rb`を読み込む必要は**ありません**。
 
 * [`beginning_of_day`][DateTime#beginning_of_day] / [`midnight`][DateTime#midnight] / [`at_midnight`][DateTime#at_midnight] / [`at_beginning_of_day`][DateTime#at_beginning_of_day]
 * [`end_of_day`][DateTime#end_of_day]
@@ -3708,7 +3708,7 @@ DateTime.new(1582, 10, 4, 23) + 1.hour
 
 これらは同様に動作します。関連するドキュメントを参照し、以下の相違点についても把握しておいてください。
 
-* [`change`][Time#change]メソッドは追加の`:usec`（マイクロ秒）オプションも受け取れます。。
+* [`change`][Time#change]メソッドは追加の`:usec`（マイクロ秒）オプションも受け取れます。
 * `Time`は夏時間（DST）を理解するので、以下のように夏時間を正しく算出できます。
 
 ```ruby
