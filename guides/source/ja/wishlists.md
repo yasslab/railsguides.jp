@@ -943,7 +943,7 @@ end
 
 このようにリファクタリングすることで、コントローラはよりクリーンになり、フィルタリングロジックは他のデータベース関連ロジックとともにモデル内に凝縮されます。これは「**コントローラは薄くせよ、モデルは厚くせよ**（Fat Model, Skinny Controller）」原則に従ったRailsのベストプラクティスです。
 
-TIP: 訳注: 「Fat Model を避けるための Service クラス」というアプローチの是非ついては、Kaigi on Rails の講演「[今改めてServiceクラスについて考える 〜あるRails開発者の10年〜](https://kaigionrails.org/2025/talks/joker1007/)」で過去の議論と今後の展望などがまとめられています。
+TIP: 訳注: 「Fat Model を避けるための Service クラス」というアプローチの是非については、Kaigi on Rails の講演「[今改めてServiceクラスについて考える 〜あるRails開発者の10年〜](https://kaigionrails.org/2025/talks/joker1007/)」で過去の議論と今後の展望などがまとめられています。
 
 
 ## 管理画面に購読者の表示を追加する
