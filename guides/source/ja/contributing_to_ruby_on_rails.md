@@ -901,7 +901,7 @@ $ git commit --amend
 $ git push fork my_new_branch --force-with-lease
 ```
 
-これにより、GitHub上のブランチとプルリクエストが新しいコードで更新されます。強制プッシュするときに`--force-with-lease`オプションを指定すると、通常の`-f`による強制プッシュよりも安全にリモートを更新できまます。
+これにより、GitHub上のブランチとプルリクエストが新しいコードで更新されます。強制プッシュするときに`--force-with-lease`オプションを指定すると、通常の`-f`による強制プッシュよりも安全にリモートを更新できます。
 
 ### 旧バージョンのRuby on Rails
 
