@@ -111,7 +111,7 @@ $ bin/rails generate mailer User welcome_email
 
 上のコマンドは、空の`welcome_email`メソッドを持つ`UserMailer`クラスを生成します。
 
-1個のメーラークラスから複数のメールを送信することも可能です。これは、関連するメールをグループ化するのに便利です。たとえば、、`UserMailer`クラスには`welcome_email`メソッドの他に、`password_reset_email`メソッドも追加できます。
+1個のメーラークラスから複数のメールを送信することも可能です。これは、関連するメールをグループ化するのに便利です。たとえば、`UserMailer`クラスには`welcome_email`メソッドの他に、`password_reset_email`メソッドも追加できます。
 
 [`default`]:
     https://api.rubyonrails.org/classes/ActionMailer/Base.html#method-c-default
