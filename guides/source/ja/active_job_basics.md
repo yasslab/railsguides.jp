@@ -767,7 +767,7 @@ ActiveJob.perform_all_later(cleanup_job, export_job, notify_job)
 
 ### キューバックエンドのサポート
 
-`perform_all_later`によるキューへの一括登録（バルクエンキュー）は、キューバックエンド側でのサポートが必要ですす。デフォルトのキューバックエンドであるSolid Queueは、`enqueue_all`で一括登録をサポートします。
+`perform_all_later`によるキューへの一括登録（バルクエンキュー）は、キューバックエンド側でのサポートが必要です。デフォルトのキューバックエンドであるSolid Queueは、`enqueue_all`で一括登録をサポートします。
 
 Sidekiqなどの[他のバックエンド](#代替キューイングバックエンド)には`push_bulk`メソッドがあり、大量のジョブをRedisにプッシュして、ラウンドトリップネットワークの遅延を防ぐようになっています。GoodJobも`GoodJob::Bulk.enqueue`メソッドで一括登録をサポートします。
 
