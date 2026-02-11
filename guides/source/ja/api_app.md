@@ -85,7 +85,7 @@ $ rails new my_api --api
 
 ### 新しいリソースを生成する
 
-新しく作成したAPIで新しいリソースを生成する方法を確認するために、新しいGroupリソースを作成してみましょう。各グループごとに名前を付けます。
+新しく作成したAPIで新しいリソースを生成する方法を確認するために、新しいGroupリソースを作成してみましょう。各グループに名前を付けます。
 
 ```bash
 $ bin/rails g scaffold Group name:string
@@ -404,7 +404,7 @@ irb> ActionController::API.ancestors - ActionController::Metal.ancestors
     ActiveRecord::Railties::ControllerRuntime,
     ActionDispatch::Routing::RouteSet::MountedHelpers,
     ActionController::ParamsWrapper,
-    ... ,
+    ...,
     AbstractController::Rendering,
     ActionView::ViewPaths]
 ```
