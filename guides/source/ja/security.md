@@ -135,7 +135,7 @@ Untracked files:
 
 ### 実装の詳細
 
-本セクションでは、認証機能ジェネレータによって追加される認証フローに関する実装の詳細の一部である`has_secure_password`メソッドと`authenticate_by`メソッド、 および`Authentication` concernについて説明します。
+本セクションでは、認証機能ジェネレータによって追加される認証フローに関する実装の詳細の一部である`has_secure_password`メソッドと`authenticate_by`メソッド、および`Authentication` concernについて説明します。
 
 #### `has_secure_password`
 

@@ -708,7 +708,7 @@ Propshaftは意図的に[Sprockets][]よりもシンプルになっており、�
 - ビルドステップに依存するライブラリやフレームワークを利用している。
   たとえばトランスパイルを必要とするプロジェクト（[Babel][]、[TypeScript][]、React JSXを利用しているプロジェクトなど）は、`jsbundling-rails`によって大きなメリットを得られます。これらのツールはビルドステップに依存しており、`jsbundling-rails` gemによってシームレスにサポートされます。
 
-`jsbundling-rails` gemを利用すると、JavaScriptワークフローが簡素化されるとともに、`Propshaft`などのRailsツールにも統合されるので、 Railsの規約に準拠しながら高い生産性を維持する、リッチで動的なフロントエンドを構築できます。
+`jsbundling-rails` gemを利用すると、JavaScriptワークフローが簡素化されるとともに、`Propshaft`などのRailsツールにも統合されるので、Railsの規約に準拠しながら高い生産性を維持する、リッチで動的なフロントエンドを構築できます。
 
 [Babel]: https://babeljs.io/
 

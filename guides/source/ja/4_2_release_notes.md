@@ -398,7 +398,7 @@ Action Pack
 *   `render nothing: true`、およびbodyを`nil`にしたレンダリングを行った場合にレスポンスのbodyを埋めていたスペース文字1つが追加されなくなりました。
     （[プルリク](https://github.com/rails/rails/pull/14883)）
 
-*   テンプレートのダイジェストを自動的にETagsに含めるようになりました。 （[プルリク](https://github.com/rails/rails/pull/15819)）
+*   テンプレートのダイジェストを自動的にETagsに含めるようになりました。（[プルリク](https://github.com/rails/rails/pull/15819)）
 
 *   URLヘルパーに渡されるセグメントが自動的にエスケープされるようになりました。（[コミット](https://github.com/rails/rails/commit/5460591f0226a9d248b7b4f89186bd5553e7768f)）
 

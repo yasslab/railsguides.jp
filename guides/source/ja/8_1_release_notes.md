@@ -364,7 +364,7 @@ Active Job
 
 ### 削除されたもの
 
-*   `ActiveJob::Base.enqueue_after_transaction_commit`に`:never`、`:always`、 `:default`を設定するサポートを削除。
+*   `ActiveJob::Base.enqueue_after_transaction_commit`に`:never`、`:always`、`:default`を設定するサポートを削除。
 
 *   非推奨化されていた`Rails.application.config.active_job.enqueue_after_transaction_commit`を削除。
 

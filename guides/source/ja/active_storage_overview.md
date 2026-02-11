@@ -52,9 +52,9 @@ $ bin/rails db:migrate
 
 | テーブル                         | 目的                                                                                                                                                                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `active_storage_blobs`           | アップロードされたファイルに関するデータ（ファイル名、Content-Typeなど）を保存します。                                                                                                                                                        |
-| `active_storage_attachments`     | [モデルをblobsに接続する](#ファイルをレコードに添付する)ポリモーフィックjoinテーブルです。モデルのクラス名が変更された場合は、このテーブルでマイグレーションを実行して、背後の`record_type`をモデルの新しいクラス名に更新する必要があります。 |
-| `active_storage_variant_records` | [バリアントトラッキング](#ファイルをレコードに添付する)が有効な場合は、生成された各バリアントに関するレコードを保存します。                                                                                                                   |
+| `active_storage_blobs`           | アップロードされたファイルに関するデータ（ファイル名、Content-Typeなど）を保存します。                                                                                                                                                       |
+| `active_storage_attachments`     | [モデルをblobsに接続する](#ファイルをレコードに添付する)ポリモーフィックjoinテーブルです。モデルのクラス名が変更された場合は、このテーブルでマイグレーションを実行して、背後の`record_type`をモデルの新しいクラス名に更新する必要があります。|
+| `active_storage_variant_records` | [バリアントトラッキング](#ファイルをレコードに添付する)が有効な場合は、生成された各バリアントに関するレコードを保存します。                                                                                                                  |
 
 
 WARNING: モデルの主キーに整数値ではなくUUIDを使っている場合は、生成されるマイグレーションファイルの`active_storage_attachments.record_id`と`active_storage_variant_records.id`のカラム型も変更する必要があります。
@@ -1054,15 +1054,15 @@ Diskサービスはアプリのオリジンを共有するので、CORS設定は
 
 | イベント名                             | イベントの対象 | イベントデータ（`event.detail`） | 説明                                                                          |
 | -------------------------------------- | -------------- | -------------------------------- | ----------------------------------------------------------------------------- |
-| `direct-uploads:start`                 | `<form>`       | なし                             | ダイレクトアップロードフィールドのファイルを含むフォームが送信された。        |
-| `direct-upload:initialize`             | `<input>`      | `{id, file}`                     | フォーム送信後のすべてのファイルにディスパッチされる。                        |
-| `direct-upload:start`                  | `<input>`      | `{id, file}`                     | 直接アップロードが開始されている。                                            |
-| `direct-upload:before-blob-request`    | `<input>`      | `{id, file, xhr}`                | アプリケーションにダイレクトアップロードメタデータを要求する前。              |
-| `direct-upload:before-storage-request` | `<input>`      | `{id, file, xhr}`                | ファイルを保存するリクエストを出す前。                                        |
-| `direct-upload:progress`               | `<input>`      | `{id, file, progress}`           | ファイルを保存する要求が進行中。                                              |
-| `direct-upload:error`                  | `<input>`      | `{id, file, error}`              | エラーが発生した。このイベントがキャンセルされない限り、`alert`が表示される。 |
-| `direct-upload:end`                    | `<input>`      | `{id, file}`                     | ダイレクトアップロードが終了した。                                            |
-| `direct-uploads:end`                   | `<form>`       | なし                             | すべてのダイレクトアップロードが終了した。                                    |
+| `direct-uploads:start`                 | `<form>`       | なし                             | ダイレクトアップロードフィールドのファイルを含むフォームが送信された。       |
+| `direct-upload:initialize`             | `<input>`      | `{id, file}`                     | フォーム送信後のすべてのファイルにディスパッチされる。                       |
+| `direct-upload:start`                  | `<input>`      | `{id, file}`                     | 直接アップロードが開始されている。                                           |
+| `direct-upload:before-blob-request`    | `<input>`      | `{id, file, xhr}`                | アプリケーションにダイレクトアップロードメタデータを要求する前。             |
+| `direct-upload:before-storage-request` | `<input>`      | `{id, file, xhr}`                | ファイルを保存するリクエストを出す前。                                       |
+| `direct-upload:progress`               | `<input>`      | `{id, file, progress}`           | ファイルを保存する要求が進行中。                                             |
+| `direct-upload:error`                  | `<input>`      | `{id, file, error}`              | エラーが発生した。このイベントがキャンセルされない限り、`alert`が表示される。|
+| `direct-upload:end`                    | `<input>`      | `{id, file}`                     | ダイレクトアップロードが終了した。                                           |
+| `direct-uploads:end`                   | `<form>`       | なし                             | すべてのダイレクトアップロードが終了した。                                   |
 
 ### 例
 

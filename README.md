@@ -7,13 +7,13 @@
 
 ## [📕](#about) Railsガイドとは？
 
-『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。   
+『Railsガイド』は [Ruby on Rails Guides](https://guides.rubyonrails.org/) に基づいた大型リファレンスガイドです。  
 Railsの各機能を体系的に学び、プロダクト開発の生産性を高めたいときに役立ちます。
 
 📕 Ruby on Rails ガイド   
 https://railsguides.jp/
 
-初めて Rails でプロダクト開発する方には『[Railsチュートリアル](https://railstutorial.jp/)』がオススメです。   
+初めて Rails でプロダクト開発する方には『[Railsチュートリアル](https://railstutorial.jp/)』がオススメです。  
 
 🎓 Ruby on Rails チュートリアル   
 https://railstutorial.jp/
@@ -59,7 +59,7 @@ Railsガイドを読んで誤字・脱字・誤訳などを見かけましたら
 
 ## [🛠️](#build) Railsガイドの生成方法
 
-Pull Request を送る前に生成結果を確認したい場合は下記をご参照ください。   
+Pull Request を送る前に生成結果を確認したい場合は下記をご参照ください。  
 **_(※ 生成結果の確認は不要です! [修正提案](#pr)をそのまま送って頂いて大丈夫です! 😆👌)_**
 
 
@@ -87,7 +87,7 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 <!--
 ## 翻訳方法の変遷
 
-以下はこれまでの翻訳フロー改善の流れを過去ログとしてまとめています。   
+以下はこれまでの翻訳フロー改善の流れを過去ログとしてまとめています。  
 基本的に読む必要はありませんが、もし興味あれば適宜ご参照ください ;)
 
 <details>
@@ -95,7 +95,7 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 [![Railsガイドを支える継続的翻訳システム - SpeakerDeck](https://raw.githubusercontent.com/yasslab/railsguides.jp/master/yasslab/continuous_translation_system.png)](https://speakerdeck.com/yasulab/continuous-translation-system-at-rwc2015)
 
-本リポジトリの仕組みについては、上記のスライドで詳しく解説されています。    
+本リポジトリの仕組みについては、上記のスライドで詳しく解説されています。   
 </details>
 
 
@@ -133,7 +133,7 @@ Pull Request を送る前に生成結果を確認したい場合は下記をご�
 
 - 詳細: [Google Translator Toolkitと翻訳メモリ(ノーカット版) : RubyWorld Conference 2013より](http://techracho.bpsinc.jp/hachi8833/2013_12_16/14889)
 - GTTの使用方法や文体などに関しては[こちら](https://www.facebook.com/notes/ruby-on-rails-tutorial-%E7%BF%BB%E8%A8%B3%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97/google-translator-toolkit-gtt-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9/170100333166820)を参考にしてください。
-- NOTE: 行頭にある`(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]`は、`guides:generate:html` で使われるタグです。 **これらのタグは訳さないでください。**
+- NOTE: 行頭にある`(TIP|IMPORTANT|CAUTION|WARNING|NOTE|INFO|TODO)[.:]`は、`guides:generate:html` で使われるタグです。**これらのタグは訳さないでください。**
 
 </details>
 -->
