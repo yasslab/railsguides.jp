@@ -36,12 +36,15 @@ active_job_basics:
 - title: "RailsTokyo (2025/12) - Active Job 近況 - Continuations, Solid Queue"
   url: https://speakerdeck.com/igaiga/activejobupdates
 
-
 active_record_querying:
 - title: Kaigi on Rails - Active Record クエリクイズ
   url: https://kaigionrails.org/2023/talks/pocke/
 - title: Railsの練習帳 - トランザクションとロック
   url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/ar_transaction_lock
+
+active_storage_overview:
+- title: Railsの練習帳 - Active Storageの各種機能
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/active_storage
 
 active_support_core_extensions:
 - title: "Kaigi on Rails - ActiveSupport::CurrentAttributes: すっごく便利なのに嫌われ者？！"
