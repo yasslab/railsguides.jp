@@ -148,6 +148,8 @@ security:
   url: https://www.ipa.go.jp/security/vuln/websecurity/index.html
 - title: "Railsでセッションリプレイ攻撃を防ぐ方法（翻訳）| TechRacho"
   url: https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443
+- title: Railsの練習帳 - SQLインジェクションを防ぐ
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/ar_sql_injection
 
 sign_up_and_settings:
 - title: "Kaigi on Rails - rails g authenticationから学ぶRails8.0時代の認証"
