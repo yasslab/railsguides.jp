@@ -136,6 +136,8 @@ threading_and_code_execution:
 rails_on_rack:
 - title: "たのしいOSSコードリーディング: Let's read \"cookies\"🍪"
   url: https://qiita.com/coe401_/items/ad7dc2f3e319c5beaf40
+- title: Railsの練習帳 - RackとRackミドルウェア
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/rack_middleware_and_rack
 - title: Kaigi on Rails - Rackを理解しRailsアプリケーション開発の足腰を鍛えよう
   url: https://kaigionrails.org/2024/workshop/
 - title: スタディサプリ最大のRailsアプリケーションにYJIT+pitchforkを導入してメモリ使用量を劇的に削減するまで
