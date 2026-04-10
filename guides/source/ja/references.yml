@@ -29,6 +29,10 @@ getting_started_with_devcontainer:
   url: https://railstutorial.jp/docs/codespaces.html
 
 active_job_basics:
+- title: Railsの練習帳 - Solid Queue
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/solid_queue
+- title: Railsの練習帳 - Continuations
+  url: https://zenn.dev/igaiga/books/rails-practice-note/viewer/active_job_continuations
 - title: "Kaigi on Rails - Sidekiq その前に：Webアプリケーションにおける非同期ジョブ設計原則"
   url: https://kaigionrails.org/2025/talks/morihirok/
 - title: "Kaigi on Rails - 非同期処理実行基盤、Delayed脱出〜SolidQueue完全移行への旅路。"
