@@ -204,7 +204,7 @@ Railsの[Active Record](active_record_basics.html)は、リレーショナルデ
 $ bin/rails generate model Product name:string
 ```
 
-このコマンドは、`string`型の`name`カラムを持つ`Product`という名前のモデルをデータベースで生成するようにRailsに指示します。他のカラム型を追加する方法についてはこの後で学習します。
+このコマンドは、データベースに`string`型の`name`カラムを持つ`Product`という名前のモデルを生成するようにRailsに指示します。他のカラム型を追加する方法についてはこの後で学習します。
 
 コマンドを実行すると、ターミナルに次の内容が表示されます。
 
