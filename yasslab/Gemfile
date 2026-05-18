@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.3.11"
+ruby "3.4.9"
 
 # Required gems to build Rails Guides (same as rails/rails)
 gem 'activesupport' # Needed to run 'rake assets:precompile'
@@ -19,6 +19,8 @@ gem "jekyll"
 gem "rack-jekyll"
 gem "kramdown"
 gem "webrick"
+gem "bigdecimal"
+gem "mutex_m"
 
 # Test HTML files by: `bundle exec rake test`
 # Required as well in production to check deployment
