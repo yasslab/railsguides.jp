@@ -157,7 +157,7 @@ $ rails new booknotes --database=postgresql
 このオプションを指定したときの主な違いは、`config/database.yml`ファイルの内容です。PostgreSQLオプションを指定した場合、`config/database.yml`ファイルは以下のようになります。
 
 ```yaml
-# PostgreSQL. Versions 9.3 and up are supported.
+# PostgreSQL. Versions 9.5 and up are supported.
 #
 # Install the pg driver:
 #   gem install pg
