@@ -828,7 +828,7 @@ Product.create # => false
 ただし、（`create`ではなく）`create!`を呼び出した場合は`ActiveRecord::RecordNotSaved`が発生します。この例外は、コールバックの中断によりレコードが保存されなかったことを示します。
 
 ```ruby
-User.create! # => ActiveRecord::RecordNotSavedをraiseする
+Product.create! # => ActiveRecord::RecordNotSavedをraiseする
 ```
 
 `throw :abort`がdestroy系のコールバックで呼び出された場合は、`destroy`はfalseを返します。

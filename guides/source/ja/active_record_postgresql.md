@@ -16,7 +16,7 @@ Active Record と PostgreSQL
 
 --------------------------------------------------------------------------------
 
-PostgreSQLアダプタを利用するには、PostgreSQL 9.3以上がインストールされている必要があります。これより古いバージョンはサポートされません。
+PostgreSQLアダプタを利用するには、PostgreSQL 9.5以上がインストールされている必要があります。これより古いバージョンはサポートされません。
 
 PostgreSQLを使う場合は、『[Rails アプリケーションを設定する][configuring]』ガイドをお読みください。Active RecordをPostgreSQL向けに正しくセットアップする方法が記載されています。
 
@@ -557,7 +557,7 @@ Railsのマイグレーションでタイムスタンプを利用すると、モ
 
 ```ruby
 # db/migrate/20241220144913_create_devices.rb
-create_table :post, id: :uuid do |t|
+create_table :posts, id: :uuid do |t|
   t.datetime :published_at
   # Active Recordは、このカラムのデータ型をデフォルトで`timestamp without time zone`に設定する
 end
@@ -877,7 +877,7 @@ ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = ["--no-comments"]
 Explain
 -------
 
-標準の[`explain`][explain-options]オプションに加えて、PostgreSQLアダプタは[`buffers`][explain-analayze-buffers]もサポートしています。
+標準の[`explain`][explain-options]オプションに加えて、PostgreSQLアダプタは[`buffers`][explain-analyze-buffers]もサポートしています。
 
 ```ruby
 Company.where(id: owning_companies_ids).explain(:analyze, :buffers)
@@ -890,4 +890,4 @@ Company.where(id: owning_companies_ids).explain(:analyze, :buffers)
 詳しくはPostgreSQLのドキュメントを参照してください。
 
 [explain-options]: active_record_querying.html#explainのオプション
-[explain-analayze-buffers]: https://www.postgresql.jp/document/17/html/sql-explain.html
+[explain-analyze-buffers]: https://www.postgresql.jp/document/17/html/sql-explain.html

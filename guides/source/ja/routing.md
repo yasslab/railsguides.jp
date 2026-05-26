@@ -1212,7 +1212,7 @@ end
 resources :photos
 ```
 
-上のように`as:`を使うと、`/admin/photos`のルーティングヘルパーが、`photos_path`、`new_photos_path`などから`admin_photos_path`、`new_admin_photo_path`などに変更されます。
+上のように`as:`を使うと、`/admin/photos`のルーティングヘルパーが、`photos_path`、`new_photo_path`などから`admin_photos_path`、`new_admin_photo_path`などに変更されます。
 `as: "admin_photos"`をスコープ付き`resources :photos`に追加しない場合は、スコープなしの`resources :photos`はルーティングヘルパーを持つことができません。
 
 ルーティングヘルパーのグループにまとめてプレフィックスを追加するには、以下のように`scope`メソッドで`:as`オプションを使います。
