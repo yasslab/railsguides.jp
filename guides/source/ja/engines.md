@@ -333,7 +333,7 @@ end
 
 NOTE: この`has_many`は`Blorgh`モジュールの中にあるクラスの中で定義されています。これだけで、これらのオブジェクトに対して`Blorgh::Comment`モデルを使いたいという意図がRailsに自動的に認識されます。つまり、ここでは`:class_name`オプションでクラス名を指定する必要はありません。
 
-続いて、記事を作成するためのフォームを作成する必要があります。フォームを追加するには、`app/views/blorgh/articles/show.html.erb`の`render @article.comments`呼び出しの直後に以下の行を追加します。
+続いて、記事にコメントを作成するためのフォームを作成する必要があります。フォームを追加するには、`app/views/blorgh/articles/show.html.erb`の`render @article.comments`呼び出しの直後に以下の行を追加します。
 
 ```erb
 <%= render "blorgh/comments/form" %>
@@ -533,7 +533,7 @@ $ bin/rails generate model user name:string
 </div>
 ```
 
-続いて、エンジンの`Blorgh::ArticleController#article_params`メソッドを更新して、新しいフォームパラメータを受け付けるようにする必要もあります。
+続いて、エンジンの`Blorgh::ArticlesController#article_params`メソッドを更新して、新しいフォームパラメータを受け付けるようにする必要もあります。
 
 ```ruby
 def article_params
