@@ -436,7 +436,7 @@ end
 irb> person = Person.new
 irb> person.update
 reset_me method: updateメソッドの前に呼び出される
-log_me method: updateメソッドの前に呼び出された
+log_me method: updateメソッドの前後に呼び出される
 updateメソッドが呼び出された
 log_me method: ブロックの呼び出し成功
 finalize_me method: updateメソッドの後に呼び出される
