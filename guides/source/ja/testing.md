@@ -770,8 +770,8 @@ first_content:
   body: <div>Hello, from <strong>a fixture</strong></div>
 ```
 
-`fixtures/articles.yml`にある記事`first`の`category`キーの値が`about`になり、`fixtures/action_text/rich_texts.yml`にある`first_content`エントリの`record`キーの値が`first (Article)`になっている点にもご注目ください。
-これは、前者についてはActive Recordが`fixtures/categories.yml`にあるカテゴリ`about`を読み込むように、後者についてはAction Textが`fixtures/articles.yml`にある記事`first`を読み込むように指示しています。
+`fixtures/articles.yml`にある記事`first`の`category`キーの値が`web_frameworks`になり、`fixtures/action_text/rich_texts.yml`にある`first_content`エントリの`record`キーの値が`first (Article)`になっている点にもご注目ください。
+これは、前者についてはActive Recordが`fixtures/categories.yml`にあるカテゴリ`web_frameworks`を読み込むように、後者についてはAction Textが`fixtures/articles.yml`にある記事`first`を読み込むように指示しています。
 
 NOTE: 関連付けを名前で相互参照するには、関連付けられたフィクスチャにある`id:`属性を指定する代わりに、フィクスチャ名を使えます。Railsはテストの実行中に、自動的に主キーを割り当てて一貫性を保ちます。関連付けの場合の振る舞いについて詳しくは、[フィクスチャAPIドキュメント](https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html)を参照してください。
 
