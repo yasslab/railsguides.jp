@@ -22,7 +22,11 @@
       name: 演習：ウィッシュリスト機能の追加
       url: wishlists.html
       description: 練習用アプリ「store」にウィッシュリスト機能を追加する方法について解説します。
--
+
+      name: 演習：製品レビュー機能の追加
+      url: product_reviews.html
+      description: 練習用アプリ「store」に製品レビュー機能を追加する方法について解説します。
+
   name: モデル
   documents:
     -
@@ -128,10 +132,6 @@
   name: 高度なトピック
   documents:
     -
-      name: Rails 国際化（I18n）API
-      url: i18n.html
-      description: Railsアプリケーションを国際化する方法について解説します。これによりアプリケーションを異なる言語に翻訳することができ、さらに単数形/複数形ルールを変更したり、その国に適した日付フォーマットを設定したりできます。
-    -
       name: Rails テスティングガイド
       url: testing.html
       description: Railsでさまざまなテストを実行するための総合的な解説を行います。「テスティングとは何か」から結合テストまですべてのトピックを扱います。
@@ -155,6 +155,10 @@
       name: Rails で JavaScript を利用する
       url: working_with_javascript_in_rails.html
       description: importmapやjsbundling-railsを用いてRaisアプリケーションにJavaScriptを組み込む方法を解説します。RailsでTurboを使う基本的な方法についても解説します。
+    -
+      name: 国際化（I18n）
+      url: i18n.html
+      description: Railsアプリケーションを国際化する方法について解説します。これによりアプリケーションを異なる言語に翻訳することができ、さらに単数形/複数形ルールを変更したり、その国に適した日付フォーマットを設定したりできます。
     -
       name: Rails の初期化プロセス
       work_in_progress: true
