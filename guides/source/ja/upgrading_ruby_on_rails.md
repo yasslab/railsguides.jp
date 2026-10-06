@@ -375,7 +375,7 @@ I18n.t("missing.key") # 7.0/7.1どちらもraiseしない
 ```
 
 または、`I18n.exception_handler`をカスタマイズすることも可能です。
-詳しくは[国際化（i18n）ガイド](i18n.html#%E6%A8%99%E6%BA%96%E4%BB%A5%E5%A4%96%E3%81%AE%E4%BE%8B%E5%A4%96%E3%83%8F%E3%83%B3%E3%83%89%E3%83%A9%E3%82%92%E4%BD%BF%E3%81%86)を参照してください。
+詳しくは[国際化（i18n）ガイド](i18n.html#i18nの例外を処理する)を参照してください。
 
 `AbstractController::Translation.raise_on_missing_translations`は削除されました。これはprivate APIですが、万一これに依存している場合は、`config.i18n.raise_on_missing_translations`またはカスタムの例外ハンドラに移行する必要があります。
 
