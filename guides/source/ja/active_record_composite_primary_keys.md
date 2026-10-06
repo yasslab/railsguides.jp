@@ -76,7 +76,6 @@ SELECT * FROM products WHERE (store_id = 1 AND sku = 'ABC98765' OR store_id = 7 
 
 複合主キーを持つモデルは、ORDER BY（順序付け）でも複合主キー全体を使います。
 
-
 ```irb
 irb> product = Product.first
 => #<Product store_id: 1, sku: "ABC98765", description: "Red Hat">
@@ -87,6 +86,21 @@ irb> product = Product.first
 ```sql
 SELECT * FROM products ORDER BY products.store_id ASC, products.sku ASC LIMIT 1
 ```
+
+同様に、`last`では各カラムを逆順ソートした完全な複合主キーが使われます。
+
+```irb
+irb> product = Product.last
+=> #<Product store_id: 7, sku: "ZZZ11111", description: "Green Pants">
+```
+
+以下は上と同等のSQLです。
+
+```sql
+SELECT * FROM products ORDER BY products.store_id DESC, products.sku DESC LIMIT 1
+```
+
+ここでは、`store_id`と`sku`の両方が降順でソートされています。これは、どちらのカラムも複合主キーの一部となっているからです。
 
 ### `#where`の場合
 
@@ -101,13 +115,23 @@ Product.where(Product.primary_key => [[1, "ABC98765"], [7, "ZZZ11111"]])
 
 [`find_by`][]や[`where`][]などのメソッドで条件を指定するときに`id`を使うと、モデルの`:id`属性と一致します（これは、渡すIDが主キーでなければならない[`find`][]と異なります）。
 
-`:id`が主キー**でない**モデル（複合主キーを使っているモデルなど）で`find_by(id:)`を使う場合は注意が必要です。詳しくは[Active Recordクエリガイド][Active Record Querying]を参照してください。
+たとえば、以下の`find_by`呼び出しがマッチするのは`:id`カラムであり、複合主キー全体ではありません。
+
+```ruby
+Order.find_by(id: 5)
+```
+
+以下の`where`呼び出しの振る舞いも同様です。
+
+```ruby
+Order.where(id: 5)
+```
+
+`:id`が主キー**でない**モデル（複合主キーを使っているモデルなど）で`find_by(id:)`を使う場合は注意が必要です。詳しくは#条件で`:id`を指定する](#条件で-idを指定する)を参照してください。
 
 [`find_by`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by
 [`where`]: https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-where
 [`find`]: https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find
-
-[Active Record Querying]: active_record_querying.html#条件をidで指定する
 
 複合主キーを持つモデルの関連付け
 -------------------------------------------------------
