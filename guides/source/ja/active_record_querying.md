@@ -33,7 +33,7 @@ INFO: 本ガイドを最大限に活用するには、リレーショナルデ�
 * [Active Record コールバック](active_record_callbacks.html) - オブジェクトのライフサイクルで特定のイベントにコードを紐づける方法を学べます
 * [Active Record の関連付け](association_basics.html) - Active Recordのモデル同士をつなげる方法を学べます
 * [Active Record の複合主キー](active_record_composite_primary_keys.html) - 複合主キーの使い方を学べます
-* [Active Record のトランザクション](active_record_basics.html#transactions) - データベーストランザクションについて学べます
+* [Active Record のトランザクション](active_record_basics.html) - データベーストランザクションについて学べます（訳注: 原文はリンク切れです）
 
 書店サービスで使うモデルの例
 -------------------------
@@ -412,7 +412,7 @@ ActiveRecord::RecordNotFound
 Customer.where(first_name: "does not exist").take!
 ```
 
-モデルで[複合主キー](active_record_composite_primary_keys.html)を利用している場合は、複合主キーガイドの[条件でidを指定する場合](active_record_composite_primary_keys.html#条件で-idを指定する場合)で`find_by(id:)`の振る舞いを参照してください。
+モデルで[複合主キー](active_record_composite_primary_keys.html)を利用している場合は、複合主キーガイドの[条件で`:id`を指定する場合](active_record_composite_primary_keys.html#条件で-idを指定する場合)で`find_by(id:)`の振る舞いを参照してください。
 
 [`find_by`]:
   https://api.rubyonrails.org/classes/ActiveRecord/FinderMethods.html#method-i-find_by
