@@ -136,7 +136,7 @@ $ bin/rails generate mailer User welcome_email
 <p>本サイトにユーザー登録いただきありがとうございます。</p>
 ```
 
-NOTE: 上のサンプルは`<body>`タグの内容です。これは、`<html>`タグを含むデフォルトのメーラーレイアウトに埋め込まれます。詳しくは、[メーラーのレイアウト](#action-mailerのレイアウト)を参照してください。
+NOTE: 上のサンプルは`<body>`タグの内容です。これは、`<html>`タグを含むデフォルトのメーラーレイアウトに埋め込まれます。詳しくは、[Action Mailerのレイアウト](#action-mailerのレイアウト)を参照してください。
 
 また、上のメールのテキストバージョンを`app/views/user_mailer/`ディレクトリの`welcome_email.text.erb`ファイルに保存することも可能です（拡張子が`html.erb`ではなく`.text.erb`である点にご注意ください）。テキストバージョンも用意しておくと、HTMLレンダリングで問題が発生した場合に信頼できるフォールバックとして機能するため、HTML形式とテキスト形式の両方を送信することがベストプラクティスと見なされます。テキストメールの例を次に示します。
 
@@ -170,7 +170,7 @@ $ bin/rails db:migrate
 
 次に、`UserController`の`create`アクションを編集して、新しいユーザーが作成されたときにウェルカムメールを送信するようにします。これは、ユーザーが正常に保存された直後に`UserMailer.with(user: @user).welcome_email`への呼び出しを挿入する形で行います。
 
-NOTE: ここでは[`deliver_later`][]を使って、Active Jobによるメールキューにメールを登録して後で送信するようにしています。これにより、コントローラのアクションはメールの送信完了を待たずに処理を続行できます。`deliver_later`メソッドは、[Active Job](active_job_basics.html#action-mailer)に支えられています。
+NOTE: ここでは[`deliver_later`][]を使って、Active Jobによるメールキューにメールを登録して後で送信するようにしています。これにより、コントローラのアクションはメールの送信完了を待たずに処理を続行できます。`deliver_later`メソッドは、[Active Job](active_job_basics.html#例-メール送信)に支えられています。
 
 ```ruby
 class UsersController < ApplicationController
@@ -767,7 +767,7 @@ class UserMailer < ApplicationMailer
 end
 ```
 
-メールの`body`に`nil`以外の値が設定されている場合、メーラーのコールバックは以後の処理を中止します。
+`response_body`に`nil`以外の値が設定されている場合、`before_action`コールバックは以後の処理を中止します。
 `before_deliver`は`throw :abort`で中止できます。
 
 [`after_action`]:
