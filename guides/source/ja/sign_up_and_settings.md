@@ -349,7 +349,7 @@ en:
         password_challenge: "Current password"
 ```
 
-詳しくは、[国際化（I18n）ガイド](i18n.html#active-recordモデルで翻訳を行なう)を参照してください。
+詳しくは、[国際化（I18n）ガイド](i18n.html#active-recordモデル)を参照してください。
 
 ユーザープロファイルを編集する
 ---------------------
