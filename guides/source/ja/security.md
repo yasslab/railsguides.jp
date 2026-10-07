@@ -1350,7 +1350,7 @@ Rails.application.config.content_security_policy_nonce_generator = -> request { 
 
 nonceジェネレータを設定する場合は、いくつかの考慮すべきトレードオフがあります。
 `SecureRandom.base64(16)`を利用する場合、リクエストごとに新しいランダムなnonceを生成するので、デフォルト値としては有用です。
-しかしこの方法だと、新しいnonceがリクエストごとに新しいETag値を生成してしまうため、[条件付きGETキャッシュ](caching_with_rails.html#条件付きgetのサポート)と互換性がありません。
+しかしこの方法だと、新しいnonceがリクエストごとに新しいETag値を生成してしまうため、[条件付きGETキャッシュ](caching_with_rails.html#条件付きget)と互換性がありません。
 リクエストごとのランダムなnonceの代替は、以下のようにセッションidを使うことです。
 
 ```ruby
