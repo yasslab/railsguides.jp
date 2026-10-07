@@ -1,58 +1,127 @@
 Rails ジェネレータとテンプレート入門
-=====================================================
+============================
 
 Railsの各種ジェネレータとアプリケーションテンプレートは、定型コードを自動的に生成してワークフローを改善するツールとして非常に有用です。
 
 このガイドの内容:
 
-* アプリケーションで利用できるジェネレータを確認する方法
-* テンプレートでジェネレータを作成する方法
-* Railsがジェネレータを起動前に探索する方法
-* ジェネレータとテンプレートをオーバーライドしてscaffoldをカスタマイズする方法
-* 多数のジェネレータを誤って上書きしないためのフォールバック方法
-* Railsアプリケーションをテンプレートで作成・カスタマイズする方法
-* RailsテンプレートAPIを使って独自の再利用可能なアプリケーションテンプレートを書く方法
+* アプリケーションで利用可能なジェネレータを確認する方法
+* テンプレートを利用してカスタムジェネレータを作成する方法
+* Railsがジェネレータを呼び出すときにジェネレータを探索するしくみ
+* ジェネレータやテンプレートをオーバーライドしてRailsのscaffoldをカスタマイズする方法
+* 特定のジェネレータをオーバーライドするフォールバックの設定方法
+* テンプレートでRailsアプリケーションを作成・カスタマイズする方法
+* RailsテンプレートAPIを利用して再利用可能なアプリケーションテンプレートを作成する方法
 
 --------------------------------------------------------------------------------
 
+ジェネレータとは
+--------------------
 
-ジェネレータとの最初の出会い
--------------
+`rails new`コマンドでアプリケーションを作成すると、Railsのジェネレータが使われます。**ジェネレータ**（generator）は、アプリケーションの特定のファイルを作成し、定型コードの自動化を可能にします。
 
-`rails`コマンドでRailsアプリケーションを作成すると、実はRailsのジェネレータを利用したことになります。以後は、`bin/rails generate`を実行すれば、その時点でアプリケーションから利用可能なすべてのジェネレータのリストが表示されます。
+Railsアプリケーション内で以下のように`bin/rails generate`コマンドを呼び出すと、利用可能なすべてのジェネレータのリストを取得できます。
 
 ```bash
 $ rails new myapp
 $ cd myapp
 $ bin/rails generate
+Usage:
+  bin/rails generate GENERATOR [args] [options]
+
+General options:
+  -h, [--help]     # Print generator's options and usage
+  -p, [--pretend]  # Run but do not make any changes
+  -f, [--force]    # Overwrite files that already exist
+  -s, [--skip]     # Skip files that already exist
+  -q, [--quiet]    # Suppress status output
+
+Please choose a generator below.
+
+Rails:
+  application_record
+  authentication
+  benchmark
+  channel
+  controller
+  generator
+  ...
+SolidQueue:
+  solid_queue:install
+
+Stimulus:
+  stimulus
+
+TestUnit:
+  test_unit:authentication
+  test_unit:channel
+  ...
 ```
 
-NOTE: Railsアプリケーションを新しく作成するときは、`gem install rails`でインストールしたrails gemのグローバルな`rails`コマンドを使いますが、作成したアプリケーションのディレクトリ内では、そのアプリケーション内にバンドルされている`bin/rails`コマンドを使う点が異なります。
+NOTE: Railsアプリケーションを新しく作成するときは、`gem install rails`でインストールしたバージョンのRailsを使うグローバルな`rails`コマンドが使われますが、作成したアプリケーションのディレクトリ内では、アプリケーションにバンドルされているバージョンのRailsを使う`bin/rails`コマンドが使われる点が異なります。
 
-Railsで利用可能なすべてのジェネレータのリストを表示できます。特定のジェネレータのヘルプを表示するには、そのジェネレータ名に続けて以下のように`--help`オプションを指定します。
+上のコマンドによって、Railsで利用可能なすべてのジェネレータのリストと利用方法を表示できます。
+
+ジェネレータを実行するときに、以下のように`--pretend`（または`-p`）オプションを付けて実行すると、ジェネレータがどのような処理を行うかを、ファイルを変更せずに確認できます。
+
+```bash
+$ bin/rails generate model product name:string --pretend
+      invoke  active_record
+      create    db/migrate/20260407190300_create_products.rb
+      create    app/models/product.rb
+      invoke    test_unit
+      create      test/models/product_test.rb
+      create      test/fixtures/products.yml
+```
+
+上記のファイルは、`--pretend`オプションを付けて実行した場合、実際には作成されません。
+
+TIP: `--pretend`オプションは、関連するジェネレータが生成するファイルの差分を、実際に実行する前に確認するのに便利です。たとえば、`model`と`resource`ジェネレータの違いを確認できます。
+
+特定のジェネレータの詳しい説明を表示するには、以下のように`--help`オプションを付けてジェネレータを呼び出します。
 
 ```bash
 $ bin/rails generate scaffold --help
+Usage:
+  bin/rails generate scaffold NAME [field[:type][:index] field[:type][:index]] [options]
+...
+Description:
+    Scaffolds an entire resource, from model and migration to controller and
+    views, along with a full test suite. The resource is ready to use as a
+    starting point for your RESTful, resource-oriented application.
+...
+Examples:
+    `bin/rails generate scaffold post`
+    `bin/rails generate scaffold post title:string body:text published:boolean`
+    `bin/rails generate scaffold purchase amount:decimal tracking_id:integer:uniq`
+    `bin/rails generate scaffold user email:uniq password:digest`
+...
 ```
+
+`--help`オプションを付けると詳しい利用方法や実行例が出力されるので、特定のジェネレータについて詳しく知るための良い情報源となります。
 
 最初のジェネレータを作成する
 -----------------------------
 
-ジェネレータは[Thor][] gemの上に構築されています。Thorは強力な解析オプションと優れたファイル操作APIを提供しています。
+Railsでは、ジェネレータに加えて、カスタムジェネレータを構築する機能も提供されています。ここでは、`config/initializers/`フォルダ内に`hello_generator.rb`という名前のイニシャライザファイルを作成するジェネレータを作成してみましょう。最初は手動でジェネレータを作成し、次に`generator`コマンドでジェネレータを作成する方法も見ていきます。
 
-具体例として、`config/initializers`ディレクトリの下に`initializer.rb`という名前のイニシャライザファイルを作成するジェネレータを構築してみましょう。
+NOTE: ジェネレータは[Thor][]をベースとして構築されています。Thorは解析機能などの便利なオプションやファイル操作用のAPIを提供するライブラリです。
+
+ジェネレータを手書きするときの最初のステップとして、`lib/generators/`ディレクトリの下に`initializer_generator.rb`という名前のファイルを以下の内容で作成します。
 
 ```ruby
 class InitializerGenerator < Rails::Generators::Base
   def create_initializer_file
-    create_file "config/initializers/initializer.rb", <<~RUBY
-      # 初期化時のコンテンツをここに追加する
+    create_file "config/initializers/hello_generator.rb", <<~RUBY
+      # hello_generator.rbファイルの内容をここに追加する
     RUBY
   end
 end
 ```
 
-新しいジェネレータはきわめてシンプルです。[`Rails::Generators::Base`][]を継承しており、定義されているメソッドは1つだけです。ジェネレータが起動されると、ジェネレータ内で定義されているパブリックメソッドが定義順に実行されます。作成したメソッドから[`create_file`][]が呼び出され、指定の内容を含むファイルが指定のディレクトリに作成されます。
+このジェネレータの名前は、ファイル名とRubyクラス名に基づいて`initializer`とし、[`Rails::Generators::Base`][]クラスを継承しています。ジェネレータが呼び出されると、ジェネレータ内の各パブリックメソッドが定義された順序で順番に実行されます。
+
+この新しいジェネレータは意図的にシンプルなものにしてあり、メソッド定義は1個しかありません。このメソッドは[`create_file`][]を呼び出し、指定された場所に指定の内容でファイルを作成します。
 
 新しいジェネレータを呼び出すには、以下を実行します。
 
@@ -60,20 +129,24 @@ end
 $ bin/rails generate initializer
 ```
 
+これで、`config/initializers`フォルダ内に`hello_generator.rb`という空のファイルが作成されます。
+
 次に進む前に、今作成したばかりのジェネレータの説明を表示してみましょう。
 
 ```bash
 $ bin/rails generate initializer --help
 ```
 
-Railsでは、ジェネレータが`ActiveRecord::Generators::ModelGenerator`のように名前空間化されていれば実用的な説明文を生成できますが、今作成したジェネレータはそうなっていません。この問題は2通りの方法で解決できます。1つ目の方法は、ジェネレータ内で[`desc`][]メソッドを呼び出すことです。
+通常は、ジェネレータが`ActiveRecord::Generators::ModelGenerator`のように名前空間化されていれば、実用的な説明文を生成できますが、今作成したジェネレータはそうなっていません。
+
+この問題は2通りの方法で解決できます。1つ目の方法は、ジェネレータ内で[`desc`][]メソッドを呼び出すことです。
 
 ```ruby
 class InitializerGenerator < Rails::Generators::Base
   desc "このジェネレータはconfig/initializersにイニシャライザファイルを作成します"
   def create_initializer_file
-    create_file "config/initializers/initializer.rb", <<~RUBY
-      # 初期化時のコンテンツをここに追加する
+    create_file "config/initializers/hello_generator.rb", <<~RUBY
+      # hello_generator.rbファイルの内容をここに追加する
     RUBY
   end
 end
@@ -83,16 +156,22 @@ end
 
 説明文を追加する2つ目の方法は、ジェネレータと同じディレクトリに`USAGE`という名前のファイルを作成することです。次に、この方法で実際に説明文を追加してみましょう。
 
-[Thor]: https://github.com/erikhuda/thor
-[`Rails::Generators::Base`]: https://api.rubyonrails.org/classes/Rails/Generators/Base.html
-[`Thor::Actions`]: https://www.rubydoc.info/gems/thor/Thor/Actions
-[`create_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#create_file-instance_method
-[`desc`]: https://www.rubydoc.info/gems/thor/Thor#desc-class_method
+[Thor]:
+  https://github.com/rails/thor
+[`Rails::Generators::Base`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Base.html
+[`Thor::Actions`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions
+[`create_file`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#create_file-instance_method
+[`desc`]:
+  https://www.rubydoc.info/gems/thor/Thor#desc-class_method
 
-ジェネレータでジェネレータを生成する
------------------------------------
+### ジェネレータでジェネレータを生成する
 
-Railsには、ジェネレータを生成するためのジェネレータもあります。`InitializerGenerator`を削除してから、`bin/rails generate generator`を実行して新しいジェネレータを生成してみましょう。
+Railsには、ジェネレータを生成するためのジェネレータもあります。
+
+今作った`InitializerGenerator`を削除してから、`bin/rails generate generator`を実行し、あらためてジェネレータを生成してみましょう。
 
 ```bash
 $ rm lib/generators/initializer_generator.rb
@@ -106,17 +185,18 @@ $ bin/rails generate generator initializer
       create    test/lib/generators/initializer_generator_test.rb
 ```
 
-上で作成したジェネレータの内容は以下のとおりです。
+これで、以下のようなジェネレータが作成されます。
 
 ```ruby
+# lib/generators/initializer/initializer_generator.rb
 class InitializerGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("templates", __dir__)
 end
 ```
 
-上のジェネレータを見て最初に気付く点は、`Rails::Generators::Base`ではなく[`Rails::Generators::NamedBase`][]を継承していることです。これは、このジェネレータを生成するには引数が1つ以上必要であることを意味します。この引数はイニシャライザ名で、コードはこのイニシャライザ名を`name`という変数で参照できます。
+上のジェネレータを見て最初に気付く点は、`Rails::Generators::Base`ではなく[`Rails::Generators::NamedBase`][]を継承していることです。これは、このジェネレータを実行するには引数が1つ以上必要であることを意味します。この引数はイニシャライザ名で、コードはこのイニシャライザ名を`name`で参照できます。
 
-新しいジェネレータを呼び出すと、以下のように説明文が表示されます。
+このことは、新しいジェネレータの説明文を表示してみると確認できます。
 
 ```bash
 $ bin/rails generate initializer --help
@@ -124,17 +204,18 @@ Usage:
   bin/rails generate initializer NAME [options]
 ```
 
-次に、新しいジェネレータには[`source_root`][]という名前のクラスメソッドが含まれている点にもご注目ください。このメソッドは、ジェネレータのテンプレートの置き場所を指定する場合に使います。デフォルトでは、作成された`lib/generators/initializer/templates`ディレクトリを指します。
+次に、生成されたジェネレータに[`source_root`][]という名前のクラスメソッドが含まれている点にもご注目ください。このメソッドは、ジェネレータのテンプレートの置き場所を指定するのに使われます。テンプレートファイルとは、ジェネレータがアプリケーション内に新しいファイルを作成するときの設計図として使うファイルのことです。テンプレートファイルは、デフォルトでは、作成された`lib/generators/initializer/templates`ディレクトリに置かれます。
 
-ジェネレータのテンプレートの機能を理解するために、`lib/generators/initializer/templates/initializer.rb`を作成して以下のコンテンツを追加してみましょう。
+ジェネレータのテンプレートの機能を理解するために、`lib/generators/initializer/templates/initializer.rb`ファイルを以下の内容で作成しましょう。
 
 ```ruby
 # 初期化用のコンテンツをここに追加する
 ```
 
-続いてジェネレータを変更し、呼び出されたときにこのテンプレートをコピーするようにします。
+次に、ジェネレータを以下のように変更して、ジェネレータが呼び出されたときにこのテンプレートをコピーするようにします。
 
 ```ruby
+# lib/generators/initializer/initializer_generator.rb
 class InitializerGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("templates", __dir__)
 
@@ -144,7 +225,7 @@ class InitializerGenerator < Rails::Generators::NamedBase
 end
 ```
 
-それではこのジェネレータを実行してみましょう。
+それでは、このジェネレータを実行してみましょう。
 
 ```bash
 $ bin/rails generate initializer core_extensions
@@ -154,16 +235,18 @@ $ cat config/initializers/core_extensions.rb
 # 初期化用のコンテンツをここに追加する
 ```
 
-[`copy_file`][]が作成した`config/initializers/core_extensions.rb`ファイルにテンプレートのコンテンツが反映されていることがわかります（コピー先パスで使われる`file_name`メソッドは`Rails::Generators::NamedBase`から継承されます）。
+[`copy_file`][]によって`config/initializers/core_extensions.rb`が作成され、テンプレートの内容がコピーされたことがわかります（宛先パスで使われている`file_name`メソッドは[`Rails::Generators::NamedBase`][]から継承されています）。
 
-[`Rails::Generators::NamedBase`]: https://api.rubyonrails.org/classes/Rails/Generators/NamedBase.html
-[`copy_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#copy_file-instance_method
-[`source_root`]: https://api.rubyonrails.org/classes/Rails/Generators/Base.html#method-c-source_root
+[`Rails::Generators::NamedBase`]:
+    https://api.rubyonrails.org/classes/Rails/Generators/NamedBase.html
+[`copy_file`]:
+    https://www.rubydoc.info/gems/thor/Thor/Actions#copy_file-instance_method
+[`source_root`]:
+    https://api.rubyonrails.org/classes/Rails/Generators/Base.html#method-c-source_root
 
-ジェネレータのコマンドラインオプション
-------------------------------
+### ジェネレータのコマンドラインオプション
 
-ジェネレータでは、以下のように[`class_option`][]でコマンドラインオプションをサポートできます。
+ジェネレータでコマンドラインオプションをサポートするには、以下のように[`class_option`][]メソッドを使います。
 
 ```ruby
 class InitializerGenerator < Rails::Generators::NamedBase
@@ -177,68 +260,47 @@ end
 $ bin/rails generate initializer theme --scope dashboard
 ```
 
-ジェネレータ内では、[`options`][]でオプションの値を参照できます。
+これにより、デフォルト値の"app"が"dashboard"で上書きされます。
+
+オプションの値は、ジェネレータ内のメソッドから[`options`][]でアクセスできます。
 
 ```ruby
 def copy_initializer_file
   @scope = options["scope"]
+  copy_file "initializer.rb", "config/initializers/#{@scope}/#{file_name}.rb"
 end
 ```
 
-[`class_option`]: https://www.rubydoc.info/gems/thor/Thor/Base/ClassMethods#class_option-instance_method
-[`options`]: https://www.rubydoc.info/gems/thor/Thor/Base#options-instance_method
+これで、ジェネレータで`--scope`オプションを設定すると、`theme.rb`ファイルが`config/initializers/dashboard/`に生成されるようになりました。
+
+[`class_option`]:
+    https://www.rubydoc.info/gems/thor/Thor/Base/ClassMethods#class_option-instance_method
+[`options`]:
+    https://www.rubydoc.info/gems/thor/Thor/Base#options-instance_method
 
 ジェネレータ名の解決
------------------
+--------------------
 
-Railsがジェネレータ名を解決するときは、複数のファイル名を使ってジェネレータを探索します。たとえば、`bin/rails generate initializer core_extensions`を実行すると、Railsはジェネレータが見つかるまで以下の順にファイルを探索します。
+Railsがジェネレータ名を解決するときは、複数のファイル名を使ってジェネレータを探索します。
+たとえば、`bin/rails generate initializer core_extensions`を実行すると、Railsはジェネレータが見つかるまで以下の順にファイルを探索します。
 
 * `rails/generators/initializer/initializer_generator.rb`
 * `generators/initializer/initializer_generator.rb`
 * `rails/generators/initializer_generator.rb`
 * `generators/initializer_generator.rb`
 
-ジェネレータがどのファイルにも見つからない場合は、エラーメッセージが表示されます。
+ジェネレータがどのファイルにも見つからない場合は、エラーがraiseされます。
 
-上の例でアプリケーションの`lib/`ディレクトリの下にファイルを置いているのは、このディレクトリが`$LOAD_PATH`に含まれているからです。これにより、Railsがこのファイルを検索して読み込めるようになります。
+上の例でジェネレータのファイルをアプリケーションの`lib/`ディレクトリの下に置いた理由は、このディレクトリが`$LOAD_PATH`（Rubyがファイルを読み込むときに探索するディレクトリのリスト）に含まれているからです。これにより、Railsがこのファイルを検索して読み込めるようになります。
 
-Railsジェネレータのテンプレートをオーバーライドする
-------------------------------------
+NOTE: `$LOAD_PATH`はRubyによって初期化され、起動時にBundlerとRailsによって拡張されます。Bundlerは各gemに含まれている`lib/`ディレクトリを追加し、Railsはアプリケーションの`lib/`ディレクトリを追加します。これにより、そこに配置されたジェネレータが見つかるようになります。`bin/rails runner 'puts $LOAD_PATH'`を実行すると、完全な読み込みパスを確認できます。読み込みパスは、`application.rb`ファイルの`config.autoload_paths`で変更することも可能です。
 
-Railsは、ジェネレータのテンプレートファイルを解決するときにも複数の場所を探索します。アプリケーションの`lib/templates/`ディレクトリも探索場所の1つです。この振る舞いのおかげで、Railsの組み込みジェネレータで使われるテンプレートをオーバーライドできます。たとえば、[コントローラのscaffoldテンプレート][scaffold controller template]や[ビューのscaffoldテンプレート][scaffold view templates]をオーバーライドできます。
+Railsジェネレータとテンプレートをオーバーライドする
+-----------------------------------------
 
-これを実際に行うために、`lib/templates/erb/scaffold/index.html.erb.tt`ファイルを作成して以下のコンテンツを追加してみましょう。
+[`config.generators`][]を設定することで、Rails組み込みのジェネレータをオーバーライドできます。Railsアプリケーションの成長に応じて、生成されるコントローラに独自のメソッドを追加したり、生成されるビューのフォーマットを変更したりしたくなることもあるでしょう。
 
-```erb
-<%%= @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
-```
-
-ここで作成するERBテンプレートは、**別の**ERBテンプレートをレンダリングします。そのため、**生成される**テンプレートに出力する`<%`は、**ジェネレータ**のテンプレートで`<%%`のようにすべてエスケープしておく必要がある点にご注意ください。
-
-それでは、Rails組み込みのscaffoldジェネレータを実行してみましょう。
-
-```bash
-$ bin/rails generate scaffold Post title:string
-      ...
-      create      app/views/posts/index.html.erb
-      ...
-```
-
-`app/views/posts/index.html.erb`ファイルを開くと、以下のようになっているはずです。
-
-```erb
-<%= @posts.count %> Posts
-```
-
-[scaffold controller template]: https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/scaffold_controller/templates/controller.rb.tt
-[scaffold view templates]: https://github.com/rails/rails/tree/main/railties/lib/rails/generators/erb/scaffold/templates
-
-Railsジェネレータをオーバーライドする
----------------------------
-
-Rails組み込みのジェネレータは、[`config.generators`][]で設定できます。一部のジェネレータについては完全にオーバーライドすることも可能です。
-
-まず、scaffoldジェネレータの動作をじっくり見てみましょう。
+組み込みジェネレータをオーバーライドする方法の例として、scaffoldジェネレータの動作を詳しく見てみましょう。
 
 ```bash
 $ bin/rails generate scaffold User name:string
@@ -272,9 +334,11 @@ $ bin/rails generate scaffold User name:string
       create      app/views/users/show.json.jbuilder
 ```
 
-この出力結果を見ると、scaffoldジェネレータが別のジェネレータ（`scaffold_controller`など）を実行していることがわかります。また、一部のジェネレータはさらに別のジェネレータを実行しています。特に、`scaffold_controller`ジェネレータは`helper`ジェネレータなど多くのジェネレータを実行しています。
+この出力結果を見ると、scaffoldジェネレータが別のジェネレータ（`scaffold_controller`など）を実行していることがわかります。また、一部のジェネレータはさらに別のジェネレータを実行しています。特に、`scaffold_controller`ジェネレータは`helper`ジェネレータを実行しています。
 
 組み込みの`helper`ジェネレータを新しいジェネレータでオーバーライドしてみましょう。新しいジェネレータの名前は`my_helper`にします。
+
+`generator`コマンドを使って、ジェネレータを`lib/generators/rails`ディレクトリの下に作成します。
 
 ```bash
 $ bin/rails generate generator rails/my_helper
@@ -286,9 +350,10 @@ $ bin/rails generate generator rails/my_helper
       create    test/lib/generators/rails/my_helper_generator_test.rb
 ```
 
-次に、`lib/generators/rails/my_helper/my_helper_generator.rb`ファイルで以下のジェネレータを定義します。
+次に、`lib/generators/rails/my_helper/my_helper_generator.rb`ファイルを開いて以下のジェネレータを定義します。
 
 ```ruby
+# lib/generators/rails/my_helper/my_helper_generator.rb
 class Rails::MyHelperGenerator < Rails::Generators::NamedBase
   def create_helper_file
     create_file "app/helpers/#{file_name}_helper.rb", <<~RUBY
@@ -320,16 +385,20 @@ $ bin/rails generate scaffold Article body:text
       ...
 ```
 
-NOTE: 組み込みの`helper`ジェネレータには`invoke test_unit`という行がありますが、今作った`my_helper`ジェネレータにはありません。`helper`ジェネレータはデフォルトではテストを生成しませんが、[`hook_for`][]でテストを生成するためのフックを提供しています。`MyHelperGenerator`クラスに`hook_for :test_framework, as: :helper`を追加すれば、これと同じことを実現できます。詳しくは`hook_for`のドキュメントを参照してください。
+NOTE: 組み込みの`helper`ジェネレータの出力には`invoke test_unit`という行がありますが、今作った`my_helper`ジェネレータにはありません。`helper`ジェネレータはデフォルトではテストを生成しませんが、[`hook_for`][]でテストを生成するためのフックを提供しています。`MyHelperGenerator`クラスに`hook_for :test_framework, as: :helper`を追加すれば、これと同じことを実現できます。詳しくは[`hook_for`][]のドキュメントを参照してください。
 
-[`config.generators`]: configuring.html#ジェネレータを設定する
-[`hook_for`]: https://api.rubyonrails.org/classes/Rails/Generators/Base.html#method-c-hook_for
+[`config.generators`]:
+  configuring.html#configuring-generators
+[`hook_for`]:
+    https://api.rubyonrails.org/classes/Rails/Generators/Base.html#method-c-hook_for
 
-### ジェネレータのフォールバック
+### ジェネレータをフォールバックでオーバーライドする
 
-特定のジェネレータをオーバーライドする別の方法は、**フォールバック**を使う方法です。フォールバックを使うと、あるジェネレータの名前空間を別のジェネレータの名前空間に委譲できます。
+特定のジェネレータをオーバーライドする別の方法は、**フォールバック**を使う方法です。フォールバックを使うと、マッチするジェネレータが見つからない場合に、ジェネレータの名前空間を別のジェネレータの名前空間に委譲できます。
 
 たとえば、`my_test_unit:model`ジェネレータを作成して`test_unit:model`ジェネレータをオーバーライドしたいとします。しかし、`test_unit:controller`ジェネレータなどの他の`test_unit:*`ジェネレータはオーバーライドしたくないとします。
+
+このような場合、すべてのジェネレータを`my_test_unit`名前空間に実装する代わりに、明示的に定義していないジェネレータについては`test_unit`にフォールバックするように`my_test_unit`を設定できます。
 
 最初に、`my_test_unit:model`ジェネレータを`lib/generators/my_test_unit/model/model_generator.rb`ファイルに作成します。
 
@@ -345,7 +414,9 @@ module MyTestUnit
 end
 ```
 
-次に、`config.generators`設定を変更して`test_framework`ジェネレータを`my_test_unit`に設定します。さらに、`my_test_unit:*`ジェネレータが見つからない場合は`test_unit:*`ジェネレータに解決するフォールバックも設定します。
+NOTE: `my_test_unit`は、Rails組み込みのジェネレータをオーバーライドするのではなく、カスタム名前空間であるため、ここでは`lib/generators/rails/`ディレクトリではなく`lib/generators/my_test_unit/`ディレクトリに配置しています。Railsは通常の読み込みパスの探索でこのジェネレータを見つけます。次のステップで、`config.generators`を使って`test_framework`として登録する必要があります。
+
+次に、`config.generators`設定を以下のように変更して、`test_framework`ジェネレータを`my_test_unit`に設定します。さらに、`my_test_unit:*`ジェネレータが見つからない場合は`test_unit:*`ジェネレータに解決するフォールバックも設定します。
 
 ```ruby
 config.generators do |g|
@@ -354,7 +425,7 @@ config.generators do |g|
 end
 ```
 
-これで、scaffoldジェネレータを実行すると、`my_test_unit`ジェネレータが`test_unit`ジェネレータに置き換わり、モデルのテスト以外は影響を受けていないことがわかります。
+これで、scaffoldジェネレータを実行すると、`test_unit`が`my_test_unit`に置き換えられているものの、影響を受けたのはモデルのテストだけであることがわかります。
 
 ```bash
 $ bin/rails generate scaffold Comment body:text
@@ -362,7 +433,7 @@ $ bin/rails generate scaffold Comment body:text
       create    db/migrate/20230518000000_create_comments.rb
       create    app/models/comment.rb
       invoke    my_test_unit
-    Doing different stuff...
+    別の作業を実行中...
       invoke  resource_route
        route    resources :comments
       invoke  scaffold_controller
@@ -387,12 +458,50 @@ $ bin/rails generate scaffold Comment body:text
       create      app/views/comments/show.json.jbuilder
 ```
 
+NOTE: モデルでの`my_test_unit`ジェネレータの呼び出しは、"別の作業を実行中..."と表示されるだけで、テストファイルは作成されません。これは、カスタムジェネレータがテストを作成していないためです。コントローラとヘルパーでの`my_test_unit`の呼び出しは`test_unit`にフォールバックするため、`test/controllers/comments_controller_test.rb`は通常通り生成されます。
+
+### ジェネレータのテンプレートをオーバーライドする
+
+Railsは、ジェネレータのテンプレートファイルを解決するときに、最初にアプリケーションの`lib/templates/`ディレクトリを探索し、それからジェネレータ自身の`source_root`ディレクトリを探索します。つまり、`lib/templates/`ディレクトリに自分のバージョンのテンプレートを置くことで、Rails組み込みのジェネレータで使われるテンプレートをオーバーライドできるということです。
+
+たとえば、[コントローラのscaffoldテンプレート][scaffold_controller_template]や[ビューのscaffoldテンプレート][scaffold_view_templates]をオーバーライドできます。
+
+これを実際に見るために、`lib/templates/erb/scaffold/index.html.erb.tt`ファイルを作成して以下のコンテンツを追加してみましょう。なお、`.tt`という拡張子が追加されているのは、このファイルがThorによって最初に処理される必要があるジェネレータテンプレートであることをRailsに伝えるためです（`.tt`は"thor template"の略です）。
+
+```erb
+<%%= @<%= plural_table_name %>.count %> <%= human_name.pluralize %>
+```
+
+ここで作成するERBテンプレートは、そこからさらに**別の**ERBテンプレートをレンダリングします。そのため、**生成される**テンプレートに出力する`<%`は、**ジェネレータ**のテンプレートで`<%%`のようにすべてエスケープしておく必要がある点にご注意ください。
+
+それでは、Rails組み込みのscaffoldジェネレータを実行してみましょう。
+
+```bash
+$ bin/rails generate scaffold Post title:string
+      ...
+      create      app/views/posts/index.html.erb
+      ...
+```
+
+`app/views/posts/index.html.erb`ファイルを開くと、以下のようになっているはずです。
+
+```erb
+<%= @posts.count %> Posts
+```
+
+[scaffold_controller_template]:
+  https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/scaffold_controller/templates/controller.rb.tt
+[scaffold_view_templates]:
+  https://github.com/rails/rails/tree/main/railties/lib/rails/generators/erb/scaffold/templates
+
 アプリケーションテンプレート
 ---------------------
 
-アプリケーションテンプレートは、ジェネレータと若干異なる点があります。ジェネレータは、既存のRailsアプリケーションにモデルやビューなどのファイルを追加しますが、テンプレートは新しいRailsアプリケーションのセットアップを自動化するのに使われます。アプリケーションテンプレートは、新しいRailsアプリケーションを生成した直後にカスタマイズするRubyスクリプトであり、通常は`template.rb`という名前です。
+アプリケーションテンプレートは、ジェネレータと若干異なる点があります。
 
-Railsアプリケーションを作成するときにアプリケーションテンプレートを使う方法を見てみましょう。
+ジェネレータは、既存のRailsアプリケーションにモデルやビューなどのファイルを追加しますが、アプリケーションテンプレートは、`rails new`コマンドで生成する新規Railsアプリケーションをその場で自動セットアップするのに使われます。アプリケーションテンプレートは、新しいRailsアプリケーションを生成した直後にカスタマイズを実行するRubyスクリプトであり、通常は`template.rb`という名前です。
+
+Railsアプリケーションをアプリケーションテンプレートで作成する方法を見てみましょう。
 
 ### テンプレートを作成して利用する
 
@@ -403,7 +512,7 @@ Railsアプリケーションを作成するときにアプリケーションテ
 # template.rb
 if yes?("Deviseをインストールしますか?")
   gem "devise"
-  devise_model = ask("ユーザモデル名は何にしますか?", default: "User")
+  devise_model = ask("ユーザーモデル名は何にしますか?", default: "User")
 end
 
 after_bundle do
@@ -417,36 +526,39 @@ after_bundle do
 end
 ```
 
-このテンプレートを使って新しいRailsアプリケーションを作成するには、`-m`オプションでテンプレートの場所を指定します。
+`rails new`コマンドでこのテンプレートを使って新しいRailsアプリケーションを作成するには、以下のように`-m`オプションでテンプレートの場所を指定します。
 
 ```bash
 $ rails new blog -m ~/template.rb
 ```
 
-これで、新規Railsアプリケーションが`blog`という名前で作成されるときに、Devise gemも設定されます。
+これで、新規Railsアプリケーションを`blog`という名前で作成するときに、Devise gemも設定されるようになります。
 
 `app:template`コマンドを使えば、既存のRailsアプリケーションにテンプレートを適用することも可能です。
-この場合、テンプレートファイルの場所は`LOCATION`環境変数で指定する必要があります。
+この場合、テンプレートファイルの場所を`LOCATION`環境変数で指定する必要があります。
 
 ```bash
 $ bin/rails app:template LOCATION=~/template.rb
 ```
 
-テンプレートは必ずしもローカルに保存する必要はありません。ファイルパスの代わりにURLも指定できます。
+テンプレートは必ずしもローカルに保存する必要はありません。ファイルパスの代わりに外部URLも指定できます。
 
 ```bash
 $ rails new blog -m https://example.com/template.rb
 $ bin/rails app:template LOCATION=https://example.com/template.rb
 ```
 
-WARNING: 第三者が提供するリモートスクリプトを実行するときは注意が必要です。テンプレートは単なるRubyスクリプトなので、ローカルマシンを危険にさらすコード（ウイルスのダウンロード、ファイルの削除、個人ファイルのサーバーへのアップロードなど）が仕込まれやすくなる可能性があります。
+WARNING: 第三者が提供するリモートスクリプトを実行するときは注意が必要です。テンプレートは単なるRubyスクリプトなので、ローカルコンピュータを危険にさらすコード（ウイルスのダウンロード、ファイルの削除、個人ファイルのサーバーへのアップロードなど）を簡単に仕込めてしまいます。
 
-上述の`template.rb`ファイルでは、`after_bundle`や`rails_command`などのヘルパーメソッドを使い、`yes?`のようなユーザーインタラクティビティも追加しています。これらのメソッドはすべて[Rails Template API](https://edgeapi.rubyonrails.org/classes/Rails/Generators/Actions.html)の一部です。これらのメソッドの利用例を次のセクションで示します。
+上述の`template.rb`ファイルでは、`after_bundle`や`rails_command`などのヘルパーメソッドを使い、`yes?`のようなユーザーインタラクティビティも追加しています。これらのメソッドはすべて[RailsテンプレートAPI][Rails Template API]の一部です。これらのメソッドの利用例を以後のセクションで示します。
+
+[Rails Template API]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html
 
 RailsジェネレータAPI
 --------------------
 
-ジェネレータと、テンプレートのRubyスクリプトは、[DSL](https://en.wikipedia.org/wiki/Domain-specific_language)（ドメイン固有言語）を使っていくつかのヘルパーメソッドにアクセスできます。これらのメソッドはRailsジェネレータAPIの一部であり、詳しくは[`Thor::Actions`][]や[`Rails::Generators::Actions`][]のAPIドキュメントで確認できます。
+ジェネレータやテンプレートのRubyスクリプトは、[DSL][]（ドメイン固有言語）を使ってさまざまなヘルパーメソッドにアクセスできます。これらのメソッドはRailsジェネレータAPIの一部であり、詳しくは[`Thor::Actions`][]や[`Rails::Generators::Actions`][]のAPIドキュメントで確認できます。
 
 もう一つの典型的なRailsテンプレートの例を見てみましょう。このテンプレートはモデルをscaffoldで生成してからマイグレーションを実行し、変更をgitでコミットします。
 
@@ -465,6 +577,9 @@ end
 
 NOTE: 以下の例で使われているコードスニペットは、すべて上記の`template.rb`ファイルなどのテンプレートファイルで利用可能です。
 
+[DSL]:
+  https://en.wikipedia.org/wiki/Domain-specific_language
+
 ### `add_source`
 
 [`add_source`][]メソッドは、指定したソース（gemの取得元）を、生成されるアプリケーションの`Gemfile`に追加します。
@@ -473,7 +588,8 @@ NOTE: 以下の例で使われているコードスニペットは、すべて�
 add_source "https://rubygems.org"
 ```
 
-このメソッドにブロックを渡すと、ブロック内のgemエントリがソースグループにラップされます。たとえば、gemを`"http://gems.github.com"`から取得する必要がある場合は以下のようにします。
+このメソッドにブロックを渡すと、ブロック内のgemエントリがソースグループにラップされます。
+たとえば、gemを`"http://gems.github.com"`から取得する必要がある場合は以下のようにします。
 
 ```ruby
 add_source "http://gems.github.com/" do
@@ -511,9 +627,9 @@ environment 'config.action_mailer.default_url_options = {host: "http://yourwebsi
 
 ### `gem`
 
-[`gem`][]メソッドは、指定のgemエントリを、生成されたアプリケーションの`Gemfile`に追加します。
+[`gem`][]メソッドは、指定のgemエントリを、生成されるアプリケーションの`Gemfile`に追加します。
 
-たとえば、アプリケーションが`devise` gemと`tailwindcss-rails` gemに依存している場合は、以下のようにします。
+たとえば、アプリケーションを`devise` gemと`tailwindcss-rails` gemに依存させる場合は、以下のようにします。
 
 ```ruby
 gem "devise"
@@ -536,7 +652,8 @@ gem "devise", comment: "Add devise for authentication."
 
 ### `gem_group`
 
-[`gem_group`][]メソッドは、gemエントリをグループにラップします。たとえば、`rspec-rails`を`development`グループと`test`グループでのみ読み込むには、以下のようにします。
+[`gem_group`][]メソッドは、gemエントリをグループにラップします。
+たとえば、`rspec-rails`を`development`グループと`test`グループでのみ読み込むには、以下のようにします。
 
 ```ruby
 gem_group :development, :test do
@@ -565,7 +682,7 @@ git commit: "-a -m 'Initial commit'"
 
 ### `initializer`、`vendor`、`lib`、`file`
 
-[`initializer`][]ヘルパーメソッドは、生成されたアプリケーションの`config/initializers/`ディレクトリにイニシャライザファイルを追加します。
+[`initializer`][]ヘルパーメソッドは、生成されるアプリケーションの`config/initializers/`ディレクトリにイニシャライザファイルを追加します。
 
 `template.rb`ファイルに以下のコードを追加すると、アプリケーションで`Object#not_nil?`と`Object#not_blank?`を使えるようになります。
 
@@ -583,10 +700,9 @@ initializer "not_methods.rb", <<-CODE
 CODE
 ```
 
-同様に、[`lib`][]メソッドは`lib/`ディレクトリにファイルを作成し、
-[`vendor`][]メソッドは`vendor/`ディレクトリにファイルを作成します。
+同様に、[`lib`][]メソッドはファイルを`lib/`ディレクトリに作成し、[`vendor`][]メソッドはファイルを`vendor/`ディレクトリに作成します。
 
-`file`メソッドは[`create_file`][]のエイリアスです。`Rails.root`からの相対パスを受け取って、必要なディレクトリとファイルをすべて作成します。
+`file`メソッドは[`create_file`][]のエイリアスです。これは`Rails.root`からの相対パスを受け取って、必要なディレクトリとファイルをすべて作成します。
 
 ```ruby
 file "app/components/foo.rb", <<-CODE
@@ -617,7 +733,8 @@ end
 
 ### `run`
 
-[`run`][]メソッドは、任意のコマンドを実行します。たとえば、`README.rdoc`ファイルを削除したい場合は、以下のようにします。
+[`run`][]メソッドは、任意のコマンドを実行します。
+たとえば、`README.rdoc`ファイルを削除したい場合は、以下のようにします。
 
 ```ruby
 run "rm README.rdoc"
@@ -625,8 +742,7 @@ run "rm README.rdoc"
 
 ### `rails_command`
 
-[`rails_command`][]メソッドを使うと、生成されたアプリケーションでRailsコマンドを実行できます。
-
+[`rails_command`][]メソッドを使うと、生成されるアプリケーションでRailsコマンドを実行できます。
 たとえば、テンプレートのRubyスクリプト内でデータベースをマイグレーションしたい場合は、以下のようにします。
 
 ```ruby
@@ -648,18 +764,24 @@ rails_command "db:migrate", abort_on_failure: true
 ### `route`
 
 [`route`][]メソッドは、`config/routes.rb`ファイルにエントリを追加します。
-
 アプリケーションのデフォルトページを`PeopleController#index`にするには、以下を追加します。
 
+<!-- 原文エラー修正 https://github.com/rails/rails/pull/58973 を先行反映 -->
+
 ```ruby
-route "root to: 'person#index'"
+route "root to: 'people#index'"
 ```
 
-この他にも、[`copy_file`][]、[`create_file`][]、[`insert_into_file`][]、[`inside`][]などのローカルファイルシステムを操作するヘルパーメソッドが多数用意されています。詳しくは[ThorのAPIドキュメント](https://www.rubydoc.info/gems/thor/Thor/Actions)を参照してください。以下にそのようなメソッドの例を示します。
+この他にも、[`copy_file`][]、[`create_file`][]、[`insert_into_file`][]、[`inside`][]などのローカルファイルシステムを操作するヘルパーメソッドが多数用意されています。詳しくは[ThorのAPIドキュメント][thor_api]を参照してください。
+
+以下にそのようなメソッドの例を示します。
+
+[thor_api]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions
 
 ### `inside`
 
-[`inside`][]メソッドは、指定したディレクトリからコマンドを実行できるようにします.
+[`inside`][]メソッドは、コマンドを指定のディレクトリ内から実行できるようにします。
 たとえば、新しいアプリケーションからedge railsのコピーへのシンボリックリンクを作成したい場合は、以下のようにします。
 
 ```ruby
@@ -668,16 +790,19 @@ inside("vendor") do
 end
 ```
 
-この他に、[`ask`][]、[`yes?`][], [`no?`][]など、Rubyテンプレートからユーザーと対話できるメソッドもあります。すべてのユーザー対話メソッドについては、[Thorのシェルドキュメント](https://www.rubydoc.info/gems/thor/Thor/Shell/Basic)で確認できます。以下に`ask`、`yes?`、`no?`の例を示します。
+この他に、[`ask`][]、[`yes?`][`yes`]、[`no?`][`no`]など、Rubyテンプレートからユーザーと対話できるメソッドも利用できます。すべてのユーザー対話メソッドについては、[Thorのシェルドキュメント][thor_shell]で確認できます。
+以下に`ask`、`yes?`、`no?`の例を示します。
+
+[thor_shell]:
+  https://www.rubydoc.info/gems/thor/Thor/Shell/Basic
 
 ### `ask`
 
-[`ask`][]メソッドを使うと、ユーザーからの指示を受け付けてテンプレートで利用できます。
-
+[`ask`][]メソッドを使うと、ユーザーからの入力を受け取ってテンプレートで利用できます。
 たとえば、新しいライブラリの名前をユーザーに尋ねたい場合は、以下のようにします。
 
 ```ruby
-lib_name = ask("What do you want to call the shiny library?")
+lib_name = ask("新しいライブラリの名前を入力してください:")
 lib_name << ".rb" unless lib_name.index(".rb")
 
 lib lib_name, <<-CODE
@@ -688,23 +813,22 @@ CODE
 
 ### `yes?`と`no?`
 
-[`yes?`][]メソッドや[`no?`][]メソッドを使って、yes/noで答えられる質問を手軽にユーザーに表示して、その答えに基づいて処理の流れを決められます。
-
+[`yes?`][`yes`]メソッドや[`no?`][`no`]メソッドを使って、yes/noで答えられる質問を手軽にユーザーに表示して、ユーザーの回答に応じて処理の流れを決められます。
 たとえば、ユーザーにマイグレーションを実行するかどうか尋ねたい場合は、以下のようにします。
 
 ```ruby
-rails_command("db:migrate") if yes?("Run database migrations?")
-# no? questions acts the opposite of yes?
+rails_command("db:migrate") if yes?("マイグレーションを実行しますか?")
+# no?メソッドはyes?メソッドの逆の動作
 ```
 
 ジェネレータをテストする
 ------------------
 
-Railsは、[`Rails::Generators::Testing::Behaviour`][]で以下のようなテストヘルパーメソッドを提供しています。
+Railsは、[`Rails::Generators::Testing::Behavior`][]で以下のようなテストヘルパーメソッドを提供しています。
 
 * [`run_generator`][]
 
-ジェネレータに対してテストを実行する場合、デバッグツールが機能するために以下のようにコマンドで`RAILS_LOG_TO_STDOUT=true`を指定する必要があります。
+ジェネレータをテストする場合、デバッグツールが機能するために以下のようにコマンドで`RAILS_LOG_TO_STDOUT=true`を指定する必要があります。
 
 ```sh
 RAILS_LOG_TO_STDOUT=true ./bin/test test/generators/actions_test.rb
@@ -712,30 +836,57 @@ RAILS_LOG_TO_STDOUT=true ./bin/test test/generators/actions_test.rb
 
 Railsではその他にも、[`Rails::Generators::Testing::Assertions`][]で追加のアサーションを提供しています。
 
-[`Rails::Generators::Actions`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html
-[`environment`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-environment
-[`gem`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem
-[`generate`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-generate
-[`git`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-git
-[`gsub_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#gsub_file-instance_method
-[`initializer`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-initializer
-[`insert_into_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#insert_into_file-instance_method
-[`inside`]: https://www.rubydoc.info/gems/thor/Thor/Actions#inside-instance_method
-[`lib`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-lib
-[`rails_command`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rails_command
-[`rake`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rake
-[`route`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-route
-[`Rails::Generators::Testing::Behaviour`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html
-[`run_generator`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html#method-i-run_generator
-[`Rails::Generators::Testing::Assertions`]: https://api.rubyonrails.org/classes/Rails/Generators/Testing/Assertions.htm
-[`add_source`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-add_source
-[`after_bundle`]: https://api.rubyonrails.org/classes/Rails/Generators/AppGenerator.html#method-i-after_bundle
-[`gem_group`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem_group
-[`vendor`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-vendor
-[`rakefile`]: https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rakefile
-[`run`]: https://www.rubydoc.info/gems/thor/Thor/Actions#run-instance_method
-[`copy_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#copy_file-instance_method
-[`create_file`]: https://www.rubydoc.info/gems/thor/Thor/Actions#create_file-instance_method
-[`ask`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#ask-instance_method
-[`yes`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#yes%3F-instance_method
-[`no`]: https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#no%3F-instance_method
+[`Rails::Generators::Actions`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html
+[`environment`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-environment
+[`gem`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem
+[`generate`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-generate
+[`git`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-git
+[`gsub_file`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#gsub_file-instance_method
+[`initializer`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-initializer
+[`insert_into_file`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#insert_into_file-instance_method
+[`inside`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#inside-instance_method
+[`lib`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-lib
+[`rails_command`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rails_command
+[`rake`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rake
+[`route`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-route
+[`Rails::Generators::Testing::Behavior`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html
+[`run_generator`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Testing/Behavior.html#method-i-run_generator
+[`Rails::Generators::Testing::Assertions`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Testing/Assertions.html
+[`add_source`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-add_source
+[`after_bundle`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/AppGenerator.html#method-i-after_bundle
+[`gem_group`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-gem_group
+[`vendor`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-vendor
+[`rakefile`]:
+  https://api.rubyonrails.org/classes/Rails/Generators/Actions.html#method-i-rakefile
+[`run`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#run-instance_method
+[`copy_file`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#copy_file-instance_method
+[`create_file`]:
+  https://www.rubydoc.info/gems/thor/Thor/Actions#create_file-instance_method
+[`ask`]:
+  https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#ask-instance_method
+[`yes`]:
+  https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#yes%3F-instance_method
+[`no`]:
+  https://www.rubydoc.info/gems/thor/Thor/Shell/Basic#no%3F-instance_method
