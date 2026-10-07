@@ -336,7 +336,7 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 #### `ActionDispatch::ContentSecurityPolicy::Middleware`
 
-[`ActionDispatch::ContentSecurityPolicy::Middleware`][]ミドルウェアは、`Content-Security-Policy`ヘッダを設定するためのDSLを提供します。詳しくは[セキュリティガイド](security.html#content-security-policy-header)を参照してください。
+[`ActionDispatch::ContentSecurityPolicy::Middleware`][]ミドルウェアは、`Content-Security-Policy`ヘッダを設定するためのDSLを提供します。詳しくは[セキュリティガイド](security.html#content-security-policyヘッダー)を参照してください。
 
 [`ActionDispatch::ContentSecurityPolicy::Middleware`]:
   https://api.rubyonrails.org/classes/ActionDispatch/ContentSecurityPolicy/Middleware.html
