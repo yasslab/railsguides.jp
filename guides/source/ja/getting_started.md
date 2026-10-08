@@ -16,7 +16,7 @@ Rails をはじめよう
 はじめに
 ------------
 
-Railsの世界へようこそ! 本ガイド「Railsをはじめよう」では、Railsを活用してWebアプリケーションを構築するときの中核となる概念について解説します。本ガイドを理解するために、Railsの経験は必要ありません。
+Railsの世界へようこそ！本ガイド「Railsをはじめよう」では、Railsを活用してWebアプリケーションを構築するときの中核となる概念について解説します。本ガイドを理解するために、Railsの経験は必要ありません。
 
 Railsは、Rubyプログラミング言語用に構築されたWebフレームワークです。RailsはRuby独自のさまざまな機能を活用しているため、このガイドで紹介する基本的な用語や語彙を理解できるように、事前にRubyの基礎を学習しておくことを**強く**オススメします。
 
@@ -31,7 +31,7 @@ Railsとは、プログラミング言語「Ruby」で書かれたWebアプリ�
 
 Railsは、他の多くのWebアプリケーションフレームワークと比較して、アプリケーションを開発する際のコード量がより少なくて済むにもかかわらず、より多くの機能を実現できます。ベテラン開発者の多くが「RailsのおかげでWebアプリケーション開発がとても楽しくなった」と述べています。
 
-Railsは「最善の開発方法は1つである」という、ある意味大胆な判断に基いて設計されています。何かを行うための最善の方法を1つ仮定して、それに沿った開発を全面的に支援します。言い換えれば、Railsで仮定されていない別の開発手法は行いにくくなります。
+Railsは「最善の開発方法は1つである」という、ある意味大胆な判断に基づいて設計されています。何かを行うための最善の方法を1つ仮定して、それに沿った開発を全面的に支援します。言い換えれば、Railsで仮定されていない別の開発手法は行いにくくなります。
 
 この「Rails Way」、すなわち「Railsというレールに乗って開発する」手法を学んだ人は、開発の生産性が驚くほど向上することに気付くでしょう。逆に、レールに乗らずに従来の開発手法にこだわると、開発の楽しさが減ってしまうかもしれません。
 
@@ -40,7 +40,7 @@ Railsの哲学には、以下の2つの主要な基本理念があります。
 - **繰り返しを避けよ（Don't Repeat Yourself: DRY）:**
   DRYはソフトウェア開発上の原則であり、「システムを構成する知識のあらゆる部品は、常に単一であり、明確であり、信頼できる形で表現されていなければならない」というものです。同じコードを繰り返し書くことを徹底的に避けることで、コードが保守しやすくなり、容易に拡張できるようになり、バグも減らせます。
 - **設定より規約が優先（Convention Over Configuration）:**
-  Railsでは、Webアプリケーションの機能を実現する最善の方法が明確に示されており、Webアプリケーションの各種設定についても従来の経験や慣習を元に、それらのデフォルト値を定めています。デフォルト値が決まっているおかげで、開発者の意見をすべて取り入れようとした自由過ぎるWebアプリケーションのように、開発者が大量の設定ファイルを設定せずに済みます。
+  Railsでは、Webアプリケーションの機能を実現する最善の方法が明確に示されており、Webアプリケーションの各種設定についても従来の経験や慣習を元に、それらのデフォルト値を定めています。デフォルト値があらかじめ決まっているおかげで、開発者が大量の設定ファイルを設定せずに済みます。
 
 ## Railsアプリを新規作成する
 
@@ -198,7 +198,7 @@ Railsの[Active Record](active_record_basics.html)は、リレーショナルデ
 
 このstoreアプリケーションでは、RailsのデフォルトであるSQLiteをリレーショナルデータベースとして使っています。
 
-それでは、このRailsアプリケーションにデータベーステーブルを追加して、シンプルな eコマースストアに製品を追加できるようにしてみましょう。
+それでは、このRailsアプリケーションにデータベーステーブルを追加して、シンプルなeコマースストアに製品を追加できるようにしてみましょう。
 
 ```bash
 $ bin/rails generate model Product name:string
@@ -258,7 +258,7 @@ NOTE: モデル名は`Product`のように**単数形**を使いますが、デ�
 - `t.string :name`: `products`テーブルに`name`というカラムを作成し、型を`string`に設定するようRailsに指示します。
 
 - `t.timestamps`: モデルに`created_at:datetime`と`updated_at:datetime`の2つのカラムを一度に定義するショートカットです。
-  これらのカラムは、RailsのほとんどのActive Recordモデルで表示され、レコードの作成時や更新時にActive Recordによって自動的に値が設定されます。
+  これらのカラムは、RailsのほとんどのActive Recordモデルに備わっており、レコードの作成時や更新時にActive Recordによって自動的に値が設定されます。
 
 ### マイグレーションを実行する
 
@@ -325,7 +325,7 @@ end
 
 この`Product`モデルが使われると、Railsはデータベーステーブルでカラム名と型を照会し、これらの属性のコードを自動的に生成します。Railsは、定型コードを記述する手間を省いて、代わりにバックグラウンドで処理してくれるので、開発者はアプリケーションロジックに集中できます。
 
-この`Product`モデルでどんなカラムを検出されるかを、Railsコンソールで確認しましょう。
+この`Product`モデルでどんなカラムが検出されるかを、Railsコンソールで確認しましょう。
 
 Railsコンソールで以下のコマンドを実行します。
 
@@ -475,7 +475,7 @@ store(dev)> Product.all
   updated_at: "2024-12-02 20:30:02.997261000 +0000">]
 ```
 
-2番目の方法として、属性を割り当て、変更をバリデーションしてデータベースに保存する準備を終えてから、`save`を呼び出す方法も使えます。
+2番目の方法として、属性を割り当て、変更のバリデーションとデータベースへの保存の準備ができたら`save`を呼び出す方法も使えます。
 
 今度は、`"Shoes"`という製品名を`"T-Shirt"`に戻してみましょう。
 
@@ -502,7 +502,7 @@ store(dev)> product.destroy
 => #<Product:0x0000000125813d48 id: 1, name: "T-Shirt", created_at: "2024-11-09 22:39:38.498730000 +0000", updated_at: "2024-11-09 22:39:38.498730000 +0000">
 ```
 
-これにより、データベースから`"T-Shirt"`製品が削除されました。`Product.all`でこれを確認すると、パンツのみが返されることが分かります。
+これにより、データベースから`"T-Shirt"`製品が削除されました。`Product.all`でこれを確認すると、`"Pants"`のみが返されることが分かります。
 
 ```irb
 store(dev)> Product.all
@@ -519,7 +519,7 @@ store(dev)> Product.all
 
 Active Recordは、データベースに挿入したデータが特定のルールに準拠していることを保証するための**バリデーション**（validation: 検証）機能を提供しています。
 
-すべての製品に`name`カラムが存在することを保証するために、`Product`モデルに`presence`バリデーションを追加してみましょう。
+すべての製品で`name`カラムに値が存在することを保証するために、`Product`モデルに`presence`バリデーションを追加してみましょう。
 
 ```ruby
 # app/models/product.rb
@@ -555,7 +555,7 @@ store(dev)> product.errors
 => #<ActiveModel::Errors [#<ActiveModel::Error attribute=name, type=blank, options={}>]>
 ```
 
-これは、存在チェックのエラーを詳しく知らせてくれる`ActiveModel::Errors`オブジェクトを返します。
+ここで返される`ActiveModel::Errors`オブジェクトは、どのエラーが発生しているかを正確に教えてくれます。
 
 また、ユーザーインターフェイスに表示できるわかりやすいエラーメッセージを生成することも可能です。
 
@@ -564,7 +564,7 @@ store(dev)> product.errors.full_messages
 => ["Name can't be blank"]
 ```
 
-次は、この製品をブラウザで表示するためのWebインターフェースを構築しましょう。
+次は、この製品をブラウザで表示するためのWebインターフェイスを構築しましょう。
 
 Railsコンソールはひとまずおしまいにします。`exit`を実行してコンソールを終了できます。
 
@@ -689,22 +689,22 @@ Rails.application.routes.draw do
 end
 ```
 
-上のルーティングでは、`/blog/hello-world`から`hello-world`というパラメータを`slug`としてキャプチャし、このパラメータにマッチするタイトルのブログ投稿を検索できるようになります。
+上のルーティングでは、`/blog/hello-world`から`hello-world`というパラメータを`:title`としてキャプチャし、このパラメータにマッチするタイトルのブログ投稿を検索できるようになります。
 
 #### CRUDのルーティング
 
 [リソース](https://ja.wikipedia.org/wiki/Representational_State_Transfer#%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9)への操作で通常必要となる一般的な操作は、「作成」「読み取り」「更新」「削除」の4つであり、[CRUD](https://ja.wikipedia.org/wiki/CRUD)と呼ばれます。
 
-これは、8つの一般的なコントローラアクションに相当します。
+これは、以下の8つの一般的なルーティングに変換されます。
 
 * `index`: すべてのレコードを表示します
 * `new`: 新しいレコード1件を作成するためのフォームをレンダリングします
 * `create`: `new`のフォーム送信を処理し、エラーを処理してレコードを1件作成します
 * `show`: 指定のレコード1件をレンダリングして表示します
 * `edit`: 指定のレコード1件を更新するためのフォームをレンダリングします
-* `update`（リソース全体）: リソース全体を更新するフォーム送信を処理します。
+* `update`（リソース全体）: フォーム送信を処理し、エラーをハンドリングしてリソース全体を更新します
   これは通常、`PUT`リクエストでトリガーされ、リソースのすべての属性を置き換えます
-* `update`（特定のリソースのみ）: 特定の属性のみを更新するフォーム送信を処理します。
+* `update`（特定の属性のみ）: フォーム送信を処理し、エラーをハンドリングして特定の属性のみを更新します
   これは通常、`PATCH`リクエストでトリガーされ、リソースを部分的に更新します
 * `destroy`: 指定のレコード1件を削除します
 
@@ -912,7 +912,7 @@ ERB内のコードは、`ActiveRecord::Relation`オブジェクトである`@pro
 
 次は、個別の製品を1件ずつ表示できるようにする必要があります。これは、リソースを読み取るためのCRUDのR（Read）に相当します。
 
-製品へのルーティングは、既に`resources :products`ルーティングでまとめて定義してあるので、`products#show`を指すルーティングとして`/products/:id` が生成されるようになっています。
+製品へのルーティングは、既に`resources :products`ルーティングでまとめて定義してあるので、`products#show`を指すルーティングとして`/products/:id`が生成されるようになっています。
 
 次に、これに対応する`show`アクションを`ProductsController`に追加して、呼び出されたときの振る舞いを定義する必要があります。
 
@@ -921,6 +921,7 @@ ERB内のコードは、`ActiveRecord::Relation`オブジェクトである`@pro
 `ProductsController`をエディタで開いて、以下のように`show`アクションを追加します。
 
 ```ruby
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   def index
     @products = Product.all
@@ -932,7 +933,7 @@ class ProductsController < ApplicationController
 end
 ```
 
-`index`アクションのときは、複数の製品を読み込むために複数形の`@products`を使いましたが 、この`show`アクションは、データベースから1件のレコードを読み込む（つまり1件の製品（one product）を表示する）ので、**単数形の**`@product`を定義します。
+`index`アクションのときは、複数の製品を読み込むために複数形の`@products`を使いましたが、この`show`アクションは、データベースから1件のレコードを読み込む（つまり1件の製品（one product）を表示する）ので、**単数形の**`@product`を定義します。
 
 データベースにクエリをかけるのに使うリクエストパラメータには、`params`でアクセスします。
 この場合、`/products/:id`ルーティングの`:id`が使われます。
@@ -1083,7 +1084,7 @@ end
 
 ```html
 <form action="/products" accept-charset="UTF-8" method="post">
-  <input type="hidden" name="authenticity_token" value="UHQSKXCaFqy_aoK760zpSMUPy6TMnsLNgbPMABwN1zpW-Jx6k-2mISiF0ulZOINmfxPdg5xMyZqdxSW1UK-H-Q" autocomplete="off">
+  <input type="hidden" name="authenticity_token" value="UHQSKXCaFqy_aoK760zpSMUPy6TMnsLNgbPMABwN1zpW-Jx6k-2mISiF0ulZOINmfxPdg5xMyZqdxSW1UK-H-Q">
 
   <div>
     <label for="product_name">Name</label>
@@ -1141,13 +1142,13 @@ TIP: 訳注: メソッド名の`product`の部分はモデル名と同じ単数�
 
 `product_params`メソッドは、リクエストで受け取ったパラメータを検査して、パラメータの配列を値として持つ`:product`というキーが必ず存在することを保証します。ここでは、製品に許可されているパラメータは`:name`のみなので、これ以外のどんなパラメータをRailsに渡しても無視されます（エラーにはなりません）。これにより、アプリケーションをハッキングしようとする悪意のあるユーザーからアプリケーションが保護されます。
 
-詳しくは[Strong Parameter](action_controller_overview.html#strong-parameters)を参照してください。
+詳しくは[Strong Parameters](action_controller_overview.html#strong-parameters)を参照してください。
 
 #### エラー処理
 
 `product_params`を使ってこれらのパラメータを新しい`Product`に割り当てたら、データベースへの保存を試みる準備が整います。`@product.save`は、バリデーションを実行してレコードをデータベースに保存するようActive Recordに指示します。
 
-`save`が成功すると、新しい製品のshowページにリダイレクトします。`redirect_to`に Active Recordオブジェクトを渡すと、そのレコードの`show`アクションへのパスが生成されます。
+`save`が成功すると、新しい製品のshowページにリダイレクトします。`redirect_to`にActive Recordオブジェクトを渡すと、そのレコードの`show`アクションへのパスが生成されます。
 
 ```ruby
 redirect_to @product
@@ -1155,7 +1156,7 @@ redirect_to @product
 
 上を実行すると、`@product`は`Product`モデルのインスタンスなので、リダイレクト用に`"/products/2"`パスを生成します。このとき、パス内ではモデル名`Product`を複数形の`products`にしたうえで、オブジェクトID `2`を末尾に追加します。
 
-`save`が失敗して、レコードが有効にならなかった場合、同じフォームを再レンダリングして、ユーザーが無効なデータを修正できるようにします。`create`アクションの`else`では`render :new`をレンダリングするように指示しています。
+`save`が失敗して、レコードが有効にならなかった場合、同じフォームを再レンダリングして、ユーザーが無効なデータを修正できるようにします。`create`アクションの`else`では`render :new`を再レンダリングするよう指示しています。
 
 Railsは`Products`コントローラにいることを認識しているので、`app/views/products/new.html.erb`ビューテンプレートをレンダリングする必要があります。
 
@@ -1456,7 +1457,7 @@ $ bin/rails server
 
 アプリケーションからログアウトするためのボタンを`app/views/layouts/application.html.erb`レイアウトファイルの冒頭に追加しましょう。このレイアウトには、ヘッダーやフッターなど、すべてのページで使うHTMLを配置します。
 
-以下のように、`<body>`タグ内にホームへのリンクとログアウトボタンを含む小さな`<nav>`セクションを追加し、Rubyの`yield`メソッドを`<main>`タグで囲みます。
+以下のように、`<body>`タグ内にホームへのリンクとログアウトボタンを含む小さな`<nav>`セクションを追加し、Rubyの`yield`を`<main>`タグで囲みます。
 
 ```erb
 <%# app/views/layouts/application.html.erb %>
@@ -1556,7 +1557,7 @@ Read fragment views/products/show:a5a585f985894cd27c8b3d49bb81de3a/products/1-20
 Write fragment views/products/show:a5a585f985894cd27c8b3d49bb81de3a/products/1-20240918154439539125 (4.0ms)
 ```
 
-キャッシュを有効にしてからこのページを初めて開くと、Railsはキャッシュキーを生成して、キャッシュストアが存在するかどうかを問い合わせます。これがログの`Read fragment`行です。
+キャッシュを有効にしてからこのページを初めて開くと、Railsはキャッシュキーを生成して、そのキャッシュキーがキャッシュストアに存在するかどうかを問い合わせます。これがログの`Read fragment`行です。
 
 これは初めて表示したページビューなのでキャッシュは存在せず、HTMLが生成されてキャッシュに書き込まれます。これはログの`Write fragment`行として確認できます。
 
@@ -1568,7 +1569,7 @@ Read fragment views/products/show:a5a585f985894cd27c8b3d49bb81de3a/products/1-20
 
 キャッシュエントリは最後のリクエストによって書き込まれたため、Railsは2回目のリクエストでキャッシュエントリを見つけます。また、Railsはレコードが更新されるとキャッシュキーを変更して、古いキャッシュデータが誤ってレンダリングされないようにします。
 
-詳しくは、[Rails のキャッシュ](caching_with_rails.html)ガイドを参照してください。
+詳しくは、[Railsのキャッシュ](caching_with_rails.html)ガイドを参照してください。
 
 フィールドをAction Textでリッチテキストにする
 ---------------------------------
@@ -1637,7 +1638,7 @@ end
 
 ビューが変更されると、Railsによって生成されるキャッシュキーも変更されるので、キャッシュがビューテンプレートの最新バージョンと同期した状態が維持されます。
 
-それでは、新しい製品を作成して、descriptionフィールドに太字や斜体のテキストを追加してみましょう。製品を作成すると、書式付きテキストがShowページに表示されるようになり、製品を編集すると、このリッチテキストがテキスト領域に保持されるようになります。
+それでは、新しい製品を作成して、descriptionフィールドに太字や斜体のテキストを追加してみましょう。製品を作成すると、書式付きテキストがshowページに表示されるようになり、製品を編集すると、このリッチテキストがテキスト領域に保持されるようになります。
 
 詳しくは、[Action Textの概要](action_text_overview.html)を参照してください。
 
@@ -1698,7 +1699,7 @@ end
 
 `http://localhost:3000/products/new`をブラウザで開いて、Featured imageの「ファイルを選択」ボタンをクリックして製品画像をアップロードしてみると、保存後にshowページに画像が表示されるようになります。
 
-詳しくは、[Active Storage の概要](active_storage_overview.html)を参照してください。
+詳しくは、[Active Storageの概要](active_storage_overview.html)を参照してください。
 
 国際化（I18n）
 ---------------------------
@@ -1756,7 +1757,7 @@ end
 * `http://localhost:3000/products?locale=ja`をブラウザで開くと、日本語の訳文が表示されます。
 * ロケールを指定しない`http://localhost:3000/products`をブラウザで開くと、英語にフォールバックします。
 
-次は、indexページの`<h1>`見出しのサンプル訳文を、実際の訳文に差し替えてみましょう。`app/views/products/index.html.erb`の見出しを以下のように更新します
+次は、indexページの`<h1>`見出しのサンプル訳文を、実際の訳文に差し替えてみましょう。`app/views/products/index.html.erb`の見出しを以下のように更新します。
 
 ```erb
 <%# app/views/products/index.html.erb %>
@@ -1789,7 +1790,7 @@ ja:
 
 これで、`http://localhost:3000/?locale=en`で英語ロケールを表示すると「Products」が表示され、`http://localhost:3000/?locale=ja`で日本語ロケールを表示すると「製品」が表示されるようになります。
 
-詳しくは[Rails 国際化（I18n）API](i18n.html)ガイドを参照してください。
+詳しくは[国際化（I18n）](i18n.html)ガイドを参照してください。
 
 Action Mailerとメール通知
 -----------------------------
@@ -1902,7 +1903,7 @@ end
 $ bin/rails db:migrate
 ```
 
-ただし、1つの製品に購読者が複数存在する可能性もあるため、`Product`モデルにも`has_many :subscribers, dependent: :destroy`を手動で追加することで、2つのモデル同士の関連付けの残りの部分も指定します。これにより、2つのデータベーステーブル間のクエリをjoin（結合）する方法が Railsで認識されます。
+ただし、1つの製品に購読者が複数存在する可能性もあるため、`Product`モデルにも`has_many :subscribers, dependent: :destroy`を手動で追加することで、2つのモデル同士の関連付けの残りの部分も指定します。これにより、2つのデータベーステーブル間のクエリをjoin（結合）する方法がRailsで認識されます。
 
 ```ruby
 # app/models/product.rb
@@ -2045,6 +2046,7 @@ Action Mailerのジェネレータを実行すると、`app/views/`フォルダ�
 `app/views/product_mailer/in_stock.text.erb`を以下のように変更します。
 
 ```erb
+<%# app/views/product_mailer/in_stock.text.erb %>
 Good news!
 
 <%= @product.name %> is back in stock.
@@ -2186,7 +2188,7 @@ end
 
 このモジュールがクラスに`include`されると、[`included`](https://railsguides.jp/association_basics.html#entryable%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B)ブロック内に記述したコードは、最初からそのクラスの一部であるかのように実行されます。また、このモジュール内で定義したメソッドは、そのクラスのオブジェクト（インスタンス）で呼び出せる通常のインスタンスメソッドになります。
 
-通知をトリガーするコードを`Notification`モジュールに切り出したので、`app/models/product.rb`モデルで以下のように`Notifications`モジュールを`include`してコードを簡潔にできます。
+通知をトリガーするコードを`Notifications`モジュールに切り出したので、`app/models/product.rb`モデルで以下のように`Notifications`モジュールを`include`してコードを簡潔にできます。
 
 ```ruby
 # app/models/product.rb
@@ -2227,7 +2229,7 @@ Rails.application.routes.draw do
   resource :unsubscribe, only: [ :show ]
 ```
 
-購読解除用のルーティングは最上位レベルに追加します。`/unsubscribe?token=xyz`のようなルーティングを処理するために、単数形の`resource`メソッドを使っているにご注意ください。
+購読解除用のルーティングは最上位レベルに追加します。`/unsubscribe?token=xyz`のようなルーティングを処理するために、単数形の`resource`メソッドを使っていることにご注意ください。
 
 Active Recordには、さまざまな目的でデータベースレコードを検索するための一意のトークンを生成できる[`generates_token_for`](https://api.rubyonrails.org/classes/ActiveRecord/TokenFor/ClassMethods.html#method-i-generates_token_for)という機能があります。これを使って、電子メールの登録解除用URLに含める一意の登録解除用トークンを`Subscriber`モデルで生成できます。
 
@@ -2303,7 +2305,7 @@ CSSやJavaScriptはWebアプリケーション構築の中心となるため、R
 
 Railsで、「CSS」「JavaScript」「画像」などのアセットを取得してブラウザに配信する**アセットパイプライン**（asset pipeline）には、[Propshaft][]が使われています。
 
-production環境のPropshaftは、アセットの各バージョンをトラッキングしてキャッシュすることで、ページを高速化します。アセットパイプラインの仕組みについて詳しくは、[アセット パイプライン ガイド](asset_pipeline.html)を参照してください。
+production環境のPropshaftは、アセットの各バージョンをトラッキングしてキャッシュすることで、ページを高速化します。アセットパイプラインの仕組みについて詳しくは、[アセットパイプラインガイド](asset_pipeline.html)を参照してください。
 
 NOTE: 訳注: Rails 8.0からは、従来の[Sprockets][]に代わってPropshaftがデフォルトのアセットパイプラインになりました。
 
@@ -2425,9 +2427,9 @@ Railsの`config/importmap.rb`ファイルには、既にいくつかのJavaScrip
 
 2. [**Stimulus**](https://stimulus.hotwired.dev/): ページに機能を追加するカスタムJavaScriptが必要な場合のフレームワークを提供します。
 
-3. [**Native**](https://native.hotwired.dev/): Web アプリを埋め込み、ネイティブ モバイル機能で段階的に拡張することで、ハイブリッドモバイル アプリを作成できます。
+3. [**Native**](https://native.hotwired.dev/): Webアプリを埋め込み、ネイティブモバイル機能で段階的に拡張することで、ハイブリッドモバイルアプリを作成できます。
 
-storeアプリではまだJavaScriptを記述していませんが、storeアプリのフロントエンドでは既にHotwireが動いています。たとえば、製品を追加・編集するために作成したフォームを動かすのに暗黙でTurboが使われています。
+storeアプリではまだJavaScriptを記述していませんが、storeアプリのフロントエンドでは既にHotwireが動いています。たとえば、製品を追加・編集するために作成したフォームを動かすのにTurboが暗黙で使われています。
 
 詳しくは、[アセットパイプライン](asset_pipeline.html)ガイドや[RailsでのJavaScript利用](working_with_javascript_in_rails.html)ガイドを参照してください。
 
@@ -2498,7 +2500,7 @@ end
 
 最初に、Action Mailer用のテストヘルパーを`include`して、テスト中に送信されたメールを監視できるようにします。
 
-`tshirt`フィクスチャは フィクスチャが生成する`products()`ヘルパーメソッドで読み込まれ、そのレコードのActive Recordオブジェクトを返します。各フィクスチャはテストスイートでこのようなヘルパーを生成します（データベースIDは実行ごとに異なる可能性があるため、フィクスチャを名前で簡単に参照できるようにします）。
+`tshirt`フィクスチャは、フィクスチャが生成する`products()`ヘルパーメソッドで読み込まれ、そのレコードのActive Recordオブジェクトを返します。各フィクスチャはテストスイートでこのようなヘルパーを生成します（データベースIDは実行ごとに異なる可能性があるため、フィクスチャを名前で簡単に参照できるようにします）。
 
 次に、在庫を0に更新して、Tシャツを在庫切れの状態にします。
 
@@ -2523,7 +2525,7 @@ Finished in 0.343842s, 2.9083 runs/s, 5.8166 assertions/s.
 1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-`product_test.rb`のテストはパスしました
+`product_test.rb`のテストはパスしました。
 
 `ProductMailer`を生成したときにも、`test/mailers/product_mailer_test.rb`にサンプルテストが生成されていますので、こちらも以下のように更新してパスするようにしましょう。
 
@@ -2696,7 +2698,7 @@ export KAMAL_REGISTRY_PASSWORD=your-access-token
 $ bin/kamal setup
 ```
 
-おめでとうございます! 新しいRailsアプリケーションがproduction環境で動くようになりました！
+おめでとうございます！新しいRailsアプリケーションがproduction環境で動くようになりました！
 
 新しいRailsアプリケーションが動いていることを確認してみましょう。ブラウザでサーバーのIPアドレスを入力すると、ストアが動いていることが確認できるはずです。
 
@@ -2741,7 +2743,7 @@ Solid Queueは、`config/deploy.yml`の`SOLID_QUEUE_IN_PUMA: true`環境変数�
 今後のステップ
 ------------
 
-初めてのRailsアプリケーションの構築、お疲れ様でした。デプロイの完了おめでとうございます!
+初めてのRailsアプリケーションの構築、お疲れ様でした。デプロイの完了おめでとうございます！
 
 次は、[演習：ユーザー登録・設定機能の追加](sign_up_and_settings.html)に従って学習を続けてください。
 

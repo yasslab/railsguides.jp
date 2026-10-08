@@ -1,4 +1,3 @@
-
 Rails ガイドのガイドライン
 ===============================
 
@@ -41,14 +40,15 @@ Markdown
 ### サブセクション
 ```
 
-冠詞、前置詞、接続詞、be動詞以外の単語は冒頭を大文字にします。
+文中の冠詞、前置詞、接続詞、be動詞以外の単語は、冒頭を大文字にします。
 
 ```markdown
+#### コンポーネント内のアサーションとジョブのテスト
 #### Middlewareスタックは配列
 #### オブジェクトが保存されるタイミング
 ```
 
-通常のテキストと同じタイポグラフィをお使いください。
+見出しでも通常のテキストと同じインライン書式を使ってください。
 
 ```markdown
 ##### `:content_type`オプション
@@ -71,7 +71,7 @@ NOTE: パラグラフの強調には、`NOTE:`、`TIP:`、`WARNING:`を使うこ
 
 ### `NOTE`の運用
 
-`NOTE`は、主題や文脈に関連する内容を強調するのに使います。これを読むと、主題や文脈の理解や、重要な項目を明確にしたりうえで役立つようになります。
+`NOTE`は、主題や文脈に関連する内容を強調するのに使います。これを読むことで、主題や文脈を理解したり、重要な項目を明確にしたりするのに役立つようにします。
 
 たとえば、ロケールファイルについて解説するセクションには、以下の`NOTE`を追加するとよいでしょう。
 
@@ -83,7 +83,7 @@ NOTE: ロケールファイルを追加した場合は、サーバーを再起�
 
 TIP: ルーティングについて詳しくは、[ルーティングガイド](routing.html)を参照してください。
 
-あるいは、便利なコマンドをさらに深く掘り下げるのにも使えます。
+あるいは、さらに詳しく調べるためのオプションを表示する便利なコマンドを示すのにも使えます。
 
 TIP: ジェネレータのヘルプをさらに表示するには、`bin/rails generate --help`を実行します。
 
@@ -104,11 +104,11 @@ WARNING: アプリのマスターキーは安全に保管すること。マス�
 
 ```markdown
 # BAD
-See the Rails Internationalization (I18n) API documentation for [more
+See the Internationalization (I18n) guide for [more
 details](i18n.html).
 
 # GOOD
-See the [Rails Internationalization (I18n) API documentation](i18n.html) for
+See the [Internationalization (I18n)](i18n.html) guide for
 more details.
 ```
 
@@ -123,44 +123,42 @@ We will cover this in the [multiple callback conditions
 section](#multiple-callback-conditions) shown below.
 ```
 
-APIにリンクする
-------------------
+### APIにリンクする
 
 APIサイト（`api.rubyonrails.org`）へのリンクは、以下の方法を用いてガイドのジェネレータで処理されます。
 
 リリース番号（`v5.0.1`など）タグを含むリンクに対しては何も処理を行いません（例↓）。
 
 ```
-http://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Attributes/ClassMethods.html
+https://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Attributes/ClassMethods.html
 ```
 
 上は変更されません。
 
-リリースノートではこの書式でリンクを書いてください。今後どんな対象が生成されても、リリースノートに対応したバージョンを指すようにすべきです。
+リリースノートではこの書式でリンクを書いてください。edge版とリリース版のどちらを生成する場合も、リリースノートに対応したバージョンを指すようにすべきです。
 
-リンクにリリース番号タグが含まれていない場合やedgeガイドが生成される場合は、ドメイン名の部分が`edgeapi.rubyonrails.org`に置き換えられます（例↓）。
-
-
-```
-http://api.rubyonrails.org/classes/ActionDispatch/Response.html
-```
-
-上は以下に置き換えられます。
+リンクにリリース番号タグが含まれておらず、かつedgeガイドを生成する場合は、ドメイン名の部分が`edgeapi.rubyonrails.org`に置き換えられます（例↓）。
 
 ```
-http://edgeapi.rubyonrails.org/classes/ActionDispatch/Response.html
-```
-
-リンクにリリース番号タグが含まれていない場合や、正規版のガイドが生成される場合は、Railsのバージョン番号が挿入されます。たとえば、Rails 5.1.0向けのガイドを生成すると以下のようなリンクになります。
-
-```
-http://api.rubyonrails.org/classes/ActionDispatch/Response.html
+https://api.rubyonrails.org/classes/ActionDispatch/Response.html
 ```
 
 上は以下に置き換えられます。
 
 ```
-http://api.rubyonrails.org/v5.1.0/classes/ActionDispatch/Response.html
+https://edgeapi.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+リンクにリリース番号タグが含まれておらず、かつリリース版のガイドを生成する場合は、Railsのバージョン番号が挿入されます。たとえば、Rails 5.1.0向けのガイドを生成すると以下のようなリンクになります。
+
+```
+https://api.rubyonrails.org/classes/ActionDispatch/Response.html
+```
+
+上は以下に置き換えられます。
+
+```
+https://api.rubyonrails.org/v5.1.0/classes/ActionDispatch/Response.html
 ```
 
 `edgeapi.rubyonrails.org`には手動でリンクしないでください。
@@ -173,7 +171,7 @@ http://api.rubyonrails.org/v5.1.0/classes/ActionDispatch/Response.html
 APIドキュメントの書き方
 ----------------------------
 
-ガイドとAPIは、必要な箇所が互いに首尾一貫している必要があります。[APIドキュメント作成ガイドライン](api_documentation_guidelines.html)の以下のセクションを参照してください
+ガイドとAPIは、必要な箇所が互いに首尾一貫している必要があります。[APIドキュメント作成ガイドライン](api_documentation_guidelines.html)の以下のセクションを参照してください。
 
 * [語調](api_documentation_guidelines.html#語調)
 * [アメリカ英語](api_documentation_guidelines.html#英語はアメリカ英語で)
@@ -206,7 +204,7 @@ $ bundle exec rake guides:generate:html
 
 生成されたHTMLファイルは、`./output`ディレクトリに配置されます。
 
-`my_guide.md`ファイルだけを生成したい場合は環境変数`ONLY`に設定します。
+`my_guide.md`ファイルだけを生成したい場合は、以下のように環境変数`ONLY`でガイド名を指定します。
 
 ```bash
 $ touch my_guide.md
@@ -237,7 +235,7 @@ $ rake
 $ bundle exec rake guides:validate
 ```
 
-特に、タイトルを元にIDが生成される関係上、タイトルでの重複が生じやすくなっています。
+特に、タイトルを元にIDが生成される関係上、タイトルでのID重複が生じやすくなっています。
 
 Kindleガイド
 -------------
