@@ -1436,8 +1436,6 @@ strict loadingを報告するモードを設定します。デフォルトは`:a
 
 #### `config.active_record.queues.destroy`
 
-<!-- 原文エラー https://github.com/rails/rails/pull/58971 を先行反映。-->
-
 非同期の破棄ジョブに使うActive Jobキューを指定できます。このオプションを`nil`にすると、destroyジョブがデフォルトのActive Jobキューに送信されます（[`config.active_job.default_queue_name`][]を参照）。デフォルト値は`nil`です。
 
 #### `config.active_record.enumerate_columns_in_select_statements`
