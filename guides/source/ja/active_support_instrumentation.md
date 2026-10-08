@@ -8,8 +8,8 @@ Active SupportはRailsのコア機能の1つであり、Ruby言語の拡張、�
 このガイドの内容:
 
 * Instrumentationでできること
-* Railsフレームワーク内のInstrumentationフック
 * フックにサブスクライバを追加する
+* Railsフレームワーク内のInstrumentationフック
 * 独自のInstrumentationを実装する
 
 --------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ Active SupportはRailsのコア機能の1つであり、Ruby言語の拡張、�
 Instrumentationについて
 -------------------------------
 
-Active Supportが提供するInstrumentation APIを使ってフックを開発すると、他の開発者がそこにフックできるようになります。Railsフレームワーク内部には[さまざまなフック](#railsフレームワーク用フック)が用意されています。このAPIをアプリケーションで実装すると、アプリケーション（またはRubyコード片）内部でイベントが発生したときに通知を受け取れるよう他の開発者が設定できます。
+Active Supportが提供するInstrumentation APIを使ってフックを開発すると、他の開発者がそこにフックできるようになります。Railsフレームワーク内部には[さまざまなフック](#railsフレームワーク用フック)が用意されています。このAPIを使うことで、アプリケーションやRubyコード内で特定のイベントが発生したときに通知を受け取れるようになります。
 
 たとえばActive Recordには、データベースへのSQLクエリが発行されるたびに呼び出される[フック](#sql-active-record)が用意されています。このフックを**サブスクライブ（購読）**すると、特定のアクションでのクエリ実行数を追跡できます。他に、コントローラのアクション実行中に呼び出される[フック](#process-action-action-controller)もあります。このフックは、たとえば特定のアクション実行に要した時間のトラッキングに利用できます。
 
@@ -29,7 +29,7 @@ Active Supportが提供するInstrumentation APIを使ってフックを開発�
 
 通知をリッスンするには、[`ActiveSupport::Notifications.subscribe`][]をブロック付きで利用します。ブロックが受け取る引数の個数に応じて、さまざまなデータを受け取ります。
 
-イベントをサブスクライブするときに最初に使う方法は、単一の引数を持つブロックを使うことです。この引数は、[`ActiveSupport::Notifications::Event`][]のインスタンスになります。
+イベントをサブスクライブする1つ目の方法は、単一の引数を持つブロックを使うことです。この引数は、[`ActiveSupport::Notifications::Event`][]のインスタンスになります。
 
 ```ruby
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |event|
@@ -47,7 +47,7 @@ Eventオブジェクトによって記録されたデータをすべて使わな
 * イベント名
 * イベントの開始時刻
 * イベントの終了時刻
-* イベントを発火させたinstrumenterのユニークID
+* イベントを発火させたInstrumenterのユニークID
 * イベントのペイロード
 
 ```ruby
@@ -67,7 +67,7 @@ ActiveSupport::Notifications.monotonic_subscribe "process_action.action_controll
 end
 ```
 
-正規表現に一致するイベントだけをサブスクライブすることも可能です。これはさまざまなイベントを一括でサブスクライブしたい場合に便利です。以下は、`ActionController`のイベントをすべて登録する場合の例です。
+正規表現に一致するイベントだけをサブスクライブすることも可能です。これはさまざまなイベントを一括でサブスクライブしたい場合に便利です。以下は、`ActionController`のイベントをすべてサブスクライブする場合の例です。
 
 ```ruby
 ActiveSupport::Notifications.subscribe(/action_controller/) do |event|
@@ -99,7 +99,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | キー              | 値                        |
 | ---------------- | ------------------------- |
 | `:channel_class` | チャネルのクラス名            |
-| `:action`        | アクション                  |
+| `:data`          | データ（ハッシュ）             |
 | `:via`           | 経由先                     |
 
 #### `transmit_subscription_confirmation.action_cable`
@@ -193,7 +193,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 
 #### `send_data.action_controller`
 
-`ActionController`はペイロードに特定の情報を追加しません。オプションは、すべてペイロード経由で渡されます。
+`ActionController`はペイロードに特定の情報を追加しません。オプションはすべてそのままペイロードに渡されます。
 
 #### `redirect_to.action_controller`
 
@@ -259,7 +259,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:scope`     | レート制限のスコープ                             |
 | `:cache_key` | レート制限を保存するために使われるキャッシュキー      |
 
-### Action Controller — キャッシング
+### Action Controller: キャッシング
 
 #### `write_fragment.action_controller`
 
@@ -324,7 +324,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:status`          | HTTPレスポンスコード                       |
 | `:location`        | リダイレクト先URL                          |
 | `:request`         | [`ActionDispatch::Request`][]オブジェクト  |
-| `:source_location` | リダイレクトのソースロケーション（ルーティング） |
+| `:source_location` | ルーティング内でリダイレクトが定義されている場所 |
 
 #### `request.action_dispatch`
 
@@ -371,8 +371,8 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:bcc`                | メールのBCCアドレス（複数可）                  |
 | `:cc`                 | メールのCCアドレス（複数可）                   |
 | `:date`               | メールの日付                                |
-| `:mail`               | メールのエンコード形式                        |
-| `:perform_deliveries` | このメッセージが配信されたかどうか              |
+| `:mail`               | エンコード済みのメール                        |
+| `:perform_deliveries` | このメッセージを配信するかどうか              |
 
 ```ruby
 {
@@ -439,7 +439,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 
 | キー           | 値                                    |
 | ------------- | ------------------------------------- |
-| `:identifier` | テンプレートへのフルパス                   |
+| `:identifier` | テンプレートへの完全なパス                   |
 | `:count`      | コレクションのサイズ                      |
 | `:cache_hits` | キャッシュからフェッチしたパーシャルの個数    |
 
@@ -457,7 +457,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 
 | キー           | 値                    |
 | ------------- | --------------------- |
-| `:identifier` | テンプレートへのフルパス  |
+| `:identifier` | テンプレートへの完全なパス  |
 
 
 ```ruby
@@ -488,7 +488,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | ------------ | ----------------------------------- |
 | `:job`       | Jobオブジェクト                       |
 | `:adapter`   | ジョブを処理するQueueAdapterオブジェクト |
-| `:error`     | リトライが原因で発生したエラー            |
+| `:error`     | リトライの原因となったエラー            |
 | `:wait`      | リトライの遅延                         |
 
 #### `enqueue_all.active_job`
@@ -519,7 +519,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | ------------ | ----------------------------------- |
 | `:adapter`   | ジョブを処理するQueueAdapterオブジェクト |
 | `:job`       | Jobオブジェクト                       |
-| `:error`     | リトライが原因で発生したエラー            |
+| `:error`     | リトライの原因となったエラー            |
 
 #### `discard.active_job`
 
@@ -527,7 +527,59 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | ------------ | ----------------------------------- |
 | `:adapter`   | ジョブを処理するQueueAdapterオブジェクト |
 | `:job`       | Jobオブジェクト                       |
-| `:error`     | リトライが原因で発生したエラー            |
+| `:error`     | 破棄の原因となったエラー            |
+
+<!-- 原文ミス https://github.com/rails/rails/pull/58988 を先行修正 -->
+
+[`Continuation`][]を利用するジョブでは、以下のイベントも発生します。
+
+#### `interrupt.active_job`
+
+| キー                | 値                                       |
+| ------------------ | ---------------------------------------- |
+| `:adapter`         | ジョブを処理するQueueAdapterオブジェクト      |
+| `:job`             | Jobオブジェクト                            |
+| `:reason`          | ジョブが中断された理由                       |
+| `:description`     | 継続のステートに関する説明                   |
+| `:completed_steps` | 完了したステップ名の配列                     |
+| `:current_step`    | 現在の継続ステップオブジェクト（存在する場合）   |
+
+#### `resume.active_job`
+
+| キー                | 値                                       |
+| ------------------ | ---------------------------------------- |
+| `:adapter`         | ジョブを処理するQueueAdapterオブジェクト      |
+| `:job`             | Jobオブジェクト                            |
+| `:description`     | 継続のステートに関する説明                   |
+| `:completed_steps` | 完了したステップ名の配列                     |
+| `:current_step`    | 現在の継続ステップオブジェクト（存在する場合）   |
+
+#### `step.active_job`
+
+| キー            | 値                                     |
+| -------------- | -------------------------------------- |
+| `:adapter`     | ジョブを処理するQueueAdapterオブジェクト    |
+| `:job`         | Jobオブジェクト                          |
+| `:step`        | 継続ステップオブジェクト                   |
+| `:interrupted` | ステップが中断したかどうか                 |
+
+#### `step_skipped.active_job`
+
+| キー        | 値                                     |
+| ---------- | -------------------------------------- |
+| `:adapter` | ジョブを処理するQueueAdapterオブジェクト    |
+| `:job`     | Jobオブジェクト                          |
+| `:step`    | スキップされたステップの名前               |
+
+#### `step_started.active_job`
+
+| キー        | 値                                     |
+| ---------- | -------------------------------------- |
+| `:adapter` | ジョブを処理するQueueAdapterオブジェクト    |
+| `:job`     | Jobオブジェクト                          |
+| `:step`    | 継続ステップオブジェクト                   |
+
+[`Continuation`]: https://api.rubyonrails.org/classes/ActiveJob/Continuation.html
 
 ### Active Record
 
@@ -539,14 +591,14 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | `:name`              | 操作の名前                                   |
 | `:binds`             | バインドするパラメータ                          |
 | `:type_casted_binds` | 型キャストされたバインドパラメータ                |
-| `:async`             | `true`の場合、クエリが非同期読み込みされる        |
-| `:allow_retry`       | `true`の場合、クエリの再試行を許可する           |
+| `:async`             | クエリが非同期読み込みされた場合は`true`         |
+| `:allow_retry`       | クエリを自動的にリトライできる場合は`true`        |
 | `:connection`        | コネクションオブジェクト                        |
 | `:transaction`       | 現在のトランザクション（存在する場合）            |
 | `:affected_rows`     | クエリによって影響を受けた行数                   |
 | `:row_count`         | クエリが返した行数                             |
 | `:cached`            | キャッシュされたクエリが使われると`true`が追加される |
-| `:statement_name`    | SQL文の名前(PostgreSQLのみ)                   |
+| `:statement_name`    | SQL文の名前（PostgreSQLのみ）                  |
 
 アダプタが独自のデータを追加する可能性もあります。
 
@@ -575,7 +627,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 | キー           | 値                                  |
 | ------------- | ----------------------------------- |
 | `:owner`      | `strict_loading`が有効化されたモデル     |
-| `:reflection` | 読み込もうとしている関連付けのリフレクション |
+| `:reflection` | 読み込もうとした関連付けのリフレクション |
 
 [`config.active_record.action_on_strict_loading_violation`]: configuring.html#config-active-record-action-on-strict-loading-violation
 
@@ -583,7 +635,7 @@ Ruby on Railsでは、フレームワーク内の主なイベント向けのフ�
 
 | キー              | 値                                        |
 | ---------------- | ----------------------------------------- |
-| `:record_count`  | レコードのインスタンス数                      |
+| `:record_count`  | インスタンス化されたレコードの数                |
 | `:class_name`    | レコードのクラス                             |
 
 ```ruby
@@ -658,7 +710,7 @@ end
 | `:reflection`        | 関連付けのリフレクション                                 |
 | `:message`           | アクセスに関する詳しいメッセージ                          |
 | `:location`          | アクセスが行われたアプリケーションレベルの場所               |
-| `:backtrace`         | `:backtrace`がtrueの場合のみ出力される出力される          |
+| `:backtrace`         | `:backtrace`がtrueの場合のみ含まれる          |
 
 `:location`は`Thread::Backtrace::Location`オブジェクトです。`:backtrace`が存在する場合は、`Thread::Backtrace::Location`オブジェクトの配列です。これらはActive Recordのバックトレースクリーナーを使って算出されます。Railsアプリケーションでは、これは`Rails.backtrace_cleaner`と同じです。
 
@@ -751,7 +803,7 @@ end
 | `:content_type` | HTTP `Content-Type`フィールド        |
 | `:disposition`  | HTTP `Content-Disposition`フィールド |
 
-### Active Support -- キャッシング
+### Active Support: キャッシング
 
 #### `cache_read.active_support`
 
@@ -768,19 +820,19 @@ end
 | ------------------ | ------------------------------------------------- |
 | `:key`             | ストアで使われるキー                                  |
 | `:store`           | ストアクラス名                                       |
-| `:hits`            | ヒットしたかどうか                                   |
-| `:super_operation` | [`fetch_multi`][ActiveSupport::Cache::Store#fetch_multi]で読み出された場合は`fetch_multi`を追加|
+| `:hits`            | キャッシュにヒットしたキー                                   |
+| `:super_operation` | [`fetch_multi`][ActiveSupport::Cache::Store#fetch_multi]で読み出された場合は`:fetch_multi`|
 
 #### `cache_generate.active_support`
 
-このイベントは、[`fetch`][ActiveSupport::Cache::Store#fetch]をブロック付きで呼び出した場合にのみ使われます。
+このイベントは、[`fetch`][ActiveSupport::Cache::Store#fetch]をブロック付きで呼び出した場合にのみ発火します。
 
 | キー     | 値                    |
 | ------- | --------------------- |
 | `:key`  | ストアで使われるキー      |
 | `:store`| ストアクラス名           |
 
-`#fetch`に渡されたオプションは、ストアへの書き込み時にペイロードとマージされます。
+`fetch`に渡されたオプションは、ストアへの書き込み時にペイロードとマージされます。
 
 ```ruby
 {
@@ -791,7 +843,7 @@ end
 
 #### `cache_fetch_hit.active_support`
 
-このイベントは、[`fetch`][ActiveSupport::Cache::Store#fetch]をブロック付きで呼び出した場合にのみ使われます。
+このイベントは、[`fetch`][ActiveSupport::Cache::Store#fetch]をブロック付きで呼び出した場合にのみ発火します。
 
 | キー      | 値                    |
 | -------- | --------------------- |
@@ -827,7 +879,7 @@ end
 
 | キー      | 値                    |
 | -------- | --------------------- |
-| `:key`   | ストアで使われるキーと値   |
+| `:key`   | ストアに書き込まれたキーと値   |
 | `:store` | ストアクラス名           |
 
 #### `cache_increment.active_support`
@@ -923,7 +975,7 @@ end
 | -------- | -------------------------------------- |
 | `:store` | ストアクラス名                            |
 | `:key`   | キャッシュのターゲットサイズ（バイト単位）     |
-| `:from`  | prune（刈込）前のキャッシュサイズ（バイト単位）|
+| `:from`  | prune（刈り込み）前のキャッシュサイズ（バイト単位）|
 
 ```ruby
 {
@@ -954,7 +1006,7 @@ end
 [ActiveSupport::Cache::Store#fetch]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch
 [ActiveSupport::Cache::Store#fetch_multi]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch_multi
 
-### Active Support — Messages
+### Active Support: メッセージ
 
 #### `message_serializer_fallback.active_support`
 
@@ -982,7 +1034,7 @@ end
 | ------------ | ------------------------ |
 | `:message`   | 非推奨機能の警告メッセージ    |
 | `:callstack` | 非推奨警告の発生元          |
-| `:gem_name`  | 非推奨警告で報告されたgem名 |
+| `:gem_name`  | 非推奨を報告したgemの名前    |
 | `:deprecation_horizon` | 非推奨の振る舞いが削除されるバージョン |
 
 ### Railties
@@ -1006,7 +1058,7 @@ instrumentationの途中で例外が発生すると、ペイロードにその�
 カスタムイベントの作成
 ----------------------
 
-独自のイベントを自由に追加できます。Active Supportは、面倒な作業を代行してくれます。イベント追加は、`name`、`payload`、ブロックを指定して[`ActiveSupport::Notifications.instrument`][]を呼び出すだけで完了します。
+独自のイベントを手軽に追加できます。Active Supportは、面倒な作業を代行してくれます。イベント追加は、`name`、`payload`、ブロックを指定して[`ActiveSupport::Notifications.instrument`][]を呼び出すだけで完了します。
 通知は、ブロックが戻ってから送信されます。Active Supportでは、開始時刻、終了時刻、InstrumenterのユニークIDが生成されます。`instrument`呼び出しに渡されるすべてのデータがペイロードに含まれます。
 
 以下に例を示します。
