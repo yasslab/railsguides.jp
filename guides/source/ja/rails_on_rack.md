@@ -437,8 +437,6 @@ Action Controllerの機能の多くはミドルウェアとして実装されて
 
 #### `ActiveRecord::Migration::CheckPending`
 
-<!-- 以下は原文エラー https://github.com/rails/rails/pull/58969 先行修正。-->
-
 [`ActiveRecord::Migration::CheckPending`][]ミドルウェアは、保留中のマイグレーションをチェックし、保留中のマイグレーションがある場合は`ActiveRecord::PendingMigrationError`を発生させます。
 [`config.active_record.migration_error`][]が`:page_load`に設定されている場合にのみ有効です。
 

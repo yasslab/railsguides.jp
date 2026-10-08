@@ -766,8 +766,6 @@ rails_command "db:migrate", abort_on_failure: true
 [`route`][]メソッドは、`config/routes.rb`ファイルにエントリを追加します。
 アプリケーションのデフォルトページを`PeopleController#index`にするには、以下を追加します。
 
-<!-- 原文エラー修正 https://github.com/rails/rails/pull/58973 を先行反映 -->
-
 ```ruby
 route "root to: 'people#index'"
 ```
