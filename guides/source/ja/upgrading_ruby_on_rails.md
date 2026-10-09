@@ -84,9 +84,7 @@ Rails 8.1で行われた変更について詳しくは、[Rails 8.1のリリー�
 
 TIP: 訳注：アップグレード事例については[ruby-jp](https://ruby-jp.github.io/)の「[Rails 8.1 Upgrade Knowledge](https://scrapbox.io/ruby-jp/Rails_8.1_Upgrade_Knowledge)」にまとめられています。
 
-### `schema.rb`内のテーブルカラムがアルファベット順ソートに変更された
-
-Active Recordは、`schema.rb`内のテーブルカラムをデフォルトでアルファベット順にソートするようになりました。これにより、マシン間でスキーマダンプが一貫するようになり、マイグレーションの順序によって左右されなくなり、結果としてノイズの多い差分が削減されます。structure.sqlは、カラム順序を厳密に維持するために引き続き利用できます。スキーマ変更のアルファベット順化の詳細については、[#53281](https://github.com/rails/rails/pull/53281)を参照してください。
+TIP: 訳注：Rails 8.1で導入された`schema.rb`内のテーブルカラムをアルファベット順にソートする変更（[#53281](https://github.com/rails/rails/pull/53281)）は、Rails 8.1.4で取り消されました（[#56842](https://github.com/rails/rails/pull/56842)）。これに伴い、[アップグレードガイドの該当記述](https://github.com/rails/rails/blob/v8.1.4/guides/source/upgrading_ruby_on_rails.md?plain=1#L85-L87)と[リリースノートの該当記述](https://github.com/rails/rails/blob/v8.1.4/guides/source/8_1_release_notes.md?plain=1#L349)がともに削除されました（[#58953](https://github.com/rails/rails/pull/58953)）。<br>取り消しの理由は、アルファベット順でソートされたスキーマから`db:prepare`で本番テーブルを作成すると、カラム順が意図しないものになるためです。Rails 8.1.0〜8.1.3でダンプした`schema.rb`は、8.1.4で再ダンプするとカラム順が元に戻るため、差分が発生する点にご注意ください。
 
 Rails 7.2からRails 8.0へのアップグレード
 -------------------------------------
