@@ -157,7 +157,7 @@
       url: working_with_javascript_in_rails.html
       description: importmapやjsbundling-railsを用いてRaisアプリケーションにJavaScriptを組み込む方法を解説します。RailsでTurboを使う基本的な方法についても解説します。
     -
-      name: 国際化（I18n）
+      name: Rails で国際化 (I18n) に対応する
       url: i18n.html
       description: Railsアプリケーションを国際化する方法について解説します。これによりアプリケーションを異なる言語に翻訳することができ、さらに単数形/複数形ルールを変更したり、その国に適した日付フォーマットを設定したりできます。
     -
