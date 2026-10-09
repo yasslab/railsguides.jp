@@ -1835,13 +1835,15 @@ SELECT *
   ORDER BY year_published ASC
 ```
 
-`reorder`メソッドは、関連付けの順序指定だけでなく、事前に定義されたどの順序指定に対しても有効です。
+<!-- 原文エラー修正 https://github.com/rails/rails/pull/59008 を先行反映 -->
+
+`reorder`メソッドは、デフォルトスコープの順序指定だけでなく、クエリチェインで事前に定義されたどの順序指定に対しても有効です。
 
 ```ruby
 Book.where("id > 100").order("id desc").reorder("title ASC")
 ```
 
-上のようにすると、従来の`order("id desc")`が上書きされて、タイトルだけで並べ替えられます。
+上のようにすると、デフォルトスコープの順序指定と、その前の`order("id desc")`が両方とも上書きされて、タイトルだけで並べ替えられます。
 
 ### `reverse_order`
 
