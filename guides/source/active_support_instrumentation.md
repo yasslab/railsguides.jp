@@ -1,4 +1,4 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON https://guides.rubyonrails.org.**
+**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON <https://guides.rubyonrails.org>.**
 
 Active Support Instrumentation
 ==============================
@@ -28,10 +28,25 @@ You are even able to [create your own events](#creating-custom-events) inside yo
 Subscribing to an Event
 -----------------------
 
-Subscribing to an event is easy. Use [`ActiveSupport::Notifications.subscribe`][] with a block to
-listen to any notification.
+Use [`ActiveSupport::Notifications.subscribe`][] with a block to listen to any notification. Depending on the amount of
+arguments the block takes, you will receive different data.
 
-The block receives the following arguments:
+The first way to subscribe to an event is to use a block with a single argument. The argument will be an instance of
+[`ActiveSupport::Notifications::Event`][].
+
+```ruby
+ActiveSupport::Notifications.subscribe "process_action.action_controller" do |event|
+  event.name        # => "process_action.action_controller"
+  event.duration    # => 10 (in milliseconds)
+  event.allocations # => 1826
+  event.payload     # => {:extra=>information}
+
+  Rails.logger.info "#{event} Received!"
+end
+```
+
+If you don't need all the data recorded by an Event object, you can also specify a
+block that takes the following five arguments:
 
 * Name of the event
 * Time when it started
@@ -40,45 +55,19 @@ The block receives the following arguments:
 * The payload for the event
 
 ```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, started, finished, unique_id, data|
+ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, started, finished, unique_id, payload|
   # your own custom stuff
-  Rails.logger.info "#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received (started: 2019-05-05 13:43:57 -0800, finished: 2019-05-05 13:43:58 -0800)
+  Rails.logger.info "#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received! (started: 2019-05-05 13:43:57 -0800, finished: 2019-05-05 13:43:58 -0800)
 end
 ```
 
 If you are concerned about the accuracy of `started` and `finished` to compute a precise elapsed time, then use [`ActiveSupport::Notifications.monotonic_subscribe`][]. The given block would receive the same arguments as above, but the `started` and `finished` will have values with an accurate monotonic time instead of wall-clock time.
 
 ```ruby
-ActiveSupport::Notifications.monotonic_subscribe "process_action.action_controller" do |name, started, finished, unique_id, data|
+ActiveSupport::Notifications.monotonic_subscribe "process_action.action_controller" do |name, started, finished, unique_id, payload|
   # your own custom stuff
-  Rails.logger.info "#{name} Received! (started: #{started}, finished: #{finished})" # process_action.action_controller Received (started: 1560978.425334, finished: 1560979.429234)
-end
-```
-
-Defining all those block arguments each time can be tedious. You can easily create an [`ActiveSupport::Notifications::Event`][]
-from block arguments like this:
-
-```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |*args|
-  event = ActiveSupport::Notifications::Event.new *args
-
-  event.name      # => "process_action.action_controller"
-  event.duration  # => 10 (in milliseconds)
-  event.payload   # => {:extra=>information}
-
-  Rails.logger.info "#{event} Received!"
-end
-```
-
-You may also pass a block that accepts only one argument, and it will receive an event object:
-
-```ruby
-ActiveSupport::Notifications.subscribe "process_action.action_controller" do |event|
-  event.name      # => "process_action.action_controller"
-  event.duration  # => 10 (in milliseconds)
-  event.payload   # => {:extra=>information}
-
-  Rails.logger.info "#{event} Received!"
+  duration = finished - started # 1560979.429234 - 1560978.425334
+  Rails.logger.info "#{name} Received! (duration: #{duration})" # process_action.action_controller Received! (duration: 1.0039)
 end
 ```
 
@@ -86,7 +75,7 @@ You may also subscribe to events matching a regular expression. This enables you
 multiple events at once. Here's how to subscribe to everything from `ActionController`:
 
 ```ruby
-ActiveSupport::Notifications.subscribe /action_controller/ do |*args|
+ActiveSupport::Notifications.subscribe(/action_controller/) do |event|
   # inspect all ActionController events
 end
 ```
@@ -100,6 +89,44 @@ Rails Framework Hooks
 
 Within the Ruby on Rails framework, there are a number of hooks provided for common events. These events and their payloads are detailed below.
 
+### Action Cable
+
+#### `perform_action.action_cable`
+
+| Key              | Value                     |
+| ---------------- | ------------------------- |
+| `:channel_class` | Name of the channel class |
+| `:action`        | The action                |
+| `:data`          | A hash of data            |
+
+#### `transmit.action_cable`
+
+| Key              | Value                     |
+| ---------------- | ------------------------- |
+| `:channel_class` | Name of the channel class |
+| `:data`          | A hash of data            |
+| `:via`           | Via                       |
+
+#### `transmit_subscription_confirmation.action_cable`
+
+| Key              | Value                     |
+| ---------------- | ------------------------- |
+| `:channel_class` | Name of the channel class |
+
+#### `transmit_subscription_rejection.action_cable`
+
+| Key              | Value                     |
+| ---------------- | ------------------------- |
+| `:channel_class` | Name of the channel class |
+
+#### `broadcast.action_cable`
+
+| Key             | Value                |
+| --------------- | -------------------- |
+| `:broadcasting` | A named broadcasting |
+| `:message`      | A hash of message    |
+| `:coder`        | The coder            |
+
 ### Action Controller
 
 #### `start_processing.action_controller`
@@ -108,6 +135,7 @@ Within the Ruby on Rails framework, there are a number of hooks provided for com
 | ------------- | --------------------------------------------------------- |
 | `:controller` | The controller name                                       |
 | `:action`     | The action                                                |
+| `:request`    | The [`ActionDispatch::Request`][] object                  |
 | `:params`     | Hash of request parameters without any filtered parameter |
 | `:headers`    | Request headers                                           |
 | `:format`     | html/js/json/xml etc                                      |
@@ -184,7 +212,7 @@ Additional keys may be added by the caller.
 {
   status: 302,
   location: "http://localhost:3000/posts/new",
-  request: #<ActionDispatch::Request:0x00007ff1cb9bd7b8>
+  request: <ActionDispatch::Request:0x00007ff1cb9bd7b8>
 }
 ```
 
@@ -207,7 +235,36 @@ Additional keys may be added by the caller.
 | `:keys`       | The unpermitted keys                                                          |
 | `:context`    | Hash with the following keys: `:controller`, `:action`, `:params`, `:request` |
 
-### Action Controller — Caching
+#### `send_stream.action_controller`
+
+| Key            | Value                                    |
+| -------------- | ---------------------------------------- |
+| `:filename`    | The filename                             |
+| `:type`        | HTTP content type                        |
+| `:disposition` | HTTP content disposition                 |
+
+```ruby
+{
+  filename: "subscribers.csv",
+  type: "text/csv",
+  disposition: "attachment"
+}
+```
+
+#### `rate_limit.action_controller`
+
+| Key          | Value                                         |
+| ------------ | --------------------------------------------- |
+| `:request`   | The [`ActionDispatch::Request`][] object      |
+| `:count`     | Number of requests made                       |
+| `:to`        | Maximum number of requests allowed            |
+| `:within`    | Time window for the rate limit                |
+| `:by`        | Identifier for the rate limit (e.g. IP)       |
+| `:name`      | Name of the rate limit                        |
+| `:scope`     | Scope of the rate limit                       |
+| `:cache_key` | The cache key used for storing the rate limit |
+
+### Action Controller: Caching
 
 #### `write_fragment.action_controller`
 
@@ -265,108 +322,45 @@ Additional keys may be added by the caller.
 | ------------- | ---------------------- |
 | `:middleware` | Name of the middleware |
 
-### Action View
+#### `redirect.action_dispatch`
 
-#### `render_template.action_view`
+| Key         | Value                                    |
+| ------------------ | ---------------------------------------- |
+| `:status`          | HTTP response code                       |
+| `:location`        | URL to redirect to                       |
+| `:request`         | The [`ActionDispatch::Request`][] object |
+| `:source_location` | Source location of redirect in routes    |
 
-| Key           | Value                 |
-| ------------- | --------------------- |
-| `:identifier` | Full path to template |
-| `:layout`     | Applicable layout     |
+#### `request.action_dispatch`
 
-```ruby
-{
-  identifier: "/Users/adam/projects/notifications/app/views/posts/index.html.erb",
-  layout: "layouts/application"
-}
-```
-
-#### `render_partial.action_view`
-
-| Key           | Value                 |
-| ------------- | --------------------- |
-| `:identifier` | Full path to template |
-
-```ruby
-{
-  identifier: "/Users/adam/projects/notifications/app/views/posts/_form.html.erb"
-}
-```
-
-#### `render_collection.action_view`
-
-| Key           | Value                                 |
-| ------------- | ------------------------------------- |
-| `:identifier` | Full path to template                 |
-| `:count`      | Size of collection                    |
-| `:cache_hits` | Number of partials fetched from cache |
-
-The `:cache_hits` key is only included if the collection is rendered with `cached: true`.
-
-```ruby
-{
-  identifier: "/Users/adam/projects/notifications/app/views/posts/_post.html.erb",
-  count: 3,
-  cache_hits: 0
-}
-```
-
-#### `render_layout.action_view`
-
-| Key           | Value                 |
-| ------------- | --------------------- |
-| `:identifier` | Full path to template |
-
-
-```ruby
-{
-  identifier: "/Users/adam/projects/notifications/app/views/layouts/application.html.erb"
-}
-```
+| Key         | Value                                    |
+| ----------- | ---------------------------------------- |
+| `:request`  | The [`ActionDispatch::Request`][] object |
 
 [`ActionDispatch::Request`]: https://api.rubyonrails.org/classes/ActionDispatch/Request.html
 [`ActionDispatch::Response`]: https://api.rubyonrails.org/classes/ActionDispatch/Response.html
 
-### Active Record
+### Action Mailbox
 
-#### `sql.active_record`
+#### `process.action_mailbox`
 
-| Key                  | Value                                    |
-| -------------------- | ---------------------------------------- |
-| `:sql`               | SQL statement                            |
-| `:name`              | Name of the operation                    |
-| `:connection`        | Connection object                        |
-| `:binds`             | Bind parameters                          |
-| `:type_casted_binds` | Typecasted bind parameters               |
-| `:statement_name`    | SQL Statement name                       |
-| `:cached`            | `true` is added when cached queries used |
-
-Adapters may add their own data as well.
+| Key              | Value                                                  |
+| -----------------| ------------------------------------------------------ |
+| `:mailbox`       | Instance of the Mailbox class inheriting from [`ActionMailbox::Base`][] |
+| `:inbound_email` | Hash with data about the inbound email being processed |
 
 ```ruby
 {
-  sql: "SELECT \"posts\".* FROM \"posts\" ",
-  name: "Post Load",
-  connection: #<ActiveRecord::ConnectionAdapters::SQLite3Adapter:0x00007f9f7a838850>,
-  binds: [#<ActiveModel::Attribute::WithCastValue:0x00007fe19d15dc00>],
-  type_casted_binds: [11],
-  statement_name: nil
+  mailbox: #<RepliesMailbox:0x00007f9f7a8388>,
+  inbound_email: {
+    id: 1,
+    message_id: "0CB459E0-0336-41DA-BC88-E6E28C697DDB@37signals.com",
+    status: "processing"
+  }
 }
 ```
 
-#### `instantiation.active_record`
-
-| Key              | Value                                     |
-| ---------------- | ----------------------------------------- |
-| `:record_count`  | Number of records that instantiated       |
-| `:class_name`    | Record's class                            |
-
-```ruby
-{
-  record_count: 1,
-  class_name: "User"
-}
-```
+[`ActionMailbox::Base`]: https://api.rubyonrails.org/classes/ActionMailbox/Base.html
 
 ### Action Mailer
 
@@ -414,7 +408,414 @@ Adapters may add their own data as well.
 }
 ```
 
-### Active Support — Caching
+### Action View
+
+#### `render_template.action_view`
+
+| Key           | Value                              |
+| ------------- | ---------------------------------- |
+| `:identifier` | Full path to template              |
+| `:layout`     | Applicable layout                  |
+| `:locals`     | Local variables passed to template |
+
+```ruby
+{
+  identifier: "/Users/adam/projects/notifications/app/views/posts/index.html.erb",
+  layout: "layouts/application",
+  locals: { foo: "bar" }
+}
+```
+
+#### `render_partial.action_view`
+
+| Key           | Value                              |
+| ------------- | ---------------------------------- |
+| `:identifier` | Full path to template              |
+| `:locals`     | Local variables passed to template |
+
+```ruby
+{
+  identifier: "/Users/adam/projects/notifications/app/views/posts/_form.html.erb",
+  locals: { foo: "bar" }
+}
+```
+
+#### `render_collection.action_view`
+
+| Key           | Value                                 |
+| ------------- | ------------------------------------- |
+| `:identifier` | Full path to template                 |
+| `:count`      | Size of collection                    |
+| `:cache_hits` | Number of partials fetched from cache |
+
+The `:cache_hits` key is only included if the collection is rendered with `cached: true`.
+
+```ruby
+{
+  identifier: "/Users/adam/projects/notifications/app/views/posts/_post.html.erb",
+  count: 3,
+  cache_hits: 0
+}
+```
+
+#### `render_layout.action_view`
+
+| Key           | Value                 |
+| ------------- | --------------------- |
+| `:identifier` | Full path to template |
+
+
+```ruby
+{
+  identifier: "/Users/adam/projects/notifications/app/views/layouts/application.html.erb"
+}
+```
+
+### Active Job
+
+#### `enqueue_at.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:job`       | Job object                             |
+
+#### `enqueue.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:job`       | Job object                             |
+
+#### `enqueue_retry.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:job`       | Job object                             |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:error`     | The error that caused the retry        |
+| `:wait`      | The delay of the retry                 |
+
+#### `enqueue_all.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:jobs`      | An array of Job objects                |
+
+#### `perform_start.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:job`       | Job object                             |
+
+#### `perform.active_job`
+
+| Key           | Value                                         |
+| ------------- | --------------------------------------------- |
+| `:adapter`    | QueueAdapter object processing the job        |
+| `:job`        | Job object                                    |
+| `:db_runtime` | Amount spent executing database queries in ms |
+
+#### `retry_stopped.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:job`       | Job object                             |
+| `:error`     | The error that caused the retry        |
+
+#### `discard.active_job`
+
+| Key          | Value                                  |
+| ------------ | -------------------------------------- |
+| `:adapter`   | QueueAdapter object processing the job |
+| `:job`       | Job object                             |
+| `:error`     | The error that caused the discard      |
+
+Jobs using [Continuation][] also emit the following events.
+
+#### `interrupt.active_job`
+
+| Key                | Value                                    |
+| ------------------ | ---------------------------------------- |
+| `:adapter`         | QueueAdapter object processing the job   |
+| `:job`             | Job object                               |
+| `:reason`          | Reason the job was interrupted           |
+| `:description`     | Description of the continuation state    |
+| `:completed_steps` | Array of completed step names            |
+| `:current_step`    | Current continuation step object, if any |
+
+#### `resume.active_job`
+
+| Key                | Value                                    |
+| ------------------ | ---------------------------------------- |
+| `:adapter`         | QueueAdapter object processing the job   |
+| `:job`             | Job object                               |
+| `:description`     | Description of the continuation state    |
+| `:completed_steps` | Array of completed step names            |
+| `:current_step`    | Current continuation step object, if any |
+
+#### `step.active_job`
+
+| Key            | Value                                  |
+| -------------- | -------------------------------------- |
+| `:adapter`     | QueueAdapter object processing the job |
+| `:job`         | Job object                             |
+| `:step`        | Continuation step object               |
+| `:interrupted` | Whether the step was interrupted       |
+
+#### `step_skipped.active_job`
+
+| Key        | Value                                  |
+| ---------- | -------------------------------------- |
+| `:adapter` | QueueAdapter object processing the job |
+| `:job`     | Job object                             |
+| `:step`    | Name of the skipped step               |
+
+#### `step_started.active_job`
+
+| Key        | Value                                  |
+| ---------- | -------------------------------------- |
+| `:adapter` | QueueAdapter object processing the job |
+| `:job`     | Job object                             |
+| `:step`    | Continuation step object               |
+
+[`Continuation`]: https://api.rubyonrails.org/classes/ActiveJob/Continuation.html
+
+### Active Record
+
+#### `sql.active_record`
+
+| Key                  | Value                                                  |
+| -------------------- | ------------------------------------------------------ |
+| `:sql`               | SQL statement                                          |
+| `:name`              | Name of the operation                                  |
+| `:binds`             | Bind parameters                                        |
+| `:type_casted_binds` | Typecasted bind parameters                             |
+| `:async`             | `true` if query is loaded asynchronously               |
+| `:allow_retry`       | `true` if the query can be automatically retried       |
+| `:connection`        | Connection object                                      |
+| `:transaction`       | Current transaction, if any                            |
+| `:affected_rows`     | Number of rows affected by the query                   |
+| `:row_count`         | Number of rows returned by the query                   |
+| `:cached`            | `true` is added when result comes from the query cache |
+| `:statement_name`    | SQL Statement name (Postgres only)                     |
+
+Adapters may add their own data as well.
+
+```ruby
+{
+  sql: "SELECT \"posts\".* FROM \"posts\" ",
+  name: "Post Load",
+  binds: [<ActiveModel::Attribute::WithCastValue:0x00007fe19d15dc00>],
+  type_casted_binds: [11],
+  async: false,
+  allow_retry: true,
+  connection: <ActiveRecord::ConnectionAdapters::SQLite3Adapter:0x00007f9f7a838850>,
+  transaction: <ActiveRecord::ConnectionAdapters::RealTransaction:0x0000000121b5d3e0>
+  affected_rows: 0
+  row_count: 5,
+  statement_name: nil,
+}
+```
+
+If the query is not executed in the context of a transaction, `:transaction` is `nil`.
+
+#### `strict_loading_violation.active_record`
+
+This event is only emitted when [`config.active_record.action_on_strict_loading_violation`][] is set to `:log`.
+
+| Key           | Value                                            |
+| ------------- | ------------------------------------------------ |
+| `:owner`      | Model with `strict_loading` enabled              |
+| `:reflection` | Reflection of the association that tried to load |
+
+[`config.active_record.action_on_strict_loading_violation`]: configuring.html#config-active-record-action-on-strict-loading-violation
+
+#### `instantiation.active_record`
+
+| Key              | Value                                     |
+| ---------------- | ----------------------------------------- |
+| `:record_count`  | Number of records that instantiated       |
+| `:class_name`    | Record's class                            |
+
+```ruby
+{
+  record_count: 1,
+  class_name: "User"
+}
+```
+
+#### `start_transaction.active_record`
+
+This event is emitted when a transaction has been started.
+
+| Key                  | Value                                                |
+| -------------------- | ---------------------------------------------------- |
+| `:transaction`       | Transaction object                                   |
+| `:connection`        | Connection object                                    |
+
+Please, note that Active Record does not create the actual database transaction
+until needed:
+
+```ruby
+ActiveRecord::Base.transaction do
+  # We are inside the block, but no event has been triggered yet.
+
+  # The following line makes Active Record start the transaction.
+  User.count # Event fired here.
+end
+```
+
+Remember that ordinary nested calls do not create new transactions:
+
+```ruby
+ActiveRecord::Base.transaction do |t1|
+  User.count # Fires an event for t1.
+  ActiveRecord::Base.transaction do |t2|
+    # The next line fires no event for t2, because the only
+    # real database transaction in this example is t1.
+    User.first.touch
+  end
+end
+```
+
+However, if `requires_new: true` is passed, you get an event for the nested
+transaction too. This might be a savepoint under the hood:
+
+```ruby
+ActiveRecord::Base.transaction do |t1|
+  User.count # Fires an event for t1.
+  ActiveRecord::Base.transaction(requires_new: true) do |t2|
+    User.first.touch # Fires an event for t2.
+  end
+end
+```
+
+#### `transaction.active_record`
+
+This event is emitted when a database transaction finishes. The state of the
+transaction can be found in the `:outcome` key.
+
+| Key                  | Value                                                |
+| -------------------- | ---------------------------------------------------- |
+| `:transaction`       | Transaction object                                   |
+| `:outcome`           | `:commit`, `:rollback`, `:restart`, or `:incomplete` |
+| `:connection`        | Connection object                                    |
+
+In practice, you cannot do much with the transaction object, but it may still be
+helpful for tracing database activity. For example, by tracking
+`transaction.uuid`.
+
+#### `deprecated_association.active_record`
+
+This event is emitted when a deprecated association is accessed, and the
+configured deprecated associations mode is `:notify`.
+
+| Key                  | Value                                                |
+| -------------------- | ---------------------------------------------------- |
+| `:reflection`        | The reflection of the association                    |
+| `:message`           | A descriptive message about the access               |
+| `:location`          | The application-level location of the access         |
+| `:backtrace`         | Only present if the option `:backtrace` is true      |
+
+The `:location` is a `Thread::Backtrace::Location` object, and `:backtrace`, if
+present, is an array of `Thread::Backtrace::Location` objects. These are
+computed using the Active Record backtrace cleaner. In Rails applications, this
+is the same as `Rails.backtrace_cleaner`.
+
+### Active Storage
+
+#### `preview.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:key`       | Secure token        |
+
+#### `transform.active_storage`
+
+#### `analyze.active_storage`
+
+| Key          | Value                          |
+| ------------ | ------------------------------ |
+| `:analyzer`  | Name of analyzer e.g., ffprobe |
+
+### Active Storage: Storage Service
+
+#### `service_upload.active_storage`
+
+| Key          | Value                        |
+| ------------ | ---------------------------- |
+| `:key`       | Secure token                 |
+| `:service`   | Name of the service          |
+| `:checksum`  | Checksum to ensure integrity |
+
+#### `service_streaming_download.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:key`       | Secure token        |
+| `:service`   | Name of the service |
+
+#### `service_download_chunk.active_storage`
+
+| Key          | Value                           |
+| ------------ | ------------------------------- |
+| `:key`       | Secure token                    |
+| `:service`   | Name of the service             |
+| `:range`     | Byte range attempted to be read |
+
+#### `service_download.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:key`       | Secure token        |
+| `:service`   | Name of the service |
+
+#### `service_delete.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:key`       | Secure token        |
+| `:service`   | Name of the service |
+
+#### `service_delete_prefixed.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:prefix`    | Key prefix          |
+| `:service`   | Name of the service |
+
+#### `service_exist.active_storage`
+
+| Key          | Value                       |
+| ------------ | --------------------------- |
+| `:key`       | Secure token                |
+| `:service`   | Name of the service         |
+| `:exist`     | File or blob exists or not  |
+
+#### `service_url.active_storage`
+
+| Key          | Value               |
+| ------------ | ------------------- |
+| `:key`       | Secure token        |
+| `:service`   | Name of the service |
+| `:url`       | Generated URL       |
+
+#### `service_update_metadata.active_storage`
+
+This event is only emitted when using the Google Cloud Storage service.
+
+| Key             | Value                            |
+| --------------- | -------------------------------- |
+| `:key`          | Secure token                     |
+| `:service`      | Name of the service              |
+| `:content_type` | HTTP `Content-Type` field        |
+| `:disposition`  | HTTP `Content-Disposition` field |
+
+### Active Support: Caching
 
 #### `cache_read.active_support`
 
@@ -496,9 +897,6 @@ Cache stores may add their own data as well.
 
 #### `cache_increment.active_support`
 
-This event is only emitted when using [`MemCacheStore`][ActiveSupport::Cache::MemCacheStore]
-or [`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore].
-
 | Key       | Value                   |
 | --------- | ----------------------- |
 | `:key`    | Key used in the store   |
@@ -514,8 +912,6 @@ or [`RedisCacheStore`][ActiveSupport::Cache::RedisCacheStore].
 ```
 
 #### `cache_decrement.active_support`
-
-This event is only emitted when using the Memcached or Redis cache stores.
 
 | Key       | Value                   |
 | --------- | ----------------------- |
@@ -624,187 +1020,36 @@ This event is only emitted when using [`MemoryStore`][ActiveSupport::Cache::Memo
 [ActiveSupport::Cache::Store#fetch]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch
 [ActiveSupport::Cache::Store#fetch_multi]: https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html#method-i-fetch_multi
 
-### Active Job
+### Active Support: Messages
 
-#### `enqueue_at.active_job`
+#### `message_serializer_fallback.active_support`
 
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
+| Key             | Value                         |
+| --------------- | ----------------------------- |
+| `:serializer`   | Primary (intended) serializer |
+| `:fallback`     | Fallback (actual) serializer  |
+| `:serialized`   | Serialized string             |
+| `:deserialized` | Deserialized value            |
 
-#### `enqueue.active_job`
+```ruby
+{
+  serializer: :json_allow_marshal,
+  fallback: :marshal,
+  serialized: "\x04\b{\x06I\"\nHello\x06:\x06ETI\"\nWorld\x06;\x00T",
+  deserialized: { "Hello" => "World" },
+}
+```
 
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
+### Rails
 
-#### `enqueue_retry.active_job`
+#### `deprecation.rails`
 
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:job`       | Job object                             |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:error`     | The error that caused the retry        |
-| `:wait`      | The delay of the retry                 |
-
-#### `perform_start.active_job`
-
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
-
-#### `perform.active_job`
-
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
-
-#### `retry_stopped.active_job`
-
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
-| `:error`     | The error that caused the retry        |
-
-#### `discard.active_job`
-
-| Key          | Value                                  |
-| ------------ | -------------------------------------- |
-| `:adapter`   | QueueAdapter object processing the job |
-| `:job`       | Job object                             |
-| `:error`     | The error that caused the discard      |
-
-### Action Cable
-
-#### `perform_action.action_cable`
-
-| Key              | Value                     |
-| ---------------- | ------------------------- |
-| `:channel_class` | Name of the channel class |
-| `:action`        | The action                |
-| `:data`          | A hash of data            |
-
-#### `transmit.action_cable`
-
-| Key              | Value                     |
-| ---------------- | ------------------------- |
-| `:channel_class` | Name of the channel class |
-| `:data`          | A hash of data            |
-| `:via`           | Via                       |
-
-#### `transmit_subscription_confirmation.action_cable`
-
-| Key              | Value                     |
-| ---------------- | ------------------------- |
-| `:channel_class` | Name of the channel class |
-
-#### `transmit_subscription_rejection.action_cable`
-
-| Key              | Value                     |
-| ---------------- | ------------------------- |
-| `:channel_class` | Name of the channel class |
-
-#### `broadcast.action_cable`
-
-| Key             | Value                |
-| --------------- | -------------------- |
-| `:broadcasting` | A named broadcasting |
-| `:message`      | A hash of message    |
-| `:coder`        | The coder            |
-
-### Active Storage
-
-#### `preview.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:key`       | Secure token        |
-
-#### `transform.active_storage`
-
-#### `analyze.active_storage`
-
-| Key          | Value                          |
-| ------------ | ------------------------------ |
-| `:analyzer`  | Name of analyzer e.g., ffprobe |
-
-### Active Storage — Storage Service
-
-#### `service_upload.active_storage`
-
-| Key          | Value                        |
-| ------------ | ---------------------------- |
-| `:key`       | Secure token                 |
-| `:service`   | Name of the service          |
-| `:checksum`  | Checksum to ensure integrity |
-
-#### `service_streaming_download.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:key`       | Secure token        |
-| `:service`   | Name of the service |
-
-#### `service_download_chunk.active_storage`
-
-| Key          | Value                           |
-| ------------ | ------------------------------- |
-| `:key`       | Secure token                    |
-| `:service`   | Name of the service             |
-| `:range`     | Byte range attempted to be read |
-
-#### `service_download.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:key`       | Secure token        |
-| `:service`   | Name of the service |
-
-#### `service_delete.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:key`       | Secure token        |
-| `:service`   | Name of the service |
-
-#### `service_delete_prefixed.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:prefix`    | Key prefix          |
-| `:service`   | Name of the service |
-
-#### `service_exist.active_storage`
-
-| Key          | Value                       |
-| ------------ | --------------------------- |
-| `:key`       | Secure token                |
-| `:service`   | Name of the service         |
-| `:exist`     | File or blob exists or not  |
-
-#### `service_url.active_storage`
-
-| Key          | Value               |
-| ------------ | ------------------- |
-| `:key`       | Secure token        |
-| `:service`   | Name of the service |
-| `:url`       | Generated URL       |
-
-#### `service_update_metadata.active_storage`
-
-This event is only emitted when using the Google Cloud Storage service.
-
-| Key             | Value                            |
-| --------------- | -------------------------------- |
-| `:key`          | Secure token                     |
-| `:service`      | Name of the service              |
-| `:content_type` | HTTP `Content-Type` field        |
-| `:disposition`  | HTTP `Content-Disposition` field |
+| Key                    | Value                                                 |
+| ---------------------- | ------------------------------------------------------|
+| `:message`             | The deprecation warning                               |
+| `:callstack`           | Where the deprecation came from                       |
+| `:gem_name`            | Name of the gem reporting the deprecation             |
+| `:deprecation_horizon` | Version where the deprecated behavior will be removed |
 
 ### Railties
 
@@ -814,19 +1059,10 @@ This event is only emitted when using the Google Cloud Storage service.
 | -------------- | --------------------------------------------------- |
 | `:initializer` | Path of loaded initializer in `config/initializers` |
 
-### Rails
-
-#### `deprecation.rails`
-
-| Key          | Value                           |
-| ------------ | ------------------------------- |
-| `:message`   | The deprecation warning         |
-| `:callstack` | Where the deprecation came from |
-
 Exceptions
 ----------
 
-If an exception happens during any instrumentation the payload will include
+If an exception happens during any instrumentation, the payload will include
 information about it.
 
 | Key                 | Value                                                          |
