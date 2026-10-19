@@ -16,4 +16,18 @@ class TestYaml < Test::Unit::TestCase
       Psych.load_file YAML_REFERENCES
     end
   end
+
+  def test_documents_have_no_duplicate_keys
+    # Check before loading, since duplicate keys are silently overwritten.
+    Psych.parse_file(YAML_DOCUMENTS).each do |node|
+      next unless node.is_a?(Psych::Nodes::Mapping)
+
+      keys = []
+      node.children.each_slice(2) do |key, _value|
+        assert_not_include keys, key.value,
+          "#{YAML_DOCUMENTS}:#{key.start_line + 1}: duplicate key #{key.value.inspect}"
+        keys << key.value
+      end
+    end
+  end
 end
