@@ -456,7 +456,7 @@ config.active_record.encryption.support_unencrypted_data = true
 
 * まだ暗号化されていない属性を読み出してもエラーを`raise`しなくなる
 
-* 以下のように[`extended_queries`][]も有効にすると、決定論的に暗号化された属性へのクエリが暗号化済みの値と平文の値の両方にマッチするようになる。
+* 以下のように[`extend_queries`][]も有効にすると、決定論的に暗号化された属性へのクエリが暗号化済みの値と平文の値の両方にマッチするようになる。
 
 ```ruby
 config.active_record.encryption.extend_queries = true
@@ -481,7 +481,7 @@ config.active_record.encryption.extend_queries = true
 
 * 決定論的に暗号化されたデータに対するクエリを実行するときは、移行前の暗号化スキームで暗号化したテキストを追加するようになる。これにより、異なるスキームで暗号化されたデータに対してもクエリがシームレスに動作するようになる。
 
-この機能を利用するには、`extended_queries`設定を有効にする必要があります。
+この機能を利用するには、`extend_queries`設定を有効にする必要があります。
 
 ```ruby
 config.active_record.encryption.extend_queries = true
