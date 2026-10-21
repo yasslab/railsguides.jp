@@ -1,7 +1,7 @@
 Rails と Rack
 =============
 
-本ガイドでは、Railsと[Rack][]の統合について説明します。
+本ガイドでは、Railsと[Rack](https://en.wikipedia.org/wiki/Rack_(web_server_interface))の統合について説明します。
 
 このガイドの内容:
 
@@ -68,8 +68,6 @@ $ curl localhost:9292
 Hello World
 ```
 
-[Rack]:
-  https://en.wikipedia.org/wiki/Rack_(web_server_interface)
 [Puma]:
   https://puma.io
 [Falcon]:
