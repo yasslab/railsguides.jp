@@ -563,7 +563,7 @@ create_table :posts, id: :uuid do |t|
 end
 ```
 
-これでも問題なく動作しますが、[PostgreSQLのベストプラクティス][]では、タイムゾーン対応のタイムスタンプには代わりに`timestamp with time zone`を使うことが推奨されています。
+これでも問題なく動作しますが、[PostgreSQLのベストプラクティス][PostgreSQL best practices]では、タイムゾーン対応のタイムスタンプには代わりに`timestamp with time zone`を使うことが推奨されています。
 この設定は、新規マイグレーションで利用可能にする「前に」構成しなければなりません。
 
 `timestamp with time zone`を新しいタイムスタンプのデフォルトデータ型として設定するには、`config/application.rb`ファイルに以下の設定を追加します。
