@@ -1931,7 +1931,7 @@ Action View 7.1以降の`#rendered`ヘルパーメソッドは、ビューのパ
 
 `#rendered`メソッドが返す`String`コンテンツをオブジェクトに変換するには、[`register_parser`][]を呼び出してパーサーを定義します。`.register_parser :rss`を呼び出すと`#rendered.rss`ヘルパーメソッドが定義されます。
 
-たとえば、レンダリングした[RSSコンテンツ][RSS contents]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
+たとえば、レンダリングした[RSSコンテンツ][RSS content]を`#rendered.rss`で解析してオブジェクトにする場合は、以下のように`RSS::Parser.parse`呼び出しを登録します。
 
 ```ruby
 register_parser :rss, -> rendered { RSS::Parser.parse(rendered) }
@@ -1972,7 +1972,7 @@ end
 
 [`register_parser`]:
   https://api.rubyonrails.org/classes/ActionView/TestCase/Behavior/ClassMethods.html#method-i-register_parser
-[RSS-contents]:
+[RSS content]:
   https://www.rssboard.org/rss-specification
 [`Nokogiri::XML::Node`]:
   https://nokogiri.org/rdoc/Nokogiri/XML/Node.html

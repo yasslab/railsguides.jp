@@ -528,7 +528,7 @@ Active Job
 Action Text
 ----------
 
-変更点について詳しくは[Changelog][active-text]を参照してください。
+変更点について詳しくは[Changelog][action-text]を参照してください。
 
 ### 削除されたもの
 
