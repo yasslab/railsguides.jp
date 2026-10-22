@@ -17,9 +17,6 @@ markdown: kramdown
 plugins:  ['kramdown']
 exclude:
   - README.md
-  - Procfile
   - Gemfile
   - Gemfile.lock
-  - config.ru
   - vendor
-  - app.json

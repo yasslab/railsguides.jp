@@ -116,9 +116,6 @@ GEM
     public_suffix (7.0.5)
     racc (1.6.0)
     rack (2.0.6)
-    rack-jekyll (0.3.5)
-      jekyll
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails-html-sanitizer (1.0.4)
@@ -172,7 +169,6 @@ DEPENDENCIES
   kramdown
   mutex_m
   pry-byebug
-  rack-jekyll
   rack-test
   rails-html-sanitizer
   rake

@@ -14,9 +14,8 @@ group :doc do
   gem "kindlerb" #, "~> 1.2.0"
 end
 
-# Required gems to host yasslab/railsguides.jp
+# Required gems to build yasslab/railsguides.jp
 gem "jekyll"
-gem "rack-jekyll"
 gem "kramdown"
 gem "webrick"
 gem "bigdecimal"
