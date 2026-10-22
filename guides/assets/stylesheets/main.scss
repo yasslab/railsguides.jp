@@ -1236,15 +1236,6 @@ code {
   border: solid $gray-lighter 2px;
 }
 
-/* Lazyload with fade animation */
-.lazyload,
-.lazyloading {
-	opacity: 0;
-}
-.lazyloaded {
-	opacity: 1;
-	transition: opacity 300ms;
-}
 @media only screen and (max-width: 767px) {
   .pinned table th, .pinned table td, table.responsive {
     code{ white-space: nowrap; }
