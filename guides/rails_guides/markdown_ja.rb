@@ -68,12 +68,12 @@ module RailsGuides
               <div>
                 <!-- Carbon Ads  -->
                 <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CE7ITK7L&placement=railsguidesjp" id="_carbonads_js"></script>
-                <a href="https://railsguides.jp/ebook"><img src="/images/spinner.svg" data-src="/images/bnr-sidebar-ebook.png" alt="Railsガイド電子書籍版" class="bnr-proplan lazyload" loading="lazy"/></a>
+                <a href="https://railsguides.jp/ebook"><img src="/images/bnr-sidebar-ebook.png" alt="Railsガイド電子書籍版" class="bnr-proplan" loading="lazy"/></a>
                 <!--<a href="https://railsguides.jp/ebook"><img src="images/bnr-pro-plan.jpg" alt="RailsガイドProプラン" class="bnr-proplan" /></a>-->
               </div>
 
               <div style="margin-bottom: 10px;">
-                <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク" rel="noopener"><img src="/images/spinner.svg" data-src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" class="lazyload" loading="lazy"/></a>
+                <a href="https://twitter.com/search?f=tweets&q=%20%23Rails%E3%82%AC%E3%82%A4%E3%83%89&src=typd&lang=ja" target="_blank" title="twitterへのリンク" rel="noopener"><img src="images/btn-twitter.png" alt="みんなのつぶやき Railsガイド" loading="lazy"/></a>
               </div>
               <ol class="snsb" style="margin-left: 0; margin-right: 0;">
                 <li><a class="twitter-share-button" href="https://twitter.com/intent/tweet" data-hashtags="Railsガイド" data-via="RailsGuidesJP" data-related="RailsGuidesJP,YassLab" data-size="large" lang="ja"></a></li>
