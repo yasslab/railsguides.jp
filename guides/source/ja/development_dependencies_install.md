@@ -119,7 +119,7 @@ $ sudo dnf install sqlite-devel sqlite-libs mysql-server mysql-devel postgresql-
 # Yarnをインストールする
 # Node.jsをインストールしていない場合はこのコマンドを使う
 # 参考: https://github.com/nodesource/distributions#installation-instructions-1
-$ sudo dnf install https://rpm.nodesource.com/pub_20/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y
+$ sudo dnf install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y
 $ sudo dnf install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
 
 # Node.jsをインストール済みの場合は以下のコマンドでyarn npmパッケージをインストールする
