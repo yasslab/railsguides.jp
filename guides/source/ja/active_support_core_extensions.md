@@ -1953,14 +1953,14 @@ NOTE: 定義は[`active_support/core_ext/numeric/bytes.rb`](https://github.com/r
 これらのメソッドを[`from_now`][Duration#from_now]や[`ago`][Duration#ago]などと組み合わせることで、以下のように精密に日付を計算できます。
 
 ```ruby
-# Time.current.advance(months: 1)と等価
-1.month.from_now
+# Time.current.advance(days: 1)と等価
+1.day.from_now
 
 # Time.current.advance(weeks: 2)と等価
 2.weeks.from_now
 
-# Time.current.advance(months: 4, weeks: 5)と等価
-(4.months + 5.weeks).from_now
+# Time.current.advance(days: 4, weeks: 5)と等価
+(4.days + 5.weeks).from_now
 ```
 
 WARNING: 上記以外の期間については、`Integer`の`Time`拡張を参照してください。
