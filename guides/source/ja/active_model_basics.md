@@ -884,7 +884,7 @@ NOTE: 分離された[Railsエンジン](engines.html)内では、`Naming`の一
 
 フォームヘルパーやURL生成で使われるモデル名を別の名前に変更したい場合があります。これは、モデルを完全な名前空間で参照可能にしながら、モデル名をさらに使いやすくしたい場合に便利です。
 
-たとえば、Railsアプリケーションに`person`名前空間があり、新しい`person::Profile`のフォームを作成したいとします。
+たとえば、Railsアプリケーションに`Person`名前空間があり、新しい`Person::Profile`のフォームを作成したいとします。
 
 デフォルトのRailsは、名前空間`person`を含む`/person/profiles`というURLでフォームを生成します。ただし、URLで名前空間を含まない`profiles`を指すようにしたい場合は、`model_name`メソッドを次のようにカスタマイズできます。
 
@@ -900,9 +900,9 @@ module Person
 end
 ```
 
-上のセットアップでは、新しい`person::Profile`を作成するためのフォームを`form_with`ヘルパーで作成すると、`/person/profiles`というURLではなく`/profiles`というURLを持つフォームが生成されます（`model_name`メソッドが`Profile`を返すようにオーバーライドされたため）。
+上のセットアップでは、新しい`Person::Profile`を作成するためのフォームを`form_with`ヘルパーで作成すると、`/person/profiles`というURLではなく`/profiles`というURLを持つフォームが生成されます（`model_name`メソッドが`Profile`を返すようにオーバーライドされたため）。
 
-さらに、パスヘルパーが名前空間なしで生成されるので、`person_profiles_path`の代わりに`profiles_path`で`profiles`リソースのURLを生成できます。`profiles_path`ヘルパーを利用可能にするには、`config/routes.rb`ファイルで`person::Profile`モデルのルーティングを以下のように定義する必要があります。
+さらに、パスヘルパーが名前空間なしで生成されるので、`person_profiles_path`の代わりに`profiles_path`で`profiles`リソースのURLを生成できます。`profiles_path`ヘルパーを利用可能にするには、`config/routes.rb`ファイルで`Person::Profile`モデルのルーティングを以下のように定義する必要があります。
 
 ```ruby
 Rails.application.routes.draw do
