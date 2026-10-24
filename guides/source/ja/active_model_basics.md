@@ -1298,7 +1298,7 @@ irb> person.valid?
   属性が空の場合にバリデーションをスキップします。
 
 - `:strict`:
-  `:strict: true`オプションを設定している場合、エラーを追加する代わりに`ActiveModel::StrictValidationFailed`をraiseします。`:strict`オプションに他の例外を設定することも可能です。
+  `strict: true`オプションを設定している場合、エラーを追加する代わりに`ActiveModel::StrictValidationFailed`をraiseします。`:strict`オプションに他の例外を設定することも可能です。
 
 NOTE: `validate`を同じメソッドで複数回呼び出すと、以前の定義が上書きされます。
 

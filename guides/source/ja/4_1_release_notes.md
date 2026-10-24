@@ -199,7 +199,7 @@ end
 
 JavaScriptレスポンスを伴うGETリクエストもクロスサイトリクエストフォージェリ（CSRF）保護の対象となりました。この保護によって、第三者のサイトが重要なデータの奪取のために自分のサイトのJavaScript URLを参照して実行しようとすることを防止します。
 
-これは、`xhr`を使わない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。``XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代わりに、明示的に`xhr :post, :create, format: :js`をお使いください。
+これは、`xhr`を使わない場合、`.js` URLにヒットするすべてのテストはCSRF保護によって失敗するということです。`XmlHttpRequests`を明示的に想定するようにテストをアップグレードしてください。`post :create, format: :js`の代わりに、明示的に`xhr :post, :create, format: :js`をお使いください。
 
 
 Railties

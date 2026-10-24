@@ -825,7 +825,7 @@ NOTE: 1回のリクエストで出力できるコンソールは1つだけです
 
 ### 設定
 
-* `config.web_console.allowed_ips`: 認証済みのIPv4/IPv6アドレスとネットワークのリストです（デフォルト値: `127.0.0.1/8、::1`）。
+* `config.web_console.allowed_ips`: 認証済みのIPv4/IPv6アドレスとネットワークのリストです（デフォルト値: `127.0.0.1/8, ::1`）。
 * `config.web_console.whiny_requests`: コンソール出力が抑制されている場合にメッセージをログ出力します（デフォルト値: `true`）。
 
 `web-console`はサーバー上の純粋なRubyコードをリモート評価できるので、production環境では絶対に使わないください。
