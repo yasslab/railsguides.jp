@@ -61,7 +61,7 @@ import mapsは新規Railsアプリケーションのデフォルトですが、�
 * [webpack](https://webpack.js.org/)
 * [Rollup.js](https://rollupjs.org/guide/en/)
 
-import mapsではなくJavaScriptバンドラーを新規Railsアプリケーションで利用するには、以下のように`rails new`コマンドに`—-javascript`または`-j`オプションを渡します。
+import mapsではなくJavaScriptバンドラーを新規Railsアプリケーションで利用するには、以下のように`rails new`コマンドに`--javascript`または`-j`オプションを渡します。
 
 ```bash
 $ rails new my_new_app --javascript=bun

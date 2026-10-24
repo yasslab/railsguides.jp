@@ -131,7 +131,7 @@ $ bin/rails generate mailer User welcome_email
   ユーザー名は「<%= @user.login %>」です。<br>
 </p>
 <p>
-  このサイトにログインするには、次のリンクをクリックしてください: <%= link_to 'login`, login_url %>
+  このサイトにログインするには、次のリンクをクリックしてください: <%= link_to 'login', login_url %>
 </p>
 <p>本サイトにユーザー登録いただきありがとうございます。</p>
 ```
