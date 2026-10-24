@@ -297,7 +297,7 @@ irb> mail.body
 
 ## 例
 
-Action Mailboxでメールを処理してプロジェクトの"forwards"を作成するアクションの例を次に示します。。
+Action Mailboxでメールを処理してプロジェクトの"forwards"を作成するアクションの例を次に示します。
 
 `before_processing`コールバックは、`process`メソッドが呼び出される前に特定の条件が確実に満たされるようにする目的で使います。`before_processing`は、ユーザーに少なくとも1個のプロジェクトが存在することをチェックします。[Action Mailboxのコールバック](https://api.rubyonrails.org/classes/ActionMailbox/Callbacks.html)
 では、この他に`after_processing`と`around_processing`もサポートされています。
