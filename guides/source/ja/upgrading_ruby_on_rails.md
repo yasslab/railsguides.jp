@@ -2541,7 +2541,7 @@ Rails 4.0ではActive Resourceがgem化されました。この機能が必要�
 
     ただし、アプリケーションが特定のページで`<frame>`や`<iframe>`の読み込みに依存している場合は、`X-Frame-Options`を明示的に`ALLOW-FROM ...`または`ALLOWALL`に設定する必要があるでしょう。
 
-* Rails 4.0のアセットのプリコンパイルでは、`vendor/assets`および`lib/assets`にある非JS/CSSアセットを自動的にはコピーしなくなりました。Railsアプリケーションやエンジンの開発者は、これらのアセットを手動で`app/assets`に置き、[`config.assets.precompile`][]`を設定してください。
+* Rails 4.0のアセットのプリコンパイルでは、`vendor/assets`および`lib/assets`にある非JS/CSSアセットを自動的にはコピーしなくなりました。Railsアプリケーションやエンジンの開発者は、これらのアセットを手動で`app/assets`に置き、[`config.assets.precompile`][]を設定してください。
 
 * Rails 4.0では、リクエストされたフォーマットがアクションで扱えなかった場合に`ActionController::UnknownFormat`が発生するようになりました。デフォルトでは、この例外は406 Not Acceptableレスポンスとして扱われますが、この動作はオーバーライドできます。Rails 3では常に406 Not Acceptableが返され、オーバーライドはできません。
 
