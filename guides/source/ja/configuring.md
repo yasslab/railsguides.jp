@@ -4125,7 +4125,7 @@ Action Controllerの`helpers_path`をアプリケーションの`helpers_path`�
 
 #### `set_load_path`
 
-このイニシャライザは`bootstrap_hook`の前に実行されます。`config.load_paths`およびすべての自動読み込みパスが`$LOAD_PATH`に追加されます。
+このイニシャライザは`bootstrap_hook`の前に実行されます。`config.paths.load_paths`で指定されたパスが`$LOAD_PATH`に追加されます。
 また、`config.add_autoload_paths_to_load_path`を`false`に設定「しない」場合は、`config.autoload_paths`、`config.eager_load_paths`、`config.autoload_once_paths`で指定された自動読み込みパスもすべて追加されます。
 
 #### `set_autoload_paths`
