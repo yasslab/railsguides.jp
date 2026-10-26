@@ -390,7 +390,7 @@ Railsは通常、逆方向の関連付けを自動的に推測します。
 
 NOTE: 関連付けが存在することと、関連付けが有効であることを同時に確認したい場合は、`validates_associated`も使う必要があります。詳しくは[`validates_associated`](#validates-associated)で後述します。
 
-[`has_one`](association_basics.html#has-one関連付け)や[`has_many`](association_basics.html#has-many関連付け)リレーションシップを経由して関連付けられたオブジェクトが存在しないことを`absence`でバリデーションすると、「`presence?`でもなく`marked_for_destruction?`（削除用マーク済み）でもない」かどうかをチェックできます。
+[`has_one`](association_basics.html#has-one関連付け)や[`has_many`](association_basics.html#has-many関連付け)リレーションシップを経由して関連付けられたオブジェクトが存在しないことを`absence`でバリデーションすると、「`present?`でもなく`marked_for_destruction?`（削除用マーク済み）でもない」かどうかをチェックできます。
 
 `false.present?`は常に`false`なので、真偽値に対してこのメソッドを使うと正しい結果が得られません。真偽値が存在しないことをチェックしたい場合は、以下のように書く必要があります。
 
