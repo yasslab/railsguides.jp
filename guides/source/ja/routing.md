@@ -331,7 +331,7 @@ end
 | PATCH/PUT | /magazines/:magazine_id/ads/:id      | ads#update              | ある雑誌1冊に含まれる広告を1つ更新する                   |
 | DELETE    | /magazines/:magazine_id/ads/:id      | ads#destroy             | ある雑誌1冊に含まれる広告を1つ削除する                   |
 
-これによって、パスとURLについて通常のルーティングヘルパーも作成されます。ヘルパーは`magazine_ads_url`や`edit_magazine_ad_path`のような名前になります。`ads`リソースは`magazines`の下にネストしているので、adのURLではmagazineを省略できません。これらのヘルパーは、最初のパラメータとしてMagazineモデルのインスタンスを1つ受け取ります（`magazine_ads_url(@magazine, @ad)`）。
+これによって、パスとURLについて通常のルーティングヘルパーも作成されます。ヘルパーは`magazine_ads_url`や`edit_magazine_ad_path`のような名前になります。`ads`リソースは`magazines`の下にネストしているので、adのURLではmagazineを省略できません。これらのヘルパーは、最初のパラメータとしてMagazineモデルのインスタンスを1つ受け取ります（`edit_magazine_ad_path(@magazine, @ad)`）。
 
 #### ネスティング回数の上限
 
