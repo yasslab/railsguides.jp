@@ -83,7 +83,7 @@ Action Mailboxに自分のMailgun署名キー（Signing key: MailgunのSettings 
 
 ```yaml
 action_mailbox:
-  mailgun_api_key: ...
+  mailgun_signing_key: ...
 ```
 
 または、`MAILGUN_INGRESS_SIGNING_KEY`環境変数でパスワードを指定します。
