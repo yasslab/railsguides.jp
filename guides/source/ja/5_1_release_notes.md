@@ -549,7 +549,7 @@ Active Support
 *   Unicodeバージョンを9.0.0にアップデート
     ([Pull Request](https://github.com/rails/rails/pull/27822))
 
-*   `Duration#before`（`#ago`のエイリアス）と`#after（`#since`のエイリアス）を追加
+*   `Duration#before`（`#ago`のエイリアス）と`#after`（`#since`のエイリアス）を追加
     ([Pull Request](https://github.com/rails/rails/pull/27721))
 
 *   `Module#delegate_missing_to`を追加: 現在のオブジェクトで定義されていない、（プロキシオブジェクトへの）メソッド呼び出しの委譲に使う
