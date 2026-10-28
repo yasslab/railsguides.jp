@@ -1208,9 +1208,9 @@ end
 
 ```bash
 $ bin/rails task_name
-$ bin/rails "task_name[value 1]"                 # 引数の文字列全体を引用符で囲むこと
-$ bin/rails "task_name[value 1, value2, value3]" # 複数の引数はカンマで区切る
-$ bin/rails db:nothing
+$ bin/rails "task_name[value1]"         # 引数の文字列全体を引用符で囲むこと
+$ bin/rails "task_name[value1, value2]" # 複数の引数はカンマで区切る
+$ bin/rails db:my_db_task
 ```
 
 アプリケーションモデルの操作やデータベースクエリの実行などが必要なタスクは、以下のように`environment`タスクを使ってRailsアプリケーションを読み込めます。
