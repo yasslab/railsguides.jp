@@ -343,7 +343,7 @@ NOTE: この`has_many`は`Blorgh`モジュールの中にあるクラスの中�
 
 ```html+erb
 <h3>New comment</h3>
-<%= form_with(model: [@article, @article.comments.build], local: true) do |form| %>
+<%= form_with model: [@article, @article.comments.build] do |form| %>
   <p>
     <%= form.label :text %><br>
     <%= form.textarea :text %>
