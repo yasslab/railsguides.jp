@@ -86,7 +86,7 @@ VS Code内でターミナルを開いて以下のコマンドを実行すると�
 
 ```bash
 $ rails --version
-Rails 8.0.0
+Rails 8.1.0
 ```
 
 これで、["Rails をはじめよう"ガイドの「最初のRailsアプリケーションを作成する」セクション](getting_started.html#最初のrailsアプリケーションを作成する)からstoreアプリケーションの構築を開始できます。
