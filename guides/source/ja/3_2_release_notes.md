@@ -516,7 +516,7 @@ Active Support
 
 * `Array#prepend`（`Array#unshift`のエイリアス）と`Array#append`（`Array#<<`のエイリアス）が追加されました。
 
-* Ruby 1.9での空文字の定義がUnicodeホワイトスペースに拡張されました。また、Ruby 1.8では「全角スペース（ideographic space: U`3000）」がホワイトスペースとみなされるようになりました。
+* Ruby 1.9での空文字の定義がUnicodeホワイトスペースに拡張されました。また、Ruby 1.8では「全角スペース（ideographic space: U+3000）」がホワイトスペースとみなされるようになりました。
 
 * 活用形を解釈するinflectorが頭字語を扱えるようになりました。
 
