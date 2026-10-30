@@ -2101,7 +2101,7 @@ NOTE: 定義は[`active_support/core_ext/integer/inflections.rb`](https://github
 
 ### `ordinalize`
 
-`ordinalize`メソッドは、レシーバの整数に、対応する序数文字列を追加したものをかえします。上の`ordinal`メソッドは、序数文字列**だけ**を返す点が異なることにご注意ください。
+`ordinalize`メソッドは、レシーバの整数に、対応する序数文字列を追加したものを返します。上の`ordinal`メソッドは、序数文字列**だけ**を返す点が異なることにご注意ください。
 
 ```ruby
 1.ordinalize    # => "1st"

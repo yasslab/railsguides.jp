@@ -86,7 +86,7 @@ action_mailbox:
   mailgun_signing_key: ...
 ```
 
-または、`MAILGUN_INGRESS_SIGNING_KEY`環境変数でパスワードを指定します。
+または、`MAILGUN_INGRESS_SIGNING_KEY`環境変数で署名キーを指定します。
 
 Mailgunからのメールを受け取るようAction Mailboxに指示します。
 

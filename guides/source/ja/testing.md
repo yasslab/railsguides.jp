@@ -1009,7 +1009,7 @@ patch article_url(Article.last), params: { article: { title: "updated" } }, xhr:
 さらに別の例: `:create`アクションを呼び出して新規記事を1件作成し、タイトルに使うテキストをJSONリクエストとしてparamsに渡す。
 
 ```ruby
-post articles_path, params: { article: { title: "Ahoy!" } }, as: :json
+post articles_url, params: { article: { title: "Ahoy!" } }, as: :json
 ```
 
 NOTE: `articles_controller_test.rb`ファイルにある`test_should_create_article`テストを実行してみると、モデルレベルのバリデーションが新たに追加されることによってテストは失敗します。

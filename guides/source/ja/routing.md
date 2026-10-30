@@ -1057,11 +1057,11 @@ get "こんにちは", to: "welcome#index"
 
 ```ruby
 direct :homepage do
-  "http://www.rubyonrails.org"
+  "https://rubyonrails.org"
 end
 
 # >> homepage_url
-# => "http://www.rubyonrails.org"
+# => "https://rubyonrails.org"
 ```
 
 このブロックの戻り値は、必ず[`url_for`][]メソッドで有効な1個の引数にしなければなりません。これによって、有効な「文字列URL」「ハッシュ」「配列」「Active Modelインスタンス」「Active Modelクラス」のいずれか1つを渡せるようになります。

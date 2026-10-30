@@ -2554,7 +2554,7 @@ end
 ここで1つ注意が必要です。`:counter_cache`オプションは`belongs_to`宣言があるモデルで指定しますが、実際に個数を数えたいカラムは**関連付け先の**モデル（ここでは`has_many`を宣言しているモデル）の側に追加する必要があります。上の場合は、相手側の`Author`モデルに`books_count`カラムを追加する必要があります。
 
 ```ruby
-class AddBooksCountToAuthors < ActiveRecord::Migration[6.0]
+class AddBooksCountToAuthors < ActiveRecord::Migration[8.1]
   def change
     add_column :authors, :books_count, :integer, default: 0, null: false
   end
