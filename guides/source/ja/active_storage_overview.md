@@ -911,6 +911,37 @@ WARNING: バリアントプロセッサにユーザー指定の変形方法や�
 
 WARNING: また、バリアントプロセッサとしてMiniMagickを選択する場合や、libvipsがImageMagickに処理を委譲している場合（プラットフォームで`vips -l`を実行して確認できる）は、[ImageMagickセキュリティポリシー](https://imagemagick.org/script/security-policy.php)を厳格に実装することが推奨されます。
 
+#### ImageMagickのセキュリティポリシー
+
+Active Storageは、ImageMagickのセキュリティポリシーを`ActiveStorage::ImageMagick::POLICY_DIRECTORY`のパスに配置しています。これによって、信頼できないアップロードが到達してはならないコーダーを拒否します。
+
+このディレクトリは`MiniMagick.cli_env`を介して`MAGICK_CONFIGURE_PATH`の先頭に追加されるため、MiniMagickが起動するすべてのImageMagickプロセスにこのポリシーが適用されます。ImageMagickは検索パス上にあるすべての`policy.xml`ファイルを適用するようになっているので、同梱されているポリシーは既存のシステムポリシーを置き換えるのではなく、既存のシステムポリシーに追加される形となります。また、環境変数や`MiniMagick.cli_env`で独自に設定した`MAGICK_CONFIGURE_PATH`も、同梱ポリシーのディレクトリより後ろの位置で、引き続き検索パスに含まれます。
+
+Active Storageはアプリケーションの初期化完了後にも改めてこのポリシーを適用するため、イニシャライザや`dotenv`などで設定した値も保持されます。ImageMagickのポリシーはブロックリスト形式であるため、Active Storageは、同梱のセキュリティポリシーファイルを今後も随時メンテナンスし、内容を拡充していく予定です。
+
+`MAGICK_CONFIGURE_PATH`は、シェルではなく`MiniMagick.cli_env`で設定されるため、実際にアプリケーションが読み込むポリシーを確認するにはMiniMagickでリストを表示する必要があります。
+
+```bash
+bin/rails runner 'puts MiniMagick.identify { |i| i.list "policy" }'
+```
+
+ポリシーを適用するには、mini_magick 5.1以降が必要です。バリアントプロセッサが`:mini_magick`に設定されているアプリケーションで古いバージョンのmini_magickを使うと、起動時にエラーがraiseされます。
+
+同梱されているポリシーは、MiniMagickのデフォルトのシェルで起動されたImageMagickプロセスにのみ適用されることにご注意ください。
+アプリケーションの起動後に`MiniMagick.cli_env`を書き換えた場合、`MiniMagick.cli_prefix`で環境をクリアした場合、あるいは独自の`MiniMagick::Shell`を導入した場合は、この同梱のセキュリティポリシーは適用されません。その場合は、同梱ポリシーのルールをImageMagickのシステム上の場所にあるポリシーファイル（`/etc/ImageMagick-7/policy.xml`など）にコピーしてください。
+より厳格な独自のルールを追加する場合も、同様にこの場所に記述する必要があります。なお、GraphicsMagickはImageMagickのポリシーを読み込まないため、GraphicsMagickを利用しているアプリケーションには、この同梱のポリシーによる保護は適用されません。
+
+このポリシーは、画像そのものではなくImageMagickを介してファイルやスクリプトにアクセスするコーダー、Ghostscriptをバックエンドとするコーダー、および`gs`デリゲートを拒否します。これはActive Storageが実行するものに限らず、MiniMagickが呼び出すすべてのImageMagickコマンドに適用されます。PostScriptやPDFをImageMagickでレンダリングするアプリケーションでは、`gs`デリゲートやアプリケーションで使うコーダーを独自の`policy.xml`ファイルで以下のように明示的に再許可する必要があります。
+
+```xml
+<policy domain="delegate" rights="execute" pattern="gs"/>
+<policy domain="coder" rights="read|write" pattern="PDF"/>
+```
+
+独自のポリシー内でコーダーの許可ルール（`pattern="*"`のようなワイルドカードを含む）を定義すると、同梱の拒否ルールが上書きされてしまうため、必要なものだけを許可するようご注意ください。
+
+同梱のポリシーにはリソース制限が設定されていません。ImageMagickは、ポリシーの検索パス上で最初に該当する制限が定義されているポリシーからその値を読み取ります。つまり、仮にActive Storageの同梱ポリシーで制限を設定すると、ユーザー側のポリシーではその制限を変更できなくなってしまいます。`width`（幅）、`height`（高さ）、`area`（面積）などの制限は、システムポリシーで設定してください。
+
 バリアントがリクエストされると、Active Storageは画像フォーマットに応じて自動的に変形処理を適用します。
 
 1. Content-Typeが可変（[`config.active_storage.variable_content_types`][]の設定に基づく）で、Web画像とみなされない場合（[`config.active_storage.web_image_content_types`][]の設定に基づく）は、PNGに変換される。
@@ -1044,6 +1075,7 @@ Active Storageは、付属のJavaScriptライブラリを用いて、クライ�
   * `Content-MD5`
   * `Content-Disposition`
   * `Cache-Control`（GCSでは`cache_control`が設定されている場合のみ必要）
+  * `x-goog-content-length-range`（GCS用）
 
 Diskサービスはアプリのオリジンを共有するので、CORS設定は不要です。
 
@@ -1075,7 +1107,7 @@ Diskサービスはアプリのオリジンを共有するので、CORS設定は
   {
     "origin": ["https://www.example.com"],
     "method": ["PUT"],
-    "responseHeader": ["Content-Type", "Content-MD5", "Content-Disposition"],
+    "responseHeader": ["Content-Type", "Content-MD5", "Content-Disposition", "x-goog-content-length-range"],
     "maxAgeSeconds": 3600
   }
 ]
