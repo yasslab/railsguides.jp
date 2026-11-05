@@ -1,41 +1,67 @@
-$(document).ready(function() {
-  var switched = false;
-  $("table").addClass("responsive");
-  $("table").wrap("<div class='table-wrapper' />");
-  var updateTables = function() {
-    if (($(window).width() < 767) && !switched ){
-      switched = true;
-      $("table.responsive").each(function(i, element) {
-        splitTable($(element));
-      });
-      return true;
-    }
-    else if (switched && ($(window).width() > 767)) {
-      switched = false;
-      $("table.responsive").each(function(i, element) {
-        unsplitTable($(element));
-      });
-    }
-  };
+// 細い画面（767px 未満）では、表の 1 列目を左に固定して残りを横にスクロールさせる。
+// jQuery を使わない。以前の jQuery 1.7.2 版と同じ DOM の変化になるように書いている
+(function() {
+  function wrap(element, className) {
+    var wrapper = document.createElement("div");
+    wrapper.className = className;
+    element.parentNode.insertBefore(wrapper, element);
+    wrapper.appendChild(element);
+  }
 
-  $(window).load(updateTables);
-  $(window).bind("resize", updateTables);
+  function unwrap(element) {
+    var parent = element.parentNode;
+    if (!parent || parent === document.body) return;
+    while (parent.firstChild) parent.parentNode.insertBefore(parent.firstChild, parent);
+    parent.parentNode.removeChild(parent);
+  }
 
+  function ready() {
+    var switched = false;
+    document.querySelectorAll("table").forEach(function(table) {
+      table.classList.add("responsive");
+      wrap(table, "table-wrapper");
+    });
 
-	function splitTable(original)
-	{
-		var copy = original.clone();
-		copy.find("td:not(:first-child), th:not(:first-child)").css("display", "none");
-		copy.removeClass("responsive");
+    // jQuery の $(window).width() と同じく、スクロールバーを除いた幅で見る
+    var updateTables = function() {
+      var width = document.documentElement.clientWidth;
+      if ((width < 767) && !switched ){
+        switched = true;
+        document.querySelectorAll("table.responsive").forEach(splitTable);
+        return true;
+      }
+      else if (switched && (width > 767)) {
+        switched = false;
+        document.querySelectorAll("table.responsive").forEach(unsplitTable);
+      }
+    };
 
-		original.closest(".table-wrapper").append(copy);
-		copy.wrap("<div class='pinned' />");
-		original.wrap("<div class='scrollable' />");
-	}
+    window.addEventListener("load", updateTables);
+    window.addEventListener("resize", updateTables);
+  }
 
-	function unsplitTable(original) {
-    original.closest(".table-wrapper").find(".pinned").remove();
-    original.unwrap();
-	}
+  function splitTable(original) {
+    var copy = original.cloneNode(true);
+    copy.querySelectorAll("td:not(:first-child), th:not(:first-child)").forEach(function(cell) {
+      cell.style.display = "none";
+    });
+    copy.classList.remove("responsive");
 
-});
+    original.closest(".table-wrapper").appendChild(copy);
+    wrap(copy, "pinned");
+    wrap(original, "scrollable");
+  }
+
+  function unsplitTable(original) {
+    original.closest(".table-wrapper").querySelectorAll(".pinned").forEach(function(pinned) {
+      pinned.parentNode.removeChild(pinned);
+    });
+    unwrap(original);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", ready);
+  } else {
+    ready();
+  }
+})();
