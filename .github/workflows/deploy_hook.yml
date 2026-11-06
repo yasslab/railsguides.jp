@@ -32,8 +32,11 @@ jobs:
           DEPLOY_HOOK_TOKEN:    ${{ secrets.DEPLOY_HOOK_TOKEN }}
           DEPLOY_HOOK_ENDPOINT: ${{ secrets.DEPLOY_HOOK_ENDPOINT }}
         run: |
-          curl -X POST \
+          # --fail-with-body が無いと、401 や 404 が返っても curl は exit 0 になる。
+          # ジョブは緑のままデプロイだけが起きず、誰も気づかないので失敗させる。
+          # 値は式に展開せず環境変数から読む（シェルの引用が効くようにする）。
+          curl --fail-with-body -sS -X POST \
                -H "Accept: application/vnd.github+json" \
-               -H "Authorization: token ${{ env.DEPLOY_HOOK_TOKEN }}" \
-               ${{ env.DEPLOY_HOOK_ENDPOINT }} \
+               -H "Authorization: Bearer $DEPLOY_HOOK_TOKEN" \
+               "$DEPLOY_HOOK_ENDPOINT" \
                -d '{"ref":"master"}'
