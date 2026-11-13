@@ -24,7 +24,7 @@ $ bundle exec rake rdoc
 
 NOTE: RDocの記法については[RDocのmarkupリファレンス][RDoc Markup Reference]を参照してください（訳注: 別ページですが[日本語のRDocライブラリ解説][]もあります）。
 
-[Rails_API]: http://api.rubyonrails.org
+[Rails_API]: https://api.rubyonrails.org
 [RDoc]: https://ruby.github.io/rdoc/
 [日本語のRDocライブラリ解説]: https://docs.ruby-lang.org/ja/master/library/rdoc.html
 

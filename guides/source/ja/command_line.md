@@ -459,9 +459,9 @@ NOTE: Rails 8.1から、scaffoldはデフォルトでシステムテストを生
 
 INFO: scaffoldで生成されるテストファイルにはテストケースが含まれていないため、コードを修正して実際にテストケースを追加する必要があります。コードのテストの作成と実行について詳しくは、[テスティングガイド](testing.html)を参照してください。
 
-[API docs]: http://api.rubyonrails.org/
+[API docs]: https://api.rubyonrails.org/
 [`SchemaStatements`]: https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html
-[`add_column`]: http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column
+[`add_column`]: https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_column
 
 ### `bin/rails destroy`で生成を取り消す
 

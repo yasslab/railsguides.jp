@@ -101,7 +101,7 @@ end
 
 NOTE: 実際のレンダリングは、[`ActionView::Template::Handlers`][]の名前空間の中でネストされたクラスで行われます。本ガイドではこれについて詳しく述べませんが、ここで重要なのは、ビューテンプレートファイルの拡張子によってテンプレートハンドラが自動的に選択されることを理解することです。
 
-[`ActionView::Template::Handlers`]: http://api.rubyonrails.org/classes/ActionView/Template/Handlers.html
+[`ActionView::Template::Handlers`]: https://api.rubyonrails.org/classes/ActionView/Template/Handlers.html
 
 ### `render`メソッドを使う
 

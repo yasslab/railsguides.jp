@@ -193,7 +193,7 @@ end
 
 この例は、`EventTracking`モジュールをインラインで定義し、`ActiveSupport::Concern`でextendし、`Todo`クラスにミックスインしたのと同等です。
 
-詳細および想定されるユースケースについては[マニュアル](http://api.rubyonrails.org/v4.1.0/classes/Module/Concerning.html)を参照してください。
+詳細および想定されるユースケースについては[マニュアル](https://api.rubyonrails.org/v4.1.0/classes/Module/Concerning.html)を参照してください。
 
 ### リモート`<script>`タグにCSRF保護を実施
 
