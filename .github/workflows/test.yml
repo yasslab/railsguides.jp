@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Download codes from GitHub
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.7.0
         with:
           fetch-depth: 2
 
       - name: 💎 Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.338.0
         with:
           bundler-cache: true
 
