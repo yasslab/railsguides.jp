@@ -16,13 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Download codes from GitHub
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.0
         with:
           fetch-depth: 2
 
       - name: 💎 Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.338.0
         with:
+          # .ruby-version のパッチ版は ubuntu-26.04 に無いので、3.1 系の最新を使う
+          ruby-version: '3.1'
           bundler-cache: true
 
       - name: 🔧 Build & Test
