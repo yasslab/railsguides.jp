@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ☑️ Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.8.0
         with:
           fetch-depth: 2
 
       - name: 💎 Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.338.0
         with:
           bundler-cache: true
 
