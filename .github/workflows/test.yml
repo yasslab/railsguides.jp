@@ -22,6 +22,8 @@ jobs:
       - name: 💎 Setup Ruby
         uses: ruby/setup-ruby@v1.338.0
         with:
+          # .ruby-version のパッチ版は ubuntu-26.04 に無いので、3.1 系の最新を使う
+          ruby-version: '3.1'
           bundler-cache: true
 
       - name: 🔧 Build & Test
