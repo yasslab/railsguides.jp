@@ -3,7 +3,7 @@ require 'psych'
 
 class TestYaml < Test::Unit::TestCase
   def test_exists_documents_yaml
-    assert_equal(File.exists?('./guides/source/ja/documents.yaml'), true)
+    assert_equal(File.exist?('./guides/source/ja/documents.yaml'), true)
   end
 
   def test_load_yaml
