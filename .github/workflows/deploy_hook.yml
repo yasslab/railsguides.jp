@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Download codes from GitHub
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.7.0
         with:
           fetch-depth: 2
 
       - name: ✅️ Check if contents changed
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v2.11.1
         id: changes
         with:
           filters: |
