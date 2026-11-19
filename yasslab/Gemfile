@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.4.13"
+ruby "4.0.10"
 
 # Required gems to build Rails Guides (same as rails/rails)
 gem 'activesupport' # Needed to run 'rake assets:precompile'
